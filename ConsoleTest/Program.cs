@@ -15,7 +15,7 @@ namespace ConsoleTest
 		static void Main(string[] args)
 		{
 			FileStream ostrm;
-			//StreamWriter writer;
+			//StreamWriter writer; 
 			//TextWriter oldOut = Console.Out;
 			try
 			{
