@@ -1,0 +1,181 @@
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
+using STFU.UploadLib;
+using STFU.UploadLib.Automation;
+
+namespace STFU.AutoUploader
+{
+	public partial class MainForm : Form
+	{
+		AutomationUploader uploader = new AutomationUploader();
+
+		string statusText = string.Empty;
+		int progress = 0;
+
+		public MainForm()
+		{
+			InitializeComponent();
+		}
+
+		private void btnSelectPathClick(object sender, EventArgs e)
+		{
+			var result = folderBrowserDialog.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				if (Directory.Exists(folderBrowserDialog.SelectedPath))
+				{
+					txtbxAddPath.Text = folderBrowserDialog.SelectedPath;
+					txtbxAddFilter.Text = "*.mp4;*.mkv";
+				}
+			}
+		}
+
+		private void btnAddPathToWatchClick(object sender, EventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(txtbxAddPath.Text))
+			{
+				MessageBox.Show(this, "Bitte einen Pfad eingeben!", "Pfad benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			if (string.IsNullOrWhiteSpace(txtbxAddFilter.Text))
+			{
+				MessageBox.Show(this, "Bitte einen Filter eingeben!", "Filter benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text);
+			RefillListView();
+		}
+
+		private void RefillListView()
+		{
+			lvSelectedPaths.Items.Clear();
+
+			foreach (var entry in uploader.Paths)
+			{
+				var newItem = lvSelectedPaths.Items.Add(entry.Key);
+				newItem.SubItems.Add(entry.Value);
+			}
+		}
+
+		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
+		{
+			var connectionLink = uploader.GetAuthLoginScreenUrl(false);
+			var browserForm = new Browser(connectionLink);
+
+			var result = browserForm.ShowDialog(this);
+
+			if (result == DialogResult.OK)
+			{
+				if (uploader.ConnectToAccount(browserForm.AuthToken))
+				{
+					MessageBox.Show(this, "Der Account wurde erfolgreich hinzugefügt!", "Account hinzugefügt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+		}
+
+		private void btnStartClick(object sender, EventArgs e)
+		{
+			//if (uploader.IsActive)
+			//{
+			//	uploader.Stop(true);
+			//}
+			//else
+			//{
+			uploader.ProgressChanged += ChangedProgress;
+			uploader.UploadStarted += UploadStarted;
+			uploader.UploadFinished += UploadFinished;
+
+			refreshTimer.Enabled = true;
+
+			uploader.Start();
+
+			UndockTlp(tlpSettings);
+			DockTlp(tlpRunning);
+
+			SetCornerPosition();
+			//}
+		}
+
+		private void UploadFinished(AutomationEventArgs e)
+		{
+			statusText = $"Upload von {e.FileName} beendet.{Environment.NewLine}Suche Dateien zum Upload...";
+			progress = (int)e.Progress;
+		}
+
+		private void UploadStarted(AutomationEventArgs e)
+		{
+			statusText = $"Upload von {e.FileName} gestartet.";
+			progress = (int)e.Progress;
+		}
+
+		private void ChangedProgress(AutomationEventArgs e)
+		{
+			statusText = $"Lade {e.FileName} hoch: {e.Progress} %";
+			progress = (int)e.Progress;
+		}
+
+		private void MainFormLoad(object sender, EventArgs e)
+		{
+			UndockTlp(tlpRunning);
+			DockTlp(tlpSettings);
+
+			RefillListView();
+		}
+
+		private void DockTlp(TableLayoutPanel tlp)
+		{
+			tlp.Visible = true;
+			tlp.Dock = DockStyle.Fill;
+		}
+
+		private void UndockTlp(TableLayoutPanel tlp)
+		{
+			tlp.Visible = false;
+			tlp.Dock = DockStyle.None;
+		}
+
+		private void SetCornerPosition()
+		{
+			Left = Screen.PrimaryScreen.WorkingArea.Width - 10 - Width;
+			Top = Screen.PrimaryScreen.WorkingArea.Height - 10 - Height;
+		}
+
+		private void btnStopClick(object sender, EventArgs e)
+		{
+			uploader.Stop(true);
+
+			uploader.ProgressChanged -= ChangedProgress;
+			uploader.UploadStarted -= UploadStarted;
+			uploader.UploadFinished -= UploadFinished;
+
+			refreshTimer.Enabled = false;
+
+			UndockTlp(tlpRunning);
+			DockTlp(tlpSettings);
+
+			CenterToScreen();
+		}
+
+		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			uploader.Stop(true);
+			uploader.WriteXml();
+		}
+
+		private void refreshTimerTick(object sender, EventArgs e)
+		{
+			statusLabel.Text = statusText;
+			prgbarProgress.Value = progress;
+		}
+
+		private void lvSelectedPathsKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData == Keys.Delete)
+			{
+				uploader.Remove(lvSelectedPaths.SelectedItems[0].Text);
+				RefillListView();
+			}
+		}
+	}
+}

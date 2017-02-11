@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrohisUploadLib", "StrohisUploadLib\StrohisUploadLib.csproj", "{D078076E-CC78-469D-BD8A-C80778001467}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{9A15FB89-C84C-40F7-9A39-7BD02C0C28C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrohisUploaderWin", "StrohisUploaderWin\StrohisUploaderWin.csproj", "{9D6F6FEB-0D15-4191-BDD5-327763753F18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.AutoUploader", "STFU.AutoUploader\STFU.AutoUploader.csproj", "{3B4B22C4-B286-4742-9F53-747494E54CA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.UploadLib", "STFU.UploadLib\STFU.UploadLib.csproj", "{D078076E-CC78-469D-BD8A-C80778001467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Windows", "STFU.Windows\STFU.Windows.csproj", "{9D6F6FEB-0D15-4191-BDD5-327763753F18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,14 +17,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D078076E-CC78-469D-BD8A-C80778001467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D078076E-CC78-469D-BD8A-C80778001467}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D078076E-CC78-469D-BD8A-C80778001467}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D078076E-CC78-469D-BD8A-C80778001467}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A15FB89-C84C-40F7-9A39-7BD02C0C28C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A15FB89-C84C-40F7-9A39-7BD02C0C28C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A15FB89-C84C-40F7-9A39-7BD02C0C28C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A15FB89-C84C-40F7-9A39-7BD02C0C28C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B4B22C4-B286-4742-9F53-747494E54CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B4B22C4-B286-4742-9F53-747494E54CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B4B22C4-B286-4742-9F53-747494E54CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B4B22C4-B286-4742-9F53-747494E54CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D078076E-CC78-469D-BD8A-C80778001467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D078076E-CC78-469D-BD8A-C80778001467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D078076E-CC78-469D-BD8A-C80778001467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D078076E-CC78-469D-BD8A-C80778001467}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D6F6FEB-0D15-4191-BDD5-327763753F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D6F6FEB-0D15-4191-BDD5-327763753F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D6F6FEB-0D15-4191-BDD5-327763753F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
