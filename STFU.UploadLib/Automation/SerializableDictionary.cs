@@ -39,7 +39,7 @@ namespace STFU.UploadLib.Automation
 				TValue value = (TValue)valueSerializer.Deserialize(reader);
 				reader.ReadEndElement();
 
-				this.Add(key, value);
+				Add(key, value);
 
 				reader.MoveToContent();
 			}
@@ -54,7 +54,7 @@ namespace STFU.UploadLib.Automation
 
 			writer.WriteStartElement("dictionary");
 
-			foreach (TKey key in this.Keys)
+			foreach (TKey key in Keys)
 			{
 				writer.WriteStartElement("key");
 				keySerializer.Serialize(writer, key);

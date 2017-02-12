@@ -260,7 +260,7 @@ namespace STFU.UploadLib.Communication.Youtube
 				{
 					requestStream.Write(buffer, 0, bytesRead);
 					var save = Convert.ToInt32(video.Status.Progress);
-					video.Status.Progress = (double)fileStream.Position / (double)video.SelectedVideo.Size * 100;
+					video.Status.Progress = fileStream.Position / (double)video.SelectedVideo.Size * 100;
 					if (Convert.ToInt32(video.Status.Progress) != save)
 					{
 						var now = DateTime.Now;

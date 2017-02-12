@@ -19,12 +19,12 @@ namespace STFU.UploadLib.Videos
 
 		public Video(string path)
 		{
-			this.FileDetails = new FileInfo(path);
+			FileDetails = new FileInfo(path);
 		}
 
 		public void ChangeVideoPath(string path)
 		{
-			this.FileDetails = new FileInfo(path);
+			FileDetails = new FileInfo(path);
 		}
 
 		public bool ShouldSerializestatus()
