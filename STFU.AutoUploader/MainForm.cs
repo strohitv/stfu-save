@@ -70,6 +70,8 @@ namespace STFU.AutoUploader
 				if (uploader.ConnectToAccount(browserForm.AuthToken))
 				{
 					MessageBox.Show(this, "Der Account wurde erfolgreich hinzugefügt!", "Account hinzugefügt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
 				}
 			}
 		}
@@ -94,6 +96,8 @@ namespace STFU.AutoUploader
 			DockTlp(tlpRunning);
 
 			SetCornerPosition();
+
+			ChangeControlBoxActivation(false);
 			//}
 		}
 
@@ -121,6 +125,8 @@ namespace STFU.AutoUploader
 			DockTlp(tlpSettings);
 
 			RefillListView();
+
+			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
 		}
 
 		private void DockTlp(TableLayoutPanel tlp)
@@ -133,6 +139,13 @@ namespace STFU.AutoUploader
 		{
 			tlp.Visible = false;
 			tlp.Dock = DockStyle.None;
+		}
+
+		private void ChangeControlBoxActivation(bool setActive)
+		{
+			ControlBox = setActive;
+			MinimizeBox = setActive;
+			MaximizeBox = setActive;
 		}
 
 		private void SetCornerPosition()
@@ -155,6 +168,8 @@ namespace STFU.AutoUploader
 			DockTlp(tlpSettings);
 
 			CenterToScreen();
+
+			ChangeControlBoxActivation(true);
 		}
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -176,6 +191,16 @@ namespace STFU.AutoUploader
 				uploader.Remove(lvSelectedPaths.SelectedItems[0].Text);
 				RefillListView();
 			}
+		}
+
+		private void btnRevokeAccessClick(object sender, EventArgs e)
+		{
+			if (uploader.RevokeAccess())
+			{
+				MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+
+			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
 		}
 	}
 }

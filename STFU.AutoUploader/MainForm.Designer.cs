@@ -30,8 +30,6 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
-			this.txtbxAddPath = new System.Windows.Forms.TextBox();
-			this.txtbxAddFilter = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.btnSelectPath = new System.Windows.Forms.Button();
@@ -41,6 +39,9 @@
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.txtbxAddPath = new System.Windows.Forms.TextBox();
+			this.txtbxAddFilter = new System.Windows.Forms.TextBox();
+			this.btnRevokeAccess = new System.Windows.Forms.Button();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
 			this.statusLabel = new System.Windows.Forms.Label();
@@ -55,7 +56,7 @@
 			// 
 			this.tlpSettings.AutoSize = true;
 			this.tlpSettings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpSettings.ColumnCount = 7;
+			this.tlpSettings.ColumnCount = 9;
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -63,16 +64,19 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Controls.Add(this.txtbxAddPath, 3, 1);
-			this.tlpSettings.Controls.Add(this.txtbxAddFilter, 3, 3);
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.Controls.Add(this.label1, 1, 1);
 			this.tlpSettings.Controls.Add(this.label2, 1, 3);
-			this.tlpSettings.Controls.Add(this.btnSelectPath, 5, 1);
-			this.tlpSettings.Controls.Add(this.btnAddPathToWatch, 5, 3);
-			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 3, 7);
-			this.tlpSettings.Controls.Add(this.btnStart, 5, 7);
+			this.tlpSettings.Controls.Add(this.btnSelectPath, 7, 1);
+			this.tlpSettings.Controls.Add(this.btnAddPathToWatch, 7, 3);
+			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 5, 7);
+			this.tlpSettings.Controls.Add(this.btnStart, 7, 7);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 5);
-			this.tlpSettings.Location = new System.Drawing.Point(80, 34);
+			this.tlpSettings.Controls.Add(this.txtbxAddPath, 3, 1);
+			this.tlpSettings.Controls.Add(this.txtbxAddFilter, 3, 3);
+			this.tlpSettings.Controls.Add(this.btnRevokeAccess, 3, 7);
+			this.tlpSettings.Location = new System.Drawing.Point(38, 27);
 			this.tlpSettings.Name = "tlpSettings";
 			this.tlpSettings.RowCount = 9;
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -86,24 +90,6 @@
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.Size = new System.Drawing.Size(872, 419);
 			this.tlpSettings.TabIndex = 0;
-			// 
-			// txtbxAddPath
-			// 
-			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtbxAddPath.Location = new System.Drawing.Point(96, 12);
-			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
-			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(661, 22);
-			this.txtbxAddPath.TabIndex = 0;
-			// 
-			// txtbxAddFilter
-			// 
-			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtbxAddFilter.Location = new System.Drawing.Point(96, 49);
-			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
-			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(661, 22);
-			this.txtbxAddFilter.TabIndex = 1;
 			// 
 			// label1
 			// 
@@ -186,7 +172,7 @@
 			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPath,
             this.chFilter});
-			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 5);
+			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 7);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
 			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 84);
@@ -208,6 +194,40 @@
 			this.chFilter.Text = "Filter";
 			this.chFilter.Width = 200;
 			// 
+			// txtbxAddPath
+			// 
+			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tlpSettings.SetColumnSpan(this.txtbxAddPath, 3);
+			this.txtbxAddPath.Location = new System.Drawing.Point(96, 12);
+			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
+			this.txtbxAddPath.Name = "txtbxAddPath";
+			this.txtbxAddPath.Size = new System.Drawing.Size(661, 22);
+			this.txtbxAddPath.TabIndex = 0;
+			// 
+			// txtbxAddFilter
+			// 
+			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tlpSettings.SetColumnSpan(this.txtbxAddFilter, 3);
+			this.txtbxAddFilter.Location = new System.Drawing.Point(96, 49);
+			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
+			this.txtbxAddFilter.Name = "txtbxAddFilter";
+			this.txtbxAddFilter.Size = new System.Drawing.Size(661, 22);
+			this.txtbxAddFilter.TabIndex = 1;
+			// 
+			// btnRevokeAccess
+			// 
+			this.btnRevokeAccess.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnRevokeAccess.AutoSize = true;
+			this.btnRevokeAccess.Location = new System.Drawing.Point(427, 382);
+			this.btnRevokeAccess.Margin = new System.Windows.Forms.Padding(0);
+			this.btnRevokeAccess.Name = "btnRevokeAccess";
+			this.btnRevokeAccess.Size = new System.Drawing.Size(160, 27);
+			this.btnRevokeAccess.TabIndex = 8;
+			this.btnRevokeAccess.Text = "Verbindung trennen";
+			this.btnRevokeAccess.UseVisualStyleBackColor = true;
+			this.btnRevokeAccess.Visible = false;
+			this.btnRevokeAccess.Click += new System.EventHandler(this.btnRevokeAccessClick);
+			// 
 			// folderBrowserDialog
 			// 
 			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
@@ -226,7 +246,7 @@
 			this.tlpRunning.Controls.Add(this.statusLabel, 1, 1);
 			this.tlpRunning.Controls.Add(this.prgbarProgress, 1, 3);
 			this.tlpRunning.Controls.Add(this.btnStop, 3, 3);
-			this.tlpRunning.Location = new System.Drawing.Point(40, 480);
+			this.tlpRunning.Location = new System.Drawing.Point(38, 582);
 			this.tlpRunning.Name = "tlpRunning";
 			this.tlpRunning.RowCount = 5;
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -283,7 +303,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(997, 690);
+			this.ClientSize = new System.Drawing.Size(1753, 690);
 			this.Controls.Add(this.tlpRunning);
 			this.Controls.Add(this.tlpSettings);
 			this.Name = "MainForm";
@@ -320,6 +340,7 @@
 		private System.Windows.Forms.ProgressBar prgbarProgress;
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Timer refreshTimer;
+		private System.Windows.Forms.Button btnRevokeAccess;
 	}
 }
 

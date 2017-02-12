@@ -16,7 +16,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			return WebService.LogoutAndThenGetAuthUrl(showAuthToken);
 		}
 
-		public static Account AddAccount(string authToken)
+		public static Account ConnectAccount(string authToken)
 		{
 			//var authRequestString = WebService.GetAuthUrl(true);
 			//Process.Start(authRequestString);
@@ -72,9 +72,9 @@ namespace STFU.UploadLib.Communication.Youtube
 			return account;
 		}
 
-		public static void RevokeAccess(Account account)
+		public static bool RevokeAccess(Account account)
 		{
-
+			return !string.IsNullOrWhiteSpace(WebService.RevokeAccess(account));
 		}
 
 		private class YoutubeAuthResponse

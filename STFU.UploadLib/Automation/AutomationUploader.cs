@@ -28,6 +28,7 @@ namespace STFU.UploadLib.Automation
 		private bool active = false;
 
 		private string jsonPath = "Paths.json";
+		private string requestTokenPath = "rt";
 
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
@@ -76,15 +77,24 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
+		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
+
 		public AutomationUploader()
 		{
-			if (File.Exists("rt"))
+			if (File.Exists(requestTokenPath))
 			{
-				using (StreamReader reader = new StreamReader("rt"))
+				using (StreamReader reader = new StreamReader(requestTokenPath))
 				{
 					refreshToken = reader.ReadToEnd();
 				}
 			}
+
+			if (!string.IsNullOrWhiteSpace(refreshToken))
+			{
+				ActiveAccount = AccountCommunication.RefreshAccess(new Account() { Access = new Authentification() { RefreshToken = refreshToken } });
+				refreshToken = null;
+			}
+
 			if (File.Exists(jsonPath))
 			{
 				try
@@ -134,11 +144,11 @@ namespace STFU.UploadLib.Automation
 		public bool ConnectToAccount(string authToken)
 		{
 			refreshToken = null;
-			ActiveAccount = AccountCommunication.AddAccount(authToken);
+			ActiveAccount = AccountCommunication.ConnectAccount(authToken);
 
 			if (!string.IsNullOrWhiteSpace(ActiveAccount.Access.RefreshToken))
 			{
-				using (StreamWriter writer = new StreamWriter("rt", false))
+				using (StreamWriter writer = new StreamWriter(requestTokenPath, false))
 				{
 					writer.Write(ActiveAccount.Access.RefreshToken);
 				}
@@ -146,6 +156,19 @@ namespace STFU.UploadLib.Automation
 			}
 
 			return false;
+		}
+
+		public bool RevokeAccess()
+		{
+			var result = AccountCommunication.RevokeAccess(ActiveAccount);
+			ActiveAccount = null;
+
+			if (File.Exists(requestTokenPath))
+			{
+				File.Delete(requestTokenPath);
+			}
+
+			return result;
 		}
 
 		public void Remove(string path)
@@ -158,10 +181,10 @@ namespace STFU.UploadLib.Automation
 
 		public void Start()
 		{
-			if (!string.IsNullOrWhiteSpace(refreshToken))
+			// Es muss sichergestellt sein, dass ein Account verbunden ist.
+			if (ActiveAccount == null)
 			{
-				ActiveAccount = AccountCommunication.RefreshAccess(new Account() { Access = new Authentification() { RefreshToken = refreshToken } });
-				refreshToken = null;
+				return;
 			}
 
 			active = true;
@@ -228,7 +251,7 @@ namespace STFU.UploadLib.Automation
 			}
 
 			Video vid = new Video(newfile);
-			vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name.Remove(0,1), defaultLanguage = "de" };
+			vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name.Remove(0, 1), defaultLanguage = "de" };
 			vid.status = new VideoStatus() { embeddable = true, licence = Licences.Youtube, privacyStatus = PrivacyValues.Private, publicStatsViewable = false };
 
 			Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };

@@ -142,7 +142,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			return Communicate(request, bytes);
 		}
 
-		internal static void RevokeAccess(Account account)
+		internal static string RevokeAccess(Account account)
 		{
 			// Token setzen und prüfen
 			string token = (!string.IsNullOrWhiteSpace(account.Access.RefreshToken)) ? account.Access.RefreshToken : account.Access.AccessToken;
@@ -151,10 +151,13 @@ namespace STFU.UploadLib.Communication.Youtube
 				string address = string.Format(resourceManager.GetString("AuthRevokeAddress"), token);
 
 				WebRequest request = WebRequest.Create(address);
+				request.ContentType = resourceManager.GetString("FormContentType");
 
 				var status = Communicate(request);
-				Trace.WriteLine(status);
+				return status;
 			}
+
+			return null;
 		}
 
 		#endregion Accounts
