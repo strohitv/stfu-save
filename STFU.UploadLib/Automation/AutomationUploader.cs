@@ -93,13 +93,23 @@ namespace STFU.UploadLib.Automation
 			{
 				ActiveAccount = AccountCommunication.RefreshAccess(new Account() { Access = new Authentification() { RefreshToken = refreshToken } });
 				refreshToken = null;
+
+				if (string.IsNullOrWhiteSpace(ActiveAccount.Access.AccessToken))
+				{
+					ActiveAccount = null;
+
+					if (File.Exists(requestTokenPath))
+					{
+						File.Delete(requestTokenPath);
+					}
+				}
 			}
 
 			if (File.Exists(jsonPath))
 			{
 				try
 				{
-					ReadXml();
+					ReadJson();
 				}
 				catch (Exception ex)
 				{
@@ -111,7 +121,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public void WriteXml()
+		public void WriteJson()
 		{
 			var serialized = JsonConvert.SerializeObject(Paths);
 
@@ -121,7 +131,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public void ReadXml()
+		public void ReadJson()
 		{
 			string json;
 			using (StreamReader fileReader = new StreamReader(jsonPath))

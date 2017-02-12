@@ -52,7 +52,7 @@ namespace STFU.UploadLib.Communication.Youtube
 		{
 			var response = WebService.RefreshAccess(account.Access.RefreshToken);
 
-			if (response != null)
+			if (response != null && !response.Contains("revoked"))
 			{
 				// Account 
 				var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(response);

@@ -175,7 +175,7 @@ namespace STFU.AutoUploader
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			uploader.Stop(true);
-			uploader.WriteXml();
+			uploader.WriteJson();
 		}
 
 		private void refreshTimerTick(object sender, EventArgs e)
