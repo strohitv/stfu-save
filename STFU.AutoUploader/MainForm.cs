@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
-using STFU.UploadLib;
 using STFU.UploadLib.Automation;
 
 namespace STFU.AutoUploader
 {
 	public partial class MainForm : Form
 	{
-		AutomationUploader uploader = new AutomationUploader();
+		AutomationUploader uploader;
 
 		string statusText = string.Empty;
 		int progress = 0;
@@ -72,18 +70,13 @@ namespace STFU.AutoUploader
 					MessageBox.Show(this, "Der Account wurde erfolgreich hinzugefügt!", "Account hinzugefügt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+					btnStart.Enabled = true;
 				}
 			}
 		}
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
-			//if (uploader.IsActive)
-			//{
-			//	uploader.Stop(true);
-			//}
-			//else
-			//{
 			uploader.ProgressChanged += ChangedProgress;
 			uploader.UploadStarted += UploadStarted;
 			uploader.UploadFinished += UploadFinished;
@@ -98,12 +91,11 @@ namespace STFU.AutoUploader
 			SetCornerPosition();
 
 			ChangeControlBoxActivation(false);
-			//}
 		}
 
 		private void UploadFinished(AutomationEventArgs e)
 		{
-			statusText = $"Upload von {e.FileName} beendet.{Environment.NewLine}Suche Dateien zum Upload...";
+			statusText = $"Upload von {e.FileName} beendet. - Suche Dateien zum Upload...";
 			progress = (int)e.Progress;
 		}
 
@@ -115,18 +107,16 @@ namespace STFU.AutoUploader
 
 		private void ChangedProgress(AutomationEventArgs e)
 		{
-			statusText = $"Lade {e.FileName} hoch: {e.Progress} %";
+			statusText = $"Lade {e.FileName} hoch: {e.Progress / 100.0} %";
 			progress = (int)e.Progress;
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
+			bgwCreateUploader.RunWorkerAsync();
+
 			UndockTlp(tlpRunning);
 			DockTlp(tlpSettings);
-
-			RefillListView();
-
-			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
 		}
 
 		private void DockTlp(TableLayoutPanel tlp)
@@ -174,8 +164,8 @@ namespace STFU.AutoUploader
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-			uploader.Stop(true);
-			uploader.WriteJson();
+			uploader?.Stop(true);
+			uploader?.WriteJson();
 		}
 
 		private void refreshTimerTick(object sender, EventArgs e)
@@ -198,9 +188,26 @@ namespace STFU.AutoUploader
 			if (uploader.RevokeAccess())
 			{
 				MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				btnStart.Enabled = false;
 			}
 
 			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+		}
+
+		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			uploader = new AutomationUploader();
+		}
+
+		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		{
+			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+			tlpSettings.Enabled = true;
+
+			btnStart.Enabled = uploader.IsConnectedToAccount;
+
+			RefillListView();
 		}
 	}
 }

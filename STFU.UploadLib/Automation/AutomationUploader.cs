@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Xml;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube;
@@ -222,11 +220,8 @@ namespace STFU.UploadLib.Automation
 
 				foreach (var fileName in files)
 				{
-					OnUploadStarted(fileName);
 
 					UploadVideo(fileName);
-
-					OnUploadFinished(fileName);
 				}
 			}
 		}
@@ -264,6 +259,8 @@ namespace STFU.UploadLib.Automation
 			vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name.Remove(0, 1), defaultLanguage = "de" };
 			vid.status = new VideoStatus() { embeddable = true, licence = Licences.Youtube, privacyStatus = PrivacyValues.Private, publicStatsViewable = false };
 
+			OnUploadStarted(vid.snippet.title);
+
 			Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };
 
 			UploadCommunication.ProgressChanged += ReactToProgressChanged;
@@ -271,6 +268,9 @@ namespace STFU.UploadLib.Automation
 			{
 				ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
 			}
+
+			OnUploadFinished(vid.snippet.title);
+
 			UploadCommunication.ProgressChanged -= ReactToProgressChanged;
 		}
 
@@ -292,7 +292,7 @@ namespace STFU.UploadLib.Automation
 		{
 			AutomationEventArgs args = new AutomationEventArgs();
 			args.FileName = fileName;
-			args.Progress = 100;
+			args.Progress = 10000;
 
 			UploadFinished?.Invoke(args);
 		}

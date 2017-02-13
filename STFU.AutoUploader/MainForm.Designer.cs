@@ -48,6 +48,7 @@
 			this.prgbarProgress = new System.Windows.Forms.ProgressBar();
 			this.btnStop = new System.Windows.Forms.Button();
 			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
+			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.tlpSettings.SuspendLayout();
 			this.tlpRunning.SuspendLayout();
 			this.SuspendLayout();
@@ -76,8 +77,9 @@
 			this.tlpSettings.Controls.Add(this.txtbxAddPath, 3, 1);
 			this.tlpSettings.Controls.Add(this.txtbxAddFilter, 3, 3);
 			this.tlpSettings.Controls.Add(this.btnRevokeAccess, 3, 7);
+			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(28, 22);
-			this.tlpSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tlpSettings.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpSettings.Name = "tlpSettings";
 			this.tlpSettings.RowCount = 9;
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
@@ -159,6 +161,7 @@
 			// 
 			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStart.AutoSize = true;
+			this.btnStart.Enabled = false;
 			this.btnStart.Location = new System.Drawing.Point(592, 319);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
@@ -248,7 +251,7 @@
 			this.tlpRunning.Controls.Add(this.prgbarProgress, 1, 3);
 			this.tlpRunning.Controls.Add(this.btnStop, 3, 3);
 			this.tlpRunning.Location = new System.Drawing.Point(28, 473);
-			this.tlpRunning.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tlpRunning.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpRunning.Name = "tlpRunning";
 			this.tlpRunning.RowCount = 5;
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
@@ -277,6 +280,8 @@
 			this.prgbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.prgbarProgress.Location = new System.Drawing.Point(8, 31);
 			this.prgbarProgress.Margin = new System.Windows.Forms.Padding(0);
+			this.prgbarProgress.MarqueeAnimationSpeed = 10;
+			this.prgbarProgress.Maximum = 10000;
 			this.prgbarProgress.Name = "prgbarProgress";
 			this.prgbarProgress.Size = new System.Drawing.Size(570, 19);
 			this.prgbarProgress.TabIndex = 1;
@@ -299,6 +304,11 @@
 			// 
 			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
 			// 
+			// bgwCreateUploader
+			// 
+			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
+			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,7 +318,7 @@
 			this.ClientSize = new System.Drawing.Size(764, 561);
 			this.Controls.Add(this.tlpRunning);
 			this.Controls.Add(this.tlpSettings);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "AutoUploader";
@@ -344,6 +354,7 @@
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Timer refreshTimer;
 		private System.Windows.Forms.Button btnRevokeAccess;
+		private System.ComponentModel.BackgroundWorker bgwCreateUploader;
 	}
 }
 

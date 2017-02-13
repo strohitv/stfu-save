@@ -113,14 +113,6 @@ namespace STFU.UploadLib
 			var p = new Process();
 			p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
 			p.Start();
-
-			//Video vid = new Video(@"V:\kodiert\000_Other\uploaderTestVid.mkv");
-			//vid.snippet = new VideoSnippet() { categoryId = 17, description = "Coole Testbeschreibung", tags = new[] { "Tag1", "Test-Tag", "This is a tag" }, title = "Erstes jemals hochgeladenes Video" };
-			//vid.status = new VideoStatus() { embeddable = true, license = "youtube", privacyStatus = "private", publicStatsViewable = false };
-
-			//Job job = new Job() { SelectedVideo = vid, UploadingAccount = acc, Status = new UploadDetails() };
-
-			//UploadCommunication.Upload(ref job);
 		}
 
 		#endregion PublicMethods

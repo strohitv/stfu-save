@@ -259,13 +259,13 @@ namespace STFU.UploadLib.Communication.Youtube
 				try
 				{
 					requestStream.Write(buffer, 0, bytesRead);
-					var save = Convert.ToInt32(video.Status.Progress);
+					var save = Convert.ToInt32(video.Status.Progress * 100);
 					video.Status.Progress = fileStream.Position / (double)video.SelectedVideo.Size * 100;
 					if (Convert.ToInt32(video.Status.Progress) != save)
 					{
 						var now = DateTime.Now;
 						// todo: Event werfen anstelle von Tracing.
-						OnProgressChanged(video.SelectedVideo.Path, save);
+						OnProgressChanged(video.SelectedVideo.snippet.title, save);
 						//Trace.Write(string.Format("{0} ({1}) - ", save, now.ToString("HH:mm")));
 					}
 				}

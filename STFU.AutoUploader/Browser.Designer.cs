@@ -33,16 +33,17 @@
 			// 
 			// WebBrowser
 			// 
+			this.WebBrowser.AllowWebBrowserDrop = false;
 			this.WebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.WebBrowser.IsWebBrowserContextMenuEnabled = false;
 			this.WebBrowser.Location = new System.Drawing.Point(0, 0);
-			this.WebBrowser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.WebBrowser.Margin = new System.Windows.Forms.Padding(2);
 			this.WebBrowser.MinimumSize = new System.Drawing.Size(15, 16);
 			this.WebBrowser.Name = "WebBrowser";
-			this.WebBrowser.ScriptErrorsSuppressed = true;
 			this.WebBrowser.Size = new System.Drawing.Size(649, 623);
 			this.WebBrowser.TabIndex = 0;
-			this.WebBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowserNavigated);
+			this.WebBrowser.WebBrowserShortcutsEnabled = false;
+			this.WebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser_DocumentCompleted);
 			// 
 			// Browser
 			// 
@@ -51,7 +52,7 @@
 			this.AutoSize = true;
 			this.ClientSize = new System.Drawing.Size(649, 623);
 			this.Controls.Add(this.WebBrowser);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "Browser";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Browser";
