@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
@@ -58,6 +59,7 @@ namespace STFU.AutoUploader
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
 		{
+			tlpSettings.Enabled = false;
 			var connectionLink = uploader.GetAuthLoginScreenUrl(false);
 			var browserForm = new Browser(connectionLink);
 
@@ -73,6 +75,7 @@ namespace STFU.AutoUploader
 					btnStart.Enabled = true;
 				}
 			}
+			tlpSettings.Enabled = true;
 		}
 
 		private void btnStartClick(object sender, EventArgs e)
@@ -97,6 +100,11 @@ namespace STFU.AutoUploader
 		{
 			statusText = $"Upload von {e.FileName} beendet. - Suche Dateien zum Upload...";
 			progress = (int)e.Progress;
+
+			//// MUSS WIEDER RAUSGENOMMEN WERDEN!!!!!
+			//var p = new Process();
+			//p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
+			//p.Start();
 		}
 
 		private void UploadStarted(AutomationEventArgs e)
@@ -185,6 +193,7 @@ namespace STFU.AutoUploader
 
 		private void btnRevokeAccessClick(object sender, EventArgs e)
 		{
+			tlpSettings.Enabled = false;
 			if (uploader.RevokeAccess())
 			{
 				MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -193,6 +202,7 @@ namespace STFU.AutoUploader
 			}
 
 			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+			tlpSettings.Enabled = true;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)

@@ -22,6 +22,10 @@ namespace STFU.UploadLib.Communication.Youtube
 
 		public static event ProgressChangedEventHandler ProgressChanged;
 
+		// TODO: https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&key={YOUR_API_KEY}
+		// https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.channels.list?part=snippet&mine=true&_h=2&
+		// Infos über den Channel.
+
 		private static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
 		{
 			if (bytes != null && bytes.Length != 0)

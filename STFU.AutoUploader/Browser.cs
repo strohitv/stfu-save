@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
+using CefSharp;
+using CefSharp.WinForms;
 
 namespace STFU.AutoUploader
 {
@@ -18,10 +19,25 @@ namespace STFU.AutoUploader
 
 		private void BrowserLoad(object sender, EventArgs e)
 		{
-			if (!string.IsNullOrWhiteSpace(Url))
+			var browser = new ChromiumWebBrowser(Url)
 			{
-				WebBrowser.Navigate(Url);
-				WebBrowser.Document?.Cookie?.Remove(0);
+				Dock = DockStyle.Fill
+			};
+
+			browserPanel.Controls.Add(browser);
+
+			browser.AddressChanged += BrowserAddressChanged;
+		}
+
+		private delegate void closeDelegate();
+		private void BrowserAddressChanged(object sender, AddressChangedEventArgs e)
+		{
+			if (e.Address.StartsWith("http://localhost"))
+			{
+				AuthToken = new Uri(e.Address).Query.Remove(0, 6);
+				closeDelegate del = Close;
+				Invoke(del);
+				return;
 			}
 		}
 
@@ -32,25 +48,6 @@ namespace STFU.AutoUploader
 			if (!string.IsNullOrWhiteSpace(AuthToken))
 			{
 				DialogResult = DialogResult.OK;
-			}
-		}
-
-		private void WebBrowserNavigated(object sender, WebBrowserNavigatedEventArgs e)
-		{
-		}
-
-		public Rectangle GetScreen()
-		{
-			return Screen.FromControl(this).Bounds;
-		}
-
-		private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-		{
-			if (e.Url.AbsoluteUri.StartsWith("http://localhost"))
-			{
-				AuthToken = WebBrowser.Url.Query.Remove(0, 6);
-				Close();
-				return;
 			}
 		}
 	}

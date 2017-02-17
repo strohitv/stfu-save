@@ -1,5 +1,6 @@
 ﻿namespace STFU.AutoUploader
 {
+	using CefSharp.WinForms;
 	partial class Browser
 	{
 		/// <summary>
@@ -28,22 +29,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.WebBrowser = new System.Windows.Forms.WebBrowser();
+			this.browserPanel = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
-			// WebBrowser
+			// browserPanel
 			// 
-			this.WebBrowser.AllowWebBrowserDrop = false;
-			this.WebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.WebBrowser.IsWebBrowserContextMenuEnabled = false;
-			this.WebBrowser.Location = new System.Drawing.Point(0, 0);
-			this.WebBrowser.Margin = new System.Windows.Forms.Padding(2);
-			this.WebBrowser.MinimumSize = new System.Drawing.Size(15, 16);
-			this.WebBrowser.Name = "WebBrowser";
-			this.WebBrowser.Size = new System.Drawing.Size(649, 623);
-			this.WebBrowser.TabIndex = 0;
-			this.WebBrowser.WebBrowserShortcutsEnabled = false;
-			this.WebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser_DocumentCompleted);
+			this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.browserPanel.Location = new System.Drawing.Point(0, 0);
+			this.browserPanel.Name = "browserPanel";
+			this.browserPanel.Size = new System.Drawing.Size(649, 623);
+			this.browserPanel.TabIndex = 1;
 			// 
 			// Browser
 			// 
@@ -51,7 +46,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.ClientSize = new System.Drawing.Size(649, 623);
-			this.Controls.Add(this.WebBrowser);
+			this.Controls.Add(this.browserPanel);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "Browser";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -63,7 +58,7 @@
 		}
 
 		#endregion
-
-		private System.Windows.Forms.WebBrowser WebBrowser;
+		private CefSharp.IWebBrowser WbBrowser;
+		private System.Windows.Forms.Panel browserPanel;
 	}
 }
