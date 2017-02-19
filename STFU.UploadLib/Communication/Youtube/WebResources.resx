@@ -159,6 +159,12 @@
   <data name="FormContentType" xml:space="preserve">
     <value>application/x-www-form-urlencoded</value>
   </data>
+  <data name="GetChannelDetailsMethod" xml:space="preserve">
+    <value>GET</value>
+  </data>
+  <data name="GetChannelDetailsUrl" xml:space="preserve">
+    <value>https://www.googleapis.com/youtube/v3/channels?part=snippet&amp;mine=true&amp;key={0}</value>
+  </data>
   <data name="GetPlaylistItemsUrl" xml:space="preserve">
     <value>https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&amp;maxResults=50&amp;playlistId={0}{1}</value>
   </data>

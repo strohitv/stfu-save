@@ -71,7 +71,8 @@ namespace STFU.AutoUploader
 				{
 					MessageBox.Show(this, "Der Account wurde erfolgreich hinzugefügt!", "Account hinzugefügt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-					btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+					btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+					lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
 					btnStart.Enabled = true;
 				}
 			}
@@ -80,6 +81,12 @@ namespace STFU.AutoUploader
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
+			if (uploader.Paths.Count == 0)
+			{
+				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			uploader.ProgressChanged += ChangedProgress;
 			uploader.UploadStarted += UploadStarted;
 			uploader.UploadFinished += UploadFinished;
@@ -100,11 +107,6 @@ namespace STFU.AutoUploader
 		{
 			statusText = $"Upload von {e.FileName} beendet. - Suche Dateien zum Upload...";
 			progress = (int)e.Progress;
-
-			//// MUSS WIEDER RAUSGENOMMEN WERDEN!!!!!
-			//var p = new Process();
-			//p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
-			//p.Start();
 		}
 
 		private void UploadStarted(AutomationEventArgs e)
@@ -173,7 +175,7 @@ namespace STFU.AutoUploader
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			uploader?.Stop(true);
-			uploader?.WriteJson();
+			uploader?.WritePaths();
 		}
 
 		private void refreshTimerTick(object sender, EventArgs e)
@@ -201,7 +203,7 @@ namespace STFU.AutoUploader
 				btnStart.Enabled = false;
 			}
 
-			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+			btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
 			tlpSettings.Enabled = true;
 		}
 
@@ -212,12 +214,29 @@ namespace STFU.AutoUploader
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
-			btnRevokeAccess.Visible = uploader.IsConnectedToAccount;
+			btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			if (uploader.IsConnectedToAccount)
+			{
+				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
+			}
+
 			tlpSettings.Enabled = true;
 
 			btnStart.Enabled = uploader.IsConnectedToAccount;
 
 			RefillListView();
+		}
+
+		private void lnklblCurrentLoggedInLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (!uploader.IsConnectedToAccount)
+			{
+				return;
+			}
+
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo(uploader.LoggedInAccountUrl);
+			p.Start();
 		}
 	}
 }

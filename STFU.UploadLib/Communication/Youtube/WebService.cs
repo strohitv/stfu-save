@@ -372,9 +372,10 @@ namespace STFU.UploadLib.Communication.Youtube
 			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), accessToken));
 
 			var list = new List<string>();
-			PlaylistResponse response = null;
+			Response response = null;
 
-			while (!string.IsNullOrWhiteSpace((response = JsonConvert.DeserializeObject<PlaylistResponse>(Communicate(request))).nextPageToken))
+			// Wurde auf Webservice-Response umgestellt und muss noch vertestet werden.
+			while (!string.IsNullOrWhiteSpace((response = JsonConvert.DeserializeObject<Response>(Communicate(request))).nextPageToken))
 			{
 				foreach (var item in response.items)
 				{
@@ -407,6 +408,28 @@ namespace STFU.UploadLib.Communication.Youtube
 		}
 
 		#endregion GetPlaylistInfos
+
+		#region GetChannelDetails
+
+		internal static Response GetAccountDetails(string accessToken)
+		{
+			var pageToken = string.Empty;
+			string url = string.Format(resourceManager.GetString("GetChannelDetailsUrl"), clientSecret);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.Proxy = null;
+			request.Method = resourceManager.GetString("GetChannelDetailsMethod");
+			request.Credentials = CredentialCache.DefaultCredentials;
+			request.ProtocolVersion = HttpVersion.Version11;
+
+			// Header schreiben
+			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), accessToken));
+			
+			Response response = JsonConvert.DeserializeObject<Response>(Communicate(request));
+
+			return response;
+		}
+
+		#endregion GetChannelDetails
 
 		#region MonoSSL
 		static WebService()

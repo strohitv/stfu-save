@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
 
@@ -16,6 +17,16 @@ namespace STFU.UploadLib.Communication.Youtube
 			return WebService.LogoutAndThenGetAuthUrl(showAuthToken);
 		}
 
+		public static Account LoadAccountDetails(Account account)
+		{
+			var accountDetails = WebService.GetAccountDetails(account.Access.AccessToken);
+
+			account.Title = accountDetails.items.First().snippet.title;
+			account.Id = accountDetails.items.First().id;
+
+			return account;
+		}
+		
 		public static Account ConnectAccount(string authToken)
 		{
 			//var authRequestString = WebService.GetAuthUrl(true);

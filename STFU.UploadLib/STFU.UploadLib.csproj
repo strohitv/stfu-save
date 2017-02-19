@@ -93,6 +93,7 @@
     <Compile Include="Communication\Youtube\EventArgs.cs" />
     <Compile Include="Communication\Youtube\EventHandler.cs" />
     <Compile Include="Communication\Youtube\Playlist.cs" />
+    <Compile Include="Communication\Youtube\Response.cs" />
     <Compile Include="Communication\Youtube\Upload.cs" />
     <Compile Include="Communication\Youtube\WebResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -104,7 +105,6 @@
     <Compile Include="Operations\FileWatcher.cs" />
     <Compile Include="Operations\ProcessWatcher.cs" />
     <Compile Include="Playlists\Playlist.cs" />
-    <Compile Include="Playlists\PlaylistResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\Job.cs" />
     <Compile Include="Queue\UploadQueue.cs" />

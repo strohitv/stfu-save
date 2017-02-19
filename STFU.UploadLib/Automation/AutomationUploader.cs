@@ -21,18 +21,20 @@ namespace STFU.UploadLib.Automation
 		private Dictionary<string, string> paths = new Dictionary<string, string>();
 		private Uploader uploader = new Uploader();
 		private Account activeAccount = null;
-		private string refreshToken = null;
 		private Thread uploadThread = null;
 		private bool active = false;
 
-		private string jsonPath = "Paths.json";
-		private string requestTokenPath = "rt";
+		private const string selectedPathsJsonPath = "Paths.json";
+		private const string accountJsonPath = "Account.json";
 
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
 		public event UploadProgressChangedEventHandler ProgressChanged;
 
 		private List<string> files = new List<string>();
+
+		public string LoggedInAccountUrl { get { return (ActiveAccount != null) ? $"https://youtube.com/channel/{ActiveAccount.Id}" : null; } }
+		public string LoggedInAccountTitle { get { return ActiveAccount?.Title; } }
 
 		public Dictionary<string, string> Paths
 		{
@@ -79,60 +81,67 @@ namespace STFU.UploadLib.Automation
 
 		public AutomationUploader()
 		{
-			if (File.Exists(requestTokenPath))
+			if (File.Exists(accountJsonPath))
 			{
-				using (StreamReader reader = new StreamReader(requestTokenPath))
+				using (StreamReader reader = new StreamReader(accountJsonPath))
 				{
-					refreshToken = reader.ReadToEnd();
-				}
-			}
+					string savedAccountJson = reader.ReadToEnd();
+					var savedAccount = JsonConvert.DeserializeObject<AccountJson>(savedAccountJson);
+					ActiveAccount = new Account() { Id = savedAccount.id, Title = savedAccount.title, Access = new Authentification() { RefreshToken = savedAccount.refreshToken } };
 
-			if (!string.IsNullOrWhiteSpace(refreshToken))
-			{
-				ActiveAccount = AccountCommunication.RefreshAccess(new Account() { Access = new Authentification() { RefreshToken = refreshToken } });
-				refreshToken = null;
-
-				if (string.IsNullOrWhiteSpace(ActiveAccount.Access.AccessToken))
-				{
-					ActiveAccount = null;
-
-					if (File.Exists(requestTokenPath))
+					if (string.IsNullOrWhiteSpace(ActiveAccount?.Access?.AccessToken))
 					{
-						File.Delete(requestTokenPath);
+						RefreshAccess();
 					}
 				}
 			}
 
-			if (File.Exists(jsonPath))
+			if (File.Exists(selectedPathsJsonPath))
 			{
 				try
 				{
-					ReadJson();
+					ReadPaths();
 				}
 				catch (Exception ex)
 				{
 					Debug.Write(ex.Message);
 
 					paths = new SerializableDictionary<string, string>();
-					File.Delete(jsonPath);
+					File.Delete(selectedPathsJsonPath);
 				}
 			}
 		}
 
-		public void WriteJson()
+		private void RefreshAccess()
+		{
+			ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
+			//refreshToken = null;
+
+			if (string.IsNullOrWhiteSpace(ActiveAccount.Access.AccessToken))
+			{
+				ActiveAccount = null;
+
+				if (File.Exists(accountJsonPath))
+				{
+					File.Delete(accountJsonPath);
+				}
+			}
+		}
+
+		public void WritePaths()
 		{
 			var serialized = JsonConvert.SerializeObject(Paths);
 
-			using (StreamWriter fileWriter = new StreamWriter(jsonPath, false))
+			using (StreamWriter fileWriter = new StreamWriter(selectedPathsJsonPath, false))
 			{
 				fileWriter.Write(serialized);
 			}
 		}
 
-		public void ReadJson()
+		public void ReadPaths()
 		{
 			string json;
-			using (StreamReader fileReader = new StreamReader(jsonPath))
+			using (StreamReader fileReader = new StreamReader(selectedPathsJsonPath))
 			{
 				json = fileReader.ReadToEnd();
 			}
@@ -151,19 +160,27 @@ namespace STFU.UploadLib.Automation
 
 		public bool ConnectToAccount(string authToken)
 		{
-			refreshToken = null;
-			ActiveAccount = AccountCommunication.ConnectAccount(authToken);
+			ActiveAccount = AccountCommunication.LoadAccountDetails(AccountCommunication.ConnectAccount(authToken));
 
 			if (!string.IsNullOrWhiteSpace(ActiveAccount.Access.RefreshToken))
 			{
-				using (StreamWriter writer = new StreamWriter(requestTokenPath, false))
-				{
-					writer.Write(ActiveAccount.Access.RefreshToken);
-				}
+				WriteAccount();
 				return true;
 			}
 
 			return false;
+		}
+
+		private void WriteAccount()
+		{
+			var saveAccount = new AccountJson() { id = ActiveAccount.Id, title = ActiveAccount.Title, refreshToken= ActiveAccount.Access.RefreshToken };
+
+			string json = JsonConvert.SerializeObject(saveAccount);
+
+			using (StreamWriter writer = new StreamWriter(accountJsonPath, false))
+			{
+				writer.Write(json);
+			}
 		}
 
 		public bool RevokeAccess()
@@ -171,9 +188,9 @@ namespace STFU.UploadLib.Automation
 			var result = AccountCommunication.RevokeAccess(ActiveAccount);
 			ActiveAccount = null;
 
-			if (File.Exists(requestTokenPath))
+			if (File.Exists(accountJsonPath))
 			{
-				File.Delete(requestTokenPath);
+				File.Delete(accountJsonPath);
 			}
 
 			return result;
@@ -220,7 +237,6 @@ namespace STFU.UploadLib.Automation
 
 				foreach (var fileName in files)
 				{
-
 					UploadVideo(fileName);
 				}
 			}
@@ -321,5 +337,12 @@ namespace STFU.UploadLib.Automation
 				}
 			}
 		}
+	}
+
+	public class AccountJson
+	{
+		public string id;
+		public string title;
+		public string refreshToken;
 	}
 }
