@@ -1,6 +1,5 @@
 ﻿namespace STFU.AutoUploader
 {
-	using CefSharp.WinForms;
 	partial class Browser
 	{
 		/// <summary>
@@ -58,7 +57,6 @@
 		}
 
 		#endregion
-		private CefSharp.IWebBrowser WbBrowser;
 		private System.Windows.Forms.Panel browserPanel;
 	}
 }

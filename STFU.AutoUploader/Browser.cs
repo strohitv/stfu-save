@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using CefSharp;
-using CefSharp.WinForms;
+using Gecko;
 
 namespace STFU.AutoUploader
 {
@@ -9,6 +8,9 @@ namespace STFU.AutoUploader
 	{
 		private string Url { get; set; }
 		public string AuthToken { get; private set; }
+
+		GeckoWebBrowser browser;
+		private delegate void closeDelegate();
 
 		public Browser(string url)
 		{
@@ -19,22 +21,40 @@ namespace STFU.AutoUploader
 
 		private void BrowserLoad(object sender, EventArgs e)
 		{
-			var browser = new ChromiumWebBrowser(Url)
-			{
-				Dock = DockStyle.Fill
-			};
+			Xpcom.Initialize("Firefox");
+			//nsICookieManager CookieMan;
+			//CookieMan = Xpcom.GetService<nsICookieManager>("@mozilla.org/cookiemanager;1");
+			//CookieMan = Xpcom.QueryInterface<nsICookieManager>(CookieMan);
+			//CookieMan.RemoveAll();
 
-			browserPanel.Controls.Add(browser);
+			browserPanel.Visible = false;
 
-			browser.AddressChanged += BrowserAddressChanged;
+			browser = new GeckoWebBrowser() { Dock = DockStyle.Fill };
+			browser.NoDefaultContextMenu = true;
+			browser.ReadyStateChange += Browser_ReadyStateChange;
+			browser.DomSubmit += Browser_DomSubmit;
+			browser.Redirecting += Browser_Redirecting;
+
+			Controls.Add(browser);
+
+			browser.Navigate(Url);
 		}
 
-		private delegate void closeDelegate();
-		private void BrowserAddressChanged(object sender, AddressChangedEventArgs e)
+		private void Browser_Redirecting(object sender, GeckoRedirectingEventArgs e)
 		{
-			if (e.Address.StartsWith("http://localhost"))
+			Console.WriteLine(e);
+		}
+
+		private void Browser_DomSubmit(object sender, DomEventArgs e)
+		{
+			Console.WriteLine(e.Type);
+		}
+
+		private void Browser_ReadyStateChange(object sender, DomEventArgs e)
+		{
+			if (browser.Url.AbsoluteUri.StartsWith("http://localhost"))
 			{
-				AuthToken = new Uri(e.Address).Query.Remove(0, 6);
+				AuthToken = new Uri(browser.Url.AbsoluteUri).Query.Remove(0, 6);
 				closeDelegate del = Close;
 				Invoke(del);
 				return;
