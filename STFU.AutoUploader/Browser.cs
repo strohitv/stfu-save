@@ -24,10 +24,12 @@ namespace STFU.AutoUploader
 		private void BrowserLoad(object sender, EventArgs e)
 		{
 			Xpcom.Initialize("Firefox");
-			//nsICookieManager CookieMan;
-			//CookieMan = Xpcom.GetService<nsICookieManager>("@mozilla.org/cookiemanager;1");
-			//CookieMan = Xpcom.QueryInterface<nsICookieManager>(CookieMan);
-			//CookieMan.RemoveAll();
+
+			nsICookieManager CookieMan;
+			CookieMan = Xpcom.GetService<nsICookieManager>("@mozilla.org/cookiemanager;1");
+			CookieMan = Xpcom.QueryInterface<nsICookieManager>(CookieMan);
+			CookieMan.RemoveAll();
+
 			GeckoPreferences.User["browser.xul.error_pages.enabled"] = false;
 			GeckoPreferences.User["browser.download.manager.showAlertOnComplete"] = false;
 			GeckoPreferences.User["security.warn_viewing_mixed"] = false;
