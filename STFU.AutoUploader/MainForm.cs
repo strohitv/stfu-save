@@ -10,7 +10,7 @@ namespace STFU.AutoUploader
 	{
 		AutomationUploader uploader;
 
-		string statusText = string.Empty;
+		string statusText = "Warte auf Dateien für den Upload...";
 		int progress = 0;
 
 		public MainForm()
@@ -186,7 +186,7 @@ namespace STFU.AutoUploader
 
 		private void lvSelectedPathsKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyData == Keys.Delete)
+			if (e.KeyData == Keys.Delete && uploader.Paths.Count > 0)
 			{
 				uploader.Remove(lvSelectedPaths.SelectedItems[0].Text);
 				RefillListView();

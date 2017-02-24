@@ -60,17 +60,17 @@
 			this.tlpSettings.AutoSize = true;
 			this.tlpSettings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tlpSettings.ColumnCount = 11;
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.Controls.Add(this.label1, 1, 1);
 			this.tlpSettings.Controls.Add(this.label2, 1, 3);
 			this.tlpSettings.Controls.Add(this.btnSelectPath, 9, 1);
@@ -84,30 +84,30 @@
 			this.tlpSettings.Controls.Add(this.btnRevokeAccess, 5, 7);
 			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 7);
 			this.tlpSettings.Enabled = false;
-			this.tlpSettings.Location = new System.Drawing.Point(37, 45);
-			this.tlpSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tlpSettings.Location = new System.Drawing.Point(0, 11);
+			this.tlpSettings.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpSettings.Name = "tlpSettings";
 			this.tlpSettings.RowCount = 9;
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Size = new System.Drawing.Size(899, 412);
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+			this.tlpSettings.Size = new System.Drawing.Size(713, 348);
 			this.tlpSettings.TabIndex = 0;
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(10, 15);
+			this.label1.Location = new System.Drawing.Point(8, 13);
 			this.label1.Margin = new System.Windows.Forms.Padding(0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(87, 17);
+			this.label1.Size = new System.Drawing.Size(66, 13);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Pfad: ";
 			// 
@@ -115,10 +115,10 @@
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 52);
+			this.label2.Location = new System.Drawing.Point(8, 44);
 			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 17);
+			this.label2.Size = new System.Drawing.Size(66, 13);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Dateifilter: ";
 			// 
@@ -127,10 +127,10 @@
 			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSelectPath.AutoSize = true;
 			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(794, 10);
+			this.btnSelectPath.Location = new System.Drawing.Point(629, 8);
 			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSelectPath.Name = "btnSelectPath";
-			this.btnSelectPath.Size = new System.Drawing.Size(95, 27);
+			this.btnSelectPath.Size = new System.Drawing.Size(76, 23);
 			this.btnSelectPath.TabIndex = 4;
 			this.btnSelectPath.Text = "Pfad wählen";
 			this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -141,10 +141,10 @@
 			this.btnAddPathToWatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnAddPathToWatch.AutoSize = true;
 			this.btnAddPathToWatch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnAddPathToWatch.Location = new System.Drawing.Point(794, 47);
+			this.btnAddPathToWatch.Location = new System.Drawing.Point(629, 39);
 			this.btnAddPathToWatch.Margin = new System.Windows.Forms.Padding(0);
 			this.btnAddPathToWatch.Name = "btnAddPathToWatch";
-			this.btnAddPathToWatch.Size = new System.Drawing.Size(95, 27);
+			this.btnAddPathToWatch.Size = new System.Drawing.Size(76, 23);
 			this.btnAddPathToWatch.TabIndex = 5;
 			this.btnAddPathToWatch.Text = "Hinzufügen!";
 			this.btnAddPathToWatch.UseVisualStyleBackColor = true;
@@ -155,10 +155,10 @@
 			this.btnConnectYoutubeAccount.AutoSize = true;
 			this.btnConnectYoutubeAccount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnConnectYoutubeAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(624, 375);
+			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(497, 317);
 			this.btnConnectYoutubeAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.btnConnectYoutubeAccount.Name = "btnConnectYoutubeAccount";
-			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(160, 27);
+			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(124, 23);
 			this.btnConnectYoutubeAccount.TabIndex = 8;
 			this.btnConnectYoutubeAccount.Text = "Mit Youtube verbinden";
 			this.btnConnectYoutubeAccount.UseVisualStyleBackColor = true;
@@ -170,10 +170,10 @@
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(794, 375);
+			this.btnStart.Location = new System.Drawing.Point(629, 317);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(95, 27);
+			this.btnStart.Size = new System.Drawing.Size(76, 23);
 			this.btnStart.TabIndex = 7;
 			this.btnStart.Text = "Start!";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -187,10 +187,10 @@
 			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 9);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
-			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 84);
+			this.lvSelectedPaths.Location = new System.Drawing.Point(8, 70);
 			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvSelectedPaths.Name = "lvSelectedPaths";
-			this.lvSelectedPaths.Size = new System.Drawing.Size(879, 281);
+			this.lvSelectedPaths.Size = new System.Drawing.Size(697, 239);
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
@@ -204,36 +204,36 @@
 			// chFilter
 			// 
 			this.chFilter.Text = "Filter";
-			this.chFilter.Width = 200;
+			this.chFilter.Width = 150;
 			// 
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tlpSettings.SetColumnSpan(this.txtbxAddPath, 5);
-			this.txtbxAddPath.Location = new System.Drawing.Point(107, 12);
+			this.txtbxAddPath.Location = new System.Drawing.Point(82, 9);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(677, 22);
+			this.txtbxAddPath.Size = new System.Drawing.Size(539, 20);
 			this.txtbxAddPath.TabIndex = 0;
 			// 
 			// txtbxAddFilter
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tlpSettings.SetColumnSpan(this.txtbxAddFilter, 5);
-			this.txtbxAddFilter.Location = new System.Drawing.Point(107, 49);
+			this.txtbxAddFilter.Location = new System.Drawing.Point(82, 40);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(677, 22);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(539, 20);
 			this.txtbxAddFilter.TabIndex = 1;
 			// 
 			// lblCurrentLoggedIn
 			// 
 			this.lblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblCurrentLoggedIn.AutoSize = true;
-			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(10, 380);
+			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(8, 322);
 			this.lblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lblCurrentLoggedIn.Name = "lblCurrentLoggedIn";
-			this.lblCurrentLoggedIn.Size = new System.Drawing.Size(87, 17);
+			this.lblCurrentLoggedIn.Size = new System.Drawing.Size(66, 13);
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
@@ -243,10 +243,10 @@
 			this.btnRevokeAccess.AutoSize = true;
 			this.btnRevokeAccess.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnRevokeAccess.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnRevokeAccess.Location = new System.Drawing.Point(470, 375);
+			this.btnRevokeAccess.Location = new System.Drawing.Point(379, 317);
 			this.btnRevokeAccess.Margin = new System.Windows.Forms.Padding(0);
 			this.btnRevokeAccess.Name = "btnRevokeAccess";
-			this.btnRevokeAccess.Size = new System.Drawing.Size(144, 27);
+			this.btnRevokeAccess.Size = new System.Drawing.Size(110, 23);
 			this.btnRevokeAccess.TabIndex = 8;
 			this.btnRevokeAccess.Text = "Verbindung trennen";
 			this.btnRevokeAccess.UseVisualStyleBackColor = true;
@@ -257,10 +257,10 @@
 			// 
 			this.lnklblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnklblCurrentLoggedIn.AutoSize = true;
-			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 380);
+			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(82, 322);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(353, 17);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(289, 13);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
@@ -277,24 +277,24 @@
 			this.tlpRunning.AutoSize = true;
 			this.tlpRunning.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tlpRunning.ColumnCount = 5;
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpRunning.Controls.Add(this.statusLabel, 1, 1);
 			this.tlpRunning.Controls.Add(this.prgbarProgress, 1, 3);
 			this.tlpRunning.Controls.Add(this.btnStop, 3, 3);
-			this.tlpRunning.Location = new System.Drawing.Point(37, 582);
-			this.tlpRunning.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.tlpRunning.Location = new System.Drawing.Point(28, 473);
+			this.tlpRunning.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpRunning.Name = "tlpRunning";
 			this.tlpRunning.RowCount = 5;
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.Size = new System.Drawing.Size(859, 74);
+			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+			this.tlpRunning.Size = new System.Drawing.Size(662, 60);
 			this.tlpRunning.TabIndex = 1;
 			this.tlpRunning.Visible = false;
 			// 
@@ -303,22 +303,22 @@
 			this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.statusLabel.AutoSize = true;
 			this.tlpRunning.SetColumnSpan(this.statusLabel, 3);
-			this.statusLabel.Location = new System.Drawing.Point(11, 10);
+			this.statusLabel.Location = new System.Drawing.Point(8, 8);
 			this.statusLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(837, 17);
+			this.statusLabel.Size = new System.Drawing.Size(646, 13);
 			this.statusLabel.TabIndex = 0;
 			this.statusLabel.Text = "Suche Dateien zum Upload...";
 			// 
 			// prgbarProgress
 			// 
 			this.prgbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.prgbarProgress.Location = new System.Drawing.Point(11, 39);
+			this.prgbarProgress.Location = new System.Drawing.Point(8, 31);
 			this.prgbarProgress.Margin = new System.Windows.Forms.Padding(0);
 			this.prgbarProgress.MarqueeAnimationSpeed = 10;
 			this.prgbarProgress.Maximum = 10000;
 			this.prgbarProgress.Name = "prgbarProgress";
-			this.prgbarProgress.Size = new System.Drawing.Size(736, 23);
+			this.prgbarProgress.Size = new System.Drawing.Size(566, 19);
 			this.prgbarProgress.TabIndex = 1;
 			// 
 			// btnStop
@@ -326,10 +326,10 @@
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStop.AutoSize = true;
 			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStop.Location = new System.Drawing.Point(758, 37);
+			this.btnStop.Location = new System.Drawing.Point(582, 29);
 			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(90, 27);
+			this.btnStop.Size = new System.Drawing.Size(72, 23);
 			this.btnStop.TabIndex = 2;
 			this.btnStop.Text = "Abbrechen!";
 			this.btnStop.UseVisualStyleBackColor = true;
@@ -346,14 +346,14 @@
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(913, 690);
+			this.ClientSize = new System.Drawing.Size(754, 561);
 			this.Controls.Add(this.tlpRunning);
 			this.Controls.Add(this.tlpSettings);
-			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "AutoUploader";

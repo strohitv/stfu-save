@@ -231,15 +231,37 @@ namespace STFU.UploadLib.Automation
 
 		private void RunAutomationUploader()
 		{
-			while (active)
+			Process proc = null;
+			var procs = Process.GetProcessesByName("megui");
+			if (procs.Length > 0)
+			{
+				proc = procs[0];
+			}
+
+			while (/*(proc != null && !proc.HasExited) &&*/ active)
 			{
 				RefreshFiles();
+
+				if ((proc == null || proc.HasExited) && files.Count == 0)
+				{
+					break;
+				}
 
 				foreach (var fileName in files)
 				{
 					UploadVideo(fileName);
 				}
+
+				procs = Process.GetProcessesByName("megui");
+				if (procs.Length > 0)
+				{
+					proc = procs[0];
+				}
 			}
+
+			var p = new Process();
+			p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
+			p.Start();
 		}
 
 		private void UploadVideo(string fileName)
