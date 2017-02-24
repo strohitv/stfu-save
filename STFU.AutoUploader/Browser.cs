@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows.Forms;
 using Gecko;
+using Gecko.Events;
 
 namespace STFU.AutoUploader
 {
@@ -31,92 +32,25 @@ namespace STFU.AutoUploader
 			GeckoPreferences.User["browser.download.manager.showAlertOnComplete"] = false;
 			GeckoPreferences.User["security.warn_viewing_mixed"] = false;
 			GeckoPreferences.User["privacy.popups.showBrowserMessage"] = false;
+			GeckoPreferences.User["browser.xul.error_pages.enabled"] = true;
 
 			browserPanel.Visible = false;
 
 			browser = new GeckoWebBrowser() { Dock = DockStyle.Fill };
 			browser.NoDefaultContextMenu = true;
-			browser.ReadyStateChange += Browser_ReadyStateChange;
-			browser.DomSubmit += Browser_DomSubmit;
-			browser.DomCompositionStart += Browser_DomCompositionStart;
-			browser.DomContentChanged += Browser_DomContentChanged;
-			browser.DOMContentLoaded += Browser_DOMContentLoaded;
-			browser.Load += Browser_Load;
-			browser.RequestProgressChanged += Browser_RequestProgressChanged;
-			browser.StatusTextChanged += Browser_StatusTextChanged;
-			browser.ConsoleMessage += Browser_ConsoleMessage;
+			browser.Navigated += BrowserNavigated;
 
 			Controls.Add(browser);
 
 			browser.Navigate(Url);
 		}
-		StringBuilder builder = new StringBuilder();
 
-		private void Browser_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+		private void BrowserNavigated(object sender, GeckoNavigatedEventArgs e)
 		{
-			var test4 = browser.Document.Head.GetAttributeNode("Location");
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-			builder.Append(e.Message + Environment.NewLine);
-		}
-
-		private void Browser_StatusTextChanged(object sender, EventArgs e)
-		{
-			var test4 = browser.Document.Head.GetAttributeNode("Location");
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_RequestProgressChanged(object sender, GeckoRequestProgressEventArgs e)
-		{
-			var test4 = browser.Document.Head.GetAttributeNode("Location");
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_Load(object sender, DomEventArgs e)
-		{
-			var test4 = browser.Document.Head.GetAttributeNode("Location");
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_DOMContentLoaded(object sender, DomEventArgs e)
-		{
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_DomContentChanged(object sender, DomEventArgs e)
-		{
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_DomCompositionStart(object sender, DomEventArgs e)
-		{
-			string test = browser.Url.AbsoluteUri;
-			string test2 = browser.ReferrerUrl.AbsoluteUri;
-			string test3 = browser.Document.Uri;
-		}
-
-		private void Browser_DomSubmit(object sender, DomEventArgs e)
-		{
-			Console.WriteLine(e.Type);
-		}
-
-		private void Browser_ReadyStateChange(object sender, DomEventArgs e)
-		{
-			string test = browser.ReferrerUrl.AbsoluteUri;
-			if (browser.Url.AbsoluteUri.StartsWith("http://localhost"))
+			if (e.Uri.AbsoluteUri.StartsWith("http://localhost"))
 			{
 				AuthToken = new Uri(browser.Url.AbsoluteUri).Query.Remove(0, 6);
+
 				closeDelegate del = Close;
 				Invoke(del);
 				return;

@@ -69,7 +69,7 @@ namespace STFU.AutoUploader
 			{
 				if (uploader.ConnectToAccount(browserForm.AuthToken))
 				{
-					MessageBox.Show(this, "Der Account wurde erfolgreich hinzugefügt!", "Account hinzugefügt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
 					lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
