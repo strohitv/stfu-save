@@ -1,11 +1,6 @@
 ﻿using STFU.UploadLib.Playlists;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STFU.UploadLib.Accounts
 {
@@ -25,7 +20,7 @@ namespace STFU.UploadLib.Accounts
 		public string Id { get { return id; } set { id = value; OnPropertyChanged("Id"); } }
 		public string Title { get { return title; } set { title = value; OnPropertyChanged("Title"); } }
 		public ObservableCollection<Playlist> Playlists { get { return playlists; } set { playlists = value; OnPropertyChanged("Playlists"); } }
-		internal Authentification Access { get { return access; } set { access = value; OnPropertyChanged("Access"); } }
+		public Authentification Access { get { return access; } set { access = value; OnPropertyChanged("Access"); } }
 
 		#endregion Properties
 

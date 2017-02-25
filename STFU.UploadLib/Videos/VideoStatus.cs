@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STFU.UploadLib.Videos
 {
@@ -75,7 +70,7 @@ namespace STFU.UploadLib.Videos
 
 		public static implicit operator string(PrivacyValues pv)
 		{
-			return pv.name;
+			return pv?.name ?? Private;
 		}
 	}
 
@@ -112,7 +107,7 @@ namespace STFU.UploadLib.Videos
 
 		public static implicit operator string(Licences licence)
 		{
-			return licence.name;
+			return licence?.name ?? Youtube;
 		}
 	}
 }

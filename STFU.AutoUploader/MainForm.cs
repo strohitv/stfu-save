@@ -59,6 +59,18 @@ namespace STFU.AutoUploader
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
 		{
+			if (uploader.IsConnectedToAccount)
+			{
+				RevokeAccess();
+			}
+			else
+			{
+				ConnectToYoutube();
+			}
+		}
+
+		private void ConnectToYoutube()
+		{
 			tlpSettings.Enabled = false;
 			var connectionLink = uploader.GetAuthLoginScreenUrl(false);
 			var browserForm = new Browser(connectionLink);
@@ -71,7 +83,8 @@ namespace STFU.AutoUploader
 				{
 					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-					btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+					lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+					RenameConnectButton();
 					lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
 					btnStart.Enabled = true;
 				}
@@ -90,17 +103,26 @@ namespace STFU.AutoUploader
 			uploader.ProgressChanged += ChangedProgress;
 			uploader.UploadStarted += UploadStarted;
 			uploader.UploadFinished += UploadFinished;
+			uploader.UploaderFinished += UploaderFinished;
 
 			refreshTimer.Enabled = true;
-
-			uploader.Start();
-
+			
 			UndockTlp(tlpSettings);
 			DockTlp(tlpRunning);
 
 			SetCornerPosition();
 
 			ChangeControlBoxActivation(false);
+
+			uploader.Start();
+		}
+
+		private delegate void resetStatusAndForm();
+		private void UploaderFinished(EventArgs e)
+		{
+			resetStatusAndForm del = ResetStatusAndForm;
+
+			Invoke(del);
 		}
 
 		private void UploadFinished(AutomationEventArgs e)
@@ -157,10 +179,15 @@ namespace STFU.AutoUploader
 		private void btnStopClick(object sender, EventArgs e)
 		{
 			uploader.Stop(true);
+			ResetStatusAndForm();
+		}
 
+		private void ResetStatusAndForm()
+		{
 			uploader.ProgressChanged -= ChangedProgress;
 			uploader.UploadStarted -= UploadStarted;
 			uploader.UploadFinished -= UploadFinished;
+			uploader.UploaderFinished -= UploaderFinished;
 
 			refreshTimer.Enabled = false;
 
@@ -193,7 +220,7 @@ namespace STFU.AutoUploader
 			}
 		}
 
-		private void btnRevokeAccessClick(object sender, EventArgs e)
+		private void RevokeAccess()
 		{
 			tlpSettings.Enabled = false;
 			if (uploader.RevokeAccess())
@@ -203,8 +230,21 @@ namespace STFU.AutoUploader
 				btnStart.Enabled = false;
 			}
 
-			btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			RenameConnectButton();
 			tlpSettings.Enabled = true;
+		}
+
+		private void RenameConnectButton()
+		{
+			if (uploader.IsConnectedToAccount)
+			{
+				btnConnectYoutubeAccount.Text = "Verbindung trennen";
+			}
+			else
+			{
+				btnConnectYoutubeAccount.Text = "Mit Youtube verbinden";
+			}
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -214,7 +254,8 @@ namespace STFU.AutoUploader
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
-			btnRevokeAccess.Visible = lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			RenameConnectButton();
 			if (uploader.IsConnectedToAccount)
 			{
 				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;

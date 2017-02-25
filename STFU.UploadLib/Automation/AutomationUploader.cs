@@ -15,9 +15,11 @@ namespace STFU.UploadLib.Automation
 	public delegate void UploadStartedEventHandler(AutomationEventArgs e);
 	public delegate void UploadFinishedEventHandler(AutomationEventArgs e);
 	public delegate void UploadProgressChangedEventHandler(AutomationEventArgs e);
+	public delegate void UploaderFinishedEventHandler(EventArgs e);
 
 	public class AutomationUploader
 	{
+		#region fields
 		private Dictionary<string, string> paths = new Dictionary<string, string>();
 		private Uploader uploader = new Uploader();
 		private Account activeAccount = null;
@@ -26,13 +28,17 @@ namespace STFU.UploadLib.Automation
 
 		private const string selectedPathsJsonPath = "Paths.json";
 		private const string accountJsonPath = "Account.json";
+		private const string currentUploadDetailsPath = "CurrentUpload.json";
 
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
 		public event UploadProgressChangedEventHandler ProgressChanged;
+		public event UploaderFinishedEventHandler UploaderFinished;
 
 		private List<string> files = new List<string>();
+		#endregion fields
 
+		#region properties
 		public string LoggedInAccountUrl { get { return (ActiveAccount != null) ? $"https://youtube.com/channel/{ActiveAccount.Id}" : null; } }
 		public string LoggedInAccountTitle { get { return ActiveAccount?.Title; } }
 
@@ -78,6 +84,7 @@ namespace STFU.UploadLib.Automation
 		}
 
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
+		#endregion properties
 
 		public AutomationUploader()
 		{
@@ -173,7 +180,7 @@ namespace STFU.UploadLib.Automation
 
 		private void WriteAccount()
 		{
-			var saveAccount = new AccountJson() { id = ActiveAccount.Id, title = ActiveAccount.Title, refreshToken= ActiveAccount.Access.RefreshToken };
+			var saveAccount = new AccountJson() { id = ActiveAccount.Id, title = ActiveAccount.Title, refreshToken = ActiveAccount.Access.RefreshToken };
 
 			string json = JsonConvert.SerializeObject(saveAccount);
 
@@ -192,6 +199,8 @@ namespace STFU.UploadLib.Automation
 			{
 				File.Delete(accountJsonPath);
 			}
+
+			DeleteLastJobFile();
 
 			return result;
 		}
@@ -223,7 +232,7 @@ namespace STFU.UploadLib.Automation
 		{
 			active = false;
 
-			if (kill && uploadThread != null && uploadThread.IsAlive)
+			while (kill && uploadThread != null && uploadThread.IsAlive)
 			{
 				uploadThread.Abort();
 			}
@@ -238,14 +247,20 @@ namespace STFU.UploadLib.Automation
 				proc = procs[0];
 			}
 
-			while (/*(proc != null && !proc.HasExited) &&*/ active)
+			Job lastJob = LoadLastJob();
+			if (lastJob != null)
+			{
+				UploadJob(lastJob);
+			}
+
+			while (active)
 			{
 				RefreshFiles();
 
-				if ((proc == null || proc.HasExited) && files.Count == 0)
-				{
-					break;
-				}
+				//if ((proc == null || proc.HasExited) && files.Count == 0)
+				//{
+				//	break;
+				//}
 
 				foreach (var fileName in files)
 				{
@@ -259,15 +274,38 @@ namespace STFU.UploadLib.Automation
 				}
 			}
 
-			var p = new Process();
-			p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
-			p.Start();
+			active = false;
+			OnUploaderFinished();
+
+			//var p = new Process();
+			//p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
+			//p.Start();
 		}
 
-		private void UploadVideo(string fileName)
+		private void UploadJob(Job job)
 		{
-			var newfile = Path.GetDirectoryName(fileName) + "\\_" + Path.GetFileNameWithoutExtension(fileName) + Path.GetExtension(fileName);
+			if (!File.Exists(job.SelectedVideo.Path))
+			{
+				DeleteLastJobFile();
+				return;
+			}
 
+			SaveCurrentJob(job);
+
+			UploadCommunication.ProgressChanged += ReactToProgressChanged;
+			while (!UploadCommunication.Upload(ref job))
+			{
+				job.UploadingAccount = AccountCommunication.RefreshAccess(job.UploadingAccount);
+			}
+
+			OnUploadFinished(job.SelectedVideo.snippet.title);
+
+			UploadCommunication.ProgressChanged -= ReactToProgressChanged;
+			DeleteLastJobFile();
+		}
+
+		private bool WaitForAccessAndThenRenameVideo(string fileName, string newFileName)
+		{
 			bool val = false;
 			while (!val)
 			{
@@ -278,7 +316,7 @@ namespace STFU.UploadLib.Automation
 
 				try
 				{
-					File.Move(fileName, newfile);
+					File.Move(fileName, newFileName);
 					val = true;
 				}
 				catch (IOException)
@@ -290,26 +328,48 @@ namespace STFU.UploadLib.Automation
 			if (!val)
 			{
 				// Datei existiert nicht mehr.
+				return false;
+			}
+
+			return true;
+		}
+
+		private void UploadVideo(string fileName)
+		{
+			var videoTitle = Path.GetFileNameWithoutExtension(fileName);
+			var newfile = Path.GetDirectoryName(fileName) + "\\_" + Path.GetFileNameWithoutExtension(fileName).Remove(0, 1) + Path.GetExtension(fileName);
+
+			bool renamingResult = WaitForAccessAndThenRenameVideo(fileName, newfile);
+			if (!renamingResult)
+			{
+				// Video ist nicht mehr am Pfad vorzufinden.
 				return;
 			}
 
 			Video vid = new Video(newfile);
-			vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name.Remove(0, 1), defaultLanguage = "de" };
-			vid.status = new VideoStatus() { embeddable = true, licence = Licences.Youtube, privacyStatus = PrivacyValues.Private, publicStatsViewable = false };
+			vid.snippet = new VideoSnippet()
+			{
+				categoryId = 20,
+				description = string.Empty,
+				tags = new string[] { },
+				title = videoTitle,
+				defaultLanguage = "de"
+			};
+			vid.status = new VideoStatus()
+			{
+				embeddable = true,
+				licence = Licences.Youtube,
+				privacyStatus = PrivacyValues.Private,
+				publicStatsViewable = false
+			};
 
 			OnUploadStarted(vid.snippet.title);
 
-			Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };
+			//Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };
 
-			UploadCommunication.ProgressChanged += ReactToProgressChanged;
-			while (!UploadCommunication.Upload(ref job))
-			{
-				ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
-			}
+			Job job = UploadCommunication.PrepareUpload(vid, ActiveAccount);
 
-			OnUploadFinished(vid.snippet.title);
-
-			UploadCommunication.ProgressChanged -= ReactToProgressChanged;
+			UploadJob(job);
 		}
 
 		private void ReactToProgressChanged(ProgressChangedEventArgs args)
@@ -344,6 +404,11 @@ namespace STFU.UploadLib.Automation
 			ProgressChanged?.Invoke(args);
 		}
 
+		protected virtual void OnUploaderFinished()
+		{
+			UploaderFinished?.Invoke(new EventArgs());
+		}
+
 		private void RefreshFiles()
 		{
 			files = new List<string>();
@@ -357,6 +422,36 @@ namespace STFU.UploadLib.Automation
 				{
 					files.AddRange(Directory.GetFiles(path, filter.Trim()).Where(file => !Path.GetFileName(file).StartsWith("_")));
 				}
+			}
+		}
+
+		private Job LoadLastJob()
+		{
+			if (!File.Exists(currentUploadDetailsPath))
+			{
+				return null;
+			}
+
+			using (StreamReader reader = new StreamReader(currentUploadDetailsPath))
+			{
+				Job job = JsonConvert.DeserializeObject<Job>(reader.ReadToEnd());
+				return job;
+			}
+		}
+
+		private void SaveCurrentJob(Job job)
+		{
+			using (StreamWriter writer = new StreamWriter(currentUploadDetailsPath, false))
+			{
+				writer.Write(JsonConvert.SerializeObject(job));
+			}
+		}
+
+		public void DeleteLastJobFile()
+		{
+			if (File.Exists(currentUploadDetailsPath))
+			{
+				File.Delete(currentUploadDetailsPath);
 			}
 		}
 	}

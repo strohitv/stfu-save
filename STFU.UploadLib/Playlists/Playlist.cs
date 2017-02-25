@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace STFU.UploadLib.Playlists
+﻿namespace STFU.UploadLib.Playlists
 {
 	public class Playlist
 	{

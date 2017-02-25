@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 using Gecko;
-using Gecko.Events;
 
 namespace STFU.AutoUploader
 {

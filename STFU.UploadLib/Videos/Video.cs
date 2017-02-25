@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace STFU.UploadLib.Videos
 {
 	public class Video
 	{
-		private FileInfo FileDetails { get; set; }
+		public FileInfo FileDetails { get; set; }
 		public VideoSnippet snippet { get; set; }
 		public VideoStatus status { get; set; }
 		public string Path { get { return FileDetails.FullName; } }
 		public string Name { get { return FileDetails.Name; } }
 		public string Extension { get { return FileDetails.Extension.Substring(1); } }
 		public long Size { get { return FileDetails.Length; } }
+
+		public Video()
+		{
+		}
 
 		public Video(string path)
 		{

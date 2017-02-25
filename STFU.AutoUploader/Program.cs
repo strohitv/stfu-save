@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Gecko;
 
 namespace STFU.AutoUploader
 {

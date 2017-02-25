@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
+using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Queue;
+using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Communication.Youtube
 {
@@ -9,23 +10,36 @@ namespace STFU.UploadLib.Communication.Youtube
 	{
 		public static event ProgressChangedEventHandler ProgressChanged;
 
-		internal static bool Upload(ref Job video)
+		internal static Job PrepareUpload(Video video, Account account)
 		{
-			string url = WebService.InitializeUpload(ref video);
+			Job job = new Job();
+			job.SelectedVideo = video;
+			job.UploadingAccount = account;
+			job.Status = new UploadDetails();
+
+			string url = WebService.InitializeUpload(ref job);
 
 			Uri testUrl = null;
-			if (!Uri.TryCreate(url, UriKind.Absolute, out testUrl))
+			if (Uri.TryCreate(url, UriKind.Absolute, out testUrl))
 			{
-				return false;
+				job.Url = testUrl;
+				return job;
 			}
 
-			Trace.WriteLine(testUrl.AbsoluteUri);
+			// Fehler
+			return null;
+		}
+
+		internal static bool Upload(ref Job job)
+		{
+			//Trace.WriteLine(testUrl.AbsoluteUri);
 
 			WebService.ProgressChanged += ReactToProgressChanged;
 
-			while (Uri.TryCreate(WebService.UploadFile(ref video, url), UriKind.Absolute, out testUrl))
+			Uri testUrl = null;
+			while (Uri.TryCreate(WebService.UploadFile(ref job), UriKind.Absolute, out testUrl))
 			{
-				Trace.WriteLine("Upload wurde unerwartet abgebrochen. Warte 1 Minuten vor Neuversuch...");
+				//Trace.WriteLine("Upload wurde unerwartet abgebrochen. Warte 1 Minuten vor Neuversuch...");
 				Thread.Sleep(new TimeSpan(0, 1, 0));
 			}
 			return true;
