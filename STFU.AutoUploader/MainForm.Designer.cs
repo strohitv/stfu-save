@@ -191,6 +191,7 @@
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
+			this.lvSelectedPaths.DoubleClick += new System.EventHandler(this.lvSelectedPathsDoubleClick);
 			this.lvSelectedPaths.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSelectedPathsKeyDown);
 			// 
 			// chPath

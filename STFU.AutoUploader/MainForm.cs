@@ -36,13 +36,23 @@ namespace STFU.AutoUploader
 			if (string.IsNullOrWhiteSpace(txtbxAddPath.Text))
 			{
 				MessageBox.Show(this, "Bitte einen Pfad eingeben!", "Pfad benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 			}
 			if (string.IsNullOrWhiteSpace(txtbxAddFilter.Text))
 			{
 				MessageBox.Show(this, "Bitte einen Filter eingeben!", "Filter benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 			}
 
-			uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text);
+			if (uploader.Paths.ContainsKey(txtbxAddPath.Text))
+			{
+				uploader.Paths[txtbxAddPath.Text] = txtbxAddFilter.Text;
+			}
+			else
+			{
+				uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text);
+			}
+
 			RefillListView();
 		}
 
@@ -278,6 +288,13 @@ namespace STFU.AutoUploader
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo(uploader.LoggedInAccountUrl);
 			p.Start();
+		}
+
+		private void lvSelectedPathsDoubleClick(object sender, EventArgs e)
+		{
+			var item = lvSelectedPaths.SelectedItems[0];
+			txtbxAddPath.Text = item.Text;
+			txtbxAddFilter.Text = item.SubItems[1].Text;
 		}
 	}
 }
