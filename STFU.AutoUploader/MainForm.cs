@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 
@@ -44,14 +45,27 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			if (uploader.Paths.ContainsKey(txtbxAddPath.Text))
+			var settings = uploader.Paths.FirstOrDefault(path => path.Path.ToLower() == txtbxAddPath.Text.ToLower());
+			if (settings != null)
 			{
-				uploader.Paths[txtbxAddPath.Text] = txtbxAddFilter.Text;
+				settings.Filter = txtbxAddFilter.Text;
+				settings.SearchRecursively = chbRecursive.Checked;
 			}
 			else
 			{
-				uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text);
+				settings = new PathInformation()
+				{
+					Path = txtbxAddPath.Text,
+					Filter = txtbxAddFilter.Text,
+					SearchRecursively = chbRecursive.Checked
+				};
+
+				uploader.Paths.Add(settings);
 			}
+
+			txtbxAddFilter.Text = string.Empty;
+			txtbxAddPath.Text = string.Empty;
+			chbRecursive.Checked = false;
 
 			RefillListView();
 		}
@@ -62,8 +76,9 @@ namespace STFU.AutoUploader
 
 			foreach (var entry in uploader.Paths)
 			{
-				var newItem = lvSelectedPaths.Items.Add(entry.Key);
-				newItem.SubItems.Add(entry.Value);
+				var newItem = lvSelectedPaths.Items.Add(entry.Path);
+				newItem.SubItems.Add(entry.Filter);
+				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 			}
 		}
 
@@ -116,7 +131,7 @@ namespace STFU.AutoUploader
 			uploader.UploaderFinished += UploaderFinished;
 
 			refreshTimer.Enabled = true;
-			
+
 			UndockTlp(tlpSettings);
 			DockTlp(tlpRunning);
 
@@ -295,6 +310,19 @@ namespace STFU.AutoUploader
 			var item = lvSelectedPaths.SelectedItems[0];
 			txtbxAddPath.Text = item.Text;
 			txtbxAddFilter.Text = item.SubItems[1].Text;
+			chbRecursive.Checked = item.SubItems[2].Text == "Ja";
+		}
+
+		private void txtbxAddPathTextChanged(object sender, EventArgs e)
+		{
+			if (uploader.Paths.SingleOrDefault(setting => setting.Path == txtbxAddPath.Text) != null)
+			{
+				btnAddPathToWatch.Text = "Speichern";
+			}
+			else
+			{
+				btnAddPathToWatch.Text = "Hinzufügen";
+			}
 		}
 	}
 }

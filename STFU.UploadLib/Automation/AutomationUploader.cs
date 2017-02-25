@@ -20,7 +20,7 @@ namespace STFU.UploadLib.Automation
 	public class AutomationUploader
 	{
 		#region fields
-		private Dictionary<string, string> paths = new Dictionary<string, string>();
+		private PathSettings paths = new PathSettings();
 		private Uploader uploader = new Uploader();
 		private Account activeAccount = null;
 		private Thread uploadThread = null;
@@ -42,7 +42,7 @@ namespace STFU.UploadLib.Automation
 		public string LoggedInAccountUrl { get { return (ActiveAccount != null) ? $"https://youtube.com/channel/{ActiveAccount.Id}" : null; } }
 		public string LoggedInAccountTitle { get { return ActiveAccount?.Title; } }
 
-		public Dictionary<string, string> Paths
+		public PathSettings Paths
 		{
 			get
 			{
@@ -113,7 +113,7 @@ namespace STFU.UploadLib.Automation
 				{
 					Debug.Write(ex.Message);
 
-					paths = new SerializableDictionary<string, string>();
+					paths = new PathSettings();
 					File.Delete(selectedPathsJsonPath);
 				}
 			}
@@ -152,12 +152,12 @@ namespace STFU.UploadLib.Automation
 			{
 				json = fileReader.ReadToEnd();
 			}
-			Paths = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+			Paths = PathSettings.Parse(json); // JsonConvert.DeserializeObject<PathSettings>(json);
 		}
 
 		public void Reset()
 		{
-			Paths = new SerializableDictionary<string, string>();
+			Paths = new PathSettings();
 		}
 
 		public string GetAuthLoginScreenUrl(bool showAuthToken)
@@ -207,7 +207,7 @@ namespace STFU.UploadLib.Automation
 
 		public void Remove(string path)
 		{
-			if (Paths.ContainsKey(path))
+			if (Paths.ContainsPath(path))
 			{
 				paths.Remove(path);
 			}
@@ -415,14 +415,17 @@ namespace STFU.UploadLib.Automation
 
 			foreach (var pathFilterCombination in Paths)
 			{
-				string path = pathFilterCombination.Key;
-				string[] filters = pathFilterCombination.Value.Split(';');
+				string path = pathFilterCombination.Path;
+				string[] filters = pathFilterCombination.Filter.Split(';');
 
 				foreach (var filter in filters)
 				{
-					files.AddRange(Directory.GetFiles(path, filter.Trim()).Where(file => !Path.GetFileName(file).StartsWith("_")));
+					files.AddRange(Directory.GetFiles(path, filter.Trim(), (pathFilterCombination.SearchRecursively) ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).Where(file => !Path.GetFileName(file).StartsWith("_")));
 				}
 			}
+
+			// Todo: Struktur erweitern, sodass das ganze hier auch einen Sinn hat...
+			files = files.GroupBy(file => file).Select(group => group.Key).ToList();
 		}
 
 		private Job LoadLastJob()

@@ -39,10 +39,12 @@
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.txtbxAddPath = new System.Windows.Forms.TextBox();
 			this.txtbxAddFilter = new System.Windows.Forms.TextBox();
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
+			this.chbRecursive = new System.Windows.Forms.CheckBox();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
 			this.statusLabel = new System.Windows.Forms.Label();
@@ -80,6 +82,7 @@
 			this.tlpSettings.Controls.Add(this.txtbxAddFilter, 3, 3);
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 7);
 			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 7);
+			this.tlpSettings.Controls.Add(this.chbRecursive, 5, 3);
 			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(0, 14);
 			this.tlpSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -180,7 +183,8 @@
 			// 
 			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPath,
-            this.chFilter});
+            this.chFilter,
+            this.chRecursive});
 			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 7);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
@@ -204,6 +208,11 @@
 			this.chFilter.Text = "Filter";
 			this.chFilter.Width = 150;
 			// 
+			// chRecursive
+			// 
+			this.chRecursive.Text = "Unterverzeichnisse";
+			this.chRecursive.Width = 150;
+			// 
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -213,15 +222,15 @@
 			this.txtbxAddPath.Name = "txtbxAddPath";
 			this.txtbxAddPath.Size = new System.Drawing.Size(726, 22);
 			this.txtbxAddPath.TabIndex = 0;
+			this.txtbxAddPath.TextChanged += new System.EventHandler(this.txtbxAddPathTextChanged);
 			// 
 			// txtbxAddFilter
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpSettings.SetColumnSpan(this.txtbxAddFilter, 3);
 			this.txtbxAddFilter.Location = new System.Drawing.Point(107, 49);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(726, 22);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(556, 22);
 			this.txtbxAddFilter.TabIndex = 1;
 			// 
 			// lblCurrentLoggedIn
@@ -248,6 +257,18 @@
 			this.lnklblCurrentLoggedIn.Text = "link";
 			this.lnklblCurrentLoggedIn.Visible = false;
 			this.lnklblCurrentLoggedIn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblCurrentLoggedInLinkClicked);
+			// 
+			// chbRecursive
+			// 
+			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.chbRecursive.AutoSize = true;
+			this.chbRecursive.Location = new System.Drawing.Point(673, 50);
+			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
+			this.chbRecursive.Name = "chbRecursive";
+			this.chbRecursive.Size = new System.Drawing.Size(160, 21);
+			this.chbRecursive.TabIndex = 12;
+			this.chbRecursive.Text = "Unterverzeichnisse";
+			this.chbRecursive.UseVisualStyleBackColor = true;
 			// 
 			// folderBrowserDialog
 			// 
@@ -373,6 +394,8 @@
 		private System.ComponentModel.BackgroundWorker bgwCreateUploader;
 		private System.Windows.Forms.Label lblCurrentLoggedIn;
 		private System.Windows.Forms.LinkLabel lnklblCurrentLoggedIn;
+		private System.Windows.Forms.ColumnHeader chRecursive;
+		private System.Windows.Forms.CheckBox chbRecursive;
 	}
 }
 

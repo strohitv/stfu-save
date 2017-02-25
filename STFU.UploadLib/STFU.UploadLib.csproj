@@ -85,6 +85,8 @@
     <Compile Include="Accounts\Authentification.cs" />
     <Compile Include="Automation\AutomationEventArgs.cs" />
     <Compile Include="Automation\AutomationUploader.cs" />
+    <Compile Include="Automation\PathInformation.cs" />
+    <Compile Include="Automation\PathSettings.cs" />
     <Compile Include="Automation\SerializableDictionary.cs" />
     <Compile Include="Communication\Program\Client.cs" />
     <Compile Include="Communication\Program\Communication.cs" />
