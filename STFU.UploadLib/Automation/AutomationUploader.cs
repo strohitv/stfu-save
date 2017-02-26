@@ -7,6 +7,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube;
+using STFU.UploadLib.Operations;
 using STFU.UploadLib.Queue;
 using STFU.UploadLib.Videos;
 
@@ -25,6 +26,7 @@ namespace STFU.UploadLib.Automation
 		private Account activeAccount = null;
 		private Thread uploadThread = null;
 		private bool active = false;
+		private ProcessWatcher watcher = new ProcessWatcher();
 
 		private const string selectedPathsJsonPath = "Paths.json";
 		private const string accountJsonPath = "Account.json";
@@ -84,6 +86,19 @@ namespace STFU.UploadLib.Automation
 		}
 
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
+
+		private ProcessWatcher Watcher
+		{
+			get
+			{
+				return watcher;
+			}
+
+			set
+			{
+				watcher = value;
+			}
+		}
 		#endregion properties
 
 		public AutomationUploader()
@@ -240,12 +255,12 @@ namespace STFU.UploadLib.Automation
 
 		private void RunAutomationUploader()
 		{
-			Process proc = null;
-			var procs = Process.GetProcessesByName("megui");
-			if (procs.Length > 0)
-			{
-				proc = procs[0];
-			}
+			//Process proc = null;
+			//var procs = Process.GetProcessesByName("megui");
+			//if (procs.Length > 0)
+			//{
+			//	proc = procs[0];
+			//}
 
 			Job lastJob = LoadLastJob();
 			if (lastJob != null)
@@ -262,16 +277,22 @@ namespace STFU.UploadLib.Automation
 				//	break;
 				//}
 
+				if (files.Count == 0 && Watcher.Count > 0 && !Watcher.AnyIsRunning())
+				{
+					// Hier oder unterhalb der Schleife müsste dann noch eine Reaktion kommen, die dann ausgeführt werden soll.
+					break;
+				}
+
 				foreach (var fileName in files)
 				{
 					UploadVideo(fileName);
 				}
 
-				procs = Process.GetProcessesByName("megui");
-				if (procs.Length > 0)
-				{
-					proc = procs[0];
-				}
+				//procs = Process.GetProcessesByName("megui");
+				//if (procs.Length > 0)
+				//{
+				//	proc = procs[0];
+				//}
 			}
 
 			active = false;
@@ -456,6 +477,29 @@ namespace STFU.UploadLib.Automation
 			{
 				File.Delete(currentUploadDetailsPath);
 			}
+		}
+
+		public void AddProcessToWatch(Process proc)
+		{
+			Watcher.Add(proc);
+		}
+
+		public void AddProcessesToWatch(IEnumerable<Process> procs)
+		{
+			foreach (var proc in procs)
+			{
+				Watcher.Add(proc);
+			}
+		}
+
+		public void ClearProcessesToWatch()
+		{
+			Watcher.Clear();
+		}
+
+		public void RemoveProcessFromWatch(Process proc)
+		{
+			Watcher.Remove(proc);
 		}
 	}
 

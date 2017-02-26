@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 
@@ -352,6 +351,12 @@ namespace STFU.AutoUploader
 			txtbxAddPath.Text = string.Empty;
 			txtbxAddFilter.Text = string.Empty;
 			chbRecursive.Checked = false;
+		}
+
+		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		{
+			ProcessWindow processChoser = new ProcessWindow();
+			processChoser.ShowDialog(this);
 		}
 	}
 }
