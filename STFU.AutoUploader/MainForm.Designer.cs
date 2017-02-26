@@ -32,8 +32,6 @@
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.btnSelectPath = new System.Windows.Forms.Button();
-			this.btnAddPathToWatch = new System.Windows.Forms.Button();
 			this.btnConnectYoutubeAccount = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
@@ -45,6 +43,9 @@
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
 			this.chbRecursive = new System.Windows.Forms.CheckBox();
+			this.btnSelectPath = new System.Windows.Forms.Button();
+			this.btnAddPath = new System.Windows.Forms.Button();
+			this.btnCancel = new System.Windows.Forms.Button();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
 			this.statusLabel = new System.Windows.Forms.Label();
@@ -73,8 +74,6 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlpSettings.Controls.Add(this.label1, 1, 1);
 			this.tlpSettings.Controls.Add(this.label2, 1, 3);
-			this.tlpSettings.Controls.Add(this.btnSelectPath, 7, 1);
-			this.tlpSettings.Controls.Add(this.btnAddPathToWatch, 7, 3);
 			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 5, 7);
 			this.tlpSettings.Controls.Add(this.btnStart, 7, 7);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 5);
@@ -83,6 +82,9 @@
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 7);
 			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 7);
 			this.tlpSettings.Controls.Add(this.chbRecursive, 5, 3);
+			this.tlpSettings.Controls.Add(this.btnSelectPath, 5, 1);
+			this.tlpSettings.Controls.Add(this.btnAddPath, 7, 1);
+			this.tlpSettings.Controls.Add(this.btnCancel, 7, 3);
 			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(0, 14);
 			this.tlpSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -97,7 +99,7 @@
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Size = new System.Drawing.Size(948, 409);
+			this.tlpSettings.Size = new System.Drawing.Size(990, 409);
 			this.tlpSettings.TabIndex = 0;
 			// 
 			// label1
@@ -122,40 +124,12 @@
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Dateifilter: ";
 			// 
-			// btnSelectPath
-			// 
-			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSelectPath.AutoSize = true;
-			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(843, 10);
-			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
-			this.btnSelectPath.Name = "btnSelectPath";
-			this.btnSelectPath.Size = new System.Drawing.Size(95, 27);
-			this.btnSelectPath.TabIndex = 4;
-			this.btnSelectPath.Text = "Pfad wählen";
-			this.btnSelectPath.UseVisualStyleBackColor = true;
-			this.btnSelectPath.Click += new System.EventHandler(this.btnSelectPathClick);
-			// 
-			// btnAddPathToWatch
-			// 
-			this.btnAddPathToWatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnAddPathToWatch.AutoSize = true;
-			this.btnAddPathToWatch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnAddPathToWatch.Location = new System.Drawing.Point(843, 47);
-			this.btnAddPathToWatch.Margin = new System.Windows.Forms.Padding(0);
-			this.btnAddPathToWatch.Name = "btnAddPathToWatch";
-			this.btnAddPathToWatch.Size = new System.Drawing.Size(95, 27);
-			this.btnAddPathToWatch.TabIndex = 5;
-			this.btnAddPathToWatch.Text = "Hinzufügen!";
-			this.btnAddPathToWatch.UseVisualStyleBackColor = true;
-			this.btnAddPathToWatch.Click += new System.EventHandler(this.btnAddPathToWatchClick);
-			// 
 			// btnConnectYoutubeAccount
 			// 
 			this.btnConnectYoutubeAccount.AutoSize = true;
 			this.btnConnectYoutubeAccount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnConnectYoutubeAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(673, 372);
+			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(675, 372);
 			this.btnConnectYoutubeAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.btnConnectYoutubeAccount.Name = "btnConnectYoutubeAccount";
 			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(160, 27);
@@ -170,10 +144,10 @@
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(843, 372);
+			this.btnStart.Location = new System.Drawing.Point(845, 372);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(95, 27);
+			this.btnStart.Size = new System.Drawing.Size(135, 27);
 			this.btnStart.TabIndex = 7;
 			this.btnStart.Text = "Start!";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -191,7 +165,7 @@
 			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 84);
 			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvSelectedPaths.Name = "lvSelectedPaths";
-			this.lvSelectedPaths.Size = new System.Drawing.Size(928, 278);
+			this.lvSelectedPaths.Size = new System.Drawing.Size(970, 278);
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
@@ -216,13 +190,11 @@
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpSettings.SetColumnSpan(this.txtbxAddPath, 3);
 			this.txtbxAddPath.Location = new System.Drawing.Point(107, 12);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(726, 22);
+			this.txtbxAddPath.Size = new System.Drawing.Size(558, 22);
 			this.txtbxAddPath.TabIndex = 0;
-			this.txtbxAddPath.TextChanged += new System.EventHandler(this.txtbxAddPathTextChanged);
 			// 
 			// txtbxAddFilter
 			// 
@@ -230,7 +202,7 @@
 			this.txtbxAddFilter.Location = new System.Drawing.Point(107, 49);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(556, 22);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(558, 22);
 			this.txtbxAddFilter.TabIndex = 1;
 			// 
 			// lblCurrentLoggedIn
@@ -251,7 +223,7 @@
 			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 375);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(556, 21);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(558, 21);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
@@ -262,13 +234,56 @@
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbRecursive.AutoSize = true;
-			this.chbRecursive.Location = new System.Drawing.Point(673, 50);
+			this.chbRecursive.Location = new System.Drawing.Point(675, 50);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
 			this.chbRecursive.Size = new System.Drawing.Size(160, 21);
 			this.chbRecursive.TabIndex = 12;
 			this.chbRecursive.Text = "Unterverzeichnisse";
 			this.chbRecursive.UseVisualStyleBackColor = true;
+			// 
+			// btnSelectPath
+			// 
+			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSelectPath.AutoSize = true;
+			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnSelectPath.Location = new System.Drawing.Point(675, 10);
+			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
+			this.btnSelectPath.Name = "btnSelectPath";
+			this.btnSelectPath.Size = new System.Drawing.Size(160, 27);
+			this.btnSelectPath.TabIndex = 4;
+			this.btnSelectPath.Text = "Pfad wählen";
+			this.btnSelectPath.UseVisualStyleBackColor = true;
+			this.btnSelectPath.Click += new System.EventHandler(this.btnSelectPathClick);
+			// 
+			// btnAddPath
+			// 
+			this.btnAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnAddPath.AutoSize = true;
+			this.btnAddPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnAddPath.Location = new System.Drawing.Point(845, 10);
+			this.btnAddPath.Margin = new System.Windows.Forms.Padding(0);
+			this.btnAddPath.Name = "btnAddPath";
+			this.btnAddPath.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
+			this.btnAddPath.Size = new System.Drawing.Size(135, 27);
+			this.btnAddPath.TabIndex = 5;
+			this.btnAddPath.Text = "Speichern!";
+			this.btnAddPath.UseVisualStyleBackColor = true;
+			this.btnAddPath.Click += new System.EventHandler(this.btnAddPathToWatchClick);
+			// 
+			// btnCancel
+			// 
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.AutoSize = true;
+			this.btnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnCancel.Location = new System.Drawing.Point(845, 47);
+			this.btnCancel.Margin = new System.Windows.Forms.Padding(0);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(135, 27);
+			this.btnCancel.TabIndex = 5;
+			this.btnCancel.Text = "Abbrechen";
+			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
 			// 
 			// folderBrowserDialog
 			// 
@@ -379,7 +394,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Button btnSelectPath;
-		private System.Windows.Forms.Button btnAddPathToWatch;
+		private System.Windows.Forms.Button btnAddPath;
 		private System.Windows.Forms.Button btnConnectYoutubeAccount;
 		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
@@ -396,6 +411,7 @@
 		private System.Windows.Forms.LinkLabel lnklblCurrentLoggedIn;
 		private System.Windows.Forms.ColumnHeader chRecursive;
 		private System.Windows.Forms.CheckBox chbRecursive;
+		private System.Windows.Forms.Button btnCancel;
 	}
 }
 

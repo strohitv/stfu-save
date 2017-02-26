@@ -13,6 +13,8 @@ namespace STFU.AutoUploader
 
 		string statusText = "Warte auf Dateien für den Upload...";
 		int progress = 0;
+		PathInformation currentItem = null;
+		string currentItemOldPath = null;
 
 		public MainForm()
 		{
@@ -45,23 +47,50 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			var settings = uploader.Paths.FirstOrDefault(path => path.Path.ToLower() == txtbxAddPath.Text.ToLower());
-			if (settings != null)
+			if (currentItem != null)
 			{
-				settings.Filter = txtbxAddFilter.Text;
-				settings.SearchRecursively = chbRecursive.Checked;
+				currentItem.Path = txtbxAddPath.Text;
+				currentItem.Filter = txtbxAddFilter.Text;
+				currentItem.SearchRecursively = chbRecursive.Checked;
+
+				if (uploader.Paths.ContainsPath(currentItemOldPath))
+				{
+					if (uploader.Paths.ContainsPath(currentItem.Path))
+					{
+						uploader.Paths.Remove(currentItemOldPath);
+						uploader.Paths[currentItem.Path] = currentItem;
+					}
+					else
+					{
+						uploader.Paths[currentItemOldPath] = currentItem;
+					}
+				}
+				else if (uploader.Paths.ContainsPath(currentItem.Path))
+				{
+					uploader.Paths[currentItem.Path] = currentItem;
+				}
+				else
+				{
+					uploader.Paths.Add(currentItem);
+				}
+			}
+			else if (uploader.Paths.ContainsPath(txtbxAddPath.Text))
+			{
+				uploader.Paths[txtbxAddPath.Text] =
+					new PathInformation()
+					{
+						Path = txtbxAddPath.Text,
+						Filter = txtbxAddFilter.Text,
+						SearchRecursively = chbRecursive.Checked
+					};
 			}
 			else
 			{
-				settings = new PathInformation()
-				{
-					Path = txtbxAddPath.Text,
-					Filter = txtbxAddFilter.Text,
-					SearchRecursively = chbRecursive.Checked
-				};
-
-				uploader.Paths.Add(settings);
+				uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text, chbRecursive.Checked);
 			}
+
+			currentItem = null;
+			currentItemOldPath = null;
 
 			txtbxAddFilter.Text = string.Empty;
 			txtbxAddPath.Text = string.Empty;
@@ -307,22 +336,22 @@ namespace STFU.AutoUploader
 
 		private void lvSelectedPathsDoubleClick(object sender, EventArgs e)
 		{
-			var item = lvSelectedPaths.SelectedItems[0];
-			txtbxAddPath.Text = item.Text;
-			txtbxAddFilter.Text = item.SubItems[1].Text;
-			chbRecursive.Checked = item.SubItems[2].Text == "Ja";
+			currentItem = uploader.Paths[lvSelectedPaths.SelectedItems[0].Text];
+			currentItemOldPath = currentItem.Path;
+
+			txtbxAddPath.Text = currentItem.Path;
+			txtbxAddFilter.Text = currentItem.Filter;
+			chbRecursive.Checked = currentItem.SearchRecursively;
 		}
 
-		private void txtbxAddPathTextChanged(object sender, EventArgs e)
+		private void BtnCancelClick(object sender, EventArgs e)
 		{
-			if (uploader.Paths.SingleOrDefault(setting => setting.Path == txtbxAddPath.Text) != null)
-			{
-				btnAddPathToWatch.Text = "Speichern";
-			}
-			else
-			{
-				btnAddPathToWatch.Text = "Hinzufügen";
-			}
+			currentItem = null;
+			currentItemOldPath = null;
+
+			txtbxAddPath.Text = string.Empty;
+			txtbxAddFilter.Text = string.Empty;
+			chbRecursive.Checked = false;
 		}
 	}
 }
