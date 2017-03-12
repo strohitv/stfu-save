@@ -255,13 +255,6 @@ namespace STFU.UploadLib.Automation
 
 		private void RunAutomationUploader()
 		{
-			//Process proc = null;
-			//var procs = Process.GetProcessesByName("megui");
-			//if (procs.Length > 0)
-			//{
-			//	proc = procs[0];
-			//}
-
 			Job lastJob = LoadLastJob();
 			if (lastJob != null)
 			{
@@ -272,14 +265,9 @@ namespace STFU.UploadLib.Automation
 			{
 				RefreshFiles();
 
-				//if ((proc == null || proc.HasExited) && files.Count == 0)
-				//{
-				//	break;
-				//}
-
 				if (files.Count == 0 && Watcher.Count > 0 && !Watcher.AnyIsRunning())
 				{
-					// Hier oder unterhalb der Schleife müsste dann noch eine Reaktion kommen, die dann ausgeführt werden soll.
+					// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
 					break;
 				}
 
@@ -287,20 +275,10 @@ namespace STFU.UploadLib.Automation
 				{
 					UploadVideo(fileName);
 				}
-
-				//procs = Process.GetProcessesByName("megui");
-				//if (procs.Length > 0)
-				//{
-				//	proc = procs[0];
-				//}
 			}
 
 			active = false;
 			OnUploaderFinished();
-
-			//var p = new Process();
-			//p.StartInfo = new ProcessStartInfo("shutdown.exe", "-s -t 300");
-			//p.Start();
 		}
 
 		private void UploadJob(Job job)

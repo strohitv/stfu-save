@@ -28,33 +28,33 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.btnConnectYoutubeAccount = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.txtbxAddPath = new System.Windows.Forms.TextBox();
-			this.txtbxAddFilter = new System.Windows.Forms.TextBox();
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
-			this.chbRecursive = new System.Windows.Forms.CheckBox();
-			this.btnSelectPath = new System.Windows.Forms.Button();
-			this.btnAddPath = new System.Windows.Forms.Button();
-			this.btnCancel = new System.Windows.Forms.Button();
-			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
-			this.statusLabel = new System.Windows.Forms.Label();
-			this.prgbarProgress = new System.Windows.Forms.ProgressBar();
-			this.btnStop = new System.Windows.Forms.Button();
-			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
+			this.mainMenu = new System.Windows.Forms.MenuStrip();
+			this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.youtubeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.verbindenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.verbindungTrennenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.templatesVerwaltenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.alleTemplatesLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pfadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pfadeVerwaltenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.allePfadeLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.abgebrochenerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.abgebrochenenUploadAnzeigenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.abgebrochenenUploadLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.tlpSettings.SuspendLayout();
-			this.tlpRunning.SuspendLayout();
+			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tlpSettings
@@ -71,68 +71,41 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpSettings.Controls.Add(this.label1, 1, 1);
-			this.tlpSettings.Controls.Add(this.label2, 1, 3);
-			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 5, 7);
-			this.tlpSettings.Controls.Add(this.btnStart, 7, 7);
-			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 5);
-			this.tlpSettings.Controls.Add(this.txtbxAddPath, 3, 1);
-			this.tlpSettings.Controls.Add(this.txtbxAddFilter, 3, 3);
-			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 7);
-			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 7);
-			this.tlpSettings.Controls.Add(this.chbRecursive, 5, 3);
-			this.tlpSettings.Controls.Add(this.btnSelectPath, 5, 1);
-			this.tlpSettings.Controls.Add(this.btnAddPath, 7, 1);
-			this.tlpSettings.Controls.Add(this.btnCancel, 7, 3);
+			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 5, 4);
+			this.tlpSettings.Controls.Add(this.btnStart, 7, 4);
+			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
+			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
+			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 4);
+			this.tlpSettings.Controls.Add(this.mainMenu, 0, 0);
+			this.tlpSettings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpSettings.Enabled = false;
-			this.tlpSettings.Location = new System.Drawing.Point(0, 14);
+			this.tlpSettings.Location = new System.Drawing.Point(0, 0);
 			this.tlpSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.tlpSettings.Name = "tlpSettings";
-			this.tlpSettings.RowCount = 9;
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.RowCount = 6;
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Size = new System.Drawing.Size(990, 409);
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.Size = new System.Drawing.Size(897, 397);
 			this.tlpSettings.TabIndex = 0;
-			// 
-			// label1
-			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(10, 15);
-			this.label1.Margin = new System.Windows.Forms.Padding(0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(87, 17);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Pfad: ";
-			// 
-			// label2
-			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 52);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(87, 17);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Dateifilter: ";
 			// 
 			// btnConnectYoutubeAccount
 			// 
 			this.btnConnectYoutubeAccount.AutoSize = true;
 			this.btnConnectYoutubeAccount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnConnectYoutubeAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(675, 372);
+			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(606, 354);
 			this.btnConnectYoutubeAccount.Margin = new System.Windows.Forms.Padding(0);
 			this.btnConnectYoutubeAccount.Name = "btnConnectYoutubeAccount";
-			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(160, 27);
+			this.btnConnectYoutubeAccount.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(190, 33);
 			this.btnConnectYoutubeAccount.TabIndex = 8;
 			this.btnConnectYoutubeAccount.Text = "Mit Youtube verbinden";
 			this.btnConnectYoutubeAccount.UseVisualStyleBackColor = true;
@@ -144,10 +117,11 @@
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(845, 372);
+			this.btnStart.Location = new System.Drawing.Point(806, 354);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(135, 27);
+			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.btnStart.Size = new System.Drawing.Size(81, 33);
 			this.btnStart.TabIndex = 7;
 			this.btnStart.Text = "Start!";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -162,15 +136,16 @@
 			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 7);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
-			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 84);
+			this.lvSelectedPaths.GridLines = true;
+			this.lvSelectedPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 38);
 			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvSelectedPaths.Name = "lvSelectedPaths";
-			this.lvSelectedPaths.Size = new System.Drawing.Size(970, 278);
+			this.lvSelectedPaths.ShowGroups = false;
+			this.lvSelectedPaths.Size = new System.Drawing.Size(877, 306);
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
-			this.lvSelectedPaths.DoubleClick += new System.EventHandler(this.lvSelectedPathsDoubleClick);
-			this.lvSelectedPaths.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSelectedPathsKeyDown);
 			// 
 			// chPath
 			// 
@@ -187,29 +162,11 @@
 			this.chRecursive.Text = "Unterverzeichnisse";
 			this.chRecursive.Width = 150;
 			// 
-			// txtbxAddPath
-			// 
-			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtbxAddPath.Location = new System.Drawing.Point(107, 12);
-			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
-			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(558, 22);
-			this.txtbxAddPath.TabIndex = 0;
-			// 
-			// txtbxAddFilter
-			// 
-			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtbxAddFilter.Location = new System.Drawing.Point(107, 49);
-			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
-			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(558, 22);
-			this.txtbxAddFilter.TabIndex = 1;
-			// 
 			// lblCurrentLoggedIn
 			// 
 			this.lblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblCurrentLoggedIn.AutoSize = true;
-			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(10, 377);
+			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(10, 362);
 			this.lblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lblCurrentLoggedIn.Name = "lblCurrentLoggedIn";
 			this.lblCurrentLoggedIn.Size = new System.Drawing.Size(87, 17);
@@ -221,142 +178,136 @@
 			// lnklblCurrentLoggedIn
 			// 
 			this.lnklblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 375);
+			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 360);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(558, 21);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(489, 21);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
 			this.lnklblCurrentLoggedIn.Visible = false;
 			this.lnklblCurrentLoggedIn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnklblCurrentLoggedInLinkClicked);
 			// 
-			// chbRecursive
+			// mainMenu
 			// 
-			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbRecursive.AutoSize = true;
-			this.chbRecursive.Location = new System.Drawing.Point(675, 50);
-			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
-			this.chbRecursive.Name = "chbRecursive";
-			this.chbRecursive.Size = new System.Drawing.Size(160, 21);
-			this.chbRecursive.TabIndex = 12;
-			this.chbRecursive.Text = "Unterverzeichnisse";
-			this.chbRecursive.UseVisualStyleBackColor = true;
+			this.mainMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tlpSettings.SetColumnSpan(this.mainMenu, 9);
+			this.mainMenu.Dock = System.Windows.Forms.DockStyle.None;
+			this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dateiToolStripMenuItem,
+            this.youtubeAccountToolStripMenuItem,
+            this.templatesToolStripMenuItem,
+            this.pfadeToolStripMenuItem,
+            this.abgebrochenerUploadToolStripMenuItem});
+			this.mainMenu.Location = new System.Drawing.Point(0, 0);
+			this.mainMenu.Name = "mainMenu";
+			this.mainMenu.Size = new System.Drawing.Size(897, 28);
+			this.mainMenu.TabIndex = 13;
+			this.mainMenu.Text = "menuStrip1";
 			// 
-			// btnSelectPath
+			// dateiToolStripMenuItem
 			// 
-			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSelectPath.AutoSize = true;
-			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(675, 10);
-			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
-			this.btnSelectPath.Name = "btnSelectPath";
-			this.btnSelectPath.Size = new System.Drawing.Size(160, 27);
-			this.btnSelectPath.TabIndex = 4;
-			this.btnSelectPath.Text = "Pfad wählen";
-			this.btnSelectPath.UseVisualStyleBackColor = true;
-			this.btnSelectPath.Click += new System.EventHandler(this.btnSelectPathClick);
+			this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beendenToolStripMenuItem});
+			this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
+			this.dateiToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
+			this.dateiToolStripMenuItem.Text = "Datei";
 			// 
-			// btnAddPath
+			// beendenToolStripMenuItem
 			// 
-			this.btnAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnAddPath.AutoSize = true;
-			this.btnAddPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnAddPath.Location = new System.Drawing.Point(845, 10);
-			this.btnAddPath.Margin = new System.Windows.Forms.Padding(0);
-			this.btnAddPath.Name = "btnAddPath";
-			this.btnAddPath.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
-			this.btnAddPath.Size = new System.Drawing.Size(135, 27);
-			this.btnAddPath.TabIndex = 5;
-			this.btnAddPath.Text = "Speichern!";
-			this.btnAddPath.UseVisualStyleBackColor = true;
-			this.btnAddPath.Click += new System.EventHandler(this.btnAddPathToWatchClick);
+			this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
+			this.beendenToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
+			this.beendenToolStripMenuItem.Text = "Beenden";
+			this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItemClick);
 			// 
-			// btnCancel
+			// youtubeAccountToolStripMenuItem
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCancel.AutoSize = true;
-			this.btnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnCancel.Location = new System.Drawing.Point(845, 47);
-			this.btnCancel.Margin = new System.Windows.Forms.Padding(0);
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(135, 27);
-			this.btnCancel.TabIndex = 5;
-			this.btnCancel.Text = "Abbrechen";
-			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
+			this.youtubeAccountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.verbindenToolStripMenuItem,
+            this.verbindungTrennenToolStripMenuItem});
+			this.youtubeAccountToolStripMenuItem.Name = "youtubeAccountToolStripMenuItem";
+			this.youtubeAccountToolStripMenuItem.Size = new System.Drawing.Size(136, 24);
+			this.youtubeAccountToolStripMenuItem.Text = "Youtube-Account";
 			// 
-			// folderBrowserDialog
+			// verbindenToolStripMenuItem
 			// 
-			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
-    "htest.";
+			this.verbindenToolStripMenuItem.Name = "verbindenToolStripMenuItem";
+			this.verbindenToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+			this.verbindenToolStripMenuItem.Text = "Verbinden";
 			// 
-			// tlpRunning
+			// verbindungTrennenToolStripMenuItem
 			// 
-			this.tlpRunning.AutoSize = true;
-			this.tlpRunning.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpRunning.ColumnCount = 5;
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-			this.tlpRunning.Controls.Add(this.statusLabel, 1, 1);
-			this.tlpRunning.Controls.Add(this.prgbarProgress, 1, 3);
-			this.tlpRunning.Controls.Add(this.btnStop, 3, 3);
-			this.tlpRunning.Location = new System.Drawing.Point(37, 582);
-			this.tlpRunning.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.tlpRunning.Name = "tlpRunning";
-			this.tlpRunning.RowCount = 5;
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.Size = new System.Drawing.Size(854, 74);
-			this.tlpRunning.TabIndex = 1;
-			this.tlpRunning.Visible = false;
+			this.verbindungTrennenToolStripMenuItem.Name = "verbindungTrennenToolStripMenuItem";
+			this.verbindungTrennenToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+			this.verbindungTrennenToolStripMenuItem.Text = "Verbindung trennen";
 			// 
-			// statusLabel
+			// templatesToolStripMenuItem
 			// 
-			this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.statusLabel.AutoSize = true;
-			this.tlpRunning.SetColumnSpan(this.statusLabel, 3);
-			this.statusLabel.Location = new System.Drawing.Point(11, 10);
-			this.statusLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(832, 17);
-			this.statusLabel.TabIndex = 0;
-			this.statusLabel.Text = "Suche Dateien zum Upload...";
+			this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.templatesVerwaltenToolStripMenuItem,
+            this.alleTemplatesLöschenToolStripMenuItem});
+			this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
+			this.templatesToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
+			this.templatesToolStripMenuItem.Text = "Templates";
 			// 
-			// prgbarProgress
+			// templatesVerwaltenToolStripMenuItem
 			// 
-			this.prgbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.prgbarProgress.Location = new System.Drawing.Point(11, 39);
-			this.prgbarProgress.Margin = new System.Windows.Forms.Padding(0);
-			this.prgbarProgress.MarqueeAnimationSpeed = 10;
-			this.prgbarProgress.Maximum = 10000;
-			this.prgbarProgress.Name = "prgbarProgress";
-			this.prgbarProgress.Size = new System.Drawing.Size(731, 23);
-			this.prgbarProgress.TabIndex = 1;
+			this.templatesVerwaltenToolStripMenuItem.Name = "templatesVerwaltenToolStripMenuItem";
+			this.templatesVerwaltenToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
+			this.templatesVerwaltenToolStripMenuItem.Text = "Templates verwalten";
 			// 
-			// btnStop
+			// alleTemplatesLöschenToolStripMenuItem
 			// 
-			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStop.AutoSize = true;
-			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStop.Location = new System.Drawing.Point(753, 37);
-			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(90, 27);
-			this.btnStop.TabIndex = 2;
-			this.btnStop.Text = "Abbrechen!";
-			this.btnStop.UseVisualStyleBackColor = true;
-			this.btnStop.Click += new System.EventHandler(this.btnStopClick);
+			this.alleTemplatesLöschenToolStripMenuItem.Name = "alleTemplatesLöschenToolStripMenuItem";
+			this.alleTemplatesLöschenToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
+			this.alleTemplatesLöschenToolStripMenuItem.Text = "Alle Templates löschen";
 			// 
-			// refreshTimer
+			// pfadeToolStripMenuItem
 			// 
-			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
+			this.pfadeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pfadeVerwaltenToolStripMenuItem,
+            this.allePfadeLöschenToolStripMenuItem});
+			this.pfadeToolStripMenuItem.Name = "pfadeToolStripMenuItem";
+			this.pfadeToolStripMenuItem.Size = new System.Drawing.Size(59, 24);
+			this.pfadeToolStripMenuItem.Text = "Pfade";
+			// 
+			// pfadeVerwaltenToolStripMenuItem
+			// 
+			this.pfadeVerwaltenToolStripMenuItem.Name = "pfadeVerwaltenToolStripMenuItem";
+			this.pfadeVerwaltenToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
+			this.pfadeVerwaltenToolStripMenuItem.Text = "Pfade verwalten";
+			this.pfadeVerwaltenToolStripMenuItem.Click += new System.EventHandler(this.pfadeVerwaltenToolStripMenuItemClick);
+			// 
+			// allePfadeLöschenToolStripMenuItem
+			// 
+			this.allePfadeLöschenToolStripMenuItem.Name = "allePfadeLöschenToolStripMenuItem";
+			this.allePfadeLöschenToolStripMenuItem.Size = new System.Drawing.Size(206, 26);
+			this.allePfadeLöschenToolStripMenuItem.Text = "Alle Pfade löschen";
+			this.allePfadeLöschenToolStripMenuItem.Click += new System.EventHandler(this.allePfadeLöschenToolStripMenuItemClick);
+			// 
+			// abgebrochenerUploadToolStripMenuItem
+			// 
+			this.abgebrochenerUploadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.abgebrochenenUploadAnzeigenToolStripMenuItem,
+            this.abgebrochenenUploadLöschenToolStripMenuItem});
+			this.abgebrochenerUploadToolStripMenuItem.Name = "abgebrochenerUploadToolStripMenuItem";
+			this.abgebrochenerUploadToolStripMenuItem.Size = new System.Drawing.Size(167, 24);
+			this.abgebrochenerUploadToolStripMenuItem.Text = "Unvollendeter Upload";
+			// 
+			// abgebrochenenUploadAnzeigenToolStripMenuItem
+			// 
+			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Name = "abgebrochenenUploadAnzeigenToolStripMenuItem";
+			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Size = new System.Drawing.Size(297, 26);
+			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Text = "Unvollendeten Upload anzeigen";
+			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Click += new System.EventHandler(this.abgebrochenenUploadAnzeigenToolStripMenuItemClick);
+			// 
+			// abgebrochenenUploadLöschenToolStripMenuItem
+			// 
+			this.abgebrochenenUploadLöschenToolStripMenuItem.Name = "abgebrochenenUploadLöschenToolStripMenuItem";
+			this.abgebrochenenUploadLöschenToolStripMenuItem.Size = new System.Drawing.Size(297, 26);
+			this.abgebrochenenUploadLöschenToolStripMenuItem.Text = "Unvollendeten Upload löschen";
+			this.abgebrochenenUploadLöschenToolStripMenuItem.Click += new System.EventHandler(this.abgebrochenenUploadLöschenToolStripMenuItemClick);
 			// 
 			// bgwCreateUploader
 			// 
@@ -367,21 +318,20 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(1005, 690);
-			this.Controls.Add(this.tlpRunning);
+			this.ClientSize = new System.Drawing.Size(897, 397);
 			this.Controls.Add(this.tlpSettings);
+			this.MainMenuStrip = this.mainMenu;
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "AutoUploader";
+			this.Text = "Strohis Toolset Für Uploads - AutoUploader";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
 			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.tlpSettings.ResumeLayout(false);
 			this.tlpSettings.PerformLayout();
-			this.tlpRunning.ResumeLayout(false);
-			this.tlpRunning.PerformLayout();
+			this.mainMenu.ResumeLayout(false);
+			this.mainMenu.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -390,29 +340,30 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tlpSettings;
-		private System.Windows.Forms.TextBox txtbxAddPath;
-		private System.Windows.Forms.TextBox txtbxAddFilter;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button btnSelectPath;
-		private System.Windows.Forms.Button btnAddPath;
 		private System.Windows.Forms.Button btnConnectYoutubeAccount;
 		private System.Windows.Forms.Button btnStart;
-		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
 		private System.Windows.Forms.ListView lvSelectedPaths;
 		private System.Windows.Forms.ColumnHeader chPath;
 		private System.Windows.Forms.ColumnHeader chFilter;
-		private System.Windows.Forms.TableLayoutPanel tlpRunning;
-		private System.Windows.Forms.Label statusLabel;
-		private System.Windows.Forms.ProgressBar prgbarProgress;
-		private System.Windows.Forms.Button btnStop;
-		private System.Windows.Forms.Timer refreshTimer;
 		private System.ComponentModel.BackgroundWorker bgwCreateUploader;
 		private System.Windows.Forms.Label lblCurrentLoggedIn;
 		private System.Windows.Forms.LinkLabel lnklblCurrentLoggedIn;
 		private System.Windows.Forms.ColumnHeader chRecursive;
-		private System.Windows.Forms.CheckBox chbRecursive;
-		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.MenuStrip mainMenu;
+		private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem templatesVerwaltenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem alleTemplatesLöschenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem abgebrochenerUploadToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem abgebrochenenUploadAnzeigenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem abgebrochenenUploadLöschenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem youtubeAccountToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem verbindenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem verbindungTrennenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pfadeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pfadeVerwaltenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem allePfadeLöschenToolStripMenuItem;
 	}
 }
 

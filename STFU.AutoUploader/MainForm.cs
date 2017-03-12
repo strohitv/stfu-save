@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 
@@ -10,92 +11,12 @@ namespace STFU.AutoUploader
 	{
 		AutomationUploader uploader;
 
-		string statusText = "Warte auf Dateien für den Upload...";
-		int progress = 0;
 		PathInformation currentItem = null;
 		string currentItemOldPath = null;
 
 		public MainForm()
 		{
 			InitializeComponent();
-		}
-
-		private void btnSelectPathClick(object sender, EventArgs e)
-		{
-			var result = folderBrowserDialog.ShowDialog(this);
-			if (result == DialogResult.OK)
-			{
-				if (Directory.Exists(folderBrowserDialog.SelectedPath))
-				{
-					txtbxAddPath.Text = folderBrowserDialog.SelectedPath;
-					txtbxAddFilter.Text = "*.mp4;*.mkv";
-				}
-			}
-		}
-
-		private void btnAddPathToWatchClick(object sender, EventArgs e)
-		{
-			if (string.IsNullOrWhiteSpace(txtbxAddPath.Text))
-			{
-				MessageBox.Show(this, "Bitte einen Pfad eingeben!", "Pfad benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			if (string.IsNullOrWhiteSpace(txtbxAddFilter.Text))
-			{
-				MessageBox.Show(this, "Bitte einen Filter eingeben!", "Filter benötigt", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			if (currentItem != null)
-			{
-				currentItem.Path = txtbxAddPath.Text;
-				currentItem.Filter = txtbxAddFilter.Text;
-				currentItem.SearchRecursively = chbRecursive.Checked;
-
-				if (uploader.Paths.ContainsPath(currentItemOldPath))
-				{
-					if (uploader.Paths.ContainsPath(currentItem.Path))
-					{
-						uploader.Paths.Remove(currentItemOldPath);
-						uploader.Paths[currentItem.Path] = currentItem;
-					}
-					else
-					{
-						uploader.Paths[currentItemOldPath] = currentItem;
-					}
-				}
-				else if (uploader.Paths.ContainsPath(currentItem.Path))
-				{
-					uploader.Paths[currentItem.Path] = currentItem;
-				}
-				else
-				{
-					uploader.Paths.Add(currentItem);
-				}
-			}
-			else if (uploader.Paths.ContainsPath(txtbxAddPath.Text))
-			{
-				uploader.Paths[txtbxAddPath.Text] =
-					new PathInformation()
-					{
-						Path = txtbxAddPath.Text,
-						Filter = txtbxAddFilter.Text,
-						SearchRecursively = chbRecursive.Checked
-					};
-			}
-			else
-			{
-				uploader.Paths.Add(txtbxAddPath.Text, txtbxAddFilter.Text, chbRecursive.Checked);
-			}
-
-			currentItem = null;
-			currentItemOldPath = null;
-
-			txtbxAddFilter.Text = string.Empty;
-			txtbxAddPath.Text = string.Empty;
-			chbRecursive.Checked = false;
-
-			RefillListView();
 		}
 
 		private void RefillListView()
@@ -126,7 +47,7 @@ namespace STFU.AutoUploader
 		{
 			tlpSettings.Enabled = false;
 			var connectionLink = uploader.GetAuthLoginScreenUrl(false);
-			var browserForm = new Browser(connectionLink);
+			var browserForm = new BrowserForm(connectionLink);
 
 			var result = browserForm.ShowDialog(this);
 
@@ -153,124 +74,33 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			uploader.ProgressChanged += ChangedProgress;
-			uploader.UploadStarted += UploadStarted;
-			uploader.UploadFinished += UploadFinished;
-			uploader.UploaderFinished += UploaderFinished;
+			Visible = false;
+			ShowInTaskbar = false;
 
-			refreshTimer.Enabled = true;
+			UploadForm uploadForm = new UploadForm(uploader);
+			if (uploadForm.ShowDialog(this) == DialogResult.OK)
+			{
+				// Upload wurde regulär beendet.
+				// => Jetzt evtl. runterfahren oder so.
+			}
+			else
+			{
+				// Upload wurde abgebrochen.
+			}
 
-			UndockTlp(tlpSettings);
-			DockTlp(tlpRunning);
-
-			SetCornerPosition();
-
-			ChangeControlBoxActivation(false);
-
-			uploader.Start();
-		}
-
-		private delegate void resetStatusAndForm();
-		private void UploaderFinished(EventArgs e)
-		{
-			resetStatusAndForm del = ResetStatusAndForm;
-
-			Invoke(del);
-		}
-
-		private void UploadFinished(AutomationEventArgs e)
-		{
-			statusText = $"Upload von {e.FileName} beendet. - Suche Dateien zum Upload...";
-			progress = (int)e.Progress;
-		}
-
-		private void UploadStarted(AutomationEventArgs e)
-		{
-			statusText = $"Upload von {e.FileName} gestartet.";
-			progress = (int)e.Progress;
-		}
-
-		private void ChangedProgress(AutomationEventArgs e)
-		{
-			statusText = $"Lade {e.FileName} hoch: {e.Progress / 100.0} %";
-			progress = (int)e.Progress;
+			ShowInTaskbar = true;
+			Visible = true;
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
 			bgwCreateUploader.RunWorkerAsync();
-
-			UndockTlp(tlpRunning);
-			DockTlp(tlpSettings);
-		}
-
-		private void DockTlp(TableLayoutPanel tlp)
-		{
-			tlp.Visible = true;
-			tlp.Dock = DockStyle.Fill;
-		}
-
-		private void UndockTlp(TableLayoutPanel tlp)
-		{
-			tlp.Visible = false;
-			tlp.Dock = DockStyle.None;
-		}
-
-		private void ChangeControlBoxActivation(bool setActive)
-		{
-			ControlBox = setActive;
-			MinimizeBox = setActive;
-			MaximizeBox = setActive;
-		}
-
-		private void SetCornerPosition()
-		{
-			Left = Screen.PrimaryScreen.WorkingArea.Width - 10 - Width;
-			Top = Screen.PrimaryScreen.WorkingArea.Height - 10 - Height;
-		}
-
-		private void btnStopClick(object sender, EventArgs e)
-		{
-			uploader.Stop(true);
-			ResetStatusAndForm();
-		}
-
-		private void ResetStatusAndForm()
-		{
-			uploader.ProgressChanged -= ChangedProgress;
-			uploader.UploadStarted -= UploadStarted;
-			uploader.UploadFinished -= UploadFinished;
-			uploader.UploaderFinished -= UploaderFinished;
-
-			refreshTimer.Enabled = false;
-
-			UndockTlp(tlpRunning);
-			DockTlp(tlpSettings);
-
-			CenterToScreen();
-
-			ChangeControlBoxActivation(true);
 		}
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			uploader?.Stop(true);
 			uploader?.WritePaths();
-		}
-
-		private void refreshTimerTick(object sender, EventArgs e)
-		{
-			statusLabel.Text = statusText;
-			prgbarProgress.Value = progress;
-		}
-
-		private void lvSelectedPathsKeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyData == Keys.Delete && uploader.Paths.Count > 0)
-			{
-				uploader.Remove(lvSelectedPaths.SelectedItems[0].Text);
-				RefillListView();
-			}
 		}
 
 		private void RevokeAccess()
@@ -333,30 +163,46 @@ namespace STFU.AutoUploader
 			p.Start();
 		}
 
-		private void lvSelectedPathsDoubleClick(object sender, EventArgs e)
-		{
-			currentItem = uploader.Paths[lvSelectedPaths.SelectedItems[0].Text];
-			currentItemOldPath = currentItem.Path;
-
-			txtbxAddPath.Text = currentItem.Path;
-			txtbxAddFilter.Text = currentItem.Filter;
-			chbRecursive.Checked = currentItem.SearchRecursively;
-		}
-
-		private void BtnCancelClick(object sender, EventArgs e)
-		{
-			currentItem = null;
-			currentItemOldPath = null;
-
-			txtbxAddPath.Text = string.Empty;
-			txtbxAddFilter.Text = string.Empty;
-			chbRecursive.Checked = false;
-		}
-
 		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
 		{
-			ProcessWindow processChoser = new ProcessWindow();
+			ProcessForm processChoser = new ProcessForm();
 			processChoser.ShowDialog(this);
+			if (processChoser.DialogResult == DialogResult.OK)
+			{
+				var procs = processChoser.Selected;
+				uploader.ClearProcessesToWatch();
+				uploader.AddProcessesToWatch(procs);
+			}
+		}
+
+		private void beendenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			uploader?.Stop(true);
+			uploader?.WritePaths();
+		}
+
+		private void allePfadeLöschenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			uploader.Paths.Clear();
+			RefillListView();
+		}
+
+		private void pfadeVerwaltenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			PathForm pf = new PathForm(uploader);
+			pf.ShowDialog(this);
+
+			RefillListView();
+		}
+
+		private void abgebrochenenUploadLöschenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			uploader.DeleteLastJobFile();
+		}
+
+		private void abgebrochenenUploadAnzeigenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

@@ -4,7 +4,7 @@ using Gecko;
 
 namespace STFU.AutoUploader
 {
-	public partial class Browser : Form
+	public partial class BrowserForm : Form
 	{
 		private string Url { get; set; }
 		public string AuthToken { get; private set; }
@@ -12,7 +12,7 @@ namespace STFU.AutoUploader
 		GeckoWebBrowser browser;
 		private delegate void closeDelegate();
 
-		public Browser(string url)
+		public BrowserForm(string url)
 		{
 			InitializeComponent();
 

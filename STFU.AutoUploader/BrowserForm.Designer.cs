@@ -1,6 +1,6 @@
 ﻿namespace STFU.AutoUploader
 {
-	partial class Browser
+	partial class BrowserForm
 	{
 		/// <summary>
 		/// Required designer variable.

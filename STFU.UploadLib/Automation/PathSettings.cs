@@ -179,5 +179,10 @@ namespace STFU.UploadLib.Automation
 			
 			return result;
 		}
+
+		public void InsertAt(int index, PathInformation currentItem)
+		{
+			paths.Insert(index, currentItem);
+		}
 	}
 }
