@@ -99,6 +99,8 @@ namespace STFU.UploadLib.Automation
 				watcher = value;
 			}
 		}
+
+		public Process[] ProcessesToWatch { get { return Watcher.Procs.ToArray(); } }
 		#endregion properties
 
 		public AutomationUploader()

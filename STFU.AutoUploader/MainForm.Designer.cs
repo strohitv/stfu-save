@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
-			this.btnConnectYoutubeAccount = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,6 +51,10 @@
 			this.abgebrochenerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.abgebrochenenUploadAnzeigenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.abgebrochenenUploadLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.lblFinishAction = new System.Windows.Forms.Label();
+			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
+			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
+			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
@@ -61,22 +64,31 @@
 			// 
 			this.tlpSettings.AutoSize = true;
 			this.tlpSettings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpSettings.ColumnCount = 9;
+			this.tlpSettings.ColumnCount = 15;
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Controls.Add(this.btnConnectYoutubeAccount, 5, 4);
-			this.tlpSettings.Controls.Add(this.btnStart, 7, 4);
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+			this.tlpSettings.Controls.Add(this.btnStart, 13, 4);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
 			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 4);
 			this.tlpSettings.Controls.Add(this.mainMenu, 0, 0);
+			this.tlpSettings.Controls.Add(this.lblFinishAction, 5, 4);
+			this.tlpSettings.Controls.Add(this.cmbbxFinishAction, 7, 4);
+			this.tlpSettings.Controls.Add(this.chbChoseProcesses, 9, 4);
+			this.tlpSettings.Controls.Add(this.btnChoseProcs, 11, 4);
 			this.tlpSettings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(0, 0);
@@ -89,27 +101,8 @@
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpSettings.Size = new System.Drawing.Size(897, 397);
+			this.tlpSettings.Size = new System.Drawing.Size(916, 397);
 			this.tlpSettings.TabIndex = 0;
-			// 
-			// btnConnectYoutubeAccount
-			// 
-			this.btnConnectYoutubeAccount.AutoSize = true;
-			this.btnConnectYoutubeAccount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnConnectYoutubeAccount.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnConnectYoutubeAccount.Location = new System.Drawing.Point(606, 354);
-			this.btnConnectYoutubeAccount.Margin = new System.Windows.Forms.Padding(0);
-			this.btnConnectYoutubeAccount.Name = "btnConnectYoutubeAccount";
-			this.btnConnectYoutubeAccount.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.btnConnectYoutubeAccount.Size = new System.Drawing.Size(190, 33);
-			this.btnConnectYoutubeAccount.TabIndex = 8;
-			this.btnConnectYoutubeAccount.Text = "Mit Youtube verbinden";
-			this.btnConnectYoutubeAccount.UseVisualStyleBackColor = true;
-			this.btnConnectYoutubeAccount.Click += new System.EventHandler(this.btnConnectYoutubeAccountClick);
 			// 
 			// btnStart
 			// 
@@ -117,7 +110,7 @@
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(806, 354);
+			this.btnStart.Location = new System.Drawing.Point(824, 354);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -133,7 +126,7 @@
             this.chPath,
             this.chFilter,
             this.chRecursive});
-			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 7);
+			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 13);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
 			this.lvSelectedPaths.GridLines = true;
@@ -142,7 +135,7 @@
 			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvSelectedPaths.Name = "lvSelectedPaths";
 			this.lvSelectedPaths.ShowGroups = false;
-			this.lvSelectedPaths.Size = new System.Drawing.Size(877, 306);
+			this.lvSelectedPaths.Size = new System.Drawing.Size(895, 306);
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
@@ -173,15 +166,15 @@
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
-			this.lblCurrentLoggedIn.Click += new System.EventHandler(this.lblCurrentLoggedIn_Click);
 			// 
 			// lnklblCurrentLoggedIn
 			// 
 			this.lnklblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 360);
+			this.lnklblCurrentLoggedIn.AutoSize = true;
+			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(107, 362);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(489, 21);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(186, 17);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
@@ -191,7 +184,7 @@
 			// mainMenu
 			// 
 			this.mainMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpSettings.SetColumnSpan(this.mainMenu, 9);
+			this.tlpSettings.SetColumnSpan(this.mainMenu, 15);
 			this.mainMenu.Dock = System.Windows.Forms.DockStyle.None;
 			this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -202,7 +195,7 @@
             this.abgebrochenerUploadToolStripMenuItem});
 			this.mainMenu.Location = new System.Drawing.Point(0, 0);
 			this.mainMenu.Name = "mainMenu";
-			this.mainMenu.Size = new System.Drawing.Size(897, 28);
+			this.mainMenu.Size = new System.Drawing.Size(916, 28);
 			this.mainMenu.TabIndex = 13;
 			this.mainMenu.Text = "menuStrip1";
 			// 
@@ -235,12 +228,14 @@
 			this.verbindenToolStripMenuItem.Name = "verbindenToolStripMenuItem";
 			this.verbindenToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
 			this.verbindenToolStripMenuItem.Text = "Verbinden";
+			this.verbindenToolStripMenuItem.Click += new System.EventHandler(this.verbindenToolStripMenuItemClick);
 			// 
 			// verbindungTrennenToolStripMenuItem
 			// 
 			this.verbindungTrennenToolStripMenuItem.Name = "verbindungTrennenToolStripMenuItem";
 			this.verbindungTrennenToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
 			this.verbindungTrennenToolStripMenuItem.Text = "Verbindung trennen";
+			this.verbindungTrennenToolStripMenuItem.Click += new System.EventHandler(this.verbindungTrennenToolStripMenuItemClick);
 			// 
 			// templatesToolStripMenuItem
 			// 
@@ -309,6 +304,63 @@
 			this.abgebrochenenUploadLöschenToolStripMenuItem.Text = "Unvollendeten Upload löschen";
 			this.abgebrochenenUploadLöschenToolStripMenuItem.Click += new System.EventHandler(this.abgebrochenenUploadLöschenToolStripMenuItemClick);
 			// 
+			// lblFinishAction
+			// 
+			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblFinishAction.AutoSize = true;
+			this.lblFinishAction.Location = new System.Drawing.Point(303, 362);
+			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
+			this.lblFinishAction.Name = "lblFinishAction";
+			this.lblFinishAction.Size = new System.Drawing.Size(69, 17);
+			this.lblFinishAction.TabIndex = 14;
+			this.lblFinishAction.Text = "Am Ende:";
+			// 
+			// cmbbxFinishAction
+			// 
+			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmbbxFinishAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbbxFinishAction.FormattingEnabled = true;
+			this.cmbbxFinishAction.Items.AddRange(new object[] {
+            "Nichts tun",
+            "Programm schließen",
+            "Herunterfahren"});
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(377, 358);
+			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
+			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(186, 24);
+			this.cmbbxFinishAction.TabIndex = 15;
+			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
+			// 
+			// chbChoseProcesses
+			// 
+			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.chbChoseProcesses.AutoSize = true;
+			this.chbChoseProcesses.Enabled = false;
+			this.chbChoseProcesses.Location = new System.Drawing.Point(568, 360);
+			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
+			this.chbChoseProcesses.Name = "chbChoseProcesses";
+			this.chbChoseProcesses.Size = new System.Drawing.Size(197, 21);
+			this.chbChoseProcesses.TabIndex = 16;
+			this.chbChoseProcesses.Text = "Programmenden abwarten";
+			this.chbChoseProcesses.UseVisualStyleBackColor = true;
+			this.chbChoseProcesses.CheckedChanged += new System.EventHandler(this.chbChoseProcessesCheckedChanged);
+			// 
+			// btnChoseProcs
+			// 
+			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnChoseProcs.AutoSize = true;
+			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnChoseProcs.Enabled = false;
+			this.btnChoseProcs.Location = new System.Drawing.Point(770, 354);
+			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
+			this.btnChoseProcs.Name = "btnChoseProcs";
+			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(3);
+			this.btnChoseProcs.Size = new System.Drawing.Size(44, 33);
+			this.btnChoseProcs.TabIndex = 17;
+			this.btnChoseProcs.Text = "[...]";
+			this.btnChoseProcs.UseVisualStyleBackColor = true;
+			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
+			// 
 			// bgwCreateUploader
 			// 
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
@@ -318,8 +370,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(897, 397);
+			this.ClientSize = new System.Drawing.Size(916, 397);
 			this.Controls.Add(this.tlpSettings);
 			this.MainMenuStrip = this.mainMenu;
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -340,7 +391,6 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tlpSettings;
-		private System.Windows.Forms.Button btnConnectYoutubeAccount;
 		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.ListView lvSelectedPaths;
 		private System.Windows.Forms.ColumnHeader chPath;
@@ -364,6 +414,10 @@
 		private System.Windows.Forms.ToolStripMenuItem pfadeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pfadeVerwaltenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem allePfadeLöschenToolStripMenuItem;
+		private System.Windows.Forms.Label lblFinishAction;
+		private System.Windows.Forms.ComboBox cmbbxFinishAction;
+		private System.Windows.Forms.CheckBox chbChoseProcesses;
+		private System.Windows.Forms.Button btnChoseProcs;
 	}
 }
 

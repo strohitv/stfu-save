@@ -11,9 +11,6 @@ namespace STFU.AutoUploader
 	{
 		AutomationUploader uploader;
 
-		PathInformation currentItem = null;
-		string currentItemOldPath = null;
-
 		public MainForm()
 		{
 			InitializeComponent();
@@ -58,7 +55,7 @@ namespace STFU.AutoUploader
 					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 					lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
-					RenameConnectButton();
+					RefreshConnectionToolstripButtonsEnabled();
 					lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
 					btnStart.Enabled = true;
 				}
@@ -82,18 +79,29 @@ namespace STFU.AutoUploader
 			{
 				// Upload wurde regulär beendet.
 				// => Jetzt evtl. runterfahren oder so.
-			}
-			else
-			{
-				// Upload wurde abgebrochen.
+				switch (cmbbxFinishAction.SelectedIndex)
+				{
+					case 1:
+						Close();
+						return;
+					case 2:
+						Process.Start("shutdown.exe", "-s -t 5");
+						Close();
+						return;
+					default:
+						break;
+				}
 			}
 
+			// Upload wurde vom Benutzer abgebrochen
+			// => Einfach das Fenster wieder anzeigen.
 			ShowInTaskbar = true;
 			Visible = true;
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
+			cmbbxFinishAction.SelectedIndex = 0;
 			bgwCreateUploader.RunWorkerAsync();
 		}
 
@@ -114,20 +122,14 @@ namespace STFU.AutoUploader
 			}
 
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
-			RenameConnectButton();
+			RefreshConnectionToolstripButtonsEnabled();
 			tlpSettings.Enabled = true;
 		}
 
-		private void RenameConnectButton()
+		private void RefreshConnectionToolstripButtonsEnabled()
 		{
-			if (uploader.IsConnectedToAccount)
-			{
-				btnConnectYoutubeAccount.Text = "Verbindung trennen";
-			}
-			else
-			{
-				btnConnectYoutubeAccount.Text = "Mit Youtube verbinden";
-			}
+			verbindenToolStripMenuItem.Enabled = !uploader.IsConnectedToAccount;
+			verbindungTrennenToolStripMenuItem.Enabled = uploader.IsConnectedToAccount;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -138,7 +140,7 @@ namespace STFU.AutoUploader
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
-			RenameConnectButton();
+			RefreshConnectionToolstripButtonsEnabled();
 			if (uploader.IsConnectedToAccount)
 			{
 				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
@@ -163,22 +165,11 @@ namespace STFU.AutoUploader
 			p.Start();
 		}
 
-		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
-		{
-			ProcessForm processChoser = new ProcessForm();
-			processChoser.ShowDialog(this);
-			if (processChoser.DialogResult == DialogResult.OK)
-			{
-				var procs = processChoser.Selected;
-				uploader.ClearProcessesToWatch();
-				uploader.AddProcessesToWatch(procs);
-			}
-		}
-
 		private void beendenToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			uploader?.Stop(true);
 			uploader?.WritePaths();
+			Close();
 		}
 
 		private void allePfadeLöschenToolStripMenuItemClick(object sender, EventArgs e)
@@ -203,6 +194,67 @@ namespace STFU.AutoUploader
 		private void abgebrochenenUploadAnzeigenToolStripMenuItemClick(object sender, EventArgs e)
 		{
 
+		}
+
+		private void verbindenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			ConnectToYoutube();
+			RefreshConnectionToolstripButtonsEnabled();
+		}
+
+		private void verbindungTrennenToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			RevokeAccess();
+			RefreshConnectionToolstripButtonsEnabled();
+		}
+
+		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
+		{
+			btnChoseProcs.Enabled = chbChoseProcesses.Checked;
+
+			if (chbChoseProcesses.Checked)
+			{
+				//ProcessForm processChoser = new ProcessForm();
+				//processChoser.ShowDialog(this);
+				ChoseProcesses();
+			}
+			else
+			{
+				uploader.ClearProcessesToWatch();
+			}
+		}
+
+		private void ChoseProcesses()
+		{
+			ProcessForm processChoser = new ProcessForm(uploader.ProcessesToWatch);
+			processChoser.ShowDialog(this);
+			if (processChoser.DialogResult == DialogResult.OK
+				&& processChoser.Selected.Count > 0)
+			{
+				var procs = processChoser.Selected;
+				uploader.ClearProcessesToWatch();
+				uploader.AddProcessesToWatch(procs);
+			}
+			else
+			{
+				chbChoseProcesses.Checked = false;
+			}
+		}
+
+		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
+		{
+			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
+
+			if (cmbbxFinishAction.SelectedIndex == 0)
+			{
+				uploader?.ClearProcessesToWatch();
+				chbChoseProcesses.Checked = false;
+			}
+		}
+
+		private void btnChoseProcsClick(object sender, EventArgs e)
+		{
+			ChoseProcesses();
 		}
 	}
 }

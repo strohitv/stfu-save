@@ -10,25 +10,38 @@ namespace STFU.UploadLib.Operations
 
 		public void Add(Process proc)
 		{
-			procs.Add(proc);
+			Procs.Add(proc);
 		}
 
 		public void Remove(Process proc)
 		{
-			procs.Remove(proc);
+			Procs.Remove(proc);
 		}
 
 		public void Clear()
 		{
-			procs.Clear();
+			Procs.Clear();
 		}
 
 		public bool Contains(Process proc)
 		{
-			return procs.Contains(proc);
+			return Procs.Contains(proc);
 		}
 
-		public int Count { get { return procs.Count; } }
+		public int Count { get { return Procs.Count; } }
+
+		internal List<Process> Procs
+		{
+			get
+			{
+				return procs;
+			}
+
+			private set
+			{
+				procs = value;
+			}
+		}
 
 		public bool AnyIsRunning()
 		{
@@ -38,7 +51,7 @@ namespace STFU.UploadLib.Operations
 				return false;
 			}
 
-			return procs.Any(proc => !proc.HasExited);
+			return Procs.Any(proc => !proc.HasExited);
 		}
 	}
 }

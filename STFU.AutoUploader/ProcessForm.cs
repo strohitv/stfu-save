@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace STFU.AutoUploader
@@ -16,54 +17,64 @@ namespace STFU.AutoUploader
 		private bool reactToCheckedEvents = true;
 
 
-		public ProcessForm()
+		public ProcessForm(Process[] selected)
 		{
 			InitializeComponent();
+
+			selectedProcesses = selected.ToList();
 		}
 
 		private void ProcessWindowLoad(object sender, EventArgs e)
 		{
-			RefreshAllProcs();
+			var task = RefreshAllProcsAsync();
 		}
 
-		private void RefreshAllProcs()
+		private async Task RefreshAllProcsAsync()
 		{
 			reactToCheckedEvents = false;
 			lvProcs.BeginUpdate();
 
 			lvProcs.Items.Clear();
-			var currentSessionID = Process.GetCurrentProcess().SessionId;
 
-			AllProcesses = Process.GetProcesses()
-				.OrderBy(item => item.ProcessName)
-				.Where(p => p.SessionId == currentSessionID)
-				.ToArray();
+			List<ListViewItem> items = new List<ListViewItem>();
 
-			foreach (var item in AllProcesses)
+			await Task.Run(() =>
 			{
-				if (item.Id == Process.GetCurrentProcess().Id)
+				var currentSessionID = Process.GetCurrentProcess().SessionId;
+
+				AllProcesses = Process.GetProcesses()
+					.OrderBy(item => item.ProcessName)
+					.Where(p => p.SessionId == currentSessionID)
+					.ToArray();
+
+				foreach (var item in AllProcesses)
 				{
-					// Wäre totaler Quatch, wenn wir uns selbst überwachen.
-					continue;
+					if (item.Id == Process.GetCurrentProcess().Id)
+					{
+						// Wäre totaler Quatch, wenn wir uns selbst überwachen.
+						continue;
+					}
+
+					ListViewItem newItem = new ListViewItem(string.Empty);
+					newItem.SubItems.Add(item.ProcessName);
+
+					if (selectedProcesses.Any(proc => item.Id == proc.Id))
+					{
+						newItem.Checked = true;
+					}
+
+					try
+					{
+						newItem.SubItems.Add(item.MainModule.FileVersionInfo.FileDescription);
+					}
+					catch (Exception)
+					{ }
+
+					items.Add(newItem);
 				}
+			});
 
-				ListViewItem newItem = new ListViewItem(string.Empty);
-				newItem.SubItems.Add(item.ProcessName);
-
-				if (selectedProcesses.Any(proc => item.Id == proc.Id))
-				{
-					newItem.Checked = true;
-				}
-
-				try
-				{
-					newItem.SubItems.Add(item.MainModule.FileVersionInfo.FileDescription);
-				}
-				catch (Exception)
-				{ }
-
-				lvProcs.Items.Add(newItem);
-			}
+			lvProcs.Items.AddRange(items.ToArray());
 
 			lvProcs.Columns[0].Width = -1;
 			lvProcs.Columns[1].Width = -1;
@@ -75,7 +86,7 @@ namespace STFU.AutoUploader
 
 		private void btnRefreshClick(object sender, EventArgs e)
 		{
-			RefreshAllProcs();
+			RefreshAllProcsAsync();
 		}
 
 		private void lvProcsItemChecked(object sender, ItemCheckedEventArgs e)
@@ -87,9 +98,10 @@ namespace STFU.AutoUploader
 
 			Process item = AllProcesses[e.Item.Index];
 
-			if (selectedProcesses.Contains(item))
+			if (selectedProcesses.Any(proc => proc.Id ==  item.Id))
 			{
-				selectedProcesses.Remove(item);
+				selectedProcesses.RemoveAll(proc => proc.Id == item.Id);
+				//selectedProcesses.Remove(item);
 			}
 			else
 			{
