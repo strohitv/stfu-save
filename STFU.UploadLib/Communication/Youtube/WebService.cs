@@ -253,7 +253,7 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			// Upload initiieren
 			Stream requestStream = request.GetRequestStream();
-			byte[] buffer = new byte[4 * 1024];
+			byte[] buffer = new byte[128 * 1024];
 			int bytesRead = 0;
 
 			// Hochladen

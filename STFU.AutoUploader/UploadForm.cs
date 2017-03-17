@@ -50,7 +50,7 @@ namespace STFU.AutoUploader
 
 		private void ChangedProgress(AutomationEventArgs e)
 		{
-			statusText = $"Lade {e.FileName} hoch: {e.Progress / 100.0} %";
+			statusText = $"Lade {e.FileName} hoch: {e.Progress / 100.0:0.00} %";
 			progress = (int)e.Progress;
 		}
 

@@ -83,12 +83,12 @@
     <StartupObject>STFU.AutoUploader.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Geckofx-Core, Version=45.0.28.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=MSIL">
-      <HintPath>..\packages\Geckofx45.32.Linux.45.0.28\lib\net40\Geckofx-Core.dll</HintPath>
+    <Reference Include="Geckofx-Core, Version=45.0.30.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.30\lib\net45\Geckofx-Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Geckofx-Winforms, Version=45.0.28.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=MSIL">
-      <HintPath>..\packages\Geckofx45.32.Linux.45.0.28\lib\net40\Geckofx-Winforms.dll</HintPath>
+    <Reference Include="Geckofx-Winforms, Version=45.0.30.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.30\lib\net45\Geckofx-Winforms.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -163,7 +163,9 @@
       <DependentUpon>UploadForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Firefox\omni.ja" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -211,11 +213,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Baseclass.Contrib.Nuget.Output.2.1.0\build\net40\Baseclass.Contrib.Nuget.Output.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Baseclass.Contrib.Nuget.Output.2.1.0\build\net40\Baseclass.Contrib.Nuget.Output.targets'))" />
-    <Error Condition="!Exists('..\packages\Geckofx45.45.0.30\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.30\build\Geckofx45.targets'))" />
     <Error Condition="!Exists('..\packages\Geckofx45.32.Linux.45.0.28\build\Geckofx45.32.Linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.32.Linux.45.0.28\build\Geckofx45.32.Linux.targets'))" />
+    <Error Condition="!Exists('..\packages\Geckofx45.45.0.30\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.30\build\Geckofx45.targets'))" />
   </Target>
-  <Import Project="..\packages\Geckofx45.45.0.30\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.30\build\Geckofx45.targets')" />
   <Import Project="..\packages\Geckofx45.32.Linux.45.0.28\build\Geckofx45.32.Linux.targets" Condition="Exists('..\packages\Geckofx45.32.Linux.45.0.28\build\Geckofx45.32.Linux.targets')" />
+  <Import Project="..\packages\Geckofx45.45.0.30\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.30\build\Geckofx45.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
