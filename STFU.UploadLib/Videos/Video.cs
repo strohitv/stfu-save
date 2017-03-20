@@ -1,16 +1,26 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace STFU.UploadLib.Videos
 {
 	public class Video
 	{
-		public FileInfo FileDetails { get; set; }
+		public FileInfo File { get; set; }
+
+		public string Title { get; set; }
+
+		public string Description { get; set; }
+		public List<string> Tags { get; private set; }
+		public PrivacyValues Privacy { get; set; }
+		public Licences License { get; set; }
+
+
 		public VideoSnippet snippet { get; set; }
 		public VideoStatus status { get; set; }
-		public string Path { get { return FileDetails.FullName; } }
-		public string Name { get { return FileDetails.Name; } }
-		public string Extension { get { return FileDetails.Extension.Substring(1); } }
-		public long Size { get { return FileDetails.Length; } }
+		public string Path { get { return File.FullName; } }
+		public string Name { get { return File.Name; } }
+		public string Extension { get { return File.Extension.Substring(1); } }
+		public long Size { get { return File.Length; } }
 
 		public Video()
 		{
@@ -18,12 +28,12 @@ namespace STFU.UploadLib.Videos
 
 		public Video(string path)
 		{
-			FileDetails = new FileInfo(path);
+			File = new FileInfo(path);
 		}
 
 		public void ChangeVideoPath(string path)
 		{
-			FileDetails = new FileInfo(path);
+			File = new FileInfo(path);
 		}
 
 		public bool ShouldSerializestatus()
