@@ -1,69 +1,59 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Communication.Youtube.Serializable
 {
 	public class YoutubeVideo
 	{
-		public FileInfo FileDetails { get; set; }
 		public YoutubeSnippet snippet { get; set; }
 		public YoutubeStatus status { get; set; }
-		public string Path { get { return FileDetails.FullName; } }
-		public string Name { get { return FileDetails.Name; } }
-		public string Extension { get { return FileDetails.Extension.Substring(1); } }
-		public long Size { get { return FileDetails.Length; } }
 
 		public YoutubeVideo()
 		{
 		}
 
-		internal YoutubeVideo(string path)
+		internal YoutubeVideo(Video video)
 		{
-			FileDetails = new FileInfo(path);
+			snippet = new YoutubeSnippet()
+			{
+				categoryId = video.CategoryId,
+				title = video.Title,
+				defaultLanguage = video.DefaultLanguage,
+				description = video.Description,
+				tags = video.Tags.ToArray()
+			};
+
+			status = new YoutubeStatus()
+			{
+				IsEmbeddable = video.IsEmbeddable,
+				Privacy = video.Privacy,
+				License = video.License,
+				PublishAt = video.PublishAt ?? default(DateTime),
+				ShouldPublishAt = video.PublishAt != null,
+				PublicStatsViewable = video.PublicStatsViewable,
+			};
 		}
 
-		//public void ChangeVideoPath(string path)
+		//public bool ShouldSerializestatus()
 		//{
-		//	FileDetails = new FileInfo(path);
+		//	if (status == null || (!status.IsEmbeddable && status.License == License.Youtube && status.Privacy == PrivacyStatus.Private && !status.PublicStatsViewable))
+		//	{
+		//		return false;
+		//	}
+		//	return true;
 		//}
 
-		public bool ShouldSerializestatus()
-		{
-			if (status == null || (!status.embeddable && status.licence == null && status.privacyStatus == PrivacyValues.Private && !status.publicStatsViewable))
-			{
-				return false;
-			}
-			return true;
-		}
+		//public bool ShouldSerializesnippet()
+		//{
+		//	if (snippet == null || (snippet.categoryId == 0 && snippet.description == "" && snippet.title == "" && (snippet.tags == null || snippet.tags.Length == 0)))
+		//	{
+		//		return false;
+		//	}
 
-		public bool ShouldSerializesnippet()
-		{
-			if (snippet == null || (snippet.categoryId == 0 && snippet.description == "" && snippet.title == "" && (snippet.tags == null || snippet.tags.Length == 0)))
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		#region JSONSerialize methods
-		public bool ShouldSerializePath()
-		{
-			return false;
-		}
-		public bool ShouldSerializeName()
-		{
-			return false;
-		}
-		public bool ShouldSerializeExtension()
-		{
-			return false;
-		}
-		public bool ShouldSerializeSize()
-		{
-			return false;
-		}
-		#endregion JSONSerialize methods
+		//	return true;
+		//}
 	}
 }
 

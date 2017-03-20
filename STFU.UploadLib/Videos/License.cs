@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace STFU.UploadLib.Videos
 {
 	public enum License
 	{
+		[JsonProperty(PropertyName = "youtube")]
+		[EnumMember(Value = "youtube")]
 		Youtube,
+		[JsonProperty(PropertyName = "creativeCommon")]
+		[EnumMember(Value = "creativeCommon")]
 		CreativeCommons
 	}
 }

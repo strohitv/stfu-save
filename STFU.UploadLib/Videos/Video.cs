@@ -1,26 +1,71 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace STFU.UploadLib.Videos
 {
 	public class Video
 	{
-		public FileInfo File { get; set; }
+		private PrivacyStatus privacy;
+		private DateTime? publishAt;
+		private Collection<string> tags = new Collection<string>(new List<string>());
+
+		public string Path { get; set; }
+
+		public FileInfo File { get { return (!string.IsNullOrWhiteSpace(Path)) ? new FileInfo(Path) : null; } }
 
 		public string Title { get; set; }
 
 		public string Description { get; set; }
-		public List<string> Tags { get; private set; }
-		public PrivacyValues Privacy { get; set; }
-		public Licences License { get; set; }
+
+		public int CategoryId { get; set; }
+
+		public string DefaultLanguage { get; set; }
+
+		public Collection<string> Tags { get { return tags; } }
+
+		[JsonProperty(ItemConverterType = typeof(PrivacyStatus))]
+		public PrivacyStatus Privacy
+		{
+			get
+			{
+				return privacy;
+			}
+			set
+			{
+				if (value != PrivacyStatus.Private && PublishAt != null)
+				{
+					PublishAt = null;
+				}
+				privacy = value;
+			}
+		}
+
+		[JsonProperty(ItemConverterType = typeof(License))]
+		public License License { get; set; }
+
+		public bool IsEmbeddable { get; set; }
 
 
-		public VideoSnippet snippet { get; set; }
-		public VideoStatus status { get; set; }
-		public string Path { get { return File.FullName; } }
-		public string Name { get { return File.Name; } }
-		public string Extension { get { return File.Extension.Substring(1); } }
-		public long Size { get { return File.Length; } }
+		public bool PublicStatsViewable { get; set; }
+
+		public DateTime? PublishAt
+		{
+			get
+			{
+				return publishAt;
+			}
+			set
+			{
+				if (value != null && Privacy != PrivacyStatus.Private)
+				{
+					Privacy = PrivacyStatus.Private;
+				}
+				publishAt = value;
+			}
+		}
 
 		public Video()
 		{
@@ -28,47 +73,7 @@ namespace STFU.UploadLib.Videos
 
 		public Video(string path)
 		{
-			File = new FileInfo(path);
-		}
-
-		public void ChangeVideoPath(string path)
-		{
-			File = new FileInfo(path);
-		}
-
-		public bool ShouldSerializestatus()
-		{
-			if (status == null || (!status.embeddable && status.licence == null && status.privacyStatus == PrivacyValues.Public && !status.publicStatsViewable))
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public bool ShouldSerializesnippet()
-		{
-			if (snippet == null || (snippet.categoryId == 0 && snippet.description == "" && snippet.title == "" && (snippet.tags == null || snippet.tags.Length == 0)))
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public bool ShouldSerializePath()
-		{
-			return false;
-		}
-		public bool ShouldSerializeName()
-		{
-			return false;
-		}
-		public bool ShouldSerializeExtension()
-		{
-			return false;
-		}
-		public bool ShouldSerializeSize()
-		{
-			return false;
+			Path = path;
 		}
 	}
 }

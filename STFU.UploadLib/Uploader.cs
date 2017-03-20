@@ -88,11 +88,21 @@ namespace STFU.UploadLib
 						continue;
 					}
 
-					Video vid = new Video(newfile);
-					vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name, defaultLanguage = "de" };
-					vid.status = new VideoStatus() { embeddable = true, licence = Licences.Youtube, privacyStatus = PrivacyValues.Private, publicStatsViewable = false };
+					Video vid = new Video(newfile)
+					{
+						CategoryId = 20,
+						Description = string.Empty,
+						Title = Path.GetFileName(newfile),
+						DefaultLanguage = "de",
+						IsEmbeddable = true,
+						License = Videos.License.Youtube,
+						Privacy = PrivacyStatus.Private,
+						PublicStatsViewable = false
+					};
+					//vid.snippet = new VideoSnippet() { categoryId = 20, description = string.Empty, tags = new string[] { }, title = vid.Name, defaultLanguage = "de" };
+					//vid.status = new VideoStatus() { embeddable = true, licence = Licences.Youtube, privacyStatus = PrivacyValues.Private, publicStatsViewable = false };
 
-					Trace.WriteLine(string.Format("Lade Datei '{0}' hoch", vid.Name));
+					Trace.WriteLine(string.Format("Lade Datei '{0}' hoch", vid.Title));
 
 					Job job = new Job() { SelectedVideo = vid, UploadingAccount = acc, Status = new UploadDetails() };
 					while (!UploadCommunication.Upload(ref job))

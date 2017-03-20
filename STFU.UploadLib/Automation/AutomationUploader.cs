@@ -299,7 +299,7 @@ namespace STFU.UploadLib.Automation
 				job.UploadingAccount = AccountCommunication.RefreshAccess(job.UploadingAccount);
 			}
 
-			OnUploadFinished(job.SelectedVideo.snippet.title);
+			OnUploadFinished(job.SelectedVideo.Title);
 
 			UploadCommunication.ProgressChanged -= ReactToProgressChanged;
 			DeleteLastJobFile();
@@ -347,24 +347,19 @@ namespace STFU.UploadLib.Automation
 				return;
 			}
 
-			Video vid = new Video(newfile);
-			vid.snippet = new VideoSnippet()
+			Video vid = new Video(newfile)
 			{
-				categoryId = 20,
-				description = string.Empty,
-				tags = new string[] { },
-				title = videoTitle,
-				defaultLanguage = "de"
-			};
-			vid.status = new VideoStatus()
-			{
-				embeddable = true,
-				licence = Licences.Youtube,
-				privacyStatus = PrivacyValues.Private,
-				publicStatsViewable = false
+				CategoryId = 20,
+				Description = string.Empty,
+				Title = videoTitle,
+				DefaultLanguage = "de",
+				IsEmbeddable = true,
+				License = License.Youtube,
+				Privacy = PrivacyStatus.Private,
+				PublicStatsViewable = false
 			};
 
-			OnUploadStarted(vid.snippet.title);
+			OnUploadStarted(vid.Title);
 
 			//Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };
 
