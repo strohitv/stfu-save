@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using STFU.UploadLib.Communication.Youtube.Serializable;
 
 namespace STFU.UploadLib.Videos
 {
@@ -26,7 +27,7 @@ namespace STFU.UploadLib.Videos
 
 		public Collection<string> Tags { get { return tags; } }
 
-		[JsonProperty(ItemConverterType = typeof(PrivacyStatus))]
+		[JsonConverter(typeof(EnumConverter))]
 		public PrivacyStatus Privacy
 		{
 			get
@@ -43,7 +44,7 @@ namespace STFU.UploadLib.Videos
 			}
 		}
 
-		[JsonProperty(ItemConverterType = typeof(License))]
+		[JsonConverter(typeof(EnumConverter))]
 		public License License { get; set; }
 
 		public bool IsEmbeddable { get; set; }

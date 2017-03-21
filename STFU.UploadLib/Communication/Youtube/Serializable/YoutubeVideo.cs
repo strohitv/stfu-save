@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using STFU.UploadLib.Videos;
 
@@ -35,25 +34,6 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 				PublicStatsViewable = video.PublicStatsViewable,
 			};
 		}
-
-		//public bool ShouldSerializestatus()
-		//{
-		//	if (status == null || (!status.IsEmbeddable && status.License == License.Youtube && status.Privacy == PrivacyStatus.Private && !status.PublicStatsViewable))
-		//	{
-		//		return false;
-		//	}
-		//	return true;
-		//}
-
-		//public bool ShouldSerializesnippet()
-		//{
-		//	if (snippet == null || (snippet.categoryId == 0 && snippet.description == "" && snippet.title == "" && (snippet.tags == null || snippet.tags.Length == 0)))
-		//	{
-		//		return false;
-		//	}
-
-		//	return true;
-		//}
 	}
 }
 

@@ -97,6 +97,8 @@
     <Compile Include="Communication\Youtube\EventHandler.cs" />
     <Compile Include="Communication\Youtube\Playlist.cs" />
     <Compile Include="Communication\Youtube\Response.cs" />
+    <Compile Include="Communication\Youtube\Serializable\EnumConverter.cs" />
+    <Compile Include="Communication\Youtube\Serializable\EnumHelper.cs" />
     <Compile Include="Communication\Youtube\Serializable\YoutubeSnippet.cs" />
     <Compile Include="Communication\Youtube\Serializable\YoutubeStatus.cs" />
     <Compile Include="Communication\Youtube\Serializable\YoutubeVideo.cs" />
@@ -122,7 +124,6 @@
     <Compile Include="Videos\VideoResourceId.cs" />
     <Compile Include="Videos\Video.cs" />
     <Compile Include="Videos\VideoSnippet.cs" />
-    <Compile Include="Videos\VideoStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Communication\Youtube\WebResources.resx">

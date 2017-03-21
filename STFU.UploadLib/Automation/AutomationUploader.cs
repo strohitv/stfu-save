@@ -361,8 +361,6 @@ namespace STFU.UploadLib.Automation
 
 			OnUploadStarted(vid.Title);
 
-			//Job job = new Job() { SelectedVideo = vid, UploadingAccount = ActiveAccount, Status = new UploadDetails() };
-
 			Job job = null;
 			while (job == null)
 			{

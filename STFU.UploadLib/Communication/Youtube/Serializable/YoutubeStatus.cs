@@ -13,12 +13,14 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		public DateTime PublishAt { get; set; }
 
 		[JsonProperty(PropertyName = "privacyStatus")]
+		[JsonConverter(typeof(EnumConverter))]
 		public PrivacyStatus Privacy { get; set; }
 
 		[JsonProperty(PropertyName = "embeddable")]
 		public bool IsEmbeddable { get; set; }
 
 		[JsonProperty(PropertyName = "license")]
+		[JsonConverter(typeof(EnumConverter))]
 		public License License { get; set; }
 
 		public bool ShouldPublishAt { get; set; }
@@ -29,7 +31,7 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		{ return false; }
 		//public bool ShouldSerializeprivacyStatus()
 		//{ return false; }
-		public bool ShouldSerializepublishAt()
+		public bool ShouldSerializePublishAt()
 		{ return ShouldPublishAt; }
 	}
 }
