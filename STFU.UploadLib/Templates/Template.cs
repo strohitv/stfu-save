@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using STFU.UploadLib.Communication.Youtube.Serializable;
 using STFU.UploadLib.Videos;
@@ -63,5 +59,53 @@ namespace STFU.UploadLib.Templates
 				publishAt = value;
 			}
 		}
+
+		internal Video CreateVideo(Video video)
+		{
+			video.Title = Title;
+			video.Description = Description;
+			video.CategoryId = CategoryId;
+			video.DefaultLanguage = DefaultLanguage;
+
+			video.Privacy = Privacy;
+			video.License = License;
+			video.IsEmbeddable = IsEmbeddable;
+			video.PublicStatsViewable = PublicStatsViewable;
+			video.PublishAt = PublishAt;
+
+			video.Tags.Clear();
+			foreach (var tag in Tags.Split(','))
+			{
+				video.Tags.Add(tag);
+			}
+
+			return video;
+		}
+
+		internal Video CreateVideo(string path)
+		{
+			Video video = new Video(path);
+
+			video.Title = Title;
+			video.Description = Description;
+			video.CategoryId = CategoryId;
+			video.DefaultLanguage = DefaultLanguage;
+
+			video.Privacy = Privacy;
+			video.License = License;
+			video.IsEmbeddable = IsEmbeddable;
+			video.PublicStatsViewable = PublicStatsViewable;
+			video.PublishAt = PublishAt;
+
+			video.Tags.Clear();
+			foreach (var tag in Tags.Split(','))
+			{
+				video.Tags.Add(tag);
+			}
+
+			return video;
+		}
+
+		// TODO: Veröffentlichungen entsprechend einstellen, dass das funktioniert. Wie mach ich das? :o
 	}
 }
