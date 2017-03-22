@@ -49,7 +49,6 @@ namespace STFU.UploadLib.Videos
 
 		public bool IsEmbeddable { get; set; }
 
-
 		public bool PublicStatsViewable { get; set; }
 
 		public DateTime? PublishAt
