@@ -8,7 +8,7 @@ namespace STFU.UploadLib.Templates
 	public class Template
 	{
 		private PrivacyStatus privacy;
-		private DateTime? publishAt;
+		private PublishRule publishRule;
 
 		public string Title { get; set; }
 
@@ -29,9 +29,9 @@ namespace STFU.UploadLib.Templates
 			}
 			set
 			{
-				if (value != PrivacyStatus.Private && PublishAt != null)
+				if (value != PrivacyStatus.Private && PublishRule != null)
 				{
-					PublishAt = null;
+					PublishRule = null;
 				}
 				privacy = value;
 			}
@@ -44,11 +44,14 @@ namespace STFU.UploadLib.Templates
 
 		public bool PublicStatsViewable { get; set; }
 
-		public DateTime? PublishAt
+		[JsonIgnore]
+		public bool NeedsStart { get { return PublishRule != null; } }
+
+		public PublishRule PublishRule
 		{
 			get
 			{
-				return publishAt;
+				return publishRule;
 			}
 			set
 			{
@@ -56,7 +59,7 @@ namespace STFU.UploadLib.Templates
 				{
 					Privacy = PrivacyStatus.Private;
 				}
-				publishAt = value;
+				publishRule = value;
 			}
 		}
 
@@ -71,7 +74,9 @@ namespace STFU.UploadLib.Templates
 			video.License = License;
 			video.IsEmbeddable = IsEmbeddable;
 			video.PublicStatsViewable = PublicStatsViewable;
-			video.PublishAt = PublishAt;
+
+			DateTime? pd = PublishRule.NextTime();
+			video.PublishAt = pd.Value != default(DateTime) ? pd : null;
 
 			video.Tags.Clear();
 			foreach (var tag in Tags.Split(','))
@@ -86,24 +91,12 @@ namespace STFU.UploadLib.Templates
 		{
 			Video video = new Video(path);
 
-			video.Title = Title;
-			video.Description = Description;
-			video.CategoryId = CategoryId;
-			video.DefaultLanguage = DefaultLanguage;
+			return CreateVideo(video);
+		}
 
-			video.Privacy = Privacy;
-			video.License = License;
-			video.IsEmbeddable = IsEmbeddable;
-			video.PublicStatsViewable = PublicStatsViewable;
-			video.PublishAt = PublishAt;
-
-			video.Tags.Clear();
-			foreach (var tag in Tags.Split(','))
-			{
-				video.Tags.Add(tag);
-			}
-
-			return video;
+		internal void StartPublishRule(DateTime start)
+		{
+			PublishRule.Start(start);
 		}
 
 		// TODO: Veröffentlichungen entsprechend einstellen, dass das funktioniert. Wie mach ich das? :o

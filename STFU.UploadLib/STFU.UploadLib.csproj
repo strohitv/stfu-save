@@ -117,10 +117,8 @@
     <Compile Include="Queue\Job.cs" />
     <Compile Include="Queue\UploadQueue.cs" />
     <Compile Include="Queue\UploadDetails.cs" />
-    <Compile Include="Templates\Day.cs" />
     <Compile Include="Templates\PublishRule.cs" />
     <Compile Include="Templates\Template.cs" />
-    <Compile Include="Templates\Time.cs" />
     <Compile Include="Uploader.cs" />
     <Compile Include="Videos\Category.cs" />
     <Compile Include="Videos\License.cs" />

@@ -6,9 +6,16 @@ namespace STFU.UploadLib.Templates
 {
 	public class PublishRule
 	{
-		private int currentCount = 0;
+		private int currentDayCount = 0;
+		private DateTime startDateTime = DateTime.Now;
+		private List<DateTime> allTimes = new List<DateTime>();
+		private int dayOfWeek = 0;
+
+		private bool isStarted = false;
 
 		private IDictionary<DayOfWeek, IList<TimeSpan>> Times { get; set; }
+
+		public bool IsStarted { get { return isStarted; } }
 
 		public PublishRule()
 		{
@@ -23,10 +30,15 @@ namespace STFU.UploadLib.Templates
 			Times.Add(DayOfWeek.Saturday, new List<TimeSpan>());
 		}
 
+		/// <summary>
+		/// returns a copy of Timespans for the asked day. Changes on this copy do not affect the PublishRule.
+		/// </summary>
+		/// <param name="day"></param>
+		/// <returns></returns>
 		public IList<TimeSpan> GetTimes(DayOfWeek day)
 		{
 			// ToList, um zu verhindern, dass Zugriff auf die eigentliche Liste möglich ist.
-			return Times[day].ToList();
+			return Times[day].Select(key => new TimeSpan(key.Ticks)).ToList();
 		}
 
 		public void Add(DayOfWeek day, TimeSpan time)
@@ -35,47 +47,88 @@ namespace STFU.UploadLib.Templates
 			Times[day].OrderBy(key => key);
 		}
 
+		public void ClearForDay(DayOfWeek day)
+		{
+			Times[day].Clear();
+		}
+
+		public void ClearAll()
+		{
+			Times = new Dictionary<DayOfWeek, IList<TimeSpan>>();
+
+			Times.Add(DayOfWeek.Sunday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Monday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Tuesday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Wednesday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Thursday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Friday, new List<TimeSpan>());
+			Times.Add(DayOfWeek.Saturday, new List<TimeSpan>());
+		}
+
 		internal void ResetCounter()
 		{
-			currentCount = 0;
+			currentDayCount = 0;
 		}
 
-		internal DateTime NextTime(DateTime start)
-		{
-			return NextTime(start, currentCount++);
-		}
-
-		internal DateTime NextTime(DateTime start, int counter)
-		{
-			var firstTime = FirstTime(start, start.TimeOfDay);
-
-			return default(DateTime);
-		}
-
-		private DateTime FirstTime(DateTime day, TimeSpan time)
+		internal DateTime NextTime(int skipCount)
 		{
 			if (CompleteCount == 0)
 			{
 				return default(DateTime);
 			}
 
-			var nextDate = DateTime.Now.Date;
-			int dayCount = 7 - (int)nextDate.DayOfWeek - (int)day.DayOfWeek;
-			nextDate = nextDate.AddDays(dayCount);
-
-			if (Times[day.DayOfWeek].Count > 0)
+			// Fill the list with new times if it is empty or more items than in the list should be skipped.
+			while (allTimes.Count == 0 || allTimes.Count < skipCount)
 			{
-				var nextTime = Times[day.DayOfWeek].FirstOrDefault(t => t > time);
-
-				if (nextTime == default(TimeSpan))
+				foreach (var t in Times[(DayOfWeek)dayOfWeek])
 				{
-					return FirstTime(day.AddDays(1), time);
+					allTimes.Add(startDateTime.Date.AddDays(currentDayCount).Add(t));
 				}
 
-				return nextDate.Add(nextTime);
+				currentDayCount++;
+				dayOfWeek++;
+				dayOfWeek %= 7;
 			}
 
-			return FirstTime((DayOfWeek)(((int)day + 1) % 7), time);
+			DateTime next;
+			do
+			{
+				next = allTimes.First();
+				allTimes.RemoveAt(0);
+				skipCount--;
+			} while (skipCount > 0);
+
+			return next;
+		}
+
+		internal void Start(DateTime startDt)
+		{
+			startDateTime = startDt;
+			currentDayCount = 0;
+			dayOfWeek = (int)startDateTime.DayOfWeek;
+
+			var greaterTimesToday = Times[(DayOfWeek)dayOfWeek].Where(t => t >= startDateTime.TimeOfDay);
+			foreach (var t in greaterTimesToday)
+			{
+				allTimes.Add(startDateTime.Date.Add(t));
+			}
+
+			currentDayCount++;
+			dayOfWeek++;
+			dayOfWeek %= 7;
+
+			isStarted = true;
+		}
+
+		/// <summary>
+		/// returns the first publish time after the given date and time.
+		/// </summary>
+		/// <param name="day"></param>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		internal DateTime NextTime()
+		{
+			return NextTime(0);
 		}
 
 		private int CompleteCount
