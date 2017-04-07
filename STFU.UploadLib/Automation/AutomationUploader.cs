@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube;
 using STFU.UploadLib.Operations;
 using STFU.UploadLib.Queue;
+using STFU.UploadLib.Templates;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Automation
@@ -27,6 +29,7 @@ namespace STFU.UploadLib.Automation
 		private Thread uploadThread = null;
 		private bool active = false;
 		private ProcessWatcher watcher = new ProcessWatcher();
+		private List<Template> templates = new List<Template>();
 
 		private const string selectedPathsJsonPath = "Paths.json";
 		private const string accountJsonPath = "Account.json";
@@ -101,6 +104,14 @@ namespace STFU.UploadLib.Automation
 		}
 
 		public Process[] ProcessesToWatch { get { return Watcher.Procs.ToArray(); } }
+
+		public Collection<Template> Templates
+		{
+			get
+			{
+				return new Collection<Template>(templates);
+			}
+		}
 		#endregion properties
 
 		public AutomationUploader()

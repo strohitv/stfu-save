@@ -10,6 +10,8 @@ namespace STFU.UploadLib.Templates
 		private PrivacyStatus privacy;
 		private PublishRule publishRule;
 
+		public string Name { get; set; }
+
 		public string Title { get; set; }
 
 		public string Description { get; set; }
@@ -61,6 +63,16 @@ namespace STFU.UploadLib.Templates
 				}
 				publishRule = value;
 			}
+		}
+
+		public Template()
+			: this("neues Template")
+		{
+		}
+
+		public Template(string name)
+		{
+			Name = name;
 		}
 
 		internal Video CreateVideo(Video video)

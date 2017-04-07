@@ -254,5 +254,11 @@ namespace STFU.AutoUploader
 		{
 			ChoseProcesses();
 		}
+
+		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		{
+			TemplateForm f1 = new TemplateForm(uploader);
+			f1.Show(this);
+		}
 	}
 }
