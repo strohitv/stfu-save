@@ -278,7 +278,7 @@ namespace STFU.UploadLib.Automation
 			{
 				RefreshFiles();
 
-				if (files.Count == 0 && Watcher.Count > 0 && !Watcher.AnyIsRunning())
+				if (files.Count == 0 && (Watcher.Count == 0 || (Watcher.Count > 0 && !Watcher.AnyIsRunning())))
 				{
 					// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
 					break;
@@ -333,7 +333,7 @@ namespace STFU.UploadLib.Automation
 				}
 				catch (IOException)
 				{
-					Thread.Sleep(new TimeSpan(0, 3, 0));
+					Thread.Sleep(new TimeSpan(0, 0, 1));
 				}
 			}
 
