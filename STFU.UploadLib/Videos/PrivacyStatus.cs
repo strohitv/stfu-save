@@ -7,12 +7,12 @@ namespace STFU.UploadLib.Videos
 	{
 		[JsonProperty(PropertyName = "public")]
 		[EnumMember(Value = "public")]
-		Public,
+		Public = 0,
 		[JsonProperty(PropertyName = "public")]
 		[EnumMember(Value = "public")]
-		Unlisted,
+		Unlisted = 1,
 		[JsonProperty(PropertyName = "private")]
 		[EnumMember(Value = "private")]
-		Private
+		Private = 2
 	}
 }
