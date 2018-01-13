@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using STFU.UploadLib.Templates;
 
 namespace STFU.UploadLib.Automation
 {
@@ -143,7 +145,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public static PathSettings Parse(string json)
+		public static PathSettings Parse(string json, Collection<Template> templates)
 		{
 			var jArray = JArray.Parse(json);
 
@@ -168,6 +170,13 @@ namespace STFU.UploadLib.Automation
 								break;
 							case "searchrecursively":
 								info.SearchRecursively = (bool)item.Value;
+								break;
+							case "selectedtemplate":
+								info.SelectedTemplate = (string)item.Value;
+								if (info.SelectedTemplate == null)
+								{
+									info.SelectedTemplate = "standard";
+								}
 								break;
 							default:
 								break;

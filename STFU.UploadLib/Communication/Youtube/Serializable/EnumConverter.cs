@@ -36,7 +36,6 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 						return value;
 					}
 				}
-				
 			}
 
 			return null;
@@ -48,7 +47,6 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 			{
 				PrivacyStatus status = (PrivacyStatus)value;
 				writer.WriteValue(status.GetAttribute<EnumMemberAttribute>().Value);
-				//jo.Add("Privacy", JToken.FromObject(status.GetAttribute<EnumMemberAttribute>().Value, serializer));
 			}
 
 			if (value is License)

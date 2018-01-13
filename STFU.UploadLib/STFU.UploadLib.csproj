@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -117,8 +118,9 @@
     <Compile Include="Queue\Job.cs" />
     <Compile Include="Queue\UploadQueue.cs" />
     <Compile Include="Queue\UploadDetails.cs" />
-    <Compile Include="Templates\PublishRule.cs" />
+    <Compile Include="Templates\PublishTime.cs" />
     <Compile Include="Templates\Template.cs" />
+    <Compile Include="Templates\TemplateVideoCreator.cs" />
     <Compile Include="Uploader.cs" />
     <Compile Include="Videos\Category.cs" />
     <Compile Include="Videos\License.cs" />

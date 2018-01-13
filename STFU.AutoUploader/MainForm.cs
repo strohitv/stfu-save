@@ -23,6 +23,7 @@ namespace STFU.AutoUploader
 				var newItem = lvSelectedPaths.Items.Add(entry.Path);
 				newItem.SubItems.Add(entry.Filter);
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.SelectedTemplate);
 			}
 		}
 
@@ -107,6 +108,7 @@ namespace STFU.AutoUploader
 		{
 			uploader?.Stop(true);
 			uploader?.WritePaths();
+			uploader?.WriteTemplates();
 		}
 
 		private void RevokeAccess()
@@ -165,8 +167,6 @@ namespace STFU.AutoUploader
 
 		private void beendenToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			uploader?.Stop(true);
-			uploader?.WritePaths();
 			Close();
 		}
 
@@ -180,6 +180,7 @@ namespace STFU.AutoUploader
 		{
 			PathForm pf = new PathForm(uploader);
 			pf.ShowDialog(this);
+			uploader.WritePaths();
 
 			RefillListView();
 		}
@@ -212,8 +213,6 @@ namespace STFU.AutoUploader
 
 			if (chbChoseProcesses.Checked)
 			{
-				//ProcessForm processChoser = new ProcessForm();
-				//processChoser.ShowDialog(this);
 				ChoseProcesses();
 			}
 			else
@@ -255,10 +254,11 @@ namespace STFU.AutoUploader
 			ChoseProcesses();
 		}
 
-		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		private void templatesVerwaltenToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			TemplateForm f1 = new TemplateForm(uploader);
-			f1.Show(this);
+			TemplateForm tf = new TemplateForm(uploader);
+			tf.Show(this);
+			uploader.WriteTemplates();
 		}
 	}
 }

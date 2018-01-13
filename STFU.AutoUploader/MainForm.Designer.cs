@@ -34,6 +34,7 @@
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
@@ -79,7 +80,7 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
 			this.tlpSettings.Controls.Add(this.btnStart, 13, 4);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
@@ -125,7 +126,8 @@
 			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPath,
             this.chFilter,
-            this.chRecursive});
+            this.chRecursive,
+            this.chTemplate});
 			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 13);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
@@ -155,6 +157,11 @@
 			this.chRecursive.Text = "Unterverzeichnisse";
 			this.chRecursive.Width = 150;
 			// 
+			// chTemplate
+			// 
+			this.chTemplate.Text = "Template";
+			this.chTemplate.Width = 150;
+			// 
 			// lblCurrentLoggedIn
 			// 
 			this.lblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -166,7 +173,6 @@
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
-			this.lblCurrentLoggedIn.Click += new System.EventHandler(this.lblCurrentLoggedIn_Click);
 			// 
 			// lnklblCurrentLoggedIn
 			// 
@@ -253,6 +259,7 @@
 			this.templatesVerwaltenToolStripMenuItem.Name = "templatesVerwaltenToolStripMenuItem";
 			this.templatesVerwaltenToolStripMenuItem.Size = new System.Drawing.Size(237, 26);
 			this.templatesVerwaltenToolStripMenuItem.Text = "Templates verwalten";
+			this.templatesVerwaltenToolStripMenuItem.Click += new System.EventHandler(this.templatesVerwaltenToolStripMenuItemClick);
 			// 
 			// alleTemplatesLöschenToolStripMenuItem
 			// 
@@ -420,6 +427,7 @@
 		private System.Windows.Forms.ComboBox cmbbxFinishAction;
 		private System.Windows.Forms.CheckBox chbChoseProcesses;
 		private System.Windows.Forms.Button btnChoseProcs;
+		private System.Windows.Forms.ColumnHeader chTemplate;
 	}
 }
 

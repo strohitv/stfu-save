@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using STFU.UploadLib.Communication.Youtube.Serializable;
 using STFU.UploadLib.Videos;
 
@@ -7,8 +9,9 @@ namespace STFU.UploadLib.Templates
 {
 	public class Template
 	{
+		private IList<PublishTime> publishTimes;
+
 		private PrivacyStatus privacy;
-		private PublishRule publishRule;
 
 		public string Name { get; set; }
 
@@ -25,18 +28,8 @@ namespace STFU.UploadLib.Templates
 		[JsonConverter(typeof(EnumConverter))]
 		public PrivacyStatus Privacy
 		{
-			get
-			{
-				return privacy;
-			}
-			set
-			{
-				if (value != PrivacyStatus.Private && PublishRule != null)
-				{
-					PublishRule = null;
-				}
-				privacy = value;
-			}
+			get { return privacy; }
+			set { privacy = value; }
 		}
 
 		[JsonConverter(typeof(EnumConverter))]
@@ -47,21 +40,24 @@ namespace STFU.UploadLib.Templates
 		public bool PublicStatsViewable { get; set; }
 
 		[JsonIgnore]
-		public bool NeedsStart { get { return PublishRule != null; } }
+		public bool NeedsStart { get { return ShouldPublishAt && PublishTimes.Count > 0; } }
 
-		public PublishRule PublishRule
+		public bool ShouldPublishAt { get; set; }
+
+		public IList<PublishTime> PublishTimes
 		{
 			get
 			{
-				return publishRule;
+				if (publishTimes == null)
+				{
+					publishTimes = new List<PublishTime>();
+				}
+
+				return publishTimes;
 			}
 			set
 			{
-				if (value != null && Privacy != PrivacyStatus.Private)
-				{
-					Privacy = PrivacyStatus.Private;
-				}
-				publishRule = value;
+				publishTimes = value;
 			}
 		}
 
@@ -75,42 +71,14 @@ namespace STFU.UploadLib.Templates
 			Name = name;
 		}
 
-		internal Video CreateVideo(Video video)
+		public static explicit operator Template(JToken v)
 		{
-			video.Title = Title;
-			video.Description = Description;
-			video.CategoryId = CategoryId;
-			video.DefaultLanguage = DefaultLanguage;
-
-			video.Privacy = Privacy;
-			video.License = License;
-			video.IsEmbeddable = IsEmbeddable;
-			video.PublicStatsViewable = PublicStatsViewable;
-
-			DateTime? pd = PublishRule.NextTime();
-			video.PublishAt = pd.Value != default(DateTime) ? pd : null;
-
-			video.Tags.Clear();
-			foreach (var tag in Tags.Split(','))
-			{
-				video.Tags.Add(tag);
-			}
-
-			return video;
+			return JsonConvert.DeserializeObject<Template>(v.ToString());
 		}
 
-		internal Video CreateVideo(string path)
+		public override string ToString()
 		{
-			Video video = new Video(path);
-
-			return CreateVideo(video);
+			return Name;
 		}
-
-		internal void StartPublishRule(DateTime start)
-		{
-			PublishRule.Start(start);
-		}
-
-		// TODO: Veröffentlichungen entsprechend einstellen, dass das funktioniert. Wie mach ich das? :o
 	}
 }

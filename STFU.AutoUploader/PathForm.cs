@@ -21,7 +21,7 @@ namespace STFU.AutoUploader
 		{
 			if (e.KeyData == Keys.Delete && !NoItemSelected())
 			{
-				uploader.Remove(lvSelectedPaths.SelectedItems[0].Text);
+				uploader.Remove(lvPaths.SelectedItems[0].Text);
 				RefillListView();
 				ClearEditBox();
 			}
@@ -29,16 +29,17 @@ namespace STFU.AutoUploader
 
 		private void RefillListView()
 		{
-			lvSelectedPaths.Items.Clear();
+			lvPaths.Items.Clear();
 
 			foreach (var entry in uploader.Paths)
 			{
-				var newItem = lvSelectedPaths.Items.Add(entry.Path);
+				var newItem = lvPaths.Items.Add(entry.Path);
 				newItem.SubItems.Add(entry.Filter);
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.SelectedTemplate);
 			}
 
-			lvSelectedPaths.SelectedIndices.Clear();
+			lvPaths.SelectedIndices.Clear();
 		}
 
 		private void RefillEditBox()
@@ -50,13 +51,22 @@ namespace STFU.AutoUploader
 			}
 
 			tlpEditPaths.Enabled = true;
-			int index = lvSelectedPaths.SelectedIndices[0];
+			int index = lvPaths.SelectedIndices[0];
 
 			var selectedItem = uploader.Paths[index];
 
 			txtbxAddPath.Text = selectedItem.Path;
 			txtbxAddFilter.Text = selectedItem.Filter;
 			chbRecursive.Checked = selectedItem.SearchRecursively;
+
+			if (uploader.Templates.Any(t => t.Name.ToLower() == selectedItem.SelectedTemplate.ToLower()))
+			{
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Name.ToLower() == selectedItem.SelectedTemplate.ToLower()));
+			}
+			else
+			{
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Name.ToLower() == "standard"));
+			}
 		}
 
 		private void ClearEditBox()
@@ -69,6 +79,11 @@ namespace STFU.AutoUploader
 
 		private void PathFormLoad(object sender, EventArgs e)
 		{
+			foreach (var template in uploader.Templates)
+			{
+				cobSelectedTemplate.Items.Add(template.Name);
+			}
+
 			RefillListView();
 		}
 
@@ -87,7 +102,7 @@ namespace STFU.AutoUploader
 
 					uploader.Paths.Add(newPath);
 					RefillListView();
-					lvSelectedPaths.SelectedIndices.Add(lvSelectedPaths.Items.Count - 1);
+					lvPaths.SelectedIndices.Add(lvPaths.Items.Count - 1);
 				}
 			}
 		}
@@ -99,7 +114,7 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			uploader.Paths.RemoveAt(lvSelectedPaths.SelectedIndices[0]);
+			uploader.Paths.RemoveAt(lvPaths.SelectedIndices[0]);
 			RefillListView();
 			ClearEditBox();
 		}
@@ -116,13 +131,14 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			int index = lvSelectedPaths.SelectedIndices[0];
+			int index = lvPaths.SelectedIndices[0];
 
 			var selectedItem = uploader.Paths[index];
 
 			selectedItem.Path = txtbxAddPath.Text;
 			selectedItem.Filter = txtbxAddFilter.Text;
 			selectedItem.SearchRecursively = chbRecursive.Checked;
+			selectedItem.SelectedTemplate = (string)cobSelectedTemplate.SelectedItem;
 
 			ClearEditBox();
 			RefillListView();
@@ -130,7 +146,7 @@ namespace STFU.AutoUploader
 
 		private bool NoItemSelected()
 		{
-			return lvSelectedPaths.SelectedItems.Count == 0;
+			return lvPaths.SelectedItems.Count == 0;
 		}
 
 		private void btnSelectPathClick(object sender, EventArgs e)
@@ -140,7 +156,7 @@ namespace STFU.AutoUploader
 			{
 				if (Directory.Exists(folderBrowserDialog.SelectedPath)
 					&& (!uploader.Paths.Any(path => path.Path == folderBrowserDialog.SelectedPath)
-					|| folderBrowserDialog.SelectedPath == uploader.Paths[lvSelectedPaths.SelectedIndices[0]].Path))
+					|| folderBrowserDialog.SelectedPath == uploader.Paths[lvPaths.SelectedIndices[0]].Path))
 				{
 					txtbxAddPath.Text = folderBrowserDialog.SelectedPath;
 				}
@@ -154,7 +170,7 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			var index = lvSelectedPaths.SelectedIndices[0];
+			var index = lvPaths.SelectedIndices[0];
 			if (index == 0)
 			{
 				return;
@@ -165,8 +181,8 @@ namespace STFU.AutoUploader
 			uploader.Paths.InsertAt(index - 1, currentItem);
 
 			RefillListView();
-			lvSelectedPaths.SelectedIndices.Clear();
-			lvSelectedPaths.SelectedIndices.Add(index - 1);
+			lvPaths.SelectedIndices.Clear();
+			lvPaths.SelectedIndices.Add(index - 1);
 		}
 
 		private void movePathDownButtonClick(object sender, EventArgs e)
@@ -176,7 +192,7 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			var index = lvSelectedPaths.SelectedIndices[0];
+			var index = lvPaths.SelectedIndices[0];
 			if (index == uploader.Paths.Count - 1)
 			{
 				return;
@@ -187,8 +203,8 @@ namespace STFU.AutoUploader
 			uploader.Paths.InsertAt(index + 1, currentItem);
 
 			RefillListView();
-			lvSelectedPaths.SelectedIndices.Clear();
-			lvSelectedPaths.SelectedIndices.Add(index + 1);
+			lvPaths.SelectedIndices.Clear();
+			lvPaths.SelectedIndices.Add(index + 1);
 		}
 
 		private void clearButtonClick(object sender, EventArgs e)
@@ -201,7 +217,7 @@ namespace STFU.AutoUploader
 		private void btnCancelClick(object sender, EventArgs e)
 		{
 			ClearEditBox();
-			lvSelectedPaths.SelectedIndices.Clear();
+			lvPaths.SelectedIndices.Clear();
 		}
 	}
 }

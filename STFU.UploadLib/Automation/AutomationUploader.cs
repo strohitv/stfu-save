@@ -31,9 +31,10 @@ namespace STFU.UploadLib.Automation
 		private ProcessWatcher watcher = new ProcessWatcher();
 		private List<Template> templates = new List<Template>();
 
-		private const string selectedPathsJsonPath = "Paths.json";
-		private const string accountJsonPath = "Account.json";
-		private const string currentUploadDetailsPath = "CurrentUpload.json";
+		private const string selectedPathsJsonPath = @"settings\paths.json";
+		private const string accountJsonPath = @"settings\account.json";
+		private const string currentUploadDetailsPath = @"settings\currentUpload.json";
+		private const string templatesPath = @"settings\templates.json";
 
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
@@ -111,11 +112,31 @@ namespace STFU.UploadLib.Automation
 			{
 				return new Collection<Template>(templates);
 			}
+			set
+			{
+				templates = value.ToList();
+			}
 		}
 		#endregion properties
 
 		public AutomationUploader()
 		{
+			if (!Directory.Exists("settings"))
+			{
+				Directory.CreateDirectory("settings");
+			}
+
+			if (File.Exists(templatesPath))
+			{
+				ReadTemplates();
+			}
+
+			if (!Templates.Any(t => t.Name.ToLower() == "standard"))
+			{
+				Templates.Add(new Template("Standard"));
+				WriteTemplates();
+			}
+
 			if (File.Exists(accountJsonPath))
 			{
 				using (StreamReader reader = new StreamReader(accountJsonPath))
@@ -180,7 +201,27 @@ namespace STFU.UploadLib.Automation
 			{
 				json = fileReader.ReadToEnd();
 			}
-			Paths = PathSettings.Parse(json); // JsonConvert.DeserializeObject<PathSettings>(json);
+			Paths = PathSettings.Parse(json, Templates); // JsonConvert.DeserializeObject<PathSettings>(json); // 
+		}
+
+		public void WriteTemplates()
+		{
+			var serialized = JsonConvert.SerializeObject(Templates);
+
+			using (StreamWriter fileWriter = new StreamWriter(templatesPath, false))
+			{
+				fileWriter.Write(serialized);
+			}
+		}
+
+		public void ReadTemplates()
+		{
+			string json;
+			using (StreamReader fileReader = new StreamReader(templatesPath))
+			{
+				json = fileReader.ReadToEnd();
+			}
+			Templates = JsonConvert.DeserializeObject<Collection<Template>>(json);
 		}
 
 		public void Reset()
@@ -278,7 +319,7 @@ namespace STFU.UploadLib.Automation
 			{
 				RefreshFiles();
 
-				if (files.Count == 0 && Watcher.Count > 0 && !Watcher.AnyIsRunning())
+				if (files.Count == 0 && (Watcher.Count == 0 || (Watcher.Count > 0 && !Watcher.AnyIsRunning())))
 				{
 					// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
 					break;
@@ -333,7 +374,7 @@ namespace STFU.UploadLib.Automation
 				}
 				catch (IOException)
 				{
-					Thread.Sleep(new TimeSpan(0, 3, 0));
+					Thread.Sleep(new TimeSpan(0, 0, 1));
 				}
 			}
 
