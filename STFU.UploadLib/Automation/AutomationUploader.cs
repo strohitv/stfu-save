@@ -229,14 +229,14 @@ namespace STFU.UploadLib.Automation
 			Paths = new PathSettings();
 		}
 
-		public string GetAuthLoginScreenUrl(bool showAuthToken)
+		public string GetAuthLoginScreenUrl(bool showAuthToken, bool logout = false)
 		{
-			return AccountCommunication.GetLogoffAndAuthUrl(showAuthToken);
+			return AccountCommunication.GetLogoffAndAuthUrl(showAuthToken, logout);
 		}
 
-		public bool ConnectToAccount(string authToken)
+		public bool ConnectToAccount(string authToken, bool useLocalHostRedirect = true)
 		{
-			ActiveAccount = AccountCommunication.LoadAccountDetails(AccountCommunication.ConnectAccount(authToken));
+			ActiveAccount = AccountCommunication.LoadAccountDetails(AccountCommunication.ConnectAccount(authToken, useLocalHostRedirect));
 
 			if (!string.IsNullOrWhiteSpace(ActiveAccount.Access.RefreshToken))
 			{

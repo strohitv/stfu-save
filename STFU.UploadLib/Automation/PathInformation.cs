@@ -1,6 +1,4 @@
-﻿using STFU.UploadLib.Templates;
-
-namespace STFU.UploadLib.Automation
+﻿namespace STFU.UploadLib.Automation
 {
 	public class PathInformation
 	{

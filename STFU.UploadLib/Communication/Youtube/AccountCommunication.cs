@@ -12,9 +12,16 @@ namespace STFU.UploadLib.Communication.Youtube
 			return WebService.GetAuthUrl(showAuthToken);
 		}
 
-		public static string GetLogoffAndAuthUrl(bool showAuthToken)
+		public static string GetLogoffAndAuthUrl(bool showAuthToken, bool logout = false)
 		{
-			return WebService.LogoutAndThenGetAuthUrl(showAuthToken);
+			if (logout)
+			{
+				return WebService.LogoutAndThenGetAuthUrl(showAuthToken);
+			}
+			else
+			{
+				return WebService.GetAuthUrl(showAuthToken);
+			}
 		}
 
 		public static Account LoadAccountDetails(Account account)
@@ -27,14 +34,9 @@ namespace STFU.UploadLib.Communication.Youtube
 			return account;
 		}
 		
-		public static Account ConnectAccount(string authToken)
+		public static Account ConnectAccount(string authToken, bool useLocalHostRedirect = true)
 		{
-			//var authRequestString = WebService.GetAuthUrl(true);
-			//Process.Start(authRequestString);
-
-			//string authtoken = Console.ReadLine();
-
-			var response = WebService.ObtainAccessToken(authToken);
+			var response = WebService.ObtainAccessToken(authToken, useLocalHostRedirect);
 
 			// Account holen
 			Account account = new Account();

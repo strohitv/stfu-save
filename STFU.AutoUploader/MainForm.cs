@@ -42,23 +42,22 @@ namespace STFU.AutoUploader
 		private void ConnectToYoutube()
 		{
 			tlpSettings.Enabled = false;
-			var connectionLink = uploader.GetAuthLoginScreenUrl(false);
-			var browserForm = new BrowserForm(connectionLink);
 
-			var result = browserForm.ShowDialog(this);
+			var addForm = new AddAccountForm();
+			addForm.ExternalCodeUrl = uploader.GetAuthLoginScreenUrl(true, false);
+			addForm.LocalHostUrl = uploader.GetAuthLoginScreenUrl(false, true);
 
-			if (result == DialogResult.OK)
+			var result = addForm.ShowDialog(this);
+			if (result == DialogResult.OK && uploader.ConnectToAccount(addForm.AuthToken, addForm.UsedLocalHostRedirect))
 			{
-				if (uploader.ConnectToAccount(browserForm.AuthToken))
-				{
-					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-					lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
-					RefreshConnectionToolstripButtonsEnabled();
-					lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
-					btnStart.Enabled = true;
-				}
+				lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+				RefreshConnectionToolstripButtonsEnabled();
+				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
+				btnStart.Enabled = true;
 			}
+
 			tlpSettings.Enabled = true;
 		}
 

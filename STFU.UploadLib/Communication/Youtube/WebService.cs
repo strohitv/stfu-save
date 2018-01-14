@@ -110,7 +110,7 @@ namespace STFU.UploadLib.Communication.Youtube
 		internal static string LogoutAndThenGetAuthUrl(bool showAuthToken = false)
 		{
 			string logoffAndContinueString = resourceManager.GetString("LogoffAndContinueLink");
-			var escaped = string.Format(logoffAndContinueString, Uri.EscapeDataString(GetAuthUrl()));
+			var escaped = string.Format(logoffAndContinueString, Uri.EscapeDataString(GetAuthUrl(showAuthToken)));
 			return escaped;
 		}
 
