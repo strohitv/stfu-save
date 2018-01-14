@@ -1,169 +1,182 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using STFU.UploadLib.Automation;
-using STFU.UploadLib.Videos;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Collections.ObjectModel;
+//using System.IO;
+//using System.Linq;
+//using STFU.UploadLib.Automation;
+//using STFU.UploadLib.Videos;
 
-namespace STFU.UploadLib.Templates
-{
-	internal class TemplateVideoCreator
-	{
-		internal Dictionary<PathInformation, DateTime> Paths { get; set; }
+//namespace STFU.UploadLib.Templates
+//{
+//	internal class TemplateVideoCreator
+//	{
+//		internal IList<PublishInformation> Paths { get; set; }
 
-		internal TemplateVideoCreator(Dictionary<PathInformation, DateTime> paths)
-		{
-			Paths = paths;
-		}
+//		internal TemplateVideoCreator(IList<PublishInformation> paths)
+//		{
+//			Paths = paths;
+//		}
 
-		internal Video CreateVideo(string path, Collection<Template> templates)
-		{
-			Video video = new Video(path);
+//		internal Video CreateVideo(string path, Collection<Template> templates)
+//		{
+//			Video video = new Video(path);
 
-			var pathInfoWithTime = FindPathInfo(path);
-			var templateName = pathInfoWithTime.Key.SelectedTemplate.ToLower();
+//			// Template suchen anhand des Pfades
 
-			Template template = templates.FirstOrDefault(t => t.Name.ToLower() == templateName);
-			if (template == null)
-			{
-				template = templates.FirstOrDefault(t => t.Name.ToLower() == "standard");
-			}
 
-			video.Title = template.Title;
-			video.Description = template.Description;
-			video.CategoryId = template.CategoryId;
-			video.DefaultLanguage = template.DefaultLanguage;
+//			// Nächsten Veröffentlichungszeitpunkt berechnen
+//			// Dafür benötigt: Datum letztes Video und Position in PublishTimems (!)
 
-			video.Privacy = template.Privacy;
-			video.License = template.License;
-			video.IsEmbeddable = template.IsEmbeddable;
-			video.PublicStatsViewable = template.PublicStatsViewable;
+//			// Werte füllen
 
-			if (template.Privacy == PrivacyStatus.Private
-				&& template.ShouldPublishAt
-				&& template.PublishTimes.Count > 0)
-			{
-				PathInformation pathInfo = pathInfoWithTime.Key;
-				DateTime time = pathInfoWithTime.Value;
-				video.PublishAt = FindPublishAt(template.PublishTimes, ref time);
+//			//var pathInfoWithTime = FindPathInfo(path);
+//			var templateName = pathInfoWithTime.Key.SelectedTemplate.ToLower();
 
-				Paths[pathInfo] = time;
-			}
+//			Template template = templates.FirstOrDefault(t => t.Name.ToLower() == templateName);
+//			if (template == null)
+//			{
+//				template = templates.FirstOrDefault(t => t.Name.ToLower() == "standard");
+//			}
 
-			video.Tags.Clear();
-			foreach (var tag in template.Tags.Split(','))
-			{
-				video.Tags.Add(tag);
-			}
+//			video.Title = template.Title;
+//			video.Description = template.Description;
+//			video.CategoryId = template.CategoryId;
+//			video.DefaultLanguage = template.DefaultLanguage;
 
-			return video;
-		}
+//			video.Privacy = template.Privacy;
+//			video.License = template.License;
+//			video.IsEmbeddable = template.IsEmbeddable;
+//			video.PublicStatsViewable = template.PublicStatsViewable;
 
-		private DateTime FindPublishAt(IList<PublishTime> templateTimes, ref DateTime dateTime)
-		{
-			var currentTime = dateTime;
+//			if (template.Privacy == PrivacyStatus.Private
+//				&& template.ShouldPublishAt
+//				&& template.PublishTimes.Count > 0)
+//			{
+//				PathInformation pathInfo = pathInfoWithTime.Key;
+//				DateTime time = pathInfoWithTime.Value;
+//				video.PublishAt = FindPublishAt(template.PublishTimes, ref time);
 
-			var dateTimes = new List<KeyValuePair<DateTime, PublishTime>>();
+//				//Paths[pathInfo] = time;
+//			}
 
-			foreach (var time in templateTimes)
-			{
-				var currentTimeSave = currentTime;
+//			video.Tags.Clear();
+//			foreach (var tag in template.Tags.Split(','))
+//			{
+//				video.Tags.Add(tag);
+//			}
 
-				if (currentTimeSave.DayOfWeek == time.DayOfWeek && currentTimeSave.TimeOfDay <= time.Time)
-				{
-					// Tag passt, Allerdings liegt die Zeit bereits in der Vergangenheit
-					// => Termin ist in sieben Tagen zur eingestellten Uhrzeit
-					currentTimeSave = currentTimeSave.AddDays(7.0);
-				}
-				else
-				{
-					// Richtigen Tag finden
-					while (currentTimeSave.DayOfWeek != time.DayOfWeek)
-					{
-						currentTimeSave = currentTimeSave.AddDays(1.0);
-					}
-				}
+//			return video;
+//		}
 
-				// Uhrzeit anpassen
-				currentTimeSave = currentTimeSave.Date.Add(time.Time);
+//		private PublishInformation FindPublishInformation(string path)
+//		{
+//			return null;
+//		}
 
-				dateTimes.Add(new KeyValuePair<DateTime, PublishTime>(currentTimeSave, time));
-			}
+//		private DateTime FindPublishAt(IList<PublishTime> templateTimes, ref DateTime dateTime)
+//		{
+//			var currentTime = dateTime;
 
-			var publishTime = DateTime.MaxValue;
-			var newCurrentTime = DateTime.MaxValue;
+//			var dateTimes = new List<KeyValuePair<DateTime, PublishTime>>();
 
-			foreach (var time in dateTimes)
-			{
-				if (time.Key - currentTime < publishTime - currentTime)
-				{
-					publishTime = time.Key;
-					newCurrentTime = time.Key.AddDays(time.Value.SkipDays);
-				}
-			}
+//			foreach (var time in templateTimes)
+//			{
+//				var currentTimeSave = currentTime;
 
-			dateTime = newCurrentTime;
-			return publishTime;
-		}
+//				if (currentTimeSave.DayOfWeek == time.DayOfWeek && currentTimeSave.TimeOfDay <= time.Time)
+//				{
+//					// Tag passt, Allerdings liegt die Zeit bereits in der Vergangenheit
+//					// => Termin ist in sieben Tagen zur eingestellten Uhrzeit
+//					currentTimeSave = currentTimeSave.AddDays(7.0);
+//				}
+//				else
+//				{
+//					// Richtigen Tag finden
+//					while (currentTimeSave.DayOfWeek != time.DayOfWeek)
+//					{
+//						currentTimeSave = currentTimeSave.AddDays(1.0);
+//					}
+//				}
 
-		private KeyValuePair<PathInformation, DateTime> FindPathInfo(string path)
-		{
-			string folder = Path.GetDirectoryName(path);
+//				// Uhrzeit anpassen
+//				currentTimeSave = currentTimeSave.Date.Add(time.Time);
 
-			var pathInfos = Paths.Where(y => (!y.Key.SearchRecursively && IsParent(folder, y.Key.Path)) 
-											|| (y.Key.SearchRecursively && IsParentRecursively(folder, y.Key.Path))).ToArray();
+//				dateTimes.Add(new KeyValuePair<DateTime, PublishTime>(currentTimeSave, time));
+//			}
 
-			// Falls mehrere da sind: Nähsten Pfad rausfinden
-			var pathInfo = pathInfos.First();
-			var pathDirInfo = new DirectoryInfo(pathInfo.Key.Path);
-			for (int i = 1; i < pathInfos.Length; i++)
-			{
-				var dirInfo = new DirectoryInfo(pathInfos[i].Key.Path);
-				if (dirInfo.FullName.Length > pathDirInfo.FullName.Length)
-				{
-					// Neuer Pfad ist länger als alter
-					// => Neuer Pfad ist näher an Videopfad dran als alter
-					// => Neuer Pfad überschreibt Template von altem Pfad
-					pathInfo = pathInfos[i];
-					pathDirInfo = dirInfo;
-				}
-			}
+//			var publishTime = DateTime.MaxValue;
+//			var newCurrentTime = DateTime.MaxValue;
 
-			return pathInfo;
-		}
+//			foreach (var time in dateTimes)
+//			{
+//				if (time.Key - currentTime < publishTime - currentTime)
+//				{
+//					publishTime = time.Key;
+//					newCurrentTime = time.Key.AddDays(time.Value.SkipDays);
+//				}
+//			}
 
-		private static bool IsParent(string fullPath, string basePath)
-		{
-			DirectoryInfo di1 = new DirectoryInfo(fullPath);
-			DirectoryInfo di2 = new DirectoryInfo(basePath);
-			bool isParent = di2.Parent.FullName == di1.FullName;
+//			dateTime = newCurrentTime;
+//			return publishTime;
+//		}
 
-			return isParent;
-		}
+//		//private KeyValuePair<PathInformation, DateTime> FindPathInfo(string path)
+//		//{
+//			//string folder = Path.GetDirectoryName(path);
 
-		private static bool IsParentRecursively(string fullPath, string basePath)
-		{
-			var fullPathSegments = SegmentizePath(fullPath);
-			var baseSegments = SegmentizePath(basePath);
-			var index = 0;
-			while (fullPathSegments.Count > index && baseSegments.Count > index &&
-				fullPathSegments[index].Trim().ToLower() == baseSegments[index].Trim().ToLower())
-				index++;
-			return index == baseSegments.Count - 1;
-		}
+//			//var pathInfos = Paths.Where(y => (!y.Key.SearchRecursively && IsParent(folder, y.Key.Path))
+//			//								|| (y.Key.SearchRecursively && IsParentRecursively(folder, y.Key.Path))).ToArray();
 
-		private static IList<string> SegmentizePath(string path)
-		{
-			var segments = new List<string>();
-			var remaining = new DirectoryInfo(path);
-			while (null != remaining)
-			{
-				segments.Add(remaining.Name);
-				remaining = remaining.Parent;
-			}
-			segments.Reverse();
-			return segments;
-		}
-	}
-}
+//			//// Falls mehrere da sind: Nähsten Pfad rausfinden
+//			//var pathInfo = pathInfos.First();
+//			//var pathDirInfo = new DirectoryInfo(pathInfo.Key.Path);
+//			//for (int i = 1; i < pathInfos.Length; i++)
+//			//{
+//			//	var dirInfo = new DirectoryInfo(pathInfos[i].Key.Path);
+//			//	if (dirInfo.FullName.Length > pathDirInfo.FullName.Length)
+//			//	{
+//			//		// Neuer Pfad ist länger als alter
+//			//		// => Neuer Pfad ist näher an Videopfad dran als alter
+//			//		// => Neuer Pfad überschreibt Template von altem Pfad
+//			//		pathInfo = pathInfos[i];
+//			//		pathDirInfo = dirInfo;
+//			//	}
+//			//}
+
+//		//	return pathInfo;
+//		//}
+
+//		private static bool IsParent(string fullPath, string basePath)
+//		{
+//			DirectoryInfo di1 = new DirectoryInfo(fullPath);
+//			DirectoryInfo di2 = new DirectoryInfo(basePath);
+//			bool isParent = di2.Parent.FullName == di1.FullName;
+
+//			return isParent;
+//		}
+
+//		private static bool IsParentRecursively(string fullPath, string basePath)
+//		{
+//			var fullPathSegments = SegmentizePath(fullPath);
+//			var baseSegments = SegmentizePath(basePath);
+//			var index = 0;
+//			while (fullPathSegments.Count > index && baseSegments.Count > index &&
+//				fullPathSegments[index].Trim().ToLower() == baseSegments[index].Trim().ToLower())
+//				index++;
+//			return index == baseSegments.Count - 1;
+//		}
+
+//		private static IList<string> SegmentizePath(string path)
+//		{
+//			var segments = new List<string>();
+//			var remaining = new DirectoryInfo(path);
+//			while (null != remaining)
+//			{
+//				segments.Add(remaining.Name);
+//				remaining = remaining.Parent;
+//			}
+//			segments.Reverse();
+//			return segments;
+//		}
+//	}
+//}
