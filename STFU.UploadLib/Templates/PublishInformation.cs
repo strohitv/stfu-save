@@ -57,8 +57,8 @@ namespace STFU.UploadLib.Templates
 		{
 			// Skipdays einbeziehen.
 
-			int daysUntilTuesday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
-			return LastVideoPublishTime.AddDays(daysUntilTuesday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
+			int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
+			return LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
 		}
 	}
 }
