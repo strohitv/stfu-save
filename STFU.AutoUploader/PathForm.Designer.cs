@@ -33,6 +33,7 @@
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.addPathButton = new System.Windows.Forms.Button();
 			this.movePathUpButton = new System.Windows.Forms.Button();
 			this.movePathDownButton = new System.Windows.Forms.Button();
@@ -52,7 +53,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chosePathTlp.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
@@ -61,15 +61,15 @@
 			// chosePathTlp
 			// 
 			this.chosePathTlp.ColumnCount = 7;
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+			this.chosePathTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
 			this.chosePathTlp.Controls.Add(this.lvPaths, 3, 3);
 			this.chosePathTlp.Controls.Add(this.addPathButton, 1, 3);
 			this.chosePathTlp.Controls.Add(this.movePathUpButton, 1, 5);
@@ -80,34 +80,34 @@
 			this.chosePathTlp.Controls.Add(this.label1, 1, 1);
 			this.chosePathTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.chosePathTlp.Location = new System.Drawing.Point(0, 0);
-			this.chosePathTlp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.chosePathTlp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.chosePathTlp.Name = "chosePathTlp";
 			this.chosePathTlp.RowCount = 24;
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 4F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.chosePathTlp.Size = new System.Drawing.Size(1172, 608);
+			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+			this.chosePathTlp.Size = new System.Drawing.Size(879, 494);
 			this.chosePathTlp.TabIndex = 0;
 			// 
 			// lvPaths
@@ -123,13 +123,13 @@
 			this.lvPaths.GridLines = true;
 			this.lvPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.lvPaths.HideSelection = false;
-			this.lvPaths.Location = new System.Drawing.Point(62, 32);
+			this.lvPaths.Location = new System.Drawing.Point(64, 25);
 			this.lvPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvPaths.MultiSelect = false;
 			this.lvPaths.Name = "lvPaths";
 			this.chosePathTlp.SetRowSpan(this.lvPaths, 10);
 			this.lvPaths.ShowGroups = false;
-			this.lvPaths.Size = new System.Drawing.Size(1100, 367);
+			this.lvPaths.Size = new System.Drawing.Size(807, 293);
 			this.lvPaths.TabIndex = 10;
 			this.lvPaths.UseCompatibleStateImageBehavior = false;
 			this.lvPaths.View = System.Windows.Forms.View.Details;
@@ -139,7 +139,7 @@
 			// chPath
 			// 
 			this.chPath.Text = "Pfad";
-			this.chPath.Width = 500;
+			this.chPath.Width = 337;
 			// 
 			// chFilter
 			// 
@@ -151,6 +151,11 @@
 			this.chRecursive.Text = "Unterverzeichnisse";
 			this.chRecursive.Width = 150;
 			// 
+			// chTemplate
+			// 
+			this.chTemplate.Text = "Template";
+			this.chTemplate.Width = 150;
+			// 
 			// addPathButton
 			// 
 			this.addPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -158,10 +163,10 @@
 			this.addPathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.addPathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addPathButton.ForeColor = System.Drawing.Color.ForestGreen;
-			this.addPathButton.Location = new System.Drawing.Point(10, 32);
+			this.addPathButton.Location = new System.Drawing.Point(8, 25);
 			this.addPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addPathButton.Name = "addPathButton";
-			this.addPathButton.Size = new System.Drawing.Size(47, 48);
+			this.addPathButton.Size = new System.Drawing.Size(52, 41);
 			this.addPathButton.TabIndex = 1;
 			this.addPathButton.Text = "+";
 			this.addPathButton.UseVisualStyleBackColor = true;
@@ -173,10 +178,10 @@
 			this.movePathUpButton.AutoSize = true;
 			this.movePathUpButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.movePathUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.movePathUpButton.Location = new System.Drawing.Point(10, 85);
+			this.movePathUpButton.Location = new System.Drawing.Point(8, 70);
 			this.movePathUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathUpButton.Name = "movePathUpButton";
-			this.movePathUpButton.Size = new System.Drawing.Size(47, 48);
+			this.movePathUpButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathUpButton.TabIndex = 1;
 			this.movePathUpButton.Text = "↑";
 			this.movePathUpButton.UseVisualStyleBackColor = true;
@@ -188,10 +193,10 @@
 			this.movePathDownButton.AutoSize = true;
 			this.movePathDownButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.movePathDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.movePathDownButton.Location = new System.Drawing.Point(10, 138);
+			this.movePathDownButton.Location = new System.Drawing.Point(8, 115);
 			this.movePathDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathDownButton.Name = "movePathDownButton";
-			this.movePathDownButton.Size = new System.Drawing.Size(47, 48);
+			this.movePathDownButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathDownButton.TabIndex = 1;
 			this.movePathDownButton.Text = "↓";
 			this.movePathDownButton.UseVisualStyleBackColor = true;
@@ -204,10 +209,10 @@
 			this.deletePathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.deletePathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.deletePathButton.ForeColor = System.Drawing.Color.Red;
-			this.deletePathButton.Location = new System.Drawing.Point(10, 191);
+			this.deletePathButton.Location = new System.Drawing.Point(8, 160);
 			this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deletePathButton.Name = "deletePathButton";
-			this.deletePathButton.Size = new System.Drawing.Size(47, 48);
+			this.deletePathButton.Size = new System.Drawing.Size(52, 41);
 			this.deletePathButton.TabIndex = 1;
 			this.deletePathButton.Text = "-";
 			this.deletePathButton.UseVisualStyleBackColor = true;
@@ -220,10 +225,10 @@
 			this.clearButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.clearButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.clearButton.ForeColor = System.Drawing.Color.Red;
-			this.clearButton.Location = new System.Drawing.Point(10, 244);
+			this.clearButton.Location = new System.Drawing.Point(8, 205);
 			this.clearButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(47, 48);
+			this.clearButton.Size = new System.Drawing.Size(52, 41);
 			this.clearButton.TabIndex = 1;
 			this.clearButton.Text = "x";
 			this.clearButton.UseVisualStyleBackColor = true;
@@ -236,12 +241,12 @@
 			this.chosePathTlp.SetColumnSpan(this.groupBox1, 5);
 			this.groupBox1.Controls.Add(this.tlpEditPaths);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox1.Location = new System.Drawing.Point(10, 419);
+			this.groupBox1.Location = new System.Drawing.Point(8, 334);
 			this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.chosePathTlp.SetRowSpan(this.groupBox1, 7);
-			this.groupBox1.Size = new System.Drawing.Size(1152, 179);
+			this.groupBox1.Size = new System.Drawing.Size(863, 152);
 			this.groupBox1.TabIndex = 13;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Pfad bearbeiten";
@@ -251,13 +256,13 @@
 			this.tlpEditPaths.AutoSize = true;
 			this.tlpEditPaths.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tlpEditPaths.ColumnCount = 7;
-			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.Controls.Add(this.txtbxAddPath, 3, 1);
 			this.tlpEditPaths.Controls.Add(this.label2, 1, 1);
 			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 5, 1);
@@ -270,39 +275,39 @@
 			this.tlpEditPaths.Controls.Add(this.label4, 1, 5);
 			this.tlpEditPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpEditPaths.Enabled = false;
-			this.tlpEditPaths.Location = new System.Drawing.Point(3, 17);
+			this.tlpEditPaths.Location = new System.Drawing.Point(2, 15);
 			this.tlpEditPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.tlpEditPaths.Name = "tlpEditPaths";
 			this.tlpEditPaths.RowCount = 9;
-			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpEditPaths.Size = new System.Drawing.Size(1146, 160);
+			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+			this.tlpEditPaths.Size = new System.Drawing.Size(859, 135);
 			this.tlpEditPaths.TabIndex = 0;
 			// 
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtbxAddPath.Location = new System.Drawing.Point(152, 12);
+			this.txtbxAddPath.Location = new System.Drawing.Point(119, 9);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(823, 22);
+			this.txtbxAddPath.Size = new System.Drawing.Size(608, 20);
 			this.txtbxAddPath.TabIndex = 12;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 15);
+			this.label2.Location = new System.Drawing.Point(8, 13);
 			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(132, 17);
+			this.label2.Size = new System.Drawing.Size(103, 13);
 			this.label2.TabIndex = 11;
 			this.label2.Text = "Pfad: ";
 			// 
@@ -311,10 +316,10 @@
 			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSelectPath.AutoSize = true;
 			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(985, 10);
+			this.btnSelectPath.Location = new System.Drawing.Point(735, 8);
 			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSelectPath.Name = "btnSelectPath";
-			this.btnSelectPath.Size = new System.Drawing.Size(151, 27);
+			this.btnSelectPath.Size = new System.Drawing.Size(116, 23);
 			this.btnSelectPath.TabIndex = 13;
 			this.btnSelectPath.Text = "Pfad wählen";
 			this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -324,10 +329,10 @@
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(10, 49);
+			this.label3.Location = new System.Drawing.Point(8, 42);
 			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(132, 17);
+			this.label3.Size = new System.Drawing.Size(103, 13);
 			this.label3.TabIndex = 14;
 			this.label3.Text = "Dateifilter: ";
 			// 
@@ -335,10 +340,10 @@
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 3);
-			this.txtbxAddFilter.Location = new System.Drawing.Point(152, 47);
+			this.txtbxAddFilter.Location = new System.Drawing.Point(119, 39);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(984, 22);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(732, 20);
 			this.txtbxAddFilter.TabIndex = 15;
 			// 
 			// btnCancel
@@ -346,11 +351,11 @@
 			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.btnCancel.AutoSize = true;
 			this.btnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnCancel.Location = new System.Drawing.Point(152, 123);
+			this.btnCancel.Location = new System.Drawing.Point(119, 104);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(0);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
-			this.btnCancel.Size = new System.Drawing.Size(137, 27);
+			this.btnCancel.Padding = new System.Windows.Forms.Padding(19, 0, 19, 0);
+			this.btnCancel.Size = new System.Drawing.Size(107, 23);
 			this.btnCancel.TabIndex = 18;
 			this.btnCancel.Text = "Abbrechen";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -361,11 +366,11 @@
 			this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.btnSave.AutoSize = true;
 			this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSave.Location = new System.Drawing.Point(10, 123);
+			this.btnSave.Location = new System.Drawing.Point(8, 104);
 			this.btnSave.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSave.Name = "btnSave";
-			this.btnSave.Padding = new System.Windows.Forms.Padding(25, 0, 25, 0);
-			this.btnSave.Size = new System.Drawing.Size(132, 27);
+			this.btnSave.Padding = new System.Windows.Forms.Padding(19, 0, 19, 0);
+			this.btnSave.Size = new System.Drawing.Size(103, 23);
 			this.btnSave.TabIndex = 17;
 			this.btnSave.Text = "Speichern";
 			this.btnSave.UseVisualStyleBackColor = true;
@@ -376,20 +381,20 @@
 			this.cobSelectedTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.cobSelectedTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cobSelectedTemplate.FormattingEnabled = true;
-			this.cobSelectedTemplate.Location = new System.Drawing.Point(152, 79);
+			this.cobSelectedTemplate.Location = new System.Drawing.Point(119, 67);
 			this.cobSelectedTemplate.Margin = new System.Windows.Forms.Padding(0);
 			this.cobSelectedTemplate.Name = "cobSelectedTemplate";
-			this.cobSelectedTemplate.Size = new System.Drawing.Size(823, 24);
+			this.cobSelectedTemplate.Size = new System.Drawing.Size(608, 21);
 			this.cobSelectedTemplate.TabIndex = 19;
 			// 
 			// chbRecursive
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbRecursive.AutoSize = true;
-			this.chbRecursive.Location = new System.Drawing.Point(985, 80);
+			this.chbRecursive.Location = new System.Drawing.Point(735, 69);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
-			this.chbRecursive.Size = new System.Drawing.Size(151, 21);
+			this.chbRecursive.Size = new System.Drawing.Size(116, 17);
 			this.chbRecursive.TabIndex = 16;
 			this.chbRecursive.Text = "Unterverzeichnisse";
 			this.chbRecursive.UseVisualStyleBackColor = true;
@@ -398,10 +403,10 @@
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(10, 82);
+			this.label4.Location = new System.Drawing.Point(8, 71);
 			this.label4.Margin = new System.Windows.Forms.Padding(0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(132, 17);
+			this.label4.Size = new System.Drawing.Size(103, 13);
 			this.label4.TabIndex = 14;
 			this.label4.Text = "Template: ";
 			// 
@@ -410,9 +415,10 @@
 			this.label1.AutoSize = true;
 			this.chosePathTlp.SetColumnSpan(this.label1, 3);
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(13, 10);
+			this.label1.Location = new System.Drawing.Point(10, 8);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(145, 17);
+			this.label1.Size = new System.Drawing.Size(114, 13);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Eingestellte Pfade:";
 			// 
@@ -421,18 +427,13 @@
 			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
     "htest.";
 			// 
-			// chTemplate
-			// 
-			this.chTemplate.Text = "Template";
-			this.chTemplate.Width = 150;
-			// 
 			// PathForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1172, 608);
+			this.ClientSize = new System.Drawing.Size(879, 494);
 			this.Controls.Add(this.chosePathTlp);
-			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.Name = "PathForm";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

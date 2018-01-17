@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using STFU.UploadLib.Automation;
 
 namespace STFU.UploadLib.Templates
 {
 	internal class PublishInformation
 	{
-		private PathInformation PathInfo { get; set; }
-		private Template Template { get; set; }
+		internal PathInformation PathInfo { get; set; }
+		internal Template Template { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }
+
+		bool first = true;
 
 		internal PublishInformation(PathInformation pathInfo, DateTime startTime, Template template)
 		{
@@ -31,8 +29,8 @@ namespace STFU.UploadLib.Templates
 					nextSaveTime += new TimeSpan(1, 0, 0, 0);
 				}
 
-				int daysUntilTuesday = ((int)Template.PublishTimes[i].DayOfWeek - (int)nextSaveTime.DayOfWeek + 7) % 7;
-				nextSaveTime = nextSaveTime.AddDays(daysUntilTuesday);
+				int daysUntilPublishDay = ((int)Template.PublishTimes[i].DayOfWeek - (int)nextSaveTime.DayOfWeek + 7) % 7;
+				nextSaveTime = nextSaveTime.AddDays(daysUntilPublishDay);
 				nextSaveTime = nextSaveTime.Date.Add(Template.PublishTimes[i].Time);
 				if (saveTime - nextSaveTime > new TimeSpan(0, 0, 0) || publishPosition < 0)
 				{
@@ -45,20 +43,62 @@ namespace STFU.UploadLib.Templates
 			PublishTimePosition = publishPosition;
 		}
 
-		internal DateTime GetNextPublishTime()
+		internal DateTime GetNextPublishTime(bool preview = false)
 		{
-			LastVideoPublishTime = PreviewNextPublishTime(); 
-			PublishTimePosition = (PublishTimePosition + 1) % Template.PublishTimes.Count;
+			int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
 
-			return LastVideoPublishTime;
+			if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
+			{
+				daysUntilNextTimesWeekday = 7;
+			}
+
+			var publishDate = LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
+
+			if (!preview)
+			{
+				first = false;
+
+				// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
+				LastVideoPublishTime = publishDate.AddDays(Template.PublishTimes[PublishTimePosition].SkipDays);
+				var position = PublishTimePosition;
+				var date = publishDate;
+				while (true)
+				{
+					position = (position + 1) % Template.PublishTimes.Count;
+
+					int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
+
+					if (days == 0 && Template.PublishTimes[position].Time <= date.TimeOfDay)
+					{
+						days = 7;
+					}
+
+					date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
+
+					if (date > LastVideoPublishTime)
+					{
+						PublishTimePosition = position;
+						break;
+					}
+				}
+			}
+
+			return publishDate;
 		}
 
-		internal DateTime PreviewNextPublishTime()
+		private bool CheckSameDayPublishing(int daysUntilNextTimesWeekday)
 		{
-			// Skipdays einbeziehen.
+			if (first)
+			{
+				return daysUntilNextTimesWeekday == 0 && Template.PublishTimes[PublishTimePosition].Time < LastVideoPublishTime.TimeOfDay;
+			}
 
-			int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
-			return LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
+			return daysUntilNextTimesWeekday == 0 && Template.PublishTimes[PublishTimePosition].Time <= LastVideoPublishTime.TimeOfDay;
+		}
+
+		internal int? GetDifference(string pathToCheck)
+		{
+			return PathInfo.GetDifference(pathToCheck);
 		}
 	}
 }

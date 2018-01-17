@@ -401,6 +401,7 @@ namespace STFU.AutoUploader
 		private void clearTimesButtonClick(object sender, EventArgs e)
 		{
 			current.PublishTimes.Clear();
+			RefillTimesListView();
 		}
 	}
 }

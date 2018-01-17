@@ -97,7 +97,9 @@ namespace STFU.AutoUploader
 					var newPath = new PathInformation()
 					{
 						Path = folderBrowserDialog.SelectedPath,
-						Filter = "*.mp4;*.mkv"
+						Filter = "*.mp4;*.mkv",
+						SelectedTemplate = "Standard",
+						SearchRecursively = false
 					};
 
 					uploader.Paths.Add(newPath);

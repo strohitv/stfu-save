@@ -166,12 +166,19 @@ namespace STFU.UploadLib.Automation
 					File.Delete(selectedPathsJsonPath);
 				}
 			}
+
+			foreach (var path in Paths)
+			{
+				if (!Templates.Any(t => t.Name.ToLower() == path.SelectedTemplate.ToLower()))
+				{
+					path.SelectedTemplate = "Standard";
+				}
+			}
 		}
 
 		private void RefreshAccess()
 		{
 			ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
-			//refreshToken = null;
 
 			if (string.IsNullOrWhiteSpace(ActiveAccount.Access.AccessToken))
 			{
@@ -201,7 +208,7 @@ namespace STFU.UploadLib.Automation
 			{
 				json = fileReader.ReadToEnd();
 			}
-			Paths = PathSettings.Parse(json, Templates); // JsonConvert.DeserializeObject<PathSettings>(json); // 
+			Paths = PathSettings.Parse(json, Templates);
 		}
 
 		public void WriteTemplates()
