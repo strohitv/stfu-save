@@ -248,6 +248,10 @@ namespace STFU.AutoUploader
 
 		private void RefillTimesListView()
 		{
+			// Selektion merken
+			int[] selectedIndices = new int[timesListView.SelectedIndices.Count];
+			timesListView.SelectedIndices.CopyTo(selectedIndices, 0);
+
 			timesListView.Items.Clear();
 			foreach (var publishTime in current.PublishTimes)
 			{
@@ -257,6 +261,11 @@ namespace STFU.AutoUploader
 					$"{publishTime.Time.ToString(@"hh\:mm")} Uhr",
 					$"{publishTime.SkipDays} Tage"
 				}));
+			}
+
+			foreach (var index in selectedIndices)
+			{
+				timesListView.SelectedIndices.Add(index);
 			}
 		}
 
@@ -402,6 +411,117 @@ namespace STFU.AutoUploader
 		{
 			current.PublishTimes.Clear();
 			RefillTimesListView();
+		}
+
+		private void addOneDayButtonClick(object sender, EventArgs e)
+		{
+			foreach (int index in timesListView.SelectedIndices)
+			{
+				current.PublishTimes[index].SkipDays++;
+			}
+
+			RefillTimesListView();
+
+			timesListView.Select();
+		}
+
+		private void substractOneDayButtonClick(object sender, EventArgs e)
+		{
+			foreach (int index in timesListView.SelectedIndices)
+			{
+				if (current.PublishTimes[index].SkipDays > 0)
+				{
+					current.PublishTimes[index].SkipDays--;
+				}
+			}
+
+			RefillTimesListView();
+
+			timesListView.Select();
+		}
+
+		private void addOneWeekButtonClick(object sender, EventArgs e)
+		{
+			foreach (int index in timesListView.SelectedIndices)
+			{
+				current.PublishTimes[index].SkipDays += 7;
+			}
+
+			RefillTimesListView();
+
+			timesListView.Select();
+		}
+
+		private void substractOneWeekButtonClick(object sender, EventArgs e)
+		{
+			foreach (int index in timesListView.SelectedIndices)
+			{
+				current.PublishTimes[index].SkipDays -= 7;
+				if (current.PublishTimes[index].SkipDays < 0)
+				{
+					current.PublishTimes[index].SkipDays = 0;
+				}
+			}
+
+			RefillTimesListView();
+
+			timesListView.Select();
+		}
+
+		private void moveTimeUpButtonClick(object sender, EventArgs e)
+		{
+			timesListView.BeginUpdate();
+
+			bool atLeastOneUpdate = false;
+			for (int i = 0; i < current.PublishTimes.Count; i++)
+			{
+				if (timesListView.SelectedIndices.Contains(i) && i > 0 && !timesListView.SelectedIndices.Contains(i - 1))
+				{
+					atLeastOneUpdate = true;
+
+					var save = current.PublishTimes[i];
+					current.PublishTimes[i] = current.PublishTimes[i - 1];
+					current.PublishTimes[i - 1] = save;
+
+					timesListView.SelectedIndices.Remove(i);
+					timesListView.SelectedIndices.Add(i - 1);
+				}
+			}
+
+			timesListView.EndUpdate();
+
+			if (atLeastOneUpdate)
+			{
+				RefillTimesListView();
+			}
+		}
+
+		private void moveTimeDownButtonClick(object sender, EventArgs e)
+		{
+			timesListView.BeginUpdate();
+
+			bool atLeastOneUpdate = false;
+			for (int i = current.PublishTimes.Count - 1; i >= 0; i--)
+			{
+				if (timesListView.SelectedIndices.Contains(i) && i < current.PublishTimes.Count - 1 && !timesListView.SelectedIndices.Contains(i + 1))
+				{
+					atLeastOneUpdate = true;
+
+					var save = current.PublishTimes[i];
+					current.PublishTimes[i] = current.PublishTimes[i + 1];
+					current.PublishTimes[i + 1] = save;
+
+					timesListView.SelectedIndices.Remove(i);
+					timesListView.SelectedIndices.Add(i + 1);
+				}
+			}
+
+			timesListView.EndUpdate();
+
+			if (atLeastOneUpdate)
+			{
+				RefillTimesListView();
+			}
 		}
 	}
 }

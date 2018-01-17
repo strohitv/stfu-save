@@ -62,14 +62,14 @@
 			this.weekdayColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.timeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.skipDaysHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
+			this.moveTimeUpButton = new System.Windows.Forms.Button();
+			this.moveTimeDownButton = new System.Windows.Forms.Button();
+			this.addOneDayButton = new System.Windows.Forms.Button();
+			this.substractOneDayButton = new System.Windows.Forms.Button();
 			this.clearTimesButton = new System.Windows.Forms.Button();
 			this.deleteTimeButton = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
-			this.button8 = new System.Windows.Forms.Button();
+			this.addOneWeekButton = new System.Windows.Forms.Button();
+			this.substractOneWeekButton = new System.Windows.Forms.Button();
 			this.addTimeLabel = new System.Windows.Forms.Label();
 			this.addTimeButton = new System.Windows.Forms.Button();
 			this.addWeekdayCombobox = new System.Windows.Forms.ComboBox();
@@ -588,14 +588,14 @@
 			this.publishPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.publishPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.publishPanel.Controls.Add(this.timesListView, 3, 1);
-			this.publishPanel.Controls.Add(this.button1, 1, 1);
-			this.publishPanel.Controls.Add(this.button2, 1, 3);
-			this.publishPanel.Controls.Add(this.button5, 1, 5);
-			this.publishPanel.Controls.Add(this.button6, 1, 7);
+			this.publishPanel.Controls.Add(this.moveTimeUpButton, 1, 1);
+			this.publishPanel.Controls.Add(this.moveTimeDownButton, 1, 3);
+			this.publishPanel.Controls.Add(this.addOneDayButton, 1, 5);
+			this.publishPanel.Controls.Add(this.substractOneDayButton, 1, 7);
 			this.publishPanel.Controls.Add(this.clearTimesButton, 1, 15);
 			this.publishPanel.Controls.Add(this.deleteTimeButton, 1, 13);
-			this.publishPanel.Controls.Add(this.button7, 1, 9);
-			this.publishPanel.Controls.Add(this.button8, 1, 11);
+			this.publishPanel.Controls.Add(this.addOneWeekButton, 1, 9);
+			this.publishPanel.Controls.Add(this.substractOneWeekButton, 1, 11);
 			this.publishPanel.Controls.Add(this.addTimeLabel, 7, 18);
 			this.publishPanel.Controls.Add(this.addTimeButton, 11, 18);
 			this.publishPanel.Controls.Add(this.addWeekdayCombobox, 5, 18);
@@ -668,77 +668,81 @@
 			this.skipDaysHeader.Text = "Tage überspringen";
 			this.skipDaysHeader.Width = 190;
 			// 
-			// button1
+			// moveTimeUpButton
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.moveTimeUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.AutoSize = true;
-			this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button1.Location = new System.Drawing.Point(5, 6);
-			this.button1.Margin = new System.Windows.Forms.Padding(0);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(52, 41);
-			this.button1.TabIndex = 3;
-			this.button1.Text = "↑";
-			this.tooltip.SetToolTip(this.button1, "Markierte Zeiten um eine Position nach oben verschieben");
-			this.button1.UseVisualStyleBackColor = true;
+			this.moveTimeUpButton.AutoSize = true;
+			this.moveTimeUpButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveTimeUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.moveTimeUpButton.Location = new System.Drawing.Point(5, 6);
+			this.moveTimeUpButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveTimeUpButton.Name = "moveTimeUpButton";
+			this.moveTimeUpButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeUpButton.TabIndex = 3;
+			this.moveTimeUpButton.Text = "↑";
+			this.tooltip.SetToolTip(this.moveTimeUpButton, "Markierte Zeiten um eine Position nach oben verschieben");
+			this.moveTimeUpButton.UseVisualStyleBackColor = true;
+			this.moveTimeUpButton.Click += new System.EventHandler(this.moveTimeUpButtonClick);
 			// 
-			// button2
+			// moveTimeDownButton
 			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.moveTimeDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.AutoSize = true;
-			this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button2.Location = new System.Drawing.Point(5, 55);
-			this.button2.Margin = new System.Windows.Forms.Padding(0);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(52, 41);
-			this.button2.TabIndex = 4;
-			this.button2.Text = "↓";
-			this.tooltip.SetToolTip(this.button2, "Markierte Zeiten um eine Position nach unten verschieben");
-			this.button2.UseVisualStyleBackColor = true;
+			this.moveTimeDownButton.AutoSize = true;
+			this.moveTimeDownButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveTimeDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.moveTimeDownButton.Location = new System.Drawing.Point(5, 55);
+			this.moveTimeDownButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveTimeDownButton.Name = "moveTimeDownButton";
+			this.moveTimeDownButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeDownButton.TabIndex = 4;
+			this.moveTimeDownButton.Text = "↓";
+			this.tooltip.SetToolTip(this.moveTimeDownButton, "Markierte Zeiten um eine Position nach unten verschieben");
+			this.moveTimeDownButton.UseVisualStyleBackColor = true;
+			this.moveTimeDownButton.Click += new System.EventHandler(this.moveTimeDownButtonClick);
 			// 
-			// button5
+			// addOneDayButton
 			// 
-			this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.addOneDayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button5.AutoSize = true;
-			this.button5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button5.Location = new System.Drawing.Point(5, 104);
-			this.button5.Margin = new System.Windows.Forms.Padding(0);
-			this.button5.Name = "button5";
-			this.button5.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.button5.Size = new System.Drawing.Size(52, 42);
-			this.button5.TabIndex = 3;
-			this.button5.Text = "+1";
-			this.tooltip.SetToolTip(this.button5, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
+			this.addOneDayButton.AutoSize = true;
+			this.addOneDayButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addOneDayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addOneDayButton.Location = new System.Drawing.Point(5, 104);
+			this.addOneDayButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addOneDayButton.Name = "addOneDayButton";
+			this.addOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.addOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneDayButton.TabIndex = 3;
+			this.addOneDayButton.Text = "+1";
+			this.tooltip.SetToolTip(this.addOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
         "ntlichung warten");
-			this.button5.UseVisualStyleBackColor = true;
+			this.addOneDayButton.UseVisualStyleBackColor = true;
+			this.addOneDayButton.Click += new System.EventHandler(this.addOneDayButtonClick);
 			// 
-			// button6
+			// substractOneDayButton
 			// 
-			this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.substractOneDayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button6.AutoSize = true;
-			this.button6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button6.Location = new System.Drawing.Point(5, 154);
-			this.button6.Margin = new System.Windows.Forms.Padding(0);
-			this.button6.Name = "button6";
-			this.button6.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.button6.Size = new System.Drawing.Size(52, 42);
-			this.button6.TabIndex = 4;
-			this.button6.Text = "-1";
-			this.tooltip.SetToolTip(this.button6, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
+			this.substractOneDayButton.AutoSize = true;
+			this.substractOneDayButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.substractOneDayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.substractOneDayButton.Location = new System.Drawing.Point(5, 154);
+			this.substractOneDayButton.Margin = new System.Windows.Forms.Padding(0);
+			this.substractOneDayButton.Name = "substractOneDayButton";
+			this.substractOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.substractOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneDayButton.TabIndex = 4;
+			this.substractOneDayButton.Text = "-1";
+			this.tooltip.SetToolTip(this.substractOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
         "ffentlichung warten");
-			this.button6.UseVisualStyleBackColor = true;
+			this.substractOneDayButton.UseVisualStyleBackColor = true;
+			this.substractOneDayButton.Click += new System.EventHandler(this.substractOneDayButtonClick);
 			// 
 			// clearTimesButton
 			// 
@@ -778,43 +782,45 @@
 			this.deleteTimeButton.UseVisualStyleBackColor = true;
 			this.deleteTimeButton.Click += new System.EventHandler(this.deleteTimeButtonClick);
 			// 
-			// button7
+			// addOneWeekButton
 			// 
-			this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.addOneWeekButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button7.AutoSize = true;
-			this.button7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button7.Location = new System.Drawing.Point(5, 204);
-			this.button7.Margin = new System.Windows.Forms.Padding(0);
-			this.button7.Name = "button7";
-			this.button7.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.button7.Size = new System.Drawing.Size(52, 42);
-			this.button7.TabIndex = 3;
-			this.button7.Text = "+7";
-			this.tooltip.SetToolTip(this.button7, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
+			this.addOneWeekButton.AutoSize = true;
+			this.addOneWeekButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addOneWeekButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addOneWeekButton.Location = new System.Drawing.Point(5, 204);
+			this.addOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addOneWeekButton.Name = "addOneWeekButton";
+			this.addOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.addOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneWeekButton.TabIndex = 3;
+			this.addOneWeekButton.Text = "+7";
+			this.tooltip.SetToolTip(this.addOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
         "entlichung warten");
-			this.button7.UseVisualStyleBackColor = true;
+			this.addOneWeekButton.UseVisualStyleBackColor = true;
+			this.addOneWeekButton.Click += new System.EventHandler(this.addOneWeekButtonClick);
 			// 
-			// button8
+			// substractOneWeekButton
 			// 
-			this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.substractOneWeekButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.button8.AutoSize = true;
-			this.button8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button8.Location = new System.Drawing.Point(5, 254);
-			this.button8.Margin = new System.Windows.Forms.Padding(0);
-			this.button8.Name = "button8";
-			this.button8.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.button8.Size = new System.Drawing.Size(52, 42);
-			this.button8.TabIndex = 4;
-			this.button8.Text = "-7";
-			this.tooltip.SetToolTip(this.button8, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
+			this.substractOneWeekButton.AutoSize = true;
+			this.substractOneWeekButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.substractOneWeekButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.substractOneWeekButton.Location = new System.Drawing.Point(5, 254);
+			this.substractOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
+			this.substractOneWeekButton.Name = "substractOneWeekButton";
+			this.substractOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+			this.substractOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneWeekButton.TabIndex = 4;
+			this.substractOneWeekButton.Text = "-7";
+			this.tooltip.SetToolTip(this.substractOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
         "öffentlichung warten");
-			this.button8.UseVisualStyleBackColor = true;
+			this.substractOneWeekButton.UseVisualStyleBackColor = true;
+			this.substractOneWeekButton.Click += new System.EventHandler(this.substractOneWeekButtonClick);
 			// 
 			// addTimeLabel
 			// 
@@ -875,7 +881,7 @@
 			this.addTimeTimePicker.ShowUpDown = true;
 			this.addTimeTimePicker.Size = new System.Drawing.Size(74, 26);
 			this.addTimeTimePicker.TabIndex = 13;
-			this.addTimeTimePicker.Value = new System.DateTime(2018, 1, 13, 13, 0, 0, 0);
+			this.addTimeTimePicker.Value = new System.DateTime(2018, 1, 13, 15, 0, 0, 0);
 			// 
 			// addWeekdayLabel
 			// 
@@ -1004,16 +1010,16 @@
 		private System.Windows.Forms.TableLayoutPanel publishPanel;
 		private System.Windows.Forms.ToolTip tooltip;
 		private System.Windows.Forms.ComboBox privacyComboBox;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button moveTimeUpButton;
+		private System.Windows.Forms.Button moveTimeDownButton;
 		private System.Windows.Forms.Button deleteTimeButton;
 		private System.Windows.Forms.Button clearTimesButton;
 		private System.Windows.Forms.ColumnHeader timeColumnHeader;
 		private System.Windows.Forms.ColumnHeader skipDaysHeader;
-		private System.Windows.Forms.Button button5;
-		private System.Windows.Forms.Button button6;
-		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button addOneDayButton;
+		private System.Windows.Forms.Button substractOneDayButton;
+		private System.Windows.Forms.Button addOneWeekButton;
+		private System.Windows.Forms.Button substractOneWeekButton;
 		private System.Windows.Forms.Label addWeekdayLabel;
 		private System.Windows.Forms.Label addTimeLabel;
 		private System.Windows.Forms.Button addTimeButton;
