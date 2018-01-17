@@ -69,6 +69,9 @@ namespace STFU.UploadLib.Templates
 		{
 			Name = name;
 			Privacy = PrivacyStatus.Private;
+			Title = string.Empty;
+			Description = string.Empty;
+			Tags = string.Empty;
 		}
 
 		public static explicit operator Template(JToken v)

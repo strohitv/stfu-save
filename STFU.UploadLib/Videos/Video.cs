@@ -67,6 +67,12 @@ namespace STFU.UploadLib.Videos
 			}
 		}
 
+		public static int MaxTitleLength => 100;
+
+		public static int MaxDescriptionLength => 5000;
+
+		public static int MaxTagsLength => 500;
+
 		public Video()
 		{
 		}

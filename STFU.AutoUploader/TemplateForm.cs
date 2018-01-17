@@ -265,7 +265,10 @@ namespace STFU.AutoUploader
 
 			foreach (var index in selectedIndices)
 			{
-				timesListView.SelectedIndices.Add(index);
+				if (timesListView.Items.Count > index)
+				{
+					timesListView.SelectedIndices.Add(index);
+				}
 			}
 		}
 
@@ -322,6 +325,7 @@ namespace STFU.AutoUploader
 
 		private void templateTitleTextboxTextChanged(object sender, EventArgs e)
 		{
+			maxTitleLengthLabel.Text = $"Länge Titel: {templateTitleTextbox.Text.Length} / {Video.MaxTitleLength} Zeichen";
 			if (!reordering)
 			{
 				current.Title = templateTitleTextbox.Text;
@@ -330,6 +334,7 @@ namespace STFU.AutoUploader
 
 		private void templateDescriptionTextboxTextChanged(object sender, EventArgs e)
 		{
+			maxDescriptionLengthLabel.Text = $"Länge Beschreibung: {templateDescriptionTextbox.Text.Length} / {Video.MaxDescriptionLength} Zeichen";
 			if (!reordering)
 			{
 				current.Description = templateDescriptionTextbox.Text;
@@ -338,6 +343,7 @@ namespace STFU.AutoUploader
 
 		private void templateTagsTextboxTextChanged(object sender, EventArgs e)
 		{
+			maxTagsLengthLabel.Text = $"Länge Tags: {templateTagsTextbox.Text.Length} / {Video.MaxTagsLength} Zeichen";
 			if (!reordering)
 			{
 				current.Tags = templateTagsTextbox.Text;
@@ -421,7 +427,6 @@ namespace STFU.AutoUploader
 			}
 
 			RefillTimesListView();
-
 			timesListView.Select();
 		}
 
@@ -436,7 +441,6 @@ namespace STFU.AutoUploader
 			}
 
 			RefillTimesListView();
-
 			timesListView.Select();
 		}
 
@@ -448,7 +452,6 @@ namespace STFU.AutoUploader
 			}
 
 			RefillTimesListView();
-
 			timesListView.Select();
 		}
 
@@ -464,7 +467,6 @@ namespace STFU.AutoUploader
 			}
 
 			RefillTimesListView();
-
 			timesListView.Select();
 		}
 
@@ -493,6 +495,7 @@ namespace STFU.AutoUploader
 			if (atLeastOneUpdate)
 			{
 				RefillTimesListView();
+				timesListView.Select();
 			}
 		}
 
@@ -521,6 +524,7 @@ namespace STFU.AutoUploader
 			if (atLeastOneUpdate)
 			{
 				RefillTimesListView();
+				timesListView.Select();
 			}
 		}
 	}
