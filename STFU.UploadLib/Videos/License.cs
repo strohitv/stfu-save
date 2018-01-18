@@ -7,9 +7,9 @@ namespace STFU.UploadLib.Videos
 	{
 		[JsonProperty(PropertyName = "youtube")]
 		[EnumMember(Value = "youtube")]
-		Youtube,
+		Youtube = 0,
 		[JsonProperty(PropertyName = "creativeCommon")]
 		[EnumMember(Value = "creativeCommon")]
-		CreativeCommons
+		CreativeCommons = 1
 	}
 }

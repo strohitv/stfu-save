@@ -127,8 +127,8 @@ namespace STFU.AutoUploader
 
 		private void RefreshConnectionToolstripButtonsEnabled()
 		{
-			verbindenToolStripMenuItem.Enabled = !uploader.IsConnectedToAccount;
-			verbindungTrennenToolStripMenuItem.Enabled = uploader.IsConnectedToAccount;
+			verbindenToolStripMenuItem1.Enabled = !uploader.IsConnectedToAccount;
+			verbindungLösenToolStripMenuItem.Enabled = uploader.IsConnectedToAccount;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -144,6 +144,8 @@ namespace STFU.AutoUploader
 			{
 				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
 			}
+
+			unvollständigerUploadToolStripMenuItem.Enabled = uploader.HasUnfinishedJob;
 
 			tlpSettings.Enabled = true;
 
@@ -186,7 +188,6 @@ namespace STFU.AutoUploader
 
 		private void abgebrochenenUploadLöschenToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			uploader.DeleteLastJobFile();
 		}
 
 		private void abgebrochenenUploadAnzeigenToolStripMenuItemClick(object sender, EventArgs e)
@@ -196,14 +197,10 @@ namespace STFU.AutoUploader
 
 		private void verbindenToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			ConnectToYoutube();
-			RefreshConnectionToolstripButtonsEnabled();
 		}
 
 		private void verbindungTrennenToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			RevokeAccess();
-			RefreshConnectionToolstripButtonsEnabled();
 		}
 
 		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
@@ -253,11 +250,37 @@ namespace STFU.AutoUploader
 			ChoseProcesses();
 		}
 
-		private void templatesVerwaltenToolStripMenuItemClick(object sender, EventArgs e)
+		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
 			TemplateForm tf = new TemplateForm(uploader);
-			tf.Show(this);
+			tf.ShowDialog(this);
 			uploader.WriteTemplates();
+		}
+
+		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			PathForm pf = new PathForm(uploader);
+			pf.ShowDialog(this);
+			uploader.WritePaths();
+
+			RefillListView();
+		}
+
+		private void verbindenToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			ConnectToYoutube();
+			RefreshConnectionToolstripButtonsEnabled();
+		}
+
+		private void verbindungLösenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			RevokeAccess();
+			RefreshConnectionToolstripButtonsEnabled();
+		}
+
+		private void unvollständigerUploadToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			// uploader.DeleteLastJobFile();
 		}
 	}
 }

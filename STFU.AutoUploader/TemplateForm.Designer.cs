@@ -51,6 +51,9 @@
 			this.templateTitleTextbox = new System.Windows.Forms.TextBox();
 			this.templateDescriptionTextbox = new System.Windows.Forms.TextBox();
 			this.templateTagsTextbox = new System.Windows.Forms.TextBox();
+			this.maxTitleLengthLabel = new System.Windows.Forms.Label();
+			this.maxDescriptionLengthLabel = new System.Windows.Forms.Label();
+			this.maxTagsLengthLabel = new System.Windows.Forms.Label();
 			this.publishTabPage = new System.Windows.Forms.TabPage();
 			this.publishTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.privacyLabel = new System.Windows.Forms.Label();
@@ -76,12 +79,24 @@
 			this.addTimeTimePicker = new System.Windows.Forms.DateTimePicker();
 			this.addWeekdayLabel = new System.Windows.Forms.Label();
 			this.otherTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.categoryLabel = new System.Windows.Forms.Label();
+			this.defaultLanguageLabel = new System.Windows.Forms.Label();
+			this.licenseLabel = new System.Windows.Forms.Label();
+			this.isEmbeddableCheckbox = new System.Windows.Forms.CheckBox();
+			this.publicStatsViewableCheckbox = new System.Windows.Forms.CheckBox();
+			this.categoryCombobox = new System.Windows.Forms.ComboBox();
+			this.defaultLanguageCombobox = new System.Windows.Forms.ComboBox();
+			this.licenseCombobox = new System.Windows.Forms.ComboBox();
+			this.thumbnailLabel = new System.Windows.Forms.Label();
+			this.thumbnailTextbox = new System.Windows.Forms.TextBox();
+			this.chooseThumbnailPathButton = new System.Windows.Forms.Button();
 			this.editTemplateLabel = new System.Windows.Forms.Label();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
-			this.maxTitleLengthLabel = new System.Windows.Forms.Label();
-			this.maxDescriptionLengthLabel = new System.Windows.Forms.Label();
-			this.maxTagsLengthLabel = new System.Windows.Forms.Label();
+			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
+			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
+			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
 			this.templateOverviewTableLayouPanel.SuspendLayout();
 			this.editTemplateTableLayoutPanel.SuspendLayout();
 			this.templateValuesTabControl.SuspendLayout();
@@ -91,6 +106,8 @@
 			this.publishTableLayoutPanel.SuspendLayout();
 			this.publishGroupbox.SuspendLayout();
 			this.publishPanel.SuspendLayout();
+			this.otherTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
@@ -386,12 +403,12 @@
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 71.42857F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
@@ -426,7 +443,7 @@
 			this.templateTagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.templateTagsLabel.AutoSize = true;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsLabel, 3);
-			this.templateTagsLabel.Location = new System.Drawing.Point(5, 296);
+			this.templateTagsLabel.Location = new System.Drawing.Point(5, 379);
 			this.templateTagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsLabel.Name = "templateTagsLabel";
 			this.templateTagsLabel.Size = new System.Drawing.Size(655, 13);
@@ -454,7 +471,7 @@
 			this.templateDescriptionTextbox.Multiline = true;
 			this.templateDescriptionTextbox.Name = "templateDescriptionTextbox";
 			this.templateDescriptionTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.templateDescriptionTextbox.Size = new System.Drawing.Size(655, 194);
+			this.templateDescriptionTextbox.Size = new System.Drawing.Size(655, 277);
 			this.templateDescriptionTextbox.TabIndex = 4;
 			this.templateDescriptionTextbox.TextChanged += new System.EventHandler(this.templateDescriptionTextboxTextChanged);
 			// 
@@ -463,14 +480,47 @@
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsTextbox, 3);
 			this.templateTagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 309);
+			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 392);
 			this.templateTagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsTextbox.Multiline = true;
 			this.templateTagsTextbox.Name = "templateTagsTextbox";
 			this.templateTagsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.templateTagsTextbox.Size = new System.Drawing.Size(655, 194);
+			this.templateTagsTextbox.Size = new System.Drawing.Size(655, 111);
 			this.templateTagsTextbox.TabIndex = 5;
 			this.templateTagsTextbox.TextChanged += new System.EventHandler(this.templateTagsTextboxTextChanged);
+			// 
+			// maxTitleLengthLabel
+			// 
+			this.maxTitleLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.maxTitleLengthLabel.AutoSize = true;
+			this.maxTitleLengthLabel.Location = new System.Drawing.Point(46, 38);
+			this.maxTitleLengthLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.maxTitleLengthLabel.Name = "maxTitleLengthLabel";
+			this.maxTitleLengthLabel.Size = new System.Drawing.Size(614, 13);
+			this.maxTitleLengthLabel.TabIndex = 6;
+			this.maxTitleLengthLabel.Text = "Länge Titel: 0 / 100 Zeichen";
+			// 
+			// maxDescriptionLengthLabel
+			// 
+			this.maxDescriptionLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.maxDescriptionLengthLabel.AutoSize = true;
+			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(46, 356);
+			this.maxDescriptionLengthLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.maxDescriptionLengthLabel.Name = "maxDescriptionLengthLabel";
+			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(614, 13);
+			this.maxDescriptionLengthLabel.TabIndex = 7;
+			this.maxDescriptionLengthLabel.Text = "Länge Beschreibung: 0 / 5000 Zeichen";
+			// 
+			// maxTagsLengthLabel
+			// 
+			this.maxTagsLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.maxTagsLengthLabel.AutoSize = true;
+			this.maxTagsLengthLabel.Location = new System.Drawing.Point(46, 508);
+			this.maxTagsLengthLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.maxTagsLengthLabel.Name = "maxTagsLengthLabel";
+			this.maxTagsLengthLabel.Size = new System.Drawing.Size(614, 13);
+			this.maxTagsLengthLabel.TabIndex = 8;
+			this.maxTagsLengthLabel.Text = "Länge Tags: 0 / 500 Zeichen";
 			// 
 			// publishTabPage
 			// 
@@ -909,12 +959,206 @@
 			// otherTabPage
 			// 
 			this.otherTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.otherTabPage.Controls.Add(this.tableLayoutPanel1);
 			this.otherTabPage.Location = new System.Drawing.Point(4, 22);
 			this.otherTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.otherTabPage.Name = "otherTabPage";
 			this.otherTabPage.Size = new System.Drawing.Size(669, 533);
 			this.otherTabPage.TabIndex = 2;
 			this.otherTabPage.Text = "Sonstiges";
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 7;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.Controls.Add(this.categoryLabel, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.defaultLanguageLabel, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this.licenseLabel, 1, 5);
+			this.tableLayoutPanel1.Controls.Add(this.isEmbeddableCheckbox, 1, 7);
+			this.tableLayoutPanel1.Controls.Add(this.publicStatsViewableCheckbox, 1, 9);
+			this.tableLayoutPanel1.Controls.Add(this.categoryCombobox, 3, 1);
+			this.tableLayoutPanel1.Controls.Add(this.defaultLanguageCombobox, 3, 3);
+			this.tableLayoutPanel1.Controls.Add(this.licenseCombobox, 3, 5);
+			this.tableLayoutPanel1.Controls.Add(this.thumbnailLabel, 1, 11);
+			this.tableLayoutPanel1.Controls.Add(this.thumbnailTextbox, 3, 11);
+			this.tableLayoutPanel1.Controls.Add(this.chooseThumbnailPathButton, 5, 11);
+			this.tableLayoutPanel1.Controls.Add(this.notifySubscribersCheckbox, 1, 13);
+			this.tableLayoutPanel1.Controls.Add(this.autoLevelsCheckbox, 1, 15);
+			this.tableLayoutPanel1.Controls.Add(this.stabilizeCheckbox, 1, 17);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 19;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(669, 533);
+			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// categoryLabel
+			// 
+			this.categoryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.categoryLabel.AutoSize = true;
+			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
+			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.categoryLabel.Name = "categoryLabel";
+			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
+			this.categoryLabel.TabIndex = 0;
+			this.categoryLabel.Text = "Kategorie: ";
+			// 
+			// defaultLanguageLabel
+			// 
+			this.defaultLanguageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultLanguageLabel.AutoSize = true;
+			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
+			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
+			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
+			this.defaultLanguageLabel.TabIndex = 1;
+			this.defaultLanguageLabel.Text = "Videosprache: ";
+			// 
+			// licenseLabel
+			// 
+			this.licenseLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.licenseLabel.AutoSize = true;
+			this.licenseLabel.Location = new System.Drawing.Point(10, 88);
+			this.licenseLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.licenseLabel.Name = "licenseLabel";
+			this.licenseLabel.Size = new System.Drawing.Size(158, 13);
+			this.licenseLabel.TabIndex = 2;
+			this.licenseLabel.Text = "Lizenzen und Eigentumsrechte: ";
+			// 
+			// isEmbeddableCheckbox
+			// 
+			this.isEmbeddableCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.isEmbeddableCheckbox.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.isEmbeddableCheckbox, 5);
+			this.isEmbeddableCheckbox.Location = new System.Drawing.Point(10, 118);
+			this.isEmbeddableCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.isEmbeddableCheckbox.Name = "isEmbeddableCheckbox";
+			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(649, 17);
+			this.isEmbeddableCheckbox.TabIndex = 3;
+			this.isEmbeddableCheckbox.Text = "Einbetten zulassen";
+			this.isEmbeddableCheckbox.UseVisualStyleBackColor = true;
+			this.isEmbeddableCheckbox.CheckedChanged += new System.EventHandler(this.isEmbeddableCheckboxCheckedChanged);
+			// 
+			// publicStatsViewableCheckbox
+			// 
+			this.publicStatsViewableCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.publicStatsViewableCheckbox.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.publicStatsViewableCheckbox, 5);
+			this.publicStatsViewableCheckbox.Location = new System.Drawing.Point(10, 145);
+			this.publicStatsViewableCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.publicStatsViewableCheckbox.Name = "publicStatsViewableCheckbox";
+			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(649, 17);
+			this.publicStatsViewableCheckbox.TabIndex = 4;
+			this.publicStatsViewableCheckbox.Text = "Videostatistik auf der Wiedergabeseite öffentlich sichtbar machen";
+			this.publicStatsViewableCheckbox.UseVisualStyleBackColor = true;
+			this.publicStatsViewableCheckbox.CheckedChanged += new System.EventHandler(this.publicStatsViewableCheckboxCheckedChanged);
+			// 
+			// categoryCombobox
+			// 
+			this.categoryCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.SetColumnSpan(this.categoryCombobox, 3);
+			this.categoryCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.categoryCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.categoryCombobox.FormattingEnabled = true;
+			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
+			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.categoryCombobox.Name = "categoryCombobox";
+			this.categoryCombobox.Size = new System.Drawing.Size(481, 26);
+			this.categoryCombobox.TabIndex = 5;
+			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryComboboxSelectedIndexChanged);
+			// 
+			// defaultLanguageCombobox
+			// 
+			this.defaultLanguageCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.SetColumnSpan(this.defaultLanguageCombobox, 3);
+			this.defaultLanguageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.defaultLanguageCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.defaultLanguageCombobox.FormattingEnabled = true;
+			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
+			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(481, 26);
+			this.defaultLanguageCombobox.TabIndex = 6;
+			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageComboboxSelectedIndexChanged);
+			// 
+			// licenseCombobox
+			// 
+			this.licenseCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel1.SetColumnSpan(this.licenseCombobox, 3);
+			this.licenseCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.licenseCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.licenseCombobox.FormattingEnabled = true;
+			this.licenseCombobox.Items.AddRange(new object[] {
+            "Standard-Youtube-Lizenz",
+            "Creative-Commons - Namensnennung"});
+			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
+			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.licenseCombobox.Name = "licenseCombobox";
+			this.licenseCombobox.Size = new System.Drawing.Size(481, 26);
+			this.licenseCombobox.TabIndex = 7;
+			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseComboboxSelectedIndexChanged);
+			// 
+			// thumbnailLabel
+			// 
+			this.thumbnailLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.thumbnailLabel.AutoSize = true;
+			this.thumbnailLabel.Location = new System.Drawing.Point(10, 178);
+			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.thumbnailLabel.Name = "thumbnailLabel";
+			this.thumbnailLabel.Size = new System.Drawing.Size(158, 13);
+			this.thumbnailLabel.TabIndex = 8;
+			this.thumbnailLabel.Text = "Thumbnail: ";
+			// 
+			// thumbnailTextbox
+			// 
+			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
+			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.thumbnailTextbox.Name = "thumbnailTextbox";
+			this.thumbnailTextbox.Size = new System.Drawing.Size(450, 26);
+			this.thumbnailTextbox.TabIndex = 9;
+			// 
+			// chooseThumbnailPathButton
+			// 
+			this.chooseThumbnailPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.chooseThumbnailPathButton.AutoSize = true;
+			this.chooseThumbnailPathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.chooseThumbnailPathButton.Location = new System.Drawing.Point(633, 172);
+			this.chooseThumbnailPathButton.Margin = new System.Windows.Forms.Padding(0);
+			this.chooseThumbnailPathButton.Name = "chooseThumbnailPathButton";
+			this.chooseThumbnailPathButton.Size = new System.Drawing.Size(26, 26);
+			this.chooseThumbnailPathButton.TabIndex = 10;
+			this.chooseThumbnailPathButton.Text = "...";
+			this.chooseThumbnailPathButton.UseVisualStyleBackColor = true;
 			// 
 			// editTemplateLabel
 			// 
@@ -950,38 +1194,47 @@
 			this.splitContainer.TabIndex = 1;
 			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
 			// 
-			// maxTitleLengthLabel
+			// notifySubscribersCheckbox
 			// 
-			this.maxTitleLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.maxTitleLengthLabel.AutoSize = true;
-			this.maxTitleLengthLabel.Location = new System.Drawing.Point(46, 38);
-			this.maxTitleLengthLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.maxTitleLengthLabel.Name = "maxTitleLengthLabel";
-			this.maxTitleLengthLabel.Size = new System.Drawing.Size(614, 13);
-			this.maxTitleLengthLabel.TabIndex = 6;
-			this.maxTitleLengthLabel.Text = "Länge Titel: 0 / 100 Zeichen";
+			this.notifySubscribersCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.notifySubscribersCheckbox.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.notifySubscribersCheckbox, 5);
+			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 208);
+			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
+			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(649, 17);
+			this.notifySubscribersCheckbox.TabIndex = 3;
+			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
+			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
+			this.notifySubscribersCheckbox.CheckedChanged += new System.EventHandler(this.notifySubscribersCheckboxCheckedChanged);
 			// 
-			// maxDescriptionLengthLabel
+			// autoLevelsCheckbox
 			// 
-			this.maxDescriptionLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.maxDescriptionLengthLabel.AutoSize = true;
-			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(46, 273);
-			this.maxDescriptionLengthLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.maxDescriptionLengthLabel.Name = "maxDescriptionLengthLabel";
-			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(614, 13);
-			this.maxDescriptionLengthLabel.TabIndex = 7;
-			this.maxDescriptionLengthLabel.Text = "Länge Beschreibung: 0 / 5000 Zeichen";
+			this.autoLevelsCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.autoLevelsCheckbox.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.autoLevelsCheckbox, 5);
+			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 235);
+			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
+			this.autoLevelsCheckbox.Size = new System.Drawing.Size(649, 17);
+			this.autoLevelsCheckbox.TabIndex = 3;
+			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
+			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
+			this.autoLevelsCheckbox.CheckedChanged += new System.EventHandler(this.autoLevelsCheckboxCheckedChanged);
 			// 
-			// maxTagsLengthLabel
+			// stabilizeCheckbox
 			// 
-			this.maxTagsLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.maxTagsLengthLabel.AutoSize = true;
-			this.maxTagsLengthLabel.Location = new System.Drawing.Point(46, 508);
-			this.maxTagsLengthLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.maxTagsLengthLabel.Name = "maxTagsLengthLabel";
-			this.maxTagsLengthLabel.Size = new System.Drawing.Size(614, 13);
-			this.maxTagsLengthLabel.TabIndex = 8;
-			this.maxTagsLengthLabel.Text = "Länge Tags: 0 / 500 Zeichen";
+			this.stabilizeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.stabilizeCheckbox.AutoSize = true;
+			this.tableLayoutPanel1.SetColumnSpan(this.stabilizeCheckbox, 5);
+			this.stabilizeCheckbox.Location = new System.Drawing.Point(10, 262);
+			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.stabilizeCheckbox.Name = "stabilizeCheckbox";
+			this.stabilizeCheckbox.Size = new System.Drawing.Size(649, 17);
+			this.stabilizeCheckbox.TabIndex = 3;
+			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
+			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
+			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckboxCheckedChanged);
 			// 
 			// TemplateForm
 			// 
@@ -1010,6 +1263,9 @@
 			this.publishGroupbox.PerformLayout();
 			this.publishPanel.ResumeLayout(false);
 			this.publishPanel.PerformLayout();
+			this.otherTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
 			this.splitContainer.Panel1.ResumeLayout(false);
 			this.splitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
@@ -1073,5 +1329,20 @@
 		private System.Windows.Forms.Label maxTitleLengthLabel;
 		private System.Windows.Forms.Label maxDescriptionLengthLabel;
 		private System.Windows.Forms.Label maxTagsLengthLabel;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.Label categoryLabel;
+		private System.Windows.Forms.Label defaultLanguageLabel;
+		private System.Windows.Forms.Label licenseLabel;
+		private System.Windows.Forms.CheckBox isEmbeddableCheckbox;
+		private System.Windows.Forms.CheckBox publicStatsViewableCheckbox;
+		private System.Windows.Forms.ComboBox categoryCombobox;
+		private System.Windows.Forms.ComboBox defaultLanguageCombobox;
+		private System.Windows.Forms.ComboBox licenseCombobox;
+		private System.Windows.Forms.Label thumbnailLabel;
+		private System.Windows.Forms.TextBox thumbnailTextbox;
+		private System.Windows.Forms.Button chooseThumbnailPathButton;
+		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
+		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
+		private System.Windows.Forms.CheckBox stabilizeCheckbox;
 	}
 }

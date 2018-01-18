@@ -42,6 +42,10 @@ namespace STFU.UploadLib.Communication.Youtube
 		public string country { get; set; }
 		public Thumbnails thumbnails { get; set; }
 		public Localization localized { get; set; }
+		public string channelId { get; set; }
+		public bool assignable { get; set; }
+		public string hl { get; set; }
+		public string name { get; set; }
 	}
 
 	public class Thumbnails

@@ -90,10 +90,10 @@ namespace STFU.UploadLib
 
 					Video vid = new Video(newfile)
 					{
-						CategoryId = 20,
+						//Category = 20,
 						Description = string.Empty,
 						Title = Path.GetFileName(newfile),
-						DefaultLanguage = "de",
+						//DefaultLanguage = "de",
 						IsEmbeddable = true,
 						License = Videos.License.Youtube,
 						Privacy = PrivacyStatus.Private,
@@ -152,10 +152,7 @@ namespace STFU.UploadLib
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void OnPropertyChanged(string name)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
 		#endregion NotifyProperty

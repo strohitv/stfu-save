@@ -40,23 +40,18 @@
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
 			this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.youtubeAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.verbindenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.verbindungTrennenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.templatesVerwaltenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.alleTemplatesLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.pfadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.pfadeVerwaltenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.allePfadeLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.abgebrochenerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.abgebrochenenUploadAnzeigenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.abgebrochenenUploadLöschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.verwaltenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.templatesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.youtubeAccountToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.verbindenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.verbindungLösenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -93,7 +88,7 @@
 			this.tlpSettings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(0, 0);
-			this.tlpSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tlpSettings.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpSettings.Name = "tlpSettings";
 			this.tlpSettings.RowCount = 6;
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -196,10 +191,7 @@
 			this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
-            this.youtubeAccountToolStripMenuItem,
-            this.templatesToolStripMenuItem,
-            this.pfadeToolStripMenuItem,
-            this.abgebrochenerUploadToolStripMenuItem});
+            this.verwaltenToolStripMenuItem});
 			this.mainMenu.Location = new System.Drawing.Point(0, 0);
 			this.mainMenu.Name = "mainMenu";
 			this.mainMenu.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -222,96 +214,30 @@
 			this.beendenToolStripMenuItem.Text = "Beenden";
 			this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItemClick);
 			// 
-			// youtubeAccountToolStripMenuItem
+			// verwaltenToolStripMenuItem
 			// 
-			this.youtubeAccountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.verbindenToolStripMenuItem,
-            this.verbindungTrennenToolStripMenuItem});
-			this.youtubeAccountToolStripMenuItem.Name = "youtubeAccountToolStripMenuItem";
-			this.youtubeAccountToolStripMenuItem.Size = new System.Drawing.Size(114, 20);
-			this.youtubeAccountToolStripMenuItem.Text = "Youtube-Account";
+			this.verwaltenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.youtubeAccountToolStripMenuItem1,
+            this.templatesToolStripMenuItem1,
+            this.pfadeToolStripMenuItem1,
+            this.unvollständigerUploadToolStripMenuItem});
+			this.verwaltenToolStripMenuItem.Name = "verwaltenToolStripMenuItem";
+			this.verwaltenToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+			this.verwaltenToolStripMenuItem.Text = "Verwalten";
 			// 
-			// verbindenToolStripMenuItem
+			// templatesToolStripMenuItem1
 			// 
-			this.verbindenToolStripMenuItem.Name = "verbindenToolStripMenuItem";
-			this.verbindenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.verbindenToolStripMenuItem.Text = "Verbinden";
-			this.verbindenToolStripMenuItem.Click += new System.EventHandler(this.verbindenToolStripMenuItemClick);
+			this.templatesToolStripMenuItem1.Name = "templatesToolStripMenuItem1";
+			this.templatesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.templatesToolStripMenuItem1.Text = "Templates";
+			this.templatesToolStripMenuItem1.Click += new System.EventHandler(this.templatesToolStripMenuItem1Click);
 			// 
-			// verbindungTrennenToolStripMenuItem
+			// pfadeToolStripMenuItem1
 			// 
-			this.verbindungTrennenToolStripMenuItem.Name = "verbindungTrennenToolStripMenuItem";
-			this.verbindungTrennenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.verbindungTrennenToolStripMenuItem.Text = "Verbindung trennen";
-			this.verbindungTrennenToolStripMenuItem.Click += new System.EventHandler(this.verbindungTrennenToolStripMenuItemClick);
-			// 
-			// templatesToolStripMenuItem
-			// 
-			this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.templatesVerwaltenToolStripMenuItem,
-            this.alleTemplatesLöschenToolStripMenuItem});
-			this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
-			this.templatesToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
-			this.templatesToolStripMenuItem.Text = "Templates";
-			// 
-			// templatesVerwaltenToolStripMenuItem
-			// 
-			this.templatesVerwaltenToolStripMenuItem.Name = "templatesVerwaltenToolStripMenuItem";
-			this.templatesVerwaltenToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.templatesVerwaltenToolStripMenuItem.Text = "Templates verwalten";
-			this.templatesVerwaltenToolStripMenuItem.Click += new System.EventHandler(this.templatesVerwaltenToolStripMenuItemClick);
-			// 
-			// alleTemplatesLöschenToolStripMenuItem
-			// 
-			this.alleTemplatesLöschenToolStripMenuItem.Name = "alleTemplatesLöschenToolStripMenuItem";
-			this.alleTemplatesLöschenToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.alleTemplatesLöschenToolStripMenuItem.Text = "Alle Templates löschen";
-			// 
-			// pfadeToolStripMenuItem
-			// 
-			this.pfadeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pfadeVerwaltenToolStripMenuItem,
-            this.allePfadeLöschenToolStripMenuItem});
-			this.pfadeToolStripMenuItem.Name = "pfadeToolStripMenuItem";
-			this.pfadeToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-			this.pfadeToolStripMenuItem.Text = "Pfade";
-			// 
-			// pfadeVerwaltenToolStripMenuItem
-			// 
-			this.pfadeVerwaltenToolStripMenuItem.Name = "pfadeVerwaltenToolStripMenuItem";
-			this.pfadeVerwaltenToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.pfadeVerwaltenToolStripMenuItem.Text = "Pfade verwalten";
-			this.pfadeVerwaltenToolStripMenuItem.Click += new System.EventHandler(this.pfadeVerwaltenToolStripMenuItemClick);
-			// 
-			// allePfadeLöschenToolStripMenuItem
-			// 
-			this.allePfadeLöschenToolStripMenuItem.Name = "allePfadeLöschenToolStripMenuItem";
-			this.allePfadeLöschenToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.allePfadeLöschenToolStripMenuItem.Text = "Alle Pfade löschen";
-			this.allePfadeLöschenToolStripMenuItem.Click += new System.EventHandler(this.allePfadeLöschenToolStripMenuItemClick);
-			// 
-			// abgebrochenerUploadToolStripMenuItem
-			// 
-			this.abgebrochenerUploadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.abgebrochenenUploadAnzeigenToolStripMenuItem,
-            this.abgebrochenenUploadLöschenToolStripMenuItem});
-			this.abgebrochenerUploadToolStripMenuItem.Name = "abgebrochenerUploadToolStripMenuItem";
-			this.abgebrochenerUploadToolStripMenuItem.Size = new System.Drawing.Size(134, 20);
-			this.abgebrochenerUploadToolStripMenuItem.Text = "Unvollendeter Upload";
-			// 
-			// abgebrochenenUploadAnzeigenToolStripMenuItem
-			// 
-			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Name = "abgebrochenenUploadAnzeigenToolStripMenuItem";
-			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
-			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Text = "Unvollendeten Upload anzeigen";
-			this.abgebrochenenUploadAnzeigenToolStripMenuItem.Click += new System.EventHandler(this.abgebrochenenUploadAnzeigenToolStripMenuItemClick);
-			// 
-			// abgebrochenenUploadLöschenToolStripMenuItem
-			// 
-			this.abgebrochenenUploadLöschenToolStripMenuItem.Name = "abgebrochenenUploadLöschenToolStripMenuItem";
-			this.abgebrochenenUploadLöschenToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
-			this.abgebrochenenUploadLöschenToolStripMenuItem.Text = "Unvollendeten Upload löschen";
-			this.abgebrochenenUploadLöschenToolStripMenuItem.Click += new System.EventHandler(this.abgebrochenenUploadLöschenToolStripMenuItemClick);
+			this.pfadeToolStripMenuItem1.Name = "pfadeToolStripMenuItem1";
+			this.pfadeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.pfadeToolStripMenuItem1.Text = "Pfade";
+			this.pfadeToolStripMenuItem1.Click += new System.EventHandler(this.pfadeToolStripMenuItem1_Click);
 			// 
 			// lblFinishAction
 			// 
@@ -363,7 +289,7 @@
 			this.btnChoseProcs.Location = new System.Drawing.Point(725, 288);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
-			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
 			this.btnChoseProcs.Size = new System.Drawing.Size(36, 27);
 			this.btnChoseProcs.TabIndex = 17;
 			this.btnChoseProcs.Text = "[...]";
@@ -375,6 +301,36 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
+			// unvollständigerUploadToolStripMenuItem
+			// 
+			this.unvollständigerUploadToolStripMenuItem.Name = "unvollständigerUploadToolStripMenuItem";
+			this.unvollständigerUploadToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.unvollständigerUploadToolStripMenuItem.Text = "Unvollständiger Upload";
+			this.unvollständigerUploadToolStripMenuItem.Click += new System.EventHandler(this.unvollständigerUploadToolStripMenuItem_Click);
+			// 
+			// youtubeAccountToolStripMenuItem1
+			// 
+			this.youtubeAccountToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.verbindenToolStripMenuItem1,
+            this.verbindungLösenToolStripMenuItem});
+			this.youtubeAccountToolStripMenuItem1.Name = "youtubeAccountToolStripMenuItem1";
+			this.youtubeAccountToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+			this.youtubeAccountToolStripMenuItem1.Text = "Youtube-Account";
+			// 
+			// verbindenToolStripMenuItem1
+			// 
+			this.verbindenToolStripMenuItem1.Name = "verbindenToolStripMenuItem1";
+			this.verbindenToolStripMenuItem1.Size = new System.Drawing.Size(167, 22);
+			this.verbindenToolStripMenuItem1.Text = "Verbinden";
+			this.verbindenToolStripMenuItem1.Click += new System.EventHandler(this.verbindenToolStripMenuItem1_Click);
+			// 
+			// verbindungLösenToolStripMenuItem
+			// 
+			this.verbindungLösenToolStripMenuItem.Name = "verbindungLösenToolStripMenuItem";
+			this.verbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+			this.verbindungLösenToolStripMenuItem.Text = "Verbindung lösen";
+			this.verbindungLösenToolStripMenuItem.Click += new System.EventHandler(this.verbindungLösenToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -382,7 +338,7 @@
 			this.ClientSize = new System.Drawing.Size(843, 323);
 			this.Controls.Add(this.tlpSettings);
 			this.MainMenuStrip = this.mainMenu;
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Strohis Toolset Für Uploads - AutoUploader";
@@ -411,23 +367,18 @@
 		private System.Windows.Forms.MenuStrip mainMenu;
 		private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem templatesVerwaltenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem alleTemplatesLöschenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem abgebrochenerUploadToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem abgebrochenenUploadAnzeigenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem abgebrochenenUploadLöschenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem youtubeAccountToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem verbindenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem verbindungTrennenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pfadeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pfadeVerwaltenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem allePfadeLöschenToolStripMenuItem;
 		private System.Windows.Forms.Label lblFinishAction;
 		private System.Windows.Forms.ComboBox cmbbxFinishAction;
 		private System.Windows.Forms.CheckBox chbChoseProcesses;
 		private System.Windows.Forms.Button btnChoseProcs;
 		private System.Windows.Forms.ColumnHeader chTemplate;
+		private System.Windows.Forms.ToolStripMenuItem verwaltenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem pfadeToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem youtubeAccountToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem verbindenToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem verbindungLösenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem unvollständigerUploadToolStripMenuItem;
 	}
 }
 

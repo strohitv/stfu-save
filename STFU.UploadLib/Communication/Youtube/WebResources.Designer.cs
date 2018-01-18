@@ -205,6 +205,24 @@ namespace STFU.UploadLib.Communication.Youtube {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GET.
+        /// </summary>
+        internal static string GetLanguagesMethod {
+            get {
+                return ResourceManager.GetString("GetLanguagesMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.googleapis.com/youtube/v3/i18nLanguages?part=snippet&amp;hl={1}&amp;key={0}.
+        /// </summary>
+        internal static string GetLanguagesUrl {
+            get {
+                return ResourceManager.GetString("GetLanguagesUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&amp;maxResults=50&amp;playlistId={0}{1}.
         /// </summary>
         internal static string GetPlaylistItemsUrl {
@@ -228,6 +246,24 @@ namespace STFU.UploadLib.Communication.Youtube {
         internal static string GetPlaylistTokenAddition {
             get {
                 return ResourceManager.GetString("GetPlaylistTokenAddition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GET.
+        /// </summary>
+        internal static string GetVideoCategoriesMethod {
+            get {
+                return ResourceManager.GetString("GetVideoCategoriesMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&amp;hl={2}&amp;regionCode={1}&amp;key={0}.
+        /// </summary>
+        internal static string GetVideoCategoriesUrl {
+            get {
+                return ResourceManager.GetString("GetVideoCategoriesUrl", resourceCulture);
             }
         }
         
@@ -295,7 +331,7 @@ namespace STFU.UploadLib.Communication.Youtube {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&amp;part=snippet,status,contentDetails.
+        ///   Looks up a localized string similar to https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&amp;autoLevels={1}&amp;notifySubscribers={0}&amp;stabilize={2}&amp;part=snippet,status,contentDetails.
         /// </summary>
         internal static string UploadUrl {
             get {

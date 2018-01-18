@@ -125,6 +125,7 @@
     <Compile Include="Templates\TemplateVideoCreator.cs" />
     <Compile Include="Uploader.cs" />
     <Compile Include="Videos\Category.cs" />
+    <Compile Include="Videos\Language.cs" />
     <Compile Include="Videos\License.cs" />
     <Compile Include="Videos\PrivacyStatus.cs" />
     <Compile Include="Videos\VideoResourceId.cs" />

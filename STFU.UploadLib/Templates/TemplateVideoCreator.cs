@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using STFU.UploadLib.Automation;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Templates
@@ -28,13 +24,17 @@ namespace STFU.UploadLib.Templates
 			// Werte füllen
 			video.Title = template.Title;
 			video.Description = template.Description;
-			video.CategoryId = template.CategoryId;
+			video.Category = template.Category;
 			video.DefaultLanguage = template.DefaultLanguage;
 
 			video.Privacy = template.Privacy;
 			video.License = template.License;
 			video.IsEmbeddable = template.IsEmbeddable;
 			video.PublicStatsViewable = template.PublicStatsViewable;
+
+			video.NotifySubscribers = template.NotifySubscribers;
+			video.AutoLevels = template.AutoLevels;
+			video.Stabilize = template.Stabilize;
 
 			// Evtl. Nächsten Veröffentlichungszeitpunkt berechnen
 			// Dafür benötigt: Datum letztes Video und Position in PublishTimes (!)

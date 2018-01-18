@@ -17,9 +17,9 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		{
 			snippet = new YoutubeSnippet()
 			{
-				categoryId = video.CategoryId,
+				categoryId = video.Category.Id,
 				title = video.Title,
-				defaultLanguage = video.DefaultLanguage,
+				defaultLanguage = video.DefaultLanguage.Hl,
 				description = video.Description,
 				tags = video.Tags.ToArray()
 			};
@@ -31,7 +31,7 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 				License = video.License,
 				PublishAt = video.PublishAt ?? default(DateTime),
 				ShouldPublishAt = video.PublishAt != null,
-				PublicStatsViewable = video.PublicStatsViewable,
+				PublicStatsViewable = video.PublicStatsViewable
 			};
 		}
 	}

@@ -30,11 +30,13 @@ namespace STFU.UploadLib.Automation
 		private bool active = false;
 		private ProcessWatcher watcher = new ProcessWatcher();
 		private List<Template> templates = new List<Template>();
+		private List<Language> languages = new List<Language>();
 
 		private const string selectedPathsJsonPath = @"settings\paths.json";
 		private const string accountJsonPath = @"settings\account.json";
 		private const string currentUploadDetailsPath = @"settings\currentUpload.json";
 		private const string templatesPath = @"settings\templates.json";
+		private const string languagesPath = @"settings\languages.json";
 
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
@@ -45,8 +47,11 @@ namespace STFU.UploadLib.Automation
 		#endregion fields
 
 		#region properties
-		public string LoggedInAccountUrl { get { return (ActiveAccount != null) ? $"https://youtube.com/channel/{ActiveAccount.Id}" : null; } }
-		public string LoggedInAccountTitle { get { return ActiveAccount?.Title; } }
+		public string LoggedInAccountUrl => (ActiveAccount != null) ? $"https://youtube.com/channel/{ActiveAccount.Id}" : null;
+
+		public string LoggedInAccountTitle => ActiveAccount?.Title;
+
+		public bool HasUnfinishedJob => File.Exists(currentUploadDetailsPath);
 
 		public PathSettings Paths
 		{
@@ -89,6 +94,8 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
+		public Category[] AvailableCategories => ActiveAccount.AvailableCategories;
+
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
 
 		private ProcessWatcher Watcher
@@ -117,6 +124,19 @@ namespace STFU.UploadLib.Automation
 				templates = value.ToList();
 			}
 		}
+
+		public List<Language> Languages
+		{
+			get
+			{
+				return languages;
+			}
+
+			set
+			{
+				languages = value;
+			}
+		}
 		#endregion properties
 
 		public AutomationUploader()
@@ -133,7 +153,7 @@ namespace STFU.UploadLib.Automation
 
 			if (!Templates.Any(t => t.Name.ToLower() == "standard"))
 			{
-				Templates.Add(new Template("Standard"));
+				Templates.Add(new Template("Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c=> c.Id == 20)));
 				WriteTemplates();
 			}
 
@@ -143,7 +163,7 @@ namespace STFU.UploadLib.Automation
 				{
 					string savedAccountJson = reader.ReadToEnd();
 					var savedAccount = JsonConvert.DeserializeObject<AccountJson>(savedAccountJson);
-					ActiveAccount = new Account() { Id = savedAccount.id, Title = savedAccount.title, Access = new Authentification() { RefreshToken = savedAccount.refreshToken } };
+					ActiveAccount = new Account() { Id = savedAccount.id, Title = savedAccount.title, Access = new Authentification() { RefreshToken = savedAccount.refreshToken }, Region = savedAccount.region, AvailableCategories = savedAccount.categories.Select(c => new Category(c.id, c.title)).ToArray() };
 
 					if (string.IsNullOrWhiteSpace(ActiveAccount?.Access?.AccessToken))
 					{
@@ -162,9 +182,30 @@ namespace STFU.UploadLib.Automation
 				{
 					Debug.Write(ex.Message);
 
-					paths = new PathSettings();
+					Paths = new PathSettings();
 					File.Delete(selectedPathsJsonPath);
 				}
+			}
+
+			if (File.Exists(languagesPath))
+			{
+				try
+				{
+					ReadLanguages();
+				}
+				catch (Exception ex)
+				{
+					Debug.Write(ex.Message);
+
+					Languages = new List<Language>(new Language[] { new Language() { Id = "DE", Hl = "DE", Name = "Deutsch" } });
+					File.Delete(languagesPath);
+				}
+			}
+			else
+			{
+				Languages = AccountCommunication.LoadYoutubeLanguages(ActiveAccount.Access.AccessToken).ToList();
+
+				WriteLanguages();
 			}
 
 			foreach (var path in Paths)
@@ -211,6 +252,26 @@ namespace STFU.UploadLib.Automation
 			Paths = PathSettings.Parse(json, Templates);
 		}
 
+		public void WriteLanguages()
+		{
+			var serialized = JsonConvert.SerializeObject(Languages);
+
+			using (StreamWriter fileWriter = new StreamWriter(languagesPath, false))
+			{
+				fileWriter.Write(serialized);
+			}
+		}
+
+		public void ReadLanguages()
+		{
+			string json;
+			using (StreamReader fileReader = new StreamReader(languagesPath))
+			{
+				json = fileReader.ReadToEnd();
+			}
+			Languages = JsonConvert.DeserializeObject<List<Language>>(json);
+		}
+
 		public void WriteTemplates()
 		{
 			var serialized = JsonConvert.SerializeObject(Templates);
@@ -247,6 +308,9 @@ namespace STFU.UploadLib.Automation
 
 			if (!string.IsNullOrWhiteSpace(ActiveAccount.Access.RefreshToken))
 			{
+				// Account wurde erfolgreich verbunden -> Kategorien laden.
+				ActiveAccount = AccountCommunication.FillAccountWithAvailableVideoCategories(ActiveAccount);
+
 				WriteAccount();
 				return true;
 			}
@@ -256,7 +320,7 @@ namespace STFU.UploadLib.Automation
 
 		private void WriteAccount()
 		{
-			var saveAccount = new AccountJson() { id = ActiveAccount.Id, title = ActiveAccount.Title, refreshToken = ActiveAccount.Access.RefreshToken };
+			var saveAccount = new AccountJson() { id = ActiveAccount.Id, title = ActiveAccount.Title, refreshToken = ActiveAccount.Access.RefreshToken, region = ActiveAccount.Region, categories = ActiveAccount.AvailableCategories.Select(c => new CategoriesJson() { id = c.Id, title = c.Title }).ToArray() };
 
 			string json = JsonConvert.SerializeObject(saveAccount);
 
@@ -408,10 +472,10 @@ namespace STFU.UploadLib.Automation
 
 			Video vid = new Video(newfile)
 			{
-				CategoryId = 20,
+				Category = AvailableCategories.FirstOrDefault(c => c.Id == 20),
 				Description = string.Empty,
 				Title = videoTitle,
-				DefaultLanguage = "de",
+				DefaultLanguage = Languages.FirstOrDefault(lang => lang.Hl.ToLower() == "de"),// "de",
 				IsEmbeddable = true,
 				License = License.Youtube,
 				Privacy = PrivacyStatus.Private,
@@ -545,5 +609,20 @@ namespace STFU.UploadLib.Automation
 		public string id;
 		public string title;
 		public string refreshToken;
+		public string region;
+		public CategoriesJson[] categories;
+	}
+
+	public class CategoriesJson
+	{
+		public int id;
+		public string title;
+	}
+
+	public class LanguagesJson
+	{
+		public int id;
+		public int hl;
+		public string title;
 	}
 }

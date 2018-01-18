@@ -21,9 +21,9 @@ namespace STFU.UploadLib.Videos
 
 		public string Description { get; set; }
 
-		public int CategoryId { get; set; }
+		public Category Category { get; set; }
 
-		public string DefaultLanguage { get; set; }
+		public Language DefaultLanguage { get; set; }
 
 		public Collection<string> Tags { get { return tags; } }
 
@@ -50,6 +50,12 @@ namespace STFU.UploadLib.Videos
 		public bool IsEmbeddable { get; set; }
 
 		public bool PublicStatsViewable { get; set; }
+
+		public bool NotifySubscribers { get; set; }
+
+		public bool AutoLevels { get; set; }
+
+		public bool Stabilize { get; set; }
 
 		public DateTime? PublishAt
 		{

@@ -165,6 +165,12 @@
   <data name="GetChannelDetailsUrl" xml:space="preserve">
     <value>https://www.googleapis.com/youtube/v3/channels?part=snippet&amp;mine=true&amp;key={0}</value>
   </data>
+  <data name="GetLanguagesMethod" xml:space="preserve">
+    <value>GET</value>
+  </data>
+  <data name="GetLanguagesUrl" xml:space="preserve">
+    <value>https://www.googleapis.com/youtube/v3/i18nLanguages?part=snippet&amp;hl={1}&amp;key={0}</value>
+  </data>
   <data name="GetPlaylistItemsUrl" xml:space="preserve">
     <value>https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&amp;maxResults=50&amp;playlistId={0}{1}</value>
   </data>
@@ -173,6 +179,12 @@
   </data>
   <data name="GetPlaylistTokenAddition" xml:space="preserve">
     <value>&amp;pageToken={0}</value>
+  </data>
+  <data name="GetVideoCategoriesMethod" xml:space="preserve">
+    <value>GET</value>
+  </data>
+  <data name="GetVideoCategoriesUrl" xml:space="preserve">
+    <value>https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&amp;hl={2}&amp;regionCode={1}&amp;key={0}</value>
   </data>
   <data name="JSONContentType" xml:space="preserve">
     <value>application/json; charset=utf-8</value>
@@ -196,7 +208,7 @@
     <value>https://www.googleapis.com/auth/youtube.upload+https://www.googleapis.com/auth/youtube.readonly</value>
   </data>
   <data name="UploadUrl" xml:space="preserve">
-    <value>https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&amp;part=snippet,status,contentDetails</value>
+    <value>https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&amp;autoLevels={1}&amp;notifySubscribers={0}&amp;stabilize={2}&amp;part=snippet,status,contentDetails</value>
   </data>
   <data name="UpoadInitMethod" xml:space="preserve">
     <value>POST</value>

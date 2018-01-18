@@ -18,9 +18,9 @@ namespace STFU.UploadLib.Templates
 
 		public string Description { get; set; }
 
-		public int CategoryId { get; set; }
+		public Category Category { get; set; }
 
-		public string DefaultLanguage { get; set; }
+		public Language DefaultLanguage { get; set; }
 
 		public string Tags { get; set; }
 
@@ -38,8 +38,11 @@ namespace STFU.UploadLib.Templates
 
 		public bool PublicStatsViewable { get; set; }
 
-		[JsonIgnore]
-		public bool NeedsStart { get { return ShouldPublishAt && PublishTimes.Count > 0; } }
+		public bool NotifySubscribers { get; set; }
+
+		public bool AutoLevels { get; set; }
+
+		public bool Stabilize { get; set; }
 
 		public bool ShouldPublishAt { get; set; }
 
@@ -61,17 +64,21 @@ namespace STFU.UploadLib.Templates
 		}
 
 		public Template()
-			: this("neues Template")
+			: this("neues Template", null, null)
 		{
 		}
 
-		public Template(string name)
+		public Template(string name, Language lang, Category cat)
 		{
 			Name = name;
 			Privacy = PrivacyStatus.Private;
 			Title = string.Empty;
 			Description = string.Empty;
 			Tags = string.Empty;
+			NotifySubscribers = true;
+			License = License.Youtube;
+			DefaultLanguage = lang;
+			Category = cat;
 		}
 
 		public static explicit operator Template(JToken v)

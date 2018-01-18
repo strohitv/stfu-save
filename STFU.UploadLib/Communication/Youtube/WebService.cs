@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -176,7 +177,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			var bytes = System.Text.Encoding.UTF8.GetBytes(content);
 
 			// Request erstellen
-			WebRequest request = WebRequest.Create(resourceManager.GetString("UploadUrl"));
+			WebRequest request = WebRequest.Create(string.Format(resourceManager.GetString("UploadUrl"), job.SelectedVideo.NotifySubscribers, job.SelectedVideo.AutoLevels, job.SelectedVideo.Stabilize));
 			request.Method = resourceManager.GetString("UpoadInitMethod");
 			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), job.UploadingAccount.Access.AccessToken));
 			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentLengthHeader"), job.SelectedVideo.File.Length));
@@ -431,6 +432,48 @@ namespace STFU.UploadLib.Communication.Youtube
 		}
 
 		#endregion GetChannelDetails
+
+		#region GetVideoCategories
+
+		internal static Response GetVideoCategories(string regionCode, string accessToken)
+		{
+			var pageToken = string.Empty;
+			CultureInfo ci = CultureInfo.CurrentUICulture;
+			string url = string.Format(resourceManager.GetString("GetVideoCategoriesUrl"), clientSecret, regionCode, ci.Name);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.Proxy = null;
+			request.Method = resourceManager.GetString("GetVideoCategoriesMethod");
+			request.Credentials = CredentialCache.DefaultCredentials;
+			request.ProtocolVersion = HttpVersion.Version11;
+
+			// Header schreiben
+			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), accessToken));
+
+			Response response = JsonConvert.DeserializeObject<Response>(Communicate(request));
+
+			return response;
+		}
+
+		internal static Response GetLanguages(string accessToken)
+		{
+			var pageToken = string.Empty;
+			CultureInfo ci = CultureInfo.CurrentUICulture;
+			string url = string.Format(resourceManager.GetString("GetLanguagesUrl"), clientSecret, ci.Name);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.Proxy = null;
+			request.Method = resourceManager.GetString("GetLanguagesMethod");
+			request.Credentials = CredentialCache.DefaultCredentials;
+			request.ProtocolVersion = HttpVersion.Version11;
+
+			// Header schreiben
+			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), accessToken));
+
+			Response response = JsonConvert.DeserializeObject<Response>(Communicate(request));
+
+			return response;
+		}
+
+		#endregion GetVideoCategories
 
 		#region MonoSSL
 		static WebService()

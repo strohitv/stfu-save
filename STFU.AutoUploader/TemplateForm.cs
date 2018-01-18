@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 using STFU.UploadLib.Templates;
@@ -25,7 +26,7 @@ namespace STFU.AutoUploader
 
 		private void addPathButtonClick(object sender, EventArgs e)
 		{
-			Template templ = new Template();
+			Template templ = new Template("neues Template", uploader.Languages.FirstOrDefault(lang => lang.Id.ToLower() == "de"), uploader.AvailableCategories.FirstOrDefault(c => c.Id == 20));
 			uploader.Templates.Add(templ);
 
 			RefillListView();
@@ -87,7 +88,13 @@ namespace STFU.AutoUploader
 			}
 
 			int selectedIndex = templateListView.SelectedIndices[0];
-			uploader.Templates.RemoveAt(selectedIndex);
+
+			if (uploader.Templates[selectedIndex].Name.ToLower() != "standard")
+			{
+				uploader.Templates.RemoveAt(selectedIndex);
+			}
+
+			templateListView.SelectedIndices.Clear();
 
 			RefillListView();
 		}
@@ -102,6 +109,8 @@ namespace STFU.AutoUploader
 					i--;
 				}
 			}
+
+			templateListView.SelectedIndices.Clear();
 
 			RefillListView();
 		}
@@ -123,17 +132,20 @@ namespace STFU.AutoUploader
 					current = new Template()
 					{
 						Name = save.Name,
-						CategoryId = save.CategoryId,
+						AutoLevels = false,
+						Category = save.Category,
 						DefaultLanguage = save.DefaultLanguage,
 						Description = save.Description,
 						IsEmbeddable = save.IsEmbeddable,
 						License = save.License,
+						NotifySubscribers = true,
 						Privacy = save.Privacy,
 						PublicStatsViewable = save.PublicStatsViewable,
 						PublishTimes = new List<PublishTime>(save.PublishTimes),
 						ShouldPublishAt = save.ShouldPublishAt,
+						Stabilize = false,
 						Tags = save.Tags,
-						Title = save.Title
+						Title = save.Title,
 					};
 
 					FillTemplateIntoEditView(current);
@@ -162,6 +174,22 @@ namespace STFU.AutoUploader
 
 			privacyComboBox.SelectedIndex = (int)template.Privacy;
 			publishAtCheckbox.Checked = template.ShouldPublishAt;
+
+			defaultLanguageCombobox.Items.Clear();
+			defaultLanguageCombobox.Items.AddRange(uploader.Languages.Select(lang => lang.Name).ToArray());
+			defaultLanguageCombobox.SelectedIndex = uploader.Languages.IndexOf(uploader.Languages.FirstOrDefault(lang => lang.Id == template.DefaultLanguage?.Id));
+
+			categoryCombobox.Items.Clear();
+			categoryCombobox.Items.AddRange(uploader.AvailableCategories.Select(cat => cat.Title).ToArray());
+			categoryCombobox.SelectedIndex = uploader.AvailableCategories.ToList().IndexOf(uploader.AvailableCategories.FirstOrDefault(c => c.Id == template.Category?.Id));
+
+			licenseCombobox.SelectedIndex = (int)template.License;
+
+			isEmbeddableCheckbox.Checked = template.IsEmbeddable;
+			publicStatsViewableCheckbox.Checked = template.PublicStatsViewable;
+			notifySubscribersCheckbox.Checked = template.NotifySubscribers;
+			autoLevelsCheckbox.Checked = template.AutoLevels;
+			stabilizeCheckbox.Checked = template.Stabilize;
 
 			RefillTimesListView();
 
@@ -306,13 +334,16 @@ namespace STFU.AutoUploader
 
 		private void saveTemplateButtonClick(object sender, EventArgs e)
 		{
-			reordering = true;
-			var index = templateListView.SelectedIndices[0];
-			uploader.Templates[index] = current;
-			RefillListView();
-			templateListView.SelectedIndices.Add(index);
-			templateListView.Select();
-			reordering = false;
+			if (templateListView.SelectedIndices.Count == 1)
+			{
+				reordering = true;
+				var index = templateListView.SelectedIndices[0];
+				uploader.Templates[index] = current;
+				RefillListView();
+				templateListView.SelectedIndices.Add(index);
+				templateListView.Select();
+				reordering = false;
+			}
 		}
 
 		private void templateNameTextboxTextChanged(object sender, EventArgs e)
@@ -526,6 +557,46 @@ namespace STFU.AutoUploader
 				RefillTimesListView();
 				timesListView.Select();
 			}
+		}
+
+		private void categoryComboboxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			current.Category = uploader.AvailableCategories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
+		}
+
+		private void defaultLanguageComboboxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			current.DefaultLanguage = uploader.Languages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
+		}
+
+		private void licenseComboboxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			current.License = (License)licenseCombobox.SelectedIndex;
+		}
+
+		private void isEmbeddableCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			current.IsEmbeddable = isEmbeddableCheckbox.Checked;
+		}
+
+		private void publicStatsViewableCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			current.PublicStatsViewable = publicStatsViewableCheckbox.Checked;
+		}
+
+		private void notifySubscribersCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			current.NotifySubscribers = notifySubscribersCheckbox.Checked;
+		}
+
+		private void autoLevelsCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			current.AutoLevels = autoLevelsCheckbox.Checked;
+		}
+
+		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
+		{
+			current.Stabilize = stabilizeCheckbox.Checked;
 		}
 	}
 }

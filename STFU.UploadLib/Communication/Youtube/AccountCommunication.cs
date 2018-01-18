@@ -2,6 +2,8 @@
 using System.Linq;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
+using STFU.UploadLib.Communication.Youtube.Serializable;
+using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Communication.Youtube
 {
@@ -30,10 +32,25 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			account.Title = accountDetails.items.First().snippet.title;
 			account.Id = accountDetails.items.First().id;
+			account.Region = accountDetails.items.First().snippet.country;
 
 			return account;
 		}
-		
+
+		public static Account FillAccountWithAvailableVideoCategories(Account account)
+		{
+			var categories = WebService.GetVideoCategories(account.Region, account.Access.AccessToken);
+
+			account.AvailableCategories = categories.items.Where(i => i.snippet.assignable).Select(i => new Category(int.Parse(i.id), i.snippet.title)).ToArray();
+
+			return account;
+		}
+
+		public static Language[] LoadYoutubeLanguages(string accessToken)
+		{
+			return WebService.GetLanguages(accessToken).items.Select(i => new Language() { Id = i.id, Hl = i.snippet.hl, Name = i.snippet.name }).OrderBy(lang => lang.Name).ToArray();
+		} 
+
 		public static Account ConnectAccount(string authToken, bool useLocalHostRedirect = true)
 		{
 			var response = WebService.ObtainAccessToken(authToken, useLocalHostRedirect);
@@ -48,7 +65,7 @@ namespace STFU.UploadLib.Communication.Youtube
 
 				if (!string.IsNullOrWhiteSpace(authResponse.access_token))
 				{
-					account.Access = new Accounts.Authentification()
+					account.Access = new Authentification()
 					{
 						AccessToken = authResponse.access_token,
 						RefreshToken = authResponse.refresh_token,
@@ -72,7 +89,7 @@ namespace STFU.UploadLib.Communication.Youtube
 
 				if (!string.IsNullOrWhiteSpace(authResponse.access_token))
 				{
-					account.Access = new Accounts.Authentification()
+					account.Access = new Authentification()
 					{
 						AccessToken = authResponse.access_token,
 						RefreshToken = account.Access.RefreshToken,
