@@ -163,7 +163,20 @@ namespace STFU.UploadLib.Automation
 				{
 					string savedAccountJson = reader.ReadToEnd();
 					var savedAccount = JsonConvert.DeserializeObject<AccountJson>(savedAccountJson);
-					ActiveAccount = new Account() { Id = savedAccount.id, Title = savedAccount.title, Access = new Authentification() { RefreshToken = savedAccount.refreshToken }, Region = savedAccount.region, AvailableCategories = savedAccount.categories.Select(c => new Category(c.id, c.title)).ToArray() };
+
+					var categories = savedAccount.categories?.Select(c => new Category(c.id, c.title)).ToArray();
+					if (categories == null)
+					{
+						categories = new[] { new Category(20, "Gaming") };
+					}
+
+					var region = savedAccount.region;
+					if (region == null)
+					{
+						region = "DE";
+					}
+
+					ActiveAccount = new Account() { Id = savedAccount.id, Title = savedAccount.title, Access = new Authentification() { RefreshToken = savedAccount.refreshToken }, Region = savedAccount.region, AvailableCategories = categories };
 
 					if (string.IsNullOrWhiteSpace(ActiveAccount?.Access?.AccessToken))
 					{
