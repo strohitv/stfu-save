@@ -102,6 +102,7 @@
 			// refreshTimer
 			// 
 			this.refreshTimer.Enabled = true;
+			this.refreshTimer.Interval = 10;
 			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
 			// 
 			// UploadForm

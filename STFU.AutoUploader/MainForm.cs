@@ -105,7 +105,7 @@ namespace STFU.AutoUploader
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-			uploader?.Stop(true);
+			uploader?.Stop();
 			uploader?.WritePaths();
 			uploader?.WriteTemplates();
 		}
@@ -171,38 +171,6 @@ namespace STFU.AutoUploader
 			Close();
 		}
 
-		private void allePfadeLöschenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			uploader.Paths.Clear();
-			RefillListView();
-		}
-
-		private void pfadeVerwaltenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			PathForm pf = new PathForm(uploader);
-			pf.ShowDialog(this);
-			uploader.WritePaths();
-
-			RefillListView();
-		}
-
-		private void abgebrochenenUploadLöschenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-		}
-
-		private void abgebrochenenUploadAnzeigenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-
-		}
-
-		private void verbindenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-		}
-
-		private void verbindungTrennenToolStripMenuItemClick(object sender, EventArgs e)
-		{
-		}
-
 		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
 		{
 			btnChoseProcs.Enabled = chbChoseProcesses.Checked;
@@ -227,10 +195,12 @@ namespace STFU.AutoUploader
 				var procs = processChoser.Selected;
 				uploader.ClearProcessesToWatch();
 				uploader.AddProcessesToWatch(procs);
+				uploader.ShouldStopAutomatically = true;
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
+				uploader.ShouldStopAutomatically = false;
 			}
 		}
 

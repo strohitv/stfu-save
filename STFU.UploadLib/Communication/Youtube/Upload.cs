@@ -30,14 +30,14 @@ namespace STFU.UploadLib.Communication.Youtube
 			return null;
 		}
 
-		internal static bool Upload(ref Job job)
+		internal static bool Upload(ref Job job, ref bool shouldCancel)
 		{
 			//Trace.WriteLine(testUrl.AbsoluteUri);
 
 			WebService.ProgressChanged += ReactToProgressChanged;
 
 			Uri testUrl = null;
-			while (Uri.TryCreate(WebService.UploadFile(ref job), UriKind.Absolute, out testUrl))
+			while (!shouldCancel && Uri.TryCreate(WebService.UploadFile(ref job, ref shouldCancel), UriKind.Absolute, out testUrl))
 			{
 				//Trace.WriteLine("Upload wurde unerwartet abgebrochen. Warte 1 Minuten vor Neuversuch...");
 				Thread.Sleep(new TimeSpan(0, 1, 0));

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube;
@@ -18,15 +21,13 @@ namespace STFU.UploadLib.Automation
 	public delegate void UploadStartedEventHandler(AutomationEventArgs e);
 	public delegate void UploadFinishedEventHandler(AutomationEventArgs e);
 	public delegate void UploadProgressChangedEventHandler(AutomationEventArgs e);
-	public delegate void UploaderFinishedEventHandler(EventArgs e);
 
-	public class AutomationUploader
+	public class AutomationUploader : INotifyPropertyChanged
 	{
 		#region fields
 		private PathSettings paths = new PathSettings();
 		private Uploader uploader = new Uploader();
 		private Account activeAccount = null;
-		private Thread uploadThread = null;
 		private bool active = false;
 		private ProcessWatcher watcher = new ProcessWatcher();
 		private List<Template> templates = new List<Template>();
@@ -41,9 +42,22 @@ namespace STFU.UploadLib.Automation
 		public event UploadStartedEventHandler UploadStarted;
 		public event UploadFinishedEventHandler UploadFinished;
 		public event UploadProgressChangedEventHandler ProgressChanged;
-		public event UploaderFinishedEventHandler UploaderFinished;
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		private List<string> files = new List<string>();
+
+		private string message;
+		private double progress;
+
+		private List<FileSystemWatcher> watchers;
+
+		private TemplateVideoCreator creator;
+
+		private bool uploaderRunning = false;
+		private object lockobject = new object();
+
+		private Job unfinishedJob;
+		private bool shouldCancel = false;
 		#endregion fields
 
 		#region properties
@@ -63,21 +77,17 @@ namespace STFU.UploadLib.Automation
 			private set
 			{
 				paths = value;
+				OnPropertyChaged();
 			}
 		}
 
-		public bool IsActive { get { return active; } }
-
-		private Uploader Uploader
+		public bool IsActive
 		{
-			get
+			get { return active; }
+			private set
 			{
-				return uploader;
-			}
-
-			set
-			{
-				uploader = value;
+				active = value;
+				OnPropertyChaged();
 			}
 		}
 
@@ -98,7 +108,7 @@ namespace STFU.UploadLib.Automation
 
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
 
-		private ProcessWatcher Watcher
+		private ProcessWatcher ProcessWatcher
 		{
 			get
 			{
@@ -111,7 +121,8 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public Process[] ProcessesToWatch { get { return Watcher.Procs.ToArray(); } }
+		public Process[] ProcessesToWatch { get { return ProcessWatcher.Procs.ToArray(); } }
+		public bool ShouldStopAutomatically { get { return ProcessWatcher.ShouldEndAutomatically; } set { ProcessWatcher.ShouldEndAutomatically = value; } }
 
 		public Collection<Template> Templates
 		{
@@ -122,6 +133,7 @@ namespace STFU.UploadLib.Automation
 			set
 			{
 				templates = value.ToList();
+				OnPropertyChaged();
 			}
 		}
 
@@ -135,8 +147,78 @@ namespace STFU.UploadLib.Automation
 			set
 			{
 				languages = value;
+				OnPropertyChaged();
 			}
 		}
+
+		public string Message
+		{
+			get
+			{
+				return message;
+			}
+
+			set
+			{
+				message = value;
+				OnPropertyChaged();
+			}
+		}
+
+		public double Progress
+		{
+			get
+			{
+				return progress;
+			}
+
+			set
+			{
+				progress = value;
+				OnPropertyChaged();
+			}
+		}
+
+		private List<FileSystemWatcher> Watchers
+		{
+			get
+			{
+				if (watchers == null)
+				{
+					watchers = new List<FileSystemWatcher>();
+				}
+
+				return watchers;
+			}
+		}
+
+		private List<string> Files
+		{
+			get
+			{
+				if (files == null)
+				{
+					files = new List<string>();
+				}
+
+				return files;
+			}
+		}
+
+		public Job UnfinishedJob
+		{
+			get
+			{
+				return unfinishedJob;
+			}
+
+			set
+			{
+				unfinishedJob = value;
+				OnPropertyChaged();
+			}
+		}
+
 		#endregion properties
 
 		public AutomationUploader()
@@ -153,7 +235,7 @@ namespace STFU.UploadLib.Automation
 
 			if (!Templates.Any(t => t.Name.ToLower() == "standard"))
 			{
-				Templates.Add(new Template("Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c=> c.Id == 20)));
+				Templates.Add(new Template("Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c => c.Id == 20)));
 				WriteTemplates();
 			}
 
@@ -228,21 +310,13 @@ namespace STFU.UploadLib.Automation
 					path.SelectedTemplate = "Standard";
 				}
 			}
+
+			UnfinishedJob = LoadLastJob();
 		}
 
 		private void RefreshAccess()
 		{
 			ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
-
-			if (string.IsNullOrWhiteSpace(ActiveAccount.Access.AccessToken))
-			{
-				ActiveAccount = null;
-
-				if (File.Exists(accountJsonPath))
-				{
-					File.Delete(accountJsonPath);
-				}
-			}
 		}
 
 		public void WritePaths()
@@ -305,11 +379,6 @@ namespace STFU.UploadLib.Automation
 			Templates = JsonConvert.DeserializeObject<Collection<Template>>(json);
 		}
 
-		public void Reset()
-		{
-			Paths = new PathSettings();
-		}
-
 		public string GetAuthLoginScreenUrl(bool showAuthToken, bool logout = false)
 		{
 			return AccountCommunication.GetLogoffAndAuthUrl(showAuthToken, logout);
@@ -358,7 +427,7 @@ namespace STFU.UploadLib.Automation
 			return result;
 		}
 
-		public void Remove(string path)
+		public void RemovePath(string path)
 		{
 			if (Paths.ContainsPath(path))
 			{
@@ -366,57 +435,183 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
+		public async void StartAsync()
+		{
+			await Task.Run(() => Start());
+		}
+
 		public void Start()
 		{
-			// Es muss sichergestellt sein, dass ein Account verbunden ist.
-			if (ActiveAccount == null)
+			IsActive = true;
+
+			Files.Clear();
+			Watchers.Clear();
+
+			creator = new TemplateVideoCreator(Paths.Select(p => new PublishInformation(p, DateTime.Now, Templates.FirstOrDefault(t => t.Name.ToLower() == p.SelectedTemplate.ToLower()))).ToList());
+
+			TryConnectAccount();
+			if (ActiveAccount.Access?.AccessToken == null)
 			{
+				Message = "FEHLER: Verbindung zum Youtube-Account konnte nicht hergestellt werden.";
+				Progress = 0;
 				return;
 			}
 
-			active = true;
+			UnfinishedJob = LoadLastJob();
+			UploadFilesAsync();
 
-			uploadThread = new Thread(RunAutomationUploader);
-			uploadThread.Name = "AutomationUploaderThread";
-			uploadThread.Start();
+			CreateWatchers();
+
+			SearchExistingVideos();
 		}
 
-		public void Stop(bool kill)
+		private void CreateWatchers()
 		{
-			active = false;
-
-			while (kill && uploadThread != null && uploadThread.IsAlive)
+			foreach (var pathFilterCombination in Paths)
 			{
-				uploadThread.Abort();
+				string path = pathFilterCombination.Path;
+				string[] filters = pathFilterCombination.Filter.Split(';');
+
+				foreach (var filter in filters)
+				{
+					watchers.Add(CreateWatcher(path, filter.Trim(), pathFilterCombination.SearchRecursively));
+				}
 			}
 		}
 
-		private void RunAutomationUploader()
+		private void SearchExistingVideos()
 		{
-			Job lastJob = LoadLastJob();
-			if (lastJob != null)
+			foreach (var pathFilterCombination in Paths)
 			{
-				UploadJob(lastJob);
-			}
+				string path = pathFilterCombination.Path;
+				string[] filters = pathFilterCombination.Filter.Split(';');
 
-			while (active)
-			{
-				RefreshFiles();
-
-				if (files.Count == 0 && (Watcher.Count == 0 || (Watcher.Count > 0 && !Watcher.AnyIsRunning())))
+				foreach (var filter in filters)
 				{
-					// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
-					break;
-				}
-
-				foreach (var fileName in files)
-				{
-					UploadVideo(fileName);
+					try
+					{
+						AddFiles(path, filter.Trim(), pathFilterCombination.SearchRecursively);
+					}
+					catch (UnauthorizedAccessException)
+					{
+					}
 				}
 			}
 
-			active = false;
-			OnUploaderFinished();
+			if (!uploaderRunning)
+			{
+				Message = "Warte auf Dateien zum Upload...";
+				UploadFilesAsync();
+			}
+		}
+
+		private async void UploadFilesAsync()
+		{
+			await Task.Run(() => UploadFiles());
+		}
+
+		private void UploadFiles()
+		{
+			lock (lockobject)
+			{
+				if (uploaderRunning)
+				{
+					return;
+				}
+
+				uploaderRunning = true;
+			}
+
+			if (UnfinishedJob != null)
+			{
+				UploadJob(UnfinishedJob);
+			}
+
+			while (Files.Count > 0 && IsActive)
+			{
+				if (File.Exists(files.First()))
+				{
+					UploadVideo(files.First(), creator);
+				}
+
+				files.RemoveAt(0);
+			}
+
+			if (ProcessWatcher.ShouldEndAutomatically && (!ProcessWatcher.AnyIsRunning()))
+			{
+				// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
+				EndUpload();
+			}
+
+			lock (lockobject)
+			{
+				uploaderRunning = false;
+			}
+		}
+
+		private void EndUpload()
+		{
+			IsActive = false;
+
+			while (Watchers.Count > 0)
+			{
+				Watchers.First().Created -= ReactOnFileChanges;
+				Watchers.First().Changed -= ReactOnFileChanges;
+				Watchers.First().Renamed -= ReactOnFileChanges;
+
+				Watchers.First().Dispose();
+				Watchers.RemoveAt(0);
+			}
+		}
+
+		private void TryConnectAccount()
+		{
+			// Es muss sichergestellt sein, dass ein Account verbunden ist.
+			for (int i = 0; i < 3 && ActiveAccount.Access?.AccessToken == null; i++)
+			{
+				for (int j = 0; j < 30 && i > 0; j++)
+				{
+					Message = $"Verbindung zum Youtube-Account konnte nicht hergestellt werden. Erneuter Versuch in {30 - j} Sekunden...";
+					Thread.Sleep(1000);
+				}
+
+				Message = $"Stelle Verbindung zum Youtube-Account her - Versuch {i + 1} von 3...";
+				ActiveAccount = AccountCommunication.RefreshAccess(ActiveAccount);
+			}
+		}
+
+		public void Stop()
+		{
+			shouldCancel = true;
+			EndUpload();
+		}
+
+		private FileSystemWatcher CreateWatcher(string path, string filter, bool searchRecursively)
+		{
+			var watcher = new FileSystemWatcher(path, filter);
+			watcher.NotifyFilter = NotifyFilters.Attributes
+				| NotifyFilters.CreationTime
+				| NotifyFilters.DirectoryName
+				| NotifyFilters.FileName
+				| NotifyFilters.LastAccess
+				| NotifyFilters.LastWrite
+				| NotifyFilters.Security
+				| NotifyFilters.Size;
+			watcher.IncludeSubdirectories = searchRecursively;
+			watcher.Created += ReactOnFileChanges;
+			watcher.Changed += ReactOnFileChanges;
+			watcher.Renamed += ReactOnFileChanges;
+			watcher.EnableRaisingEvents = true;
+
+			return watcher;
+		}
+
+		private void ReactOnFileChanges(object sender, FileSystemEventArgs e)
+		{
+			if (!Files.Contains(e.FullPath) && !Path.GetFileName(e.FullPath).StartsWith("_"))
+			{
+				AddFile(e.FullPath);
+			}
 		}
 
 		private void UploadJob(Job job)
@@ -430,18 +625,34 @@ namespace STFU.UploadLib.Automation
 			SaveCurrentJob(job);
 
 			UploadCommunication.ProgressChanged += ReactToProgressChanged;
-			while (!UploadCommunication.Upload(ref job))
+			while (!UploadCommunication.Upload(ref job, ref shouldCancel))
 			{
 				job.UploadingAccount = AccountCommunication.RefreshAccess(job.UploadingAccount);
 			}
 
-			OnUploadFinished(job.SelectedVideo.Title);
-
 			UploadCommunication.ProgressChanged -= ReactToProgressChanged;
-			DeleteLastJobFile();
+
+			if (!shouldCancel)
+			{
+				OnUploadFinished(job.SelectedVideo.Title);
+				DeleteLastJobFile();
+
+				// Datei umbenennen, damit der Uploader nicht erneut versucht, sie hochzuladen.
+				var movedPath = Path.GetDirectoryName(job.SelectedVideo.Path)
+					+ "\\_" + Path.GetFileNameWithoutExtension(job.SelectedVideo.Path).Remove(0, 1)
+					+ Path.GetExtension(job.SelectedVideo.Path);
+
+				try
+				{
+					File.Move(job.SelectedVideo.Path, movedPath);
+				}
+				catch (IOException)
+				{
+				}
+			}
 		}
 
-		private bool WaitForAccessAndThenRenameVideo(string fileName, string newFileName)
+		private bool WaitForAccess(string fileName)
 		{
 			bool val = false;
 			while (!val)
@@ -453,8 +664,10 @@ namespace STFU.UploadLib.Automation
 
 				try
 				{
-					File.Move(fileName, newFileName);
-					val = true;
+					using (StreamWriter writer = new StreamWriter(fileName, true))
+					{
+						val = true;
+					}
 				}
 				catch (IOException)
 				{
@@ -462,38 +675,19 @@ namespace STFU.UploadLib.Automation
 				}
 			}
 
-			if (!val)
-			{
-				// Datei existiert nicht mehr.
-				return false;
-			}
-
-			return true;
+			return val;
 		}
 
-		private void UploadVideo(string fileName)
+		private void UploadVideo(string fileName, TemplateVideoCreator creator)
 		{
-			var videoTitle = Path.GetFileNameWithoutExtension(fileName);
-			var newfile = Path.GetDirectoryName(fileName) + "\\_" + Path.GetFileNameWithoutExtension(fileName).Remove(0, 1) + Path.GetExtension(fileName);
+			Video vid = creator.CreateVideo(fileName);
 
-			bool renamingResult = WaitForAccessAndThenRenameVideo(fileName, newfile);
-			if (!renamingResult)
+			bool waitResult = WaitForAccess(fileName);
+			if (!waitResult)
 			{
-				// Video ist nicht mehr am Pfad vorzufinden.
+				// Video wurde gelöscht.
 				return;
 			}
-
-			Video vid = new Video(newfile)
-			{
-				Category = AvailableCategories.FirstOrDefault(c => c.Id == 20),
-				Description = string.Empty,
-				Title = videoTitle,
-				DefaultLanguage = Languages.FirstOrDefault(lang => lang.Hl.ToLower() == "de"),// "de",
-				IsEmbeddable = true,
-				License = License.Youtube,
-				Privacy = PrivacyStatus.Private,
-				PublicStatsViewable = false
-			};
 
 			OnUploadStarted(vid.Title);
 
@@ -507,7 +701,7 @@ namespace STFU.UploadLib.Automation
 			UploadJob(job);
 		}
 
-		private void ReactToProgressChanged(ProgressChangedEventArgs args)
+		private void ReactToProgressChanged(Communication.Youtube.ProgressChangedEventArgs args)
 		{
 			OnProgressChanged(args.FileName, args.Progress);
 		}
@@ -539,28 +733,50 @@ namespace STFU.UploadLib.Automation
 			ProgressChanged?.Invoke(args);
 		}
 
-		protected virtual void OnUploaderFinished()
+		private void AddFiles(string path, string filters, bool searchRecursively)
 		{
-			UploaderFinished?.Invoke(new EventArgs());
-		}
-
-		private void RefreshFiles()
-		{
-			files = new List<string>();
-
-			foreach (var pathFilterCombination in Paths)
+			try
 			{
-				string path = pathFilterCombination.Path;
-				string[] filters = pathFilterCombination.Filter.Split(';');
-
-				foreach (var filter in filters)
+				if (!uploaderRunning)
 				{
-					files.AddRange(Directory.GetFiles(path, filter.Trim(), (pathFilterCombination.SearchRecursively) ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).Where(file => !Path.GetFileName(file).StartsWith("_")));
+					Message = $"Durchsuche Verzeichnis nach Videodateien: {path}";
+				}
+
+				string[] singleFilters = filters.Split(';');
+
+				foreach (var filter in singleFilters)
+				{
+					var files = Directory.GetFiles(path, filter)
+						.ToList();
+
+					foreach (var file in files)
+					{
+						AddFile(file);
+					}
+				}
+
+				if (searchRecursively)
+				{
+					Directory.GetDirectories(path)
+						.ToList()
+						.ForEach(s => AddFiles(s, filters, true));
 				}
 			}
+			catch (UnauthorizedAccessException)
+			{
+			}
+			catch (ThreadAbortException)
+			{
+			}
+		}
 
-			// Todo: Struktur erweitern, sodass das ganze hier auch einen Sinn hat...
-			files = files.GroupBy(file => file).Select(group => group.Key).ToList();
+		private void AddFile(string path)
+		{
+			if (!new FileInfo(path).Name.StartsWith("_") && !Files.Contains(path))
+			{
+				Files.Add(path);
+				UploadFilesAsync();
+			}
 		}
 
 		private Job LoadLastJob()
@@ -593,27 +809,22 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public void AddProcessToWatch(Process proc)
-		{
-			Watcher.Add(proc);
-		}
-
 		public void AddProcessesToWatch(IEnumerable<Process> procs)
 		{
 			foreach (var proc in procs)
 			{
-				Watcher.Add(proc);
+				ProcessWatcher.Add(proc);
 			}
 		}
 
 		public void ClearProcessesToWatch()
 		{
-			Watcher.Clear();
+			ProcessWatcher.Clear();
 		}
 
-		public void RemoveProcessFromWatch(Process proc)
+		private void OnPropertyChaged([CallerMemberName] string caller = "")
 		{
-			Watcher.Remove(proc);
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
 		}
 	}
 
@@ -629,13 +840,6 @@ namespace STFU.UploadLib.Automation
 	public class CategoriesJson
 	{
 		public int id;
-		public string title;
-	}
-
-	public class LanguagesJson
-	{
-		public int id;
-		public int hl;
 		public string title;
 	}
 }

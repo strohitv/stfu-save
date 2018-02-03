@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 
@@ -19,7 +20,30 @@ namespace STFU.AutoUploader
 			InitializeComponent();
 			uploader = upl;
 
+			uploader.PropertyChanged += UploaderPropertyChanged;
+
 			DialogResult = DialogResult.Cancel;
+		}
+
+		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(uploader.Message))
+			{
+				statusText = uploader.Message;
+			}
+			else if (e.PropertyName == nameof(uploader.Progress))
+			{
+				progress = (int)(uploader.Progress * 100);
+			}
+			else if (e.PropertyName == nameof(uploader.IsActive) && !uploader.IsActive)
+			{
+				if (!aborted)
+				{
+					DialogResult = DialogResult.OK;
+				}
+
+				ResetStatusAndForm();
+			}
 		}
 
 		private void refreshTimerTick(object sender, EventArgs e)
@@ -27,13 +51,11 @@ namespace STFU.AutoUploader
 			statusLabel.Text = statusText;
 			prgbarProgress.Value = progress;
 
-			if (!ended)
+			if (ended)
 			{
-				return;
+				refreshTimer.Enabled = false;
+				Close();
 			}
-
-			refreshTimer.Enabled = false;
-			Close();
 		}
 
 		private void UploadFinished(AutomationEventArgs e)
@@ -54,37 +76,12 @@ namespace STFU.AutoUploader
 			progress = (int)e.Progress;
 		}
 
-		private delegate void resetStatusAndForm();
-		private void UploaderFinished(EventArgs e)
-		{
-			if (!aborted)
-			{
-				DialogResult = DialogResult.OK;
-			}
-
-			if (InvokeRequired)
-			{
-				resetStatusAndForm del = ResetStatusAndForm;
-
-				try
-				{
-					Invoke(del);
-				}
-				catch (Exception)
-				{ }
-			}
-			else
-			{
-				ResetStatusAndForm();
-			}
-		}
-
 		private void ResetStatusAndForm()
 		{
 			uploader.ProgressChanged -= ChangedProgress;
 			uploader.UploadStarted -= UploadStarted;
 			uploader.UploadFinished -= UploadFinished;
-			uploader.UploaderFinished -= UploaderFinished;
+			uploader.PropertyChanged -= UploaderPropertyChanged;
 
 			ended = true;
 		}
@@ -92,8 +89,7 @@ namespace STFU.AutoUploader
 		private void btnStopClick(object sender, EventArgs e)
 		{
 			aborted = true;
-			uploader.Stop(true);
-			ResetStatusAndForm();
+			uploader.Stop();
 		}
 
 		private void UploadFormLoad(object sender, EventArgs e)
@@ -101,12 +97,11 @@ namespace STFU.AutoUploader
 			uploader.ProgressChanged += ChangedProgress;
 			uploader.UploadStarted += UploadStarted;
 			uploader.UploadFinished += UploadFinished;
-			uploader.UploaderFinished += UploaderFinished;
 
 			Left = Screen.PrimaryScreen.WorkingArea.Width - 30 - Width;
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
-			uploader.Start();
+			uploader.StartAsync();
 		}
 	}
 }

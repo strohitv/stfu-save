@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
-using STFU.UploadLib.Communication.Youtube.Serializable;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Communication.Youtube
@@ -80,23 +80,29 @@ namespace STFU.UploadLib.Communication.Youtube
 
 		public static Account RefreshAccess(Account account)
 		{
-			var response = WebService.RefreshAccess(account.Access.RefreshToken);
-
-			if (response != null && !response.Contains("revoked"))
+			try
 			{
-				// Account 
-				var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(response);
+				var response = WebService.RefreshAccess(account.Access.RefreshToken);
 
-				if (!string.IsNullOrWhiteSpace(authResponse.access_token))
+				if (response != null && !response.Contains("revoked"))
 				{
-					account.Access = new Authentification()
+					// Account 
+					var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(response);
+
+					if (!string.IsNullOrWhiteSpace(authResponse.access_token))
 					{
-						AccessToken = authResponse.access_token,
-						RefreshToken = account.Access.RefreshToken,
-						ExpireDate = DateTime.Now.Add(new TimeSpan(0, 0, authResponse.expires_in)),
-						Type = authResponse.token_type,
-					};
+						account.Access = new Authentification()
+						{
+							AccessToken = authResponse.access_token,
+							RefreshToken = account.Access.RefreshToken,
+							ExpireDate = DateTime.Now.Add(new TimeSpan(0, 0, authResponse.expires_in)),
+							Type = authResponse.token_type,
+						};
+					}
 				}
+			}
+			catch (WebException)
+			{
 			}
 
 			return account;

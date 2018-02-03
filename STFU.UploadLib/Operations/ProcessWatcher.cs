@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -6,7 +7,9 @@ namespace STFU.UploadLib.Operations
 {
 	class ProcessWatcher
 	{
-		List<Process> procs = new List<Process>();
+		private List<Process> procs = new List<Process>();
+
+		public bool ShouldEndAutomatically { get; set; }
 
 		public void Add(Process proc)
 		{
@@ -51,7 +54,22 @@ namespace STFU.UploadLib.Operations
 				return false;
 			}
 
-			return Procs.Any(proc => !proc.HasExited);
+			return Procs.Any(proc => ProcIsRunning(proc));
+		}
+
+		private bool ProcIsRunning(Process proc)
+		{
+			bool result = false;
+
+			try
+			{
+				result = !proc.HasExited;
+			}
+			catch (Win32Exception)
+			{
+			}
+
+			return result;
 		}
 	}
 }

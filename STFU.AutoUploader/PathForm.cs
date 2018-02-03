@@ -21,7 +21,7 @@ namespace STFU.AutoUploader
 		{
 			if (e.KeyData == Keys.Delete && !NoItemSelected())
 			{
-				uploader.Remove(lvPaths.SelectedItems[0].Text);
+				uploader.RemovePath(lvPaths.SelectedItems[0].Text);
 				RefillListView();
 				ClearEditBox();
 			}

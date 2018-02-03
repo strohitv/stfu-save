@@ -18,23 +18,35 @@ namespace STFU.UploadLib.Automation
 			DirectoryInfo directory = new DirectoryInfo(Path);
 			FileInfo file = new FileInfo(pathToCheck);
 
-			if (FilterDirs(directory, file, Filter, SearchOption.TopDirectoryOnly).Any(fd => fd.DirectoryName.ToLower() == file.DirectoryName.ToLower() && fd.Name.ToLower() == file.Name.ToLower()))
+			if (Matches(file, directory))
 			{
 				result = 0;
 			}
-			else if (SearchRecursively && FilterDirs(directory, file, Filter, SearchOption.AllDirectories).Any(fd => fd.DirectoryName.ToLower() == file.DirectoryName.ToLower() && fd.Name.ToLower() == file.Name.ToLower()))
+			else if (SearchRecursively)
 			{
-				result = 0;
 				DirectoryInfo current = file.Directory;
 
-				while (current != directory && current.Parent != null)
+				if (Matches(file, current))
 				{
-					result++;
-					current = current.Parent;
+					// Datei wird durch den Filter rekursiv gefunden.
+					result = 0;
+
+					while (System.IO.Path.GetFullPath(current.FullName).ToLower() != System.IO.Path.GetFullPath(directory.FullName).ToLower() 
+						&& current.Parent != null)
+					{
+						result++;
+						current = current.Parent;
+					}
 				}
 			}
 
 			return result;
+		}
+
+		private bool Matches(FileInfo file, DirectoryInfo current)
+		{
+			var found = FilterDirs(current, file, Filter, SearchOption.TopDirectoryOnly);
+			return found.Any(fd => fd.DirectoryName.ToLower() == file.DirectoryName.ToLower() && fd.Name.ToLower() == file.Name.ToLower());
 		}
 
 		private FileInfo[] FilterDirs(DirectoryInfo info, FileInfo file, string filter, SearchOption option)

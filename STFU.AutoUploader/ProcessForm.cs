@@ -26,10 +26,10 @@ namespace STFU.AutoUploader
 
 		private void ProcessWindowLoad(object sender, EventArgs e)
 		{
-			var task = RefreshAllProcsAsync();
+			RefreshAllProcsAsync();
 		}
 
-		private async Task RefreshAllProcsAsync()
+		private async void RefreshAllProcsAsync()
 		{
 			reactToCheckedEvents = false;
 			lvProcs.BeginUpdate();
@@ -44,7 +44,7 @@ namespace STFU.AutoUploader
 
 				AllProcesses = Process.GetProcesses()
 					.OrderBy(item => item.ProcessName)
-					.Where(p => p.SessionId == currentSessionID)
+					.Where(p => p.SessionId == currentSessionID && p.Id != Process.GetCurrentProcess().Id)
 					.ToArray();
 
 				foreach (var item in AllProcesses)

@@ -235,7 +235,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			return request;
 		}
 
-		internal static string UploadFile(ref Job job)
+		internal static string UploadFile(ref Job job, ref bool shouldCancel)
 		{
 			var lastbyte = CheckUploadStatus(ref job);
 
@@ -260,7 +260,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			int bytesRead = 0;
 
 			// Hochladen
-			while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+			while (!shouldCancel && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
 			{
 				try
 				{
@@ -270,50 +270,35 @@ namespace STFU.UploadLib.Communication.Youtube
 					if (Convert.ToInt32(job.Status.Progress) != save)
 					{
 						var now = DateTime.Now;
-						// todo: Event werfen anstelle von Tracing.
 						OnProgressChanged(job.SelectedVideo.Title, save);
-						//Trace.Write(string.Format("{0} ({1}) - ", save, now.ToString("HH:mm")));
 					}
 				}
 				catch (WebException)
 				{
 					requestStream.Close();
-					//Trace.WriteLine(ex.Message);
-					//Trace.WriteLine(ex.StackTrace);
-					//Trace.WriteLine(ex.Source);
-					//Trace.WriteLine(ex.Response.ResponseUri);
-					//foreach (var item in ex.Response.Headers)
-					//{
-					//	Trace.WriteLine(item);
-					//}
-					//Trace.WriteLine(ex.Response.ContentType);
-					//Trace.WriteLine(ex.Response.ContentLength);
 					return job.Url.AbsolutePath;
 				}
 				catch (IOException)
 				{
 					requestStream.Close();
-					//Trace.WriteLine(ex.Message);
-					//Trace.WriteLine(ex.StackTrace);
-					//Trace.WriteLine(ex.Source);
-					//Trace.WriteLine(ex.InnerException);
-					//Trace.WriteLine(ex.TargetSite);
 					return job.Url.AbsolutePath;
 				}
 			}
-			//Trace.WriteLine(string.Empty);
 			fileStream.Close();
 
-			requestStream.Close();
+			try
+			{
+				requestStream.Close();
+				job.Status.Progress = 100.0;
+				job.Status.Finished = true;
+			}
+			catch (WebException)
+			{
+			}
 
-			// Fertsch! :)
-			job.Status.Progress = 100.0;
-			job.Status.Finished = true;
 			job.Status.Running = false;
 
 			var response = Communicate(request);
-
-			Trace.WriteLine(response);
 
 			request = null;
 
@@ -425,7 +410,7 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			// Header schreiben
 			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), accessToken));
-			
+
 			Response response = JsonConvert.DeserializeObject<Response>(Communicate(request));
 
 			return response;
