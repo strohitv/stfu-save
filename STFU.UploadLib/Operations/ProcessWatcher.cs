@@ -1,19 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 
 namespace STFU.UploadLib.Operations
 {
-	class ProcessWatcher
+	internal class ProcessWatcher
 	{
+		internal event EventHandler AllProcessesCompleted;
+
 		private List<Process> procs = new List<Process>();
 
 		public bool ShouldEndAutomatically { get; set; }
 
 		public void Add(Process proc)
 		{
-			Procs.Add(proc);
+			try
+			{
+				if (!proc.HasExited)
+				{
+					proc.Exited += OnProcExit;
+					Procs.Add(proc);
+				}
+			}
+			catch (Win32Exception)
+			{ }
+		}
+
+		private void OnProcExit(object sender, EventArgs e)
+		{
+			var proc = (Process)sender;
+			Remove(proc);
+
+			if (procs.Count == 0)
+			{
+				AllProcessesCompleted?.Invoke(this, new EventArgs());
+			}
 		}
 
 		public void Remove(Process proc)
@@ -26,35 +49,33 @@ namespace STFU.UploadLib.Operations
 			Procs.Clear();
 		}
 
-		public bool Contains(Process proc)
-		{
-			return Procs.Contains(proc);
-		}
-
-		public int Count { get { return Procs.Count; } }
-
-		internal List<Process> Procs
+		private List<Process> Procs
 		{
 			get
 			{
 				return procs;
 			}
 
-			private set
+			set
 			{
 				procs = value;
 			}
 		}
 
-		public bool AnyIsRunning()
+		internal ReadOnlyCollection<Process> Processes
 		{
-			if (Count == 0)
+			get
 			{
-				// Keine Prozesse überwacht, also läuft auch keiner.
-				return false;
+				return new ReadOnlyCollection<Process>(Procs);
 			}
+		}
 
-			return Procs.Any(proc => ProcIsRunning(proc));
+		public bool ShouldEnd
+		{
+			get
+			{
+				return ShouldEndAutomatically && Procs.Count == 0;
+			}
 		}
 
 		private bool ProcIsRunning(Process proc)
@@ -66,8 +87,7 @@ namespace STFU.UploadLib.Operations
 				result = !proc.HasExited;
 			}
 			catch (Win32Exception)
-			{
-			}
+			{ }
 
 			return result;
 		}

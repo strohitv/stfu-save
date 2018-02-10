@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,6 +32,8 @@ namespace STFU.AutoUploader
 			RefreshAllProcsAsync();
 		}
 
+		List<string> titles = new List<string>();
+
 		private async void RefreshAllProcsAsync()
 		{
 			reactToCheckedEvents = false;
@@ -41,20 +46,14 @@ namespace STFU.AutoUploader
 			await Task.Run(() =>
 			{
 				var currentSessionID = Process.GetCurrentProcess().SessionId;
-
+				
 				AllProcesses = Process.GetProcesses()
 					.OrderBy(item => item.ProcessName)
-					.Where(p => p.SessionId == currentSessionID && p.Id != Process.GetCurrentProcess().Id)
+					.Where(p => HasAccess(p) && p.SessionId == currentSessionID && p.Id != Process.GetCurrentProcess().Id)
 					.ToArray();
 
 				foreach (var item in AllProcesses)
 				{
-					if (item.Id == Process.GetCurrentProcess().Id)
-					{
-						// Wäre totaler Quatch, wenn wir uns selbst überwachen.
-						continue;
-					}
-
 					ListViewItem newItem = new ListViewItem(string.Empty);
 					newItem.SubItems.Add(item.ProcessName);
 
@@ -84,6 +83,21 @@ namespace STFU.AutoUploader
 			reactToCheckedEvents = true;
 		}
 
+		private bool HasAccess(Process p)
+		{
+			var result = false;
+
+			try
+			{
+				// let it go true only if the process is accessable
+				result = p.HasExited || true;
+			}
+			catch (Win32Exception)
+			{ }
+
+			return result;
+		}
+
 		private void btnRefreshClick(object sender, EventArgs e)
 		{
 			RefreshAllProcsAsync();
@@ -98,7 +112,7 @@ namespace STFU.AutoUploader
 
 			Process item = AllProcesses[e.Item.Index];
 
-			if (selectedProcesses.Any(proc => proc.Id ==  item.Id))
+			if (selectedProcesses.Any(proc => proc.Id == item.Id))
 			{
 				selectedProcesses.RemoveAll(proc => proc.Id == item.Id);
 				//selectedProcesses.Remove(item);
@@ -114,5 +128,56 @@ namespace STFU.AutoUploader
 			DialogResult = DialogResult.OK;
 			Close();
 		}
+
+		//protected void FindWindowTitles(Process p)
+		//{
+		//	// traverse all threads and enum all windows attached to the thread
+		//	foreach (ProcessThread t in p.Threads)
+		//	{
+		//		int threadId = t.Id;
+
+		//		NativeWIN32.EnumThreadProc callbackProc = new NativeWIN32.EnumThreadProc(LoadWindowTitle);
+		//		NativeWIN32.EnumThreadWindows(threadId, callbackProc, IntPtr.Zero);
+		//	}
+		//}
+
+		//// callback used to enumerate Windows attached to one of the threads
+		//bool LoadWindowTitle(IntPtr hwnd, IntPtr lParam)
+		//{
+		//	// get window caption
+		//	NativeWIN32.STRINGBUFFER sLimitedLengthWindowTitle;
+		//	NativeWIN32.GetWindowText(hwnd, out sLimitedLengthWindowTitle, 256);
+
+		//	string sWindowTitle = sLimitedLengthWindowTitle.szText;
+		//	if (sWindowTitle.Length == 0) return true;
+
+		//	titles.Add(sWindowTitle);
+		//	lvWindowTitles.Items.Add(sWindowTitle);
+
+		//	return true;
+		//}
 	}
+
+	//public class NativeWIN32
+	//{
+	//	public delegate bool EnumThreadProc(IntPtr hwnd, IntPtr lParam);
+
+	//	[DllImport("user32.dll", CharSet = CharSet.Auto)]
+	//	public static extern bool EnumThreadWindows(int threadId, EnumThreadProc pfnEnum, IntPtr lParam);
+
+	//	// used for an output LPCTSTR parameter on a method call
+	//	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+	//	public struct STRINGBUFFER
+	//	{
+	//		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+	//		public string szText;
+	//	}
+
+	//	[DllImport("user32.dll", CharSet = CharSet.Auto)]
+	//	public static extern int GetWindowText(IntPtr hWnd, out STRINGBUFFER ClassName, int nMaxCount);
+	//}
 }
+
+
+
+

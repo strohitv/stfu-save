@@ -121,7 +121,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public Process[] ProcessesToWatch { get { return ProcessWatcher.Procs.ToArray(); } }
+		public ReadOnlyCollection<Process> ProcessesToWatch { get { return ProcessWatcher.Processes; } }
 		public bool ShouldStopAutomatically { get { return ProcessWatcher.ShouldEndAutomatically; } set { ProcessWatcher.ShouldEndAutomatically = value; } }
 
 		public Collection<Template> Templates
@@ -444,6 +444,8 @@ namespace STFU.UploadLib.Automation
 		{
 			IsActive = true;
 
+			ProcessWatcher.AllProcessesCompleted += AllProcessesCompleted;
+
 			Files.Clear();
 			Watchers.Clear();
 
@@ -463,6 +465,17 @@ namespace STFU.UploadLib.Automation
 			CreateWatchers();
 
 			SearchExistingVideos();
+		}
+
+		private void AllProcessesCompleted(object sender, EventArgs e)
+		{
+			lock (lockobject)
+			{
+				if (!uploaderRunning)
+				{
+					EndUpload();
+				}
+			}
 		}
 
 		private void CreateWatchers()
@@ -493,8 +506,7 @@ namespace STFU.UploadLib.Automation
 						AddFiles(path, filter.Trim(), pathFilterCombination.SearchRecursively);
 					}
 					catch (UnauthorizedAccessException)
-					{
-					}
+					{ }
 				}
 			}
 
@@ -537,7 +549,7 @@ namespace STFU.UploadLib.Automation
 				files.RemoveAt(0);
 			}
 
-			if (ProcessWatcher.ShouldEndAutomatically && (!ProcessWatcher.AnyIsRunning()))
+			if (ProcessWatcher.ShouldEnd)
 			{
 				// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
 				EndUpload();
@@ -562,6 +574,8 @@ namespace STFU.UploadLib.Automation
 				Watchers.First().Dispose();
 				Watchers.RemoveAt(0);
 			}
+
+			ProcessWatcher.AllProcessesCompleted -= AllProcessesCompleted;
 		}
 
 		private void TryConnectAccount()
@@ -737,9 +751,12 @@ namespace STFU.UploadLib.Automation
 		{
 			try
 			{
-				if (!uploaderRunning)
+				lock (lockobject)
 				{
-					Message = $"Durchsuche Verzeichnis nach Videodateien: {path}";
+					if (!uploaderRunning)
+					{
+						Message = $"Durchsuche Verzeichnis nach Videodateien: {path}";
+					}
 				}
 
 				string[] singleFilters = filters.Split(';');
