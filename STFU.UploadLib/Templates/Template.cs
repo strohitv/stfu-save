@@ -12,6 +12,8 @@ namespace STFU.UploadLib.Templates
 
 		private PrivacyStatus privacy;
 
+		public int Id { get; internal set; }
+
 		public string Name { get; set; }
 
 		public string Title { get; set; }
@@ -63,13 +65,10 @@ namespace STFU.UploadLib.Templates
 			}
 		}
 
-		public Template()
-			: this("neues Template", null, null)
+		[JsonConstructor]
+		public Template(int id, string name, Language defaultlanguage, Category category)
 		{
-		}
-
-		public Template(string name, Language lang, Category cat)
-		{
+			Id = id;
 			Name = name;
 			Privacy = PrivacyStatus.Private;
 			Title = string.Empty;
@@ -77,8 +76,8 @@ namespace STFU.UploadLib.Templates
 			Tags = string.Empty;
 			NotifySubscribers = true;
 			License = License.Youtube;
-			DefaultLanguage = lang;
-			Category = cat;
+			DefaultLanguage = defaultlanguage;
+			Category = category;
 		}
 
 		public static explicit operator Template(JToken v)
@@ -88,7 +87,26 @@ namespace STFU.UploadLib.Templates
 
 		public override string ToString()
 		{
-			return Name;
+			return $"Id: {Id}, Name: {Name}";
+		}
+
+		public static Template Duplicate(Template template)
+		{
+			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category)
+			{
+				AutoLevels = template.AutoLevels,
+				Description = template.Description,
+				IsEmbeddable = template.IsEmbeddable,
+				License = template.License,
+				NotifySubscribers = template.NotifySubscribers,
+				Privacy = template.Privacy,
+				PublicStatsViewable = template.PublicStatsViewable,
+				PublishTimes = new List<PublishTime>(template.PublishTimes),
+				ShouldPublishAt = template.ShouldPublishAt,
+				Stabilize = template.Stabilize,
+				Tags = template.Tags,
+				Title = template.Title,
+			};
 		}
 	}
 }

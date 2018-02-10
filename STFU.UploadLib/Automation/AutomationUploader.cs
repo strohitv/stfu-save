@@ -231,12 +231,8 @@ namespace STFU.UploadLib.Automation
 			if (File.Exists(templatesPath))
 			{
 				ReadTemplates();
-			}
-
-			if (!Templates.Any(t => t.Name.ToLower() == "standard"))
-			{
-				Templates.Add(new Template("Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c => c.Id == 20)));
-				WriteTemplates();
+				EnsureTemplateIdsAreUnique();
+				EnsureStandardTemplateExists();
 			}
 
 			if (File.Exists(accountJsonPath))
@@ -305,13 +301,53 @@ namespace STFU.UploadLib.Automation
 
 			foreach (var path in Paths)
 			{
-				if (!Templates.Any(t => t.Name.ToLower() == path.SelectedTemplate.ToLower()))
+				if (!Templates.Any(t => t.Id == path.SelectedTemplateId))
 				{
-					path.SelectedTemplate = "Standard";
+					path.SelectedTemplateId = 0;
 				}
 			}
 
 			UnfinishedJob = LoadLastJob();
+		}
+
+		public Template CreateTemplate()
+		{
+			return CreateTemplate("neues Template", Languages.FirstOrDefault(lang => lang.Id.ToLower() == "de"), AvailableCategories.FirstOrDefault(c => c.Id == 20));
+		}
+
+		public Template CreateTemplate(string name, Language lang, Category cat)
+		{
+			return new Template(Templates.Select(t => t.Id).Max() + 1, name, lang, cat);
+		}
+
+		private void EnsureStandardTemplateExists()
+		{
+			if (!Templates.Any(t => t.Id == 0))
+			{
+				Templates.Add(new Template(0, "Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c => c.Id == 20)));
+				WriteTemplates();
+			}
+		}
+
+		private void EnsureTemplateIdsAreUnique()
+		{
+			bool write = false;
+
+			var ids = new List<int>();
+			foreach (var template in Templates)
+			{
+				if (ids.Contains(template.Id))
+				{
+					write = true;
+					template.Id = ids.Max() + 1;
+				}
+				ids.Add(template.Id);
+			}
+
+			if (write)
+			{
+				WriteTemplates();
+			}
 		}
 
 		private void RefreshAccess()
@@ -449,7 +485,7 @@ namespace STFU.UploadLib.Automation
 			Files.Clear();
 			Watchers.Clear();
 
-			creator = new TemplateVideoCreator(Paths.Select(p => new PublishInformation(p, DateTime.Now, Templates.FirstOrDefault(t => t.Name.ToLower() == p.SelectedTemplate.ToLower()))).ToList());
+			creator = new TemplateVideoCreator(Paths.Select(p => new PublishInformation(p, DateTime.Now, Templates.FirstOrDefault(t => t.Id == p.SelectedTemplateId) ?? Templates.First(t => t.Id == 0))).ToList());
 
 			TryConnectAccount();
 			if (ActiveAccount.Access?.AccessToken == null)

@@ -26,7 +26,7 @@ namespace STFU.AutoUploader
 
 		private void addPathButtonClick(object sender, EventArgs e)
 		{
-			Template templ = new Template("neues Template", uploader.Languages.FirstOrDefault(lang => lang.Id.ToLower() == "de"), uploader.AvailableCategories.FirstOrDefault(c => c.Id == 20));
+			Template templ = uploader.CreateTemplate();
 			uploader.Templates.Add(templ);
 
 			RefillListView();
@@ -82,37 +82,56 @@ namespace STFU.AutoUploader
 
 		private void deletePathButtonClick(object sender, EventArgs e)
 		{
-			if (templateListView.SelectedItems.Count == 0)
+			if (templateListView.SelectedItems.Count == 0 || uploader.Templates[templateListView.SelectedIndices[0]].Id == 0)
 			{
 				return;
 			}
 
-			int selectedIndex = templateListView.SelectedIndices[0];
-
-			if (uploader.Templates[selectedIndex].Name.ToLower() != "standard")
+			var confirmation = MessageBox.Show(this, "Möchtest du das ausgewählte Template wirklich löschen? Alle Pfade, die es verwenden, werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (confirmation == DialogResult.Yes)
 			{
-				uploader.Templates.RemoveAt(selectedIndex);
+				var index = templateListView.SelectedIndices[0];
+				var templateId = uploader.Templates[index].Id;
+
+				foreach (var path in uploader.Paths.Where(p => p.SelectedTemplateId == templateId))
+				{
+					path.SelectedTemplateId = 0;
+				}
+
+				uploader.WritePaths();
+				uploader.Templates.RemoveAt(templateListView.SelectedIndices[0]);
+
+				templateListView.SelectedIndices.Clear();
+
+				RefillListView();
 			}
-
-			templateListView.SelectedIndices.Clear();
-
-			RefillListView();
 		}
 
 		private void clearButtonClick(object sender, EventArgs e)
 		{
-			for (int i = 0; i < uploader.Templates.Count; i++)
+			var confirmation = MessageBox.Show(this, "Möchtest du wirklich alle Templates löschen? Das Standard-Template kann nicht entfernt werden. Alle Pfade werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (confirmation == DialogResult.Yes)
 			{
-				if (uploader.Templates[i].Name.ToLower() != "standard")
+				foreach (var path in uploader.Paths)
 				{
-					uploader.Templates.RemoveAt(i);
-					i--;
+					path.SelectedTemplateId = 0;
 				}
+
+				uploader.WritePaths();
+
+				for (int i = 0; i < uploader.Templates.Count; i++)
+				{
+					if (uploader.Templates[i].Id != 0)
+					{
+						uploader.Templates.RemoveAt(i);
+						i--;
+					}
+				}
+
+				templateListView.SelectedIndices.Clear();
+
+				RefillListView();
 			}
-
-			templateListView.SelectedIndices.Clear();
-
-			RefillListView();
 		}
 
 		private void templateListViewSelectedIndexChanged(object sender, EventArgs e)
@@ -123,30 +142,13 @@ namespace STFU.AutoUploader
 
 				if (templateListView.SelectedIndices.Count == 0)
 				{
-					current = new Template();
+					current = uploader.CreateTemplate();
 					ClearEditView();
 				}
 				else
 				{
 					var save = uploader.Templates[templateListView.SelectedIndices[0]];
-					current = new Template()
-					{
-						Name = save.Name,
-						AutoLevels = false,
-						Category = save.Category,
-						DefaultLanguage = save.DefaultLanguage,
-						Description = save.Description,
-						IsEmbeddable = save.IsEmbeddable,
-						License = save.License,
-						NotifySubscribers = true,
-						Privacy = save.Privacy,
-						PublicStatsViewable = save.PublicStatsViewable,
-						PublishTimes = new List<PublishTime>(save.PublishTimes),
-						ShouldPublishAt = save.ShouldPublishAt,
-						Stabilize = false,
-						Tags = save.Tags,
-						Title = save.Title,
-					};
+					current = Template.Duplicate(save);
 
 					FillTemplateIntoEditView(current);
 				}
@@ -166,7 +168,7 @@ namespace STFU.AutoUploader
 		private void FillTemplateIntoEditView(Template template)
 		{
 			templateNameTextbox.Text = template.Name;
-			templateNameTextbox.ReadOnly = template.Name == "Standard";
+			//templateNameTextbox.ReadOnly = template.Name == "Standard";
 
 			templateTitleTextbox.Text = template.Title;
 			templateDescriptionTextbox.Text = template.Description;
@@ -348,7 +350,7 @@ namespace STFU.AutoUploader
 
 		private void templateNameTextboxTextChanged(object sender, EventArgs e)
 		{
-			if (!reordering && templateNameTextbox.Text.ToLower() != "standard")
+			if (!reordering) // && templateNameTextbox.Text.ToLower() != "standard")
 			{
 				current.Name = templateNameTextbox.Text;
 			}

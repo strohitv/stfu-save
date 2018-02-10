@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
 
@@ -23,7 +24,13 @@ namespace STFU.AutoUploader
 				var newItem = lvSelectedPaths.Items.Add(entry.Path);
 				newItem.SubItems.Add(entry.Filter);
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
-				newItem.SubItems.Add(entry.SelectedTemplate);
+
+				string templateName = uploader.Templates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
+				if (string.IsNullOrWhiteSpace(templateName))
+				{
+					templateName = uploader.Templates.FirstOrDefault(t => t.Id == 0).Name;
+				}
+				newItem.SubItems.Add(templateName);
 			}
 		}
 
@@ -225,6 +232,8 @@ namespace STFU.AutoUploader
 			TemplateForm tf = new TemplateForm(uploader);
 			tf.ShowDialog(this);
 			uploader.WriteTemplates();
+
+			RefillListView();
 		}
 
 		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -250,6 +259,7 @@ namespace STFU.AutoUploader
 
 		private void unvollständigerUploadToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			// Nicht löschen, sondern anzeigen!
 			// uploader.DeleteLastJobFile();
 		}
 	}

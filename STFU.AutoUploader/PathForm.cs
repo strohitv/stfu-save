@@ -36,7 +36,13 @@ namespace STFU.AutoUploader
 				var newItem = lvPaths.Items.Add(entry.Path);
 				newItem.SubItems.Add(entry.Filter);
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
-				newItem.SubItems.Add(entry.SelectedTemplate);
+
+				string templateName = uploader.Templates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
+				if (string.IsNullOrWhiteSpace(templateName))
+				{
+					templateName = uploader.Templates.FirstOrDefault(t => t.Id == 0).Name;
+				}
+				newItem.SubItems.Add(templateName);
 			}
 
 			lvPaths.SelectedIndices.Clear();
@@ -59,13 +65,13 @@ namespace STFU.AutoUploader
 			txtbxAddFilter.Text = selectedItem.Filter;
 			chbRecursive.Checked = selectedItem.SearchRecursively;
 
-			if (uploader.Templates.Any(t => t.Name.ToLower() == selectedItem.SelectedTemplate.ToLower()))
+			if (uploader.Templates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Name.ToLower() == selectedItem.SelectedTemplate.ToLower()));
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Id == selectedItem.SelectedTemplateId));
 			}
 			else
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Name.ToLower() == "standard"));
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Id == 0));
 			}
 		}
 
@@ -98,7 +104,7 @@ namespace STFU.AutoUploader
 					{
 						Path = folderBrowserDialog.SelectedPath,
 						Filter = "*.mp4;*.mkv",
-						SelectedTemplate = "Standard",
+						SelectedTemplateId = 0,
 						SearchRecursively = false
 					};
 
@@ -140,7 +146,7 @@ namespace STFU.AutoUploader
 			selectedItem.Path = txtbxAddPath.Text;
 			selectedItem.Filter = txtbxAddFilter.Text;
 			selectedItem.SearchRecursively = chbRecursive.Checked;
-			selectedItem.SelectedTemplate = (string)cobSelectedTemplate.SelectedItem;
+			selectedItem.SelectedTemplateId = uploader.Templates[cobSelectedTemplate.SelectedIndex]?.Id ?? 0;
 
 			ClearEditBox();
 			RefillListView();

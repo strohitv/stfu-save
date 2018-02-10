@@ -171,12 +171,8 @@ namespace STFU.UploadLib.Automation
 							case "searchrecursively":
 								info.SearchRecursively = (bool)item.Value;
 								break;
-							case "selectedtemplate":
-								info.SelectedTemplate = (string)item.Value;
-								if (info.SelectedTemplate == null)
-								{
-									info.SelectedTemplate = "standard";
-								}
+							case "selectedtemplateid":
+								info.SelectedTemplateId = (int)item.Value;
 								break;
 							default:
 								break;

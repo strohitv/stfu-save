@@ -20,7 +20,7 @@ namespace STFU.AutoUploader
 		private bool reactToCheckedEvents = true;
 
 
-		public ProcessForm(Process[] selected)
+		public ProcessForm(IReadOnlyCollection<Process> selected)
 		{
 			InitializeComponent();
 
