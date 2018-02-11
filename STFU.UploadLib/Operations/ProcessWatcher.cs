@@ -11,8 +11,23 @@ namespace STFU.UploadLib.Operations
 		internal event EventHandler AllProcessesCompleted;
 
 		private List<Process> procs = new List<Process>();
+		private bool pause = false;
+		private bool hasFired = false;
 
-		public bool ShouldEndAutomatically { get; set; }
+		public bool ShouldWaitForProcs { get; set; }
+
+		internal bool Pause { get { return pause; }
+			set
+			{
+				pause = value;
+
+				if (!pause && !hasFired && Procs.Count == 0)
+				{
+					AllProcessesCompleted?.Invoke(this, new EventArgs());
+					hasFired = true;
+				}
+			}
+		}
 
 		public void Add(Process proc)
 		{
@@ -22,6 +37,7 @@ namespace STFU.UploadLib.Operations
 				{
 					proc.Exited += OnProcExit;
 					Procs.Add(proc);
+					hasFired = false;
 				}
 			}
 			catch (Win32Exception)
@@ -33,9 +49,10 @@ namespace STFU.UploadLib.Operations
 			var proc = (Process)sender;
 			Remove(proc);
 
-			if (procs.Count == 0)
+			if (!Pause && procs.Count == 0)
 			{
 				AllProcessesCompleted?.Invoke(this, new EventArgs());
+				hasFired = true;
 			}
 		}
 
@@ -74,7 +91,7 @@ namespace STFU.UploadLib.Operations
 		{
 			get
 			{
-				return ShouldEndAutomatically && Procs.Count == 0;
+				return !Pause && ShouldWaitForProcs && Procs.Count == 0;
 			}
 		}
 

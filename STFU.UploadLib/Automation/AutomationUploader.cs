@@ -54,6 +54,7 @@ namespace STFU.UploadLib.Automation
 		private TemplateVideoCreator creator;
 
 		private bool uploaderRunning = false;
+		private bool uploaderSearching = false;
 		private object lockobject = new object();
 
 		private Job unfinishedJob;
@@ -91,6 +92,8 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
+		public bool EndAfterUpload { get; set; }
+
 		private Account ActiveAccount
 		{
 			get
@@ -122,7 +125,7 @@ namespace STFU.UploadLib.Automation
 		}
 
 		public ReadOnlyCollection<Process> ProcessesToWatch { get { return ProcessWatcher.Processes; } }
-		public bool ShouldStopAutomatically { get { return ProcessWatcher.ShouldEndAutomatically; } set { ProcessWatcher.ShouldEndAutomatically = value; } }
+		public bool ShouldWaitForProcs { get { return ProcessWatcher.ShouldWaitForProcs; } set { ProcessWatcher.ShouldWaitForProcs = value; } }
 
 		public Collection<Template> Templates
 		{
@@ -503,11 +506,21 @@ namespace STFU.UploadLib.Automation
 			SearchExistingVideos();
 		}
 
+		public void SuspendProcessWatcher()
+		{
+			ProcessWatcher.Pause = true;
+		}
+
+		public void ResumeProcessWatcher()
+		{
+			ProcessWatcher.Pause = false;
+		}
+
 		private void AllProcessesCompleted(object sender, EventArgs e)
 		{
 			lock (lockobject)
 			{
-				if (!uploaderRunning)
+				if (EndAfterUpload && !uploaderRunning && !uploaderSearching)
 				{
 					EndUpload();
 				}
@@ -530,6 +543,8 @@ namespace STFU.UploadLib.Automation
 
 		private void SearchExistingVideos()
 		{
+			uploaderSearching = true;
+
 			foreach (var pathFilterCombination in Paths)
 			{
 				string path = pathFilterCombination.Path;
@@ -545,6 +560,8 @@ namespace STFU.UploadLib.Automation
 					{ }
 				}
 			}
+
+			uploaderSearching = false;
 
 			if (!uploaderRunning)
 			{
@@ -585,7 +602,7 @@ namespace STFU.UploadLib.Automation
 				files.RemoveAt(0);
 			}
 
-			if (ProcessWatcher.ShouldEnd)
+			if (EndAfterUpload && !uploaderSearching && !ProcessWatcher.Pause && (!ProcessWatcher.ShouldWaitForProcs || ProcessWatcher.ShouldEnd))
 			{
 				// Fertig. Alle Dateien hochgeladen und alle überwachten Prozesse (falls vorhanden) beendet.
 				EndUpload();
@@ -741,14 +758,14 @@ namespace STFU.UploadLib.Automation
 
 			OnUploadStarted(vid.Title);
 
-			Job job = null;
-			while (job == null)
-			{
-				RefreshAccess();
-				job = UploadCommunication.PrepareUpload(vid, ActiveAccount);
-			}
+			//Job job = null;
+			//while (job == null)
+			//{
+			//	RefreshAccess();
+			//	job = UploadCommunication.PrepareUpload(vid, ActiveAccount);
+			//}
 
-			UploadJob(job);
+			//UploadJob(job);
 		}
 
 		private void ReactToProgressChanged(Communication.Youtube.ProgressChangedEventArgs args)

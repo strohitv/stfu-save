@@ -17,9 +17,9 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		{
 			snippet = new YoutubeSnippet()
 			{
-				categoryId = video.Category.Id,
+				categoryId = video.Category?.Id ?? 20,
 				title = video.Title,
-				defaultLanguage = video.DefaultLanguage.Hl,
+				defaultLanguage = video.DefaultLanguage?.Hl ?? "de",
 				description = video.Description,
 				tags = video.Tags.ToArray()
 			};

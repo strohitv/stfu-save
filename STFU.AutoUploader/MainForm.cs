@@ -79,9 +79,11 @@ namespace STFU.AutoUploader
 			Visible = false;
 			ShowInTaskbar = false;
 
-			UploadForm uploadForm = new UploadForm(uploader);
+			UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex);
 			if (uploadForm.ShowDialog(this) == DialogResult.OK)
 			{
+				cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
+
 				// Upload wurde regulär beendet.
 				// => Jetzt evtl. runterfahren oder so.
 				switch (cmbbxFinishAction.SelectedIndex)
@@ -98,8 +100,7 @@ namespace STFU.AutoUploader
 				}
 			}
 
-			// Upload wurde vom Benutzer abgebrochen
-			// => Einfach das Fenster wieder anzeigen.
+			// Fenster wieder anzeigen.
 			ShowInTaskbar = true;
 			Visible = true;
 		}
@@ -188,6 +189,7 @@ namespace STFU.AutoUploader
 			}
 			else
 			{
+				uploader.ShouldWaitForProcs = false;
 				uploader.ClearProcessesToWatch();
 			}
 		}
@@ -202,18 +204,23 @@ namespace STFU.AutoUploader
 				var procs = processChoser.Selected;
 				uploader.ClearProcessesToWatch();
 				uploader.AddProcessesToWatch(procs);
-				uploader.ShouldStopAutomatically = true;
+				uploader.ShouldWaitForProcs = true;
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				uploader.ShouldStopAutomatically = false;
+				uploader.ShouldWaitForProcs = false;
 			}
 		}
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
 		{
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
+
+			if (uploader != null)
+			{
+				uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
+			}
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{

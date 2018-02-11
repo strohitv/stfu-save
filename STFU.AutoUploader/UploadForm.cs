@@ -14,13 +14,22 @@ namespace STFU.AutoUploader
 
 		bool aborted = false;
 		bool ended = false;
+		bool allowChosingProcs = false;
 
-		public UploadForm(AutomationUploader upl)
+		public int UploadEndedActionIndex { get; set; }
+
+		public UploadForm(AutomationUploader upl, int uploadEndedIndex)
 		{
 			InitializeComponent();
 			uploader = upl;
 
 			uploader.PropertyChanged += UploaderPropertyChanged;
+
+			cmbbxFinishAction.SelectedIndex = UploadEndedActionIndex = uploadEndedIndex;
+			chbChoseProcesses.Checked = uploader.ShouldWaitForProcs;
+			btnChoseProcs.Enabled = chbChoseProcesses.Enabled;
+
+			allowChosingProcs = true;
 
 			DialogResult = DialogResult.Cancel;
 		}
@@ -102,6 +111,75 @@ namespace STFU.AutoUploader
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
 			uploader.StartAsync();
+		}
+
+		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
+		{
+			UploadEndedActionIndex = cmbbxFinishAction.SelectedIndex;
+			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
+
+			uploader.SuspendProcessWatcher();
+
+			if (uploader != null)
+			{
+				uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
+			}
+
+			if (cmbbxFinishAction.SelectedIndex == 0)
+			{
+				uploader?.ClearProcessesToWatch();
+				chbChoseProcesses.Checked = false;
+			}
+
+			uploader.ResumeProcessWatcher();
+		}
+
+		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
+		{
+			if (allowChosingProcs)
+			{
+				btnChoseProcs.Enabled = chbChoseProcesses.Checked;
+
+				uploader.SuspendProcessWatcher();
+
+				if (chbChoseProcesses.Checked)
+				{
+					ChoseProcesses();
+				}
+				else
+				{
+					uploader.ShouldWaitForProcs = false;
+					uploader.ClearProcessesToWatch();
+				}
+
+				uploader.ResumeProcessWatcher();
+			}
+		}
+
+		private void ChoseProcesses()
+		{
+			ProcessForm processChoser = new ProcessForm(uploader.ProcessesToWatch);
+			processChoser.ShowDialog(this);
+			if (processChoser.DialogResult == DialogResult.OK
+				&& processChoser.Selected.Count > 0)
+			{
+				var procs = processChoser.Selected;
+				uploader.ClearProcessesToWatch();
+				uploader.AddProcessesToWatch(procs);
+				uploader.ShouldWaitForProcs = true;
+			}
+			else
+			{
+				chbChoseProcesses.Checked = false;
+				uploader.ShouldWaitForProcs = false;
+			}
+		}
+
+		private void btnChoseProcsClick(object sender, EventArgs e)
+		{
+			uploader.SuspendProcessWatcher();
+			ChoseProcesses();
+			uploader.ResumeProcessWatcher();
 		}
 	}
 }

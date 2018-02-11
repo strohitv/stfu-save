@@ -175,7 +175,7 @@
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "ProcessForm";
 			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Prozesse wählen";
 			this.Load += new System.EventHandler(this.ProcessWindowLoad);
 			this.tableLayoutPanel1.ResumeLayout(false);
