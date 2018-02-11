@@ -50,12 +50,6 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Controls.Add(this.lblAllProcs, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.btnSubmit, 1, 4);
 			this.tableLayoutPanel1.Controls.Add(this.btnCancel, 5, 4);
@@ -63,6 +57,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.lvProcs, 1, 2);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 6;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -71,7 +66,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1051, 581);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(788, 472);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// lblAllProcs
@@ -82,7 +77,7 @@
 			this.lblAllProcs.Location = new System.Drawing.Point(10, 10);
 			this.lblAllProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.lblAllProcs.Name = "lblAllProcs";
-			this.lblAllProcs.Size = new System.Drawing.Size(684, 17);
+			this.lblAllProcs.Size = new System.Drawing.Size(508, 13);
 			this.lblAllProcs.TabIndex = 0;
 			this.lblAllProcs.Text = "Verfügbare Prozesse: ";
 			// 
@@ -90,11 +85,11 @@
 			// 
 			this.btnSubmit.AutoSize = true;
 			this.btnSubmit.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnSubmit.Location = new System.Drawing.Point(10, 538);
+			this.btnSubmit.Location = new System.Drawing.Point(10, 435);
 			this.btnSubmit.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSubmit.Name = "btnSubmit";
-			this.btnSubmit.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-			this.btnSubmit.Size = new System.Drawing.Size(337, 33);
+			this.btnSubmit.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.btnSubmit.Size = new System.Drawing.Size(249, 27);
 			this.btnSubmit.TabIndex = 4;
 			this.btnSubmit.Text = "Bestätigen";
 			this.btnSubmit.UseVisualStyleBackColor = true;
@@ -105,11 +100,11 @@
 			this.btnCancel.AutoSize = true;
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnCancel.Location = new System.Drawing.Point(704, 538);
+			this.btnCancel.Location = new System.Drawing.Point(528, 435);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(0);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-			this.btnCancel.Size = new System.Drawing.Size(337, 33);
+			this.btnCancel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+			this.btnCancel.Size = new System.Drawing.Size(249, 27);
 			this.btnCancel.TabIndex = 5;
 			this.btnCancel.Text = "Abbrechen";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -118,10 +113,10 @@
 			// 
 			this.btnRefresh.AutoSize = true;
 			this.btnRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnRefresh.Location = new System.Drawing.Point(357, 538);
+			this.btnRefresh.Location = new System.Drawing.Point(269, 435);
 			this.btnRefresh.Margin = new System.Windows.Forms.Padding(0);
 			this.btnRefresh.Name = "btnRefresh";
-			this.btnRefresh.Size = new System.Drawing.Size(337, 33);
+			this.btnRefresh.Size = new System.Drawing.Size(249, 27);
 			this.btnRefresh.TabIndex = 6;
 			this.btnRefresh.Text = "Aktualisieren";
 			this.btnRefresh.UseVisualStyleBackColor = true;
@@ -139,12 +134,12 @@
 			this.lvProcs.FullRowSelect = true;
 			this.lvProcs.GridLines = true;
 			this.lvProcs.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.lvProcs.Location = new System.Drawing.Point(10, 27);
+			this.lvProcs.Location = new System.Drawing.Point(10, 23);
 			this.lvProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.lvProcs.MultiSelect = false;
 			this.lvProcs.Name = "lvProcs";
 			this.lvProcs.ShowGroups = false;
-			this.lvProcs.Size = new System.Drawing.Size(1031, 501);
+			this.lvProcs.Size = new System.Drawing.Size(767, 402);
 			this.lvProcs.TabIndex = 7;
 			this.lvProcs.UseCompatibleStateImageBehavior = false;
 			this.lvProcs.View = System.Windows.Forms.View.Details;
@@ -168,11 +163,12 @@
 			// ProcessForm
 			// 
 			this.AcceptButton = this.btnSubmit;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(1051, 581);
+			this.ClientSize = new System.Drawing.Size(788, 472);
 			this.Controls.Add(this.tableLayoutPanel1);
+			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.Name = "ProcessForm";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
