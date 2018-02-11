@@ -6,9 +6,46 @@ namespace STFU.UploadLib.Automation
 {
 	public class PathInformation
 	{
+		private bool searchRecursively;
+
+		private bool searchHidden;
+
 		public string Path { get; set; }
+
 		public string Filter { get; set; }
-		public bool SearchRecursively { get; set; }
+
+		public bool SearchRecursively
+		{
+			get
+			{
+				return searchRecursively;
+			}
+			set
+			{
+				searchRecursively = value;
+				if (!SearchRecursively)
+				{
+					SearchHidden = false;
+				}
+			}
+		}
+
+		public bool SearchHidden
+		{
+			get
+			{
+				return searchHidden;
+			}
+			set
+			{
+				searchHidden = value;
+				if (SearchHidden)
+				{
+					SearchRecursively = true;
+				}
+			}
+		}
+
 		public int SelectedTemplateId { get; set; }
 
 		public int? GetDifference(string pathToCheck)
@@ -31,7 +68,7 @@ namespace STFU.UploadLib.Automation
 					// Datei wird durch den Filter rekursiv gefunden.
 					result = 0;
 
-					while (System.IO.Path.GetFullPath(current.FullName).ToLower() != System.IO.Path.GetFullPath(directory.FullName).ToLower() 
+					while (System.IO.Path.GetFullPath(current.FullName).ToLower() != System.IO.Path.GetFullPath(directory.FullName).ToLower()
 						&& current.Parent != null)
 					{
 						result++;

@@ -53,6 +53,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.chbHidden = new System.Windows.Forms.CheckBox();
 			this.chosePathTlp.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
@@ -253,7 +254,7 @@
 			// 
 			this.tlpEditPaths.AutoSize = true;
 			this.tlpEditPaths.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpEditPaths.ColumnCount = 7;
+			this.tlpEditPaths.ColumnCount = 9;
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -261,16 +262,19 @@
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.Controls.Add(this.txtbxAddPath, 3, 1);
 			this.tlpEditPaths.Controls.Add(this.label2, 1, 1);
-			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 5, 1);
+			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 7, 1);
 			this.tlpEditPaths.Controls.Add(this.label3, 1, 3);
 			this.tlpEditPaths.Controls.Add(this.txtbxAddFilter, 3, 3);
 			this.tlpEditPaths.Controls.Add(this.btnCancel, 3, 7);
 			this.tlpEditPaths.Controls.Add(this.btnSave, 1, 7);
 			this.tlpEditPaths.Controls.Add(this.cobSelectedTemplate, 3, 5);
-			this.tlpEditPaths.Controls.Add(this.chbRecursive, 5, 5);
 			this.tlpEditPaths.Controls.Add(this.label4, 1, 5);
+			this.tlpEditPaths.Controls.Add(this.chbRecursive, 5, 5);
+			this.tlpEditPaths.Controls.Add(this.chbHidden, 7, 5);
 			this.tlpEditPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpEditPaths.Enabled = false;
 			this.tlpEditPaths.Location = new System.Drawing.Point(2, 15);
@@ -292,10 +296,11 @@
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddPath, 3);
 			this.txtbxAddPath.Location = new System.Drawing.Point(123, 11);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(596, 20);
+			this.txtbxAddPath.Size = new System.Drawing.Size(600, 20);
 			this.txtbxAddPath.TabIndex = 12;
 			// 
 			// label2
@@ -314,10 +319,10 @@
 			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSelectPath.AutoSize = true;
 			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(729, 10);
+			this.btnSelectPath.Location = new System.Drawing.Point(733, 10);
 			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSelectPath.Name = "btnSelectPath";
-			this.btnSelectPath.Size = new System.Drawing.Size(116, 23);
+			this.btnSelectPath.Size = new System.Drawing.Size(112, 23);
 			this.btnSelectPath.TabIndex = 13;
 			this.btnSelectPath.Text = "Pfad wählen";
 			this.btnSelectPath.UseVisualStyleBackColor = true;
@@ -337,7 +342,7 @@
 			// txtbxAddFilter
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 3);
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 5);
 			this.txtbxAddFilter.Location = new System.Drawing.Point(123, 43);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
@@ -382,20 +387,21 @@
 			this.cobSelectedTemplate.Location = new System.Drawing.Point(123, 73);
 			this.cobSelectedTemplate.Margin = new System.Windows.Forms.Padding(0);
 			this.cobSelectedTemplate.Name = "cobSelectedTemplate";
-			this.cobSelectedTemplate.Size = new System.Drawing.Size(596, 21);
+			this.cobSelectedTemplate.Size = new System.Drawing.Size(474, 21);
 			this.cobSelectedTemplate.TabIndex = 19;
 			// 
 			// chbRecursive
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbRecursive.AutoSize = true;
-			this.chbRecursive.Location = new System.Drawing.Point(729, 75);
+			this.chbRecursive.Location = new System.Drawing.Point(607, 75);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
 			this.chbRecursive.Size = new System.Drawing.Size(116, 17);
 			this.chbRecursive.TabIndex = 16;
 			this.chbRecursive.Text = "Unterverzeichnisse";
 			this.chbRecursive.UseVisualStyleBackColor = true;
+			this.chbRecursive.CheckedChanged += new System.EventHandler(this.chbRecursiveCheckedChanged);
 			// 
 			// label4
 			// 
@@ -424,6 +430,18 @@
 			// 
 			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
     "htest.";
+			// 
+			// chbHidden
+			// 
+			this.chbHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.chbHidden.AutoSize = true;
+			this.chbHidden.Location = new System.Drawing.Point(733, 75);
+			this.chbHidden.Margin = new System.Windows.Forms.Padding(0);
+			this.chbHidden.Name = "chbHidden";
+			this.chbHidden.Size = new System.Drawing.Size(112, 17);
+			this.chbHidden.TabIndex = 16;
+			this.chbHidden.Text = "Versteckte Ordner";
+			this.chbHidden.UseVisualStyleBackColor = true;
 			// 
 			// PathForm
 			// 
@@ -474,5 +492,6 @@
 		private System.Windows.Forms.Button movePathDownButton;
 		private System.Windows.Forms.Button clearButton;
 		private System.Windows.Forms.ColumnHeader chTemplate;
+		private System.Windows.Forms.CheckBox chbHidden;
 	}
 }

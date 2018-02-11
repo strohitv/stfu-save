@@ -171,6 +171,9 @@ namespace STFU.UploadLib.Automation
 							case "searchrecursively":
 								info.SearchRecursively = (bool)item.Value;
 								break;
+							case "searchhidden":
+								info.SearchHidden = (bool)item.Value;
+								break;
 							case "selectedtemplateid":
 								info.SelectedTemplateId = (int)item.Value;
 								break;

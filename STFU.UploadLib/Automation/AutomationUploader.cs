@@ -235,8 +235,9 @@ namespace STFU.UploadLib.Automation
 			{
 				ReadTemplates();
 				EnsureTemplateIdsAreUnique();
-				EnsureStandardTemplateExists();
 			}
+
+			EnsureStandardTemplateExists();
 
 			if (File.Exists(accountJsonPath))
 			{
@@ -295,7 +296,7 @@ namespace STFU.UploadLib.Automation
 					File.Delete(languagesPath);
 				}
 			}
-			else
+			else if (ActiveAccount != null && ActiveAccount.Access != null && ActiveAccount.Access.AccessToken != null)
 			{
 				Languages = AccountCommunication.LoadYoutubeLanguages(ActiveAccount.Access.AccessToken).ToList();
 
@@ -431,8 +432,10 @@ namespace STFU.UploadLib.Automation
 			{
 				// Account wurde erfolgreich verbunden -> Kategorien laden.
 				ActiveAccount = AccountCommunication.FillAccountWithAvailableVideoCategories(ActiveAccount);
-
 				WriteAccount();
+
+				Languages = AccountCommunication.LoadYoutubeLanguages(ActiveAccount.Access.AccessToken).ToList();
+				WriteLanguages();
 				return true;
 			}
 
@@ -554,7 +557,7 @@ namespace STFU.UploadLib.Automation
 				{
 					try
 					{
-						AddFiles(path, filter.Trim(), pathFilterCombination.SearchRecursively);
+						AddFiles(path, filter.Trim(), pathFilterCombination.SearchRecursively, pathFilterCombination.SearchHidden);
 					}
 					catch (UnauthorizedAccessException)
 					{ }
@@ -758,14 +761,14 @@ namespace STFU.UploadLib.Automation
 
 			OnUploadStarted(vid.Title);
 
-			//Job job = null;
-			//while (job == null)
-			//{
-			//	RefreshAccess();
-			//	job = UploadCommunication.PrepareUpload(vid, ActiveAccount);
-			//}
+			Job job = null;
+			while (job == null)
+			{
+				RefreshAccess();
+				job = UploadCommunication.PrepareUpload(vid, ActiveAccount);
+			}
 
-			//UploadJob(job);
+			UploadJob(job);
 		}
 
 		private void ReactToProgressChanged(Communication.Youtube.ProgressChangedEventArgs args)
@@ -800,10 +803,15 @@ namespace STFU.UploadLib.Automation
 			ProgressChanged?.Invoke(args);
 		}
 
-		private void AddFiles(string path, string filters, bool searchRecursively)
+		private void AddFiles(string path, string filters, bool searchRecursively, bool searchHidden)
 		{
 			try
 			{
+				if (!searchHidden && new DirectoryInfo(path).Attributes.HasFlag(FileAttributes.Hidden))
+				{
+					return;
+				}
+
 				lock (lockobject)
 				{
 					if (!uploaderRunning)
@@ -829,7 +837,7 @@ namespace STFU.UploadLib.Automation
 				{
 					Directory.GetDirectories(path)
 						.ToList()
-						.ForEach(s => AddFiles(s, filters, true));
+						.ForEach(s => AddFiles(s, filters, true, searchHidden));
 				}
 			}
 			catch (UnauthorizedAccessException)

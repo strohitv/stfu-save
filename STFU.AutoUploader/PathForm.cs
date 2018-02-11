@@ -63,7 +63,9 @@ namespace STFU.AutoUploader
 
 			txtbxAddPath.Text = selectedItem.Path;
 			txtbxAddFilter.Text = selectedItem.Filter;
+			chbHidden.Checked = selectedItem.SearchHidden;
 			chbRecursive.Checked = selectedItem.SearchRecursively;
+			chbHidden.Enabled = chbRecursive.Checked;
 
 			if (uploader.Templates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
@@ -81,6 +83,8 @@ namespace STFU.AutoUploader
 			txtbxAddPath.Text = string.Empty;
 			txtbxAddFilter.Text = string.Empty;
 			chbRecursive.Checked = false;
+			chbHidden.Checked = false;
+			chbHidden.Enabled = false;
 		}
 
 		private void PathFormLoad(object sender, EventArgs e)
@@ -145,6 +149,7 @@ namespace STFU.AutoUploader
 
 			selectedItem.Path = txtbxAddPath.Text;
 			selectedItem.Filter = txtbxAddFilter.Text;
+			selectedItem.SearchHidden = chbHidden.Checked;
 			selectedItem.SearchRecursively = chbRecursive.Checked;
 			selectedItem.SelectedTemplateId = uploader.Templates[cobSelectedTemplate.SelectedIndex]?.Id ?? 0;
 
@@ -226,6 +231,16 @@ namespace STFU.AutoUploader
 		{
 			ClearEditBox();
 			lvPaths.SelectedIndices.Clear();
+		}
+
+		private void chbRecursiveCheckedChanged(object sender, EventArgs e)
+		{
+			chbHidden.Enabled = chbRecursive.Checked;
+
+			if (!chbRecursive.Checked)
+			{
+				chbHidden.Checked = false;
+			}
 		}
 	}
 }
