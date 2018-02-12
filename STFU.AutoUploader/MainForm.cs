@@ -23,7 +23,6 @@ namespace STFU.AutoUploader
 			{
 				var newItem = lvSelectedPaths.Items.Add(entry.Path);
 				newItem.SubItems.Add(entry.Filter);
-				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 
 				string templateName = uploader.Templates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
 				if (string.IsNullOrWhiteSpace(templateName))
@@ -31,6 +30,9 @@ namespace STFU.AutoUploader
 					templateName = uploader.Templates.FirstOrDefault(t => t.Id == 0).Name;
 				}
 				newItem.SubItems.Add(templateName);
+
+				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.SearchHidden? "Ja" : "Nein");
 			}
 		}
 

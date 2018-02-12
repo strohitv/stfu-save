@@ -33,8 +33,9 @@
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
@@ -75,7 +76,7 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
 			this.tlpSettings.Controls.Add(this.btnStart, 13, 4);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
@@ -97,7 +98,7 @@
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Size = new System.Drawing.Size(843, 323);
+			this.tlpSettings.Size = new System.Drawing.Size(928, 323);
 			this.tlpSettings.TabIndex = 0;
 			// 
 			// btnStart
@@ -106,7 +107,7 @@
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(768, 286);
+			this.btnStart.Location = new System.Drawing.Point(852, 286);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -121,8 +122,9 @@
 			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPath,
             this.chFilter,
+            this.chTemplate,
             this.chRecursive,
-            this.chTemplate});
+            this.chHidden});
 			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 13);
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
@@ -132,7 +134,7 @@
 			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvSelectedPaths.Name = "lvSelectedPaths";
 			this.lvSelectedPaths.ShowGroups = false;
-			this.lvSelectedPaths.Size = new System.Drawing.Size(822, 242);
+			this.lvSelectedPaths.Size = new System.Drawing.Size(906, 242);
 			this.lvSelectedPaths.TabIndex = 9;
 			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
 			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
@@ -147,15 +149,20 @@
 			this.chFilter.Text = "Filter";
 			this.chFilter.Width = 150;
 			// 
+			// chTemplate
+			// 
+			this.chTemplate.Text = "Template";
+			this.chTemplate.Width = 150;
+			// 
 			// chRecursive
 			// 
 			this.chRecursive.Text = "Unterverzeichnisse";
 			this.chRecursive.Width = 150;
 			// 
-			// chTemplate
+			// chHidden
 			// 
-			this.chTemplate.Text = "Template";
-			this.chTemplate.Width = 150;
+			this.chHidden.Text = "Versteckte";
+			this.chHidden.Width = 80;
 			// 
 			// lblCurrentLoggedIn
 			// 
@@ -176,7 +183,7 @@
 			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(86, 293);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(204, 13);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(246, 13);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
@@ -195,7 +202,7 @@
 			this.mainMenu.Location = new System.Drawing.Point(0, 0);
 			this.mainMenu.Name = "mainMenu";
 			this.mainMenu.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-			this.mainMenu.Size = new System.Drawing.Size(843, 24);
+			this.mainMenu.Size = new System.Drawing.Size(928, 24);
 			this.mainMenu.TabIndex = 13;
 			this.mainMenu.Text = "menuStrip1";
 			// 
@@ -273,7 +280,7 @@
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblFinishAction.AutoSize = true;
-			this.lblFinishAction.Location = new System.Drawing.Point(300, 293);
+			this.lblFinishAction.Location = new System.Drawing.Point(342, 293);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
@@ -289,10 +296,10 @@
             "Nichts tun",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(358, 289);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(400, 289);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(204, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(246, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -301,7 +308,7 @@
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.AutoSize = true;
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(567, 291);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(651, 291);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -316,7 +323,7 @@
 			this.btnChoseProcs.AutoSize = true;
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(722, 286);
+			this.btnChoseProcs.Location = new System.Drawing.Point(806, 286);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -335,7 +342,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(843, 323);
+			this.ClientSize = new System.Drawing.Size(928, 323);
 			this.Controls.Add(this.tlpSettings);
 			this.MainMenuStrip = this.mainMenu;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -379,6 +386,7 @@
 		private System.Windows.Forms.ToolStripMenuItem verbindenToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem verbindungLösenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem unvollständigerUploadToolStripMenuItem;
+		private System.Windows.Forms.ColumnHeader chHidden;
 	}
 }
 
