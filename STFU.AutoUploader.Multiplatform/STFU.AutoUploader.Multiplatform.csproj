@@ -46,46 +46,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\STFU.AutoUploader\MainForm.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\MainForm.cs">
       <Link>MainForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\MainForm.designer.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\MainForm.designer.cs">
       <Link>MainForm.designer.cs</Link>
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\PathForm.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\PathForm.cs">
       <Link>PathForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\PathForm.designer.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\PathForm.designer.cs">
       <Link>PathForm.designer.cs</Link>
       <DependentUpon>PathForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\ProcessForm.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\ProcessForm.cs">
       <Link>ProcessForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\ProcessForm.designer.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\ProcessForm.designer.cs">
       <Link>ProcessForm.designer.cs</Link>
       <DependentUpon>ProcessForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\Program.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\Program.cs">
       <Link>Program.cs</Link>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\TemplateForm.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\TemplateForm.cs">
       <Link>TemplateForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\TemplateForm.designer.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\TemplateForm.designer.cs">
       <Link>TemplateForm.designer.cs</Link>
       <DependentUpon>TemplateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\UploadForm.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\UploadForm.cs">
       <Link>UploadForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\STFU.AutoUploader\UploadForm.designer.cs">
+    <Compile Include="..\STFU.AutoUploader.Windows\UploadForm.designer.cs">
       <Link>UploadForm.designer.cs</Link>
       <DependentUpon>UploadForm.cs</DependentUpon>
     </Compile>
@@ -96,23 +96,23 @@
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="..\STFU.AutoUploader\MainForm.resx">
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\MainForm.resx">
       <Link>MainForm.resx</Link>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\STFU.AutoUploader\PathForm.resx">
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\PathForm.resx">
       <Link>PathForm.resx</Link>
       <DependentUpon>PathForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\STFU.AutoUploader\ProcessForm.resx">
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\ProcessForm.resx">
       <Link>ProcessForm.resx</Link>
       <DependentUpon>ProcessForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\STFU.AutoUploader\TemplateForm.resx">
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\TemplateForm.resx">
       <Link>TemplateForm.resx</Link>
       <DependentUpon>TemplateForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\STFU.AutoUploader\UploadForm.resx">
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\UploadForm.resx">
       <Link>UploadForm.resx</Link>
       <DependentUpon>UploadForm.cs</DependentUpon>
     </EmbeddedResource>
