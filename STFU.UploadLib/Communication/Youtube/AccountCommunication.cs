@@ -39,7 +39,13 @@ namespace STFU.UploadLib.Communication.Youtube
 
 		public static Account FillAccountWithAvailableVideoCategories(Account account)
 		{
-			var categories = WebService.GetVideoCategories(account.Region, account.Access.AccessToken);
+			var region = account.Region;
+			if (account.Region == null)
+			{
+				region = "de";
+			}
+
+			var categories = WebService.GetVideoCategories(region, account.Access.AccessToken);
 
 			account.AvailableCategories = categories.items.Where(i => i.snippet.assignable).Select(i => new Category(int.Parse(i.id), i.snippet.title)).ToArray();
 
