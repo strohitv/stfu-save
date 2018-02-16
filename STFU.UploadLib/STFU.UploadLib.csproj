@@ -124,7 +124,7 @@
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Templates\TemplateVideoCreator.cs" />
     <Compile Include="Uploader.cs" />
-    <Compile Include="Variables\Variable.cs" />
+    <Compile Include="Programming\Variable.cs" />
     <Compile Include="Videos\Category.cs" />
     <Compile Include="Videos\Language.cs" />
     <Compile Include="Videos\License.cs" />
@@ -143,9 +143,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Programming\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

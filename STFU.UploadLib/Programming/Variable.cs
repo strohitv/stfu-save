@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace STFU.UploadLib.Variables
+namespace STFU.UploadLib.Programming
 {
 	public class Variable
 	{
@@ -43,5 +44,15 @@ namespace STFU.UploadLib.Variables
 
 			return variable;
 		}
+
+		public static IReadOnlyList<string> ReservedNames => new List<string>() {
+			"file",
+			"filename",
+			"fileext",
+			"filenameext",
+			"folder",
+			"foldername",
+			"template"
+		}.AsReadOnly();
 	}
 }

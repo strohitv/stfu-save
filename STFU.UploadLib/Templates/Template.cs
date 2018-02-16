@@ -5,7 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STFU.UploadLib.Communication.Youtube.Serializable;
-using STFU.UploadLib.Variables;
+using STFU.UploadLib.Programming;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Templates
@@ -55,20 +55,10 @@ namespace STFU.UploadLib.Templates
 		private Dictionary<string, Variable> localVars = new Dictionary<string, Variable>();
 
 		private Dictionary<string, Variable> LocalVars { get { return localVars; } set { localVars = value; } }
-
-		// TODO: Globale Variablen in die programmatische API mitaufnehmen.
-		private static Dictionary<string, string> GlobalVars => new Dictionary<string, string>() {
-			{ "file", string.Empty },
-			{ "filename", string.Empty },
-			{ "fileext", string.Empty },
-			{ "filenameext", string.Empty },
-			{ "folder", string.Empty },
-			{ "foldername", string.Empty },
-			{ "template", string.Empty } };
-
+		
 		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
 
-		public static IReadOnlyDictionary<string, string> GlobalVariables => new ReadOnlyDictionary<string, string>(GlobalVars);
+		public static IReadOnlyList<string> ReservedNames => Variable.ReservedNames;
 
 		public IList<PublishTime> PublishTimes
 		{
@@ -125,7 +115,7 @@ namespace STFU.UploadLib.Templates
 		{
 			string currentVarName = oldName;
 
-			if (!GlobalVariables.ContainsKey(newName.ToLower()) && !LocalVariables.ContainsKey(newName.ToLower()))
+			if (!ReservedNames.Contains(newName.ToLower()) && !LocalVariables.ContainsKey(newName.ToLower()))
 			{
 				LocalVars.Add(newName.ToLower(), LocalVariables[oldName.ToLower()]);
 				LocalVars[newName.ToLower()].Name = newName;
@@ -138,7 +128,7 @@ namespace STFU.UploadLib.Templates
 
 		public void AddVariable(string name, string content)
 		{
-			if (!GlobalVariables.ContainsKey(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
+			if (!ReservedNames.Contains(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
 			{
 				LocalVars.Add(name.ToLower(), new Variable(name, content));
 			}
