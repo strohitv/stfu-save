@@ -120,4 +120,14 @@
   <metadata name="tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="globalVarsTextbox.Text" xml:space="preserve">
+    <value>--- Standardvariablen (mit Beispiel in Klammern) ---
+file = gesamter Pfad der hochzuladenen Datei (C:\video\test.mp4)
+fileName = nur der Dateiname der Datei (test)
+fileExt = nur die Erweiterung der Datei (mp4)
+fileNameExt = Dateiname und Erweiterung (test.mp4)
+folder = gesamter Pfad zum Ordner, in dem die Datei liegt (C:\video\)
+folderName = Name des Ordners, in dem die Datei liegt (video)
+template = Name des Templates</value>
+  </data>
 </root>

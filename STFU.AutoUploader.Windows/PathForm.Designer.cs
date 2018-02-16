@@ -32,14 +32,15 @@
 			this.lvPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.addPathButton = new System.Windows.Forms.Button();
 			this.movePathUpButton = new System.Windows.Forms.Button();
 			this.movePathDownButton = new System.Windows.Forms.Button();
 			this.deletePathButton = new System.Windows.Forms.Button();
 			this.clearButton = new System.Windows.Forms.Button();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.editPathGroupbox = new System.Windows.Forms.GroupBox();
 			this.tlpEditPaths = new System.Windows.Forms.TableLayoutPanel();
 			this.txtbxAddPath = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -54,9 +55,8 @@
 			this.chbHidden = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chosePathTlp.SuspendLayout();
-			this.groupBox1.SuspendLayout();
+			this.editPathGroupbox.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -76,7 +76,7 @@
 			this.chosePathTlp.Controls.Add(this.movePathDownButton, 1, 7);
 			this.chosePathTlp.Controls.Add(this.deletePathButton, 1, 9);
 			this.chosePathTlp.Controls.Add(this.clearButton, 1, 11);
-			this.chosePathTlp.Controls.Add(this.groupBox1, 1, 16);
+			this.chosePathTlp.Controls.Add(this.editPathGroupbox, 1, 16);
 			this.chosePathTlp.Controls.Add(this.label1, 1, 1);
 			this.chosePathTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.chosePathTlp.Location = new System.Drawing.Point(0, 0);
@@ -107,7 +107,7 @@
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.chosePathTlp.Size = new System.Drawing.Size(957, 494);
+			this.chosePathTlp.Size = new System.Drawing.Size(957, 505);
 			this.chosePathTlp.TabIndex = 0;
 			// 
 			// lvPaths
@@ -130,7 +130,7 @@
 			this.lvPaths.Name = "lvPaths";
 			this.chosePathTlp.SetRowSpan(this.lvPaths, 10);
 			this.lvPaths.ShowGroups = false;
-			this.lvPaths.Size = new System.Drawing.Size(891, 282);
+			this.lvPaths.Size = new System.Drawing.Size(891, 293);
 			this.lvPaths.TabIndex = 10;
 			this.lvPaths.UseCompatibleStateImageBehavior = false;
 			this.lvPaths.View = System.Windows.Forms.View.Details;
@@ -147,15 +147,20 @@
 			this.chFilter.Text = "Filter";
 			this.chFilter.Width = 150;
 			// 
+			// chTemplate
+			// 
+			this.chTemplate.Text = "Template";
+			this.chTemplate.Width = 150;
+			// 
 			// chRecursive
 			// 
 			this.chRecursive.Text = "Unterverzeichnisse";
 			this.chRecursive.Width = 150;
 			// 
-			// chTemplate
+			// chHidden
 			// 
-			this.chTemplate.Text = "Template";
-			this.chTemplate.Width = 150;
+			this.chHidden.Text = "Versteckte";
+			this.chHidden.Width = 80;
 			// 
 			// addPathButton
 			// 
@@ -235,22 +240,21 @@
 			this.clearButton.UseVisualStyleBackColor = true;
 			this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
 			// 
-			// groupBox1
+			// editPathGroupbox
 			// 
-			this.groupBox1.AutoSize = true;
-			this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.chosePathTlp.SetColumnSpan(this.groupBox1, 5);
-			this.groupBox1.Controls.Add(this.tlpEditPaths);
-			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox1.Location = new System.Drawing.Point(10, 330);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-			this.chosePathTlp.SetRowSpan(this.groupBox1, 7);
-			this.groupBox1.Size = new System.Drawing.Size(937, 154);
-			this.groupBox1.TabIndex = 13;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Pfad bearbeiten";
+			this.editPathGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.chosePathTlp.SetColumnSpan(this.editPathGroupbox, 5);
+			this.editPathGroupbox.Controls.Add(this.tlpEditPaths);
+			this.editPathGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.editPathGroupbox.Location = new System.Drawing.Point(10, 341);
+			this.editPathGroupbox.Margin = new System.Windows.Forms.Padding(0);
+			this.editPathGroupbox.Name = "editPathGroupbox";
+			this.editPathGroupbox.Padding = new System.Windows.Forms.Padding(2);
+			this.chosePathTlp.SetRowSpan(this.editPathGroupbox, 7);
+			this.editPathGroupbox.Size = new System.Drawing.Size(937, 154);
+			this.editPathGroupbox.TabIndex = 13;
+			this.editPathGroupbox.TabStop = false;
+			this.editPathGroupbox.Text = "Pfad bearbeiten";
 			// 
 			// tlpEditPaths
 			// 
@@ -308,7 +312,6 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(10, 15);
 			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
@@ -319,7 +322,6 @@
 			// btnSelectPath
 			// 
 			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSelectPath.AutoSize = true;
 			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnSelectPath.Location = new System.Drawing.Point(811, 10);
 			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
@@ -333,7 +335,6 @@
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(10, 46);
 			this.label3.Margin = new System.Windows.Forms.Padding(0);
 			this.label3.Name = "label3";
@@ -354,7 +355,6 @@
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.btnCancel.AutoSize = true;
 			this.btnCancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnCancel.Location = new System.Drawing.Point(123, 104);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(0);
@@ -369,7 +369,6 @@
 			// btnSave
 			// 
 			this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.btnSave.AutoSize = true;
 			this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnSave.Location = new System.Drawing.Point(10, 104);
 			this.btnSave.Margin = new System.Windows.Forms.Padding(0);
@@ -395,7 +394,6 @@
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(10, 77);
 			this.label4.Margin = new System.Windows.Forms.Padding(0);
 			this.label4.Name = "label4";
@@ -406,7 +404,6 @@
 			// chbRecursive
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbRecursive.AutoSize = true;
 			this.chbRecursive.Location = new System.Drawing.Point(685, 75);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
@@ -419,7 +416,6 @@
 			// chbHidden
 			// 
 			this.chbHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbHidden.AutoSize = true;
 			this.chbHidden.Location = new System.Drawing.Point(811, 75);
 			this.chbHidden.Margin = new System.Windows.Forms.Padding(0);
 			this.chbHidden.Name = "chbHidden";
@@ -445,16 +441,11 @@
 			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
     "htest.";
 			// 
-			// chHidden
-			// 
-			this.chHidden.Text = "Versteckte";
-			this.chHidden.Width = 80;
-			// 
 			// PathForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(957, 494);
+			this.ClientSize = new System.Drawing.Size(957, 505);
 			this.Controls.Add(this.chosePathTlp);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "PathForm";
@@ -464,8 +455,8 @@
 			this.Load += new System.EventHandler(this.PathFormLoad);
 			this.chosePathTlp.ResumeLayout(false);
 			this.chosePathTlp.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
+			this.editPathGroupbox.ResumeLayout(false);
+			this.editPathGroupbox.PerformLayout();
 			this.tlpEditPaths.ResumeLayout(false);
 			this.tlpEditPaths.PerformLayout();
 			this.ResumeLayout(false);
@@ -482,7 +473,7 @@
 		private System.Windows.Forms.ColumnHeader chFilter;
 		private System.Windows.Forms.ColumnHeader chRecursive;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox editPathGroupbox;
 		private System.Windows.Forms.TableLayoutPanel tlpEditPaths;
 		private System.Windows.Forms.TextBox txtbxAddPath;
 		private System.Windows.Forms.Button btnSelectPath;

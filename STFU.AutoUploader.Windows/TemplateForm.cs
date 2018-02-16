@@ -194,6 +194,7 @@ namespace STFU.AutoUploader
 			stabilizeCheckbox.Checked = template.Stabilize;
 
 			RefillTimesListView();
+			RefillVariablesListView();
 
 			if (template.PublishTimes.Count > 0)
 			{
@@ -599,6 +600,77 @@ namespace STFU.AutoUploader
 		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.Stabilize = stabilizeCheckbox.Checked;
+		}
+
+		private void RefillVariablesListView()
+		{
+			localVarsListview.SelectedIndices.Clear();
+			localVarsListview.Items.Clear();
+
+			foreach (var variable in current.LocalVariables)
+			{
+				ListViewItem item = new ListViewItem(variable.Key);
+				item.SubItems.Add(variable.Value);
+				localVarsListview.Items.Add(item);
+			}
+		}
+
+		private void addVarButtonClick(object sender, EventArgs e)
+		{
+			current.AddVariable();
+			RefillVariablesListView();
+		}
+
+		private void removeVarButtonClick(object sender, EventArgs e)
+		{
+			if (localVarsListview.SelectedIndices.Count == 1)
+			{
+				string varName = localVarsListview.SelectedItems[0].Text;
+				current.RemoveVariable(varName);
+			}
+		}
+
+		private void clearVarsButtonClick(object sender, EventArgs e)
+		{
+			current.ClearVariables();
+		}
+
+		private void RefillEditVarBox()
+		{
+			if (localVarsListview.SelectedIndices.Count == 1)
+			{
+				string varName = localVarsListview.SelectedItems[0].Text;
+				varNameTextbox.Text = varName;
+				varContentTextbox.Text = current.LocalVariables[varName];
+			}
+			else
+			{
+				varNameTextbox.Text = string.Empty;
+				varContentTextbox.Text = string.Empty;
+			}
+
+			editVarGroupbox.Enabled = localVarsListview.SelectedIndices.Count == 1;
+		}
+
+		private void localVarsListviewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			RefillEditVarBox();
+		}
+
+		private void saveVarButtonClick(object sender, EventArgs e)
+		{
+			if (localVarsListview.SelectedIndices.Count == 1)
+			{
+				string varName = localVarsListview.SelectedItems[0].Text;
+				if (varName != varNameTextbox.Text)
+				{
+					varName = current.RenameVariable(varName, varNameTextbox.Text);
+				}
+
+				current.EditVariable(varName, varContentTextbox.Text);
+
+				RefillVariablesListView();
+			}
 		}
 	}
 }

@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TemplateForm));
 			this.templateOverviewTableLayouPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.addPathButton = new System.Windows.Forms.Button();
 			this.movePathUpButton = new System.Windows.Forms.Button();
@@ -79,7 +80,7 @@
 			this.addTimeTimePicker = new System.Windows.Forms.DateTimePicker();
 			this.addWeekdayLabel = new System.Windows.Forms.Label();
 			this.otherTabPage = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.otherTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.categoryLabel = new System.Windows.Forms.Label();
 			this.defaultLanguageLabel = new System.Windows.Forms.Label();
 			this.licenseLabel = new System.Windows.Forms.Label();
@@ -94,6 +95,23 @@
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
+			this.variablesTabpage = new System.Windows.Forms.TabPage();
+			this.globalVarsTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.addVarButton = new System.Windows.Forms.Button();
+			this.removeVarButton = new System.Windows.Forms.Button();
+			this.clearVarsButton = new System.Windows.Forms.Button();
+			this.localVarsListview = new System.Windows.Forms.ListView();
+			this.varNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.varContentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.editVarGroupbox = new System.Windows.Forms.GroupBox();
+			this.editVarsTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.varNameLabel = new System.Windows.Forms.Label();
+			this.varContentLabel = new System.Windows.Forms.Label();
+			this.saveVarButton = new System.Windows.Forms.Button();
+			this.varNameTextbox = new System.Windows.Forms.TextBox();
+			this.varContentTextbox = new System.Windows.Forms.TextBox();
+			this.globalVarsTextbox = new System.Windows.Forms.TextBox();
+			this.localVarsLabel = new System.Windows.Forms.Label();
 			this.editTemplateLabel = new System.Windows.Forms.Label();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
@@ -107,7 +125,11 @@
 			this.publishGroupbox.SuspendLayout();
 			this.publishPanel.SuspendLayout();
 			this.otherTabPage.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.otherTlp.SuspendLayout();
+			this.variablesTabpage.SuspendLayout();
+			this.globalVarsTlp.SuspendLayout();
+			this.editVarGroupbox.SuspendLayout();
+			this.editVarsTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
@@ -146,7 +168,7 @@
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.templateOverviewTableLayouPanel.Size = new System.Drawing.Size(278, 698);
+			this.templateOverviewTableLayouPanel.Size = new System.Drawing.Size(264, 770);
 			this.templateOverviewTableLayouPanel.TabIndex = 0;
 			// 
 			// addPathButton
@@ -159,7 +181,7 @@
 			this.addPathButton.Location = new System.Drawing.Point(10, 10);
 			this.addPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addPathButton.Name = "addPathButton";
-			this.addPathButton.Size = new System.Drawing.Size(52, 41);
+			this.addPathButton.Size = new System.Drawing.Size(41, 41);
 			this.addPathButton.TabIndex = 2;
 			this.addPathButton.Text = "+";
 			this.tooltip.SetToolTip(this.addPathButton, "Neues Template hinzufügen");
@@ -175,7 +197,7 @@
 			this.movePathUpButton.Location = new System.Drawing.Point(10, 61);
 			this.movePathUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathUpButton.Name = "movePathUpButton";
-			this.movePathUpButton.Size = new System.Drawing.Size(52, 41);
+			this.movePathUpButton.Size = new System.Drawing.Size(41, 41);
 			this.movePathUpButton.TabIndex = 3;
 			this.movePathUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.movePathUpButton, "Markiertes Template um eine Position nach oben verschieben");
@@ -191,7 +213,7 @@
 			this.movePathDownButton.Location = new System.Drawing.Point(10, 112);
 			this.movePathDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathDownButton.Name = "movePathDownButton";
-			this.movePathDownButton.Size = new System.Drawing.Size(52, 41);
+			this.movePathDownButton.Size = new System.Drawing.Size(41, 41);
 			this.movePathDownButton.TabIndex = 4;
 			this.movePathDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.movePathDownButton, "Markiertes Template um eine Position nach unten verschieben");
@@ -208,7 +230,7 @@
 			this.deletePathButton.Location = new System.Drawing.Point(10, 163);
 			this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deletePathButton.Name = "deletePathButton";
-			this.deletePathButton.Size = new System.Drawing.Size(52, 41);
+			this.deletePathButton.Size = new System.Drawing.Size(41, 41);
 			this.deletePathButton.TabIndex = 5;
 			this.deletePathButton.Text = "-";
 			this.tooltip.SetToolTip(this.deletePathButton, "Markiertes Template löschen");
@@ -225,7 +247,7 @@
 			this.clearButton.Location = new System.Drawing.Point(10, 214);
 			this.clearButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(52, 41);
+			this.clearButton.Size = new System.Drawing.Size(41, 41);
 			this.clearButton.TabIndex = 6;
 			this.clearButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearButton, "Alle Templates löschen");
@@ -240,14 +262,14 @@
 			this.templateListView.FullRowSelect = true;
 			this.templateListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.templateListView.HideSelection = false;
-			this.templateListView.Location = new System.Drawing.Point(72, 10);
+			this.templateListView.Location = new System.Drawing.Point(61, 10);
 			this.templateListView.Margin = new System.Windows.Forms.Padding(0);
 			this.templateListView.MinimumSize = new System.Drawing.Size(188, 4);
 			this.templateListView.MultiSelect = false;
 			this.templateListView.Name = "templateListView";
 			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 10);
 			this.templateListView.ShowGroups = false;
-			this.templateListView.Size = new System.Drawing.Size(196, 678);
+			this.templateListView.Size = new System.Drawing.Size(193, 750);
 			this.templateListView.TabIndex = 7;
 			this.templateListView.UseCompatibleStateImageBehavior = false;
 			this.templateListView.View = System.Windows.Forms.View.Details;
@@ -291,7 +313,7 @@
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.editTemplateTableLayoutPanel.Size = new System.Drawing.Size(676, 698);
+			this.editTemplateTableLayoutPanel.Size = new System.Drawing.Size(930, 770);
 			this.editTemplateTableLayoutPanel.TabIndex = 0;
 			// 
 			// templateNameLabel
@@ -313,7 +335,7 @@
 			this.templateNameTextbox.Location = new System.Drawing.Point(61, 33);
 			this.templateNameTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateNameTextbox.Name = "templateNameTextbox";
-			this.templateNameTextbox.Size = new System.Drawing.Size(605, 26);
+			this.templateNameTextbox.Size = new System.Drawing.Size(859, 26);
 			this.templateNameTextbox.TabIndex = 1;
 			this.templateNameTextbox.TextChanged += new System.EventHandler(this.templateNameTextboxTextChanged);
 			// 
@@ -322,7 +344,7 @@
 			this.saveTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.saveTemplateButton.AutoSize = true;
 			this.saveTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.saveTemplateButton.Location = new System.Drawing.Point(482, 661);
+			this.saveTemplateButton.Location = new System.Drawing.Point(736, 733);
 			this.saveTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveTemplateButton.Name = "saveTemplateButton";
 			this.saveTemplateButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -337,7 +359,7 @@
 			this.resetTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.resetTemplateButton.AutoSize = true;
 			this.resetTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.resetTemplateButton.Location = new System.Drawing.Point(579, 661);
+			this.resetTemplateButton.Location = new System.Drawing.Point(833, 733);
 			this.resetTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.resetTemplateButton.Name = "resetTemplateButton";
 			this.resetTemplateButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -353,12 +375,13 @@
 			this.templateValuesTabControl.Controls.Add(this.commonTabPage);
 			this.templateValuesTabControl.Controls.Add(this.publishTabPage);
 			this.templateValuesTabControl.Controls.Add(this.otherTabPage);
+			this.templateValuesTabControl.Controls.Add(this.variablesTabpage);
 			this.templateValuesTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateValuesTabControl.Location = new System.Drawing.Point(10, 69);
 			this.templateValuesTabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.templateValuesTabControl.Name = "templateValuesTabControl";
 			this.templateValuesTabControl.SelectedIndex = 0;
-			this.templateValuesTabControl.Size = new System.Drawing.Size(656, 582);
+			this.templateValuesTabControl.Size = new System.Drawing.Size(910, 654);
 			this.templateValuesTabControl.TabIndex = 4;
 			// 
 			// commonTabPage
@@ -369,7 +392,7 @@
 			this.commonTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.commonTabPage.Name = "commonTabPage";
 			this.commonTabPage.Padding = new System.Windows.Forms.Padding(2);
-			this.commonTabPage.Size = new System.Drawing.Size(648, 556);
+			this.commonTabPage.Size = new System.Drawing.Size(902, 628);
 			this.commonTabPage.TabIndex = 0;
 			this.commonTabPage.Text = "Allgemein";
 			// 
@@ -410,7 +433,7 @@
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.templateCommonTableLayoutPannel.Size = new System.Drawing.Size(644, 552);
+			this.templateCommonTableLayoutPannel.Size = new System.Drawing.Size(898, 624);
 			this.templateCommonTableLayoutPannel.TabIndex = 0;
 			// 
 			// templateTitleLabel
@@ -432,7 +455,7 @@
 			this.templateDescriptionLabel.Location = new System.Drawing.Point(5, 61);
 			this.templateDescriptionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.templateDescriptionLabel.Name = "templateDescriptionLabel";
-			this.templateDescriptionLabel.Size = new System.Drawing.Size(634, 13);
+			this.templateDescriptionLabel.Size = new System.Drawing.Size(888, 13);
 			this.templateDescriptionLabel.TabIndex = 1;
 			this.templateDescriptionLabel.Text = "Beschreibung: ";
 			// 
@@ -441,10 +464,10 @@
 			this.templateTagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.templateTagsLabel.AutoSize = true;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsLabel, 3);
-			this.templateTagsLabel.Location = new System.Drawing.Point(5, 396);
+			this.templateTagsLabel.Location = new System.Drawing.Point(5, 447);
 			this.templateTagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsLabel.Name = "templateTagsLabel";
-			this.templateTagsLabel.Size = new System.Drawing.Size(634, 13);
+			this.templateTagsLabel.Size = new System.Drawing.Size(888, 13);
 			this.templateTagsLabel.TabIndex = 2;
 			this.templateTagsLabel.Text = "Tags: ";
 			// 
@@ -455,7 +478,7 @@
 			this.templateTitleTextbox.Location = new System.Drawing.Point(48, 7);
 			this.templateTitleTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTitleTextbox.Name = "templateTitleTextbox";
-			this.templateTitleTextbox.Size = new System.Drawing.Size(591, 26);
+			this.templateTitleTextbox.Size = new System.Drawing.Size(845, 26);
 			this.templateTitleTextbox.TabIndex = 3;
 			this.templateTitleTextbox.TextChanged += new System.EventHandler(this.templateTitleTextboxTextChanged);
 			// 
@@ -469,7 +492,7 @@
 			this.templateDescriptionTextbox.Multiline = true;
 			this.templateDescriptionTextbox.Name = "templateDescriptionTextbox";
 			this.templateDescriptionTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.templateDescriptionTextbox.Size = new System.Drawing.Size(634, 294);
+			this.templateDescriptionTextbox.Size = new System.Drawing.Size(888, 345);
 			this.templateDescriptionTextbox.TabIndex = 4;
 			this.templateDescriptionTextbox.TextChanged += new System.EventHandler(this.templateDescriptionTextboxTextChanged);
 			// 
@@ -478,12 +501,12 @@
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsTextbox, 3);
 			this.templateTagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 409);
+			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 460);
 			this.templateTagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsTextbox.Multiline = true;
 			this.templateTagsTextbox.Name = "templateTagsTextbox";
 			this.templateTagsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.templateTagsTextbox.Size = new System.Drawing.Size(634, 117);
+			this.templateTagsTextbox.Size = new System.Drawing.Size(888, 138);
 			this.templateTagsTextbox.TabIndex = 5;
 			this.templateTagsTextbox.TextChanged += new System.EventHandler(this.templateTagsTextboxTextChanged);
 			// 
@@ -494,7 +517,7 @@
 			this.maxTitleLengthLabel.Location = new System.Drawing.Point(48, 38);
 			this.maxTitleLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxTitleLengthLabel.Name = "maxTitleLengthLabel";
-			this.maxTitleLengthLabel.Size = new System.Drawing.Size(591, 13);
+			this.maxTitleLengthLabel.Size = new System.Drawing.Size(845, 13);
 			this.maxTitleLengthLabel.TabIndex = 6;
 			this.maxTitleLengthLabel.Text = "Länge Titel: 0 / 100 Zeichen";
 			// 
@@ -502,10 +525,10 @@
 			// 
 			this.maxDescriptionLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.maxDescriptionLengthLabel.AutoSize = true;
-			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(48, 373);
+			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(48, 424);
 			this.maxDescriptionLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxDescriptionLengthLabel.Name = "maxDescriptionLengthLabel";
-			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(591, 13);
+			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(845, 13);
 			this.maxDescriptionLengthLabel.TabIndex = 7;
 			this.maxDescriptionLengthLabel.Text = "Länge Beschreibung: 0 / 5000 Zeichen";
 			// 
@@ -513,10 +536,10 @@
 			// 
 			this.maxTagsLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.maxTagsLengthLabel.AutoSize = true;
-			this.maxTagsLengthLabel.Location = new System.Drawing.Point(48, 531);
+			this.maxTagsLengthLabel.Location = new System.Drawing.Point(48, 603);
 			this.maxTagsLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxTagsLengthLabel.Name = "maxTagsLengthLabel";
-			this.maxTagsLengthLabel.Size = new System.Drawing.Size(591, 13);
+			this.maxTagsLengthLabel.Size = new System.Drawing.Size(845, 13);
 			this.maxTagsLengthLabel.TabIndex = 8;
 			this.maxTagsLengthLabel.Text = "Länge Tags: 0 / 500 Zeichen";
 			// 
@@ -528,7 +551,7 @@
 			this.publishTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.publishTabPage.Name = "publishTabPage";
 			this.publishTabPage.Padding = new System.Windows.Forms.Padding(2);
-			this.publishTabPage.Size = new System.Drawing.Size(648, 556);
+			this.publishTabPage.Size = new System.Drawing.Size(902, 628);
 			this.publishTabPage.TabIndex = 1;
 			this.publishTabPage.Text = "Veröffentlichung";
 			// 
@@ -564,7 +587,7 @@
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.publishTableLayoutPanel.Size = new System.Drawing.Size(644, 552);
+			this.publishTableLayoutPanel.Size = new System.Drawing.Size(898, 624);
 			this.publishTableLayoutPanel.TabIndex = 0;
 			// 
 			// privacyLabel
@@ -587,7 +610,7 @@
 			this.publishAtCheckbox.Location = new System.Drawing.Point(7, 45);
 			this.publishAtCheckbox.Margin = new System.Windows.Forms.Padding(2);
 			this.publishAtCheckbox.Name = "publishAtCheckbox";
-			this.publishAtCheckbox.Size = new System.Drawing.Size(630, 17);
+			this.publishAtCheckbox.Size = new System.Drawing.Size(884, 17);
 			this.publishAtCheckbox.TabIndex = 13;
 			this.publishAtCheckbox.Text = "Video geplant veröffentlichen";
 			this.publishAtCheckbox.UseVisualStyleBackColor = true;
@@ -606,7 +629,7 @@
 			this.privacyComboBox.Location = new System.Drawing.Point(84, 7);
 			this.privacyComboBox.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyComboBox.Name = "privacyComboBox";
-			this.privacyComboBox.Size = new System.Drawing.Size(555, 26);
+			this.privacyComboBox.Size = new System.Drawing.Size(809, 26);
 			this.privacyComboBox.TabIndex = 12;
 			this.privacyComboBox.SelectedIndexChanged += new System.EventHandler(this.privacyComboBoxSelectedIndexChanged);
 			// 
@@ -623,7 +646,7 @@
 			this.publishGroupbox.Name = "publishGroupbox";
 			this.publishGroupbox.Padding = new System.Windows.Forms.Padding(2);
 			this.publishTableLayoutPanel.SetRowSpan(this.publishGroupbox, 9);
-			this.publishGroupbox.Size = new System.Drawing.Size(634, 471);
+			this.publishGroupbox.Size = new System.Drawing.Size(888, 543);
 			this.publishGroupbox.TabIndex = 14;
 			this.publishGroupbox.TabStop = false;
 			this.publishGroupbox.Text = "Veröffentlichungszeiten";
@@ -686,7 +709,7 @@
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.publishPanel.Size = new System.Drawing.Size(630, 454);
+			this.publishPanel.Size = new System.Drawing.Size(884, 526);
 			this.publishPanel.TabIndex = 0;
 			// 
 			// timesListView
@@ -703,12 +726,12 @@
 			this.timesListView.FullRowSelect = true;
 			this.timesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.timesListView.HideSelection = false;
-			this.timesListView.Location = new System.Drawing.Point(62, 7);
+			this.timesListView.Location = new System.Drawing.Point(53, 7);
 			this.timesListView.Margin = new System.Windows.Forms.Padding(0);
 			this.timesListView.Name = "timesListView";
 			this.publishPanel.SetRowSpan(this.timesListView, 16);
 			this.timesListView.ShowGroups = false;
-			this.timesListView.Size = new System.Drawing.Size(563, 403);
+			this.timesListView.Size = new System.Drawing.Size(826, 475);
 			this.timesListView.TabIndex = 8;
 			this.timesListView.UseCompatibleStateImageBehavior = false;
 			this.timesListView.View = System.Windows.Forms.View.Details;
@@ -739,7 +762,7 @@
 			this.moveTimeUpButton.Location = new System.Drawing.Point(5, 7);
 			this.moveTimeUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeUpButton.Name = "moveTimeUpButton";
-			this.moveTimeUpButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeUpButton.Size = new System.Drawing.Size(43, 41);
 			this.moveTimeUpButton.TabIndex = 3;
 			this.moveTimeUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTimeUpButton, "Markierte Zeiten um eine Position nach oben verschieben");
@@ -757,7 +780,7 @@
 			this.moveTimeDownButton.Location = new System.Drawing.Point(5, 58);
 			this.moveTimeDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeDownButton.Name = "moveTimeDownButton";
-			this.moveTimeDownButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeDownButton.Size = new System.Drawing.Size(43, 41);
 			this.moveTimeDownButton.TabIndex = 4;
 			this.moveTimeDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTimeDownButton, "Markierte Zeiten um eine Position nach unten verschieben");
@@ -776,7 +799,7 @@
 			this.addOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneDayButton.Name = "addOneDayButton";
 			this.addOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneDayButton.Size = new System.Drawing.Size(43, 42);
 			this.addOneDayButton.TabIndex = 3;
 			this.addOneDayButton.Text = "+1";
 			this.tooltip.SetToolTip(this.addOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
@@ -796,7 +819,7 @@
 			this.substractOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneDayButton.Name = "substractOneDayButton";
 			this.substractOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneDayButton.Size = new System.Drawing.Size(43, 42);
 			this.substractOneDayButton.TabIndex = 4;
 			this.substractOneDayButton.Text = "-1";
 			this.tooltip.SetToolTip(this.substractOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
@@ -816,7 +839,7 @@
 			this.clearTimesButton.Location = new System.Drawing.Point(5, 368);
 			this.clearTimesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTimesButton.Name = "clearTimesButton";
-			this.clearTimesButton.Size = new System.Drawing.Size(52, 41);
+			this.clearTimesButton.Size = new System.Drawing.Size(43, 41);
 			this.clearTimesButton.TabIndex = 6;
 			this.clearTimesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTimesButton, "Alle Zeiten löschen");
@@ -835,7 +858,7 @@
 			this.deleteTimeButton.Location = new System.Drawing.Point(5, 317);
 			this.deleteTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTimeButton.Name = "deleteTimeButton";
-			this.deleteTimeButton.Size = new System.Drawing.Size(52, 41);
+			this.deleteTimeButton.Size = new System.Drawing.Size(43, 41);
 			this.deleteTimeButton.TabIndex = 5;
 			this.deleteTimeButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTimeButton, "Markierte Zeiten löschen");
@@ -854,7 +877,7 @@
 			this.addOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneWeekButton.Name = "addOneWeekButton";
 			this.addOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneWeekButton.Size = new System.Drawing.Size(43, 42);
 			this.addOneWeekButton.TabIndex = 3;
 			this.addOneWeekButton.Text = "+7";
 			this.tooltip.SetToolTip(this.addOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
@@ -874,7 +897,7 @@
 			this.substractOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneWeekButton.Name = "substractOneWeekButton";
 			this.substractOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneWeekButton.Size = new System.Drawing.Size(43, 42);
 			this.substractOneWeekButton.TabIndex = 4;
 			this.substractOneWeekButton.Text = "-7";
 			this.tooltip.SetToolTip(this.substractOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
@@ -886,7 +909,7 @@
 			// 
 			this.addTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeLabel.AutoSize = true;
-			this.addTimeLabel.Location = new System.Drawing.Point(259, 427);
+			this.addTimeLabel.Location = new System.Drawing.Point(250, 499);
 			this.addTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeLabel.Name = "addTimeLabel";
 			this.addTimeLabel.Size = new System.Drawing.Size(31, 13);
@@ -898,7 +921,7 @@
 			this.addTimeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeButton.AutoSize = true;
 			this.addTimeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTimeButton.Location = new System.Drawing.Point(384, 420);
+			this.addTimeButton.Location = new System.Drawing.Point(375, 492);
 			this.addTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeButton.Name = "addTimeButton";
 			this.addTimeButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -923,7 +946,7 @@
             "Freitag",
             "Samstag",
             "Sonntag"});
-			this.addWeekdayCombobox.Location = new System.Drawing.Point(141, 420);
+			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 492);
 			this.addWeekdayCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayCombobox.Name = "addWeekdayCombobox";
 			this.addWeekdayCombobox.Size = new System.Drawing.Size(108, 26);
@@ -935,7 +958,7 @@
 			this.addTimeTimePicker.CustomFormat = "HH:mm";
 			this.addTimeTimePicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addTimeTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.addTimeTimePicker.Location = new System.Drawing.Point(300, 420);
+			this.addTimeTimePicker.Location = new System.Drawing.Point(291, 492);
 			this.addTimeTimePicker.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeTimePicker.Name = "addTimeTimePicker";
 			this.addTimeTimePicker.ShowUpDown = true;
@@ -947,7 +970,7 @@
 			// 
 			this.addWeekdayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addWeekdayLabel.AutoSize = true;
-			this.addWeekdayLabel.Location = new System.Drawing.Point(62, 427);
+			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 499);
 			this.addWeekdayLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayLabel.Name = "addWeekdayLabel";
 			this.addWeekdayLabel.Size = new System.Drawing.Size(69, 13);
@@ -957,64 +980,64 @@
 			// otherTabPage
 			// 
 			this.otherTabPage.BackColor = System.Drawing.SystemColors.Control;
-			this.otherTabPage.Controls.Add(this.tableLayoutPanel1);
+			this.otherTabPage.Controls.Add(this.otherTlp);
 			this.otherTabPage.Location = new System.Drawing.Point(4, 22);
 			this.otherTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.otherTabPage.Name = "otherTabPage";
-			this.otherTabPage.Size = new System.Drawing.Size(648, 556);
+			this.otherTabPage.Size = new System.Drawing.Size(902, 628);
 			this.otherTabPage.TabIndex = 2;
 			this.otherTabPage.Text = "Sonstiges";
 			// 
-			// tableLayoutPanel1
+			// otherTlp
 			// 
-			this.tableLayoutPanel1.ColumnCount = 7;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Controls.Add(this.categoryLabel, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this.defaultLanguageLabel, 1, 3);
-			this.tableLayoutPanel1.Controls.Add(this.licenseLabel, 1, 5);
-			this.tableLayoutPanel1.Controls.Add(this.isEmbeddableCheckbox, 1, 7);
-			this.tableLayoutPanel1.Controls.Add(this.publicStatsViewableCheckbox, 1, 9);
-			this.tableLayoutPanel1.Controls.Add(this.categoryCombobox, 3, 1);
-			this.tableLayoutPanel1.Controls.Add(this.defaultLanguageCombobox, 3, 3);
-			this.tableLayoutPanel1.Controls.Add(this.licenseCombobox, 3, 5);
-			this.tableLayoutPanel1.Controls.Add(this.thumbnailLabel, 1, 11);
-			this.tableLayoutPanel1.Controls.Add(this.thumbnailTextbox, 3, 11);
-			this.tableLayoutPanel1.Controls.Add(this.chooseThumbnailPathButton, 5, 11);
-			this.tableLayoutPanel1.Controls.Add(this.notifySubscribersCheckbox, 1, 13);
-			this.tableLayoutPanel1.Controls.Add(this.autoLevelsCheckbox, 1, 15);
-			this.tableLayoutPanel1.Controls.Add(this.stabilizeCheckbox, 1, 17);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 19;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 556);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this.otherTlp.ColumnCount = 7;
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.otherTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.Controls.Add(this.categoryLabel, 1, 1);
+			this.otherTlp.Controls.Add(this.defaultLanguageLabel, 1, 3);
+			this.otherTlp.Controls.Add(this.licenseLabel, 1, 5);
+			this.otherTlp.Controls.Add(this.isEmbeddableCheckbox, 1, 7);
+			this.otherTlp.Controls.Add(this.publicStatsViewableCheckbox, 1, 9);
+			this.otherTlp.Controls.Add(this.categoryCombobox, 3, 1);
+			this.otherTlp.Controls.Add(this.defaultLanguageCombobox, 3, 3);
+			this.otherTlp.Controls.Add(this.licenseCombobox, 3, 5);
+			this.otherTlp.Controls.Add(this.thumbnailLabel, 1, 11);
+			this.otherTlp.Controls.Add(this.thumbnailTextbox, 3, 11);
+			this.otherTlp.Controls.Add(this.chooseThumbnailPathButton, 5, 11);
+			this.otherTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 13);
+			this.otherTlp.Controls.Add(this.autoLevelsCheckbox, 1, 15);
+			this.otherTlp.Controls.Add(this.stabilizeCheckbox, 1, 17);
+			this.otherTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.otherTlp.Location = new System.Drawing.Point(0, 0);
+			this.otherTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.otherTlp.Name = "otherTlp";
+			this.otherTlp.RowCount = 19;
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.otherTlp.Size = new System.Drawing.Size(902, 628);
+			this.otherTlp.TabIndex = 0;
 			// 
 			// categoryLabel
 			// 
@@ -1053,11 +1076,11 @@
 			// 
 			this.isEmbeddableCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.isEmbeddableCheckbox.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.isEmbeddableCheckbox, 5);
+			this.otherTlp.SetColumnSpan(this.isEmbeddableCheckbox, 5);
 			this.isEmbeddableCheckbox.Location = new System.Drawing.Point(10, 118);
 			this.isEmbeddableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.isEmbeddableCheckbox.Name = "isEmbeddableCheckbox";
-			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(628, 17);
+			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(882, 17);
 			this.isEmbeddableCheckbox.TabIndex = 3;
 			this.isEmbeddableCheckbox.Text = "Einbetten zulassen";
 			this.isEmbeddableCheckbox.UseVisualStyleBackColor = true;
@@ -1067,11 +1090,11 @@
 			// 
 			this.publicStatsViewableCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.publicStatsViewableCheckbox.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.publicStatsViewableCheckbox, 5);
+			this.otherTlp.SetColumnSpan(this.publicStatsViewableCheckbox, 5);
 			this.publicStatsViewableCheckbox.Location = new System.Drawing.Point(10, 145);
 			this.publicStatsViewableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.publicStatsViewableCheckbox.Name = "publicStatsViewableCheckbox";
-			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(628, 17);
+			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(882, 17);
 			this.publicStatsViewableCheckbox.TabIndex = 4;
 			this.publicStatsViewableCheckbox.Text = "Videostatistik auf der Wiedergabeseite öffentlich sichtbar machen";
 			this.publicStatsViewableCheckbox.UseVisualStyleBackColor = true;
@@ -1080,35 +1103,35 @@
 			// categoryCombobox
 			// 
 			this.categoryCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.SetColumnSpan(this.categoryCombobox, 3);
+			this.otherTlp.SetColumnSpan(this.categoryCombobox, 3);
 			this.categoryCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.categoryCombobox.FormattingEnabled = true;
 			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(460, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(714, 26);
 			this.categoryCombobox.TabIndex = 5;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryComboboxSelectedIndexChanged);
 			// 
 			// defaultLanguageCombobox
 			// 
 			this.defaultLanguageCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.SetColumnSpan(this.defaultLanguageCombobox, 3);
+			this.otherTlp.SetColumnSpan(this.defaultLanguageCombobox, 3);
 			this.defaultLanguageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.defaultLanguageCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.defaultLanguageCombobox.FormattingEnabled = true;
 			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(460, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(714, 26);
 			this.defaultLanguageCombobox.TabIndex = 6;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageComboboxSelectedIndexChanged);
 			// 
 			// licenseCombobox
 			// 
 			this.licenseCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.SetColumnSpan(this.licenseCombobox, 3);
+			this.otherTlp.SetColumnSpan(this.licenseCombobox, 3);
 			this.licenseCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.licenseCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.licenseCombobox.FormattingEnabled = true;
@@ -1118,7 +1141,7 @@
 			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(460, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(714, 26);
 			this.licenseCombobox.TabIndex = 7;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseComboboxSelectedIndexChanged);
 			// 
@@ -1140,7 +1163,7 @@
 			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
-			this.thumbnailTextbox.Size = new System.Drawing.Size(429, 26);
+			this.thumbnailTextbox.Size = new System.Drawing.Size(683, 26);
 			this.thumbnailTextbox.TabIndex = 9;
 			// 
 			// chooseThumbnailPathButton
@@ -1150,7 +1173,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.chooseThumbnailPathButton.AutoSize = true;
 			this.chooseThumbnailPathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.chooseThumbnailPathButton.Location = new System.Drawing.Point(612, 172);
+			this.chooseThumbnailPathButton.Location = new System.Drawing.Point(866, 172);
 			this.chooseThumbnailPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.chooseThumbnailPathButton.Name = "chooseThumbnailPathButton";
 			this.chooseThumbnailPathButton.Size = new System.Drawing.Size(26, 26);
@@ -1162,11 +1185,11 @@
 			// 
 			this.notifySubscribersCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.notifySubscribersCheckbox.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.notifySubscribersCheckbox, 5);
+			this.otherTlp.SetColumnSpan(this.notifySubscribersCheckbox, 5);
 			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 208);
 			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
-			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(628, 17);
+			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(882, 17);
 			this.notifySubscribersCheckbox.TabIndex = 3;
 			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
 			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
@@ -1176,11 +1199,11 @@
 			// 
 			this.autoLevelsCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.autoLevelsCheckbox.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.autoLevelsCheckbox, 5);
+			this.otherTlp.SetColumnSpan(this.autoLevelsCheckbox, 5);
 			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 235);
 			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
-			this.autoLevelsCheckbox.Size = new System.Drawing.Size(628, 17);
+			this.autoLevelsCheckbox.Size = new System.Drawing.Size(882, 17);
 			this.autoLevelsCheckbox.TabIndex = 3;
 			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
 			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
@@ -1190,15 +1213,278 @@
 			// 
 			this.stabilizeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.stabilizeCheckbox.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.stabilizeCheckbox, 5);
+			this.otherTlp.SetColumnSpan(this.stabilizeCheckbox, 5);
 			this.stabilizeCheckbox.Location = new System.Drawing.Point(10, 262);
 			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.stabilizeCheckbox.Name = "stabilizeCheckbox";
-			this.stabilizeCheckbox.Size = new System.Drawing.Size(628, 17);
+			this.stabilizeCheckbox.Size = new System.Drawing.Size(882, 17);
 			this.stabilizeCheckbox.TabIndex = 3;
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
 			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckboxCheckedChanged);
+			// 
+			// variablesTabpage
+			// 
+			this.variablesTabpage.BackColor = System.Drawing.SystemColors.Control;
+			this.variablesTabpage.Controls.Add(this.globalVarsTlp);
+			this.variablesTabpage.Location = new System.Drawing.Point(4, 22);
+			this.variablesTabpage.Margin = new System.Windows.Forms.Padding(2);
+			this.variablesTabpage.Name = "variablesTabpage";
+			this.variablesTabpage.Padding = new System.Windows.Forms.Padding(2);
+			this.variablesTabpage.Size = new System.Drawing.Size(902, 628);
+			this.variablesTabpage.TabIndex = 3;
+			this.variablesTabpage.Text = "Variablen";
+			// 
+			// globalVarsTlp
+			// 
+			this.globalVarsTlp.ColumnCount = 5;
+			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.Controls.Add(this.addVarButton, 1, 5);
+			this.globalVarsTlp.Controls.Add(this.removeVarButton, 1, 7);
+			this.globalVarsTlp.Controls.Add(this.clearVarsButton, 1, 9);
+			this.globalVarsTlp.Controls.Add(this.localVarsListview, 3, 5);
+			this.globalVarsTlp.Controls.Add(this.editVarGroupbox, 1, 12);
+			this.globalVarsTlp.Controls.Add(this.globalVarsTextbox, 1, 1);
+			this.globalVarsTlp.Controls.Add(this.localVarsLabel, 1, 3);
+			this.globalVarsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.globalVarsTlp.Location = new System.Drawing.Point(2, 2);
+			this.globalVarsTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.globalVarsTlp.Name = "globalVarsTlp";
+			this.globalVarsTlp.RowCount = 14;
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.globalVarsTlp.Size = new System.Drawing.Size(898, 624);
+			this.globalVarsTlp.TabIndex = 0;
+			// 
+			// addVarButton
+			// 
+			this.addVarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addVarButton.AutoSize = true;
+			this.addVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addVarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addVarButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.addVarButton.Location = new System.Drawing.Point(10, 193);
+			this.addVarButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addVarButton.Name = "addVarButton";
+			this.addVarButton.Size = new System.Drawing.Size(41, 41);
+			this.addVarButton.TabIndex = 2;
+			this.addVarButton.Text = "+";
+			this.addVarButton.UseVisualStyleBackColor = true;
+			this.addVarButton.Click += new System.EventHandler(this.addVarButtonClick);
+			// 
+			// removeVarButton
+			// 
+			this.removeVarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.removeVarButton.AutoSize = true;
+			this.removeVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.removeVarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.removeVarButton.ForeColor = System.Drawing.Color.Red;
+			this.removeVarButton.Location = new System.Drawing.Point(10, 244);
+			this.removeVarButton.Margin = new System.Windows.Forms.Padding(0);
+			this.removeVarButton.Name = "removeVarButton";
+			this.removeVarButton.Size = new System.Drawing.Size(41, 41);
+			this.removeVarButton.TabIndex = 5;
+			this.removeVarButton.Text = "-";
+			this.removeVarButton.UseVisualStyleBackColor = true;
+			this.removeVarButton.Click += new System.EventHandler(this.removeVarButtonClick);
+			// 
+			// clearVarsButton
+			// 
+			this.clearVarsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearVarsButton.AutoSize = true;
+			this.clearVarsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearVarsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearVarsButton.ForeColor = System.Drawing.Color.Red;
+			this.clearVarsButton.Location = new System.Drawing.Point(10, 295);
+			this.clearVarsButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearVarsButton.Name = "clearVarsButton";
+			this.clearVarsButton.Size = new System.Drawing.Size(41, 41);
+			this.clearVarsButton.TabIndex = 6;
+			this.clearVarsButton.Text = "x";
+			this.clearVarsButton.UseVisualStyleBackColor = true;
+			this.clearVarsButton.Click += new System.EventHandler(this.clearVarsButtonClick);
+			// 
+			// localVarsListview
+			// 
+			this.localVarsListview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.localVarsListview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.varNameColumnHeader,
+            this.varContentColumnHeader});
+			this.localVarsListview.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.localVarsListview.FullRowSelect = true;
+			this.localVarsListview.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.localVarsListview.HideSelection = false;
+			this.localVarsListview.Location = new System.Drawing.Point(61, 193);
+			this.localVarsListview.Margin = new System.Windows.Forms.Padding(0);
+			this.localVarsListview.Name = "localVarsListview";
+			this.globalVarsTlp.SetRowSpan(this.localVarsListview, 6);
+			this.localVarsListview.ShowGroups = false;
+			this.localVarsListview.Size = new System.Drawing.Size(827, 279);
+			this.localVarsListview.TabIndex = 9;
+			this.localVarsListview.UseCompatibleStateImageBehavior = false;
+			this.localVarsListview.View = System.Windows.Forms.View.Details;
+			this.localVarsListview.SelectedIndexChanged += new System.EventHandler(this.localVarsListviewSelectedIndexChanged);
+			// 
+			// varNameColumnHeader
+			// 
+			this.varNameColumnHeader.Text = "Variablenname";
+			this.varNameColumnHeader.Width = 160;
+			// 
+			// varContentColumnHeader
+			// 
+			this.varContentColumnHeader.Text = "Variableninhalt";
+			this.varContentColumnHeader.Width = 450;
+			// 
+			// editVarGroupbox
+			// 
+			this.editVarGroupbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.editVarGroupbox.AutoSize = true;
+			this.editVarGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.globalVarsTlp.SetColumnSpan(this.editVarGroupbox, 3);
+			this.editVarGroupbox.Controls.Add(this.editVarsTlp);
+			this.editVarGroupbox.Enabled = false;
+			this.editVarGroupbox.Location = new System.Drawing.Point(10, 482);
+			this.editVarGroupbox.Margin = new System.Windows.Forms.Padding(0);
+			this.editVarGroupbox.Name = "editVarGroupbox";
+			this.editVarGroupbox.Size = new System.Drawing.Size(878, 132);
+			this.editVarGroupbox.TabIndex = 10;
+			this.editVarGroupbox.TabStop = false;
+			this.editVarGroupbox.Text = "Variable bearbeiten";
+			// 
+			// editVarsTlp
+			// 
+			this.editVarsTlp.AutoSize = true;
+			this.editVarsTlp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.editVarsTlp.ColumnCount = 5;
+			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.editVarsTlp.Controls.Add(this.varNameLabel, 1, 1);
+			this.editVarsTlp.Controls.Add(this.varContentLabel, 1, 3);
+			this.editVarsTlp.Controls.Add(this.saveVarButton, 3, 5);
+			this.editVarsTlp.Controls.Add(this.varNameTextbox, 3, 1);
+			this.editVarsTlp.Controls.Add(this.varContentTextbox, 3, 3);
+			this.editVarsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.editVarsTlp.Location = new System.Drawing.Point(3, 16);
+			this.editVarsTlp.Name = "editVarsTlp";
+			this.editVarsTlp.RowCount = 8;
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.editVarsTlp.Size = new System.Drawing.Size(872, 113);
+			this.editVarsTlp.TabIndex = 0;
+			// 
+			// varNameLabel
+			// 
+			this.varNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varNameLabel.AutoSize = true;
+			this.varNameLabel.Location = new System.Drawing.Point(7, 13);
+			this.varNameLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.varNameLabel.Name = "varNameLabel";
+			this.varNameLabel.Size = new System.Drawing.Size(83, 13);
+			this.varNameLabel.TabIndex = 0;
+			this.varNameLabel.Text = "Variablenname: ";
+			// 
+			// varContentLabel
+			// 
+			this.varContentLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varContentLabel.AutoSize = true;
+			this.varContentLabel.Location = new System.Drawing.Point(7, 49);
+			this.varContentLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.varContentLabel.Name = "varContentLabel";
+			this.varContentLabel.Size = new System.Drawing.Size(83, 13);
+			this.varContentLabel.TabIndex = 0;
+			this.varContentLabel.Text = "Variableninhalt: ";
+			// 
+			// saveVarButton
+			// 
+			this.saveVarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.saveVarButton.AutoSize = true;
+			this.saveVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.saveVarButton.Location = new System.Drawing.Point(765, 79);
+			this.saveVarButton.Margin = new System.Windows.Forms.Padding(0);
+			this.saveVarButton.Name = "saveVarButton";
+			this.saveVarButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
+			this.saveVarButton.Size = new System.Drawing.Size(100, 27);
+			this.saveVarButton.TabIndex = 2;
+			this.saveVarButton.Text = "Übernehmen";
+			this.saveVarButton.UseVisualStyleBackColor = true;
+			this.saveVarButton.Click += new System.EventHandler(this.saveVarButtonClick);
+			// 
+			// varNameTextbox
+			// 
+			this.varNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varNameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.varNameTextbox.Location = new System.Drawing.Point(100, 7);
+			this.varNameTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.varNameTextbox.Name = "varNameTextbox";
+			this.varNameTextbox.Size = new System.Drawing.Size(765, 26);
+			this.varNameTextbox.TabIndex = 4;
+			// 
+			// varContentTextbox
+			// 
+			this.varContentTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varContentTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.varContentTextbox.Location = new System.Drawing.Point(100, 43);
+			this.varContentTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.varContentTextbox.Name = "varContentTextbox";
+			this.varContentTextbox.Size = new System.Drawing.Size(765, 26);
+			this.varContentTextbox.TabIndex = 4;
+			// 
+			// globalVarsTextbox
+			// 
+			this.globalVarsTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.globalVarsTlp.SetColumnSpan(this.globalVarsTextbox, 3);
+			this.globalVarsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.globalVarsTextbox.Location = new System.Drawing.Point(10, 10);
+			this.globalVarsTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.globalVarsTextbox.Multiline = true;
+			this.globalVarsTextbox.Name = "globalVarsTextbox";
+			this.globalVarsTextbox.ReadOnly = true;
+			this.globalVarsTextbox.Size = new System.Drawing.Size(878, 155);
+			this.globalVarsTextbox.TabIndex = 11;
+			this.globalVarsTextbox.TabStop = false;
+			this.globalVarsTextbox.Text = resources.GetString("globalVarsTextbox.Text");
+			// 
+			// localVarsLabel
+			// 
+			this.localVarsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.localVarsLabel.AutoSize = true;
+			this.globalVarsTlp.SetColumnSpan(this.localVarsLabel, 3);
+			this.localVarsLabel.Location = new System.Drawing.Point(13, 175);
+			this.localVarsLabel.Name = "localVarsLabel";
+			this.localVarsLabel.Size = new System.Drawing.Size(872, 13);
+			this.localVarsLabel.TabIndex = 12;
+			this.localVarsLabel.Text = "Eigene Variablen:";
 			// 
 			// editTemplateLabel
 			// 
@@ -1209,7 +1495,7 @@
 			this.editTemplateLabel.Location = new System.Drawing.Point(10, 10);
 			this.editTemplateLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.editTemplateLabel.Name = "editTemplateLabel";
-			this.editTemplateLabel.Size = new System.Drawing.Size(656, 13);
+			this.editTemplateLabel.Size = new System.Drawing.Size(910, 13);
 			this.editTemplateLabel.TabIndex = 0;
 			this.editTemplateLabel.Text = "Template bearbeiten: ";
 			// 
@@ -1228,8 +1514,8 @@
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.editTemplateTableLayoutPanel);
-			this.splitContainer.Size = new System.Drawing.Size(965, 698);
-			this.splitContainer.SplitterDistance = 278;
+			this.splitContainer.Size = new System.Drawing.Size(1205, 770);
+			this.splitContainer.SplitterDistance = 264;
 			this.splitContainer.SplitterWidth = 11;
 			this.splitContainer.TabIndex = 1;
 			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
@@ -1238,7 +1524,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(965, 698);
+			this.ClientSize = new System.Drawing.Size(1205, 770);
 			this.Controls.Add(this.splitContainer);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "TemplateForm";
@@ -1262,8 +1548,15 @@
 			this.publishPanel.ResumeLayout(false);
 			this.publishPanel.PerformLayout();
 			this.otherTabPage.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this.otherTlp.ResumeLayout(false);
+			this.otherTlp.PerformLayout();
+			this.variablesTabpage.ResumeLayout(false);
+			this.globalVarsTlp.ResumeLayout(false);
+			this.globalVarsTlp.PerformLayout();
+			this.editVarGroupbox.ResumeLayout(false);
+			this.editVarGroupbox.PerformLayout();
+			this.editVarsTlp.ResumeLayout(false);
+			this.editVarsTlp.PerformLayout();
 			this.splitContainer.Panel1.ResumeLayout(false);
 			this.splitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
@@ -1327,7 +1620,7 @@
 		private System.Windows.Forms.Label maxTitleLengthLabel;
 		private System.Windows.Forms.Label maxDescriptionLengthLabel;
 		private System.Windows.Forms.Label maxTagsLengthLabel;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel otherTlp;
 		private System.Windows.Forms.Label categoryLabel;
 		private System.Windows.Forms.Label defaultLanguageLabel;
 		private System.Windows.Forms.Label licenseLabel;
@@ -1342,5 +1635,22 @@
 		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
 		private System.Windows.Forms.CheckBox stabilizeCheckbox;
+		private System.Windows.Forms.TabPage variablesTabpage;
+		private System.Windows.Forms.TableLayoutPanel globalVarsTlp;
+		private System.Windows.Forms.Button addVarButton;
+		private System.Windows.Forms.Button removeVarButton;
+		private System.Windows.Forms.Button clearVarsButton;
+		private System.Windows.Forms.ListView localVarsListview;
+		private System.Windows.Forms.ColumnHeader varNameColumnHeader;
+		private System.Windows.Forms.ColumnHeader varContentColumnHeader;
+		private System.Windows.Forms.GroupBox editVarGroupbox;
+		private System.Windows.Forms.TextBox globalVarsTextbox;
+		private System.Windows.Forms.TableLayoutPanel editVarsTlp;
+		private System.Windows.Forms.Label varNameLabel;
+		private System.Windows.Forms.Label varContentLabel;
+		private System.Windows.Forms.Button saveVarButton;
+		private System.Windows.Forms.TextBox varNameTextbox;
+		private System.Windows.Forms.TextBox varContentTextbox;
+		private System.Windows.Forms.Label localVarsLabel;
 	}
 }

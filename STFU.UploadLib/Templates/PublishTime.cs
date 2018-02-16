@@ -9,5 +9,10 @@ namespace STFU.UploadLib.Templates
 		public TimeSpan Time { get; set; }
 
 		public int SkipDays { get; set; }
+
+		public override string ToString()
+		{
+			return $"{DayOfWeek} {Time.ToString("HH:mm")} +{SkipDays}";
+		}
 	}
 }

@@ -103,7 +103,6 @@
 			// 
 			// btnStart
 			// 
-			this.btnStart.AutoSize = true;
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.btnStart.Enabled = false;
@@ -179,7 +178,6 @@
 			// lnklblCurrentLoggedIn
 			// 
 			this.lnklblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lnklblCurrentLoggedIn.AutoSize = true;
 			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(86, 293);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
@@ -279,7 +277,6 @@
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.AutoSize = true;
 			this.lblFinishAction.Location = new System.Drawing.Point(342, 293);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
@@ -306,7 +303,6 @@
 			// chbChoseProcesses
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbChoseProcesses.AutoSize = true;
 			this.chbChoseProcesses.Enabled = false;
 			this.chbChoseProcesses.Location = new System.Drawing.Point(651, 291);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
@@ -320,7 +316,6 @@
 			// btnChoseProcs
 			// 
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnChoseProcs.AutoSize = true;
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
 			this.btnChoseProcs.Location = new System.Drawing.Point(806, 286);

@@ -107,7 +107,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public Category[] AvailableCategories => ActiveAccount.AvailableCategories;
+		public Category[] AvailableCategories => ActiveAccount?.AvailableCategories ?? new Category[] { Category.Default };
 
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
 
@@ -249,7 +249,7 @@ namespace STFU.UploadLib.Automation
 					var categories = savedAccount.categories?.Select(c => new Category(c.id, c.title)).ToArray();
 					if (categories == null)
 					{
-						categories = new[] { new Category(20, "Gaming") };
+						categories = new[] { Category.Default };
 					}
 
 					var region = savedAccount.region;
@@ -292,7 +292,7 @@ namespace STFU.UploadLib.Automation
 				{
 					Debug.Write(ex.Message);
 
-					Languages = new List<Language>(new Language[] { new Language() { Id = "DE", Hl = "DE", Name = "Deutsch" } });
+					Languages = new List<Language>(new Language[] { Language.Default });
 					File.Delete(languagesPath);
 				}
 			}
@@ -416,7 +416,7 @@ namespace STFU.UploadLib.Automation
 			{
 				json = fileReader.ReadToEnd();
 			}
-			Templates = JsonConvert.DeserializeObject<Collection<Template>>(json);
+			Templates = new Collection<Template>(Template.ParseList(json));//JsonConvert.DeserializeObject<Collection<Template>>(json);
 		}
 
 		public string GetAuthLoginScreenUrl(bool showAuthToken, bool logout = false)
