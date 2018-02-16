@@ -607,10 +607,10 @@ namespace STFU.AutoUploader
 			localVarsListview.SelectedIndices.Clear();
 			localVarsListview.Items.Clear();
 
-			foreach (var variable in current.LocalVariables)
+			foreach (var variable in current.LocalVariables.OrderBy(v => v.Key))
 			{
-				ListViewItem item = new ListViewItem(variable.Key);
-				item.SubItems.Add(variable.Value);
+				ListViewItem item = new ListViewItem(variable.Value.Name);
+				item.SubItems.Add(variable.Value.Content);
 				localVarsListview.Items.Add(item);
 			}
 		}
@@ -633,6 +633,7 @@ namespace STFU.AutoUploader
 		private void clearVarsButtonClick(object sender, EventArgs e)
 		{
 			current.ClearVariables();
+			RefillVariablesListView();
 		}
 
 		private void RefillEditVarBox()
@@ -641,7 +642,7 @@ namespace STFU.AutoUploader
 			{
 				string varName = localVarsListview.SelectedItems[0].Text;
 				varNameTextbox.Text = varName;
-				varContentTextbox.Text = current.LocalVariables[varName];
+				varContentTextbox.Text = current.LocalVariables[varName.ToLower()].Content;
 			}
 			else
 			{

@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using STFU.UploadLib.Communication.Youtube.Serializable;
+using STFU.UploadLib.Variables;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Templates
@@ -51,21 +52,21 @@ namespace STFU.UploadLib.Templates
 
 		public bool ShouldPublishAt { get; set; }
 
-		private Dictionary<string, string> localVars = new Dictionary<string, string>();
+		private Dictionary<string, Variable> localVars = new Dictionary<string, Variable>();
 
-		private Dictionary<string, string> LocalVars { get { return localVars; } set { localVars = value; } }
+		private Dictionary<string, Variable> LocalVars { get { return localVars; } set { localVars = value; } }
 
-		// TODO: Variablen Case-insensitive machen!
+		// TODO: Globale Variablen in die programmatische API mitaufnehmen.
 		private static Dictionary<string, string> GlobalVars => new Dictionary<string, string>() {
-			{ "file", "" },
-			{ "fileName", "" },
-			{ "fileExt", "" },
-			{ "fileNameExt", "" },
-			{ "folder", "" },
-			{ "folderName", "" },
-			{ "template", "" } };
+			{ "file", string.Empty },
+			{ "filename", string.Empty },
+			{ "fileext", string.Empty },
+			{ "filenameext", string.Empty },
+			{ "folder", string.Empty },
+			{ "foldername", string.Empty },
+			{ "template", string.Empty } };
 
-		public IReadOnlyDictionary<string, string> LocalVariables => new ReadOnlyDictionary<string, string>(LocalVars);
+		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
 
 		public static IReadOnlyDictionary<string, string> GlobalVariables => new ReadOnlyDictionary<string, string>(GlobalVars);
 
@@ -117,17 +118,18 @@ namespace STFU.UploadLib.Templates
 				name = $"var{number}";
 			}
 
-			AddVariable(name, "");
+			AddVariable(name, string.Empty);
 		}
 
 		public string RenameVariable(string oldName, string newName)
 		{
 			string currentVarName = oldName;
 
-			if (!GlobalVariables.ContainsKey(newName) && !LocalVariables.ContainsKey(newName))
+			if (!GlobalVariables.ContainsKey(newName.ToLower()) && !LocalVariables.ContainsKey(newName.ToLower()))
 			{
-				LocalVars.Add(newName, LocalVariables[oldName]);
-				RemoveVariable(oldName);
+				LocalVars.Add(newName.ToLower(), LocalVariables[oldName.ToLower()]);
+				LocalVars[newName.ToLower()].Name = newName;
+				RemoveVariable(oldName.ToLower());
 				currentVarName = newName;
 			}
 
@@ -136,25 +138,25 @@ namespace STFU.UploadLib.Templates
 
 		public void AddVariable(string name, string content)
 		{
-			if (!GlobalVariables.ContainsKey(name) && !LocalVariables.ContainsKey(name))
+			if (!GlobalVariables.ContainsKey(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
 			{
-				LocalVars.Add(name, content);
+				LocalVars.Add(name.ToLower(), new Variable(name, content));
 			}
 		}
 
 		public void EditVariable(string name, string newValue)
 		{
-			if (LocalVariables.ContainsKey(name))
+			if (LocalVariables.ContainsKey(name.ToLower()))
 			{
-				LocalVars[name] = newValue;
+				LocalVars[name.ToLower()].Content = newValue;
 			}
 		}
 
 		public void RemoveVariable(string name)
 		{
-			if (LocalVariables.ContainsKey(name))
+			if (LocalVariables.ContainsKey(name.ToLower()))
 			{
-				LocalVars.Remove(name);
+				LocalVars.Remove(name.ToLower());
 			}
 		}
 
@@ -180,7 +182,7 @@ namespace STFU.UploadLib.Templates
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
 				IsEmbeddable = template.IsEmbeddable,
-				LocalVars = template.LocalVars.ToDictionary(t => $"{t.Key}", p => $"{p.Value}"),
+				LocalVars = template.LocalVars.ToDictionary(t => $"{t.Key.ToLower()}", p => new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
 				License = template.License,
 				NotifySubscribers = template.NotifySubscribers,
 				Privacy = template.Privacy,
@@ -304,15 +306,15 @@ namespace STFU.UploadLib.Templates
 			return times;
 		}
 
-		private static Dictionary<string, string> ReadLocalVars(JToken item)
+		private static Dictionary<string, Variable> ReadLocalVars(JToken item)
 		{
-			var localVarDict = new Dictionary<string, string>();
+			var localVarDict = new Dictionary<string, Variable>();
 
 			foreach (var child in item.Children<JProperty>())
 			{
 				if (!localVarDict.ContainsKey(child.Name))
 				{
-					localVarDict.Add(child.Name, (string)child.Value);
+					localVarDict.Add(child.Name, Variable.Parse(child.Value));
 				}
 			}
 

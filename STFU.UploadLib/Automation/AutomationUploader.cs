@@ -416,7 +416,7 @@ namespace STFU.UploadLib.Automation
 			{
 				json = fileReader.ReadToEnd();
 			}
-			Templates = new Collection<Template>(Template.ParseList(json));//JsonConvert.DeserializeObject<Collection<Template>>(json);
+			Templates = new Collection<Template>(Template.ParseList(json));
 		}
 
 		public string GetAuthLoginScreenUrl(bool showAuthToken, bool logout = false)
