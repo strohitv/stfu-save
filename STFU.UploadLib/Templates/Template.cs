@@ -130,7 +130,8 @@ namespace STFU.UploadLib.Templates
 		{
 			if (!ReservedNames.Contains(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
 			{
-				LocalVars.Add(name.ToLower(), new Variable(name, content));
+				var newVar = new Variable(name, content);
+				LocalVars.Add(newVar.Name.ToLower(), newVar);
 			}
 		}
 
@@ -172,7 +173,7 @@ namespace STFU.UploadLib.Templates
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
 				IsEmbeddable = template.IsEmbeddable,
-				LocalVars = template.LocalVars.ToDictionary(t => $"{t.Key.ToLower()}", p => new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
+				LocalVars = template.LocalVars.ToDictionary(t => $"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}", p => new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
 				License = template.License,
 				NotifySubscribers = template.NotifySubscribers,
 				Privacy = template.Privacy,

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,9 +16,24 @@ namespace STFU.UploadLib.Programming
 		private Variable() { }
 
 		public Variable(string name, string content)
+			: this(name, content, false)
 		{
+		}
+
+		internal Variable(string name, string content, bool skipNameCheck)
+		{
+			if (!skipNameCheck)
+			{
+				name = createAllowedName(name);
+			}
+
 			Name = name;
 			Content = content;
+		}
+
+		private string createAllowedName(string name)
+		{
+			return string.Join(string.Empty, name.Where(n => char.IsLetterOrDigit(n)));
 		}
 
 		public override string ToString()
