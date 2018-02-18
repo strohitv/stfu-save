@@ -337,6 +337,11 @@ namespace STFU.AutoUploader
 
 		private void saveTemplateButtonClick(object sender, EventArgs e)
 		{
+			if (editVarGroupbox.Enabled == true)
+			{
+				saveVarButtonClick(sender, e);
+			}
+
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				reordering = true;

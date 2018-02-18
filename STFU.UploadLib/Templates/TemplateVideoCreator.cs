@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using STFU.UploadLib.Programming;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Templates
@@ -21,9 +22,11 @@ namespace STFU.UploadLib.Templates
 			var publishInfo = Paths.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishInfo.Template;
 
+			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.LocalVariables);
+
 			// Werte füllen
-			video.Title = template.Title;
-			video.Description = template.Description;
+			video.Title = CutOff(evaluator.Evaluate(template.Title), Video.MaxTitleLength);
+			video.Description = CutOff(evaluator.Evaluate(template.Description), Video.MaxDescriptionLength);
 			video.Category = template.Category;
 			video.DefaultLanguage = template.DefaultLanguage;
 
@@ -45,12 +48,22 @@ namespace STFU.UploadLib.Templates
 				video.PublishAt = publishInfo.GetNextPublishTime();
 			}
 
-			foreach (var tag in template.Tags.Split(','))
+			foreach (var tag in CutOff(evaluator.Evaluate(template.Tags), Video.MaxTagsLength).Split(','))
 			{
 				video.Tags.Add(tag);
 			}
 
 			return video;
+		}
+
+		private string CutOff(string value, int maxlength)
+		{
+			if (value.Length > maxlength)
+			{
+				value = value.Substring(0, maxlength);
+			}
+
+			return value;
 		}
 	}
 }
