@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace STFU.UploadLib.Programming
 {
@@ -161,21 +163,157 @@ namespace STFU.UploadLib.Programming
 			switch (function.ToLower())
 			{
 				case "readfile":
-					if (arguments.Count == 1 && File.Exists(arguments.First()))
-					{
-						using (StreamReader reader = new StreamReader(arguments.First()))
-						{
-							StringBuilder builder = new StringBuilder();
-							while (builder.Length < 5000 && reader.Peek() >= 0)
-							{
-								builder.Append((char)reader.Read());
-							}
-							result = builder.ToString();
-						}
-					}
+					result = ReadFile(result, arguments);
+					break;
+				case "findnumber":
+					result = FindNumber(result, arguments);
+					break;
+				case "substring":
+					result = FindSubstring(result, arguments);
+					break;
+				case "removeleadingzeros":
+					result = RemoveLeadingZeros(result);
+					break;
+				case "getpassage":
+					result = GetPassage(result, arguments);
 					break;
 				default:
 					break;
+			}
+
+			return result;
+		}
+
+		private static string GetPassage(string result, List<string> arguments)
+		{
+			if (arguments.Count > 0)
+			{
+				string passageName = arguments.First();
+
+				var splits = result.Split(new[] { $"<{passageName}>" }, StringSplitOptions.None);
+				if (splits.Length > 1)
+				{
+					result = splits[1];
+				}
+			}
+
+			return result;
+		}
+
+		private static string RemoveLeadingZeros(string result)
+		{
+			int removecount = 0;
+			for (int i = 0; i < result.Length; i++)
+			{
+				if (result[i] == '0')
+				{
+					removecount++;
+				}
+				else
+				{
+					break;
+				}
+			}
+			result = result.Substring(removecount);
+
+			if (result.Length == 0 && removecount > 0)
+			{
+				result = "0";
+			}
+
+			return result;
+		}
+
+		private static string FindSubstring(string result, List<string> arguments)
+		{
+			int start = 0;
+			int end = 0;
+			if (arguments.Count == 1 && int.TryParse(arguments.First(), out end) && end >= 0)
+			{
+				// kein <= weil result.substring(0, end) == result, wenn end == result.length
+				// => unnötige Operation
+				if (end < result.Length)
+				{
+					result = result.Substring(0, end);
+				}
+			}
+			else if (arguments.Count > 1 
+				&& int.TryParse(arguments[0], out start) 
+				&& int.TryParse(arguments[1], out end) 
+				&& start >= 0 
+				&& end >= start)
+			{
+				if (start <= result.Length - 1)
+				{
+					if (start + end < result.Length)
+					{
+						result = result.Substring(start, end);
+					}
+					else
+					{
+						result = result.Substring(start, result.Length - start);
+					}
+				}
+				else
+				{
+					result = string.Empty;
+				}
+			}
+
+			return result;
+		}
+
+		private static string FindNumber(string result, List<string> arguments)
+		{
+			int numberToFind = 0;
+			if (arguments.Count > 0)
+			{
+				int.TryParse(arguments.First(), out numberToFind);
+				numberToFind--;
+			}
+
+			var decimalSeparator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+
+			var numbers = new List<string>();
+			bool decimalSeparatorAppeared = false;
+			StringBuilder currentNumber = new StringBuilder();
+			foreach (var letter in result)
+			{
+				if (char.IsDigit(letter))
+				{
+					currentNumber.Append(letter);
+				}
+				else if (!decimalSeparatorAppeared && letter == decimalSeparator)
+				{
+					decimalSeparatorAppeared = true;
+					currentNumber.Append(letter);
+				}
+				else if (currentNumber.Length > 0)
+				{
+					numbers.Add(currentNumber.ToString());
+					decimalSeparatorAppeared = false;
+					currentNumber = new StringBuilder();
+				}
+			}
+
+			result = string.Empty;
+			if (numbers.Count >= numberToFind + 1)
+			{
+				result = numbers[numberToFind];
+			}
+
+			return result;
+		}
+
+		private static string ReadFile(string result, List<string> arguments)
+		{
+			if (arguments.Count > 0 && File.Exists(arguments.First()))
+			{
+				using (StreamReader reader = new StreamReader(arguments.First()))
+				{
+					// Keine Begrenzung auf 5k Zeichen, da er ja möglicherweise eine Passage lesen will.
+					result = reader.ReadToEnd();
+				}
 			}
 
 			return result;

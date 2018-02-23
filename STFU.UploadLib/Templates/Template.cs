@@ -55,7 +55,7 @@ namespace STFU.UploadLib.Templates
 		private Dictionary<string, Variable> localVars = new Dictionary<string, Variable>();
 
 		private Dictionary<string, Variable> LocalVars { get { return localVars; } set { localVars = value; } }
-		
+
 		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
 
 		public static IReadOnlyList<string> ReservedNames => Variable.ReservedNames;
@@ -173,7 +173,9 @@ namespace STFU.UploadLib.Templates
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
 				IsEmbeddable = template.IsEmbeddable,
-				LocalVars = template.LocalVars.ToDictionary(t => $"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}", p => new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
+				LocalVars = template.LocalVars.ToDictionary(t =>
+					$"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}", p =>
+						new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
 				License = template.License,
 				NotifySubscribers = template.NotifySubscribers,
 				Privacy = template.Privacy,
