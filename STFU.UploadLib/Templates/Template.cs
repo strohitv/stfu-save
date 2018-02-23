@@ -58,7 +58,7 @@ namespace STFU.UploadLib.Templates
 
 		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
 
-		public static IReadOnlyList<string> ReservedNames => Variable.ReservedNames;
+		public static IReadOnlyDictionary<string, Func<string, string, string>> GlobalVariables => Variable.GlobalVariables;
 
 		public IList<PublishTime> PublishTimes
 		{
@@ -115,7 +115,7 @@ namespace STFU.UploadLib.Templates
 		{
 			string currentVarName = oldName;
 
-			if (!ReservedNames.Contains(newName.ToLower()) && !LocalVariables.ContainsKey(newName.ToLower()))
+			if (!GlobalVariables.ContainsKey(newName.ToLower()) && !LocalVariables.ContainsKey(newName.ToLower()))
 			{
 				LocalVars.Add(newName.ToLower(), LocalVariables[oldName.ToLower()]);
 				LocalVars[newName.ToLower()].Name = newName;
@@ -128,7 +128,7 @@ namespace STFU.UploadLib.Templates
 
 		public void AddVariable(string name, string content)
 		{
-			if (!ReservedNames.Contains(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
+			if (!GlobalVariables.ContainsKey(name.ToLower()) && !LocalVariables.ContainsKey(name.ToLower()))
 			{
 				var newVar = new Variable(name, content);
 				LocalVars.Add(newVar.Name.ToLower(), newVar);

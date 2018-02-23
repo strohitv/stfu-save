@@ -124,35 +124,9 @@ namespace STFU.UploadLib.Programming
 			{
 				result = Evaluate(Variables[identifier.ToLower()].Content);
 			}
-			else
+			else if (Variable.GlobalVariables.ContainsKey(identifier.ToLower()))
 			{
-				switch (identifier.ToLower())
-				{
-					case "file":
-						result = FilePath;
-						break;
-					case "filename":
-						result = Path.GetFileNameWithoutExtension(FilePath);
-						break;
-					case "fileext":
-						result = new FileInfo(FilePath).Extension;
-						break;
-					case "filenameext":
-						result = new FileInfo(FilePath).Name;
-						break;
-					case "folder":
-						result = new FileInfo(FilePath).DirectoryName;
-						break;
-					case "foldername":
-						result = new FileInfo(FilePath).Directory.Name;
-						break;
-					case "template":
-						result = TemplateName;
-						break;
-
-					default:
-						break;
-				}
+				result = Variable.GlobalVariables[identifier.ToLower()](FilePath, TemplateName);
 			}
 
 			return result;

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -61,14 +64,16 @@ namespace STFU.UploadLib.Programming
 			return variable;
 		}
 
-		public static IReadOnlyList<string> ReservedNames => new List<string>() {
-			"file",
-			"filename",
-			"fileext",
-			"filenameext",
-			"folder",
-			"foldername",
-			"template"
-		}.AsReadOnly();
+		public static IReadOnlyDictionary<string, Func<string, string, string>> GlobalVariables =>
+			new ReadOnlyDictionary<string, Func<string, string, string>>(new Dictionary<string, Func<string, string, string>>
+		{
+			{ "file", (path, template) => path },
+			{ "filename", (path, template) => Path.GetFileNameWithoutExtension(path) },
+			{ "fileext", (path, template) => new FileInfo(path).Extension },
+			{ "filenameext", (path, template) => new FileInfo(path).Name },
+			{ "folder", (path, template) => new FileInfo(path).DirectoryName },
+			{ "foldername", (path, template) => new FileInfo(path).Directory.Name },
+			{ "template", (path, template) => template }
+		});
 	}
 }
