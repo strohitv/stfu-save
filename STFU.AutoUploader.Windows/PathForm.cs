@@ -71,11 +71,11 @@ namespace STFU.AutoUploader
 
 			if (uploader.Templates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Id == selectedItem.SelectedTemplateId));
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.ToList().IndexOf(uploader.Templates.First(t => t.Id == selectedItem.SelectedTemplateId));
 			}
 			else
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.IndexOf(uploader.Templates.First(t => t.Id == 0));
+				cobSelectedTemplate.SelectedIndex = uploader.Templates.ToList().IndexOf(uploader.Templates.First(t => t.Id == 0));
 			}
 		}
 

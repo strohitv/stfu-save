@@ -31,13 +31,14 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TemplateForm));
 			this.templateOverviewTableLayouPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.addPathButton = new System.Windows.Forms.Button();
-			this.movePathUpButton = new System.Windows.Forms.Button();
-			this.movePathDownButton = new System.Windows.Forms.Button();
-			this.deletePathButton = new System.Windows.Forms.Button();
-			this.clearButton = new System.Windows.Forms.Button();
+			this.addTemplateButton = new System.Windows.Forms.Button();
+			this.moveTemplateUpButton = new System.Windows.Forms.Button();
+			this.moveTemplateDownButton = new System.Windows.Forms.Button();
+			this.deleteTemplateButton = new System.Windows.Forms.Button();
+			this.clearTemplatesButton = new System.Windows.Forms.Button();
 			this.templateListView = new System.Windows.Forms.ListView();
 			this.templatesColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.duplicateTemplateButton = new System.Windows.Forms.Button();
 			this.editTemplateTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.templateNameLabel = new System.Windows.Forms.Label();
 			this.templateNameTextbox = new System.Windows.Forms.TextBox();
@@ -145,17 +146,20 @@
 			this.templateOverviewTableLayouPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.templateOverviewTableLayouPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.templateOverviewTableLayouPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.templateOverviewTableLayouPanel.Controls.Add(this.addPathButton, 1, 1);
-			this.templateOverviewTableLayouPanel.Controls.Add(this.movePathUpButton, 1, 3);
-			this.templateOverviewTableLayouPanel.Controls.Add(this.movePathDownButton, 1, 5);
-			this.templateOverviewTableLayouPanel.Controls.Add(this.deletePathButton, 1, 7);
-			this.templateOverviewTableLayouPanel.Controls.Add(this.clearButton, 1, 9);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.addTemplateButton, 1, 1);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.moveTemplateUpButton, 1, 5);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.moveTemplateDownButton, 1, 7);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.deleteTemplateButton, 1, 9);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.clearTemplatesButton, 1, 11);
 			this.templateOverviewTableLayouPanel.Controls.Add(this.templateListView, 3, 1);
+			this.templateOverviewTableLayouPanel.Controls.Add(this.duplicateTemplateButton, 1, 3);
 			this.templateOverviewTableLayouPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateOverviewTableLayouPanel.Location = new System.Drawing.Point(0, 0);
 			this.templateOverviewTableLayouPanel.Margin = new System.Windows.Forms.Padding(2);
 			this.templateOverviewTableLayouPanel.Name = "templateOverviewTableLayouPanel";
-			this.templateOverviewTableLayouPanel.RowCount = 12;
+			this.templateOverviewTableLayouPanel.RowCount = 14;
+			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -171,88 +175,88 @@
 			this.templateOverviewTableLayouPanel.Size = new System.Drawing.Size(264, 770);
 			this.templateOverviewTableLayouPanel.TabIndex = 0;
 			// 
-			// addPathButton
+			// addTemplateButton
 			// 
-			this.addPathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.addPathButton.AutoSize = true;
-			this.addPathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addPathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.addPathButton.ForeColor = System.Drawing.Color.ForestGreen;
-			this.addPathButton.Location = new System.Drawing.Point(10, 10);
-			this.addPathButton.Margin = new System.Windows.Forms.Padding(0);
-			this.addPathButton.Name = "addPathButton";
-			this.addPathButton.Size = new System.Drawing.Size(52, 41);
-			this.addPathButton.TabIndex = 2;
-			this.addPathButton.Text = "+";
-			this.tooltip.SetToolTip(this.addPathButton, "Neues Template hinzufügen");
-			this.addPathButton.UseVisualStyleBackColor = true;
-			this.addPathButton.Click += new System.EventHandler(this.addPathButtonClick);
+			this.addTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addTemplateButton.AutoSize = true;
+			this.addTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addTemplateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addTemplateButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.addTemplateButton.Location = new System.Drawing.Point(10, 10);
+			this.addTemplateButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addTemplateButton.Name = "addTemplateButton";
+			this.addTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.addTemplateButton.TabIndex = 2;
+			this.addTemplateButton.Text = "+";
+			this.tooltip.SetToolTip(this.addTemplateButton, "Neues Template hinzufügen");
+			this.addTemplateButton.UseVisualStyleBackColor = true;
+			this.addTemplateButton.Click += new System.EventHandler(this.addTemplateButtonClick);
 			// 
-			// movePathUpButton
+			// moveTemplateUpButton
 			// 
-			this.movePathUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.movePathUpButton.AutoSize = true;
-			this.movePathUpButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.movePathUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.movePathUpButton.Location = new System.Drawing.Point(10, 61);
-			this.movePathUpButton.Margin = new System.Windows.Forms.Padding(0);
-			this.movePathUpButton.Name = "movePathUpButton";
-			this.movePathUpButton.Size = new System.Drawing.Size(52, 41);
-			this.movePathUpButton.TabIndex = 3;
-			this.movePathUpButton.Text = "↑";
-			this.tooltip.SetToolTip(this.movePathUpButton, "Markiertes Template um eine Position nach oben verschieben");
-			this.movePathUpButton.UseVisualStyleBackColor = true;
-			this.movePathUpButton.Click += new System.EventHandler(this.movePathUpButtonClick);
+			this.moveTemplateUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.moveTemplateUpButton.AutoSize = true;
+			this.moveTemplateUpButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveTemplateUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.moveTemplateUpButton.Location = new System.Drawing.Point(10, 112);
+			this.moveTemplateUpButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveTemplateUpButton.Name = "moveTemplateUpButton";
+			this.moveTemplateUpButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateUpButton.TabIndex = 3;
+			this.moveTemplateUpButton.Text = "↑";
+			this.tooltip.SetToolTip(this.moveTemplateUpButton, "Markiertes Template um eine Position nach oben verschieben");
+			this.moveTemplateUpButton.UseVisualStyleBackColor = true;
+			this.moveTemplateUpButton.Click += new System.EventHandler(this.moveTemplateUpButtonClick);
 			// 
-			// movePathDownButton
+			// moveTemplateDownButton
 			// 
-			this.movePathDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.movePathDownButton.AutoSize = true;
-			this.movePathDownButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.movePathDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.movePathDownButton.Location = new System.Drawing.Point(10, 112);
-			this.movePathDownButton.Margin = new System.Windows.Forms.Padding(0);
-			this.movePathDownButton.Name = "movePathDownButton";
-			this.movePathDownButton.Size = new System.Drawing.Size(52, 41);
-			this.movePathDownButton.TabIndex = 4;
-			this.movePathDownButton.Text = "↓";
-			this.tooltip.SetToolTip(this.movePathDownButton, "Markiertes Template um eine Position nach unten verschieben");
-			this.movePathDownButton.UseVisualStyleBackColor = true;
-			this.movePathDownButton.Click += new System.EventHandler(this.movePathDownButtonClick);
+			this.moveTemplateDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.moveTemplateDownButton.AutoSize = true;
+			this.moveTemplateDownButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveTemplateDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.moveTemplateDownButton.Location = new System.Drawing.Point(10, 163);
+			this.moveTemplateDownButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveTemplateDownButton.Name = "moveTemplateDownButton";
+			this.moveTemplateDownButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateDownButton.TabIndex = 4;
+			this.moveTemplateDownButton.Text = "↓";
+			this.tooltip.SetToolTip(this.moveTemplateDownButton, "Markiertes Template um eine Position nach unten verschieben");
+			this.moveTemplateDownButton.UseVisualStyleBackColor = true;
+			this.moveTemplateDownButton.Click += new System.EventHandler(this.moveTemplateDownButtonClick);
 			// 
-			// deletePathButton
+			// deleteTemplateButton
 			// 
-			this.deletePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.deletePathButton.AutoSize = true;
-			this.deletePathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.deletePathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.deletePathButton.ForeColor = System.Drawing.Color.Red;
-			this.deletePathButton.Location = new System.Drawing.Point(10, 163);
-			this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
-			this.deletePathButton.Name = "deletePathButton";
-			this.deletePathButton.Size = new System.Drawing.Size(52, 41);
-			this.deletePathButton.TabIndex = 5;
-			this.deletePathButton.Text = "-";
-			this.tooltip.SetToolTip(this.deletePathButton, "Markiertes Template löschen");
-			this.deletePathButton.UseVisualStyleBackColor = true;
-			this.deletePathButton.Click += new System.EventHandler(this.deletePathButtonClick);
+			this.deleteTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.deleteTemplateButton.AutoSize = true;
+			this.deleteTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.deleteTemplateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.deleteTemplateButton.ForeColor = System.Drawing.Color.Red;
+			this.deleteTemplateButton.Location = new System.Drawing.Point(10, 214);
+			this.deleteTemplateButton.Margin = new System.Windows.Forms.Padding(0);
+			this.deleteTemplateButton.Name = "deleteTemplateButton";
+			this.deleteTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.deleteTemplateButton.TabIndex = 5;
+			this.deleteTemplateButton.Text = "-";
+			this.tooltip.SetToolTip(this.deleteTemplateButton, "Markiertes Template löschen");
+			this.deleteTemplateButton.UseVisualStyleBackColor = true;
+			this.deleteTemplateButton.Click += new System.EventHandler(this.deleteTemplateButtonClick);
 			// 
-			// clearButton
+			// clearTemplatesButton
 			// 
-			this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.clearButton.AutoSize = true;
-			this.clearButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.clearButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.clearButton.ForeColor = System.Drawing.Color.Red;
-			this.clearButton.Location = new System.Drawing.Point(10, 214);
-			this.clearButton.Margin = new System.Windows.Forms.Padding(0);
-			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(52, 41);
-			this.clearButton.TabIndex = 6;
-			this.clearButton.Text = "x";
-			this.tooltip.SetToolTip(this.clearButton, "Alle Templates löschen");
-			this.clearButton.UseVisualStyleBackColor = true;
-			this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
+			this.clearTemplatesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearTemplatesButton.AutoSize = true;
+			this.clearTemplatesButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearTemplatesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearTemplatesButton.ForeColor = System.Drawing.Color.Red;
+			this.clearTemplatesButton.Location = new System.Drawing.Point(10, 265);
+			this.clearTemplatesButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearTemplatesButton.Name = "clearTemplatesButton";
+			this.clearTemplatesButton.Size = new System.Drawing.Size(45, 41);
+			this.clearTemplatesButton.TabIndex = 6;
+			this.clearTemplatesButton.Text = "x";
+			this.tooltip.SetToolTip(this.clearTemplatesButton, "Alle Templates löschen");
+			this.clearTemplatesButton.UseVisualStyleBackColor = true;
+			this.clearTemplatesButton.Click += new System.EventHandler(this.clearTemplatesButtonClick);
 			// 
 			// templateListView
 			// 
@@ -262,14 +266,14 @@
 			this.templateListView.FullRowSelect = true;
 			this.templateListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.templateListView.HideSelection = false;
-			this.templateListView.Location = new System.Drawing.Point(72, 10);
+			this.templateListView.Location = new System.Drawing.Point(65, 10);
 			this.templateListView.Margin = new System.Windows.Forms.Padding(0);
 			this.templateListView.MinimumSize = new System.Drawing.Size(188, 4);
 			this.templateListView.MultiSelect = false;
 			this.templateListView.Name = "templateListView";
-			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 10);
+			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 12);
 			this.templateListView.ShowGroups = false;
-			this.templateListView.Size = new System.Drawing.Size(188, 750);
+			this.templateListView.Size = new System.Drawing.Size(189, 750);
 			this.templateListView.TabIndex = 7;
 			this.templateListView.UseCompatibleStateImageBehavior = false;
 			this.templateListView.View = System.Windows.Forms.View.Details;
@@ -279,6 +283,23 @@
 			// 
 			this.templatesColumnHeader.Text = "Template";
 			this.templatesColumnHeader.Width = 150;
+			// 
+			// duplicateTemplateButton
+			// 
+			this.duplicateTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.duplicateTemplateButton.AutoSize = true;
+			this.duplicateTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.duplicateTemplateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.duplicateTemplateButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.duplicateTemplateButton.Location = new System.Drawing.Point(10, 61);
+			this.duplicateTemplateButton.Margin = new System.Windows.Forms.Padding(0);
+			this.duplicateTemplateButton.Name = "duplicateTemplateButton";
+			this.duplicateTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.duplicateTemplateButton.TabIndex = 2;
+			this.duplicateTemplateButton.Text = "⁂";
+			this.tooltip.SetToolTip(this.duplicateTemplateButton, "Erstellt eine Kopie des ausgewählten Templates");
+			this.duplicateTemplateButton.UseVisualStyleBackColor = true;
+			this.duplicateTemplateButton.Click += new System.EventHandler(this.duplicateTemplateButtonClick);
 			// 
 			// editTemplateTableLayoutPanel
 			// 
@@ -726,12 +747,12 @@
 			this.timesListView.FullRowSelect = true;
 			this.timesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.timesListView.HideSelection = false;
-			this.timesListView.Location = new System.Drawing.Point(62, 7);
+			this.timesListView.Location = new System.Drawing.Point(53, 7);
 			this.timesListView.Margin = new System.Windows.Forms.Padding(0);
 			this.timesListView.Name = "timesListView";
 			this.publishPanel.SetRowSpan(this.timesListView, 16);
 			this.timesListView.ShowGroups = false;
-			this.timesListView.Size = new System.Drawing.Size(817, 475);
+			this.timesListView.Size = new System.Drawing.Size(826, 475);
 			this.timesListView.TabIndex = 8;
 			this.timesListView.UseCompatibleStateImageBehavior = false;
 			this.timesListView.View = System.Windows.Forms.View.Details;
@@ -762,7 +783,7 @@
 			this.moveTimeUpButton.Location = new System.Drawing.Point(5, 7);
 			this.moveTimeUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeUpButton.Name = "moveTimeUpButton";
-			this.moveTimeUpButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeUpButton.Size = new System.Drawing.Size(43, 41);
 			this.moveTimeUpButton.TabIndex = 3;
 			this.moveTimeUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTimeUpButton, "Markierte Zeiten um eine Position nach oben verschieben");
@@ -780,7 +801,7 @@
 			this.moveTimeDownButton.Location = new System.Drawing.Point(5, 58);
 			this.moveTimeDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeDownButton.Name = "moveTimeDownButton";
-			this.moveTimeDownButton.Size = new System.Drawing.Size(52, 41);
+			this.moveTimeDownButton.Size = new System.Drawing.Size(43, 41);
 			this.moveTimeDownButton.TabIndex = 4;
 			this.moveTimeDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTimeDownButton, "Markierte Zeiten um eine Position nach unten verschieben");
@@ -799,7 +820,7 @@
 			this.addOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneDayButton.Name = "addOneDayButton";
 			this.addOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneDayButton.Size = new System.Drawing.Size(43, 42);
 			this.addOneDayButton.TabIndex = 3;
 			this.addOneDayButton.Text = "+1";
 			this.tooltip.SetToolTip(this.addOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
@@ -819,7 +840,7 @@
 			this.substractOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneDayButton.Name = "substractOneDayButton";
 			this.substractOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneDayButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneDayButton.Size = new System.Drawing.Size(43, 42);
 			this.substractOneDayButton.TabIndex = 4;
 			this.substractOneDayButton.Text = "-1";
 			this.tooltip.SetToolTip(this.substractOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
@@ -839,7 +860,7 @@
 			this.clearTimesButton.Location = new System.Drawing.Point(5, 368);
 			this.clearTimesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTimesButton.Name = "clearTimesButton";
-			this.clearTimesButton.Size = new System.Drawing.Size(52, 41);
+			this.clearTimesButton.Size = new System.Drawing.Size(43, 41);
 			this.clearTimesButton.TabIndex = 6;
 			this.clearTimesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTimesButton, "Alle Zeiten löschen");
@@ -858,7 +879,7 @@
 			this.deleteTimeButton.Location = new System.Drawing.Point(5, 317);
 			this.deleteTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTimeButton.Name = "deleteTimeButton";
-			this.deleteTimeButton.Size = new System.Drawing.Size(52, 41);
+			this.deleteTimeButton.Size = new System.Drawing.Size(43, 41);
 			this.deleteTimeButton.TabIndex = 5;
 			this.deleteTimeButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTimeButton, "Markierte Zeiten löschen");
@@ -877,7 +898,7 @@
 			this.addOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneWeekButton.Name = "addOneWeekButton";
 			this.addOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.addOneWeekButton.Size = new System.Drawing.Size(43, 42);
 			this.addOneWeekButton.TabIndex = 3;
 			this.addOneWeekButton.Text = "+7";
 			this.tooltip.SetToolTip(this.addOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
@@ -897,7 +918,7 @@
 			this.substractOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneWeekButton.Name = "substractOneWeekButton";
 			this.substractOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneWeekButton.Size = new System.Drawing.Size(52, 42);
+			this.substractOneWeekButton.Size = new System.Drawing.Size(43, 42);
 			this.substractOneWeekButton.TabIndex = 4;
 			this.substractOneWeekButton.Text = "-7";
 			this.tooltip.SetToolTip(this.substractOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
@@ -909,7 +930,7 @@
 			// 
 			this.addTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeLabel.AutoSize = true;
-			this.addTimeLabel.Location = new System.Drawing.Point(259, 499);
+			this.addTimeLabel.Location = new System.Drawing.Point(250, 499);
 			this.addTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeLabel.Name = "addTimeLabel";
 			this.addTimeLabel.Size = new System.Drawing.Size(31, 13);
@@ -921,7 +942,7 @@
 			this.addTimeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeButton.AutoSize = true;
 			this.addTimeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTimeButton.Location = new System.Drawing.Point(384, 492);
+			this.addTimeButton.Location = new System.Drawing.Point(375, 492);
 			this.addTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeButton.Name = "addTimeButton";
 			this.addTimeButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -946,7 +967,7 @@
             "Freitag",
             "Samstag",
             "Sonntag"});
-			this.addWeekdayCombobox.Location = new System.Drawing.Point(141, 492);
+			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 492);
 			this.addWeekdayCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayCombobox.Name = "addWeekdayCombobox";
 			this.addWeekdayCombobox.Size = new System.Drawing.Size(108, 26);
@@ -958,7 +979,7 @@
 			this.addTimeTimePicker.CustomFormat = "HH:mm";
 			this.addTimeTimePicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addTimeTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.addTimeTimePicker.Location = new System.Drawing.Point(300, 492);
+			this.addTimeTimePicker.Location = new System.Drawing.Point(291, 492);
 			this.addTimeTimePicker.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeTimePicker.Name = "addTimeTimePicker";
 			this.addTimeTimePicker.ShowUpDown = true;
@@ -970,7 +991,7 @@
 			// 
 			this.addWeekdayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addWeekdayLabel.AutoSize = true;
-			this.addWeekdayLabel.Location = new System.Drawing.Point(62, 499);
+			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 499);
 			this.addWeekdayLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayLabel.Name = "addWeekdayLabel";
 			this.addWeekdayLabel.Size = new System.Drawing.Size(69, 13);
@@ -1568,11 +1589,11 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel templateOverviewTableLayouPanel;
-		private System.Windows.Forms.Button addPathButton;
-		private System.Windows.Forms.Button movePathUpButton;
-		private System.Windows.Forms.Button movePathDownButton;
-		private System.Windows.Forms.Button deletePathButton;
-		private System.Windows.Forms.Button clearButton;
+		private System.Windows.Forms.Button addTemplateButton;
+		private System.Windows.Forms.Button moveTemplateUpButton;
+		private System.Windows.Forms.Button moveTemplateDownButton;
+		private System.Windows.Forms.Button deleteTemplateButton;
+		private System.Windows.Forms.Button clearTemplatesButton;
 		private System.Windows.Forms.TableLayoutPanel editTemplateTableLayoutPanel;
 		private System.Windows.Forms.Label templateNameLabel;
 		private System.Windows.Forms.TextBox templateNameTextbox;
@@ -1652,5 +1673,6 @@
 		private System.Windows.Forms.TextBox varNameTextbox;
 		private System.Windows.Forms.TextBox varContentTextbox;
 		private System.Windows.Forms.Label localVarsLabel;
+		private System.Windows.Forms.Button duplicateTemplateButton;
 	}
 }
