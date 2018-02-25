@@ -24,10 +24,10 @@ namespace STFU.AutoUploader
 			uploader = upl;
 		}
 
-		private void addPathButtonClick(object sender, EventArgs e)
+		private void addTemplateButtonClick(object sender, EventArgs e)
 		{
 			Template templ = uploader.CreateTemplate();
-			uploader.Templates.Add(templ);
+			uploader.AddTemplate(templ);
 
 			RefillListView();
 		}
@@ -80,7 +80,7 @@ namespace STFU.AutoUploader
 			//privacyComboBox.SelectedIndex = 2;
 		}
 
-		private void deletePathButtonClick(object sender, EventArgs e)
+		private void deleteTemplateButtonClick(object sender, EventArgs e)
 		{
 			if (templateListView.SelectedItems.Count == 0 || uploader.Templates[templateListView.SelectedIndices[0]].Id == 0)
 			{
@@ -90,16 +90,7 @@ namespace STFU.AutoUploader
 			var confirmation = MessageBox.Show(this, "Möchtest du das ausgewählte Template wirklich löschen? Alle Pfade, die es verwenden, werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
-				var index = templateListView.SelectedIndices[0];
-				var templateId = uploader.Templates[index].Id;
-
-				foreach (var path in uploader.Paths.Where(p => p.SelectedTemplateId == templateId))
-				{
-					path.SelectedTemplateId = 0;
-				}
-
-				uploader.WritePaths();
-				uploader.Templates.RemoveAt(templateListView.SelectedIndices[0]);
+				uploader.RemoveTemplateAt(templateListView.SelectedIndices[0]);
 
 				templateListView.SelectedIndices.Clear();
 
@@ -107,26 +98,12 @@ namespace STFU.AutoUploader
 			}
 		}
 
-		private void clearButtonClick(object sender, EventArgs e)
+		private void clearTemplatesButtonClick(object sender, EventArgs e)
 		{
 			var confirmation = MessageBox.Show(this, "Möchtest du wirklich alle Templates löschen? Das Standard-Template kann nicht entfernt werden. Alle Pfade werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
-				foreach (var path in uploader.Paths)
-				{
-					path.SelectedTemplateId = 0;
-				}
-
-				uploader.WritePaths();
-
-				for (int i = 0; i < uploader.Templates.Count; i++)
-				{
-					if (uploader.Templates[i].Id != 0)
-					{
-						uploader.Templates.RemoveAt(i);
-						i--;
-					}
-				}
+				uploader.RemoveAllTemplates();
 
 				templateListView.SelectedIndices.Clear();
 
@@ -139,6 +116,7 @@ namespace STFU.AutoUploader
 			if (!reordering)
 			{
 				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
+				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && uploader.Templates[templateListView.SelectedIndices[0]].Id != 0;
 
 				if (templateListView.SelectedIndices.Count == 0)
 				{
@@ -346,7 +324,7 @@ namespace STFU.AutoUploader
 			{
 				reordering = true;
 				var index = templateListView.SelectedIndices[0];
-				uploader.Templates[index] = current;
+				uploader.UpdateTemplate(current);
 				RefillListView();
 				templateListView.SelectedIndices.Add(index);
 				templateListView.Select();
@@ -389,45 +367,37 @@ namespace STFU.AutoUploader
 			}
 		}
 
-		private void movePathUpButtonClick(object sender, EventArgs e)
+		private void moveTemplateUpButtonClick(object sender, EventArgs e)
 		{
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				var index = templateListView.SelectedIndices[0];
-				if (index > 0)
-				{
-					reordering = true;
-					var save = uploader.Templates[index];
-					uploader.Templates[index] = uploader.Templates[index - 1];
-					uploader.Templates[index - 1] = save;
 
-					RefillListView();
+				reordering = true;
+				uploader.ShiftTemplatePositionsAt(index, index - 1);
 
-					templateListView.SelectedIndices.Add(index - 1);
-					templateListView.Select();
-					reordering = false;
-				}
+				RefillListView();
+
+				templateListView.SelectedIndices.Add((index - 1 >= 0) ? index - 1 : 0);
+				templateListView.Select();
+				reordering = false;
 			}
 		}
 
-		private void movePathDownButtonClick(object sender, EventArgs e)
+		private void moveTemplateDownButtonClick(object sender, EventArgs e)
 		{
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				var index = templateListView.SelectedIndices[0];
-				if (index < templateListView.Items.Count - 1)
-				{
-					reordering = true;
-					var save = uploader.Templates[index];
-					uploader.Templates[index] = uploader.Templates[index + 1];
-					uploader.Templates[index + 1] = save;
 
-					RefillListView();
+				reordering = true;
+				uploader.ShiftTemplatePositionsAt(index, index + 1);
 
-					templateListView.SelectedIndices.Add(index + 1);
-					templateListView.Select();
-					reordering = false;
-				}
+				RefillListView();
+
+				templateListView.SelectedIndices.Add((index + 1 < uploader.Templates.Count) ? index + 1 : uploader.Templates.Count - 1);
+				templateListView.Select();
+				reordering = false;
 			}
 		}
 
@@ -677,6 +647,25 @@ namespace STFU.AutoUploader
 
 				RefillVariablesListView();
 			}
+		}
+
+		private void duplicateTemplateButtonClick(object sender, EventArgs e)
+		{
+			if (templateListView.SelectedItems.Count == 0)
+			{
+				return;
+			}
+
+			var index = templateListView.SelectedIndices[0];
+			var template = Template.Duplicate(uploader.Templates[index]);
+
+			template.Name += " (Kopie)";
+
+			uploader.AddTemplate(template);
+			RefillListView();
+
+			templateListView.SelectedIndices.Add(index);
+			templateListView.Focus();
 		}
 	}
 }

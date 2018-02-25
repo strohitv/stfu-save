@@ -127,13 +127,13 @@ namespace STFU.UploadLib.Automation
 		public ReadOnlyCollection<Process> ProcessesToWatch { get { return ProcessWatcher.Processes; } }
 		public bool ShouldWaitForProcs { get { return ProcessWatcher.ShouldWaitForProcs; } set { ProcessWatcher.ShouldWaitForProcs = value; } }
 
-		public Collection<Template> Templates
+		public IReadOnlyList<Template> Templates
 		{
 			get
 			{
-				return new Collection<Template>(templates);
+				return templates.AsReadOnly();
 			}
-			set
+			private set
 			{
 				templates = value.ToList();
 				OnPropertyChaged();
@@ -328,7 +328,7 @@ namespace STFU.UploadLib.Automation
 		{
 			if (!Templates.Any(t => t.Id == 0))
 			{
-				Templates.Add(new Template(0, "Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c => c.Id == 20)));
+				templates.Add(new Template(0, "Standard", Languages.FirstOrDefault(lang => lang.Id.ToUpper() == "DE"), ActiveAccount?.AvailableCategories.FirstOrDefault(c => c.Id == 20)));
 				WriteTemplates();
 			}
 		}
@@ -440,6 +440,75 @@ namespace STFU.UploadLib.Automation
 			}
 
 			return false;
+		}
+
+		public void AddTemplate(Template template)
+		{
+			templates.Add(template);
+			EnsureTemplateIdsAreUnique();
+		}
+
+		public void UpdateTemplate(Template current)
+		{
+			var index = templates.IndexOf(templates.Single(t => t.Id == current.Id));
+			templates[index] = current;
+		}
+
+		public void RemoveTemplateAt(int index)
+		{
+			var template = Templates[index];
+			foreach (var path in Paths.Where(p => p.SelectedTemplateId == template.Id))
+			{
+				path.SelectedTemplateId = 0;
+			}
+
+			WritePaths();
+
+			templates.RemoveAt(index);
+			EnsureStandardTemplateExists();
+
+			WriteTemplates();
+		}
+
+		public void RemoveAllTemplates()
+		{
+			foreach (var path in Paths)
+			{
+				path.SelectedTemplateId = 0;
+			}
+
+			WritePaths();
+
+			EnsureStandardTemplateExists();
+			var standardTemplate = Templates.Single(t => t.Id == 0);
+
+			templates.Clear();
+			templates.Add(standardTemplate);
+
+			WriteTemplates();
+		}
+
+		public void ShiftTemplatePositions(Template first, Template second)
+		{
+			Template firstToChange = null;
+			Template secondToChange = null;
+			if (first != null 
+				&& second != null 
+				&& (firstToChange = Templates.FirstOrDefault(t => t.Id == first.Id)) != null 
+				&& (secondToChange = Templates.FirstOrDefault(t => t.Id == second.Id)) != null)
+			{
+				ShiftTemplatePositionsAt(templates.IndexOf(firstToChange), templates.IndexOf(secondToChange));
+			}
+		}
+
+		public void ShiftTemplatePositionsAt (int firstIndex, int secondIndex)
+		{
+			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Templates.Count && secondIndex < Templates.Count)
+			{
+				var save = templates[firstIndex];
+				templates[firstIndex] = templates[secondIndex];
+				templates[secondIndex] = save;
+			}
 		}
 
 		private void WriteAccount()

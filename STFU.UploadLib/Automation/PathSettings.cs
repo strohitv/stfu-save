@@ -145,7 +145,7 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public static PathSettings Parse(string json, Collection<Template> templates)
+		public static PathSettings Parse(string json, IReadOnlyList<Template> templates)
 		{
 			var jArray = JArray.Parse(json);
 
