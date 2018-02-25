@@ -44,7 +44,7 @@
 			// tlpRunning
 			// 
 			this.tlpRunning.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpRunning.ColumnCount = 9;
+			this.tlpRunning.ColumnCount = 11;
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -54,16 +54,18 @@
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpRunning.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpRunning.Controls.Add(this.statusLabel, 1, 1);
 			this.tlpRunning.Controls.Add(this.prgbarProgress, 1, 3);
-			this.tlpRunning.Controls.Add(this.btnStop, 7, 3);
 			this.tlpRunning.Controls.Add(this.finishActionLabel, 1, 5);
 			this.tlpRunning.Controls.Add(this.cmbbxFinishAction, 3, 5);
 			this.tlpRunning.Controls.Add(this.chbChoseProcesses, 5, 5);
 			this.tlpRunning.Controls.Add(this.btnChoseProcs, 7, 5);
+			this.tlpRunning.Controls.Add(this.btnStop, 9, 3);
 			this.tlpRunning.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpRunning.Location = new System.Drawing.Point(0, 0);
-			this.tlpRunning.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.tlpRunning.Margin = new System.Windows.Forms.Padding(2);
 			this.tlpRunning.Name = "tlpRunning";
 			this.tlpRunning.RowCount = 7;
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -84,14 +86,14 @@
 			this.statusLabel.Location = new System.Drawing.Point(10, 12);
 			this.statusLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(628, 13);
+			this.statusLabel.Size = new System.Drawing.Size(546, 13);
 			this.statusLabel.TabIndex = 0;
 			this.statusLabel.Text = "Suche Dateien zum Upload...";
 			// 
 			// prgbarProgress
 			// 
 			this.prgbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpRunning.SetColumnSpan(this.prgbarProgress, 5);
+			this.tlpRunning.SetColumnSpan(this.prgbarProgress, 7);
 			this.prgbarProgress.Location = new System.Drawing.Point(10, 40);
 			this.prgbarProgress.Margin = new System.Windows.Forms.Padding(0);
 			this.prgbarProgress.MarqueeAnimationSpeed = 10;
@@ -137,7 +139,7 @@
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(76, 74);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(320, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(274, 21);
 			this.cmbbxFinishAction.TabIndex = 16;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -146,7 +148,7 @@
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.AutoSize = true;
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(406, 76);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(360, 76);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -161,11 +163,11 @@
 			this.btnChoseProcs.AutoSize = true;
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(566, 71);
+			this.btnChoseProcs.Location = new System.Drawing.Point(520, 71);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
-			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-			this.btnChoseProcs.Size = new System.Drawing.Size(72, 27);
+			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
+			this.btnChoseProcs.Size = new System.Drawing.Size(36, 27);
 			this.btnChoseProcs.TabIndex = 18;
 			this.btnChoseProcs.Text = "[...]";
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
@@ -184,7 +186,7 @@
 			this.ClientSize = new System.Drawing.Size(648, 108);
 			this.ControlBox = false;
 			this.Controls.Add(this.tlpRunning);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "UploadForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Lade Dateien hoch...";
