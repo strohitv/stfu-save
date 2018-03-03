@@ -12,7 +12,7 @@ namespace STFU.UploadLib.Templates
 
 		public override string ToString()
 		{
-			return $"{DayOfWeek} {Time.ToString("HH:mm")} +{SkipDays}";
+			return $"{DayOfWeek} {Time.ToString(@"hh\:mm")} +{SkipDays}";
 		}
 	}
 }

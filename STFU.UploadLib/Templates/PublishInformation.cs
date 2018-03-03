@@ -3,44 +3,52 @@ using STFU.UploadLib.Automation;
 
 namespace STFU.UploadLib.Templates
 {
-	internal class PublishInformation
+	public class PublishInformation
 	{
-		internal PathInformation PathInfo { get; set; }
-		internal Template Template { get; set; }
+		public PathInformation PathInfo { get; internal set; }
+		public Template Template { get; internal set; }
+		public bool IgnorePath { get; set; }
+		public bool PublishPrivate { get; set; }
+		public DateTime? StartDate { get; set; }
+		public int? CustomStartDayIndex { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }
 
 		bool first = true;
 
-		internal PublishInformation(PathInformation pathInfo, DateTime startTime, Template template)
+		internal PublishInformation(PathInformation pathInfo, DateTime startTime, Template template, int? publishPosition = null)
 		{
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;
 			Template = template;
 
-			int publishPosition = -1;
-			DateTime saveTime = startTime;
-			for (int i = 0; i < Template.PublishTimes.Count; i++)
+			if (publishPosition == null)
 			{
-				var nextSaveTime = startTime;
-				if (startTime.TimeOfDay > Template.PublishTimes[i].Time)
-				{
-					// Heute ist nicht mehr möglich => Tag hinzufügen
-					nextSaveTime += new TimeSpan(1, 0, 0, 0);
-				}
+				publishPosition = -1;
 
-				int daysUntilPublishDay = ((int)Template.PublishTimes[i].DayOfWeek - (int)nextSaveTime.DayOfWeek + 7) % 7;
-				nextSaveTime = nextSaveTime.AddDays(daysUntilPublishDay);
-				nextSaveTime = nextSaveTime.Date.Add(Template.PublishTimes[i].Time);
-				if (saveTime - nextSaveTime > new TimeSpan(0, 0, 0) || publishPosition < 0)
+				DateTime saveTime = startTime;
+				for (int i = 0; i < Template.PublishTimes.Count; i++)
 				{
-					// Zeit liegt näher
-					saveTime = nextSaveTime;
-					publishPosition = i;
+					var nextSaveTime = startTime;
+					if (startTime.TimeOfDay > Template.PublishTimes[i].Time)
+					{
+						// Heute ist nicht mehr möglich => Tag hinzufügen
+						nextSaveTime += new TimeSpan(1, 0, 0, 0);
+					}
+
+					int daysUntilPublishDay = ((int)Template.PublishTimes[i].DayOfWeek - (int)nextSaveTime.DayOfWeek + 7) % 7;
+					nextSaveTime = nextSaveTime.AddDays(daysUntilPublishDay);
+					nextSaveTime = nextSaveTime.Date.Add(Template.PublishTimes[i].Time);
+					if (saveTime - nextSaveTime > new TimeSpan(0, 0, 0) || publishPosition < 0)
+					{
+						// Zeit liegt näher
+						saveTime = nextSaveTime;
+						publishPosition = i;
+					}
 				}
 			}
 
-			PublishTimePosition = publishPosition;
+			PublishTimePosition = publishPosition.Value;
 		}
 
 		internal DateTime GetNextPublishTime(bool preview = false)

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
+using STFU.UploadLib.Templates;
 
 namespace STFU.AutoUploader
 {
@@ -16,12 +17,15 @@ namespace STFU.AutoUploader
 		bool ended = false;
 		bool allowChosingProcs = false;
 
+		PublishInformation[] publishInformation;
+
 		public int UploadEndedActionIndex { get; set; }
 
-		public UploadForm(AutomationUploader upl, int uploadEndedIndex)
+		public UploadForm(AutomationUploader upl, int uploadEndedIndex, PublishInformation[] information)
 		{
 			InitializeComponent();
 			uploader = upl;
+			publishInformation = information;
 
 			uploader.PropertyChanged += UploaderPropertyChanged;
 
@@ -110,7 +114,7 @@ namespace STFU.AutoUploader
 			Left = Screen.PrimaryScreen.WorkingArea.Width - 30 - Width;
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
-			uploader.StartAsync();
+			uploader.StartAsync(publishInformation);
 		}
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)

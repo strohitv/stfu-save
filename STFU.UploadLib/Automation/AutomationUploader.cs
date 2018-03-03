@@ -546,12 +546,17 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public async void StartAsync()
+		public PublishInformation[] GetPublishInformation()
 		{
-			await Task.Run(() => Start());
+			return Paths.Select(p => new PublishInformation(p, DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1), Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
 		}
 
-		public void Start()
+		public async void StartAsync(PublishInformation[] infos)
+		{
+			await Task.Run(() => Start(infos));
+		}
+
+		private void Start(PublishInformation[] infos)
 		{
 			IsActive = true;
 
@@ -560,7 +565,14 @@ namespace STFU.UploadLib.Automation
 			Files.Clear();
 			Watchers.Clear();
 
-			creator = new TemplateVideoCreator(Paths.Select(p => new PublishInformation(p, DateTime.Now, Templates.FirstOrDefault(t => t.Id == p.SelectedTemplateId) ?? Templates.First(t => t.Id == 0))).ToList());
+			var pInfos = new List<PublishInformation>();
+
+			foreach (var info in infos)
+			{
+				pInfos.Add(new PublishInformation(info.PathInfo, info.StartDate.Value, info.Template, info.CustomStartDayIndex));
+			}
+
+			creator = new TemplateVideoCreator(pInfos);
 
 			TryConnectAccount();
 			if (ActiveAccount.Access?.AccessToken == null)
@@ -573,9 +585,9 @@ namespace STFU.UploadLib.Automation
 			UnfinishedJob = LoadLastJob();
 			UploadFilesAsync();
 
-			CreateWatchers();
+			CreateWatchers(infos);
 
-			SearchExistingVideos();
+			SearchExistingVideos(infos);
 		}
 
 		public void SuspendProcessWatcher()
@@ -599,9 +611,9 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		private void CreateWatchers()
+		private void CreateWatchers(PublishInformation[] infos)
 		{
-			foreach (var pathFilterCombination in Paths)
+			foreach (var pathFilterCombination in infos.Where(i => !i.IgnorePath).Select(i => i.PathInfo))
 			{
 				string path = pathFilterCombination.Path;
 				string[] filters = pathFilterCombination.Filter.Split(';');
@@ -613,11 +625,11 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		private void SearchExistingVideos()
+		private void SearchExistingVideos(PublishInformation[] infos)
 		{
 			uploaderSearching = true;
 
-			foreach (var pathFilterCombination in Paths)
+			foreach (var pathFilterCombination in infos.Where(i => !i.IgnorePath).Select(i => i.PathInfo))
 			{
 				string path = pathFilterCombination.Path;
 				string[] filters = pathFilterCombination.Filter.Split(';');
