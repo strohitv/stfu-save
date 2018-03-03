@@ -39,10 +39,10 @@ namespace STFU.AutoUploader
 
 			foreach (var info in publishInformation)
 			{
-				if (!info.IgnorePath && !info.PublishPrivate && info.StartDate == null)
+				if (!info.IgnorePath && !info.UploadPrivate && info.StartDate == null)
 				{
 					info.IgnorePath = shouldIgnore;
-					info.PublishPrivate = shouldUploadPrivate;
+					info.UploadPrivate = shouldUploadPrivate;
 					info.StartDate = firstPublishTime;
 				}
 			}

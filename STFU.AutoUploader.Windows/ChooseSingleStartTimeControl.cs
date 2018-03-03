@@ -124,7 +124,7 @@ namespace STFU.AutoUploader
 		public PublishInformation GetPublishInformation()
 		{
 			information.IgnorePath = dontObservePathCheckbox.Checked;
-			information.PublishPrivate = uploadVideosPrivateCheckbox.Checked;
+			information.UploadPrivate = uploadVideosPrivateCheckbox.Checked;
 
 			if (shouldOverridePublishAtCheckbox.Checked || !mainTlp.Contains(shouldOverridePublishAtCheckbox))
 			{

@@ -8,7 +8,7 @@ namespace STFU.UploadLib.Templates
 		public PathInformation PathInfo { get; internal set; }
 		public Template Template { get; internal set; }
 		public bool IgnorePath { get; set; }
-		public bool PublishPrivate { get; set; }
+		public bool UploadPrivate { get; set; }
 		public DateTime? StartDate { get; set; }
 		public int? CustomStartDayIndex { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }

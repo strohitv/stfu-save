@@ -569,7 +569,11 @@ namespace STFU.UploadLib.Automation
 
 			foreach (var info in infos)
 			{
-				pInfos.Add(new PublishInformation(info.PathInfo, info.StartDate.Value, info.Template, info.CustomStartDayIndex));
+				var newInfo = new PublishInformation(info.PathInfo, info.StartDate.HasValue ? info.StartDate.Value : info.GetNextPublishTime(), info.Template, info.CustomStartDayIndex);
+				newInfo.IgnorePath = info.IgnorePath;
+				newInfo.UploadPrivate = info.UploadPrivate;
+
+				pInfos.Add(newInfo);
 			}
 
 			creator = new TemplateVideoCreator(pInfos);
@@ -585,9 +589,9 @@ namespace STFU.UploadLib.Automation
 			UnfinishedJob = LoadLastJob();
 			UploadFilesAsync();
 
-			CreateWatchers(infos);
+			CreateWatchers(pInfos.ToArray());
 
-			SearchExistingVideos(infos);
+			SearchExistingVideos(pInfos.ToArray());
 		}
 
 		public void SuspendProcessWatcher()

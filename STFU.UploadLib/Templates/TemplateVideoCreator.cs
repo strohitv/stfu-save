@@ -30,7 +30,7 @@ namespace STFU.UploadLib.Templates
 			video.Category = template.Category;
 			video.DefaultLanguage = template.DefaultLanguage;
 
-			video.Privacy = publishInfo.PublishPrivate ? PrivacyStatus.Private : template.Privacy;
+			video.Privacy = publishInfo.UploadPrivate ? PrivacyStatus.Private : template.Privacy;
 			video.License = template.License;
 			video.IsEmbeddable = template.IsEmbeddable;
 			video.PublicStatsViewable = template.PublicStatsViewable;
@@ -41,7 +41,7 @@ namespace STFU.UploadLib.Templates
 
 			// Evtl. Nächsten Veröffentlichungszeitpunkt berechnen
 			// Dafür benötigt: Datum letztes Video und Position in PublishTimes (!)
-			if (!publishInfo.PublishPrivate
+			if (!publishInfo.UploadPrivate
 				&& template.Privacy == PrivacyStatus.Private
 				&& template.ShouldPublishAt
 				&& template.PublishTimes.Count > 0)
