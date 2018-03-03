@@ -7,11 +7,11 @@ namespace STFU.UploadLib.Templates
 {
 	internal class TemplateVideoCreator
 	{
-		internal IList<PublishInformation> Paths { get; set; }
+		internal IList<PublishInformation> PublishInfos { get; set; }
 
-		internal TemplateVideoCreator(IList<PublishInformation> paths)
+		internal TemplateVideoCreator(IList<PublishInformation> publishInfo)
 		{
-			Paths = paths;
+			PublishInfos = publishInfo;
 		}
 
 		internal Video CreateVideo(string path)
@@ -19,7 +19,7 @@ namespace STFU.UploadLib.Templates
 			Video video = new Video(path);
 
 			// Template suchen anhand des Pfades
-			var publishInfo = Paths.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
+			var publishInfo = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishInfo.Template;
 
 			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.LocalVariables);
@@ -30,7 +30,7 @@ namespace STFU.UploadLib.Templates
 			video.Category = template.Category;
 			video.DefaultLanguage = template.DefaultLanguage;
 
-			video.Privacy = template.Privacy;
+			video.Privacy = publishInfo.UploadPrivate ? PrivacyStatus.Private : template.Privacy;
 			video.License = template.License;
 			video.IsEmbeddable = template.IsEmbeddable;
 			video.PublicStatsViewable = template.PublicStatsViewable;
@@ -41,7 +41,8 @@ namespace STFU.UploadLib.Templates
 
 			// Evtl. Nächsten Veröffentlichungszeitpunkt berechnen
 			// Dafür benötigt: Datum letztes Video und Position in PublishTimes (!)
-			if (template.Privacy == PrivacyStatus.Private
+			if (!publishInfo.UploadPrivate
+				&& template.Privacy == PrivacyStatus.Private
 				&& template.ShouldPublishAt
 				&& template.PublishTimes.Count > 0)
 			{

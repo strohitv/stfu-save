@@ -10,7 +10,7 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		public bool PublicStatsViewable { get; set; }
 
 		[JsonProperty(PropertyName = "publishAt")]
-		public DateTime PublishAt { get; set; }
+		public string PublishAt { get; set; }
 
 		[JsonProperty(PropertyName = "privacyStatus")]
 		[JsonConverter(typeof(EnumConverter))]

@@ -47,6 +47,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseMultipleStartTimesScrollControl.cs">
+      <Link>ChooseMultipleStartTimesScrollControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseMultipleStartTimesScrollControl.designer.cs">
+      <Link>ChooseMultipleStartTimesScrollControl.designer.cs</Link>
+      <DependentUpon>ChooseMultipleStartTimesScrollControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseSingleStartTimeControl.cs">
+      <Link>ChooseSingleStartTimeControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseSingleStartTimeControl.designer.cs">
+      <Link>ChooseSingleStartTimeControl.designer.cs</Link>
+      <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseStartTimesForm.cs">
+      <Link>ChooseStartTimesForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\STFU.AutoUploader.Windows\ChooseStartTimesForm.designer.cs">
+      <Link>ChooseStartTimesForm.designer.cs</Link>
+      <DependentUpon>ChooseStartTimesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\STFU.AutoUploader.Windows\MainForm.cs">
       <Link>MainForm.cs</Link>
       <SubType>Form</SubType>
@@ -97,6 +121,18 @@
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\ChooseMultipleStartTimesScrollControl.resx">
+      <Link>ChooseMultipleStartTimesScrollControl.resx</Link>
+      <DependentUpon>ChooseMultipleStartTimesScrollControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\ChooseSingleStartTimeControl.resx">
+      <Link>ChooseSingleStartTimeControl.resx</Link>
+      <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\STFU.AutoUploader.Windows\ChooseStartTimesForm.resx">
+      <Link>ChooseStartTimesForm.resx</Link>
+      <DependentUpon>ChooseStartTimesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\STFU.AutoUploader.Windows\MainForm.resx">
       <Link>MainForm.resx</Link>
       <DependentUpon>MainForm.cs</DependentUpon>

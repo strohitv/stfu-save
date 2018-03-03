@@ -235,6 +235,8 @@ namespace STFU.UploadLib.Automation
 			{
 				ReadTemplates();
 				EnsureTemplateIdsAreUnique();
+				EnsureTemplatesHaveCategory();
+				EnsureTemplatesHaveLanguage();
 			}
 
 			EnsureStandardTemplateExists();
@@ -312,6 +314,42 @@ namespace STFU.UploadLib.Automation
 			}
 
 			UnfinishedJob = LoadLastJob();
+		}
+
+		private void EnsureTemplatesHaveLanguage()
+		{
+			bool needsSave = false;
+			foreach (var template in Templates)
+			{
+				if (template.DefaultLanguage == null)
+				{
+					template.DefaultLanguage = new Language() { Name = "Deutsch", Hl = "DE", Id = "DE" };
+					needsSave = true;
+				}
+			}
+
+			if (needsSave)
+			{
+				WriteTemplates();
+			}
+		}
+
+		private void EnsureTemplatesHaveCategory()
+		{
+			bool needsSave = false;
+			foreach (var template in Templates)
+			{
+				if (template.Category == null)
+				{
+					template.Category = new Category(20, "Gaming");
+					needsSave = true;
+				}
+			}
+
+			if (needsSave)
+			{
+				WriteTemplates();
+			}
 		}
 
 		public Template CreateTemplate()
@@ -546,12 +584,17 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public async void StartAsync()
+		public PublishSettings[] GetPublishInformation()
 		{
-			await Task.Run(() => Start());
+			return Paths.Select(p => new PublishSettings(p, Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
 		}
 
-		public void Start()
+		public async void StartAsync(PublishSettings[] infos)
+		{
+			await Task.Run(() => Start(infos));
+		}
+
+		private void Start(PublishSettings[] settings)
 		{
 			IsActive = true;
 
@@ -560,7 +603,18 @@ namespace STFU.UploadLib.Automation
 			Files.Clear();
 			Watchers.Clear();
 
-			creator = new TemplateVideoCreator(Paths.Select(p => new PublishInformation(p, DateTime.Now, Templates.FirstOrDefault(t => t.Id == p.SelectedTemplateId) ?? Templates.First(t => t.Id == 0))).ToList());
+			var publishInfos = new List<PublishInformation>();
+
+			foreach (var pathSetting in settings)
+			{
+				var newInfo = new PublishInformation(pathSetting.PathInfo, pathSetting.StartDate, pathSetting.Template, pathSetting.CustomStartDayIndex);
+				newInfo.IgnorePath = pathSetting.IgnorePath;
+				newInfo.UploadPrivate = pathSetting.UploadPrivate;
+
+				publishInfos.Add(newInfo);
+			}
+
+			creator = new TemplateVideoCreator(publishInfos);
 
 			TryConnectAccount();
 			if (ActiveAccount.Access?.AccessToken == null)
@@ -573,9 +627,9 @@ namespace STFU.UploadLib.Automation
 			UnfinishedJob = LoadLastJob();
 			UploadFilesAsync();
 
-			CreateWatchers();
+			CreateWatchers(publishInfos.ToArray());
 
-			SearchExistingVideos();
+			SearchExistingVideos(publishInfos.ToArray());
 		}
 
 		public void SuspendProcessWatcher()
@@ -599,9 +653,9 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		private void CreateWatchers()
+		private void CreateWatchers(PublishInformation[] infos)
 		{
-			foreach (var pathFilterCombination in Paths)
+			foreach (var pathFilterCombination in infos.Where(i => !i.IgnorePath).Select(i => i.PathInfo))
 			{
 				string path = pathFilterCombination.Path;
 				string[] filters = pathFilterCombination.Filter.Split(';');
@@ -613,11 +667,11 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		private void SearchExistingVideos()
+		private void SearchExistingVideos(PublishInformation[] infos)
 		{
 			uploaderSearching = true;
 
-			foreach (var pathFilterCombination in Paths)
+			foreach (var pathFilterCombination in infos.Where(i => !i.IgnorePath).Select(i => i.PathInfo))
 			{
 				string path = pathFilterCombination.Path;
 				string[] filters = pathFilterCombination.Filter.Split(';');

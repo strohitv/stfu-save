@@ -32,7 +32,7 @@ namespace STFU.AutoUploader
 				newItem.SubItems.Add(templateName);
 
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
-				newItem.SubItems.Add(entry.SearchHidden? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
 			}
 		}
 
@@ -81,24 +81,30 @@ namespace STFU.AutoUploader
 			Visible = false;
 			ShowInTaskbar = false;
 
-			UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex);
-			if (uploadForm.ShowDialog(this) == DialogResult.OK)
-			{
-				cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
+			ChooseStartTimesForm cstForm = new ChooseStartTimesForm(uploader);
 
-				// Upload wurde regulär beendet.
-				// => Jetzt evtl. runterfahren oder so.
-				switch (cmbbxFinishAction.SelectedIndex)
+			if (cstForm.ShowDialog(this) == DialogResult.OK)
+			{
+				var publishSettings = cstForm.GetPublishSettingsArray();
+
+				UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex, publishSettings);
+				if (uploadForm.ShowDialog(this) == DialogResult.OK)
 				{
-					case 1:
-						Close();
-						return;
-					case 2:
-						Process.Start("shutdown.exe", "-s -t 5");
-						Close();
-						return;
-					default:
-						break;
+					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
+
+					// Upload wurde regulär beendet.
+					switch (cmbbxFinishAction.SelectedIndex)
+					{
+						case 1:
+							Close();
+							return;
+						case 2:
+							Process.Start("shutdown.exe", "-s -t 5");
+							Close();
+							return;
+						default:
+							break;
+					}
 				}
 			}
 

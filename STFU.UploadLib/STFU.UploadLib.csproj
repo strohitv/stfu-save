@@ -121,6 +121,7 @@
     <Compile Include="Queue\UploadQueue.cs" />
     <Compile Include="Queue\UploadDetails.cs" />
     <Compile Include="Templates\PublishInformation.cs" />
+    <Compile Include="Templates\PublishSettings.cs" />
     <Compile Include="Templates\PublishTime.cs" />
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Templates\TemplateVideoCreator.cs" />

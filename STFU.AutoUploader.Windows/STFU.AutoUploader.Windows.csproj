@@ -121,6 +121,24 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChooseMultipleStartTimesScrollControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChooseMultipleStartTimesScrollControl.Designer.cs">
+      <DependentUpon>ChooseMultipleStartTimesScrollControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseSingleStartTimeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChooseSingleStartTimeControl.Designer.cs">
+      <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChooseStartTimesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseStartTimesForm.Designer.cs">
+      <DependentUpon>ChooseStartTimesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +176,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BrowserForm.resx">
       <DependentUpon>BrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChooseMultipleStartTimesScrollControl.resx">
+      <DependentUpon>ChooseMultipleStartTimesScrollControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChooseSingleStartTimeControl.resx">
+      <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChooseStartTimesForm.resx">
+      <DependentUpon>ChooseStartTimesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
