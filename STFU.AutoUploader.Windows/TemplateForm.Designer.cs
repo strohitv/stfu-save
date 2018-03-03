@@ -116,6 +116,7 @@
 			this.editTemplateLabel = new System.Windows.Forms.Label();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.openThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
 			this.templateOverviewTableLayouPanel.SuspendLayout();
 			this.editTemplateTableLayoutPanel.SuspendLayout();
 			this.templateValuesTabControl.SuspendLayout();
@@ -1186,6 +1187,7 @@
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
 			this.thumbnailTextbox.Size = new System.Drawing.Size(683, 26);
 			this.thumbnailTextbox.TabIndex = 9;
+			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextboxTextChanged);
 			// 
 			// chooseThumbnailPathButton
 			// 
@@ -1201,6 +1203,7 @@
 			this.chooseThumbnailPathButton.TabIndex = 10;
 			this.chooseThumbnailPathButton.Text = "...";
 			this.chooseThumbnailPathButton.UseVisualStyleBackColor = true;
+			this.chooseThumbnailPathButton.Click += new System.EventHandler(this.chooseThumbnailPathButtonClick);
 			// 
 			// notifySubscribersCheckbox
 			// 
@@ -1541,6 +1544,12 @@
 			this.splitContainer.TabIndex = 1;
 			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
 			// 
+			// openThumbnailDialog
+			// 
+			this.openThumbnailDialog.Filter = "Alle unterstützten Dateitypen|*.jpg;*.jpeg;*.png|JPEG-Dateien|*.jpg;*.jpeg|PNG-Da" +
+    "teien|*.png";
+			this.openThumbnailDialog.Title = "Bitte wähle das entsprechende Thumbnail aus...";
+			// 
 			// TemplateForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1674,5 +1683,6 @@
 		private System.Windows.Forms.TextBox varContentTextbox;
 		private System.Windows.Forms.Label localVarsLabel;
 		private System.Windows.Forms.Button duplicateTemplateButton;
+		private System.Windows.Forms.OpenFileDialog openThumbnailDialog;
 	}
 }

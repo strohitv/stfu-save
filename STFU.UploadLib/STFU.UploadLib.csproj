@@ -131,9 +131,7 @@
     <Compile Include="Videos\Language.cs" />
     <Compile Include="Videos\License.cs" />
     <Compile Include="Videos\PrivacyStatus.cs" />
-    <Compile Include="Videos\VideoResourceId.cs" />
     <Compile Include="Videos\Video.cs" />
-    <Compile Include="Videos\VideoSnippet.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Communication\Youtube\WebResources.resx">

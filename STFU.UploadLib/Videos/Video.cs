@@ -73,6 +73,8 @@ namespace STFU.UploadLib.Videos
 			}
 		}
 
+		public string ThumbnailPath { get; set; }
+
 		public static int MaxTitleLength => 100;
 
 		public static int MaxDescriptionLength => 5000;

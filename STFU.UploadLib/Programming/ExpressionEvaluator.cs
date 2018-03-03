@@ -22,6 +22,11 @@ namespace STFU.UploadLib.Programming
 
 		public string Evaluate(string text)
 		{
+			if (text == null)
+			{
+				text = string.Empty;
+			}
+
 			for (int currentPos = 0; currentPos < text.Length; currentPos++)
 			{
 				if (text[currentPos] == '<')

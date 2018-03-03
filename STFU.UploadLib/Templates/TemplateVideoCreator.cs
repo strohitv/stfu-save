@@ -39,6 +39,8 @@ namespace STFU.UploadLib.Templates
 			video.AutoLevels = template.AutoLevels;
 			video.Stabilize = template.Stabilize;
 
+			video.ThumbnailPath = evaluator.Evaluate(template.ThumbnailPath);
+
 			// Evtl. Nächsten Veröffentlichungszeitpunkt berechnen
 			// Dafür benötigt: Datum letztes Video und Position in PublishTimes (!)
 			if (!publishInfo.UploadPrivate

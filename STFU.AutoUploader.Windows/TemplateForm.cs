@@ -171,6 +171,8 @@ namespace STFU.AutoUploader
 			autoLevelsCheckbox.Checked = template.AutoLevels;
 			stabilizeCheckbox.Checked = template.Stabilize;
 
+			thumbnailTextbox.Text = template.ThumbnailPath;
+
 			RefillTimesListView();
 			RefillVariablesListView();
 
@@ -666,6 +668,20 @@ namespace STFU.AutoUploader
 
 			templateListView.SelectedIndices.Add(index);
 			templateListView.Focus();
+		}
+
+		private void thumbnailTextboxTextChanged(object sender, EventArgs e)
+		{
+			current.ThumbnailPath = thumbnailTextbox.Text;
+		}
+
+		private void chooseThumbnailPathButtonClick(object sender, EventArgs e)
+		{
+			var result = openThumbnailDialog.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				thumbnailTextbox.Text = openThumbnailDialog.FileName;
+			}
 		}
 	}
 }

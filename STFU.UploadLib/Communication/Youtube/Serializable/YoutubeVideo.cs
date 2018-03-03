@@ -9,6 +9,8 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 		public YoutubeSnippet snippet { get; set; }
 		public YoutubeStatus status { get; set; }
 
+		public string id { get; set; }
+
 		public YoutubeVideo()
 		{
 		}
