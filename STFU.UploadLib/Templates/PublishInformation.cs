@@ -7,10 +7,8 @@ namespace STFU.UploadLib.Templates
 	{
 		public PathInformation PathInfo { get; internal set; }
 		public Template Template { get; internal set; }
-		public bool IgnorePath { get; set; }
-		public bool UploadPrivate { get; set; }
-		public DateTime? StartDate { get; set; }
-		public int? CustomStartDayIndex { get; set; }
+		internal bool IgnorePath { get; set; }
+		internal bool UploadPrivate { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }
 
@@ -22,7 +20,7 @@ namespace STFU.UploadLib.Templates
 			LastVideoPublishTime = startTime;
 			Template = template;
 
-			if (publishPosition == null)
+			if (publishPosition == null || publishPosition < 0)
 			{
 				publishPosition = -1;
 

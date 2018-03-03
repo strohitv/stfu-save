@@ -29,7 +29,7 @@ namespace STFU.UploadLib.Communication.Youtube.Serializable
 				IsEmbeddable = video.IsEmbeddable,
 				Privacy = video.Privacy,
 				License = video.License,
-				PublishAt = video.PublishAt ?? default(DateTime),
+				PublishAt = (video.PublishAt ?? default(DateTime)).ToString("yyyy-MM-ddTHH:mm:ss.ffffzzz"),
 				ShouldPublishAt = video.PublishAt != null,
 				PublicStatsViewable = video.PublicStatsViewable
 			};

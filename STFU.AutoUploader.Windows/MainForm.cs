@@ -85,15 +85,14 @@ namespace STFU.AutoUploader
 
 			if (cstForm.ShowDialog(this) == DialogResult.OK)
 			{
-				var publishInformation = cstForm.GetPublishInformation();
+				var publishSettings = cstForm.GetPublishSettingsArray();
 
-				UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex, publishInformation);
+				UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex, publishSettings);
 				if (uploadForm.ShowDialog(this) == DialogResult.OK)
 				{
 					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
 
 					// Upload wurde regulär beendet.
-					// => Jetzt evtl. runterfahren oder so.
 					switch (cmbbxFinishAction.SelectedIndex)
 					{
 						case 1:

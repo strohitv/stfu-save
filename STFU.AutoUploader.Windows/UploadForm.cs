@@ -17,15 +17,15 @@ namespace STFU.AutoUploader
 		bool ended = false;
 		bool allowChosingProcs = false;
 
-		PublishInformation[] publishInformation;
+		PublishSettings[] publishSettings;
 
 		public int UploadEndedActionIndex { get; set; }
 
-		public UploadForm(AutomationUploader upl, int uploadEndedIndex, PublishInformation[] information)
+		public UploadForm(AutomationUploader upl, int uploadEndedIndex, PublishSettings[] settings)
 		{
 			InitializeComponent();
 			uploader = upl;
-			publishInformation = information;
+			publishSettings = settings;
 
 			uploader.PropertyChanged += UploaderPropertyChanged;
 
@@ -114,7 +114,7 @@ namespace STFU.AutoUploader
 			Left = Screen.PrimaryScreen.WorkingArea.Width - 30 - Width;
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
-			uploader.StartAsync(publishInformation);
+			uploader.StartAsync(publishSettings);
 		}
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)

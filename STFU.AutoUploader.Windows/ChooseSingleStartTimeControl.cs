@@ -6,7 +6,7 @@ namespace STFU.AutoUploader
 {
 	public partial class ChooseSingleStartTimeControl : UserControl
 	{
-		private PublishInformation information;
+		private PublishSettings publishSettings;
 
 		public ChooseSingleStartTimeControl()
 		{
@@ -18,12 +18,12 @@ namespace STFU.AutoUploader
 		public bool ShouldPublishAt => shouldOverridePublishAtCheckbox.Checked;
 		public DateTime PublishAt => overrideDateTimePicker.Value;
 
-		public ChooseSingleStartTimeControl(PublishInformation info)
+		public ChooseSingleStartTimeControl(PublishSettings settings)
 			: this()
 		{
-			information = info;
+			publishSettings = settings;
 
-			SetPublishControlsVisibility(info.Template.ShouldPublishAt, info.Template.ShouldPublishAt);
+			SetPublishControlsVisibility(settings.Template.ShouldPublishAt, settings.Template.ShouldPublishAt);
 
 			shouldOverridePublishAtCheckbox.Checked = false;
 
@@ -35,13 +35,13 @@ namespace STFU.AutoUploader
 			DateTime publishDt = DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
 			overrideDateTimePicker.Value = publishDt;
 
-			if (information != null)
+			if (publishSettings != null)
 			{
-				mainGroupbox.Text = information.PathInfo.Path;
+				mainGroupbox.Text = publishSettings.PathInfo.Path;
 
-				for (int i = 0; i < information.Template.PublishTimes.Count; i++)
+				for (int i = 0; i < publishSettings.Template.PublishTimes.Count; i++)
 				{
-					customStartPointCombobox.Items.Add($"{i}: {information.Template.PublishTimes[i].ToString()}");
+					customStartPointCombobox.Items.Add($"{i}: {publishSettings.Template.PublishTimes[i].ToString()}");
 				}
 
 				if (customStartPointCombobox.Items.Count > 0)
@@ -59,7 +59,7 @@ namespace STFU.AutoUploader
 			{
 				customStartPointCheckbox.Checked = false;
 
-				if (information == null)
+				if (publishSettings == null)
 				{
 					uploadVideosPrivateCheckbox.Checked = true;
 				}
@@ -94,7 +94,7 @@ namespace STFU.AutoUploader
 					= customStartPointCheckbox.Checked
 					= false;
 			}
-			else if (information == null)
+			else if (publishSettings == null)
 			{
 				shouldOverridePublishAtCheckbox.Checked = true;
 			}
@@ -121,22 +121,22 @@ namespace STFU.AutoUploader
 				= showCustomStartPointControls;
 		}
 
-		public PublishInformation GetPublishInformation()
-		{
-			information.IgnorePath = dontObservePathCheckbox.Checked;
-			information.UploadPrivate = uploadVideosPrivateCheckbox.Checked;
+		public PublishSettings GetPublishSettings()
+		{ 
+			publishSettings.IgnorePath = dontObservePathCheckbox.Checked;
+			publishSettings.UploadPrivate = uploadVideosPrivateCheckbox.Checked;
 
 			if (shouldOverridePublishAtCheckbox.Checked || !mainTlp.Contains(shouldOverridePublishAtCheckbox))
 			{
-				information.StartDate = overrideDateTimePicker.Value;
+				publishSettings.StartDate = overrideDateTimePicker.Value;
 			}
 
-			if (customStartPointCheckbox.Checked && information != null)
+			if (customStartPointCheckbox.Checked && publishSettings != null)
 			{
-				information.CustomStartDayIndex = customStartPointCombobox.SelectedIndex;
+				publishSettings.CustomStartDayIndex = customStartPointCombobox.SelectedIndex;
 			}
 
-			return information;
+			return publishSettings;
 		}
 	}
 }

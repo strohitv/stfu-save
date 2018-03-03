@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.UploadLib.Automation;
@@ -10,7 +9,7 @@ namespace STFU.AutoUploader
 	public partial class ChooseStartTimesForm : Form
 	{
 		AutomationUploader uploader;
-		private PublishInformation[] publishInformation;
+		private PublishSettings[] publishSettings;
 
 		public ChooseStartTimesForm(AutomationUploader upl)
 		{
@@ -18,36 +17,36 @@ namespace STFU.AutoUploader
 
 			uploader = upl;
 
-			publishInformation = uploader.GetPublishInformation();
-			chooseCustomTimesControl.AddRange(publishInformation);
+			publishSettings = uploader.GetPublishInformation();
+			chooseCustomTimesControl.AddRange(publishSettings);
 
-			globalSettingsControl.SetPublishControlsVisibility(publishInformation.Any(i => i.Template.ShouldPublishAt), false);
+			globalSettingsControl.SetPublishControlsVisibility(publishSettings.Any(i => i.Template.ShouldPublishAt), false);
 		}
 
-		public PublishInformation[] GetPublishInformation()
+		public PublishSettings[] GetPublishSettingsArray()
 		{
-			chooseCustomTimesControl.GetPublishInformation();
+			chooseCustomTimesControl.GetPublishSettingsArray();
 
 			var shouldIgnore = globalSettingsControl.ShouldIgnore;
 			var shouldUploadPrivate = globalSettingsControl.ShouldUploadPrivate;
 
-			DateTime? firstPublishTime = null;
+			DateTime firstPublishTime = default(DateTime);
 			if (globalSettingsControl.ShouldPublishAt)
 			{
 				firstPublishTime = globalSettingsControl.PublishAt;
 			}
 
-			foreach (var info in publishInformation)
+			foreach (var setting in publishSettings)
 			{
-				if (!info.IgnorePath && !info.UploadPrivate && info.StartDate == null)
+				if (!setting.IgnorePath && !setting.UploadPrivate && setting.StartDate == default(DateTime))
 				{
-					info.IgnorePath = shouldIgnore;
-					info.UploadPrivate = shouldUploadPrivate;
-					info.StartDate = firstPublishTime;
+					setting.IgnorePath = shouldIgnore;
+					setting.UploadPrivate = shouldUploadPrivate;
+					setting.StartDate = firstPublishTime;
 				}
 			}
 
-			return publishInformation;
+			return publishSettings;
 		}
 	}
 }

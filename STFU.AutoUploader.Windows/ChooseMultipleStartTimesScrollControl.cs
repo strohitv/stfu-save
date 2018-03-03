@@ -8,36 +8,36 @@ namespace STFU.AutoUploader
 {
 	public partial class ChooseMultipleStartTimesScrollControl : UserControl
 	{
-		private IList<PublishInformation> information = new List<PublishInformation>();
+		private IList<PublishSettings> publishSettings = new List<PublishSettings>();
 
 		public ChooseMultipleStartTimesScrollControl()
 		{
 			InitializeComponent();
 		}
 
-		public void AddRange(IEnumerable<PublishInformation> info)
+		public void AddRange(IEnumerable<PublishSettings> info)
 		{
 			foreach (var item in info)
 			{
-				information.Add(item);
+				publishSettings.Add(item);
 			}
 		}
 
-		internal IList<PublishInformation> GetPublishInformation()
+		internal IList<PublishSettings> GetPublishSettingsArray()
 		{
 			foreach (ChooseSingleStartTimeControl control in mainTlp.Controls)
 			{
-				control.GetPublishInformation();
+				control.GetPublishSettings();
 			}
 
-			return information.ToList();
+			return publishSettings.ToList();
 		}
 
 		private void ChooseMultipleStartTimesScrollControlLoad(object sender, EventArgs e)
 		{
-			for (int i = 0; i < information.Count; i++)
+			for (int i = 0; i < publishSettings.Count; i++)
 			{
-				var control = new ChooseSingleStartTimeControl(information[i]);
+				var control = new ChooseSingleStartTimeControl(publishSettings[i]);
 				control.Margin = new Padding(0, 0, 0, 10);
 				control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 

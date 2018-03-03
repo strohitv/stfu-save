@@ -235,6 +235,8 @@ namespace STFU.UploadLib.Automation
 			{
 				ReadTemplates();
 				EnsureTemplateIdsAreUnique();
+				EnsureTemplatesHaveCategory();
+				EnsureTemplatesHaveLanguage();
 			}
 
 			EnsureStandardTemplateExists();
@@ -312,6 +314,42 @@ namespace STFU.UploadLib.Automation
 			}
 
 			UnfinishedJob = LoadLastJob();
+		}
+
+		private void EnsureTemplatesHaveLanguage()
+		{
+			bool needsSave = false;
+			foreach (var template in Templates)
+			{
+				if (template.DefaultLanguage == null)
+				{
+					template.DefaultLanguage = new Language() { Name = "Deutsch", Hl = "DE", Id = "DE" };
+					needsSave = true;
+				}
+			}
+
+			if (needsSave)
+			{
+				WriteTemplates();
+			}
+		}
+
+		private void EnsureTemplatesHaveCategory()
+		{
+			bool needsSave = false;
+			foreach (var template in Templates)
+			{
+				if (template.Category == null)
+				{
+					template.Category = new Category(20, "Gaming");
+					needsSave = true;
+				}
+			}
+
+			if (needsSave)
+			{
+				WriteTemplates();
+			}
 		}
 
 		public Template CreateTemplate()
@@ -546,17 +584,17 @@ namespace STFU.UploadLib.Automation
 			}
 		}
 
-		public PublishInformation[] GetPublishInformation()
+		public PublishSettings[] GetPublishInformation()
 		{
-			return Paths.Select(p => new PublishInformation(p, DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1), Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
+			return Paths.Select(p => new PublishSettings(p, Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
 		}
 
-		public async void StartAsync(PublishInformation[] infos)
+		public async void StartAsync(PublishSettings[] infos)
 		{
 			await Task.Run(() => Start(infos));
 		}
 
-		private void Start(PublishInformation[] infos)
+		private void Start(PublishSettings[] settings)
 		{
 			IsActive = true;
 
@@ -565,18 +603,18 @@ namespace STFU.UploadLib.Automation
 			Files.Clear();
 			Watchers.Clear();
 
-			var pInfos = new List<PublishInformation>();
+			var publishInfos = new List<PublishInformation>();
 
-			foreach (var info in infos)
+			foreach (var pathSetting in settings)
 			{
-				var newInfo = new PublishInformation(info.PathInfo, info.StartDate.HasValue ? info.StartDate.Value : info.GetNextPublishTime(), info.Template, info.CustomStartDayIndex);
-				newInfo.IgnorePath = info.IgnorePath;
-				newInfo.UploadPrivate = info.UploadPrivate;
+				var newInfo = new PublishInformation(pathSetting.PathInfo, pathSetting.StartDate, pathSetting.Template, pathSetting.CustomStartDayIndex);
+				newInfo.IgnorePath = pathSetting.IgnorePath;
+				newInfo.UploadPrivate = pathSetting.UploadPrivate;
 
-				pInfos.Add(newInfo);
+				publishInfos.Add(newInfo);
 			}
 
-			creator = new TemplateVideoCreator(pInfos);
+			creator = new TemplateVideoCreator(publishInfos);
 
 			TryConnectAccount();
 			if (ActiveAccount.Access?.AccessToken == null)
@@ -589,9 +627,9 @@ namespace STFU.UploadLib.Automation
 			UnfinishedJob = LoadLastJob();
 			UploadFilesAsync();
 
-			CreateWatchers(pInfos.ToArray());
+			CreateWatchers(publishInfos.ToArray());
 
-			SearchExistingVideos(pInfos.ToArray());
+			SearchExistingVideos(publishInfos.ToArray());
 		}
 
 		public void SuspendProcessWatcher()
