@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
+using STFU.UploadLib.Communication.Youtube.Serializable;
 using STFU.UploadLib.Queue;
 using STFU.UploadLib.Videos;
 
@@ -32,16 +34,21 @@ namespace STFU.UploadLib.Communication.Youtube
 
 		internal static bool Upload(ref Job job, ref bool shouldCancel)
 		{
-			//Trace.WriteLine(testUrl.AbsoluteUri);
-
 			WebService.ProgressChanged += ReactToProgressChanged;
 
 			Uri testUrl = null;
-			while (!shouldCancel && Uri.TryCreate(WebService.UploadFile(ref job, ref shouldCancel), UriKind.Absolute, out testUrl))
+			string result = null;
+			while (!shouldCancel && Uri.TryCreate(result = WebService.UploadVideo(ref job, ref shouldCancel), UriKind.Absolute, out testUrl))
 			{
-				//Trace.WriteLine("Upload wurde unerwartet abgebrochen. Warte 1 Minuten vor Neuversuch...");
 				Thread.Sleep(new TimeSpan(0, 1, 0));
 			}
+
+			if (!shouldCancel)
+			{
+				var videoId = JsonConvert.DeserializeObject<YoutubeVideo>(result).id;
+				var thumbnailResult = WebService.UploadThumbnail(ref job, videoId, ref shouldCancel);
+			}
+
 			return true;
 		}
 

@@ -331,6 +331,24 @@ namespace STFU.UploadLib.Communication.Youtube {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to POST.
+        /// </summary>
+        internal static string UploadThumbnailMethod {
+            get {
+                return ResourceManager.GetString("UploadThumbnailMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={1}&amp;key={0}.
+        /// </summary>
+        internal static string UploadThumbnailUrl {
+            get {
+                return ResourceManager.GetString("UploadThumbnailUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&amp;autoLevels={1}&amp;notifySubscribers={0}&amp;stabilize={2}&amp;part=snippet,status,contentDetails.
         /// </summary>
         internal static string UploadUrl {

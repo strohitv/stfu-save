@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Security;
 using System.Resources;
 using System.Security.Cryptography.X509Certificates;
+using System.Web;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube.Serializable;
@@ -54,8 +55,6 @@ namespace STFU.UploadLib.Communication.Youtube
 					// Url erhalten
 					return response.Headers.Get(headerName);
 				}
-
-				//https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&fields=items&access_token=
 			}
 			catch (WebException ex)
 			{
@@ -181,7 +180,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			request.Method = resourceManager.GetString("UpoadInitMethod");
 			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), job.UploadingAccount.Access.AccessToken));
 			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentLengthHeader"), job.SelectedVideo.File.Length));
-			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentTypeHeader"), resourceManager.GetString("VideoContentType")));
+			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentTypeHeader"), MimeMapping.GetMimeMapping(job.SelectedVideo.File.Name)));
 
 			request.ContentLength = bytes.Length;
 			request.ContentType = resourceManager.GetString("JSONContentType");
@@ -202,7 +201,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			// Header schreiben
 			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), job.UploadingAccount.Access.AccessToken));
 			request.ContentLength = job.SelectedVideo.File.Length;
-			request.ContentType = resourceManager.GetString("VideoContentType");
+			request.ContentType = MimeMapping.GetMimeMapping(job.SelectedVideo.File.Name);
 
 			// Am Leben halten (wichtig bei großen Dateien)!
 			request.ServicePoint.SetTcpKeepAlive(true, 10000, 1000);
@@ -235,7 +234,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			return request;
 		}
 
-		internal static string UploadFile(ref Job job, ref bool shouldCancel)
+		internal static string UploadVideo(ref Job job, ref bool shouldCancel)
 		{
 			var lastbyte = CheckUploadStatus(ref job);
 
@@ -269,7 +268,6 @@ namespace STFU.UploadLib.Communication.Youtube
 					job.Status.Progress = fileStream.Position / (double)job.SelectedVideo.File.Length * 100;
 					if (Convert.ToInt32(job.Status.Progress) != save)
 					{
-						var now = DateTime.Now;
 						OnProgressChanged(job.SelectedVideo.Title, save);
 					}
 				}
@@ -339,6 +337,80 @@ namespace STFU.UploadLib.Communication.Youtube
 			}
 
 			return lastbyte;
+		}
+
+		internal static string UploadThumbnail(ref Job job, string videoId, ref bool shouldCancel)
+		{
+			// Request erstellen
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format(resourceManager.GetString("UploadThumbnailUrl"), clientSecret, videoId));
+			request.Proxy = null;
+			request.Method = resourceManager.GetString("UploadThumbnailMethod");
+			request.KeepAlive = true;
+			request.Credentials = CredentialCache.DefaultCredentials;
+			request.ProtocolVersion = HttpVersion.Version11;
+
+			// Header schreiben
+			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), job.UploadingAccount.Access.AccessToken));
+
+			string result = null;
+
+			FileInfo file = null;
+			if (File.Exists(job.SelectedVideo.ThumbnailPath) && (file = new FileInfo(job.SelectedVideo.ThumbnailPath)).Length < 2000000)
+			{
+				request.ContentLength = file.Length;
+				request.ContentType = MimeMapping.GetMimeMapping(job.SelectedVideo.ThumbnailPath);
+
+				FileStream fileStream = new FileStream(job.SelectedVideo.ThumbnailPath, FileMode.Open, FileAccess.Read);
+
+				Stream requestStream = request.GetRequestStream();
+				byte[] buffer = new byte[128 * 1024];
+				int bytesRead = 0;
+
+				// Hochladen
+				while (!shouldCancel && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+				{
+					try
+					{
+						requestStream.Write(buffer, 0, bytesRead);
+						requestStream.Flush();
+						var save = Convert.ToInt32(job.Status.Progress * 100);
+						job.Status.Progress = fileStream.Position / (double)file.Length * 100;
+						if (Convert.ToInt32(job.Status.Progress) != save)
+						{
+							OnProgressChanged($"Thumbnail für {job.SelectedVideo.Title}", save);
+						}
+					}
+					catch (WebException)
+					{
+						requestStream.Close();
+						return job.Url.AbsolutePath;
+					}
+					catch (IOException)
+					{
+						requestStream.Close();
+						return job.Url.AbsolutePath;
+					}
+				}
+				fileStream.Close();
+
+				try
+				{
+					requestStream.Close();
+					job.Status.Progress = 100.0;
+					job.Status.Finished = true;
+				}
+				catch (WebException)
+				{
+				}
+
+				job.Status.Running = false;
+
+				result = Communicate(request);
+
+				request = null;
+			}
+
+			return result;
 		}
 
 		#endregion Upload

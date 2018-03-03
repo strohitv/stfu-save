@@ -52,6 +52,8 @@ namespace STFU.UploadLib.Templates
 
 		public bool ShouldPublishAt { get; set; }
 
+		public string ThumbnailPath { get; set; }
+
 		private Dictionary<string, Variable> localVars = new Dictionary<string, Variable>();
 
 		private Dictionary<string, Variable> LocalVars { get { return localVars; } set { localVars = value; } }
@@ -184,6 +186,7 @@ namespace STFU.UploadLib.Templates
 				ShouldPublishAt = template.ShouldPublishAt,
 				Stabilize = template.Stabilize,
 				Tags = template.Tags,
+				ThumbnailPath = template.ThumbnailPath,
 				Title = template.Title
 			};
 		}
@@ -245,6 +248,9 @@ namespace STFU.UploadLib.Templates
 						break;
 					case "tags":
 						result.Tags = (string)item.Value;
+						break;
+					case "thumbnailpath":
+						result.ThumbnailPath = (string)item.Value;
 						break;
 					case "title":
 						result.Title = (string)item.Value;
