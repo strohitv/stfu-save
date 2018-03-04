@@ -14,6 +14,8 @@ namespace STFU.UploadLib.Automation
 
 		public string Filter { get; set; }
 
+		public bool Inactive { get; set; }
+
 		public bool SearchRecursively
 		{
 			get

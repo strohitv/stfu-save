@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.chosePathTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.lvPaths = new System.Windows.Forms.ListView();
 			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -53,8 +54,11 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.chbRecursive = new System.Windows.Forms.CheckBox();
 			this.chbHidden = new System.Windows.Forms.CheckBox();
+			this.deactivateCheckbox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chosePathTlp.SuspendLayout();
 			this.editPathGroupbox.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
@@ -107,7 +111,7 @@
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.chosePathTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.chosePathTlp.Size = new System.Drawing.Size(957, 505);
+			this.chosePathTlp.Size = new System.Drawing.Size(1021, 505);
 			this.chosePathTlp.TabIndex = 0;
 			// 
 			// lvPaths
@@ -117,7 +121,8 @@
             this.chFilter,
             this.chTemplate,
             this.chRecursive,
-            this.chHidden});
+            this.chHidden,
+            this.cbInactive});
 			this.chosePathTlp.SetColumnSpan(this.lvPaths, 3);
 			this.lvPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvPaths.FullRowSelect = true;
@@ -130,7 +135,7 @@
 			this.lvPaths.Name = "lvPaths";
 			this.chosePathTlp.SetRowSpan(this.lvPaths, 10);
 			this.lvPaths.ShowGroups = false;
-			this.lvPaths.Size = new System.Drawing.Size(891, 293);
+			this.lvPaths.Size = new System.Drawing.Size(955, 293);
 			this.lvPaths.TabIndex = 10;
 			this.lvPaths.UseCompatibleStateImageBehavior = false;
 			this.lvPaths.View = System.Windows.Forms.View.Details;
@@ -175,6 +180,7 @@
 			this.addPathButton.Size = new System.Drawing.Size(41, 41);
 			this.addPathButton.TabIndex = 1;
 			this.addPathButton.Text = "+";
+			this.toolTip.SetToolTip(this.addPathButton, "Fügt einen neuen Pfad hinzu");
 			this.addPathButton.UseVisualStyleBackColor = true;
 			this.addPathButton.Click += new System.EventHandler(this.AddPathButtonClick);
 			// 
@@ -190,6 +196,7 @@
 			this.movePathUpButton.Size = new System.Drawing.Size(41, 41);
 			this.movePathUpButton.TabIndex = 1;
 			this.movePathUpButton.Text = "↑";
+			this.toolTip.SetToolTip(this.movePathUpButton, "Schiebt den markierten Pfad um eine Stelle nach oben");
 			this.movePathUpButton.UseVisualStyleBackColor = true;
 			this.movePathUpButton.Click += new System.EventHandler(this.movePathUpButtonClick);
 			// 
@@ -205,6 +212,7 @@
 			this.movePathDownButton.Size = new System.Drawing.Size(41, 41);
 			this.movePathDownButton.TabIndex = 1;
 			this.movePathDownButton.Text = "↓";
+			this.toolTip.SetToolTip(this.movePathDownButton, "Schiebt den markierten Pfad um eine Stelle nach unten");
 			this.movePathDownButton.UseVisualStyleBackColor = true;
 			this.movePathDownButton.Click += new System.EventHandler(this.movePathDownButtonClick);
 			// 
@@ -221,6 +229,7 @@
 			this.deletePathButton.Size = new System.Drawing.Size(41, 41);
 			this.deletePathButton.TabIndex = 1;
 			this.deletePathButton.Text = "-";
+			this.toolTip.SetToolTip(this.deletePathButton, "Löscht den markierten Pfad");
 			this.deletePathButton.UseVisualStyleBackColor = true;
 			this.deletePathButton.Click += new System.EventHandler(this.deletePathButtonClick);
 			// 
@@ -237,6 +246,7 @@
 			this.clearButton.Size = new System.Drawing.Size(41, 41);
 			this.clearButton.TabIndex = 1;
 			this.clearButton.Text = "x";
+			this.toolTip.SetToolTip(this.clearButton, "Löscht alle Pfade");
 			this.clearButton.UseVisualStyleBackColor = true;
 			this.clearButton.Click += new System.EventHandler(this.clearButtonClick);
 			// 
@@ -251,7 +261,7 @@
 			this.editPathGroupbox.Name = "editPathGroupbox";
 			this.editPathGroupbox.Padding = new System.Windows.Forms.Padding(2);
 			this.chosePathTlp.SetRowSpan(this.editPathGroupbox, 7);
-			this.editPathGroupbox.Size = new System.Drawing.Size(937, 154);
+			this.editPathGroupbox.Size = new System.Drawing.Size(1001, 154);
 			this.editPathGroupbox.TabIndex = 13;
 			this.editPathGroupbox.TabStop = false;
 			this.editPathGroupbox.Text = "Pfad bearbeiten";
@@ -260,7 +270,7 @@
 			// 
 			this.tlpEditPaths.AutoSize = true;
 			this.tlpEditPaths.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpEditPaths.ColumnCount = 9;
+			this.tlpEditPaths.ColumnCount = 11;
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -270,9 +280,11 @@
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.Controls.Add(this.txtbxAddPath, 3, 1);
 			this.tlpEditPaths.Controls.Add(this.label2, 1, 1);
-			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 7, 1);
+			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 9, 1);
 			this.tlpEditPaths.Controls.Add(this.label3, 1, 3);
 			this.tlpEditPaths.Controls.Add(this.txtbxAddFilter, 3, 3);
 			this.tlpEditPaths.Controls.Add(this.btnCancel, 3, 7);
@@ -281,6 +293,7 @@
 			this.tlpEditPaths.Controls.Add(this.label4, 1, 5);
 			this.tlpEditPaths.Controls.Add(this.chbRecursive, 5, 5);
 			this.tlpEditPaths.Controls.Add(this.chbHidden, 7, 5);
+			this.tlpEditPaths.Controls.Add(this.deactivateCheckbox, 9, 5);
 			this.tlpEditPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpEditPaths.Enabled = false;
 			this.tlpEditPaths.Location = new System.Drawing.Point(2, 15);
@@ -296,18 +309,19 @@
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpEditPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpEditPaths.Size = new System.Drawing.Size(933, 137);
+			this.tlpEditPaths.Size = new System.Drawing.Size(997, 137);
 			this.tlpEditPaths.TabIndex = 0;
 			// 
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpEditPaths.SetColumnSpan(this.txtbxAddPath, 3);
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddPath, 5);
 			this.txtbxAddPath.Location = new System.Drawing.Point(123, 11);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
-			this.txtbxAddPath.Size = new System.Drawing.Size(678, 20);
+			this.txtbxAddPath.Size = new System.Drawing.Size(742, 20);
 			this.txtbxAddPath.TabIndex = 12;
+			this.toolTip.SetToolTip(this.txtbxAddPath, "Der zu überwachende Pfad");
 			// 
 			// label2
 			// 
@@ -323,7 +337,7 @@
 			// 
 			this.btnSelectPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSelectPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnSelectPath.Location = new System.Drawing.Point(811, 10);
+			this.btnSelectPath.Location = new System.Drawing.Point(875, 10);
 			this.btnSelectPath.Margin = new System.Windows.Forms.Padding(0);
 			this.btnSelectPath.Name = "btnSelectPath";
 			this.btnSelectPath.Size = new System.Drawing.Size(112, 23);
@@ -345,12 +359,14 @@
 			// txtbxAddFilter
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 5);
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 7);
 			this.txtbxAddFilter.Location = new System.Drawing.Point(123, 43);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(800, 20);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(864, 20);
 			this.txtbxAddFilter.TabIndex = 15;
+			this.toolTip.SetToolTip(this.txtbxAddFilter, "Hier kannst du einstellen, nach welchen Kriterien die Videos gesucht werden solle" +
+        "n.");
 			// 
 			// btnCancel
 			// 
@@ -388,8 +404,10 @@
 			this.cobSelectedTemplate.Location = new System.Drawing.Point(123, 73);
 			this.cobSelectedTemplate.Margin = new System.Windows.Forms.Padding(0);
 			this.cobSelectedTemplate.Name = "cobSelectedTemplate";
-			this.cobSelectedTemplate.Size = new System.Drawing.Size(552, 21);
+			this.cobSelectedTemplate.Size = new System.Drawing.Size(494, 21);
 			this.cobSelectedTemplate.TabIndex = 19;
+			this.toolTip.SetToolTip(this.cobSelectedTemplate, "Das Template, dass auf gefundene Videodateien unterhalb dieses Pfades angewandt w" +
+        "erden soll.");
 			// 
 			// label4
 			// 
@@ -404,25 +422,44 @@
 			// chbRecursive
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbRecursive.Location = new System.Drawing.Point(685, 75);
+			this.chbRecursive.AutoSize = true;
+			this.chbRecursive.Location = new System.Drawing.Point(627, 75);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
 			this.chbRecursive.Size = new System.Drawing.Size(116, 17);
 			this.chbRecursive.TabIndex = 16;
 			this.chbRecursive.Text = "Unterverzeichnisse";
+			this.toolTip.SetToolTip(this.chbRecursive, "Wenn diese Option gewählt wird, werden alle unter dem Verzeichnis liegenden Ordne" +
+        "r (und deren Unterordner usw.) durchsucht.");
 			this.chbRecursive.UseVisualStyleBackColor = true;
 			this.chbRecursive.CheckedChanged += new System.EventHandler(this.chbRecursiveCheckedChanged);
 			// 
 			// chbHidden
 			// 
 			this.chbHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.chbHidden.Location = new System.Drawing.Point(811, 75);
+			this.chbHidden.AutoSize = true;
+			this.chbHidden.Location = new System.Drawing.Point(753, 75);
 			this.chbHidden.Margin = new System.Windows.Forms.Padding(0);
 			this.chbHidden.Name = "chbHidden";
 			this.chbHidden.Size = new System.Drawing.Size(112, 17);
 			this.chbHidden.TabIndex = 16;
 			this.chbHidden.Text = "Versteckte Ordner";
+			this.toolTip.SetToolTip(this.chbHidden, "Wenn diese Option gewählt wird, werden auch versteckte Unterordner durchsucht.");
 			this.chbHidden.UseVisualStyleBackColor = true;
+			// 
+			// deactivateCheckbox
+			// 
+			this.deactivateCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.deactivateCheckbox.AutoSize = true;
+			this.deactivateCheckbox.Location = new System.Drawing.Point(875, 75);
+			this.deactivateCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.deactivateCheckbox.Name = "deactivateCheckbox";
+			this.deactivateCheckbox.Size = new System.Drawing.Size(112, 17);
+			this.deactivateCheckbox.TabIndex = 16;
+			this.deactivateCheckbox.Text = "Inaktiv";
+			this.toolTip.SetToolTip(this.deactivateCheckbox, "Wenn diese Option gewählt wird, wird der Pfad deaktiviert. Er wird bis zum Entfer" +
+        "nen des Hakens vom Uploader nicht mehr berücksichtigt.");
+			this.deactivateCheckbox.UseVisualStyleBackColor = true;
 			// 
 			// label1
 			// 
@@ -441,11 +478,22 @@
 			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
     "htest.";
 			// 
+			// toolTip
+			// 
+			this.toolTip.AutoPopDelay = 5000;
+			this.toolTip.InitialDelay = 500;
+			this.toolTip.ReshowDelay = 100;
+			this.toolTip.ShowAlways = true;
+			// 
+			// cbInactive
+			// 
+			this.cbInactive.Text = "Inaktiv";
+			// 
 			// PathForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(957, 505);
+			this.ClientSize = new System.Drawing.Size(1021, 505);
 			this.Controls.Add(this.chosePathTlp);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "PathForm";
@@ -492,5 +540,8 @@
 		private System.Windows.Forms.ColumnHeader chTemplate;
 		private System.Windows.Forms.CheckBox chbHidden;
 		private System.Windows.Forms.ColumnHeader chHidden;
+		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.CheckBox deactivateCheckbox;
+		private System.Windows.Forms.ColumnHeader cbInactive;
 	}
 }

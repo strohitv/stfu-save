@@ -91,8 +91,6 @@ namespace STFU.UploadLib.Communication.Youtube
 			ProgressChanged?.Invoke(args);
 		}
 
-		#region Accounts
-
 		internal static string GetAuthUrl(bool showAuthToken = false)
 		{
 			string scope = resourceManager.GetString("UploadScope");
@@ -163,10 +161,6 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			return null;
 		}
-
-		#endregion Accounts
-
-		#region Upload
 
 		internal static string InitializeUpload(ref Job job)
 		{
@@ -413,10 +407,6 @@ namespace STFU.UploadLib.Communication.Youtube
 			return result;
 		}
 
-		#endregion Upload
-
-		#region GetPlaylistInfos
-
 		internal static string[] GetPlaylistItems(string accessToken, string playlistId)
 		{
 			var pageToken = string.Empty;
@@ -466,10 +456,6 @@ namespace STFU.UploadLib.Communication.Youtube
 			return list.ToArray();
 		}
 
-		#endregion GetPlaylistInfos
-
-		#region GetChannelDetails
-
 		internal static Response GetAccountDetails(string accessToken)
 		{
 			var pageToken = string.Empty;
@@ -487,10 +473,6 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			return response;
 		}
-
-		#endregion GetChannelDetails
-
-		#region GetVideoCategories
 
 		internal static Response GetVideoCategories(string regionCode, string accessToken)
 		{
@@ -529,8 +511,6 @@ namespace STFU.UploadLib.Communication.Youtube
 
 			return response;
 		}
-
-		#endregion GetVideoCategories
 
 		#region MonoSSL
 		static WebService()

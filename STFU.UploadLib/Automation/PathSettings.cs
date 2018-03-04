@@ -176,6 +176,9 @@ namespace STFU.UploadLib.Automation
 							case "selectedtemplateid":
 								info.SelectedTemplateId = (int)item.Value;
 								break;
+							case "inactive":
+								info.Inactive = (bool)item.Value;
+								break;
 							default:
 								break;
 						}
