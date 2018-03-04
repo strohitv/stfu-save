@@ -7,8 +7,8 @@
     <ProjectGuid>{3B4B22C4-B286-4742-9F53-747494E54CA0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STFU.AutoUploader</RootNamespace>
-    <AssemblyName>STFU.AutoUploader</AssemblyName>
+    <RootNamespace>STFU.AutoUploader.Windows</RootNamespace>
+    <AssemblyName>STFU.AutoUploader.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
