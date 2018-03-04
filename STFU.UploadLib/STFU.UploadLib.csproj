@@ -90,14 +90,9 @@
     <Compile Include="Automation\AutomationUploader.cs" />
     <Compile Include="Automation\PathInformation.cs" />
     <Compile Include="Automation\PathSettings.cs" />
-    <Compile Include="Automation\SerializableDictionary.cs" />
-    <Compile Include="Communication\Program\Client.cs" />
-    <Compile Include="Communication\Program\Communication.cs" />
-    <Compile Include="Communication\Program\Server.cs" />
     <Compile Include="Communication\Youtube\AccountCommunication.cs" />
     <Compile Include="Communication\Youtube\EventArgs.cs" />
     <Compile Include="Communication\Youtube\EventHandler.cs" />
-    <Compile Include="Communication\Youtube\Playlist.cs" />
     <Compile Include="Communication\Youtube\Response.cs" />
     <Compile Include="Communication\Youtube\Serializable\EnumConverter.cs" />
     <Compile Include="Communication\Youtube\Serializable\EnumHelper.cs" />
@@ -111,14 +106,10 @@
       <DependentUpon>WebResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Communication\Youtube\WebService.cs" />
-    <Compile Include="Operations\FileOperations.cs" />
-    <Compile Include="Operations\FileWatcher.cs" />
     <Compile Include="Operations\ProcessWatcher.cs" />
-    <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\Job.cs" />
-    <Compile Include="Queue\UploadQueue.cs" />
     <Compile Include="Queue\UploadDetails.cs" />
     <Compile Include="Templates\PublishInformation.cs" />
     <Compile Include="Templates\PublishSettings.cs" />
