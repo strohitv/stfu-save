@@ -81,10 +81,6 @@ namespace STFU.UploadLib.Videos
 
 		public static int MaxTagsLength => 500;
 
-		public Video()
-		{
-		}
-
 		public Video(string path)
 		{
 			Path = path;

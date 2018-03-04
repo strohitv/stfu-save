@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using STFU.UploadLib.Videos;
 
 namespace STFU.UploadLib.Communication.Youtube.Serializable
