@@ -45,6 +45,7 @@ namespace STFU.AutoUploader
 
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
 			}
 
 			lvPaths.SelectedIndices.Clear();
@@ -68,6 +69,7 @@ namespace STFU.AutoUploader
 			chbHidden.Checked = selectedItem.SearchHidden;
 			chbRecursive.Checked = selectedItem.SearchRecursively;
 			chbHidden.Enabled = chbRecursive.Checked;
+			deactivateCheckbox.Checked = selectedItem.Inactive;
 
 			if (uploader.Templates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
@@ -87,6 +89,7 @@ namespace STFU.AutoUploader
 			chbRecursive.Checked = false;
 			chbHidden.Checked = false;
 			chbHidden.Enabled = false;
+			deactivateCheckbox.Checked = false;
 		}
 
 		private void PathFormLoad(object sender, EventArgs e)
@@ -111,7 +114,9 @@ namespace STFU.AutoUploader
 						Path = folderBrowserDialog.SelectedPath,
 						Filter = "*.mp4;*.mkv",
 						SelectedTemplateId = 0,
-						SearchRecursively = false
+						SearchRecursively = false,
+						Inactive = false,
+						SearchHidden = false
 					};
 
 					uploader.Paths.Add(newPath);
@@ -154,6 +159,7 @@ namespace STFU.AutoUploader
 			selectedItem.SearchHidden = chbHidden.Checked;
 			selectedItem.SearchRecursively = chbRecursive.Checked;
 			selectedItem.SelectedTemplateId = uploader.Templates[cobSelectedTemplate.SelectedIndex]?.Id ?? 0;
+			selectedItem.Inactive = deactivateCheckbox.Checked;
 
 			ClearEditBox();
 			RefillListView();
@@ -243,6 +249,20 @@ namespace STFU.AutoUploader
 			{
 				chbHidden.Checked = false;
 			}
+		}
+
+		private void txtbxAddFilter_MouseEnter(object sender, EventArgs e)
+		{
+			var tooltipText = @"Hiermit kannst du die Dateien, die du finden möchtest, durch Strichpunkt getrennt filltern.
+Platzhalter: ? für ein beliebiges Zeichen, * für beliebig viele beliebige Zeichen
+
+Beispielhafte Filter: 
+*.mp4  findet alle mp4-Dateien. 
+video*.mp4 findet alle mp4-Dateien, die mit 'video' beginnen. 
+video?.mp4 findet video1.mp4, aber nicht video12.mp4, da das Fragezeichen nur ein Zeichen ersetzen kann.
+video *.mp4 findet auch video.mp4, da der *auch für kein Zeichen stehen kann.
+* mp4; *mkv findet alle mp4 - und alle mkv-Dateien.";
+			toolTip.Show(tooltipText, txtbxAddFilter, 60000);
 		}
 	}
 }

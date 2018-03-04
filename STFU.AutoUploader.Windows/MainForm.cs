@@ -33,6 +33,7 @@ namespace STFU.AutoUploader
 
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
 			}
 		}
 

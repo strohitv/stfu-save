@@ -586,7 +586,7 @@ namespace STFU.UploadLib.Automation
 
 		public PublishSettings[] GetPublishInformation()
 		{
-			return Paths.Select(p => new PublishSettings(p, Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
+			return Paths.Where(p => !p.Inactive).Select(p => new PublishSettings(p, Templates.First(t => t.Id == p.SelectedTemplateId))).ToArray();
 		}
 
 		public async void StartAsync(PublishSettings[] infos)
