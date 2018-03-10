@@ -257,7 +257,12 @@
   <Import Project="..\packages\Geckofx45.45.0.34\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.34\build\Geckofx45.targets')" />
   <Import Project="..\packages\Baseclass.Contrib.Nuget.Output.2.4.1\build\net40\Baseclass.Contrib.Nuget.Output.targets" Condition="Exists('..\packages\Baseclass.Contrib.Nuget.Output.2.4.1\build\net40\Baseclass.Contrib.Nuget.Output.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>del "..\bin\STFU*"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
