@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Security;
 using System.Resources;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.UploadLib.Accounts;
@@ -23,10 +24,6 @@ namespace STFU.UploadLib.Communication.Youtube
 		private static string clientSecret;
 
 		public static event ProgressChangedEventHandler ProgressChanged;
-
-		// TODO: https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&key={YOUR_API_KEY}
-		// https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.channels.list?part=snippet&mine=true&_h=2&
-		// Infos über den Channel.
 
 		private static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
 		{
@@ -118,7 +115,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			string content = resourceManager.GetString("AuthCodeContent");
 
 			content = string.Format(content, code, clientId, clientSecret, useLocalhostRedirect ? resourceManager.GetString("RedirectUriAutoGet") : resourceManager.GetString("RedirectUriManuGet"));
-			var bytes = System.Text.Encoding.UTF8.GetBytes(content);
+			var bytes = Encoding.UTF8.GetBytes(content);
 
 			// Request erstellen
 			WebRequest request = WebRequest.Create(resourceManager.GetString("AuthCodeAddress"));

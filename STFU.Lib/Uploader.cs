@@ -4,13 +4,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using STFU.UploadLib.Accounts;
-using STFU.UploadLib.Communication.Youtube;
+using STFU.Lib.Interfaces;
 
 namespace STFU.UploadLib
 {
-	public class Uploader : INotifyPropertyChanged
+	public class Uploader : IUploader, INotifyPropertyChanged
 	{
 		private ObservableCollection<Account> accounts;
 
@@ -130,14 +128,14 @@ namespace STFU.UploadLib
 			return files;
 		}
 
-		#region INotifyPropertyChanged
+		#region NotifyProperty
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		public void OnPropertyChanged([CallerMemberName]string name = "")
+		public void OnPropertyChanged(string name)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
-		#endregion INofityPropertyChanged
+		#endregion NotifyProperty
 	}
 }

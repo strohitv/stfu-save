@@ -7,7 +7,7 @@ using STFU.UploadLib.Communication.Youtube.Serializable;
 
 namespace STFU.UploadLib.Videos
 {
-	public class Video
+	public class Video : IVideo
 	{
 		private PrivacyStatus privacy;
 		private DateTime? publishAt;
