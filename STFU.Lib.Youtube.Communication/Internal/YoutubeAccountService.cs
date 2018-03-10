@@ -121,11 +121,11 @@ namespace STFU.Lib.Youtube.Communication.Internal
 		{
 			foreach (var access in Accounts[account])
 			{
-				RevokeSingleAccess(access);
+				RevokeSingleAccess(account, access);
 			}
 		}
 
-		private static void RevokeSingleAccess(IYoutubeAccountAccess access)
+		internal static void RevokeSingleAccess(IYoutubeAccount account, IYoutubeAccountAccess access)
 		{
 			string address = $"https://accounts.google.com/o/oauth2/revoke?token={access.RefreshToken}";
 
@@ -133,6 +133,21 @@ namespace STFU.Lib.Youtube.Communication.Internal
 			request.ContentType = "application/x-www-form-urlencoded";
 
 			WebService.Communicate(request);
+
+			Accounts[account].Remove(access);
+
+			if (Accounts[account].Count == 0)
+			{
+				Accounts.Remove(account);
+			}
+		}
+
+		internal static void RemoveAllAccessesWithClient(IYoutubeClient client)
+		{
+			foreach (var account in ConnectedAccounts.Keys)
+			{
+				Accounts[account] = Accounts[account].Where(ac => ac.Client.Id != client.Id).ToList();
+			}
 		}
 
 		private static Response GetAccountDetails(IYoutubeAccountAccess access)

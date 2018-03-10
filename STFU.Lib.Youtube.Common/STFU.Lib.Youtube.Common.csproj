@@ -36,6 +36,7 @@
     <Compile Include="InternalInterfaces\IYoutubeJobUploader.cs" />
     <Compile Include="Model\InternalYoutubeJob.cs" />
     <Compile Include="Model\YoutubeAccount.cs" />
+    <Compile Include="Model\YoutubeClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Upload\YoutubeJobUploader.cs" />
     <Compile Include="YoutubeUploader.cs" />
