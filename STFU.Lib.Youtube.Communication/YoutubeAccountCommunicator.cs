@@ -31,7 +31,7 @@ namespace STFU.Lib.Youtube.Communication
 
 		public void RemoveAccount(IYoutubeAccount account)
 		{
-			YoutubeAccountService.RevokeAccess(account);
+			YoutubeAccountService.RevokeAccessOfAccount(account);
 		}
 
 		private string JoinScopes(YoutubeScope scope)

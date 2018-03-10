@@ -131,7 +131,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			string content = resourceManager.GetString("AuthRefreshContent");
 
 			content = string.Format(content, clientId, clientSecret, refreshToken);
-			var bytes = System.Text.Encoding.UTF8.GetBytes(content);
+			var bytes = Encoding.UTF8.GetBytes(content);
 
 			// Request erstellen
 			WebRequest request = WebRequest.Create(resourceManager.GetString("AuthCodeAddress"));
@@ -164,7 +164,7 @@ namespace STFU.UploadLib.Communication.Youtube
 			// Inhalt erstellen
 			var ytVideo = new YoutubeVideo(job.SelectedVideo);
 			string content = JsonConvert.SerializeObject(ytVideo);
-			var bytes = System.Text.Encoding.UTF8.GetBytes(content);
+			var bytes = Encoding.UTF8.GetBytes(content);
 
 			// Request erstellen
 			WebRequest request = WebRequest.Create(string.Format(resourceManager.GetString("UploadUrl"), job.SelectedVideo.NotifySubscribers, job.SelectedVideo.AutoLevels, job.SelectedVideo.Stabilize));

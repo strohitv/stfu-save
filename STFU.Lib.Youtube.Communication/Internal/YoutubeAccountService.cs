@@ -55,33 +55,84 @@ namespace STFU.Lib.Youtube.Communication.Internal
 				var acc = accountDetails.items.First();
 				account = YoutubeAccount.Create(acc.id, acc.snippet.country, acc.snippet.title);
 
-				if (Accounts.ContainsKey(account))
-				{
-					IYoutubeAccountAccess oldAccess;
-					if ((oldAccess = Accounts[account].SingleOrDefault(ac => ac.Client.Id == client.Id)) != null)
-					{
-						Accounts[account].Remove(oldAccess);
-					}
-
-					Accounts[account].Add(access);
-				}
-				else
-				{
-					Accounts.Add(account, new List<IYoutubeAccountAccess>() { access });
-				}
+				AddAccess(account, access);
 			}
 
 			return account;
 		}
 
-		internal static bool RefreshAccess(IYoutubeAccount account)
+		private static void AddAccess(IYoutubeAccount account, IYoutubeAccountAccess access)
 		{
+			if (Accounts.ContainsKey(account))
+			{
+				IYoutubeAccountAccess oldAccess;
+				if ((oldAccess = Accounts[account].SingleOrDefault(ac => ac.Client.Id == access.Client.Id)) != null)
+				{
+					Accounts[account].Remove(oldAccess);
+				}
 
+				Accounts[account].Add(access);
+			}
+			else
+			{
+				Accounts.Add(account, new List<IYoutubeAccountAccess>() { access });
+			}
 		}
 
-		internal static bool RevokeAccess(IYoutubeAccount account)
+		internal static bool RefreshAccess(IYoutubeAccount account)
 		{
+			var firstOutdatedAccess = Accounts[account].FirstOrDefault(ac => ac.ExpirationDate < DateTime.Now);
 
+			// Content zusammenbauen
+			string content = $"client_id={firstOutdatedAccess.Client.Id}&client_secret={firstOutdatedAccess.Client.Secret}&refresh_token={firstOutdatedAccess.RefreshToken}&grant_type=refresh_token";
+			var bytes = Encoding.UTF8.GetBytes(content);
+
+			// Request erstellen
+			WebRequest request = WebRequest.Create("https://www.googleapis.com/oauth2/v4/token");
+			request.Method = "POST";
+			request.ContentType = "application/x-www-form-urlencoded";
+
+			var response = WebService.Communicate(request, bytes);
+
+			bool result = false;
+			if (response != null && !response.Contains("revoked"))
+			{
+				// Account 
+				var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(response);
+
+				if (!string.IsNullOrWhiteSpace(authResponse.access_token))
+				{
+					var access = new YoutubeAccountAccess();
+					access.Client = firstOutdatedAccess.Client;
+					access.AccessToken = authResponse.access_token;
+					access.RefreshToken = authResponse.refresh_token;
+					access.TokenType = authResponse.token_type;
+					access.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
+
+					AddAccess(account, access);
+					result = true;
+				}
+			}
+
+			return result;
+		}
+
+		internal static void RevokeAccessOfAccount(IYoutubeAccount account)
+		{
+			foreach (var access in Accounts[account])
+			{
+				RevokeSingleAccess(access);
+			}
+		}
+
+		private static void RevokeSingleAccess(IYoutubeAccountAccess access)
+		{
+			string address = $"https://accounts.google.com/o/oauth2/revoke?token={access.RefreshToken}";
+
+			WebRequest request = WebRequest.Create(address);
+			request.ContentType = "application/x-www-form-urlencoded";
+
+			WebService.Communicate(request);
 		}
 
 		private static Response GetAccountDetails(IYoutubeAccountAccess access)
