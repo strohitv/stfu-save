@@ -27,9 +27,7 @@ namespace STFU.UploadLib.Automation
 		#region fields
 		private PathSettings paths = new PathSettings();
 		private Uploader uploader = new Uploader();
-		private Account activeAccount = null;
 		private bool active = false;
-		private ProcessWatcher watcher = new ProcessWatcher();
 		private List<Template> templates = new List<Template>();
 		private List<Language> languages = new List<Language>();
 
@@ -94,35 +92,13 @@ namespace STFU.UploadLib.Automation
 
 		public bool EndAfterUpload { get; set; }
 
-		private Account ActiveAccount
-		{
-			get
-			{
-				return activeAccount;
-			}
-
-			set
-			{
-				activeAccount = value;
-			}
-		}
+		private Account ActiveAccount { get; set; } = null;
 
 		public Category[] AvailableCategories => ActiveAccount?.AvailableCategories ?? new Category[] { Category.Default };
 
 		public bool IsConnectedToAccount { get { return ActiveAccount != null; } }
 
-		private ProcessWatcher ProcessWatcher
-		{
-			get
-			{
-				return watcher;
-			}
-
-			set
-			{
-				watcher = value;
-			}
-		}
+		private ProcessWatcher ProcessWatcher { get; set; } = new ProcessWatcher();
 
 		public ReadOnlyCollection<Process> ProcessesToWatch { get { return ProcessWatcher.Processes; } }
 		public bool ShouldWaitForProcs { get { return ProcessWatcher.ShouldWaitForProcs; } set { ProcessWatcher.ShouldWaitForProcs = value; } }

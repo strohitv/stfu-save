@@ -10,7 +10,6 @@ namespace STFU.UploadLib.Operations
 	{
 		internal event EventHandler AllProcessesCompleted;
 
-		private List<Process> procs = new List<Process>();
 		private bool pause = false;
 		private bool hasFired = false;
 
@@ -49,7 +48,7 @@ namespace STFU.UploadLib.Operations
 			var proc = (Process)sender;
 			Remove(proc);
 
-			if (!Pause && procs.Count == 0)
+			if (!Pause && Procs.Count == 0)
 			{
 				AllProcessesCompleted?.Invoke(this, new EventArgs());
 				hasFired = true;
@@ -66,18 +65,7 @@ namespace STFU.UploadLib.Operations
 			Procs.Clear();
 		}
 
-		private List<Process> Procs
-		{
-			get
-			{
-				return procs;
-			}
-
-			set
-			{
-				procs = value;
-			}
-		}
+		private List<Process> Procs { get; set; } = new List<Process>();
 
 		internal ReadOnlyCollection<Process> Processes
 		{

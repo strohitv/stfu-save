@@ -5,50 +5,20 @@ namespace STFU.Lib.Youtube.Common.Model
 {
 	public class YoutubeAccount : IYoutubeAccount
 	{
-		private string id = string.Empty;
-		private string region = string.Empty;
-		private string title = string.Empty;
-		private Uri uri = null;
-		private IYoutubeClient client = null;
+		public string Id { get; } = string.Empty;
 
-		public string Id
-		{
-			get
-			{
-				return id;
-			}
-		}
+		public string Region { get; } = string.Empty;
 
-		public string Region
-		{
-			get
-			{
-				return region;
-			}
-		}
+		public string Title { get; } = string.Empty;
 
-		public string Title
-		{
-			get
-			{
-				return title;
-			}
-		}
-
-		public Uri Uri
-		{
-			get
-			{
-				return uri;
-			}
-		}
+		public Uri Uri { get; } = null;
 
 		internal YoutubeAccount(string id, string region, string title, Uri uri)
 		{
-			this.id = id;
-			this.region = region;
-			this.title = title;
-			this.uri = uri;
+			Id = id;
+			Region = region;
+			Title = title;
+			Uri = uri;
 		}
 
 		public static YoutubeAccount Create(string id, string region, string title)

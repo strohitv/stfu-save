@@ -14,8 +14,6 @@ namespace STFU.UploadLib.Templates
 	{
 		private IList<PublishTime> publishTimes;
 
-		private PrivacyStatus privacy;
-
 		public int Id { get; internal set; }
 
 		public string Name { get; set; }
@@ -31,11 +29,7 @@ namespace STFU.UploadLib.Templates
 		public string Tags { get; set; }
 
 		[JsonConverter(typeof(EnumConverter))]
-		public PrivacyStatus Privacy
-		{
-			get { return privacy; }
-			set { privacy = value; }
-		}
+		public PrivacyStatus Privacy { get; set; }
 
 		[JsonConverter(typeof(EnumConverter))]
 		public License License { get; set; }
@@ -54,9 +48,7 @@ namespace STFU.UploadLib.Templates
 
 		public string ThumbnailPath { get; set; }
 
-		private Dictionary<string, Variable> localVars = new Dictionary<string, Variable>();
-
-		private Dictionary<string, Variable> LocalVars { get { return localVars; } set { localVars = value; } }
+		private Dictionary<string, Variable> LocalVars { get; set; } = new Dictionary<string, Variable>();
 
 		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
 

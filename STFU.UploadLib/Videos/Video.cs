@@ -11,7 +11,6 @@ namespace STFU.UploadLib.Videos
 	{
 		private PrivacyStatus privacy;
 		private DateTime? publishAt;
-		private Collection<string> tags = new Collection<string>(new List<string>());
 
 		public string Path { get; set; }
 
@@ -25,7 +24,7 @@ namespace STFU.UploadLib.Videos
 
 		public Language DefaultLanguage { get; set; }
 
-		public Collection<string> Tags { get { return tags; } }
+		public Collection<string> Tags { get; } = new Collection<string>(new List<string>());
 
 		[JsonConverter(typeof(EnumConverter))]
 		public PrivacyStatus Privacy
