@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\Enums\EnumHelper.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YoutubeAccountCommunicator.cs" />
     <Compile Include="YoutubeClientCommunicator.cs" />
+    <Compile Include="YoutubeVideoCommunicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Youtube.Common\STFU.Lib.Youtube.Common.csproj">

@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
-using STFU.Lib.Youtube.Interfaces.Model;
+﻿using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Communication.Interfaces
 {
-	public interface IYoutubeVideoCommunicator : INotifyPropertyChanged
+	public interface IYoutubeVideoCommunicator
 	{
-		double Progress { get; }
-
 		void UploadVideo(IYoutubeVideo video, IYoutubeAccount account);
 
-		void UploadThumbnil(IYoutubeThumbnail thumbnail, IYoutubeAccount account);
+		void UploadThumbnail(IYoutubeThumbnail thumbnail, IYoutubeAccount account);
 	}
 }

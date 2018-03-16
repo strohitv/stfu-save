@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
@@ -14,6 +15,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// the channel the video is being uploaded to
 		/// </summary>
 		IYoutubeAccount Account { get; }
+
+		/// <summary>
+		/// the url the video has to be uploaded
+		/// </summary>
+		Uri Uri { get; }
 
 		/// <summary>
 		/// current state of the job
