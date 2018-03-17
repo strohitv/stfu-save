@@ -8,12 +8,14 @@ namespace STFU.Lib.Youtube.Communication.Internal
 	{
 		public string AccessToken { get; set; }
 
-		public IYoutubeClient Client { get; set; }
-
 		public DateTime ExpirationDate { get; set; }
+
+		public bool IsExpired => ExpirationDate < DateTime.Now;
 
 		public string RefreshToken { get; set; }
 
 		public string TokenType { get; set; }
+
+		public IYoutubeClient Client { get; set; }
 	}
 }

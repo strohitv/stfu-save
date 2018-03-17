@@ -4,18 +4,21 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
+using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Communication.Internal;
+using STFU.Lib.Youtube.Communication.Internal.Serializable;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Communication
 {
 	public class YoutubeVideoCommunicator
 	{
-		private IYoutubeJob Job { get; set; }
+		private InternalYoutubeJob Job { get; set; }
 
 		public YoutubeVideoCommunicator(IYoutubeJob job)
 		{
-			Job = job;
+			Job = job as InternalYoutubeJob;
 		}
 
 		public void UploadVideo()
@@ -36,14 +39,14 @@ namespace STFU.Lib.Youtube.Communication
 			var bytes = Encoding.UTF8.GetBytes(content);
 
 			// Request erstellen
-			WebRequest request = WebRequest.Create(string.Format(resourceManager.GetString("UploadUrl"), Job.Video.NotifySubscribers, Job.Video.AutoLevels, Job.Video.Stabilize));
-			request.Method = resourceManager.GetString("UpoadInitMethod");
-			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), Job.Account.Access.AccessToken));
-			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentLengthHeader"), Job.SelectedVideo.File.Length));
-			request.Headers.Add(string.Format(resourceManager.GetString("XUploadContentTypeHeader"), MimeMapping.GetMimeMapping(Job.SelectedVideo.File.Name)));
+			WebRequest request = WebRequest.Create($"https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&autoLevels={Job.Video.AutoLevels}&notifySubscribers={Job.Video.NotifySubscribers}&stabilize={Job.Video.Stabilize}&part=snippet,status,contentDetails");
+			request.Method = "POST";
+			request.Headers.Add($"Authorization: Bearer {YoutubeAccountService.GetAccessToken(Job.Account)}");
+			request.Headers.Add($"x-upload-content-length: {Job.Video.File.Length}");
+			request.Headers.Add($"x-upload-content-type: {MimeMapping.GetMimeMapping(Job.Video.File.Name)}");
 
 			request.ContentLength = bytes.Length;
-			request.ContentType = resourceManager.GetString("JSONContentType");
+			request.ContentType = "application/json; charset=utf-8";
 
 			return WebService.Communicate(request, bytes, "Location");
 		}
@@ -51,7 +54,7 @@ namespace STFU.Lib.Youtube.Communication
 		internal HttpWebRequest CreateNewUploadRequest()
 		{
 			// Request erstellen
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Url.AbsoluteUri);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Uri.AbsoluteUri);
 			request.Proxy = null;
 			request.Method = "PUT";
 			request.KeepAlive = true;
@@ -59,9 +62,9 @@ namespace STFU.Lib.Youtube.Communication
 			request.ProtocolVersion = HttpVersion.Version11;
 
 			// Header schreiben
-			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), Job.UploadingAccount.Access.AccessToken));
-			request.ContentLength = Job.SelectedVideo.File.Length;
-			request.ContentType = MimeMapping.GetMimeMapping(Job.SelectedVideo.File.Name);
+			request.Headers.Add($"Authorization: Bearer {YoutubeAccountService.GetAccessToken(Job.Account)}");
+			request.ContentLength = Job.Video.File.Length;
+			request.ContentType = MimeMapping.GetMimeMapping(Job.Video.File.Name);
 
 			// Am Leben halten (wichtig bei großen Dateien)!
 			request.ServicePoint.SetTcpKeepAlive(true, 10000, 1000);
@@ -74,7 +77,7 @@ namespace STFU.Lib.Youtube.Communication
 		internal HttpWebRequest CreateResumeUploadRequest(long lastbyte)
 		{
 			// Request erstellen
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Url.AbsoluteUri);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Uri.AbsoluteUri);
 			request.Proxy = null;
 			request.Method = "PUT";
 			request.KeepAlive = true;
@@ -82,9 +85,9 @@ namespace STFU.Lib.Youtube.Communication
 			request.ProtocolVersion = HttpVersion.Version11;
 
 			// Header schreiben
-			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), Job.UploadingAccount.Access.AccessToken));
-			request.Headers.Add(string.Format(resourceManager.GetString("ResumeUploadContentRangeHeader"), lastbyte + 1, Job.SelectedVideo.File.Length - 1, Job.SelectedVideo.File.Length));
-			request.ContentLength = Job.SelectedVideo.File.Length - (lastbyte + 1);
+			request.Headers.Add($"Authorization: Bearer {YoutubeAccountService.GetAccessToken(Job.Account)}");
+			request.Headers.Add($"Content-Range: bytes {lastbyte + 1}-{Job.Video.File.Length - 1}/{Job.Video.File.Length}");
+			request.ContentLength = Job.Video.File.Length - (lastbyte + 1);
 
 			// Am Leben halten (wichtig bei großen Dateien)!
 			request.ServicePoint.SetTcpKeepAlive(true, 10000, 1000);
@@ -96,22 +99,22 @@ namespace STFU.Lib.Youtube.Communication
 
 		internal string UploadVideo(ref bool shouldCancel)
 		{
-			var lastbyte = CheckUploadStatus(ref Job);
+			var lastbyte = CheckUploadStatus();
 
-			FileStream fileStream = new FileStream(Job.SelectedVideo.Path, FileMode.Open, FileAccess.Read);
+			FileStream fileStream = new FileStream(Job.Video.Path, FileMode.Open, FileAccess.Read);
 
 			HttpWebRequest request = null;
 			if (lastbyte == -1)
 			{
-				request = CreateNewUploadRequest(ref Job);
+				request = CreateNewUploadRequest();
 			}
 			else
 			{
-				request = CreateResumeUploadRequest(ref Job, lastbyte);
+				request = CreateResumeUploadRequest(lastbyte);
 				fileStream.Position = lastbyte + 1;
 			}
 
-			Job.Status.Running = true;
+			Job.State = UploadState.Running;
 
 			// Upload initiieren
 			Stream requestStream = request.GetRequestStream();
@@ -125,21 +128,17 @@ namespace STFU.Lib.Youtube.Communication
 				{
 					requestStream.Write(buffer, 0, bytesRead);
 					var save = Convert.ToInt32(Job.Progress * 100);
-					Job.Progress = fileStream.Position / (double)Job.SelectedVideo.File.Length * 100;
-					if (Convert.ToInt32(Job.Progress) != save)
-					{
-						OnProgressChanged(Job.SelectedVideo.Title, save);
-					}
+					Job.Progress = fileStream.Position / (double)Job.Video.File.Length * 100;
 				}
 				catch (WebException)
 				{
 					requestStream.Close();
-					return Job.Url.AbsolutePath;
+					return Job.Uri.AbsolutePath;
 				}
 				catch (IOException)
 				{
 					requestStream.Close();
-					return Job.Url.AbsolutePath;
+					return Job.Uri.AbsolutePath;
 				}
 			}
 			fileStream.Close();
@@ -148,13 +147,12 @@ namespace STFU.Lib.Youtube.Communication
 			{
 				requestStream.Close();
 				Job.Progress = 100.0;
-				Job.Status.Finished = true;
+				Job.State = UploadState.Successful;
 			}
 			catch (WebException)
 			{
+				Job.State = UploadState.Error;
 			}
-
-			Job.Status.Running = false;
 
 			var response = WebService.Communicate(request);
 
@@ -166,7 +164,7 @@ namespace STFU.Lib.Youtube.Communication
 		internal long CheckUploadStatus()
 		{
 			// Request erstellen
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Url.AbsoluteUri);
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Job.Uri.AbsoluteUri);
 			request.Proxy = null;
 			request.Method = "PUT";
 			request.KeepAlive = true;
@@ -174,9 +172,9 @@ namespace STFU.Lib.Youtube.Communication
 			request.ProtocolVersion = HttpVersion.Version11;
 
 			// Header schreiben
-			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), Job.UploadingAccount.Access.AccessToken));
+			request.Headers.Add($"Authorization: Bearer {YoutubeAccountService.GetAccessToken(Job.Account)}");
 			request.ContentLength = 0;
-			request.Headers.Add(string.Format(resourceManager.GetString("CheckStatusContentRangeHeader"), Job.SelectedVideo.File.Length));
+			request.Headers.Add($"content-range: bytes */{Job.Video.File.Length}");
 
 			var answer = WebService.Communicate(request);
 			if (answer == null)
@@ -201,26 +199,29 @@ namespace STFU.Lib.Youtube.Communication
 
 		internal string UploadThumbnail(string videoId, ref bool shouldCancel)
 		{
+			var token = YoutubeAccountService.GetAccessToken(Job.Account);
+			var secret = YoutubeAccountService.GetClientSecretForAccessToken(token);
+
 			// Request erstellen
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format(resourceManager.GetString("UploadThumbnailUrl"), clientSecret, videoId));
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={videoId}&key={secret}");
 			request.Proxy = null;
-			request.Method = resourceManager.GetString("UploadThumbnailMethod");
+			request.Method = "POST";
 			request.KeepAlive = true;
 			request.Credentials = CredentialCache.DefaultCredentials;
 			request.ProtocolVersion = HttpVersion.Version11;
 
 			// Header schreiben
-			request.Headers.Add(string.Format(resourceManager.GetString("AuthHeader"), Job.UploadingAccount.Access.AccessToken));
+			request.Headers.Add($"Authorization: Bearer {token}");
 
 			string result = null;
 
 			FileInfo file = null;
-			if (File.Exists(Job.SelectedVideo.ThumbnailPath) && (file = new FileInfo(Job.SelectedVideo.ThumbnailPath)).Length < 2000000)
+			if (File.Exists(Job.Video.ThumbnailPath) && (file = new FileInfo(Job.Video.ThumbnailPath)).Length < 2000000)
 			{
 				request.ContentLength = file.Length;
-				request.ContentType = MimeMapping.GetMimeMapping(Job.SelectedVideo.ThumbnailPath);
+				request.ContentType = MimeMapping.GetMimeMapping(Job.Video.ThumbnailPath);
 
-				FileStream fileStream = new FileStream(Job.SelectedVideo.ThumbnailPath, FileMode.Open, FileAccess.Read);
+				FileStream fileStream = new FileStream(Job.Video.ThumbnailPath, FileMode.Open, FileAccess.Read);
 
 				Stream requestStream = request.GetRequestStream();
 				byte[] buffer = new byte[128 * 1024];
@@ -235,20 +236,16 @@ namespace STFU.Lib.Youtube.Communication
 						requestStream.Flush();
 						var save = Convert.ToInt32(Job.Progress * 100);
 						Job.Progress = fileStream.Position / (double)file.Length * 100;
-						if (Convert.ToInt32(Job.Progress) != save)
-						{
-							OnProgressChanged($"Thumbnail für {Job.SelectedVideo.Title}", save);
-						}
 					}
 					catch (WebException)
 					{
 						requestStream.Close();
-						return Job.Url.AbsolutePath;
+						return Job.Uri.AbsolutePath;
 					}
 					catch (IOException)
 					{
 						requestStream.Close();
-						return Job.Url.AbsolutePath;
+						return Job.Uri.AbsolutePath;
 					}
 				}
 				fileStream.Close();
@@ -257,13 +254,12 @@ namespace STFU.Lib.Youtube.Communication
 				{
 					requestStream.Close();
 					Job.Progress = 100.0;
-					Job.Status.Finished = true;
+					Job.State = UploadState.Successful;
 				}
 				catch (WebException)
 				{
+					Job.State = UploadState.Error;
 				}
-
-				Job.Status.Running = false;
 
 				result = WebService.Communicate(request);
 

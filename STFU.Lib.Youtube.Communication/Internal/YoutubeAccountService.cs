@@ -61,6 +61,38 @@ namespace STFU.Lib.Youtube.Communication.Internal
 			return account;
 		}
 
+		internal static string GetAccessToken(IYoutubeAccount account)
+		{
+			string token = null;
+
+			if (Accounts.ContainsKey(account) && Accounts[account].Any(ac => !ac.Client.LimitReached))
+			{
+				var firstUsefullAccess = Accounts[account].FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+
+				if (firstUsefullAccess == null && RefreshAccess(account))
+				{
+					firstUsefullAccess = Accounts[account].FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+				}
+
+				token = firstUsefullAccess?.AccessToken;
+			}
+
+			return token;
+		}
+
+		internal static string GetClientSecretForAccessToken(string token)
+		{
+			string secret = null;
+
+			var foundSecret = Accounts.FirstOrDefault(a => a.Value.Any(ac => ac.AccessToken == token)).Value?.Single(ac => ac.AccessToken == token).Client.Secret;
+			if (foundSecret != null)
+			{
+				secret = foundSecret;
+			}
+
+			return secret;
+		}
+
 		private static void AddAccess(IYoutubeAccount account, IYoutubeAccountAccess access)
 		{
 			if (Accounts.ContainsKey(account))
@@ -81,7 +113,7 @@ namespace STFU.Lib.Youtube.Communication.Internal
 
 		internal static bool RefreshAccess(IYoutubeAccount account)
 		{
-			var firstOutdatedAccess = Accounts[account].FirstOrDefault(ac => ac.ExpirationDate < DateTime.Now);
+			var firstOutdatedAccess = Accounts[account].FirstOrDefault(ac => !ac.Client.LimitReached && ac.IsExpired);
 
 			// Content zusammenbauen
 			string content = $"client_id={firstOutdatedAccess.Client.Id}&client_secret={firstOutdatedAccess.Client.Secret}&refresh_token={firstOutdatedAccess.RefreshToken}&grant_type=refresh_token";
@@ -105,7 +137,6 @@ namespace STFU.Lib.Youtube.Communication.Internal
 					var access = new YoutubeAccountAccess();
 					access.Client = firstOutdatedAccess.Client;
 					access.AccessToken = authResponse.access_token;
-					access.RefreshToken = authResponse.refresh_token;
 					access.TokenType = authResponse.token_type;
 					access.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using STFU.Lib.Youtube.Common.InternalInterfaces;
+using STFU.Lib.Youtube.Common.Internal.Interfaces;
 using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Common.Upload;
 using STFU.Lib.Youtube.Interfaces;

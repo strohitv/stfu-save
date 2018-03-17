@@ -10,11 +10,19 @@ namespace STFU.Lib.Youtube.Common.Model
 
 		public string Name { get; }
 
-		public YoutubeClient(string id, string secret, string name)
+		public bool LimitReached { get; private set; }
+
+		public YoutubeClient(string id, string secret, string name, bool limitReached)
 		{
 			Id = id;
 			Secret = secret;
 			Name = name;
+			LimitReached = limitReached;
+		}
+
+		public void MarkAsReached()
+		{
+			LimitReached = true;
 		}
 	}
 }

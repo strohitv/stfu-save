@@ -7,5 +7,7 @@
 		string Secret { get; }
 
 		string Name { get; }
+
+		bool LimitReached { get; }
 	}
 }

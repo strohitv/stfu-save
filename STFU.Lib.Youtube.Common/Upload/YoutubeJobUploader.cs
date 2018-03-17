@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using STFU.Lib.Youtube.Common.InternalInterfaces;
+using STFU.Lib.Youtube.Common.Internal.Interfaces;
 using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;

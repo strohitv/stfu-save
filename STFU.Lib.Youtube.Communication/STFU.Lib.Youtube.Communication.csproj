@@ -39,6 +39,10 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\STFU.Lib.Youtube.Common\Model\InternalYoutubeJob.cs">
+      <Link>Internal\InternalYoutubeJob.cs</Link>
+    </Compile>
+    <Compile Include="Interfaces\Enums\EnumConverter.cs" />
     <Compile Include="Interfaces\Enums\EnumHelper.cs" />
     <Compile Include="Interfaces\Enums\YoutubeRedirectUri.cs" />
     <Compile Include="Interfaces\Enums\YoutubeScope.cs" />
@@ -46,6 +50,9 @@
     <Compile Include="Interfaces\IYoutubeClientCommunicator.cs" />
     <Compile Include="InternalInterfaces\IYoutubeAccountAccess.cs" />
     <Compile Include="Internal\Response.cs" />
+    <Compile Include="Internal\Serializable\YoutubeSnippet.cs" />
+    <Compile Include="Internal\Serializable\YoutubeStatus.cs" />
+    <Compile Include="Internal\Serializable\YoutubeVideo.cs" />
     <Compile Include="Internal\WebService.cs" />
     <Compile Include="Internal\YoutubeAccountAccess.cs" />
     <Compile Include="Internal\YoutubeAccountService.cs" />

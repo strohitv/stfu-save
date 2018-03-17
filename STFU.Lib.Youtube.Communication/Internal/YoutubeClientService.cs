@@ -22,7 +22,7 @@ namespace STFU.Lib.Youtube.Communication.Internal
 
 		internal static void AddClient(string id, string secret, string name)
 		{
-			AddClient(new YoutubeClient(id, secret, name));
+			AddClient(new YoutubeClient(id, secret, name, false));
 		}
 
 		internal static void RemoveClient(IYoutubeClient client)

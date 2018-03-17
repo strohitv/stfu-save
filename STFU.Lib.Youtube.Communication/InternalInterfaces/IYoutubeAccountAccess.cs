@@ -26,6 +26,11 @@ namespace STFU.Lib.Youtube.Communication.InternalInterfaces
 		DateTime ExpirationDate { get; set; }
 
 		/// <summary>
+		/// Determines if access is expired
+		/// </summary>
+		bool IsExpired { get; }
+
+		/// <summary>
 		/// The youtube client the account is connected to
 		/// </summary>
 		IYoutubeClient Client { get; set; }

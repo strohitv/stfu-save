@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -65,6 +66,8 @@ namespace STFU.Lib.Youtube.Common.Model
 		}
 
 		public IYoutubeVideo Video { get; }
+
+		public Uri Uri { get; set; }
 
 		internal InternalYoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
 		{

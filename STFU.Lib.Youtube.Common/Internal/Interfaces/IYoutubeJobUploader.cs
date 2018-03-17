@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Common.InternalInterfaces
+namespace STFU.Lib.Youtube.Common.Internal.Interfaces
 {
 	internal interface IYoutubeJobUploader
 	{
