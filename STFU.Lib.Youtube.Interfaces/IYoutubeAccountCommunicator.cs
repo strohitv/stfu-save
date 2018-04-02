@@ -13,6 +13,6 @@ namespace STFU.Lib.Youtube.Interfaces
 
 		IYoutubeAccount ConnectToAccount(string code, IYoutubeClient client, YoutubeRedirectUri redirectUri);
 
-		void RemoveAccount(IYoutubeAccount account);
+		void RevokeAccount(IYoutubeAccount account);
 	}
 }

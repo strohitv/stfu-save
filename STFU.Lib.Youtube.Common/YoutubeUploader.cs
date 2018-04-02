@@ -169,7 +169,7 @@ namespace STFU.Lib.Youtube.Common
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
 				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob, cancellationTokenSource.Token);
-				var task = jobUploader.UploadAsync();
+				jobUploader.UploadAsync();
 
 				runningJobUploaders.Add(jobUploader);
 			}

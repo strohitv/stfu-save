@@ -36,7 +36,6 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 			fileUploader.PropertyChanged += FileUploaderPropertyChanged;
 
 			bool successful = fileUploader.UploadFile(Job.Video.ThumbnailPath, request);
-
 			if (successful)
 			{
 				result = WebService.Communicate(request);

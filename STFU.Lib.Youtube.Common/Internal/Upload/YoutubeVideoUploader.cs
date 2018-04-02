@@ -14,12 +14,14 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 		private InternalYoutubeJob Job { get; set; }
 		private CancellationToken Token { get; set; }
 
-		public YoutubeVideoUploader(IYoutubeJob job)
+		internal string Response { get; private set; }
+
+		internal YoutubeVideoUploader(IYoutubeJob job)
 		{
 			Job = job as InternalYoutubeJob;
 		}
 
-		public string Upload()
+		internal bool Upload()
 		{
 			var lastbyte = CheckUploadStatus();
 
@@ -45,6 +47,7 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 
 			if (successful)
 			{
+				Response = WebService.Communicate(request);
 				Job.State = UploadState.Successful;
 			}
 			else if (Token.IsCancellationRequested)
@@ -56,9 +59,7 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 				Job.State = UploadState.Error;
 			}
 
-			var response = WebService.Communicate(request);
-
-			return response;
+			return successful;
 		}
 
 		private void OnUploadProgressChanged(object sender, PropertyChangedEventArgs e)

@@ -27,7 +27,6 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 			}
 		}
 
-
 		private FailureReason failureReason = FailureReason.None;
 		internal FailureReason FailureReason
 		{

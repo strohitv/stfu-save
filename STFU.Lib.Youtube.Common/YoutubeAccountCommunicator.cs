@@ -30,7 +30,7 @@ namespace STFU.Lib.Youtube.Common
 			return YoutubeAccountService.ConnectAccount(code, client, redirectUri);
 		}
 
-		public void RemoveAccount(IYoutubeAccount account)
+		public void RevokeAccount(IYoutubeAccount account)
 		{
 			YoutubeAccountService.RevokeAccessOfAccount(account);
 		}

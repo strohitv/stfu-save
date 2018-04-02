@@ -18,7 +18,7 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 			CancelToken = cancelToken;
 		}
 
-		public async Task UploadAsync()
+		public async void UploadAsync()
 		{
 			await Task.Run(() => Upload());
 		}
@@ -26,27 +26,28 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 		public void Upload()
 		{
 			var initializer = new YoutubeVideoUploadInitializer(Job);
-			initializer.PrepareUpload();
+			initializer.InitializeUpload();
 
-			if (initializer.Result)
+			if (initializer.Successful)
 			{
-				Job.Uri = initializer.Uri;
+				Job.Uri = initializer.VideoUploadUri;
 
-				int uploadCounter = 0;
-				while (CancelNotRequested() && NotTooManyAttempts(uploadCounter))
+				int uploadUnsuccessfulCounter = 0;
+				while (CancelNotRequested() && NotTooManyAttempts(uploadUnsuccessfulCounter))
 				{
-					if (TryUpload())
+					bool uploadSuccessful = TryUploadVideo();
+					if (uploadSuccessful)
 					{
 						break;
 					}
 
-					uploadCounter++;
+					uploadUnsuccessfulCounter++;
 					Thread.Sleep(new TimeSpan(0, 1, 0));
 				}
 			}
 		}
 
-		private bool TryUpload()
+		private bool TryUploadVideo()
 		{
 			bool finished = false;
 			string result = null;
@@ -55,8 +56,9 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 			if (uploadFinished)
 			{
 				Job.VideoId = JsonConvert.DeserializeObject<YoutubeVideo>(result).id;
+
 				var thumbnailUploader = new YoutubeThumbnailUploader(CancelToken, Job);
-				var thumbnailResult = thumbnailUploader.UploadThumbnail();
+				var thumbnailResponse = thumbnailUploader.UploadThumbnail();
 
 				finished = true;
 			}
@@ -66,9 +68,16 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 
 		private bool UploadVideo(out string result)
 		{
-			Uri testUrl = null;
 			var videoUploader = new YoutubeVideoUploader(Job);
-			return Uri.TryCreate(result = videoUploader.Upload(), UriKind.Absolute, out testUrl);
+			result = null;
+
+			var successful = videoUploader.Upload();
+			if (successful)
+			{
+				result = videoUploader.Response;
+			}
+
+			return successful;
 		}
 
 		private static bool NotTooManyAttempts(int counter)

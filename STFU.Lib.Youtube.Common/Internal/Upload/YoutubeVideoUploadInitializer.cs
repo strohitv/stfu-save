@@ -10,26 +10,26 @@ namespace STFU.Lib.Youtube.Common.Internal.Upload
 	internal class YoutubeVideoUploadInitializer
 	{
 		internal InternalYoutubeJob Job { get; private set; }
-		internal bool Result { get; private set; }
-		internal Uri Uri { get; private set; }
+		internal bool Successful { get; private set; }
+		internal Uri VideoUploadUri { get; private set; }
 
 		internal YoutubeVideoUploadInitializer(InternalYoutubeJob job)
 		{
 			Job = job;
 		}
 
-		internal void PrepareUpload()
+		internal void InitializeUpload()
 		{
-			string url = InitializeUpload();
+			string url = InitializeUploadOnYoutube();
 
 			Uri uri = null;
-			if (Result = Uri.TryCreate(url, UriKind.Absolute, out uri))
+			if (Successful = Uri.TryCreate(url, UriKind.Absolute, out uri))
 			{
-				Uri = uri;
+				VideoUploadUri = uri;
 			}
 		}
 
-		private string InitializeUpload()
+		private string InitializeUploadOnYoutube()
 		{
 			var ytVideo = new YoutubeVideo(Job.Video);
 			string content = JsonConvert.SerializeObject(ytVideo);
