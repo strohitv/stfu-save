@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.AutoUploader.Windows",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Interfaces", "STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj", "{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Common", "STFU.Lib.Youtube.Common\STFU.Lib.Youtube.Common.csproj", "{3689165C-622D-46CA-88C4-DC8FE938CC8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Model", "STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj", "{69F7D3D1-0F1E-410C-82D5-F1400A291821}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Common.Model", "STFU.Lib.Youtube.Common.Model\STFU.Lib.Youtube.Common.Model.csproj", "{69F7D3D1-0F1E-410C-82D5-F1400A291821}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube", "STFU.Lib.Youtube\STFU.Lib.Youtube.csproj", "{3689165C-622D-46CA-88C4-DC8FE938CC8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,18 +71,6 @@ Global
 		{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}.Release|x64.Build.0 = Release|Any CPU
 		{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}.Release|x86.ActiveCfg = Release|Any CPU
 		{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}.Release|x86.Build.0 = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x64.Build.0 = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x86.Build.0 = Debug|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x64.ActiveCfg = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x64.Build.0 = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x86.ActiveCfg = Release|Any CPU
-		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x86.Build.0 = Release|Any CPU
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -95,6 +83,18 @@ Global
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Release|x64.Build.0 = Release|Any CPU
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Release|x86.ActiveCfg = Release|Any CPU
 		{69F7D3D1-0F1E-410C-82D5-F1400A291821}.Release|x86.Build.0 = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x64.Build.0 = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Debug|x86.Build.0 = Debug|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x64.ActiveCfg = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x64.Build.0 = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3689165C-622D-46CA-88C4-DC8FE938CC8C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
