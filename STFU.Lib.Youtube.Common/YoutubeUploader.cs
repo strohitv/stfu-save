@@ -6,8 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using STFU.Lib.Youtube.Common.Internal;
-using STFU.Lib.Youtube.Common.Internal.Interfaces;
-using STFU.Lib.Youtube.Common.Upload;
+using STFU.Lib.Youtube.Common.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -23,7 +22,7 @@ namespace STFU.Lib.Youtube.Common
 
 		private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-		private IList<IYoutubeJobUploader> runningJobUploaders = new List<IYoutubeJobUploader>();
+		private IList<YoutubeJobUploader> runningJobUploaders = new List<YoutubeJobUploader>();
 
 		/// <see cref="IYoutubeUploader.MaxSimultaneousUploads"/>
 		public int MaxSimultaneousUploads
@@ -169,8 +168,8 @@ namespace STFU.Lib.Youtube.Common
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted);
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
-				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
-				var task = jobUploader.UploadAsync(cancellationTokenSource.Token);
+				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob, cancellationTokenSource.Token);
+				var task = jobUploader.UploadAsync();
 
 				runningJobUploaders.Add(jobUploader);
 			}

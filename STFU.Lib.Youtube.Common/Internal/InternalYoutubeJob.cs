@@ -69,6 +69,8 @@ namespace STFU.Lib.Youtube.Common.Internal
 
 		public Uri Uri { get; set; }
 
+		public string VideoId { get; set; }
+
 		internal InternalYoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
 		{
 			Account = account;

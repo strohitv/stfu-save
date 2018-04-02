@@ -17,6 +17,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		IYoutubeAccount Account { get; }
 
 		/// <summary>
+		/// id of the video after it was successfully uploaded
+		/// </summary>
+		string VideoId { get; }
+
+		/// <summary>
 		/// the url the video has to be uploaded
 		/// </summary>
 		Uri Uri { get; }
