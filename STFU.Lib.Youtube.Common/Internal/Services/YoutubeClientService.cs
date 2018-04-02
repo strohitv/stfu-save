@@ -4,7 +4,7 @@ using System.Linq;
 using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.Internal
+namespace STFU.Lib.Youtube.Common.Internal.Services
 {
 	internal static class YoutubeClientService
 	{

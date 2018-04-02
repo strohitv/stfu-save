@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.Lib.Youtube.Common.Model
+namespace STFU.Lib.Youtube.Common.Internal
 {
 	internal class InternalYoutubeJob : IYoutubeJob
 	{

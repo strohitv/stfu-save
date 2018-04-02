@@ -6,12 +6,14 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
+using STFU.Lib.Youtube.Common.Internal.Interfaces;
 using STFU.Lib.Youtube.Common.Model;
-using STFU.Lib.Youtube.Communication.Interfaces.Enums;
-using STFU.Lib.Youtube.Communication.InternalInterfaces;
+using STFU.Lib.Youtube.Common.Model.Helpers;
+using STFU.Lib.Youtube.Common.Model.Serializable;
+using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.Internal
+namespace STFU.Lib.Youtube.Common.Internal.Services
 {
 	internal static class YoutubeAccountService
 	{

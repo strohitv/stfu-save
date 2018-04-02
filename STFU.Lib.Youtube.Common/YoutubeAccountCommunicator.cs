@@ -2,12 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
-using STFU.Lib.Youtube.Communication.Interfaces;
-using STFU.Lib.Youtube.Communication.Interfaces.Enums;
-using STFU.Lib.Youtube.Communication.Internal;
+using STFU.Lib.Youtube.Common.Internal.Services;
+using STFU.Lib.Youtube.Common.Model.Helpers;
+using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication
+namespace STFU.Lib.Youtube.Common
 {
 	public class YoutubeAccountCommunicator : IYoutubeAccountCommunicator
 	{

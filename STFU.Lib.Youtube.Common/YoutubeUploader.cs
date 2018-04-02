@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using STFU.Lib.Youtube.Common.Internal;
 using STFU.Lib.Youtube.Common.Internal.Interfaces;
-using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Common.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -116,7 +116,8 @@ namespace STFU.Lib.Youtube.Common
 		/// <see cref="IYoutubeUploader.CancelUploader"/>
 		public void CancelUploader()
 		{
-			throw new NotImplementedException();
+			cancellationTokenSource.Cancel();
+			State = UploaderState.NotRunning;
 		}
 
 		/// <see cref="IYoutubeUploader.ChangePositionInQueue(IYoutubeJob, IYoutubeJob)"/>
@@ -161,7 +162,8 @@ namespace STFU.Lib.Youtube.Common
 
 		private void StartJobUploaders()
 		{
-			while (runningJobUploaders.Count < MaxSimultaneousUploads
+			while (!cancellationTokenSource.IsCancellationRequested 
+				&& runningJobUploaders.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadState.NotStarted))
 			{
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted);
@@ -173,20 +175,29 @@ namespace STFU.Lib.Youtube.Common
 				runningJobUploaders.Add(jobUploader);
 			}
 
-			if (runningJobUploaders.Count == 0)
+			if (!cancellationTokenSource.IsCancellationRequested)
 			{
-				State = UploaderState.Waiting;
+				if (runningJobUploaders.Count == 0)
+				{
+					State = UploaderState.Waiting;
+				}
+				else
+				{
+					State = UploaderState.Uploading;
+				}
 			}
 			else
 			{
-				State = UploaderState.Uploading;
+				State = UploaderState.NotRunning;
 			}
 		}
 
 		private void RunningJobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = sender as IYoutubeJob;
-			if (e.PropertyName == nameof(IYoutubeJob.State) && job.State != UploadState.Running && job.State != UploadState.ThumbnailUploading)
+			if (e.PropertyName == nameof(IYoutubeJob.State) 
+				&& job.State != UploadState.Running 
+				&& job.State != UploadState.ThumbnailUploading)
 			{
 				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);
 				runningJobUploaders.Remove(jobUploader);

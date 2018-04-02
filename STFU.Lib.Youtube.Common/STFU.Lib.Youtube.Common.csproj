@@ -35,21 +35,33 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\WebService.cs" />
+    <Compile Include="Internal\Interfaces\IYoutubeVideoCommunicator.cs" />
+    <Compile Include="Internal\InternalYoutubeError.cs" />
+    <Compile Include="Internal\InternalYoutubeJob.cs" />
+    <Compile Include="Internal\Interfaces\IYoutubeAccountAccess.cs" />
     <Compile Include="Internal\Interfaces\IYoutubeJobUploader.cs" />
-    <Compile Include="Internal\LicenseParser.cs" />
-    <Compile Include="Internal\PrivacyStatusParser.cs" />
-    <Compile Include="Model\Category.cs" />
-    <Compile Include="Model\InternalYoutubeJob.cs" />
-    <Compile Include="Model\Language.cs" />
-    <Compile Include="Model\YoutubeAccount.cs" />
-    <Compile Include="Model\YoutubeClient.cs" />
+    <Compile Include="Internal\Parser\LicenseParser.cs" />
+    <Compile Include="Internal\Parser\PrivacyStatusParser.cs" />
+    <Compile Include="Internal\Services\YoutubeAccountService.cs" />
+    <Compile Include="Internal\Services\YoutubeClientService.cs" />
+    <Compile Include="Internal\YoutubeAccountAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Upload\YoutubeJobUploader.cs" />
+    <Compile Include="YoutubeAccountCommunicator.cs" />
+    <Compile Include="YoutubeClientCommunicator.cs" />
     <Compile Include="YoutubeUploader.cs" />
+    <Compile Include="YoutubeVideoCommunicator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Common.Model\STFU.Lib.Youtube.Common.Model.csproj">
+      <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
+      <Name>STFU.Lib.Youtube.Common.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>

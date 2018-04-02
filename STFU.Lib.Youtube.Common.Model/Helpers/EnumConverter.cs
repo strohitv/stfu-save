@@ -2,16 +2,15 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using STFU.Lib.Youtube.Communication.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.UploadLib.Communication.Youtube.Serializable
+namespace STFU.Lib.Youtube.Common.Model.Helpers
 {
 	public class EnumConverter : JsonConverter
 	{
 		public override bool CanConvert(Type objectType)
 		{
-			throw new NotImplementedException();
+			return objectType == typeof(PrivacyStatus) || objectType == typeof(License);
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

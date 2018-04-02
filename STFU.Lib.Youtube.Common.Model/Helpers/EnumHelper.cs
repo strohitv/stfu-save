@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace STFU.Lib.Youtube.Communication.Interfaces.Enums
+namespace STFU.Lib.Youtube.Common.Model.Helpers
 {
 	public static class EnumHelper
 	{

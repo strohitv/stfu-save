@@ -2,7 +2,7 @@
 using System.Linq;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.Internal.Serializable
+namespace STFU.Lib.Youtube.Common.Model.Serializable
 {
 	public class YoutubeVideo
 	{
@@ -11,11 +11,7 @@ namespace STFU.Lib.Youtube.Communication.Internal.Serializable
 
 		public string id { get; set; }
 
-		public YoutubeVideo()
-		{
-		}
-
-		internal YoutubeVideo(IYoutubeVideo video)
+		public YoutubeVideo(IYoutubeVideo video)
 		{
 			snippet = new YoutubeSnippet()
 			{

@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using STFU.Lib.Youtube.Common.Internal;
 using STFU.Lib.Youtube.Common.Internal.Interfaces;
-using STFU.Lib.Youtube.Common.Model;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Common.Upload
 {
@@ -25,17 +24,8 @@ namespace STFU.Lib.Youtube.Common.Upload
 
 		private void Upload(CancellationToken token)
 		{
-			job.State = UploadState.Running;
-
-			// prepare upload
-
-			// upload
-
-			// prepare thumbnail upload
-
-			// upload thumbnail
-
-			// finish and return
+			IYoutubeVideoCommunicator communicator = new YoutubeVideoCommunicator(Job);
+			communicator.Upload(token);
 		}
 	}
 }

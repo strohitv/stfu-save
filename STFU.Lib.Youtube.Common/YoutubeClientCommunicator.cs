@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-
+using STFU.Lib.Youtube.Common.Internal.Services;
 using STFU.Lib.Youtube.Communication.Interfaces;
-using STFU.Lib.Youtube.Communication.Internal;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication
+namespace STFU.Lib.Youtube.Common
 {
 	public class YoutubeClientCommunicator : IYoutubeClientCommunicator
 	{

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4AFA67FD-E429-4B15-99B9-BCE7E9F7F805}</ProjectGuid>
+    <ProjectGuid>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STFU.Lib.Youtube.Communication</RootNamespace>
-    <AssemblyName>STFU.Lib.Youtube.Communication</AssemblyName>
+    <RootNamespace>STFU.Lib.Youtube.Common.Model</RootNamespace>
+    <AssemblyName>STFU.Lib.Youtube.Common.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,28 +29,35 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Category.cs" />
+    <Compile Include="Helpers\EnumConverter.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="InternalYoutubeJob.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializable\Response.cs" />
+    <Compile Include="Serializable\YoutubeSnippet.cs" />
+    <Compile Include="Serializable\YoutubeStatus.cs" />
+    <Compile Include="Serializable\YoutubeVideo.cs" />
+    <Compile Include="YoutubeAccount.cs" />
+    <Compile Include="YoutubeClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\STFU.Lib.Youtube.Common.Model\STFU.Lib.Youtube.Common.Model.csproj">
-      <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
-      <Name>STFU.Lib.Youtube.Common.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

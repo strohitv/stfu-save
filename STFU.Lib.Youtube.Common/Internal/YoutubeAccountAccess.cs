@@ -1,8 +1,8 @@
 ﻿using System;
-using STFU.Lib.Youtube.Communication.InternalInterfaces;
+using STFU.Lib.Youtube.Common.Internal.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.Internal
+namespace STFU.Lib.Youtube.Common.Internal
 {
 	internal class YoutubeAccountAccess : IYoutubeAccountAccess
 	{

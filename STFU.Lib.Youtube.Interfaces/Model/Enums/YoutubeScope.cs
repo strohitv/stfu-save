@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace STFU.Lib.Youtube.Communication.Interfaces.Enums
+namespace STFU.Lib.Youtube.Interfaces.Enums
 {
 	public enum YoutubeScope
 	{

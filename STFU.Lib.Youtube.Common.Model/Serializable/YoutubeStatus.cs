@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.UploadLib.Communication.Youtube.Serializable;
+using STFU.Lib.Youtube.Common.Model.Helpers;
 
-namespace STFU.Lib.Youtube.Communication.Internal.Serializable
+namespace STFU.Lib.Youtube.Common.Model.Serializable
 {
 	public class YoutubeStatus
 	{

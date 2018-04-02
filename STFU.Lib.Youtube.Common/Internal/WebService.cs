@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace STFU.Lib.Youtube.Communication.Internal
+namespace STFU.Lib.Youtube.Common.Internal
 {
 	internal static class WebService
 	{

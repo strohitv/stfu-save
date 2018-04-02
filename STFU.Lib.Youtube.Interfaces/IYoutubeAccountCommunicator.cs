@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using STFU.Lib.Youtube.Communication.Interfaces.Enums;
+using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.Interfaces
+namespace STFU.Lib.Youtube.Interfaces
 {
 	public interface IYoutubeAccountCommunicator
 	{

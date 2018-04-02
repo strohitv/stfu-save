@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace STFU.Lib.Youtube.Communication.Internal
+namespace STFU.Lib.Youtube.Common.Model.Serializable
 {
 	public class Response
 	{

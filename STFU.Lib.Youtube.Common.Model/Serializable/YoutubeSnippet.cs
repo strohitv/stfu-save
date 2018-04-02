@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace STFU.Lib.Youtube.Communication.Internal.Serializable
+namespace STFU.Lib.Youtube.Common.Model.Serializable
 {
 	public class YoutubeSnippet
 	{

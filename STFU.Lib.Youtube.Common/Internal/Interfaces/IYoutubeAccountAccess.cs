@@ -1,7 +1,7 @@
 ﻿using System;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.Lib.Youtube.Communication.InternalInterfaces
+namespace STFU.Lib.Youtube.Common.Internal.Interfaces
 {
 	internal interface IYoutubeAccountAccess
 	{
