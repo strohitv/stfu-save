@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.Lib.Youtube.Internal.Parser
+namespace STFU.Lib.Youtube.Automation.Internal.Parser
 {
-	internal static class PrivacyStatusParser
+	public static class PrivacyStatusParser
 	{
 		public static PrivacyStatus Parse(JToken token)
 		{

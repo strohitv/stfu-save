@@ -4,14 +4,14 @@ using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Model.Serializable
 {
-	public class YoutubeVideo
+	public class SerializableYoutubeVideo
 	{
 		public YoutubeSnippet snippet { get; set; }
 		public YoutubeStatus status { get; set; }
 
 		public string id { get; set; }
 
-		public YoutubeVideo(IYoutubeVideo video)
+		public SerializableYoutubeVideo(IYoutubeVideo video)
 		{
 			snippet = new YoutubeSnippet()
 			{

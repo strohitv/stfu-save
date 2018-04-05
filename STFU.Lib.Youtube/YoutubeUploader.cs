@@ -103,7 +103,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (Queue.Any(job => job.Video == video && job.Account == account))
 			{
-				throw new ArgumentException("Der aktuelle Job ist bereits in der Warteschlange vorhanden.");
+				return Queue.Single(job => job.Video == video && job.Account == account);
 			}
 
 			var newJob = new InternalYoutubeJob(video, account);
@@ -122,13 +122,9 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.ChangePositionInQueue(IYoutubeJob, IYoutubeJob)"/>
 		public void ChangePositionInQueue(IYoutubeJob first, IYoutubeJob second)
 		{
-			if (!Queue.Contains(first))
+			if (!Queue.Contains(first) || !Queue.Contains(second))
 			{
-				throw new ArgumentException("Der erste angegebene Job ist nicht in der Warteschlange vorhanden.");
-			}
-			if (!Queue.Contains(second))
-			{
-				throw new ArgumentException("Der zweite angegebene Job ist nicht in der Warteschlange vorhanden.");
+				return;
 			}
 
 			int firstPos = JobQueue.IndexOf(first);
@@ -143,7 +139,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (!Queue.Contains(job))
 			{
-				throw new ArgumentException("Der Job ist nicht in der Warteschlange vorhanden.");
+				return;
 			}
 
 			JobQueue.Remove(job);
@@ -161,7 +157,7 @@ namespace STFU.Lib.Youtube
 
 		private void StartJobUploaders()
 		{
-			while (!cancellationTokenSource.IsCancellationRequested 
+			while (!cancellationTokenSource.IsCancellationRequested
 				&& runningJobUploaders.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadState.NotStarted))
 			{
@@ -194,8 +190,8 @@ namespace STFU.Lib.Youtube
 		private void RunningJobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = sender as IYoutubeJob;
-			if (e.PropertyName == nameof(IYoutubeJob.State) 
-				&& job.State != UploadState.Running 
+			if (e.PropertyName == nameof(IYoutubeJob.State)
+				&& job.State != UploadState.Running
 				&& job.State != UploadState.ThumbnailUploading)
 			{
 				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);

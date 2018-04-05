@@ -55,7 +55,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			bool uploadFinished = UploadVideo(out result);
 			if (uploadFinished)
 			{
-				Job.VideoId = JsonConvert.DeserializeObject<YoutubeVideo>(result).id;
+				Job.VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
 
 				var thumbnailUploader = new YoutubeThumbnailUploader(CancelToken, Job);
 				var thumbnailResponse = thumbnailUploader.UploadThumbnail();

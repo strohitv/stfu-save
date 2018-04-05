@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.UploadLib.Videos
+namespace STFU.Lib.Youtube.Model
 {
-	public class Language : ILanguage
+	public class VideoLanguage : ILanguage
 	{
 		public string Id { get; set; }
 		public string Hl { get; set; }
@@ -14,11 +14,11 @@ namespace STFU.UploadLib.Videos
 			return $"{Hl} - {Name}";
 		}
 
-		public static Language Default => new Language() { Hl = "de", Id = "de", Name = "Deutsch" };
+		public static VideoLanguage Default => new VideoLanguage() { Hl = "de", Id = "de", Name = "Deutsch" };
 
-		public static Language Parse(JToken property)
+		public static VideoLanguage Parse(JToken property)
 		{
-			Language lang = new Language();
+			VideoLanguage lang = new VideoLanguage();
 
 			foreach (var child in property.Children<JProperty>())
 			{

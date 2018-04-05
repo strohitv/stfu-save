@@ -32,7 +32,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Category.cs" />
+    <Compile Include="VideoCategory.cs" />
     <Compile Include="Helpers\EnumConverter.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Language.cs" />
@@ -40,9 +40,10 @@
     <Compile Include="Serializable\Response.cs" />
     <Compile Include="Serializable\YoutubeSnippet.cs" />
     <Compile Include="Serializable\YoutubeStatus.cs" />
-    <Compile Include="Serializable\YoutubeVideo.cs" />
+    <Compile Include="Serializable\SerializableYoutubeVideo.cs" />
     <Compile Include="YoutubeAccount.cs" />
     <Compile Include="YoutubeClient.cs" />
+    <Compile Include="YoutubeVideo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
@@ -57,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

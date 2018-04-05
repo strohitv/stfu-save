@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json.Linq;
 using STFU.Lib.Youtube.Interfaces.Model;
 
-namespace STFU.UploadLib.Videos
+namespace STFU.Lib.Youtube.Model
 {
-	public class Category : ICategory
+	public class VideoCategory : ICategory
 	{
 		public int Id { get; private set; }
 		public string Title { get; private set; }
 
-		private Category() { }
+		private VideoCategory() { }
 
-		public Category(int id, string title)
+		public VideoCategory(int id, string title)
 		{
 			Id = id;
 			Title = title;
@@ -21,11 +21,11 @@ namespace STFU.UploadLib.Videos
 			return $"{Id} - {Title}";
 		}
 
-		public static Category Default => new Category(20, "Gaming");
+		public static VideoCategory Default => new VideoCategory(20, "Gaming");
 
-		public static Category Parse(JToken property)
+		public static VideoCategory Parse(JToken property)
 		{
-			Category cat = new Category();
+			VideoCategory cat = new VideoCategory();
 
 			foreach (var child in property.Children<JProperty>())
 			{

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.Lib.Youtube.Internal.Parser
+namespace STFU.Lib.Youtube.Automation.Internal.Parser
 {
 	public static class LicenseParser
 	{

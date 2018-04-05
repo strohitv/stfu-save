@@ -10,7 +10,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// The file that is being uploaded
 		/// </summary>
-		FileInfo File { get; set; }
+		FileInfo File { get; }
 
 		/// <summary>
 		/// Title of the video

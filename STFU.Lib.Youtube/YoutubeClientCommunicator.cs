@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using STFU.Lib.Youtube.Internal.Services;
-using STFU.Lib.Youtube.Communication.Interfaces;
+using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube

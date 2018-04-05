@@ -31,7 +31,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private string InitializeUploadOnYoutube()
 		{
-			var ytVideo = new YoutubeVideo(Job.Video);
+			var ytVideo = new SerializableYoutubeVideo(Job.Video);
 			string content = JsonConvert.SerializeObject(ytVideo);
 			var bytes = Encoding.UTF8.GetBytes(content);
 
