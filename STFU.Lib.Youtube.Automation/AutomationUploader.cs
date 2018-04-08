@@ -4,37 +4,38 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Internal.Watcher;
-using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation
 {
-	public class AutomationUploader : INotifyPropertyChanged
+	public class AutomationUploader : IAutomationUploader, INotifyPropertyChanged
 	{
 		public IYoutubeUploader Uploader { get; }
 
-		private bool isActive = false;
-		public bool IsActive
+		private RunningState state = RunningState.NotRunning;
+		public RunningState State
 		{
 			get
 			{
-				return isActive;
+				return state;
 			}
 			private set
 			{
-				if (isActive != value)
+				if (state != value)
 				{
-					isActive = value;
+					state = value;
 					OnPropertyChaged();
 				}
 			}
 		}
 
-		private FileWatcher Watcher { get; set; } = new FileWatcher();
+		private DirectoryWatcher Watcher { get; set; } = new DirectoryWatcher();
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
 		public IYoutubeAccount Account { get; }
@@ -47,17 +48,28 @@ namespace STFU.Lib.Youtube.Automation
 			Account = account;
 		}
 
-		public async void StartAsync(DateTime standardStartTime, ObservationConfiguration[] pathsToObserve)
+		public void Cancel()
 		{
-			if (!IsActive)
+			if (State == RunningState.Running)
+			{
+				State = RunningState.CancelPending;
+				Searcher.Cancel();
+				Watcher.Cancel();
+				Uploader.CancelAll();
+			}
+		}
+
+		public async void StartAsync(DateTime standardStartTime, IObservationConfiguration[] pathsToObserve)
+		{
+			if (State == RunningState.NotRunning)
 			{
 				await Task.Run(() => Start(standardStartTime, pathsToObserve));
 			}
 		}
 
-		private void Start(DateTime standardStartTime, ObservationConfiguration[] pathsToObserve)
+		private void Start(DateTime standardStartTime, IObservationConfiguration[] pathsToObserve)
 		{
-			IsActive = true;
+			State = RunningState.Running;
 
 			var infos = pathsToObserve
 				.Select(pto => new PublishTimeCalculator(
@@ -68,13 +80,52 @@ namespace STFU.Lib.Youtube.Automation
 				.ToList();
 			VideoCreator = new TemplateVideoCreator(infos);
 
+			Uploader.PropertyChanged += UploaderPropertyChanged;
+			Searcher.PropertyChanged += SearcherPropertyChanged;
+
 			Searcher.FileFound += FileToUploadOccured;
 			Watcher.FileAdded += FileToUploadOccured;
 
 			foreach (var path in pathsToObserve)
 			{
-				Searcher.SearchFilesAsync(path.PathInfo.Fullname, path.PathInfo.Filter, path.PathInfo.SearchRecursively, path.PathInfo.SearchHidden);
-				Watcher.AddWatcher(path.PathInfo.Fullname, path.PathInfo.Filter, path.PathInfo.SearchRecursively);
+				var pi = path.PathInfo;
+				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
+				Watcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
+			}
+		}
+
+		private void WatcherPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (Watcher.State == RunningState.NotRunning)
+			{
+				RefreshState();
+			}
+		}
+
+		private void SearcherPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (Searcher.State == RunningState.NotRunning)
+			{
+				RefreshState();
+			}
+		}
+
+		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(Uploader.State)
+				&& Uploader.State == UploaderState.NotRunning)
+			{
+				RefreshState();
+			}
+		}
+
+		private void RefreshState()
+		{
+			if (Searcher.State == RunningState.NotRunning
+				&& Watcher.State == RunningState.NotRunning
+				&& Uploader.State == UploaderState.NotRunning)
+			{
+				State = RunningState.NotRunning;
 			}
 		}
 

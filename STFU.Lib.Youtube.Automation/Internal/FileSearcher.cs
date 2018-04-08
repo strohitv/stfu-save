@@ -1,24 +1,42 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation.Internal
 {
 	internal delegate void FileFound(FileSystemEventArgs e);
 
-	internal class FileSearcher
+	internal class FileSearcher : INotifyPropertyChanged
 	{
 		private int runningCount = 0;
-		private bool shouldCancel = false;
 
 		internal event FileFound FileFound;
-		internal bool IsRunning => runningCount > 0;
+
+		private RunningState state = RunningState.NotRunning;
+		internal RunningState State
+		{
+			get
+			{
+				return state;
+			}
+			set
+			{
+				if (value != state)
+				{
+					state = value;
+					OnPropertyChaged();
+				}
+			}
+		}
 
 		internal void Cancel()
 		{
-			shouldCancel = false;
+			State = RunningState.CancelPending;
 		}
 
 		internal async void SearchFilesAsync(string path, string filters, bool searchRecursively, bool searchHidden)
@@ -31,8 +49,9 @@ namespace STFU.Lib.Youtube.Automation.Internal
 			try
 			{
 				runningCount++;
+				State = RunningState.Running;
 
-				if (shouldCancel)
+				if (State == RunningState.CancelPending)
 				{
 					return;
 				}
@@ -68,8 +87,21 @@ namespace STFU.Lib.Youtube.Automation.Internal
 			finally
 			{
 				runningCount--;
-				shouldCancel &= runningCount > 0;
+
+				if (runningCount == 0)
+				{
+					State = RunningState.NotRunning;
+				}
 			}
 		}
+
+		#region PropertyChanged
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChaged([CallerMemberName] string caller = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
+		}
+		#endregion PropertyChanged
 	}
 }

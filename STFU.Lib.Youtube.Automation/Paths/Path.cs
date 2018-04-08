@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
-namespace STFU.Lib.Youtube.Automation
+namespace STFU.Lib.Youtube.Automation.Paths
 {
-	public class Path
+	public class Path : IPath
 	{
 		private bool searchRecursively;
 

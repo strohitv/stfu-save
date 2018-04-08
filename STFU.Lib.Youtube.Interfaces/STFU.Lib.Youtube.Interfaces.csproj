@@ -41,6 +41,7 @@
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeClientCommunicator.cs" />
     <Compile Include="IYoutubeUploader.cs" />
+    <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />
     <Compile Include="Model\Enums\PrivacyStatus.cs" />
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />

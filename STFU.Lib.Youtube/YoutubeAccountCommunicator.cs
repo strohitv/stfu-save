@@ -14,6 +14,8 @@ namespace STFU.Lib.Youtube
 	{
 		public ReadOnlyCollection<IYoutubeAccount> ConnectedAccounts => new ReadOnlyCollection<IYoutubeAccount>(YoutubeAccountService.ConnectedAccounts.Keys.ToList());
 
+		public bool HasAtLeastOneAccount => ConnectedAccounts.Count > 0;
+
 		public YoutubeAccountCommunicator() { }
 
 		public Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, YoutubeScope scope)

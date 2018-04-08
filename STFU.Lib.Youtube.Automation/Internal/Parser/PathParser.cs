@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Paths;
 using STFU.Lib.Youtube.Automation.Templates;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Parser
 {
 	internal class PathParser
 	{
-		public static IList<Path> Parse(string json, IReadOnlyList<Template> templates)
+		public static IList<IPath> Parse(string json, IReadOnlyList<Template> templates)
 		{
 			var jArray = JArray.Parse(json);
 
-			IList<Path> result = new List<Path>();
+			IList<IPath> result = new List<IPath>();
 
 			var node = jArray.First;
 
@@ -18,7 +20,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Parser
 			{
 				do
 				{
-					Path info = new Path();
+					IPath info = new Path();
 					foreach (var item in node.Children<JProperty>())
 					{
 						switch (item.Name.ToLower())

@@ -1,21 +1,45 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeJobUploader
+	internal class YoutubeJobUploader : INotifyPropertyChanged
 	{
+		private YoutubeVideoUploadInitializer initializer = null;
+		private YoutubeVideoUploader videoUploader = null;
+		private YoutubeThumbnailUploader thumbnailUploader = null;
+
 		public InternalYoutubeJob Job { get; set; }
 
-		internal CancellationToken CancelToken { get; set; }
+		private RunningState state = RunningState.NotRunning;
+		public RunningState State
+		{
+			get
+			{
+				return state;
+			}
+			private set
+			{
+				if (state != value)
+				{
+					state = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
-		internal YoutubeJobUploader(InternalYoutubeJob job, CancellationToken cancelToken)
+		internal YoutubeJobUploader(InternalYoutubeJob job)
 		{
 			Job = job;
-			CancelToken = cancelToken;
+			initializer = new YoutubeVideoUploadInitializer(Job);
+			videoUploader = new YoutubeVideoUploader(Job);
+			thumbnailUploader = new YoutubeThumbnailUploader(Job);
 		}
 
 		public async void UploadAsync()
@@ -25,10 +49,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		public void Upload()
 		{
-			var initializer = new YoutubeVideoUploadInitializer(Job);
+			State = RunningState.Running;
+
 			initializer.InitializeUpload();
 
-			if (initializer.Successful)
+			if (initializer.Successful && CancelNotRequested())
 			{
 				Job.Uri = initializer.VideoUploadUri;
 
@@ -53,14 +78,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			string result = null;
 
 			bool uploadFinished = UploadVideo(out result);
-			if (uploadFinished)
+			if (uploadFinished && State != RunningState.CancelPending)
 			{
 				Job.VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
-
-				var thumbnailUploader = new YoutubeThumbnailUploader(CancelToken, Job);
-				var thumbnailResponse = thumbnailUploader.UploadThumbnail();
-
-				finished = true;
+				finished = thumbnailUploader.UploadThumbnail();
 			}
 
 			return finished;
@@ -68,7 +89,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private bool UploadVideo(out string result)
 		{
-			var videoUploader = new YoutubeVideoUploader(Job);
 			result = null;
 
 			var successful = videoUploader.Upload();
@@ -80,6 +100,16 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return successful;
 		}
 
+		internal void Cancel()
+		{
+			if (State == RunningState.Running)
+			{
+				State = RunningState.CancelPending;
+				videoUploader.Cancel();
+				thumbnailUploader.Cancel();
+			}
+		}
+
 		private static bool NotTooManyAttempts(int counter)
 		{
 			return counter < 4;
@@ -87,7 +117,17 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private bool CancelNotRequested()
 		{
-			return !CancelToken.IsCancellationRequested;
+			return State != RunningState.CancelPending;
 		}
+
+		#region INotifyPropertyChanged
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void OnPropertyChanged([CallerMemberName]string name = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		#endregion INofityPropertyChanged
 	}
 }

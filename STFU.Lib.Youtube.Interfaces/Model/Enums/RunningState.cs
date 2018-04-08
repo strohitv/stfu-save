@@ -1,10 +1,9 @@
 ﻿namespace STFU.Lib.Youtube.Interfaces.Model.Enums
 {
-	public enum UploaderState
+	public enum RunningState
 	{
 		NotRunning,
-		Waiting,
 		CancelPending,
-		Uploading
+		Running
 	}
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Templates
 {
-	public class ObservationConfiguration
+	public class ObservationConfiguration: IObservationConfiguration
 	{
-		public Path PathInfo { get; internal set; }
-		public Template Template { get; internal set; }
+		public IPath PathInfo { get; internal set; }
+		public ITemplate Template { get; internal set; }
 		public bool IgnorePath { get; set; }
 		public bool UploadPrivate { get; set; }
 		public bool HasCustomStartDate { get; set; }
@@ -13,7 +14,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		public DateTime StartDate { get; set; }
 		public int? CustomStartDayIndex { get; set; }
 
-		public ObservationConfiguration(Path pathInfo, Template template)
+		public ObservationConfiguration(IPath pathInfo, Template template)
 		{
 			PathInfo = pathInfo;
 			Template = template;

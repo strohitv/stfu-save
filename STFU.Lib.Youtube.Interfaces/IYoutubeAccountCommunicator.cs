@@ -9,6 +9,8 @@ namespace STFU.Lib.Youtube.Interfaces
 	{
 		ReadOnlyCollection<IYoutubeAccount> ConnectedAccounts { get; }
 
+		bool HasAtLeastOneAccount { get; }
+
 		Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, YoutubeScope scope);
 
 		IYoutubeAccount ConnectToAccount(string code, IYoutubeClient client, YoutubeRedirectUri redirectUri);

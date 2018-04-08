@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Programming
 {
@@ -11,9 +12,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 	{
 		private string FilePath { get; set; }
 		private string TemplateName { get; set; }
-		private IReadOnlyDictionary<string, Variable> Variables { get; set; }
+		private IReadOnlyDictionary<string, IVariable> Variables { get; set; }
 
-		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, Variable> variables)
+		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, IVariable> variables)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;

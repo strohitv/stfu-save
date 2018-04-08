@@ -37,7 +37,12 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// <summary>
 		/// Requests the uploader to cancel immediately.
 		/// </summary>
-		void CancelUploader();
+		void CancelAll();
+
+		/// <summary>
+		/// Requests the uploader to cancel a currently running job.
+		/// </summary>
+		void CancelJob(IYoutubeJob job);
 
 		/// <summary>
 		/// Adds a job to queue.

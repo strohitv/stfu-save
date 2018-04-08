@@ -2,27 +2,49 @@
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Threading;
 using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System.Runtime.CompilerServices;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeVideoUploader
+	internal class YoutubeVideoUploader : INotifyPropertyChanged
 	{
+		FileUploader fileUploader = new FileUploader();
+
 		private InternalYoutubeJob Job { get; set; }
-		private CancellationToken Token { get; set; }
+
+		private RunningState state = RunningState.NotRunning;
+		public RunningState State
+		{
+			get
+			{
+				return state;
+			}
+			private set
+			{
+				if (state != value)
+				{
+					state = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		internal string Response { get; private set; }
 
 		internal YoutubeVideoUploader(IYoutubeJob job)
 		{
 			Job = job as InternalYoutubeJob;
+
+			fileUploader.PropertyChanged += OnUploadProgressChanged;
 		}
 
 		internal bool Upload()
 		{
+			State = RunningState.Running;
+
 			var lastbyte = CheckUploadStatus();
 
 			FileStream fileStream = new FileStream(Job.Video.Path, FileMode.Open, FileAccess.Read);
@@ -40,9 +62,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 			Job.State = UploadState.Running;
 
-			FileUploader fileUploader = new FileUploader(Token);
-			fileUploader.PropertyChanged += OnUploadProgressChanged;
-
 			bool successful = fileUploader.UploadFile(Job.Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte);
 
 			if (successful)
@@ -50,7 +69,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				Response = WebService.Communicate(request);
 				Job.State = UploadState.Successful;
 			}
-			else if (Token.IsCancellationRequested)
+			else if (State == RunningState.CancelPending)
 			{
 				Job.State = UploadState.Canceled;
 			}
@@ -59,15 +78,15 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				Job.State = UploadState.Error;
 			}
 
+			State = RunningState.NotRunning;
 			return successful;
 		}
 
 		private void OnUploadProgressChanged(object sender, PropertyChangedEventArgs e)
 		{
-			var fileUploader = (FileUploader)sender;
 			if (e.PropertyName == nameof(fileUploader.Progress))
 			{
-				Job.Progress = ((FileUploader)sender).Progress;
+				Job.Progress = fileUploader.Progress;
 			}
 			else
 			{
@@ -102,5 +121,24 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 			return lastbyte;
 		}
+
+		internal void Cancel()
+		{
+			if (State == RunningState.Running)
+			{
+				State = RunningState.CancelPending;
+				fileUploader.Cancel();
+			}
+		}
+
+		#region INotifyPropertyChanged
+
+		public event PropertyChangedEventHandler PropertyChanged;
+		private void OnPropertyChanged([CallerMemberName]string name = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		#endregion INofityPropertyChanged
 	}
 }

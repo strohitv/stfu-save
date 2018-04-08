@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -11,9 +12,9 @@ using STFU.Lib.Youtube.Model.Helpers;
 
 namespace STFU.Lib.Youtube.Automation.Templates
 {
-	public class Template
+	public class Template : ITemplate
 	{
-		private IList<PublishTime> publishTimes;
+		private IList<IPublishTime> publishTimes;
 
 		public int Id { get; internal set; }
 
@@ -49,19 +50,19 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public string ThumbnailPath { get; set; }
 
-		internal Dictionary<string, Variable> LocalVars { get; set; } = new Dictionary<string, Variable>();
+		internal Dictionary<string, IVariable> LocalVars { get; set; } = new Dictionary<string, IVariable>();
 
-		public IReadOnlyDictionary<string, Variable> LocalVariables => new ReadOnlyDictionary<string, Variable>(LocalVars);
+		public IReadOnlyDictionary<string, IVariable> LocalVariables => new ReadOnlyDictionary<string, IVariable>(LocalVars);
 
 		public static IReadOnlyDictionary<string, Func<string, string, string>> GlobalVariables => Variable.GlobalVariables;
 
-		public IList<PublishTime> PublishTimes
+		public IList<IPublishTime> PublishTimes
 		{
 			get
 			{
 				if (publishTimes == null)
 				{
-					publishTimes = new List<PublishTime>();
+					publishTimes = new List<IPublishTime>();
 				}
 
 				return publishTimes;
@@ -168,14 +169,13 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
 				IsEmbeddable = template.IsEmbeddable,
-				LocalVars = template.LocalVars.ToDictionary(t =>
-					$"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}", p =>
-						new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
+				LocalVars = template.LocalVars.ToDictionary(t => $"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}",
+										p => (IVariable)new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
 				License = template.License,
 				NotifySubscribers = template.NotifySubscribers,
 				Privacy = template.Privacy,
 				PublicStatsViewable = template.PublicStatsViewable,
-				PublishTimes = new List<PublishTime>(template.PublishTimes),
+				PublishTimes = new List<IPublishTime>(template.PublishTimes),
 				ShouldPublishAt = template.ShouldPublishAt,
 				Stabilize = template.Stabilize,
 				Tags = template.Tags,

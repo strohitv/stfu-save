@@ -2,14 +2,12 @@
 using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Threading;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
 	internal class FileUploader : INotifyPropertyChanged
 	{
-		private CancellationToken CancelToken { get; set; }
-
 		private double progress = 0.0;
 		internal double Progress
 		{
@@ -22,6 +20,23 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				if (progress != value)
 				{
 					progress = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private RunningState state = RunningState.NotRunning;
+		public RunningState State
+		{
+			get
+			{
+				return state;
+			}
+			private set
+			{
+				if (state != value)
+				{
+					state = value;
 					OnPropertyChanged();
 				}
 			}
@@ -42,10 +57,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
-		internal FileUploader(CancellationToken cancelToken)
-		{
-			CancelToken = cancelToken;
-		}
+		internal FileUploader() { }
 
 		internal bool UploadFile(string path, HttpWebRequest request)
 		{
@@ -69,6 +81,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					fileStream.Position = startPosition;
 				}
 
+				State = RunningState.Running;
+
 				// Upload initiieren
 				Stream requestStream = request.GetRequestStream();
 				byte[] buffer = new byte[128 * 1024];
@@ -77,7 +91,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				try
 				{
 					// Hochladen
-					while (!CancelToken.IsCancellationRequested && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+					while (State != RunningState.CancelPending && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
 					{
 						requestStream.Write(buffer, 0, bytesRead);
 						Progress = fileStream.Position / (double)fileStream.Length * 100;
@@ -109,7 +123,9 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					return false;
 				}
 
-				return !CancelToken.IsCancellationRequested;
+				var result = State != RunningState.CancelPending;
+				State = RunningState.NotRunning;
+				return result;
 			}
 			else
 			{
@@ -117,6 +133,14 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 
 			return false;
+		}
+
+		internal void Cancel()
+		{
+			if (State == RunningState.Running)
+			{
+				State = RunningState.CancelPending;
+			}
 		}
 
 		#region INotifyPropertyChanged

@@ -1,12 +1,12 @@
 ﻿using System;
-using STFU.Lib.Youtube.Automation.Templates;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
 	internal class PublishTimeCalculator
 	{
-		public Path PathInfo { get; internal set; }
-		public Template Template { get; internal set; }
+		public IPath PathInfo { get; internal set; }
+		public ITemplate Template { get; internal set; }
 		internal bool IgnorePath { get; set; }
 		internal bool UploadPrivate { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
@@ -14,7 +14,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		bool first = true;
 
-		internal PublishTimeCalculator(Path pathInfo, DateTime startTime, Template template, int? publishPosition = null)
+		internal PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;

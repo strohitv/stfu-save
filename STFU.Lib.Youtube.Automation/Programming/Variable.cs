@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Programming
 {
-	public class Variable
+	public class Variable : IVariable
 	{
 		[JsonProperty(PropertyName = "Name")]
 		public string Name { get; set; }

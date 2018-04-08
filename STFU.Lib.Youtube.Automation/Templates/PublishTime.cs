@@ -1,8 +1,9 @@
 ﻿using System;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Templates
 {
-	public class PublishTime
+	public class PublishTime : IPublishTime
 	{
 		public DayOfWeek DayOfWeek { get; set; }
 

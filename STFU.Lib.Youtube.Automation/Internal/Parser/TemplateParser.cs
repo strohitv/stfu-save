@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Model;
@@ -95,9 +96,9 @@ namespace STFU.Lib.Youtube.Automation.Internal.Parser
 			return result;
 		}
 
-		private static IList<PublishTime> ReadPublishTimes(JToken item)
+		private static IList<IPublishTime> ReadPublishTimes(JToken item)
 		{
-			var times = new List<PublishTime>();
+			var times = new List<IPublishTime>();
 
 			foreach (var child in item.Children())
 			{
@@ -123,9 +124,9 @@ namespace STFU.Lib.Youtube.Automation.Internal.Parser
 			return times;
 		}
 
-		private static Dictionary<string, Variable> ReadLocalVars(JToken item)
+		private static Dictionary<string, IVariable> ReadLocalVars(JToken item)
 		{
-			var localVarDict = new Dictionary<string, Variable>();
+			var localVarDict = new Dictionary<string, IVariable>();
 
 			foreach (var child in item.Children<JProperty>())
 			{

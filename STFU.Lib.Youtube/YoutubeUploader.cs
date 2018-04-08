@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using STFU.Lib.Youtube.Internal;
 using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
@@ -19,8 +17,6 @@ namespace STFU.Lib.Youtube
 		private IList<IYoutubeJob> jobQueue = new List<IYoutubeJob>();
 		private UploaderState state = UploaderState.NotRunning;
 		private bool stopAfterCompleting = true;
-
-		private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
 		private IList<YoutubeJobUploader> runningJobUploaders = new List<YoutubeJobUploader>();
 
@@ -112,11 +108,24 @@ namespace STFU.Lib.Youtube
 			return newJob;
 		}
 
-		/// <see cref="IYoutubeUploader.CancelUploader"/>
-		public void CancelUploader()
+		/// <see cref="IYoutubeUploader.CancelAll"/>
+		public void CancelAll()
 		{
-			cancellationTokenSource.Cancel();
-			State = UploaderState.NotRunning;
+			if (State == UploaderState.Uploading || State == UploaderState.Waiting)
+			{
+				State = UploaderState.CancelPending;
+
+				foreach (var uploader in runningJobUploaders)
+				{
+					uploader.Cancel();
+				}
+			}
+		}
+
+		public void CancelJob(IYoutubeJob job)
+		{
+			var jobUploader = runningJobUploaders.FirstOrDefault(ju => ju.Job == job);
+			jobUploader?.Cancel();
 		}
 
 		/// <see cref="IYoutubeUploader.ChangePositionInQueue(IYoutubeJob, IYoutubeJob)"/>
@@ -157,20 +166,20 @@ namespace STFU.Lib.Youtube
 
 		private void StartJobUploaders()
 		{
-			while (!cancellationTokenSource.IsCancellationRequested
+			while (State != UploaderState.CancelPending
 				&& runningJobUploaders.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadState.NotStarted))
 			{
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted);
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
-				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob, cancellationTokenSource.Token);
+				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
 				jobUploader.UploadAsync();
 
 				runningJobUploaders.Add(jobUploader);
 			}
 
-			if (!cancellationTokenSource.IsCancellationRequested)
+			if (State != UploaderState.CancelPending)
 			{
 				if (runningJobUploaders.Count == 0)
 				{
