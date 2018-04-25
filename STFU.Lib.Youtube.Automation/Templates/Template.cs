@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -162,14 +162,14 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			return $"Id: {Id}, Name: {Name}";
 		}
 
-		public static Template Duplicate(Template template)
+		public static ITemplate Duplicate(ITemplate template)
 		{
 			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category)
 			{
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
 				IsEmbeddable = template.IsEmbeddable,
-				LocalVars = template.LocalVars.ToDictionary(t => $"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}",
+				LocalVars = ((Template)template).LocalVars.ToDictionary(t => $"{new Variable(t.Value.Name, t.Value.Content).Name.ToLower()}",
 										p => (IVariable)new Variable($"{p.Value.Name}", $"{p.Value.Content}")),
 				License = template.License,
 				NotifySubscribers = template.NotifySubscribers,

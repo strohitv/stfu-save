@@ -1,5 +1,5 @@
 ﻿using System;
-using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Templates
 {
@@ -14,7 +14,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		public DateTime StartDate { get; set; }
 		public int? CustomStartDayIndex { get; set; }
 
-		public ObservationConfiguration(IPath pathInfo, Template template)
+		public ObservationConfiguration(IPath pathInfo, ITemplate template)
 		{
 			PathInfo = pathInfo;
 			Template = template;

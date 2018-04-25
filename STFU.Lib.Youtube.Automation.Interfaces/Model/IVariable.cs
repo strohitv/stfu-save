@@ -1,4 +1,4 @@
-﻿namespace STFU.Lib.Youtube.Automation.Interfaces
+﻿namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 {
 	public interface IVariable
 	{

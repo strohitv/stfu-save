@@ -1,5 +1,5 @@
 ﻿using System;
-using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {

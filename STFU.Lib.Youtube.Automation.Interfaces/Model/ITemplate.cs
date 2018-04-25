@@ -2,7 +2,7 @@
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.Lib.Youtube.Automation.Interfaces
+namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 {
 	public interface ITemplate
 	{
