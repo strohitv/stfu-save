@@ -33,11 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IAutomationUploader.cs" />
-    <Compile Include="IObservationConfiguration.cs" />
-    <Compile Include="IPath.cs" />
-    <Compile Include="IPublishTime.cs" />
-    <Compile Include="ITemplate.cs" />
-    <Compile Include="IVariable.cs" />
+    <Compile Include="IProcessContainer.cs" />
+    <Compile Include="Model\IObservationConfiguration.cs" />
+    <Compile Include="Model\IPath.cs" />
+    <Compile Include="IPathContainer.cs" />
+    <Compile Include="Model\IPublishTime.cs" />
+    <Compile Include="Model\ITemplate.cs" />
+    <Compile Include="ITemplateContainer.cs" />
+    <Compile Include="Model\IVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

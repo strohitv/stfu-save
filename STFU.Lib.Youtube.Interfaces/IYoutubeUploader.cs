@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Interfaces
 {
+	public delegate void UploadStarted(EventArgs args);
+
 	public interface IYoutubeUploader: INotifyPropertyChanged
 	{
 		/// <summary>
@@ -26,6 +29,8 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// Gets the queue with all waiting jobs. Videos will be uploaded in this particular order.
 		/// </summary>
 		IReadOnlyCollection<IYoutubeJob> Queue { get; }
+
+		event UploadStarted NewUploadStarted;
 
 		/// <summary>
 		/// Starts the uploader and lets it run async. 
