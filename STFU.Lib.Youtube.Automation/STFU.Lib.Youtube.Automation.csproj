@@ -50,6 +50,7 @@
     <Compile Include="Internal\Watcher\ProcessWatcher.cs" />
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />
+    <Compile Include="ProcessContainer.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Programming\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

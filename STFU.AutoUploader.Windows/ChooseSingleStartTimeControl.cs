@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
-using STFU.UploadLib.Templates;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.AutoUploader
 {
 	public partial class ChooseSingleStartTimeControl : UserControl
 	{
-		private PublishSettings publishSettings;
+		private IObservationConfiguration publishSettings;
 
 		public ChooseSingleStartTimeControl()
 		{
@@ -18,7 +18,7 @@ namespace STFU.AutoUploader
 		public bool ShouldPublishAt => shouldOverridePublishAtCheckbox.Checked;
 		public DateTime PublishAt => overrideDateTimePicker.Value;
 
-		public ChooseSingleStartTimeControl(PublishSettings settings)
+		public ChooseSingleStartTimeControl(IObservationConfiguration settings)
 			: this()
 		{
 			publishSettings = settings;
@@ -37,7 +37,7 @@ namespace STFU.AutoUploader
 
 			if (publishSettings != null)
 			{
-				mainGroupbox.Text = publishSettings.PathInfo.Path;
+				mainGroupbox.Text = publishSettings.PathInfo.Fullname;
 
 				for (int i = 0; i < publishSettings.Template.PublishTimes.Count; i++)
 				{
@@ -121,7 +121,7 @@ namespace STFU.AutoUploader
 				= showCustomStartPointControls;
 		}
 
-		public PublishSettings GetPublishSettings()
+		public IObservationConfiguration GetPublishSettings()
 		{ 
 			publishSettings.IgnorePath = dontObservePathCheckbox.Checked;
 			publishSettings.UploadPrivate = uploadVideosPrivateCheckbox.Checked;

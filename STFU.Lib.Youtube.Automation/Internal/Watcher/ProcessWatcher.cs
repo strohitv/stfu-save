@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 {
-	internal class ProcessWatcher
+	public class ProcessWatcher
 	{
 		internal event EventHandler AllProcessesCompleted;
 
@@ -15,7 +15,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 		public bool ShouldWaitForProcs { get; set; }
 
-		internal bool Pause { get { return pause; }
+		public bool Pause { get { return pause; }
 			set
 			{
 				pause = value;
@@ -67,7 +67,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 		private List<Process> Procs { get; set; } = new List<Process>();
 
-		internal ReadOnlyCollection<Process> Processes
+		public ReadOnlyCollection<Process> Processes
 		{
 			get
 			{

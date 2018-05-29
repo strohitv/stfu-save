@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation
 {
-	public class PathContainer
+	public class PathContainer : IPathContainer
 	{
 		private IList<IPath> paths = new List<IPath>();
 
@@ -20,7 +22,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		private static bool SamePathUsed(IPath path, IPath p)
 		{
-			return System.IO.Path.GetFullPath(path.Fullname).ToLower() == System.IO.Path.GetFullPath(p.Fullname).ToLower();
+			return Path.GetFullPath(path.Fullname).ToLower() == Path.GetFullPath(p.Fullname).ToLower();
 		}
 
 		public void RegisterPath(IPath path)
@@ -36,6 +38,41 @@ namespace STFU.Lib.Youtube.Automation
 			if (RegisteredPaths.Contains(path))
 			{
 				Paths.Remove(path);
+			}
+		}
+		public void UnregisterPathAt(int index)
+		{
+			if (RegisteredPaths.Count > index)
+			{
+				Paths.RemoveAt(index);
+			}
+		}
+
+		public void UnregisterAllPaths()
+		{
+			paths = new List<IPath>();
+		}
+
+		public void ShiftPathPositions(IPath first, IPath second)
+		{
+			IPath firstToChange = null;
+			IPath secondToChange = null;
+			if (first != null
+				&& second != null
+				&& (firstToChange = Paths.FirstOrDefault(p => p == first)) != null
+				&& (secondToChange = Paths.FirstOrDefault(p => p == second)) != null)
+			{
+				ShiftPathPositionsAt(paths.IndexOf(firstToChange), paths.IndexOf(secondToChange));
+			}
+		}
+
+		public void ShiftPathPositionsAt(int firstIndex, int secondIndex)
+		{
+			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Paths.Count && secondIndex < Paths.Count)
+			{
+				var save = paths[firstIndex];
+				paths[firstIndex] = paths[secondIndex];
+				paths[secondIndex] = save;
 			}
 		}
 	}

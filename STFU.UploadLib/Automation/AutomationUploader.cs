@@ -720,6 +720,8 @@ namespace STFU.UploadLib.Automation
 		{
 			IsActive = false;
 
+			shouldCancel = false;
+
 			while (Watchers.Count > 0)
 			{
 				Watchers.First().Created -= ReactOnFileChanges;

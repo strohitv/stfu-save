@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Internal.Watcher;
@@ -14,9 +15,50 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation
 {
-	public class AutomationUploader : IAutomationUploader, INotifyPropertyChanged
+	public class AutomationUploader : IAutomationUploader
 	{
-		public IYoutubeUploader Uploader { get; }
+		private IYoutubeUploader uploader = null;
+		public IYoutubeUploader Uploader
+		{
+			get
+			{
+				return uploader;
+			}
+			set
+			{
+				if (State == RunningState.NotRunning && uploader != value)
+				{
+					uploader = value;
+					OnPropertyChaged();
+				}
+			}
+		}
+
+		private IYoutubeAccount account = null;
+		public IYoutubeAccount Account
+		{
+			get
+			{
+				return account;
+			}
+			set
+			{
+				if (account != value)
+				{
+					account = value;
+					OnPropertyChaged();
+				}
+			}
+		}
+
+		private IList<IObservationConfiguration> configuration = new List<IObservationConfiguration>();
+		public IList<IObservationConfiguration> Configuration
+		{
+			get
+			{
+				return configuration;
+			}
+		}
 
 		private RunningState state = RunningState.NotRunning;
 		public RunningState State
@@ -35,17 +77,58 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
+		private IProcessContainer processesToWatch = new ProcessContainer();
+		public IProcessContainer ProcessesToWatch
+		{
+			get
+			{
+				return processesToWatch;
+			}
+			set
+			{
+				if (processesToWatch != value && value != null)
+				{
+					processesToWatch = value;
+					OnPropertyChaged();
+				}
+			}
+		}
+
+		public bool EndAfterUpload { get; set; } = false;
+
 		private DirectoryWatcher Watcher { get; set; } = new DirectoryWatcher();
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
-		public IYoutubeAccount Account { get; }
-
 		private TemplateVideoCreator VideoCreator { get; set; }
 
-		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account)
+		private ProcessWatcher processWatcher = new ProcessWatcher();
+		public ProcessWatcher ProcessWatcher
+		{
+			get
+			{
+				return processWatcher;
+			}
+			set
+			{
+				if (value != null && processWatcher !=  value)
+				{
+					processWatcher = value;
+					OnPropertyChaged();
+				}
+			}
+		}
+
+		public AutomationUploader() { }
+
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
 		{
 			Uploader = uploader;
 			Account = account;
+
+			foreach (var config in configurationsToAdd)
+			{
+				Configuration.Add(config);
+			}
 		}
 
 		public void Cancel()
@@ -59,22 +142,34 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public async void StartAsync(DateTime standardStartTime, IObservationConfiguration[] pathsToObserve)
+		public async void StartAsync()
 		{
 			if (State == RunningState.NotRunning)
 			{
-				await Task.Run(() => Start(standardStartTime, pathsToObserve));
+				await Task.Run(() => Start());
 			}
 		}
 
-		private void Start(DateTime standardStartTime, IObservationConfiguration[] pathsToObserve)
+		private void Start()
 		{
+			if (Account != null || Uploader == null)
+			{
+				return;
+			}
+
 			State = RunningState.Running;
 
-			var infos = pathsToObserve
+			ProcessWatcher.AllProcessesCompleted += ProcessWatcherAllProcessesCompleted;
+
+			foreach (var proc in ProcessesToWatch.ProcessesToWatch)
+			{
+				ProcessWatcher.Add(proc);
+			}
+
+			var infos = Configuration
 				.Select(pto => new PublishTimeCalculator(
 					pto.PathInfo,
-					pto.HasCustomStartDate ? pto.StartDate : standardStartTime,
+					pto.StartDate,
 					pto.Template,
 					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null))
 				.ToList();
@@ -86,11 +181,19 @@ namespace STFU.Lib.Youtube.Automation
 			Searcher.FileFound += FileToUploadOccured;
 			Watcher.FileAdded += FileToUploadOccured;
 
-			foreach (var path in pathsToObserve)
+			foreach (var path in Configuration)
 			{
 				var pi = path.PathInfo;
 				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
 				Watcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
+			}
+		}
+
+		private void ProcessWatcherAllProcessesCompleted(object sender, System.EventArgs e)
+		{
+			if (EndAfterUpload && uploader.State == UploaderState.Waiting && Searcher.State == RunningState.NotRunning)
+			{
+
 			}
 		}
 

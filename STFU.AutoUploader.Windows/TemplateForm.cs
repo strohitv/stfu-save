@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Automation;
-using STFU.UploadLib.Templates;
-using STFU.UploadLib.Videos;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Templates;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Model;
 
 namespace STFU.AutoUploader
 {
 	public partial class TemplateForm : Form
 	{
-		private AutomationUploader uploader;
-		private Template current;
+		private ITemplateContainer container;
+		private ITemplate current;
 		private bool reordering = false;
 
-		public TemplateForm(AutomationUploader upl)
+		public TemplateForm(ITemplateContainer container)
 		{
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
 
-			uploader = upl;
+			this.container = container;
 		}
 
 		private void addTemplateButtonClick(object sender, EventArgs e)
 		{
-			Template templ = uploader.CreateTemplate();
-			uploader.AddTemplate(templ);
+			ITemplate templ = new Template();
+			container.RegisterTemplate(templ);
 
 			RefillListView();
 		}
@@ -36,7 +38,7 @@ namespace STFU.AutoUploader
 		{
 			templateListView.Items.Clear();
 
-			foreach (var template in uploader.Templates)
+			foreach (var template in container.RegisteredTemplates)
 			{
 				templateListView.Items.Add(template.Name);
 			}
@@ -82,7 +84,7 @@ namespace STFU.AutoUploader
 
 		private void deleteTemplateButtonClick(object sender, EventArgs e)
 		{
-			if (templateListView.SelectedItems.Count == 0 || uploader.Templates[templateListView.SelectedIndices[0]].Id == 0)
+			if (templateListView.SelectedItems.Count == 0 || container.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id == 0)
 			{
 				return;
 			}
@@ -90,7 +92,7 @@ namespace STFU.AutoUploader
 			var confirmation = MessageBox.Show(this, "Möchtest du das ausgewählte Template wirklich löschen? Alle Pfade, die es verwenden, werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
-				uploader.RemoveTemplateAt(templateListView.SelectedIndices[0]);
+				container.UnregisterTemplateAt(templateListView.SelectedIndices[0]);
 
 				templateListView.SelectedIndices.Clear();
 
@@ -103,7 +105,7 @@ namespace STFU.AutoUploader
 			var confirmation = MessageBox.Show(this, "Möchtest du wirklich alle Templates löschen? Das Standard-Template kann nicht entfernt werden. Alle Pfade werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
-				uploader.RemoveAllTemplates();
+				container.UnregisterAllTemplates();
 
 				templateListView.SelectedIndices.Clear();
 
@@ -116,16 +118,16 @@ namespace STFU.AutoUploader
 			if (!reordering)
 			{
 				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
-				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && uploader.Templates[templateListView.SelectedIndices[0]].Id != 0;
+				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && container.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
 
 				if (templateListView.SelectedIndices.Count == 0)
 				{
-					current = uploader.CreateTemplate();
+					current = new Template();
 					ClearEditView();
 				}
 				else
 				{
-					var save = uploader.Templates[templateListView.SelectedIndices[0]];
+					var save = container.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]);
 					current = Template.Duplicate(save);
 
 					FillTemplateIntoEditView(current);
@@ -143,7 +145,7 @@ namespace STFU.AutoUploader
 			templateValuesTabControl.SelectedIndex = 0;
 		}
 
-		private void FillTemplateIntoEditView(Template template)
+		private void FillTemplateIntoEditView(ITemplate template)
 		{
 			templateNameTextbox.Text = template.Name;
 			//templateNameTextbox.ReadOnly = template.Name == "Standard";
@@ -326,7 +328,7 @@ namespace STFU.AutoUploader
 			{
 				reordering = true;
 				var index = templateListView.SelectedIndices[0];
-				uploader.UpdateTemplate(current);
+				container.UpdateTemplate(current);
 				RefillListView();
 				templateListView.SelectedIndices.Add(index);
 				templateListView.Select();
@@ -336,7 +338,7 @@ namespace STFU.AutoUploader
 
 		private void templateNameTextboxTextChanged(object sender, EventArgs e)
 		{
-			if (!reordering) // && templateNameTextbox.Text.ToLower() != "standard")
+			if (!reordering)
 			{
 				current.Name = templateNameTextbox.Text;
 			}
@@ -344,7 +346,7 @@ namespace STFU.AutoUploader
 
 		private void templateTitleTextboxTextChanged(object sender, EventArgs e)
 		{
-			maxTitleLengthLabel.Text = $"Länge Titel: {templateTitleTextbox.Text.Length} / {Video.MaxTitleLength} Zeichen";
+			maxTitleLengthLabel.Text = $"Länge Titel: {templateTitleTextbox.Text.Length} / {YoutubeVideo.MaxTitleLength} Zeichen";
 			if (!reordering)
 			{
 				current.Title = templateTitleTextbox.Text;
@@ -353,7 +355,7 @@ namespace STFU.AutoUploader
 
 		private void templateDescriptionTextboxTextChanged(object sender, EventArgs e)
 		{
-			maxDescriptionLengthLabel.Text = $"Länge Beschreibung: {templateDescriptionTextbox.Text.Length} / {Video.MaxDescriptionLength} Zeichen";
+			maxDescriptionLengthLabel.Text = $"Länge Beschreibung: {templateDescriptionTextbox.Text.Length} / {YoutubeVideo.MaxDescriptionLength} Zeichen";
 			if (!reordering)
 			{
 				current.Description = templateDescriptionTextbox.Text;
@@ -362,7 +364,7 @@ namespace STFU.AutoUploader
 
 		private void templateTagsTextboxTextChanged(object sender, EventArgs e)
 		{
-			maxTagsLengthLabel.Text = $"Länge Tags: {templateTagsTextbox.Text.Length} / {Video.MaxTagsLength} Zeichen";
+			maxTagsLengthLabel.Text = $"Länge Tags: {templateTagsTextbox.Text.Length} / {YoutubeVideo.MaxTagsLength} Zeichen";
 			if (!reordering)
 			{
 				current.Tags = templateTagsTextbox.Text;
@@ -376,7 +378,7 @@ namespace STFU.AutoUploader
 				var index = templateListView.SelectedIndices[0];
 
 				reordering = true;
-				uploader.ShiftTemplatePositionsAt(index, index - 1);
+				container.ShiftTemplatePositionsAt(index, index - 1);
 
 				RefillListView();
 
@@ -393,11 +395,11 @@ namespace STFU.AutoUploader
 				var index = templateListView.SelectedIndices[0];
 
 				reordering = true;
-				uploader.ShiftTemplatePositionsAt(index, index + 1);
+				container.ShiftTemplatePositionsAt(index, index + 1);
 
 				RefillListView();
 
-				templateListView.SelectedIndices.Add((index + 1 < uploader.Templates.Count) ? index + 1 : uploader.Templates.Count - 1);
+				templateListView.SelectedIndices.Add((index + 1 < container.RegisteredTemplates.Count) ? index + 1 : container.RegisteredTemplates.Count - 1);
 				templateListView.Select();
 				reordering = false;
 			}
@@ -410,7 +412,7 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			var timesToRemove = new List<PublishTime>();
+			var timesToRemove = new List<IPublishTime>();
 			foreach (int index in timesListView.SelectedIndices)
 			{
 				timesToRemove.Add(current.PublishTimes[index]);
@@ -659,11 +661,11 @@ namespace STFU.AutoUploader
 			}
 
 			var index = templateListView.SelectedIndices[0];
-			var template = Template.Duplicate(uploader.Templates[index]);
+			var template = Template.Duplicate(container.RegisteredTemplates.ElementAt(index));
 
 			template.Name += " (Kopie)";
 
-			uploader.AddTemplate(template);
+			container.RegisterTemplate(template);
 			RefillListView();
 
 			templateListView.SelectedIndices.Add(index);

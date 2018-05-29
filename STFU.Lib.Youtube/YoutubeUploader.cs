@@ -8,6 +8,7 @@ using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System;
 
 namespace STFU.Lib.Youtube
 {
@@ -94,6 +95,8 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
+		public event UploadStarted NewUploadStarted = null;
+
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
 		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account)
 		{
@@ -104,6 +107,11 @@ namespace STFU.Lib.Youtube
 
 			var newJob = new InternalYoutubeJob(video, account);
 			JobQueue.Add(newJob);
+
+			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
+			{
+				StartJobUploaders();
+			}
 
 			return newJob;
 		}
@@ -176,6 +184,8 @@ namespace STFU.Lib.Youtube
 				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
 				jobUploader.UploadAsync();
 
+				NewUploadStarted?.Invoke(new EventArgs());
+
 				runningJobUploaders.Add(jobUploader);
 			}
 
@@ -183,7 +193,14 @@ namespace STFU.Lib.Youtube
 			{
 				if (runningJobUploaders.Count == 0)
 				{
-					State = UploaderState.Waiting;
+					if (StopAfterCompleting)
+					{
+						State = UploaderState.NotRunning;
+					}
+					else
+					{
+						State = UploaderState.Waiting;
+					}
 				}
 				else
 				{

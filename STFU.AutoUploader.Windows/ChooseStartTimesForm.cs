@@ -1,29 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Automation;
-using STFU.UploadLib.Templates;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Templates;
 
 namespace STFU.AutoUploader
 {
 	public partial class ChooseStartTimesForm : Form
 	{
-		AutomationUploader uploader;
-		private PublishSettings[] publishSettings;
+		IPathContainer pathContainer;
+		ITemplateContainer templateContainer;
+		private IList<IObservationConfiguration> publishSettings = new List<IObservationConfiguration>();
 
-		public ChooseStartTimesForm(AutomationUploader upl)
+		public ChooseStartTimesForm(IPathContainer pathContainer, ITemplateContainer templateContainer)
 		{
 			InitializeComponent();
 
-			uploader = upl;
+			this.pathContainer = pathContainer;
+			this.templateContainer = templateContainer;
 
-			publishSettings = uploader.GetPublishInformation();
+			foreach (var path in pathContainer.RegisteredPaths)
+			{
+				publishSettings.Add(new ObservationConfiguration(path, templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == path.SelectedTemplateId)));
+			}
+
 			chooseCustomTimesControl.AddRange(publishSettings);
 
 			globalSettingsControl.SetPublishControlsVisibility(publishSettings.Any(i => i.Template.ShouldPublishAt), false);
 		}
 
-		public PublishSettings[] GetPublishSettingsArray()
+		public IObservationConfiguration[] GetPublishSettingsArray()
 		{
 			chooseCustomTimesControl.GetPublishSettingsArray();
 
@@ -46,7 +54,7 @@ namespace STFU.AutoUploader
 				}
 			}
 
-			return publishSettings;
+			return publishSettings.ToArray();
 		}
 	}
 }

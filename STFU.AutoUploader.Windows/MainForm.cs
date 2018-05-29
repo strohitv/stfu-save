@@ -2,32 +2,47 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Automation;
+using STFU.Lib.Youtube;
+using STFU.Lib.Youtube.Automation;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Enums;
 
 namespace STFU.AutoUploader
 {
 	public partial class MainForm : Form
 	{
-		AutomationUploader uploader;
+		IPathContainer pathContainer;
+		ITemplateContainer templateContainer;
+		IYoutubeClientCommunicator clientCommunicator;
+		IYoutubeAccountCommunicator accountCommunicator;
+		IAutomationUploader autoUploader = new AutomationUploader();
 
 		public MainForm()
 		{
 			InitializeComponent();
+
+			clientCommunicator = new YoutubeClientCommunicator();
+			clientCommunicator.AddClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
+				"cKUCRQz0sE4UUmvUHW6qckbP",
+				"Strohis Toolset Für Uploads");
+
+			accountCommunicator = new YoutubeAccountCommunicator();
 		}
 
 		private void RefillListView()
 		{
 			lvSelectedPaths.Items.Clear();
 
-			foreach (var entry in uploader.Paths)
+			foreach (var entry in pathContainer.RegisteredPaths)
 			{
-				var newItem = lvSelectedPaths.Items.Add(entry.Path);
+				var newItem = lvSelectedPaths.Items.Add(entry.Fullname);
 				newItem.SubItems.Add(entry.Filter);
 
-				string templateName = uploader.Templates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
+				string templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
 				if (string.IsNullOrWhiteSpace(templateName))
 				{
-					templateName = uploader.Templates.FirstOrDefault(t => t.Id == 0).Name;
+					templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == 0).Name;
 				}
 				newItem.SubItems.Add(templateName);
 
@@ -39,7 +54,7 @@ namespace STFU.AutoUploader
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
 		{
-			if (uploader.IsConnectedToAccount)
+			if (accountCommunicator.HasAtLeastOneAccount)
 			{
 				RevokeAccess();
 			}
@@ -53,18 +68,21 @@ namespace STFU.AutoUploader
 		{
 			tlpSettings.Enabled = false;
 
+			var client = clientCommunicator.Clients.FirstOrDefault();
+
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = uploader.GetAuthLoginScreenUrl(true, false);
-			addForm.LocalHostUrl = uploader.GetAuthLoginScreenUrl(false, true);
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.View | YoutubeScope.Upload).AbsolutePath;
+			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage | YoutubeScope.Upload).AbsolutePath;
 
 			var result = addForm.ShowDialog(this);
-			if (result == DialogResult.OK && uploader.ConnectToAccount(addForm.AuthToken, addForm.UsedLocalHostRedirect))
+			if (result == DialogResult.OK 
+				&& accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code) != null)
 			{
 				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+				lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.HasAtLeastOneAccount;
 				RefreshConnectionToolstripButtonsEnabled();
-				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
+				lnklblCurrentLoggedIn.Text = accountCommunicator.ConnectedAccounts.SingleOrDefault()?.Title;
 				btnStart.Enabled = true;
 			}
 
@@ -73,7 +91,13 @@ namespace STFU.AutoUploader
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
-			if (uploader.Paths.Count == 0)
+			if (!accountCommunicator.HasAtLeastOneAccount)
+			{
+				MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			if (pathContainer.RegisteredPaths.Count == 0)
 			{
 				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
@@ -82,13 +106,18 @@ namespace STFU.AutoUploader
 			Visible = false;
 			ShowInTaskbar = false;
 
-			ChooseStartTimesForm cstForm = new ChooseStartTimesForm(uploader);
+			ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
 
 			if (cstForm.ShowDialog(this) == DialogResult.OK)
 			{
 				var publishSettings = cstForm.GetPublishSettingsArray();
+				var account = accountCommunicator.ConnectedAccounts.First();
+				var uploader = new YoutubeUploader();
+				uploader.StopAfterCompleting = false;
 
-				UploadForm uploadForm = new UploadForm(uploader, cmbbxFinishAction.SelectedIndex, publishSettings);
+				autoUploader = new AutomationUploader(uploader, account, publishSettings);
+
+				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex);
 				if (uploadForm.ShowDialog(this) == DialogResult.OK)
 				{
 					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
@@ -122,7 +151,7 @@ namespace STFU.AutoUploader
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-			uploader?.Stop();
+			autoUploader?.Cancel();
 			uploader?.WritePaths();
 			uploader?.WriteTemplates();
 		}
@@ -130,56 +159,55 @@ namespace STFU.AutoUploader
 		private void RevokeAccess()
 		{
 			tlpSettings.Enabled = false;
-			if (uploader.RevokeAccess())
-			{
-				MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			accountCommunicator.RevokeAccount(accountCommunicator.ConnectedAccounts.Single());
 
-				btnStart.Enabled = false;
-			}
+			MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			btnStart.Enabled = false;
+
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.ConnectedAccounts.Count > 0;
 			RefreshConnectionToolstripButtonsEnabled();
 			tlpSettings.Enabled = true;
 		}
 
 		private void RefreshConnectionToolstripButtonsEnabled()
 		{
-			verbindenToolStripMenuItem1.Enabled = !uploader.IsConnectedToAccount;
-			verbindungLösenToolStripMenuItem.Enabled = uploader.IsConnectedToAccount;
+			verbindenToolStripMenuItem1.Enabled = !accountCommunicator.HasAtLeastOneAccount;
+			verbindungLösenToolStripMenuItem.Enabled = accountCommunicator.HasAtLeastOneAccount;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			uploader = new AutomationUploader();
+			//uploader = new AutomationUploader();
 		}
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = uploader.IsConnectedToAccount;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.HasAtLeastOneAccount;
 			RefreshConnectionToolstripButtonsEnabled();
-			if (uploader.IsConnectedToAccount)
+			if (accountCommunicator.HasAtLeastOneAccount)
 			{
-				lnklblCurrentLoggedIn.Text = uploader.LoggedInAccountTitle;
+				lnklblCurrentLoggedIn.Text = accountCommunicator.ConnectedAccounts.SingleOrDefault()?.Title;
 			}
 
 			unvollständigerUploadToolStripMenuItem.Enabled = uploader.HasUnfinishedJob;
 
 			tlpSettings.Enabled = true;
 
-			btnStart.Enabled = uploader.IsConnectedToAccount;
+			btnStart.Enabled = accountCommunicator.HasAtLeastOneAccount;
 
 			RefillListView();
 		}
 
 		private void lnklblCurrentLoggedInLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (!uploader.IsConnectedToAccount)
+			if (!accountCommunicator.HasAtLeastOneAccount)
 			{
 				return;
 			}
 
 			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo(uploader.LoggedInAccountUrl);
+			p.StartInfo = new ProcessStartInfo(accountCommunicator.ConnectedAccounts.Single().Uri.AbsolutePath);
 			p.Start();
 		}
 
@@ -245,7 +273,7 @@ namespace STFU.AutoUploader
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(uploader);
+			TemplateForm tf = new TemplateForm(templateContainer);
 			tf.ShowDialog(this);
 			uploader.WriteTemplates();
 
@@ -254,7 +282,7 @@ namespace STFU.AutoUploader
 
 		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			PathForm pf = new PathForm(uploader);
+			PathForm pf = new PathForm(pathContainer, templateContainer);
 			pf.ShowDialog(this);
 			uploader.WritePaths();
 
