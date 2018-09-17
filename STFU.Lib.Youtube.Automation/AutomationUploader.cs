@@ -78,7 +78,7 @@ namespace STFU.Lib.Youtube.Automation
 		}
 
 		private IProcessContainer processesToWatch = new ProcessContainer();
-		public IProcessContainer ProcessesToWatch
+		public IProcessContainer ProcessContainer
 		{
 			get
 			{
@@ -152,7 +152,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void Start()
 		{
-			if (Account != null || Uploader == null)
+			if (Account == null || Uploader == null)
 			{
 				return;
 			}
@@ -161,7 +161,7 @@ namespace STFU.Lib.Youtube.Automation
 
 			ProcessWatcher.AllProcessesCompleted += ProcessWatcherAllProcessesCompleted;
 
-			foreach (var proc in ProcessesToWatch.ProcessesToWatch)
+			foreach (var proc in ProcessContainer.ProcessesToWatch)
 			{
 				ProcessWatcher.Add(proc);
 			}

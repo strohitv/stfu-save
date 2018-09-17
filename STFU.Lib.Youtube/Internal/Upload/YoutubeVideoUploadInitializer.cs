@@ -3,6 +3,7 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Internal.Services;
+using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
@@ -31,7 +32,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private string InitializeUploadOnYoutube()
 		{
-			var ytVideo = new SerializableYoutubeVideo(Job.Video);
+			var ytVideo = SerializableYoutubeVideo.Create(Job.Video);
 			string content = JsonConvert.SerializeObject(ytVideo);
 			var bytes = Encoding.UTF8.GetBytes(content);
 
@@ -43,6 +44,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				YoutubeAccountService.GetAccessToken(Job.Account));
 
 			request.Headers.Add($"x-upload-content-length: {Job.Video.File.Length}");
+			//request.Headers.Add($"x-upload-content-type: video/*");
 			request.Headers.Add($"x-upload-content-type: {MimeMapping.GetMimeMapping(Job.Video.File.Name)}");
 
 			request.ContentLength = bytes.Length;

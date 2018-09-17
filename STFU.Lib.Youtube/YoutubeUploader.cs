@@ -181,6 +181,8 @@ namespace STFU.Lib.Youtube
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted);
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
+				//State = UploaderState.Uploading;
+
 				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
 				jobUploader.UploadAsync();
 

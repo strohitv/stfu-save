@@ -44,13 +44,13 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		public async void UploadAsync()
 		{
+			State = RunningState.Running;
+			Job.State = UploadState.Running;
 			await Task.Run(() => Upload());
 		}
 
 		public void Upload()
 		{
-			State = RunningState.Running;
-
 			initializer.InitializeUpload();
 
 			if (initializer.Successful && CancelNotRequested())

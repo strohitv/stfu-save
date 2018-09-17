@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {
@@ -23,5 +24,10 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// the channels region
 		/// </summary>
 		string Region { get; }
+
+		/// <summary>
+		/// Access information of the given Account
+		/// </summary>
+		IList<IYoutubeAccountAccess> Access { get; }
 	}
 }

@@ -42,6 +42,7 @@
     <Compile Include="Serializable\YoutubeStatus.cs" />
     <Compile Include="Serializable\SerializableYoutubeVideo.cs" />
     <Compile Include="YoutubeAccount.cs" />
+    <Compile Include="YoutubeAccountAccess.cs" />
     <Compile Include="YoutubeClient.cs" />
     <Compile Include="YoutubeVideo.cs" />
   </ItemGroup>

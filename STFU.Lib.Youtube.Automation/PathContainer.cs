@@ -9,6 +9,8 @@ namespace STFU.Lib.Youtube.Automation
 {
 	public class PathContainer : IPathContainer
 	{
+		public PathContainer() { }
+
 		private IList<IPath> paths = new List<IPath>();
 
 		private IList<IPath> Paths => paths;
@@ -50,7 +52,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		public void UnregisterAllPaths()
 		{
-			paths = new List<IPath>();
+			Paths.Clear();
 		}
 
 		public void ShiftPathPositions(IPath first, IPath second)

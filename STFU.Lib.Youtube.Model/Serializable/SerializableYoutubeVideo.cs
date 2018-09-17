@@ -11,9 +11,33 @@ namespace STFU.Lib.Youtube.Model.Serializable
 
 		public string id { get; set; }
 
-		public SerializableYoutubeVideo(IYoutubeVideo video)
+		//public SerializableYoutubeVideo(IYoutubeVideo video)
+		//{
+		//	snippet = new YoutubeSnippet()
+		//	{
+		//		categoryId = video.Category?.Id ?? 20,
+		//		title = video.Title,
+		//		defaultLanguage = video.DefaultLanguage?.Hl ?? "de",
+		//		description = video.Description,
+		//		tags = video.Tags.ToArray()
+		//	};
+
+		//	status = new YoutubeStatus()
+		//	{
+		//		IsEmbeddable = video.IsEmbeddable,
+		//		Privacy = video.Privacy,
+		//		License = video.License,
+		//		PublishAt = (video.PublishAt ?? default(DateTime)).ToString("yyyy-MM-ddTHH:mm:ss.ffffzzz"),
+		//		ShouldPublishAt = video.PublishAt != null,
+		//		PublicStatsViewable = video.PublicStatsViewable
+		//	};
+		//}
+
+		public static SerializableYoutubeVideo Create(IYoutubeVideo video)
 		{
-			snippet = new YoutubeSnippet()
+			var svideo = new SerializableYoutubeVideo();
+
+			svideo.snippet = new YoutubeSnippet()
 			{
 				categoryId = video.Category?.Id ?? 20,
 				title = video.Title,
@@ -22,7 +46,7 @@ namespace STFU.Lib.Youtube.Model.Serializable
 				tags = video.Tags.ToArray()
 			};
 
-			status = new YoutubeStatus()
+			svideo.status = new YoutubeStatus()
 			{
 				IsEmbeddable = video.IsEmbeddable,
 				Privacy = video.Privacy,
@@ -31,6 +55,8 @@ namespace STFU.Lib.Youtube.Model.Serializable
 				ShouldPublishAt = video.PublishAt != null,
 				PublicStatsViewable = video.PublicStatsViewable
 			};
+
+			return svideo;
 		}
 	}
 }

@@ -15,20 +15,24 @@ namespace STFU.Lib.Youtube.Automation
 
 		public IReadOnlyCollection<ITemplate> RegisteredTemplates => new ReadOnlyCollection<ITemplate>(templates);
 
-		private bool IdIsNotRegistered(int id)
+		private bool IdIsRegistered(int id)
 		{
 			return RegisteredTemplates.Any(t => t.Id == id);
 		}
 
 		private int GetNextUnusedId()
 		{
-			int maxId = RegisteredTemplates.Max(t => t.Id);
+			int maxId = -1;
+			if (RegisteredTemplates.Count > 0)
+			{
+				maxId = RegisteredTemplates.Max(t => t.Id);
+			}
 			return maxId + 1;
 		}
 
 		public void RegisterTemplate(ITemplate template)
 		{
-			if (!IdIsNotRegistered(template.Id))
+			if (IdIsRegistered(template.Id))
 			{
 				((Template)template).Id = GetNextUnusedId();
 			}

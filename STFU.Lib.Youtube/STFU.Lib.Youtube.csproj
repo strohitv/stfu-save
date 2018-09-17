@@ -39,6 +39,8 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\Services\YoutubeLanguageService.cs" />
+    <Compile Include="Internal\Services\YoutubeCategoryService.cs" />
     <Compile Include="Internal\Upload\FailureReason.cs" />
     <Compile Include="Internal\Upload\FailReasonConverter.cs" />
     <Compile Include="Internal\Upload\FileUploader.cs" />
@@ -48,14 +50,14 @@
     <Compile Include="Internal\WebService.cs" />
     <Compile Include="Internal\InternalYoutubeError.cs" />
     <Compile Include="Internal\InternalYoutubeJob.cs" />
-    <Compile Include="Internal\Interfaces\IYoutubeAccountAccess.cs" />
     <Compile Include="Internal\Services\YoutubeAccountService.cs" />
     <Compile Include="Internal\Services\YoutubeClientService.cs" />
-    <Compile Include="Internal\YoutubeAccountAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\Upload\YoutubeJobUploader.cs" />
+    <Compile Include="ValidDataLoader.cs" />
     <Compile Include="YoutubeAccountCommunicator.cs" />
-    <Compile Include="YoutubeClientCommunicator.cs" />
+    <Compile Include="YoutubeAccountContainer.cs" />
+    <Compile Include="YoutubeClientContainer.cs" />
     <Compile Include="YoutubeUploader.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoUploader.cs" />
   </ItemGroup>

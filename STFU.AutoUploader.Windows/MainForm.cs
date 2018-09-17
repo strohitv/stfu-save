@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube;
@@ -7,27 +8,52 @@ using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Model;
+using STFU.Lib.Youtube.Persistor;
 
 namespace STFU.AutoUploader
 {
 	public partial class MainForm : Form
 	{
-		IPathContainer pathContainer;
-		ITemplateContainer templateContainer;
-		IYoutubeClientCommunicator clientCommunicator;
-		IYoutubeAccountCommunicator accountCommunicator;
+		IPathContainer pathContainer = new PathContainer();
+		ITemplateContainer templateContainer = new TemplateContainer();
+		IYoutubeClientContainer clientContainer = new YoutubeClientContainer();
+		IYoutubeAccountContainer accountContainer = new YoutubeAccountContainer();
+		//IYoutubeClientCommunicator clientCommunicator;
+		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
 		IAutomationUploader autoUploader = new AutomationUploader();
+		IProcessContainer processContainer = new ProcessContainer();
+
+		PathPersistor pathPersistor = null;
+		TemplatePersistor templatePersistor = null;
+		AccountPersistor accountPersistor = null;
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			clientCommunicator = new YoutubeClientCommunicator();
-			clientCommunicator.AddClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
+			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
 				"cKUCRQz0sE4UUmvUHW6qckbP",
-				"Strohis Toolset Für Uploads");
+				"Strohis Toolset Für Uploads", false);
+			clientContainer.RegisterClient(client);
 
-			accountCommunicator = new YoutubeAccountCommunicator();
+			if (!Directory.Exists("./settings"))
+			{
+				Directory.CreateDirectory("./settings");
+			}
+
+			pathPersistor = new PathPersistor(pathContainer, "./settings/paths.json");
+			pathPersistor.Load();
+
+			templatePersistor = new TemplatePersistor(templateContainer, "./settings/templates.json");
+			templatePersistor.Load();
+
+			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
+			accountPersistor.Load();
+
+			RefillListView();
+			ActivateAccountLink();
 		}
 
 		private void RefillListView()
@@ -54,7 +80,7 @@ namespace STFU.AutoUploader
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
 		{
-			if (accountCommunicator.HasAtLeastOneAccount)
+			if (accountContainer.RegisteredAccounts.Count > 0)
 			{
 				RevokeAccess();
 			}
@@ -68,30 +94,40 @@ namespace STFU.AutoUploader
 		{
 			tlpSettings.Enabled = false;
 
-			var client = clientCommunicator.Clients.FirstOrDefault();
+			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.View | YoutubeScope.Upload).AbsolutePath;
-			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage | YoutubeScope.Upload).AbsolutePath;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.View | YoutubeScope.Upload).AbsoluteUri;
+			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage | YoutubeScope.Upload).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
-			if (result == DialogResult.OK 
-				&& accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code) != null)
+			IYoutubeAccount account = null;
+			if (result == DialogResult.OK
+				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code)) != null)
 			{
 				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-				lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.HasAtLeastOneAccount;
-				RefreshConnectionToolstripButtonsEnabled();
-				lnklblCurrentLoggedIn.Text = accountCommunicator.ConnectedAccounts.SingleOrDefault()?.Title;
-				btnStart.Enabled = true;
+				accountContainer.RegisterAccount(account);
+				ActivateAccountLink();
+
+				// Account speichern! Und so!
+				accountPersistor.Save();
 			}
 
 			tlpSettings.Enabled = true;
 		}
 
+		private void ActivateAccountLink()
+		{
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
+			RefreshConnectionToolstripButtonsEnabled();
+			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
+			btnStart.Enabled = true;
+		}
+
 		private void btnStartClick(object sender, EventArgs e)
 		{
-			if (!accountCommunicator.HasAtLeastOneAccount)
+			if (accountContainer.RegisteredAccounts.Count == 0)
 			{
 				MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
@@ -111,7 +147,7 @@ namespace STFU.AutoUploader
 			if (cstForm.ShowDialog(this) == DialogResult.OK)
 			{
 				var publishSettings = cstForm.GetPublishSettingsArray();
-				var account = accountCommunicator.ConnectedAccounts.First();
+				var account = accountContainer.RegisteredAccounts.First();
 				var uploader = new YoutubeUploader();
 				uploader.StopAfterCompleting = false;
 
@@ -152,28 +188,29 @@ namespace STFU.AutoUploader
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			autoUploader?.Cancel();
-			uploader?.WritePaths();
-			uploader?.WriteTemplates();
+			pathPersistor.Save();
+			templatePersistor.Save();
 		}
 
 		private void RevokeAccess()
 		{
 			tlpSettings.Enabled = false;
-			accountCommunicator.RevokeAccount(accountCommunicator.ConnectedAccounts.Single());
+			accountCommunicator.RevokeAccount(accountContainer, accountContainer.RegisteredAccounts.Single());
+			accountPersistor.Save();
 
 			MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			btnStart.Enabled = false;
 
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.ConnectedAccounts.Count > 0;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshConnectionToolstripButtonsEnabled();
 			tlpSettings.Enabled = true;
 		}
 
 		private void RefreshConnectionToolstripButtonsEnabled()
 		{
-			verbindenToolStripMenuItem1.Enabled = !accountCommunicator.HasAtLeastOneAccount;
-			verbindungLösenToolStripMenuItem.Enabled = accountCommunicator.HasAtLeastOneAccount;
+			verbindenToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count == 0;
+			verbindungLösenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -183,31 +220,31 @@ namespace STFU.AutoUploader
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountCommunicator.HasAtLeastOneAccount;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshConnectionToolstripButtonsEnabled();
-			if (accountCommunicator.HasAtLeastOneAccount)
+			if (accountContainer.RegisteredAccounts.Count > 0)
 			{
-				lnklblCurrentLoggedIn.Text = accountCommunicator.ConnectedAccounts.SingleOrDefault()?.Title;
+				lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			}
 
-			unvollständigerUploadToolStripMenuItem.Enabled = uploader.HasUnfinishedJob;
+			unvollständigerUploadToolStripMenuItem.Enabled = false; // uploader.HasUnfinishedJob;
 
 			tlpSettings.Enabled = true;
 
-			btnStart.Enabled = accountCommunicator.HasAtLeastOneAccount;
+			btnStart.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 
 			RefillListView();
 		}
 
 		private void lnklblCurrentLoggedInLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			if (!accountCommunicator.HasAtLeastOneAccount)
+			if (accountContainer.RegisteredAccounts.Count == 0)
 			{
 				return;
 			}
 
 			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo(accountCommunicator.ConnectedAccounts.Single().Uri.AbsolutePath);
+			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsolutePath);
 			p.Start();
 		}
 
@@ -226,27 +263,29 @@ namespace STFU.AutoUploader
 			}
 			else
 			{
-				uploader.ShouldWaitForProcs = false;
-				uploader.ClearProcessesToWatch();
+				processContainer.Stop();
+				processContainer.RemoveAllProcesses();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			ProcessForm processChoser = new ProcessForm(uploader.ProcessesToWatch);
+			ProcessForm processChoser = new ProcessForm(processContainer.ProcessesToWatch);
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
 				var procs = processChoser.Selected;
-				uploader.ClearProcessesToWatch();
-				uploader.AddProcessesToWatch(procs);
-				uploader.ShouldWaitForProcs = true;
+				processContainer.RemoveAllProcesses();
+				processContainer.AddProcesses(procs);
+				//uploader.ShouldWaitForProcs = true;
+				processContainer.Start();
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				uploader.ShouldWaitForProcs = false;
+				//uploader.ShouldWaitForProcs = false;
+				processContainer.Stop();
 			}
 		}
 
@@ -254,14 +293,14 @@ namespace STFU.AutoUploader
 		{
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
 
-			if (uploader != null)
-			{
-				uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
-			}
+			//if (uploader != null)
+			//{
+			//	uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
+			//}
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
-				uploader?.ClearProcessesToWatch();
+				processContainer.RemoveAllProcesses();
 				chbChoseProcesses.Checked = false;
 			}
 		}
@@ -273,9 +312,9 @@ namespace STFU.AutoUploader
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(templateContainer);
+			TemplateForm tf = new TemplateForm(templateContainer, accountContainer);
 			tf.ShowDialog(this);
-			uploader.WriteTemplates();
+			templatePersistor.Save();
 
 			RefillListView();
 		}
@@ -284,7 +323,7 @@ namespace STFU.AutoUploader
 		{
 			PathForm pf = new PathForm(pathContainer, templateContainer);
 			pf.ShowDialog(this);
-			uploader.WritePaths();
+			pathPersistor.Save();
 
 			RefillListView();
 		}

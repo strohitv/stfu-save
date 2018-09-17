@@ -21,7 +21,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal static HttpWebRequest CreateWithAuthHeader(string address, string method, string token)
 		{
-			var request = Create(address, token);
+			var request = Create(address, method);
 			request.Headers.Add($"Authorization: Bearer {token}");
 
 			return request;

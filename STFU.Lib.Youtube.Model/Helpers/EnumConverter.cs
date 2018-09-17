@@ -21,6 +21,8 @@ namespace STFU.Lib.Youtube.Model.Helpers
 			{
 				foreach (PrivacyStatus value in typeof(PrivacyStatus).GetEnumValues())
 				{
+					var s = value.GetAttribute<EnumMemberAttribute>();
+
 					if (jValue == value.GetAttribute<EnumMemberAttribute>().Value)
 					{
 						return value;

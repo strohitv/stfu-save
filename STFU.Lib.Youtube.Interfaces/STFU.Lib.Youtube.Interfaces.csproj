@@ -38,8 +38,11 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IValidDataLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
+    <Compile Include="IYoutubeAccountContainer.cs" />
     <Compile Include="IYoutubeClientCommunicator.cs" />
+    <Compile Include="IYoutubeClientContainer.cs" />
     <Compile Include="IYoutubeUploader.cs" />
     <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />
@@ -49,6 +52,7 @@
     <Compile Include="Model\ICategory.cs" />
     <Compile Include="Model\ILanguage.cs" />
     <Compile Include="Model\IYoutubeAccount.cs" />
+    <Compile Include="Model\IYoutubeAccountAccess.cs" />
     <Compile Include="Model\IYoutubeClient.cs" />
     <Compile Include="Model\IYoutubeJob.cs" />
     <Compile Include="Model\IYoutubeThumbnail.cs" />

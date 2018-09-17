@@ -186,6 +186,10 @@
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
       <Name>STFU.Lib.Youtube.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Persistor\STFU.Lib.Youtube.Persistor.csproj">
+      <Project>{2DF8CA4E-27AD-4C59-A1FD-0110DB602E3A}</Project>
+      <Name>STFU.Lib.Youtube.Persistor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube\STFU.Lib.Youtube.csproj">
       <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
       <Name>STFU.Lib.Youtube</Name>

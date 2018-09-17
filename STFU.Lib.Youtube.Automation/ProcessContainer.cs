@@ -14,11 +14,23 @@ namespace STFU.Lib.Youtube.Automation
 
 		public IReadOnlyCollection<Process> ProcessesToWatch => new ReadOnlyCollection<Process>(processes);
 
+		public bool AllExited => ProcessesToWatch.All(p => p.HasExited);
+
+		public bool Started { get; private set; } = false;
+
 		public void AddProcess(Process proc)
 		{
 			if (!ProcessesToWatch.Any(p => p.Id == proc.Id))
 			{
 				Processes.Add(proc);
+			}
+		}
+
+		public void AddProcesses(IEnumerable<Process> procs)
+		{
+			foreach (var proc in procs)
+			{
+				AddProcess(proc);
 			}
 		}
 
@@ -41,6 +53,16 @@ namespace STFU.Lib.Youtube.Automation
 			{
 				Processes.RemoveAt(index);
 			}
+		}
+
+		public void Start()
+		{
+			Started = true;
+		}
+
+		public void Stop()
+		{
+			Started = false;
 		}
 	}
 }

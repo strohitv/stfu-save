@@ -8,6 +8,7 @@ using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Model.Helpers;
 
 namespace STFU.Lib.Youtube.Automation.Templates
@@ -24,9 +25,14 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public string Description { get; set; }
 
-		public ICategory Category { get; set; }
+		public ICategory Category { get; set; } = new VideoCategory(20, "Gaming");
 
-		public ILanguage DefaultLanguage { get; set; }
+		public ILanguage DefaultLanguage { get; set; } = new VideoLanguage()
+		{
+			Hl = "de",
+			Id = "de",
+			Name = "Deutsch"
+		};
 
 		public string Tags { get; set; }
 
@@ -74,7 +80,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		}
 
 		[JsonConstructor]
-		public Template(int id, string name, ILanguage defaultlanguage, ICategory category)
+		public Template(int id, string name, VideoLanguage defaultlanguage, VideoCategory category, IList<PublishTime> publishTimes, Dictionary<string, Variable> localVariables)
 		{
 			Id = id;
 			Name = name;
@@ -86,7 +92,13 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			License = License.Youtube;
 			DefaultLanguage = defaultlanguage;
 			Category = category;
+			PublishTimes = publishTimes.Select(pt => (IPublishTime)pt).ToList();
+			LocalVars = localVariables.ToDictionary(x => x.Key, x => (IVariable)x.Value);
 		}
+
+		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, Dictionary<string, IVariable> localVars)
+			: this(id, name, (VideoLanguage)defaultlanguage, (VideoCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), localVars.Select(kvp => new KeyValuePair<string, Variable>(kvp.Key, (Variable)kvp.Value)).ToDictionary(k => k.Key, v => v.Value))
+		{ }
 
 		public Template()
 		{
@@ -164,7 +176,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public static ITemplate Duplicate(ITemplate template)
 		{
-			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category)
+			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.LocalVariables.ToDictionary(x => x.Key, x => x.Value))
 			{
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
