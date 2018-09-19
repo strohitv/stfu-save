@@ -20,11 +20,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				pause = value;
 
-				if (!pause && !hasFired && Procs.Count == 0)
-				{
-					AllProcessesCompleted?.Invoke(this, new EventArgs());
-					hasFired = true;
-				}
+				CheckEventFire();
 			}
 		}
 
@@ -48,8 +44,12 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 		{
 			var proc = (Process)sender;
 			Remove(proc);
+			CheckEventFire();
+		}
 
-			if (!Pause && Procs.Count == 0)
+		private void CheckEventFire()
+		{
+			if (!Pause && ShouldWaitForProcs && !hasFired && Procs.Count == 0)
 			{
 				AllProcessesCompleted?.Invoke(this, new EventArgs());
 				hasFired = true;
@@ -58,11 +58,18 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 		public void Remove(Process proc)
 		{
+			proc.Exited -= OnProcExit;
+
 			Procs.Remove(proc);
 		}
 
 		public void Clear()
 		{
+			foreach (var proc in Processes)
+			{
+				proc.Exited -= OnProcExit;
+			}
+
 			Procs.Clear();
 		}
 
@@ -80,7 +87,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 		{
 			get
 			{
-				return !Pause && ShouldWaitForProcs && Procs.Count == 0;
+				return !Pause && Procs.Count == 0;
 			}
 		}
 

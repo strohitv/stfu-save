@@ -25,10 +25,14 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 
 		bool EndAfterUpload { get; set; }
 
+		bool PauseProcessWatcher { get; set; }
+
 		RunningState State { get; }
 
 		void StartAsync();
 
 		void Cancel();
+
+		void ReloadProcesses();
 	}
 }

@@ -191,11 +191,11 @@ namespace STFU.AutoUploader
 					// Upload wurde regulär beendet.
 					switch (cmbbxFinishAction.SelectedIndex)
 					{
-						case 1:
+						case 2:
 							Close();
 							return;
-						case 2:
-							Process.Start("shutdown.exe", "-s -t 5");
+						case 3:
+							Process.Start("shutdown.exe", "-s -t 60");
 							Close();
 							return;
 						default:
@@ -293,7 +293,6 @@ namespace STFU.AutoUploader
 			}
 			else
 			{
-				processContainer.Stop();
 				processContainer.RemoveAllProcesses();
 			}
 		}
@@ -308,14 +307,10 @@ namespace STFU.AutoUploader
 				var procs = processChoser.Selected;
 				processContainer.RemoveAllProcesses();
 				processContainer.AddProcesses(procs);
-				//uploader.ShouldWaitForProcs = true;
-				processContainer.Start();
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				//uploader.ShouldWaitForProcs = false;
-				processContainer.Stop();
 			}
 		}
 

@@ -31,7 +31,7 @@ namespace STFU.AutoUploader
 			autoUploader.Uploader.NewUploadStarted += OnNewUploadStarted;
 
 			cmbbxFinishAction.SelectedIndex = UploadEndedActionIndex = uploadEndedIndex;
-			chbChoseProcesses.Checked = autoUploader.ProcessContainer.Started;
+			chbChoseProcesses.Checked = autoUploader.ProcessContainer.ProcessesToWatch.Count > 0;
 			btnChoseProcs.Enabled = chbChoseProcesses.Enabled;
 
 			allowChosingProcs = true;
@@ -148,7 +148,6 @@ namespace STFU.AutoUploader
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
 			autoUploader.StartAsync();
-			autoUploader.ProcessContainer.Start();
 		}
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
@@ -156,7 +155,7 @@ namespace STFU.AutoUploader
 			UploadEndedActionIndex = cmbbxFinishAction.SelectedIndex;
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
 
-			autoUploader.ProcessContainer.Stop();
+			autoUploader.PauseProcessWatcher = true;
 
 			if (autoUploader != null)
 			{
@@ -166,10 +165,11 @@ namespace STFU.AutoUploader
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
 				autoUploader?.ProcessContainer.RemoveAllProcesses();
+				autoUploader.ReloadProcesses();
 				chbChoseProcesses.Checked = false;
 			}
 
-			autoUploader.ProcessContainer.Start();
+			autoUploader.PauseProcessWatcher = false;
 		}
 
 		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
@@ -178,25 +178,23 @@ namespace STFU.AutoUploader
 			{
 				btnChoseProcs.Enabled = chbChoseProcesses.Checked;
 
-				autoUploader.ProcessContainer.Stop();
-
 				if (chbChoseProcesses.Checked)
 				{
 					ChoseProcesses();
 				}
 				else
 				{
-					//autoUploader.ShouldWaitForProcs = false;
-					autoUploader.ProcessContainer.Stop();
+					autoUploader.EndAfterUpload = false;
 					autoUploader.ProcessContainer.RemoveAllProcesses();
+					autoUploader.ReloadProcesses();
 				}
-
-				autoUploader.ProcessContainer.Start();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
+			autoUploader.PauseProcessWatcher = true;
+
 			ProcessForm processChoser = new ProcessForm(autoUploader.ProcessContainer.ProcessesToWatch);
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
@@ -205,22 +203,21 @@ namespace STFU.AutoUploader
 				var procs = processChoser.Selected;
 				autoUploader.ProcessContainer.RemoveAllProcesses();
 				autoUploader.ProcessContainer.AddProcesses(procs);
-				//autoUploader.ShouldWaitForProcs = true;
-				autoUploader.ProcessContainer.Start();
+				autoUploader.EndAfterUpload = true;
+				autoUploader.ReloadProcesses();
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				//autoUploader.ShouldWaitForProcs = false;
-				autoUploader.ProcessContainer.Stop();
+				//autoUploader.EndAfterUpload = false;
 			}
+
+			autoUploader.PauseProcessWatcher = false;
 		}
 
 		private void btnChoseProcsClick(object sender, EventArgs e)
 		{
-			autoUploader.ProcessContainer.Stop();
 			ChoseProcesses();
-			autoUploader.ProcessContainer.Start();
 		}
 	}
 }

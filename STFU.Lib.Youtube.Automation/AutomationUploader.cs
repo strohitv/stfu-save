@@ -86,9 +86,9 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public bool EndAfterUpload { get; set; } = false;
+		public bool EndAfterUpload { get { return ProcessWatcher.ShouldWaitForProcs; } set { ProcessWatcher.ShouldWaitForProcs = value; } }
 
-		private DirectoryWatcher Watcher { get; set; } = new DirectoryWatcher();
+		private DirectoryWatcher DirectoryWatcher { get; set; } = new DirectoryWatcher();
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
 		private TemplateVideoCreator VideoCreator { get; set; }
@@ -110,6 +110,8 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
+		public bool PauseProcessWatcher { get { return ProcessWatcher.Pause; } set { ProcessWatcher.Pause = value; } }
+
 		public AutomationUploader() { }
 
 		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
@@ -129,7 +131,7 @@ namespace STFU.Lib.Youtube.Automation
 			{
 				State = RunningState.CancelPending;
 				Searcher.Cancel();
-				Watcher.Cancel();
+				DirectoryWatcher.Cancel();
 				Uploader.CancelAll();
 
 				RefreshState();
@@ -155,10 +157,7 @@ namespace STFU.Lib.Youtube.Automation
 
 			ProcessWatcher.AllProcessesCompleted += ProcessWatcherAllProcessesCompleted;
 
-			foreach (var proc in ProcessContainer.ProcessesToWatch)
-			{
-				ProcessWatcher.Add(proc);
-			}
+			ReloadProcesses();
 
 			var infos = Configuration
 				.Select(pto => new PublishTimeCalculator(
@@ -173,13 +172,13 @@ namespace STFU.Lib.Youtube.Automation
 			Searcher.PropertyChanged += SearcherPropertyChanged;
 
 			Searcher.FileFound += FileToUploadOccured;
-			Watcher.FileAdded += FileToUploadOccured;
+			DirectoryWatcher.FileAdded += FileToUploadOccured;
 
 			foreach (var path in Configuration)
 			{
 				var pi = path.PathInfo;
 				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
-				Watcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
+				DirectoryWatcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
 			}
 		}
 
@@ -187,9 +186,14 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (EndAfterUpload && uploader.State != UploaderState.Uploading && uploader.State != UploaderState.CancelPending && Searcher.State == RunningState.NotRunning)
 			{
-				if (Watcher.State == RunningState.Running)
+				if (uploader.State == UploaderState.Waiting)
 				{
-					Watcher.Cancel();
+					uploader.CancelAll();
+				}
+
+				if (DirectoryWatcher.State == RunningState.Running)
+				{
+					DirectoryWatcher.Cancel();
 				}
 
 				RefreshState();
@@ -198,7 +202,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void WatcherPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (Watcher.State == RunningState.NotRunning)
+			if (DirectoryWatcher.State == RunningState.NotRunning)
 			{
 				RefreshState();
 			}
@@ -214,9 +218,18 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(Uploader.State)
-				&& Uploader.State == UploaderState.NotRunning)
+			if (e.PropertyName == nameof(Uploader.State))
 			{
+				if (Uploader.State == UploaderState.Waiting && ProcessWatcher.ShouldEnd)
+				{
+					Uploader.CancelAll();
+				}
+
+				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && ProcessWatcher.ShouldEnd)
+				{
+					DirectoryWatcher.Cancel();
+				}
+
 				RefreshState();
 			}
 		}
@@ -224,7 +237,7 @@ namespace STFU.Lib.Youtube.Automation
 		private void RefreshState()
 		{
 			if (Searcher.State == RunningState.NotRunning
-				&& Watcher.State == RunningState.NotRunning
+				&& DirectoryWatcher.State == RunningState.NotRunning
 				&& Uploader.State == UploaderState.NotRunning)
 			{
 				State = RunningState.NotRunning;
@@ -246,6 +259,27 @@ namespace STFU.Lib.Youtube.Automation
 		private void OnPropertyChaged([CallerMemberName] string caller = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
+		}
+
+		public void ReloadProcesses()
+		{
+			var wasPausing = ProcessWatcher.Pause;
+
+			ProcessWatcher.Pause = true;
+
+			ProcessWatcher.Clear();
+
+			EndAfterUpload = ProcessContainer.ProcessesToWatch.Count > 0;
+
+			foreach (var process in ProcessContainer.ProcessesToWatch)
+			{
+				ProcessWatcher.Add(process);
+			}
+
+			if (!wasPausing)
+			{
+				ProcessWatcher.Pause = false;
+			}
 		}
 		#endregion PropertyChanged
 	}

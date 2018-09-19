@@ -32,11 +32,11 @@
 			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
 			this.statusLabel = new System.Windows.Forms.Label();
 			this.prgbarProgress = new System.Windows.Forms.ProgressBar();
-			this.btnStop = new System.Windows.Forms.Button();
 			this.finishActionLabel = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
+			this.btnStop = new System.Windows.Forms.Button();
 			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this.tlpRunning.SuspendLayout();
 			this.SuspendLayout();
@@ -102,20 +102,6 @@
 			this.prgbarProgress.Size = new System.Drawing.Size(546, 19);
 			this.prgbarProgress.TabIndex = 1;
 			// 
-			// btnStop
-			// 
-			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStop.AutoSize = true;
-			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStop.Location = new System.Drawing.Point(566, 38);
-			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(72, 23);
-			this.btnStop.TabIndex = 2;
-			this.btnStop.Text = "Abbrechen!";
-			this.btnStop.UseVisualStyleBackColor = true;
-			this.btnStop.Click += new System.EventHandler(this.btnStopClick);
-			// 
 			// finishActionLabel
 			// 
 			this.finishActionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -134,6 +120,7 @@
 			this.cmbbxFinishAction.FormattingEnabled = true;
 			this.cmbbxFinishAction.Items.AddRange(new object[] {
             "Nichts tun",
+            "Zurück zum Hauptmenü",
             "Programm schließen",
             "Herunterfahren"});
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(76, 74);
@@ -172,6 +159,20 @@
 			this.btnChoseProcs.Text = "[...]";
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
+			// 
+			// btnStop
+			// 
+			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStop.AutoSize = true;
+			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnStop.Location = new System.Drawing.Point(566, 38);
+			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.Size = new System.Drawing.Size(72, 23);
+			this.btnStop.TabIndex = 2;
+			this.btnStop.Text = "Abbrechen!";
+			this.btnStop.UseVisualStyleBackColor = true;
+			this.btnStop.Click += new System.EventHandler(this.btnStopClick);
 			// 
 			// refreshTimer
 			// 

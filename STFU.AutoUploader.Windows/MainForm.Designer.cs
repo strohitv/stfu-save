@@ -36,6 +36,7 @@
 			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
@@ -53,7 +54,6 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -77,7 +77,7 @@
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
 			this.tlpSettings.Controls.Add(this.btnStart, 13, 4);
 			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
@@ -164,6 +164,10 @@
 			// 
 			this.chHidden.Text = "Versteckte";
 			this.chHidden.Width = 80;
+			// 
+			// cbInactive
+			// 
+			this.cbInactive.Text = "Inaktiv";
 			// 
 			// lblCurrentLoggedIn
 			// 
@@ -293,6 +297,7 @@
 			this.cmbbxFinishAction.FormattingEnabled = true;
 			this.cmbbxFinishAction.Items.AddRange(new object[] {
             "Nichts tun",
+            "Zurück zum Hauptmenü",
             "Programm schließen",
             "Herunterfahren"});
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(425, 289);
@@ -334,10 +339,6 @@
 			// 
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
-			// 
-			// cbInactive
-			// 
-			this.cbInactive.Text = "Inaktiv";
 			// 
 			// MainForm
 			// 
