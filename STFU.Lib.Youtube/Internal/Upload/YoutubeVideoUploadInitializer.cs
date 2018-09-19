@@ -3,7 +3,6 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Internal.Services;
-using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload

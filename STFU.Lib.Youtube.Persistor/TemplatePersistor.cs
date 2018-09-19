@@ -72,13 +72,13 @@ namespace STFU.Lib.Youtube.Persistor
 		{
 			if (!container.RegisteredTemplates.Any(t => t.Id == 0))
 			{
-				var language = new VideoLanguage() {
+				var language = new YoutubeLanguage() {
 					Hl = "de",
 					Id = "de",
 					Name = "Deutsch"
 				};
 
-				var category = new VideoCategory(20, "Gaming");
+				var category = new YoutubeCategory(20, "Gaming");
 
 				var standardTemplate = new Template(0, "Standard", language, category, new List<IPublishTime>(), new Dictionary<string, IVariable>());
 				container.RegisterTemplate(standardTemplate);
@@ -120,7 +120,7 @@ namespace STFU.Lib.Youtube.Persistor
 			Saved = new TemplateContainer();
 			foreach (var template in Container.RegisteredTemplates)
 			{
-				var newPath = new Template (template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.LocalVariables.ToDictionary(x => x.Key, x => x.Value))
+				var newTemplate = new Template (template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.LocalVariables.ToDictionary(x => x.Key, x => x.Value))
 				{
 					AutoLevels = template.AutoLevels,
 					Description = template.Description,
@@ -137,7 +137,7 @@ namespace STFU.Lib.Youtube.Persistor
 					Title = template.Title
 				};
 
-				Saved.RegisterTemplate(newPath);
+				Saved.RegisterTemplate(newTemplate);
 			}
 		}
 	}

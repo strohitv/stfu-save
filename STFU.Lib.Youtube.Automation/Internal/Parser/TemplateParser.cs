@@ -27,10 +27,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Parser
 						result.AutoLevels = (bool)item.Value;
 						break;
 					case "category":
-						result.Category = VideoCategory.Parse(item.Value);
+						result.Category = YoutubeCategory.Parse(item.Value);
 						break;
 					case "defaultlanguage":
-						result.DefaultLanguage = VideoLanguage.Parse(item.Value);
+						result.DefaultLanguage = YoutubeLanguage.Parse(item.Value);
 						break;
 					case "description":
 						result.Description = (string)item.Value;

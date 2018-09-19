@@ -41,8 +41,9 @@
     <Compile Include="IValidDataLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeAccountContainer.cs" />
-    <Compile Include="IYoutubeClientCommunicator.cs" />
+    <Compile Include="IYoutubeCategoryContainer.cs" />
     <Compile Include="IYoutubeClientContainer.cs" />
+    <Compile Include="IYoutubeLanguageContainer.cs" />
     <Compile Include="IYoutubeUploader.cs" />
     <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />

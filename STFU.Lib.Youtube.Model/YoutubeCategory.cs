@@ -3,14 +3,14 @@ using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Model
 {
-	public class VideoCategory : ICategory
+	public class YoutubeCategory : ICategory
 	{
 		public int Id { get; private set; }
 		public string Title { get; private set; }
 
-		private VideoCategory() { }
+		private YoutubeCategory() { }
 
-		public VideoCategory(int id, string title)
+		public YoutubeCategory(int id, string title)
 		{
 			Id = id;
 			Title = title;
@@ -21,11 +21,11 @@ namespace STFU.Lib.Youtube.Model
 			return $"{Id} - {Title}";
 		}
 
-		public static VideoCategory Default => new VideoCategory(20, "Gaming");
+		public static YoutubeCategory Default => new YoutubeCategory(20, "Gaming");
 
-		public static VideoCategory Parse(JToken property)
+		public static YoutubeCategory Parse(JToken property)
 		{
-			VideoCategory cat = new VideoCategory();
+			YoutubeCategory cat = new YoutubeCategory();
 
 			foreach (var child in property.Children<JProperty>())
 			{

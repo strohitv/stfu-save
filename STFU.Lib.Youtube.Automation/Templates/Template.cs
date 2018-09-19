@@ -25,9 +25,9 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public string Description { get; set; }
 
-		public ICategory Category { get; set; } = new VideoCategory(20, "Gaming");
+		public ICategory Category { get; set; } = new YoutubeCategory(20, "Gaming");
 
-		public ILanguage DefaultLanguage { get; set; } = new VideoLanguage()
+		public ILanguage DefaultLanguage { get; set; } = new YoutubeLanguage()
 		{
 			Hl = "de",
 			Id = "de",
@@ -80,7 +80,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		}
 
 		[JsonConstructor]
-		public Template(int id, string name, VideoLanguage defaultlanguage, VideoCategory category, IList<PublishTime> publishTimes, Dictionary<string, Variable> localVariables)
+		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes, Dictionary<string, Variable> localVariables)
 		{
 			Id = id;
 			Name = name;
@@ -97,7 +97,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		}
 
 		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, Dictionary<string, IVariable> localVars)
-			: this(id, name, (VideoLanguage)defaultlanguage, (VideoCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), localVars.Select(kvp => new KeyValuePair<string, Variable>(kvp.Key, (Variable)kvp.Value)).ToDictionary(k => k.Key, v => v.Value))
+			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), localVars.Select(kvp => new KeyValuePair<string, Variable>(kvp.Key, (Variable)kvp.Value)).ToDictionary(k => k.Key, v => v.Value))
 		{ }
 
 		public Template()

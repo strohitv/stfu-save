@@ -57,7 +57,9 @@
     <Compile Include="ValidDataLoader.cs" />
     <Compile Include="YoutubeAccountCommunicator.cs" />
     <Compile Include="YoutubeAccountContainer.cs" />
+    <Compile Include="YoutubeCategoryContainer.cs" />
     <Compile Include="YoutubeClientContainer.cs" />
+    <Compile Include="YoutubeLanguageContainer.cs" />
     <Compile Include="YoutubeUploader.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoUploader.cs" />
   </ItemGroup>

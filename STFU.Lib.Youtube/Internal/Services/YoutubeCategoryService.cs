@@ -63,28 +63,28 @@ namespace STFU.Lib.Youtube.Internal.Services
 
 			Response response = JsonConvert.DeserializeObject<Response>(WebService.Communicate(request));
 
-			var categories = response.items.Where(i => i.snippet.assignable).Select(i => new VideoCategory(int.Parse(i.id), i.snippet.title)).ToArray();
+			var categories = response.items.Where(i => i.snippet.assignable).Select(i => new YoutubeCategory(int.Parse(i.id), i.snippet.title)).ToArray();
 
 			return categories;
 		}
 
 		private static class StandardCategories
 		{
-			public static ICategory[] Categories = new VideoCategory[] {
-				new VideoCategory(1, "Film & Animation"),
-				new VideoCategory(2, "Autos & Fahrzeuge"),
-				new VideoCategory(10, "Musik"),
-				new VideoCategory(15, "Tiere"),
-				new VideoCategory(17, "Sport"),
-				new VideoCategory(19, "Reisen & Events"),
-				new VideoCategory(20, "Gaming"),
-				new VideoCategory(22, "Menschen & Blogs"),
-				new VideoCategory(23, "Komödie"),
-				new VideoCategory(24, "Unterhaltung"),
-				new VideoCategory(25, "Nachrichten & Politik"),
-				new VideoCategory(26, "Praktische Tipps & Styling"),
-				new VideoCategory(27, "Bildung"),
-				new VideoCategory(28, "Wissenschaft & Technik")
+			public static ICategory[] Categories = new YoutubeCategory[] {
+				new YoutubeCategory(1, "Film & Animation"),
+				new YoutubeCategory(2, "Autos & Fahrzeuge"),
+				new YoutubeCategory(10, "Musik"),
+				new YoutubeCategory(15, "Tiere"),
+				new YoutubeCategory(17, "Sport"),
+				new YoutubeCategory(19, "Reisen & Events"),
+				new YoutubeCategory(20, "Gaming"),
+				new YoutubeCategory(22, "Menschen & Blogs"),
+				new YoutubeCategory(23, "Komödie"),
+				new YoutubeCategory(24, "Unterhaltung"),
+				new YoutubeCategory(25, "Nachrichten & Politik"),
+				new YoutubeCategory(26, "Praktische Tipps & Styling"),
+				new YoutubeCategory(27, "Bildung"),
+				new YoutubeCategory(28, "Wissenschaft & Technik")
 			};
 		}
 	}

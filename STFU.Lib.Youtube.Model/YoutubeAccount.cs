@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube;
 
 namespace STFU.Lib.Youtube.Model
 {

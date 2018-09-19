@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Internal.Services;
@@ -37,6 +38,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (languages.Count == 0)
 				{
+					// TODO: Auf Festplatte speichern und auch schon vorher laden als beim Template öffnen.
 					languages = YoutubeLanguageService.LoadLanguages(Container);
 				}
 

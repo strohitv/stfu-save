@@ -3,7 +3,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Model
 {
-	public class VideoLanguage : ILanguage
+	public class YoutubeLanguage : ILanguage
 	{
 		public string Id { get; set; }
 		public string Hl { get; set; }
@@ -14,11 +14,11 @@ namespace STFU.Lib.Youtube.Model
 			return $"{Hl} - {Name}";
 		}
 
-		public static VideoLanguage Default => new VideoLanguage() { Hl = "de", Id = "de", Name = "Deutsch" };
+		public static YoutubeLanguage Default => new YoutubeLanguage() { Hl = "de", Id = "de", Name = "Deutsch" };
 
-		public static VideoLanguage Parse(JToken property)
+		public static YoutubeLanguage Parse(JToken property)
 		{
-			VideoLanguage lang = new VideoLanguage();
+			YoutubeLanguage lang = new YoutubeLanguage();
 
 			foreach (var child in property.Children<JProperty>())
 			{
