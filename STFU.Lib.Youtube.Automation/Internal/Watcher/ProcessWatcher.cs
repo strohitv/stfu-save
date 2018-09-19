@@ -34,6 +34,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				if (!proc.HasExited)
 				{
+					proc.EnableRaisingEvents = true;
 					proc.Exited += OnProcExit;
 					Procs.Add(proc);
 					hasFired = false;
