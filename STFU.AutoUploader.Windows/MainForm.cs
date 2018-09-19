@@ -106,8 +106,8 @@ namespace STFU.AutoUploader
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.View | YoutubeScope.Upload).AbsoluteUri;
-			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage | YoutubeScope.Upload).AbsoluteUri;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.Manage).AbsoluteUri;
+			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
