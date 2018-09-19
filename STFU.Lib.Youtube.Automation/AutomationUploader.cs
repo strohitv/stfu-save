@@ -50,15 +50,7 @@ namespace STFU.Lib.Youtube.Automation
 				}
 			}
 		}
-
-		private IList<IObservationConfiguration> configuration = new List<IObservationConfiguration>();
-		public IList<IObservationConfiguration> Configuration
-		{
-			get
-			{
-				return configuration;
-			}
-		}
+		public IList<IObservationConfiguration> Configuration { get; } = new List<IObservationConfiguration>();
 
 		private RunningState state = RunningState.NotRunning;
 		public RunningState State

@@ -36,7 +36,10 @@ namespace STFU.Lib.Youtube.Automation.Internal
 
 		internal void Cancel()
 		{
-			State = RunningState.CancelPending;
+			if (State != RunningState.NotRunning)
+			{
+				State = RunningState.CancelPending;
+			}
 		}
 
 		internal async void SearchFilesAsync(string path, string filters, bool searchRecursively, bool searchHidden)
