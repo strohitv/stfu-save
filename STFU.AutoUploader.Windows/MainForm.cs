@@ -149,7 +149,7 @@ namespace STFU.AutoUploader
 		private void ActivateAccountLink()
 		{
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
-			RefreshConnectionToolstripButtonsEnabled();
+			RefreshToolstripButtonsEnabled();
 			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			btnStart.Enabled = true;
 		}
@@ -233,14 +233,14 @@ namespace STFU.AutoUploader
 			btnStart.Enabled = false;
 
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
-			RefreshConnectionToolstripButtonsEnabled();
+			RefreshToolstripButtonsEnabled();
 			tlpSettings.Enabled = true;
 		}
 
-		private void RefreshConnectionToolstripButtonsEnabled()
+		private void RefreshToolstripButtonsEnabled()
 		{
 			verbindenToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count == 0;
-			verbindungLösenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count > 0;
+			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -251,7 +251,7 @@ namespace STFU.AutoUploader
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
-			RefreshConnectionToolstripButtonsEnabled();
+			RefreshToolstripButtonsEnabled();
 			if (accountContainer.RegisteredAccounts.Count > 0)
 			{
 				lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
@@ -356,13 +356,13 @@ namespace STFU.AutoUploader
 		private void verbindenToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			ConnectToYoutube();
-			RefreshConnectionToolstripButtonsEnabled();
+			RefreshToolstripButtonsEnabled();
 		}
 
 		private void verbindungLösenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			RevokeAccess();
-			RefreshConnectionToolstripButtonsEnabled();
+			RefreshToolstripButtonsEnabled();
 		}
 
 		private void unvollständigerUploadToolStripMenuItem_Click(object sender, EventArgs e)
