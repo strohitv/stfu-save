@@ -4,31 +4,19 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using STFU.UploadLib.Accounts;
 using STFU.UploadLib.Communication.Youtube;
-using STFU.UploadLib.Queue;
 
 namespace STFU.UploadLib
 {
 	public class Uploader : INotifyPropertyChanged
 	{
-		#region Fields
-
-		private UploadQueue jobList;
 		private ObservableCollection<Account> accounts;
 
 		List<string[]> filters = new List<string[]>();
 
-		#endregion Fields
-
-		#region Properties
-
-		public UploadQueue JobList { get { return jobList; } set { jobList = value; OnPropertyChanged("JobList"); } }
 		public ObservableCollection<Account> Accounts { get { return accounts; } set { accounts = value; OnPropertyChanged("Accounts"); } }
-
-		#endregion Properties
-
-		#region PublicMethods
 
 		public void GetVideoIdsForPlaylist(string rToken, string playlistId)
 		{
@@ -122,8 +110,6 @@ namespace STFU.UploadLib
 			//p.Start();
 		}
 
-		#endregion PublicMethods
-
 		private List<string> GetFiles(List<string[]> filters)
 		{
 			filters.Clear();
@@ -144,14 +130,14 @@ namespace STFU.UploadLib
 			return files;
 		}
 
-		#region NotifyProperty
+		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		public void OnPropertyChanged(string name)
+		public void OnPropertyChanged([CallerMemberName]string name = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
-		#endregion NotifyProperty
+		#endregion INofityPropertyChanged
 	}
 }

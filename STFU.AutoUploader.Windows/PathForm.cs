@@ -2,26 +2,28 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Automation;
+using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.AutoUploader
 {
 	public partial class PathForm : Form
 	{
-		AutomationUploader uploader = null;
+		IPathContainer pathContainer = null;
+		ITemplateContainer templateContainer = null;
 
-		public PathForm(AutomationUploader upl)
+		public PathForm(IPathContainer pathContainer, ITemplateContainer templateContainer)
 		{
 			InitializeComponent();
 
-			uploader = upl;
+			this.pathContainer = pathContainer;
+			this.templateContainer = templateContainer;
 		}
 
 		private void lvSelectedPathsKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyData == Keys.Delete && !NoItemSelected())
+			if (e.KeyData == Keys.Delete && ItemSelected())
 			{
-				uploader.RemovePath(lvPaths.SelectedItems[0].Text);
+				pathContainer.UnregisterPathAt(lvPaths.SelectedIndices[0]);
 				RefillListView();
 				ClearEditBox();
 			}
@@ -31,15 +33,15 @@ namespace STFU.AutoUploader
 		{
 			lvPaths.Items.Clear();
 
-			foreach (var entry in uploader.Paths)
+			foreach (var entry in pathContainer.RegisteredPaths)
 			{
-				var newItem = lvPaths.Items.Add(entry.Path);
+				var newItem = lvPaths.Items.Add(entry.Fullname);
 				newItem.SubItems.Add(entry.Filter);
 
-				string templateName = uploader.Templates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
+				string templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
 				if (string.IsNullOrWhiteSpace(templateName))
 				{
-					templateName = uploader.Templates.FirstOrDefault(t => t.Id == 0).Name;
+					templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == 0).Name;
 				}
 				newItem.SubItems.Add(templateName);
 
@@ -62,22 +64,22 @@ namespace STFU.AutoUploader
 			tlpEditPaths.Enabled = true;
 			int index = lvPaths.SelectedIndices[0];
 
-			var selectedItem = uploader.Paths[index];
+			var selectedItem = pathContainer.RegisteredPaths.ElementAt(index);
 
-			txtbxAddPath.Text = selectedItem.Path;
+			txtbxAddPath.Text = selectedItem.Fullname;
 			txtbxAddFilter.Text = selectedItem.Filter;
 			chbHidden.Checked = selectedItem.SearchHidden;
 			chbRecursive.Checked = selectedItem.SearchRecursively;
 			chbHidden.Enabled = chbRecursive.Checked;
 			deactivateCheckbox.Checked = selectedItem.Inactive;
 
-			if (uploader.Templates.Any(t => t.Id == selectedItem.SelectedTemplateId))
+			if (templateContainer.RegisteredTemplates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.ToList().IndexOf(uploader.Templates.First(t => t.Id == selectedItem.SelectedTemplateId));
+				cobSelectedTemplate.SelectedIndex = templateContainer.RegisteredTemplates.ToList().IndexOf(templateContainer.RegisteredTemplates.First(t => t.Id == selectedItem.SelectedTemplateId));
 			}
 			else
 			{
-				cobSelectedTemplate.SelectedIndex = uploader.Templates.ToList().IndexOf(uploader.Templates.First(t => t.Id == 0));
+				cobSelectedTemplate.SelectedIndex = templateContainer.RegisteredTemplates.ToList().IndexOf(templateContainer.RegisteredTemplates.First(t => t.Id == 0));
 			}
 		}
 
@@ -94,7 +96,7 @@ namespace STFU.AutoUploader
 
 		private void PathFormLoad(object sender, EventArgs e)
 		{
-			foreach (var template in uploader.Templates)
+			foreach (var template in templateContainer.RegisteredTemplates)
 			{
 				cobSelectedTemplate.Items.Add(template.Name);
 			}
@@ -107,11 +109,11 @@ namespace STFU.AutoUploader
 			var result = folderBrowserDialog.ShowDialog(this);
 			if (result == DialogResult.OK)
 			{
-				if (Directory.Exists(folderBrowserDialog.SelectedPath) && !uploader.Paths.Any(path => path.Path == folderBrowserDialog.SelectedPath))
+				if (Directory.Exists(folderBrowserDialog.SelectedPath) && !pathContainer.RegisteredPaths.Any(path => path.Fullname == folderBrowserDialog.SelectedPath))
 				{
-					var newPath = new PathInformation()
+					var newPath = new Lib.Youtube.Automation.Paths.Path()
 					{
-						Path = folderBrowserDialog.SelectedPath,
+						Fullname = folderBrowserDialog.SelectedPath,
 						Filter = "*.mp4;*.mkv",
 						SelectedTemplateId = 0,
 						SearchRecursively = false,
@@ -119,7 +121,7 @@ namespace STFU.AutoUploader
 						SearchHidden = false
 					};
 
-					uploader.Paths.Add(newPath);
+					pathContainer.RegisterPath(newPath);
 					RefillListView();
 					lvPaths.SelectedIndices.Add(lvPaths.Items.Count - 1);
 				}
@@ -133,7 +135,7 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			uploader.Paths.RemoveAt(lvPaths.SelectedIndices[0]);
+			pathContainer.UnregisterPathAt(lvPaths.SelectedIndices[0]);
 			RefillListView();
 			ClearEditBox();
 		}
@@ -152,13 +154,13 @@ namespace STFU.AutoUploader
 
 			int index = lvPaths.SelectedIndices[0];
 
-			var selectedItem = uploader.Paths[index];
+			var selectedItem = pathContainer.RegisteredPaths.ElementAt(index);
 
-			selectedItem.Path = txtbxAddPath.Text;
+			selectedItem.Fullname = txtbxAddPath.Text;
 			selectedItem.Filter = txtbxAddFilter.Text;
 			selectedItem.SearchHidden = chbHidden.Checked;
 			selectedItem.SearchRecursively = chbRecursive.Checked;
-			selectedItem.SelectedTemplateId = uploader.Templates[cobSelectedTemplate.SelectedIndex]?.Id ?? 0;
+			selectedItem.SelectedTemplateId = templateContainer.RegisteredTemplates.ElementAt(cobSelectedTemplate.SelectedIndex)?.Id ?? 0;
 			selectedItem.Inactive = deactivateCheckbox.Checked;
 
 			ClearEditBox();
@@ -170,14 +172,19 @@ namespace STFU.AutoUploader
 			return lvPaths.SelectedItems.Count == 0;
 		}
 
+		private bool ItemSelected()
+		{
+			return lvPaths.SelectedItems.Count > 0;
+		}
+
 		private void btnSelectPathClick(object sender, EventArgs e)
 		{
 			var result = folderBrowserDialog.ShowDialog(this);
 			if (result == DialogResult.OK)
 			{
 				if (Directory.Exists(folderBrowserDialog.SelectedPath)
-					&& (!uploader.Paths.Any(path => path.Path == folderBrowserDialog.SelectedPath)
-					|| folderBrowserDialog.SelectedPath == uploader.Paths[lvPaths.SelectedIndices[0]].Path))
+					&& (!pathContainer.RegisteredPaths.Any(path => path.Fullname == folderBrowserDialog.SelectedPath)
+					|| folderBrowserDialog.SelectedPath == pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]).Fullname))
 				{
 					txtbxAddPath.Text = folderBrowserDialog.SelectedPath;
 				}
@@ -192,14 +199,8 @@ namespace STFU.AutoUploader
 			}
 
 			var index = lvPaths.SelectedIndices[0];
-			if (index == 0)
-			{
-				return;
-			}
 
-			var currentItem = uploader.Paths[index];
-			uploader.Paths.RemoveAt(index);
-			uploader.Paths.InsertAt(index - 1, currentItem);
+			pathContainer.ShiftPathPositionsAt(index, index - 1);
 
 			RefillListView();
 			lvPaths.SelectedIndices.Clear();
@@ -214,14 +215,8 @@ namespace STFU.AutoUploader
 			}
 
 			var index = lvPaths.SelectedIndices[0];
-			if (index == uploader.Paths.Count - 1)
-			{
-				return;
-			}
 
-			var currentItem = uploader.Paths[index];
-			uploader.Paths.RemoveAt(index);
-			uploader.Paths.InsertAt(index + 1, currentItem);
+			pathContainer.ShiftPathPositionsAt(index, index + 1);
 
 			RefillListView();
 			lvPaths.SelectedIndices.Clear();
@@ -230,7 +225,7 @@ namespace STFU.AutoUploader
 
 		private void clearButtonClick(object sender, EventArgs e)
 		{
-			uploader.Paths.Clear();
+			pathContainer.UnregisterAllPaths();
 			RefillListView();
 			ClearEditBox();
 		}

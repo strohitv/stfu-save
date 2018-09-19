@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\lib\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\lib\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,19 +69,13 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\Account.cs" />
@@ -90,14 +84,9 @@
     <Compile Include="Automation\AutomationUploader.cs" />
     <Compile Include="Automation\PathInformation.cs" />
     <Compile Include="Automation\PathSettings.cs" />
-    <Compile Include="Automation\SerializableDictionary.cs" />
-    <Compile Include="Communication\Program\Client.cs" />
-    <Compile Include="Communication\Program\Communication.cs" />
-    <Compile Include="Communication\Program\Server.cs" />
     <Compile Include="Communication\Youtube\AccountCommunication.cs" />
     <Compile Include="Communication\Youtube\EventArgs.cs" />
     <Compile Include="Communication\Youtube\EventHandler.cs" />
-    <Compile Include="Communication\Youtube\Playlist.cs" />
     <Compile Include="Communication\Youtube\Response.cs" />
     <Compile Include="Communication\Youtube\Serializable\EnumConverter.cs" />
     <Compile Include="Communication\Youtube\Serializable\EnumHelper.cs" />
@@ -111,14 +100,10 @@
       <DependentUpon>WebResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Communication\Youtube\WebService.cs" />
-    <Compile Include="Operations\FileOperations.cs" />
-    <Compile Include="Operations\FileWatcher.cs" />
     <Compile Include="Operations\ProcessWatcher.cs" />
-    <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\Job.cs" />
-    <Compile Include="Queue\UploadQueue.cs" />
     <Compile Include="Queue\UploadDetails.cs" />
     <Compile Include="Templates\PublishInformation.cs" />
     <Compile Include="Templates\PublishSettings.cs" />
@@ -128,6 +113,7 @@
     <Compile Include="Uploader.cs" />
     <Compile Include="Programming\Variable.cs" />
     <Compile Include="Videos\Category.cs" />
+    <Compile Include="Videos\IVideo.cs" />
     <Compile Include="Videos\Language.cs" />
     <Compile Include="Videos\License.cs" />
     <Compile Include="Videos\PrivacyStatus.cs" />
@@ -141,10 +127,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
+      <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
+      <Name>STFU.Lib.Youtube.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>rd /s /q "..\bin\lib"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

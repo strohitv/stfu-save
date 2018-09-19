@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Templates;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.AutoUploader
 {
 	public partial class ChooseMultipleStartTimesScrollControl : UserControl
 	{
-		private IList<PublishSettings> publishSettings = new List<PublishSettings>();
+		private IList<IObservationConfiguration> publishSettings = new List<IObservationConfiguration>();
 
 		public ChooseMultipleStartTimesScrollControl()
 		{
 			InitializeComponent();
 		}
 
-		public void AddRange(IEnumerable<PublishSettings> info)
+		public void AddRange(IEnumerable<IObservationConfiguration> info)
 		{
 			foreach (var item in info)
 			{
@@ -23,7 +23,7 @@ namespace STFU.AutoUploader
 			}
 		}
 
-		internal IList<PublishSettings> GetPublishSettingsArray()
+		internal IList<IObservationConfiguration> GetPublishSettingsArray()
 		{
 			foreach (ChooseSingleStartTimeControl control in mainTlp.Controls)
 			{

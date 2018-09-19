@@ -7,11 +7,10 @@ using STFU.UploadLib.Communication.Youtube.Serializable;
 
 namespace STFU.UploadLib.Videos
 {
-	public class Video
+	public class Video : IVideo
 	{
 		private PrivacyStatus privacy;
 		private DateTime? publishAt;
-		private Collection<string> tags = new Collection<string>(new List<string>());
 
 		public string Path { get; set; }
 
@@ -25,7 +24,7 @@ namespace STFU.UploadLib.Videos
 
 		public Language DefaultLanguage { get; set; }
 
-		public Collection<string> Tags { get { return tags; } }
+		public Collection<string> Tags { get; } = new Collection<string>(new List<string>());
 
 		[JsonConverter(typeof(EnumConverter))]
 		public PrivacyStatus Privacy
@@ -80,10 +79,6 @@ namespace STFU.UploadLib.Videos
 		public static int MaxDescriptionLength => 5000;
 
 		public static int MaxTagsLength => 500;
-
-		public Video()
-		{
-		}
 
 		public Video(string path)
 		{

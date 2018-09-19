@@ -7,10 +7,7 @@ namespace STFU.UploadLib.Videos
 		public int Id { get; private set; }
 		public string Title { get; private set; }
 
-		private Category()
-		{
-
-		}
+		private Category() { }
 
 		public Category(int id, string title)
 		{

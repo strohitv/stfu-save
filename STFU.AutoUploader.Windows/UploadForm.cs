@@ -1,15 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
-using STFU.UploadLib.Automation;
-using STFU.UploadLib.Templates;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.AutoUploader
 {
 	public partial class UploadForm : Form
 	{
-		AutomationUploader uploader = null;
+		IAutomationUploader autoUploader = null;
 
+		string fileText = string.Empty;
 		string statusText = "Warte auf Dateien für den Upload...";
 		int progress = 0;
 
@@ -17,20 +20,19 @@ namespace STFU.AutoUploader
 		bool ended = false;
 		bool allowChosingProcs = false;
 
-		PublishSettings[] publishSettings;
-
 		public int UploadEndedActionIndex { get; set; }
 
-		public UploadForm(AutomationUploader upl, int uploadEndedIndex, PublishSettings[] settings)
+		public UploadForm(IAutomationUploader upl, int uploadEndedIndex)
 		{
 			InitializeComponent();
-			uploader = upl;
-			publishSettings = settings;
+			autoUploader = upl;
 
-			uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.Uploader.NewUploadStarted += OnNewUploadStarted;
 
 			cmbbxFinishAction.SelectedIndex = UploadEndedActionIndex = uploadEndedIndex;
-			chbChoseProcesses.Checked = uploader.ShouldWaitForProcs;
+			chbChoseProcesses.Checked = autoUploader.ProcessContainer.ProcessesToWatch.Count > 0;
 			btnChoseProcs.Enabled = chbChoseProcesses.Enabled;
 
 			allowChosingProcs = true;
@@ -38,17 +40,72 @@ namespace STFU.AutoUploader
 			DialogResult = DialogResult.Cancel;
 		}
 
+		private void OnNewUploadStarted(UploadStartedEventArgs args)
+		{
+			args.Job.PropertyChanged += CurrentUploadPropertyChanged;
+		}
+
+		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			var job = (IYoutubeJob)sender;
+			var oldtitle = fileText;
+			fileText = job.Video.Title;
+
+			if (e.PropertyName == nameof(job.Progress) 
+				&& (job.State == UploadState.Running || job.State == UploadState.ThumbnailUploading))
+			{
+				if (job.State == UploadState.ThumbnailUploading)
+				{
+					statusText = $"Lade Thumbnail hoch: {job.Progress:0.00} %";
+				}
+				else
+				{
+					statusText = $"Lade Video hoch: {job.Progress:0.00} %";
+				}
+				progress = (int)(job.Progress * 100);
+			}
+			else if (e.PropertyName == nameof(job.State))
+			{
+				switch (job.State)
+				{
+					case UploadState.NotStarted:
+					case UploadState.Running:
+						fileText = job.Video.Title;
+						statusText = $"Video-Upload wird gestartet...";
+						break;
+					case UploadState.ThumbnailUploading:
+						statusText = $"Thumbnail-Upload wird gestartet...";
+						break;
+					case UploadState.CancelPending:
+						statusText = $"Upload wird abgebrochen...";
+						break;
+					case UploadState.Error:
+						statusText = $"Es gab einen Fehler beim Upload.";
+						break;
+					case UploadState.Canceled:
+						statusText = $"Upload wurde abgebrochen.";
+						break;
+					case UploadState.Successful:
+						fileText = oldtitle;
+						break;
+					default:
+						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
+				}
+			}
+		}
+
 		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(uploader.Message))
+			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
 			{
-				statusText = uploader.Message;
+				statusText = $"Upload abgeschlossen.{Environment.NewLine}Warte auf Dateien für den Upload...";
 			}
-			else if (e.PropertyName == nameof(uploader.Progress))
-			{
-				progress = (int)(uploader.Progress * 100);
-			}
-			else if (e.PropertyName == nameof(uploader.IsActive) && !uploader.IsActive)
+		}
+
+		private void AutoUploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(autoUploader.State) 
+				&& autoUploader.State == RunningState.NotRunning)
 			{
 				if (!aborted)
 				{
@@ -61,6 +118,7 @@ namespace STFU.AutoUploader
 
 		private void refreshTimerTick(object sender, EventArgs e)
 		{
+			fileLabel.Text = fileText;
 			statusLabel.Text = statusText;
 			prgbarProgress.Value = progress;
 
@@ -71,30 +129,12 @@ namespace STFU.AutoUploader
 			}
 		}
 
-		private void UploadFinished(AutomationEventArgs e)
-		{
-			statusText = $"Upload von {e.FileName} beendet. - Suche Dateien zum Upload...";
-			progress = (int)e.Progress;
-		}
-
-		private void UploadStarted(AutomationEventArgs e)
-		{
-			statusText = $"Upload von {e.FileName} gestartet.";
-			progress = (int)e.Progress;
-		}
-
-		private void ChangedProgress(AutomationEventArgs e)
-		{
-			statusText = $"Lade {e.FileName} hoch: {e.Progress / 100.0:0.00} %";
-			progress = (int)e.Progress;
-		}
-
 		private void ResetStatusAndForm()
 		{
-			uploader.ProgressChanged -= ChangedProgress;
-			uploader.UploadStarted -= UploadStarted;
-			uploader.UploadFinished -= UploadFinished;
-			uploader.PropertyChanged -= UploaderPropertyChanged;
+			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
+			autoUploader.Uploader.NewUploadStarted -= OnNewUploadStarted;
+			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
 
 			ended = true;
 		}
@@ -102,19 +142,15 @@ namespace STFU.AutoUploader
 		private void btnStopClick(object sender, EventArgs e)
 		{
 			aborted = true;
-			uploader.Stop();
+			autoUploader.Cancel();
 		}
 
 		private void UploadFormLoad(object sender, EventArgs e)
 		{
-			uploader.ProgressChanged += ChangedProgress;
-			uploader.UploadStarted += UploadStarted;
-			uploader.UploadFinished += UploadFinished;
-
 			Left = Screen.PrimaryScreen.WorkingArea.Width - 30 - Width;
 			Top = Screen.PrimaryScreen.WorkingArea.Height - 30 - Height;
 
-			uploader.StartAsync(publishSettings);
+			autoUploader.StartAsync();
 		}
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
@@ -122,20 +158,21 @@ namespace STFU.AutoUploader
 			UploadEndedActionIndex = cmbbxFinishAction.SelectedIndex;
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
 
-			uploader.SuspendProcessWatcher();
+			autoUploader.PauseProcessWatcher = true;
 
-			if (uploader != null)
+			if (autoUploader != null)
 			{
-				uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
+				autoUploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
 			}
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
-				uploader?.ClearProcessesToWatch();
+				autoUploader?.ProcessContainer.RemoveAllProcesses();
+				autoUploader.ReloadProcesses();
 				chbChoseProcesses.Checked = false;
 			}
 
-			uploader.ResumeProcessWatcher();
+			autoUploader.PauseProcessWatcher = false;
 		}
 
 		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
@@ -144,46 +181,46 @@ namespace STFU.AutoUploader
 			{
 				btnChoseProcs.Enabled = chbChoseProcesses.Checked;
 
-				uploader.SuspendProcessWatcher();
-
 				if (chbChoseProcesses.Checked)
 				{
 					ChoseProcesses();
 				}
 				else
 				{
-					uploader.ShouldWaitForProcs = false;
-					uploader.ClearProcessesToWatch();
+					autoUploader.EndAfterUpload = false;
+					autoUploader.ProcessContainer.RemoveAllProcesses();
+					autoUploader.ReloadProcesses();
 				}
-
-				uploader.ResumeProcessWatcher();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			ProcessForm processChoser = new ProcessForm(uploader.ProcessesToWatch);
+			autoUploader.PauseProcessWatcher = true;
+
+			ProcessForm processChoser = new ProcessForm(autoUploader.ProcessContainer.ProcessesToWatch);
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
 				var procs = processChoser.Selected;
-				uploader.ClearProcessesToWatch();
-				uploader.AddProcessesToWatch(procs);
-				uploader.ShouldWaitForProcs = true;
+				autoUploader.ProcessContainer.RemoveAllProcesses();
+				autoUploader.ProcessContainer.AddProcesses(procs);
+				autoUploader.EndAfterUpload = true;
+				autoUploader.ReloadProcesses();
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				uploader.ShouldWaitForProcs = false;
+				//autoUploader.EndAfterUpload = false;
 			}
+
+			autoUploader.PauseProcessWatcher = false;
 		}
 
 		private void btnChoseProcsClick(object sender, EventArgs e)
 		{
-			uploader.SuspendProcessWatcher();
 			ChoseProcesses();
-			uploader.ResumeProcessWatcher();
 		}
 	}
 }
