@@ -181,6 +181,7 @@ namespace STFU.AutoUploader
 				uploader.StopAfterCompleting = false;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
+				autoUploader.ProcessContainer = processContainer;
 
 				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex);
 				if (uploadForm.ShowDialog(this) == DialogResult.OK)

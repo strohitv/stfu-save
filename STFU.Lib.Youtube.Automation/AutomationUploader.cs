@@ -185,9 +185,14 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void ProcessWatcherAllProcessesCompleted(object sender, System.EventArgs e)
 		{
-			if (EndAfterUpload && uploader.State == UploaderState.Waiting && Searcher.State == RunningState.NotRunning)
+			if (EndAfterUpload && uploader.State != UploaderState.Uploading && uploader.State != UploaderState.CancelPending && Searcher.State == RunningState.NotRunning)
 			{
+				if (Watcher.State == RunningState.Running)
+				{
+					Watcher.Cancel();
+				}
 
+				RefreshState();
 			}
 		}
 
@@ -228,8 +233,11 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void FileToUploadOccured(FileSystemEventArgs e)
 		{
-			Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
-			Uploader.StartUploader();
+			if (!e.Name.StartsWith("_") && !Uploader.Queue.Any(job => job.Video.File.FullName.ToLower() == e.FullPath.ToLower()))
+			{
+				Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
+				Uploader.StartUploader();
+			}
 		}
 
 		#region PropertyChanged

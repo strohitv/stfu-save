@@ -43,22 +43,26 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 				if (!Watchers.Any(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
 				{
-					var watcher = new FileSystemWatcher(path, filter);
-					watcher.NotifyFilter = NotifyFilters.Attributes
-						| NotifyFilters.CreationTime
-						| NotifyFilters.DirectoryName
-						| NotifyFilters.FileName
-						| NotifyFilters.LastAccess
-						| NotifyFilters.LastWrite
-						| NotifyFilters.Security
-						| NotifyFilters.Size;
-					watcher.IncludeSubdirectories = searchRecursively;
-					watcher.Created += ReactOnFileChanges;
-					watcher.Changed += ReactOnFileChanges;
-					watcher.Renamed += ReactOnFileChanges;
-					watcher.EnableRaisingEvents = true;
+					var filters = filter.Split(';');
+					foreach (var f in filters)
+					{
+						var watcher = new FileSystemWatcher(path, f);
+						watcher.NotifyFilter = NotifyFilters.Attributes
+							| NotifyFilters.CreationTime
+							| NotifyFilters.DirectoryName
+							| NotifyFilters.FileName
+							| NotifyFilters.LastAccess
+							| NotifyFilters.LastWrite
+							| NotifyFilters.Security
+							| NotifyFilters.Size;
+						watcher.IncludeSubdirectories = searchRecursively;
+						watcher.Created += ReactOnFileChanges;
+						watcher.Changed += ReactOnFileChanges;
+						watcher.Renamed += ReactOnFileChanges;
+						watcher.EnableRaisingEvents = true;
 
-					Watchers.Add(watcher);
+						Watchers.Add(watcher);
+					}
 				}
 			}
 		}
