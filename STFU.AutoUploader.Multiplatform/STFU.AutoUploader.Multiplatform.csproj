@@ -173,30 +173,31 @@
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
       <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
       <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation\STFU.Lib.Youtube.Automation.csproj">
       <Project>{C97271B8-CD14-4130-BD88-E44DC82B8C2F}</Project>
       <Name>STFU.Lib.Youtube.Automation</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
       <Name>STFU.Lib.Youtube.Model</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Persistor\STFU.Lib.Youtube.Persistor.csproj">
       <Project>{2DF8CA4E-27AD-4C59-A1FD-0110DB602E3A}</Project>
       <Name>STFU.Lib.Youtube.Persistor</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube\STFU.Lib.Youtube.csproj">
       <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
       <Name>STFU.Lib.Youtube</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\STFU.UploadLib\STFU.UploadLib.csproj">
-      <Project>{d078076e-cc78-469d-bd8a-c80778001467}</Project>
-      <Name>STFU.UploadLib</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

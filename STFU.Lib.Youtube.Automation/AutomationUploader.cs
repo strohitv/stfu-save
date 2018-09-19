@@ -253,14 +253,6 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		#region PropertyChanged
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChaged([CallerMemberName] string caller = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
-		}
-
 		public void ReloadProcesses()
 		{
 			var wasPausing = ProcessWatcher.Pause;
@@ -280,6 +272,14 @@ namespace STFU.Lib.Youtube.Automation
 			{
 				ProcessWatcher.Pause = false;
 			}
+		}
+
+		#region PropertyChanged
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChaged([CallerMemberName] string caller = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
 		}
 		#endregion PropertyChanged
 	}
