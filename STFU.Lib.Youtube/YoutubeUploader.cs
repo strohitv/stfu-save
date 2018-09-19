@@ -225,8 +225,9 @@ namespace STFU.Lib.Youtube
 		{
 			var job = sender as IYoutubeJob;
 			if (e.PropertyName == nameof(IYoutubeJob.State)
-				&& job.State != UploadState.Running
-				&& job.State != UploadState.ThumbnailUploading)
+				&& (job.State == UploadState.Successful
+				|| job.State == UploadState.Canceled
+				|| job.State == UploadState.Error))
 			{
 				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);
 				runningJobUploaders.Remove(jobUploader);

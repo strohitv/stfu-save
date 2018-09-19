@@ -64,6 +64,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					bool uploadSuccessful = TryUploadVideo();
 					if (uploadSuccessful)
 					{
+						Job.State = UploadState.Successful;
 						break;
 					}
 

@@ -160,11 +160,15 @@ namespace STFU.Lib.Youtube.Automation
 			ReloadProcesses();
 
 			var infos = Configuration
+				.Where(c => !c.IgnorePath)
 				.Select(pto => new PublishTimeCalculator(
 					pto.PathInfo,
 					pto.StartDate,
 					pto.Template,
-					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null))
+					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null)
+				{
+					UploadPrivate = pto.UploadPrivate
+				})
 				.ToList();
 			VideoCreator = new TemplateVideoCreator(infos);
 
@@ -174,7 +178,7 @@ namespace STFU.Lib.Youtube.Automation
 			Searcher.FileFound += FileToUploadOccured;
 			DirectoryWatcher.FileAdded += FileToUploadOccured;
 
-			foreach (var path in Configuration)
+			foreach (var path in Configuration.Where(c => !c.IgnorePath))
 			{
 				var pi = path.PathInfo;
 				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
@@ -220,12 +224,12 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (e.PropertyName == nameof(Uploader.State))
 			{
-				if (Uploader.State == UploaderState.Waiting && ProcessWatcher.ShouldEnd)
+				if (Uploader.State == UploaderState.Waiting && EndAfterUpload && ProcessWatcher.ShouldEnd)
 				{
 					Uploader.CancelAll();
 				}
 
-				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && ProcessWatcher.ShouldEnd)
+				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && EndAfterUpload && ProcessWatcher.ShouldEnd)
 				{
 					DirectoryWatcher.Cancel();
 				}
@@ -260,8 +264,6 @@ namespace STFU.Lib.Youtube.Automation
 			ProcessWatcher.Pause = true;
 
 			ProcessWatcher.Clear();
-
-			EndAfterUpload = ProcessContainer.ProcessesToWatch.Count > 0;
 
 			foreach (var process in ProcessContainer.ProcessesToWatch)
 			{

@@ -7,7 +7,6 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 	{
 		public IPath PathInfo { get; internal set; }
 		public ITemplate Template { get; internal set; }
-		internal bool IgnorePath { get; set; }
 		internal bool UploadPrivate { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }

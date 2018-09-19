@@ -61,6 +61,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			if (File.Exists(Job.Video.ThumbnailPath))
 			{
 				State = RunningState.Running;
+				Job.State = UploadState.ThumbnailUploading;
 
 				var accessToken = YoutubeAccountService.GetAccessToken(Job.Account);
 				var secret = Job.Account.Access.First(a => a.AccessToken == accessToken).Client.Secret;
@@ -98,12 +99,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private void FileUploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			var fileUploader = (FileUploader)sender;
 			if (e.PropertyName == nameof(fileUploader.Progress))
 			{
-				Job.Progress = ((FileUploader)sender).Progress;
+				Job.Progress = fileUploader.Progress;
 			}
-			else if (e.PropertyName == nameof(fileUploader.FailureReason))
+			else
 			{
 				Job.Error = FailReasonConverter.GetError(fileUploader.FailureReason);
 			}

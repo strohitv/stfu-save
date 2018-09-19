@@ -64,7 +64,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			if (successful)
 			{
 				Response = WebService.Communicate(request);
-				Job.State = UploadState.Successful;
 			}
 			else if (State == RunningState.CancelPending)
 			{

@@ -12,6 +12,7 @@ namespace STFU.AutoUploader
 	{
 		IAutomationUploader autoUploader = null;
 
+		string fileText = string.Empty;
 		string statusText = "Warte auf Dateien für den Upload...";
 		int progress = 0;
 
@@ -47,17 +48,19 @@ namespace STFU.AutoUploader
 		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = (IYoutubeJob)sender;
+			var oldtitle = fileText;
+			fileText = job.Video.Title;
 
 			if (e.PropertyName == nameof(job.Progress) 
 				&& (job.State == UploadState.Running || job.State == UploadState.ThumbnailUploading))
 			{
 				if (job.State == UploadState.ThumbnailUploading)
 				{
-					statusText = $"Lade Thumbnail für {job.Video.Title} hoch: {job.Progress / 100.0:0.00} %";
+					statusText = $"Lade Thumbnail hoch: {job.Progress:0.00} %";
 				}
 				else
 				{
-					statusText = $"Lade {job.Video.Title} hoch: {job.Progress:0.00} %";
+					statusText = $"Lade Video hoch: {job.Progress:0.00} %";
 				}
 				progress = (int)(job.Progress * 100);
 			}
@@ -66,25 +69,24 @@ namespace STFU.AutoUploader
 				switch (job.State)
 				{
 					case UploadState.NotStarted:
-						statusText = $"Starte Upload von {job.Video.Title}...";
-						break;
 					case UploadState.Running:
-						statusText = $"Upload von {job.Video.Title} läuft...";
+						fileText = job.Video.Title;
+						statusText = $"Video-Upload wird gestartet...";
 						break;
 					case UploadState.ThumbnailUploading:
-						statusText = $"Thumbnail-Upload von {job.Video.Title} läuft...";
+						statusText = $"Thumbnail-Upload wird gestartet...";
 						break;
 					case UploadState.CancelPending:
-						statusText = $"Upload von {job.Video.Title} wird abgebrochen...";
-						break;
-					case UploadState.Successful:
-						statusText = $"{job.Video.Title} wurde erfolgreich hochgeladen.";
+						statusText = $"Upload wird abgebrochen...";
 						break;
 					case UploadState.Error:
-						statusText = $"Es gab einen Fehler beim Upload von {job.Video.Title}.";
+						statusText = $"Es gab einen Fehler beim Upload.";
 						break;
 					case UploadState.Canceled:
-						statusText = $"Upload von {job.Video.Title} wurde abgebrochen.";
+						statusText = $"Upload wurde abgebrochen.";
+						break;
+					case UploadState.Successful:
+						fileText = oldtitle;
 						break;
 					default:
 						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
@@ -94,9 +96,9 @@ namespace STFU.AutoUploader
 
 		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(autoUploader.Uploader.State))
+			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
 			{
-				// ... Was könnte hier kommen?
+				statusText = $"Upload abgeschlossen.{Environment.NewLine}Warte auf Dateien für den Upload...";
 			}
 		}
 
@@ -116,6 +118,7 @@ namespace STFU.AutoUploader
 
 		private void refreshTimerTick(object sender, EventArgs e)
 		{
+			fileLabel.Text = fileText;
 			statusLabel.Text = statusText;
 			prgbarProgress.Value = progress;
 
