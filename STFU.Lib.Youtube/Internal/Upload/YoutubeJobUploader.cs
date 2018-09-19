@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,6 +71,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					Thread.Sleep(new TimeSpan(0, 1, 0));
 				}
 			}
+			else
+			{
+				State = RunningState.NotRunning;
+				Job.State = UploadState.Error;
+			}
 		}
 
 		private bool TryUploadVideo()
@@ -94,6 +100,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			var successful = videoUploader.Upload();
 			if (successful)
 			{
+				var movedPath = Path.GetDirectoryName(Job.Video.File.FullName)
+					   + "\\_" + Path.GetFileNameWithoutExtension(Job.Video.File.FullName).Remove(0, 1)
+					   + Path.GetExtension(Job.Video.File.FullName);
+				File.Move(Job.Video.File.FullName, movedPath);
 				result = videoUploader.Response;
 			}
 

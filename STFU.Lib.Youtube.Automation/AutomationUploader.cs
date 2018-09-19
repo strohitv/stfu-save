@@ -131,6 +131,8 @@ namespace STFU.Lib.Youtube.Automation
 				Searcher.Cancel();
 				Watcher.Cancel();
 				Uploader.CancelAll();
+
+				RefreshState();
 			}
 		}
 

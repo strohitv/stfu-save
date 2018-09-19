@@ -47,8 +47,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 			var lastbyte = CheckUploadStatus();
 
-			FileStream fileStream = new FileStream(Job.Video.Path, FileMode.Open, FileAccess.Read);
-
 			HttpWebRequest request = null;
 			if (lastbyte == -1)
 			{
@@ -57,7 +55,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			else
 			{
 				request = HttpWebRequestCreator.CreateForResumeUpload(Job, lastbyte);
-				fileStream.Position = lastbyte + 1;
 			}
 
 			Job.State = UploadState.Running;

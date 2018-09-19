@@ -121,11 +121,18 @@ namespace STFU.Lib.Youtube
 		{
 			if (State == UploaderState.Uploading || State == UploaderState.Waiting)
 			{
-				State = UploaderState.CancelPending;
-
-				foreach (var uploader in runningJobUploaders)
+				if (runningJobUploaders.Any(ju => ju.State != RunningState.NotRunning))
 				{
-					uploader.Cancel();
+					State = UploaderState.CancelPending;
+
+					foreach (var uploader in runningJobUploaders)
+					{
+						uploader.Cancel();
+					}
+				}
+				else
+				{
+					State = UploaderState.NotRunning;
 				}
 			}
 		}
@@ -184,9 +191,8 @@ namespace STFU.Lib.Youtube
 				//State = UploaderState.Uploading;
 
 				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
+				NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
 				jobUploader.UploadAsync();
-
-				NewUploadStarted?.Invoke(new EventArgs());
 
 				runningJobUploaders.Add(jobUploader);
 			}

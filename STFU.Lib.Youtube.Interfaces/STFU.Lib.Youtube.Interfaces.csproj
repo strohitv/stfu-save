@@ -61,6 +61,7 @@
     <Compile Include="Model\IYoutubeVideo.cs" />
     <Compile Include="Model\Enums\UploaderState.cs" />
     <Compile Include="Model\Enums\UploadState.cs" />
+    <Compile Include="Model\UploadStartedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

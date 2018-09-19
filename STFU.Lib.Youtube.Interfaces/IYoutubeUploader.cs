@@ -6,7 +6,7 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Interfaces
 {
-	public delegate void UploadStarted(EventArgs args);
+	public delegate void UploadStarted(UploadStartedEventArgs args);
 
 	public interface IYoutubeUploader: INotifyPropertyChanged
 	{

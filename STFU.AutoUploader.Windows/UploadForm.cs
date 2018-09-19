@@ -39,10 +39,9 @@ namespace STFU.AutoUploader
 			DialogResult = DialogResult.Cancel;
 		}
 
-		private void OnNewUploadStarted(EventArgs args)
+		private void OnNewUploadStarted(UploadStartedEventArgs args)
 		{
-			var currentUpload = autoUploader.Uploader.Queue.Single(job => job.State != UploadState.NotStarted);
-			currentUpload.PropertyChanged += CurrentUploadPropertyChanged;
+			args.Job.PropertyChanged += CurrentUploadPropertyChanged;
 		}
 
 		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -58,9 +57,9 @@ namespace STFU.AutoUploader
 				}
 				else
 				{
-					statusText = $"Lade {job.Video.Title} hoch: {job.Progress / 100.0:0.00} %";
+					statusText = $"Lade {job.Video.Title} hoch: {job.Progress:0.00} %";
 				}
-				progress = (int)job.Progress;
+				progress = (int)(job.Progress * 100);
 			}
 			else if (e.PropertyName == nameof(job.State))
 			{
