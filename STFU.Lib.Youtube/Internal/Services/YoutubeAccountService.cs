@@ -21,7 +21,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 			{
 				var firstUsefullAccess = account.Access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
 
-				if (firstUsefullAccess != null && RefreshAccess(account))
+				if (firstUsefullAccess == null && RefreshAccess(account))
 				{
 					firstUsefullAccess = account.Access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
 				}
