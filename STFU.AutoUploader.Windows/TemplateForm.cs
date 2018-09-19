@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Templates;
@@ -15,19 +14,21 @@ namespace STFU.AutoUploader
 {
 	public partial class TemplateForm : Form
 	{
-		private ILanguageCategoryLoader dataloader;
 		private ITemplateContainer templateContainer;
+		private IYoutubeCategoryContainer categoryContainer;
+		private IYoutubeLanguageContainer languageContainer;
 		private ITemplate current;
 		private bool reordering = false;
 
-		public TemplateForm(ITemplateContainer templateContainer, IYoutubeAccountContainer accountContainer)
+		public TemplateForm(ITemplateContainer templateContainer, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
 		{
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
 
 			this.templateContainer = templateContainer;
-			dataloader = new LanguageCategoryLoader(accountContainer);
+			this.categoryContainer = categoryContainer;
+			this.languageContainer = languageContainer;
 		}
 
 		private void addTemplateButtonClick(object sender, EventArgs e)
@@ -158,7 +159,6 @@ namespace STFU.AutoUploader
 		private void FillTemplateIntoEditView(ITemplate template)
 		{
 			templateNameTextbox.Text = template.Name;
-			//templateNameTextbox.ReadOnly = template.Name == "Standard";
 
 			templateTitleTextbox.Text = template.Title;
 			templateDescriptionTextbox.Text = template.Description;
@@ -168,12 +168,12 @@ namespace STFU.AutoUploader
 			publishAtCheckbox.Checked = template.ShouldPublishAt;
 
 			defaultLanguageCombobox.Items.Clear();
-			defaultLanguageCombobox.Items.AddRange(dataloader.Languages.Select(lang => lang.Name).ToArray());
-			defaultLanguageCombobox.SelectedIndex = dataloader.Languages.ToList().IndexOf(dataloader.Languages.FirstOrDefault(lang => lang.Id == template.DefaultLanguage?.Id));
+			defaultLanguageCombobox.Items.AddRange(languageContainer.RegisteredLanguages.Select(lang => lang.Name).ToArray());
+			defaultLanguageCombobox.SelectedIndex = languageContainer.RegisteredLanguages.ToList().IndexOf(languageContainer.RegisteredLanguages.FirstOrDefault(lang => lang.Id == template.DefaultLanguage?.Id));
 
 			categoryCombobox.Items.Clear();
-			categoryCombobox.Items.AddRange(dataloader.Categories.Select(cat => cat.Title).ToArray());
-			categoryCombobox.SelectedIndex = dataloader.Categories.ToList().IndexOf(dataloader.Categories.FirstOrDefault(c => c.Id == template.Category?.Id));
+			categoryCombobox.Items.AddRange(categoryContainer.RegisteredCategories.Select(cat => cat.Title).ToArray());
+			categoryCombobox.SelectedIndex = categoryContainer.RegisteredCategories.ToList().IndexOf(categoryContainer.RegisteredCategories.FirstOrDefault(c => c.Id == template.Category?.Id));
 
 			licenseCombobox.SelectedIndex = (int)template.License;
 
@@ -337,12 +337,14 @@ namespace STFU.AutoUploader
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				reordering = true;
-				var index = templateListView.SelectedIndices[0];
 				templateContainer.UpdateTemplate(current);
 				RefillListView();
-				templateListView.SelectedIndices.Add(index);
-				templateListView.Select();
 				reordering = false;
+
+				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
+				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
+				current = new Template();
+				ClearEditView();
 			}
 		}
 
@@ -553,12 +555,12 @@ namespace STFU.AutoUploader
 
 		private void categoryComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
-			current.Category = dataloader.Categories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
+			current.Category = categoryContainer.RegisteredCategories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
 		}
 
 		private void defaultLanguageComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
-			current.DefaultLanguage = dataloader.Languages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
+			current.DefaultLanguage = languageContainer.RegisteredLanguages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
 		}
 
 		private void licenseComboboxSelectedIndexChanged(object sender, EventArgs e)

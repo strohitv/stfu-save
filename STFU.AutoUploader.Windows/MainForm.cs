@@ -20,6 +20,8 @@ namespace STFU.AutoUploader
 		ITemplateContainer templateContainer = new TemplateContainer();
 		IYoutubeClientContainer clientContainer = new YoutubeClientContainer();
 		IYoutubeAccountContainer accountContainer = new YoutubeAccountContainer();
+		IYoutubeCategoryContainer categoryContainer = new YoutubeCategoryContainer();
+		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
 		IAutomationUploader autoUploader = new AutomationUploader();
 		IProcessContainer processContainer = new ProcessContainer();
@@ -27,6 +29,8 @@ namespace STFU.AutoUploader
 		PathPersistor pathPersistor = null;
 		TemplatePersistor templatePersistor = null;
 		AccountPersistor accountPersistor = null;
+		CategoryPersistor categoryPersistor = null;
+		LanguagePersistor languagePersistor = null;
 
 		public MainForm()
 		{
@@ -50,6 +54,12 @@ namespace STFU.AutoUploader
 
 			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
 			accountPersistor.Load();
+
+			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
+			categoryPersistor.Load();
+
+			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
+			languagePersistor.Load();
 
 			RefillListView();
 			ActivateAccountLink();
@@ -104,13 +114,33 @@ namespace STFU.AutoUploader
 			if (result == DialogResult.OK
 				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code)) != null)
 			{
-				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 				accountContainer.RegisterAccount(account);
-				ActivateAccountLink();
+
+				var loader = new LanguageCategoryLoader(accountContainer);
+				var categories = loader.Categories;
+
+				categoryContainer.UnregisterAllCategories();
+				foreach (var category in categories)
+				{
+					categoryContainer.RegisterCategory(category);
+				}
+
+				var languages = loader.Languages;
+
+				languageContainer.UnregisterAllLanguages();
+				foreach (var language in languages)
+				{
+					languageContainer.RegisterLanguage(language);
+				}
 
 				// Account speichern! Und so!
 				accountPersistor.Save();
+				categoryPersistor.Save();
+				languagePersistor.Save();
+
+				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				ActivateAccountLink();
 			}
 
 			tlpSettings.Enabled = true;
@@ -311,7 +341,7 @@ namespace STFU.AutoUploader
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(templateContainer, accountContainer);
+			TemplateForm tf = new TemplateForm(templateContainer, categoryContainer, languageContainer);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
 
