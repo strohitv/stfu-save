@@ -20,7 +20,6 @@ namespace STFU.AutoUploader
 		ITemplateContainer templateContainer = new TemplateContainer();
 		IYoutubeClientContainer clientContainer = new YoutubeClientContainer();
 		IYoutubeAccountContainer accountContainer = new YoutubeAccountContainer();
-		//IYoutubeClientCommunicator clientCommunicator;
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
 		IAutomationUploader autoUploader = new AutomationUploader();
 		IProcessContainer processContainer = new ProcessContainer();

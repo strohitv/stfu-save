@@ -15,7 +15,7 @@ namespace STFU.AutoUploader
 {
 	public partial class TemplateForm : Form
 	{
-		private IValidDataLoader dataloader;
+		private ILanguageCategoryLoader dataloader;
 		private ITemplateContainer templateContainer;
 		private ITemplate current;
 		private bool reordering = false;
@@ -27,7 +27,7 @@ namespace STFU.AutoUploader
 			addWeekdayCombobox.SelectedIndex = 0;
 
 			this.templateContainer = templateContainer;
-			dataloader = new ValidDataLoader(accountContainer);
+			dataloader = new LanguageCategoryLoader(accountContainer);
 		}
 
 		private void addTemplateButtonClick(object sender, EventArgs e)

@@ -6,11 +6,11 @@ using STFU.Lib.Youtube.Internal.Services;
 
 namespace STFU.Lib.Youtube
 {
-	public class ValidDataLoader : IValidDataLoader
+	public class LanguageCategoryLoader : ILanguageCategoryLoader
 	{
 		private IYoutubeAccountContainer Container { get; }
 
-		public ValidDataLoader(IYoutubeAccountContainer container)
+		public LanguageCategoryLoader(IYoutubeAccountContainer container)
 		{
 			Container = container;
 		}

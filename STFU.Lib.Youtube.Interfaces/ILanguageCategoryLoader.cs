@@ -3,7 +3,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Interfaces
 {
-	public interface IValidDataLoader
+	public interface ILanguageCategoryLoader
 	{
 		IReadOnlyList<ICategory> Categories { get; }
 

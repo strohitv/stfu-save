@@ -38,7 +38,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IValidDataLoader.cs" />
+    <Compile Include="ILanguageCategoryLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeAccountContainer.cs" />
     <Compile Include="IYoutubeCategoryContainer.cs" />
