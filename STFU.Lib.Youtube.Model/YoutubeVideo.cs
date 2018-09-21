@@ -47,7 +47,7 @@ namespace STFU.Lib.Youtube.Model
 
 		public bool Stabilize { get; set; }
 
-		public ICollection<string> Tags => new List<string>();
+		public ICollection<string> Tags { get; } = new List<string>();
 
 		public string ThumbnailPath { get; set; }
 
