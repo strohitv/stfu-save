@@ -49,6 +49,9 @@
 			this.templatesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
@@ -202,7 +205,8 @@
 			this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
-            this.verwaltenToolStripMenuItem});
+            this.verwaltenToolStripMenuItem,
+            this.hilfeToolStripMenuItem});
 			this.mainMenu.Location = new System.Drawing.Point(0, 0);
 			this.mainMenu.Name = "mainMenu";
 			this.mainMenu.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -278,7 +282,31 @@
 			this.unvollständigerUploadToolStripMenuItem.Name = "unvollständigerUploadToolStripMenuItem";
 			this.unvollständigerUploadToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
 			this.unvollständigerUploadToolStripMenuItem.Text = "Unvollständiger Upload";
+			this.unvollständigerUploadToolStripMenuItem.Visible = false;
 			this.unvollständigerUploadToolStripMenuItem.Click += new System.EventHandler(this.unvollständigerUploadToolStripMenuItem_Click);
+			// 
+			// hilfeToolStripMenuItem
+			// 
+			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.threadImLPFToolStripMenuItem,
+            this.strohiAufTwitterToolStripMenuItem});
+			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
+			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.hilfeToolStripMenuItem.Text = "Hilfe";
+			// 
+			// threadImLPFToolStripMenuItem
+			// 
+			this.threadImLPFToolStripMenuItem.Name = "threadImLPFToolStripMenuItem";
+			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
+			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
+			// 
+			// strohiAufTwitterToolStripMenuItem
+			// 
+			this.strohiAufTwitterToolStripMenuItem.Name = "strohiAufTwitterToolStripMenuItem";
+			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
+			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
 			// 
 			// lblFinishAction
 			// 
@@ -390,6 +418,9 @@
 		private System.Windows.Forms.ToolStripMenuItem unvollständigerUploadToolStripMenuItem;
 		private System.Windows.Forms.ColumnHeader chHidden;
 		private System.Windows.Forms.ColumnHeader cbInactive;
+		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem threadImLPFToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem strohiAufTwitterToolStripMenuItem;
 	}
 }
 

@@ -370,5 +370,15 @@ namespace STFU.AutoUploader
 			// Nicht löschen, sondern anzeigen!
 			// uploader.DeleteLastJobFile();
 		}
+
+		private void threadImLPFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://letsplayforum.de/board/73-youtube/");
+		}
+
+		private void strohiAufTwitterToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://twitter.com/strohkoenig");
+		}
 	}
 }
