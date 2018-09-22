@@ -373,7 +373,7 @@ namespace STFU.AutoUploader
 
 		private void threadImLPFToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Process.Start("https://letsplayforum.de/board/73-youtube/");
+			Process.Start("https://letsplayforum.de/thread/175111-beta-strohis-toolset-f%C3%BCr-uploads-automatisch-videos-hochladen/");
 		}
 
 		private void strohiAufTwitterToolStripMenuItem_Click(object sender, EventArgs e)
