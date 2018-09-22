@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
-using STFU.Lib.Youtube.Automation.Interfaces;
+﻿using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace STFU.AutoUploader
 {
@@ -51,7 +50,7 @@ namespace STFU.AutoUploader
 			var oldtitle = fileText;
 			fileText = job.Video.Title;
 
-			if (e.PropertyName == nameof(job.Progress) 
+			if (e.PropertyName == nameof(job.Progress)
 				&& (job.State == UploadState.Running || job.State == UploadState.ThumbnailUploading))
 			{
 				if (job.State == UploadState.ThumbnailUploading)
@@ -104,7 +103,7 @@ namespace STFU.AutoUploader
 
 		private void AutoUploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(autoUploader.State) 
+			if (e.PropertyName == nameof(autoUploader.State)
 				&& autoUploader.State == RunningState.NotRunning)
 			{
 				if (!aborted)
@@ -158,7 +157,7 @@ namespace STFU.AutoUploader
 			UploadEndedActionIndex = cmbbxFinishAction.SelectedIndex;
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
 
-			autoUploader.PauseProcessWatcher = true;
+			autoUploader.ProcessContainer.Stop();
 
 			if (autoUploader != null)
 			{
@@ -168,11 +167,12 @@ namespace STFU.AutoUploader
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
 				autoUploader?.ProcessContainer.RemoveAllProcesses();
-				autoUploader.ReloadProcesses();
 				chbChoseProcesses.Checked = false;
 			}
-
-			autoUploader.PauseProcessWatcher = false;
+			else
+			{
+				autoUploader.ProcessContainer.Start();
+			}
 		}
 
 		private void chbChoseProcessesCheckedChanged(object sender, EventArgs e)
@@ -189,14 +189,13 @@ namespace STFU.AutoUploader
 				{
 					autoUploader.EndAfterUpload = false;
 					autoUploader.ProcessContainer.RemoveAllProcesses();
-					autoUploader.ReloadProcesses();
 				}
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			autoUploader.PauseProcessWatcher = true;
+			autoUploader.ProcessContainer.Stop();
 
 			ProcessForm processChoser = new ProcessForm(autoUploader.ProcessContainer.ProcessesToWatch);
 			processChoser.ShowDialog(this);
@@ -207,15 +206,13 @@ namespace STFU.AutoUploader
 				autoUploader.ProcessContainer.RemoveAllProcesses();
 				autoUploader.ProcessContainer.AddProcesses(procs);
 				autoUploader.EndAfterUpload = true;
-				autoUploader.ReloadProcesses();
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
-				//autoUploader.EndAfterUpload = false;
 			}
 
-			autoUploader.PauseProcessWatcher = false;
+			autoUploader.ProcessContainer.Start();
 		}
 
 		private void btnChoseProcsClick(object sender, EventArgs e)

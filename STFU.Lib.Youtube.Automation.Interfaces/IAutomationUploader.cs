@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using STFU.Lib.Youtube.Automation.Interfaces.Model;
+﻿using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace STFU.Lib.Youtube.Automation.Interfaces
 {
@@ -13,7 +13,6 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 
 		IYoutubeAccount Account { get; set; }
 		
-		//DateTime StandardStartTime { get; set; }
 		IList<IObservationConfiguration> Configuration { get; }
 
 		/// <summary>
@@ -25,14 +24,10 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 
 		bool EndAfterUpload { get; set; }
 
-		bool PauseProcessWatcher { get; set; }
-
 		RunningState State { get; }
 
 		void StartAsync();
 
 		void Cancel();
-
-		void ReloadProcesses();
 	}
 }

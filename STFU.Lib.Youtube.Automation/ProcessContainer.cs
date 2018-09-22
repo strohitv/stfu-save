@@ -1,28 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using STFU.Lib.Youtube.Automation.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation
 {
 	public class ProcessContainer : IProcessContainer
 	{
-		private IList<Process> processes = new List<Process>();
+		public event EventHandler AllProcessesCompleted;
 
-		private IList<Process> Processes => processes;
+		private bool hasFired = false;
+		private IList<Process> Processes { get; set; } = new List<Process>();
 
-		public IReadOnlyCollection<Process> ProcessesToWatch => new ReadOnlyCollection<Process>(processes);
+		public IReadOnlyCollection<Process> ProcessesToWatch => new ReadOnlyCollection<Process>(Processes);
 
-		public bool AllExited => ProcessesToWatch.All(p => p.HasExited);
+		public bool Running { get; private set; } = false;
 
-		public bool Started { get; private set; } = false;
+		public bool ShouldEnd => Running && Processes.Count == 0;
 
 		public void AddProcess(Process proc)
 		{
-			if (!ProcessesToWatch.Any(p => p.Id == proc.Id))
+			try
 			{
-				Processes.Add(proc);
+				if (!Processes.Any(p => p.Id == proc.Id)
+					&& !proc.HasExited)
+				{
+					proc.EnableRaisingEvents = true;
+					proc.Exited += OnProcExit;
+					Processes.Add(proc);
+					hasFired = false;
+				}
+			}
+			catch (Win32Exception)
+			{ }
+		}
+
+		private void OnProcExit(object sender, EventArgs e)
+		{
+			var proc = (Process)sender;
+			RemoveProcess(proc);
+			CheckEventFire();
+		}
+
+		private void CheckEventFire()
+		{
+			if (Running && !hasFired && Processes.Count == 0)
+			{
+				AllProcessesCompleted?.Invoke(this, new EventArgs());
+				hasFired = true;
 			}
 		}
 
@@ -36,11 +64,18 @@ namespace STFU.Lib.Youtube.Automation
 
 		public void RemoveAllProcesses()
 		{
-			processes = new List<Process>();
+			foreach (var proc in Processes)
+			{
+				proc.Exited -= OnProcExit;
+			}
+
+			Processes.Clear();
 		}
 
 		public void RemoveProcess(Process proc)
 		{
+			proc.Exited -= OnProcExit;
+
 			if (ProcessesToWatch.Contains(proc))
 			{
 				Processes.Remove(proc);
@@ -51,18 +86,20 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (ProcessesToWatch.Count > index)
 			{
+				Processes[index].Exited -= OnProcExit;
 				Processes.RemoveAt(index);
 			}
 		}
 
 		public void Start()
 		{
-			Started = true;
+			Running = true;
+			CheckEventFire();
 		}
 
 		public void Stop()
 		{
-			Started = false;
+			Running = false;
 		}
 	}
 }
