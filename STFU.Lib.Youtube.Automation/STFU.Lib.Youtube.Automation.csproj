@@ -47,7 +47,6 @@
     <Compile Include="Internal\Parser\PrivacyStatusParser.cs" />
     <Compile Include="Internal\Parser\TemplateParser.cs" />
     <Compile Include="Internal\Watcher\DirectoryWatcher.cs" />
-    <Compile Include="Internal\Watcher\ProcessWatcher.cs" />
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />
     <Compile Include="ProcessContainer.cs" />

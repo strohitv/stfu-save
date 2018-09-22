@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using STFU.Lib.Youtube.Automation.Interfaces;
+﻿using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
@@ -12,6 +6,12 @@ using STFU.Lib.Youtube.Automation.Internal.Watcher;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -86,31 +86,12 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public bool EndAfterUpload { get { return ProcessWatcher.ShouldWaitForProcs; } set { ProcessWatcher.ShouldWaitForProcs = value; } }
+		public bool EndAfterUpload { get; set; }
 
 		private DirectoryWatcher DirectoryWatcher { get; set; } = new DirectoryWatcher();
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
 		private TemplateVideoCreator VideoCreator { get; set; }
-
-		private ProcessWatcher processWatcher = new ProcessWatcher();
-		public ProcessWatcher ProcessWatcher
-		{
-			get
-			{
-				return processWatcher;
-			}
-			set
-			{
-				if (value != null && processWatcher !=  value)
-				{
-					processWatcher = value;
-					OnPropertyChaged();
-				}
-			}
-		}
-
-		public bool PauseProcessWatcher { get { return ProcessWatcher.Pause; } set { ProcessWatcher.Pause = value; } }
 
 		public AutomationUploader() { }
 
@@ -155,9 +136,9 @@ namespace STFU.Lib.Youtube.Automation
 
 			State = RunningState.Running;
 
-			ProcessWatcher.AllProcessesCompleted += ProcessWatcherAllProcessesCompleted;
+			ProcessContainer.AllProcessesCompleted += ProcessContainerAllProcessesCompleted;
 
-			ReloadProcesses();
+			//ReloadProcesses();
 
 			var infos = Configuration
 				.Where(c => !c.IgnorePath)
@@ -186,7 +167,7 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private void ProcessWatcherAllProcessesCompleted(object sender, System.EventArgs e)
+		private void ProcessContainerAllProcessesCompleted(object sender, System.EventArgs e)
 		{
 			if (EndAfterUpload && uploader.State != UploaderState.Uploading && uploader.State != UploaderState.CancelPending && Searcher.State == RunningState.NotRunning)
 			{
@@ -224,12 +205,12 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (e.PropertyName == nameof(Uploader.State))
 			{
-				if (Uploader.State == UploaderState.Waiting && EndAfterUpload && ProcessWatcher.ShouldEnd)
+				if (Uploader.State == UploaderState.Waiting && EndAfterUpload && ProcessContainer.ShouldEnd)
 				{
 					Uploader.CancelAll();
 				}
 
-				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && EndAfterUpload && ProcessWatcher.ShouldEnd)
+				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && EndAfterUpload && ProcessContainer.ShouldEnd)
 				{
 					DirectoryWatcher.Cancel();
 				}
@@ -254,25 +235,6 @@ namespace STFU.Lib.Youtube.Automation
 			{
 				Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
 				Uploader.StartUploader();
-			}
-		}
-
-		public void ReloadProcesses()
-		{
-			var wasPausing = ProcessWatcher.Pause;
-
-			ProcessWatcher.Pause = true;
-
-			ProcessWatcher.Clear();
-
-			foreach (var process in ProcessContainer.ProcessesToWatch)
-			{
-				ProcessWatcher.Add(process);
-			}
-
-			if (!wasPausing)
-			{
-				ProcessWatcher.Pause = false;
 			}
 		}
 
