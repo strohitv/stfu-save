@@ -46,7 +46,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 					var filters = filter.Split(';');
 					foreach (var f in filters)
 					{
-						var watcher = new FileSystemWatcher(path, f);
+						var watcher = new FileSystemWatcher(path, f.Trim());
 						watcher.NotifyFilter = NotifyFilters.Attributes
 							| NotifyFilters.CreationTime
 							| NotifyFilters.DirectoryName
