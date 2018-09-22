@@ -370,5 +370,15 @@ namespace STFU.AutoUploader
 			// Nicht löschen, sondern anzeigen!
 			// uploader.DeleteLastJobFile();
 		}
+
+		private void threadImLPFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://letsplayforum.de/thread/175111-beta-strohis-toolset-f%C3%BCr-uploads-automatisch-videos-hochladen/");
+		}
+
+		private void strohiAufTwitterToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://twitter.com/strohkoenig");
+		}
 	}
 }
