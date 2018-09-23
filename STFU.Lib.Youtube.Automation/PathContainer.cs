@@ -16,6 +16,7 @@ namespace STFU.Lib.Youtube.Automation
 		private IList<IPath> Paths => paths;
 
 		public IReadOnlyCollection<IPath> RegisteredPaths => new ReadOnlyCollection<IPath>(paths);
+		public IReadOnlyCollection<IPath> ActivePaths => new ReadOnlyCollection<IPath>(paths.Where(p => !p.Inactive).ToList());
 
 		private bool PathIsAlreadyRegistered(IPath path)
 		{

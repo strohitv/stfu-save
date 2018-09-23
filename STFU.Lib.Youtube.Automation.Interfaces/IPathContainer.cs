@@ -6,6 +6,7 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 	public interface IPathContainer
 	{
 		IReadOnlyCollection<IPath> RegisteredPaths { get; }
+		IReadOnlyCollection<IPath> ActivePaths { get; }
 
 		void RegisterPath(IPath path);
 		void ShiftPathPositions(IPath first, IPath second);
