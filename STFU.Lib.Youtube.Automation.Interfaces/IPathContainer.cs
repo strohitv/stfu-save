@@ -14,5 +14,7 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		void UnregisterAllPaths();
 		void UnregisterPath(IPath path);
 		void UnregisterPathAt(int index);
+
+		void MarkAllFilesAsRead(IPath path);
 	}
 }

@@ -259,5 +259,13 @@ video *.mp4 findet auch video.mp4, da der *auch für kein Zeichen stehen kann.
 * mp4; *mkv findet alle mp4 - und alle mkv-Dateien.";
 			toolTip.Show(tooltipText, txtbxAddFilter, 60000);
 		}
+
+		private void btnMarkAsReadClick(object sender, EventArgs e)
+		{
+			chosePathTlp.Enabled = false;
+			pathContainer.MarkAllFilesAsRead(pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]));
+			MessageBox.Show(this, "Die Videos, die durch diesen Pfad gefunden werden können, wurden erfolgreich als bereits hochgeladen markiert. Der Uploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder umbenennen, sodass sie nicht mehr mit einem Unterstrich _ startet.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			chosePathTlp.Enabled = true;
+		}
 	}
 }

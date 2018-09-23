@@ -2,8 +2,11 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Internal;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -75,6 +78,27 @@ namespace STFU.Lib.Youtube.Automation
 				Paths[firstIndex] = Paths[secondIndex];
 				Paths[secondIndex] = save;
 			}
+		}
+
+		public void MarkAllFilesAsRead(IPath path)
+		{
+			FileSearcher searcher = new FileSearcher();
+			searcher.FileFound += SearcherFileFound;
+
+			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden);
+
+			while (searcher.State != RunningState.NotRunning)
+			{
+				Thread.Sleep(5);
+			}
+		}
+
+		private void SearcherFileFound(FileSystemEventArgs e)
+		{
+			var movedPath = Path.GetDirectoryName(e.FullPath)
+				   + "\\_" + Path.GetFileNameWithoutExtension(e.FullPath).Remove(0, 1)
+				   + Path.GetExtension(e.FullPath);
+			File.Move(e.FullPath, movedPath);
 		}
 	}
 }
