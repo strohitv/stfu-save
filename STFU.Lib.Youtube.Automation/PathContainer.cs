@@ -11,12 +11,10 @@ namespace STFU.Lib.Youtube.Automation
 	{
 		public PathContainer() { }
 
-		private IList<IPath> paths = new List<IPath>();
+		private IList<IPath> Paths { get; } = new List<IPath>();
 
-		private IList<IPath> Paths => paths;
-
-		public IReadOnlyCollection<IPath> RegisteredPaths => new ReadOnlyCollection<IPath>(paths);
-		public IReadOnlyCollection<IPath> ActivePaths => new ReadOnlyCollection<IPath>(paths.Where(p => !p.Inactive).ToList());
+		public IReadOnlyCollection<IPath> RegisteredPaths => new ReadOnlyCollection<IPath>(Paths);
+		public IReadOnlyCollection<IPath> ActivePaths => new ReadOnlyCollection<IPath>(Paths.Where(p => !p.Inactive).ToList());
 
 		private bool PathIsAlreadyRegistered(IPath path)
 		{
@@ -65,7 +63,7 @@ namespace STFU.Lib.Youtube.Automation
 				&& (firstToChange = Paths.FirstOrDefault(p => p == first)) != null
 				&& (secondToChange = Paths.FirstOrDefault(p => p == second)) != null)
 			{
-				ShiftPathPositionsAt(paths.IndexOf(firstToChange), paths.IndexOf(secondToChange));
+				ShiftPathPositionsAt(Paths.IndexOf(firstToChange), Paths.IndexOf(secondToChange));
 			}
 		}
 
@@ -73,9 +71,9 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Paths.Count && secondIndex < Paths.Count)
 			{
-				var save = paths[firstIndex];
-				paths[firstIndex] = paths[secondIndex];
-				paths[secondIndex] = save;
+				var save = Paths[firstIndex];
+				Paths[firstIndex] = Paths[secondIndex];
+				Paths[secondIndex] = save;
 			}
 		}
 	}

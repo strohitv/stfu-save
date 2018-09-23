@@ -9,11 +9,9 @@ namespace STFU.Lib.Youtube.Automation
 {
 	public class TemplateContainer : ITemplateContainer
 	{
-		private IList<ITemplate> templates = new List<ITemplate>();
+		private IList<ITemplate> Templates { get; set; } = new List<ITemplate>();
 
-		private IList<ITemplate> Templates => templates;
-
-		public IReadOnlyCollection<ITemplate> RegisteredTemplates => new ReadOnlyCollection<ITemplate>(templates);
+		public IReadOnlyCollection<ITemplate> RegisteredTemplates => new ReadOnlyCollection<ITemplate>(Templates);
 
 		private bool IdIsRegistered(int id)
 		{
@@ -70,7 +68,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		public void UnregisterAllTemplates()
 		{
-			templates = templates.Where(t => t.Id == 0).ToList();
+			Templates = Templates.Where(t => t.Id == 0).ToList();
 		}
 
 		public void ShiftTemplatePositions(ITemplate first, ITemplate second)
@@ -82,7 +80,7 @@ namespace STFU.Lib.Youtube.Automation
 				&& (firstToChange = Templates.FirstOrDefault(t => t.Id == first.Id)) != null
 				&& (secondToChange = Templates.FirstOrDefault(t => t.Id == second.Id)) != null)
 			{
-				ShiftTemplatePositionsAt(templates.IndexOf(firstToChange), templates.IndexOf(secondToChange));
+				ShiftTemplatePositionsAt(Templates.IndexOf(firstToChange), Templates.IndexOf(secondToChange));
 			}
 		}
 
@@ -90,9 +88,9 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Templates.Count && secondIndex < Templates.Count)
 			{
-				var save = templates[firstIndex];
-				templates[firstIndex] = templates[secondIndex];
-				templates[secondIndex] = save;
+				var save = Templates[firstIndex];
+				Templates[firstIndex] = Templates[secondIndex];
+				Templates[secondIndex] = save;
 			}
 		}
 	}

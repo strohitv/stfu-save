@@ -8,9 +8,7 @@ namespace STFU.Lib.Youtube
 {
 	public class YoutubeLanguageContainer : IYoutubeLanguageContainer
 	{
-		private IList<ILanguage> languages = new List<ILanguage>();
-
-		private IList<ILanguage> Languages => languages;
+		private IList<ILanguage> Languages { get; } = new List<ILanguage>();
 
 		public IReadOnlyCollection<ILanguage> RegisteredLanguages => new ReadOnlyCollection<ILanguage>(Languages);
 

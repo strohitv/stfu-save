@@ -8,7 +8,6 @@ using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using System;
 
 namespace STFU.Lib.Youtube
 {

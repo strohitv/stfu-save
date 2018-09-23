@@ -10,14 +10,9 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class AccountPersistor
 	{
-		private string path = null;
-		public string Path { get => path; private set => path = value; }
-
-		IYoutubeAccountContainer container = null;
-		public IYoutubeAccountContainer Container { get => container; private set => container = value; }
-
-		IYoutubeAccountContainer saved = null;
-		public IYoutubeAccountContainer Saved { get => saved; private set => saved = value; }
+		public string Path { get; private set; } = null;
+		public IYoutubeAccountContainer Container { get; private set; } = null;
+		public IYoutubeAccountContainer Saved { get; private set; } = null;
 
 		private IYoutubeClientContainer clients { get; set; }
 
@@ -30,7 +25,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Load()
 		{
-			container.UnregisterAllAccounts();
+			Container.UnregisterAllAccounts();
 
 			bool worked = true;
 
@@ -60,7 +55,7 @@ namespace STFU.Lib.Youtube.Persistor
 								}
 							}
 
-							container.RegisterAccount(loaded);
+							Container.RegisterAccount(loaded);
 						}
 					}
 				}
@@ -83,7 +78,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
-			IYoutubeAccount[] accounts = container.RegisteredAccounts.ToArray();
+			IYoutubeAccount[] accounts = Container.RegisteredAccounts.ToArray();
 
 			var json = JsonConvert.SerializeObject(accounts);
 

@@ -8,9 +8,7 @@ namespace STFU.Lib.Youtube
 {
 	public class YoutubeAccountContainer : IYoutubeAccountContainer
 	{
-		IList<IYoutubeAccount> accounts = new List<IYoutubeAccount>();
-
-		IList<IYoutubeAccount> Accounts => accounts;
+		IList<IYoutubeAccount> Accounts { get; } = new List<IYoutubeAccount>();
 
 		public IReadOnlyCollection<IYoutubeAccount> RegisteredAccounts => new ReadOnlyCollection<IYoutubeAccount>(Accounts);
 
