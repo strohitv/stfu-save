@@ -36,7 +36,7 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
-			Text = $"[BETA] Strohis Toolset Für Uploads - AutoUploader v{ProductVersion}";
+			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 
 			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
 				"cKUCRQz0sE4UUmvUHW6qckbP",
