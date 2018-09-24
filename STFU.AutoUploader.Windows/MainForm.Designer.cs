@@ -50,16 +50,17 @@
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -295,10 +296,24 @@
             this.discordServerToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
             this.threadImYTFToolStripMenuItem,
-            this.strohiAufTwitterToolStripMenuItem});
+            this.strohiAufTwitterToolStripMenuItem,
+            this.downloadSeiteToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
 			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
 			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
+			// 
+			// tutorialVideoToolStripMenuItem
+			// 
+			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
+			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
+			// 
+			// discordServerToolStripMenuItem
+			// 
+			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.discordServerToolStripMenuItem.Text = "Discord-Server";
+			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
@@ -306,6 +321,12 @@
 			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
 			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
+			// 
+			// threadImYTFToolStripMenuItem
+			// 
+			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
@@ -374,24 +395,12 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
-			// tutorialVideoToolStripMenuItem
+			// downloadSeiteToolStripMenuItem
 			// 
-			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
-			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
-			// 
-			// threadImYTFToolStripMenuItem
-			// 
-			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
-			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
-			// 
-			// discordServerToolStripMenuItem
-			// 
-			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
-			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.discordServerToolStripMenuItem.Text = "Discord-Server";
-			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
+			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
+			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -449,6 +458,7 @@
 		private System.Windows.Forms.ToolStripMenuItem tutorialVideoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
 	}
 }
 

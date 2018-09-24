@@ -36,6 +36,8 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
+			Text = $"[BETA] Strohis Toolset Für Uploads - AutoUploader v{ProductVersion}";
+
 			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
 				"cKUCRQz0sE4UUmvUHW6qckbP",
 				"Strohis Toolset Für Uploads", false);
@@ -384,6 +386,11 @@ namespace STFU.AutoUploader
 		private void discordServerToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://discord.gg/pDcw6rQ");
+		}
+
+		private void downloadSeiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://drive.google.com/drive/folders/1kCRPLg-95PjbQKjEpj-HW7tjvzmZ87RI");
 		}
 	}
 }
