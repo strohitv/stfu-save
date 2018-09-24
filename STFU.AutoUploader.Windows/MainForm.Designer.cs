@@ -61,6 +61,7 @@
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -297,6 +298,7 @@
             this.threadImLPFToolStripMenuItem,
             this.threadImYTFToolStripMenuItem,
             this.strohiAufTwitterToolStripMenuItem,
+            this.toolStripSeparator1,
             this.downloadSeiteToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
 			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
@@ -402,6 +404,11 @@
 			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
 			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -459,6 +466,7 @@
 		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 	}
 }
 
