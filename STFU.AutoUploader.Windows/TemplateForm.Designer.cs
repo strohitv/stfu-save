@@ -1546,6 +1546,8 @@
 			// 
 			// openThumbnailDialog
 			// 
+			this.openThumbnailDialog.CheckFileExists = false;
+			this.openThumbnailDialog.CheckPathExists = false;
 			this.openThumbnailDialog.Filter = "Alle unterstützten Dateitypen|*.jpg;*.jpeg;*.png|JPEG-Dateien|*.jpg;*.jpeg|PNG-Da" +
     "teien|*.png";
 			this.openThumbnailDialog.Title = "Bitte wähle das entsprechende Thumbnail aus...";

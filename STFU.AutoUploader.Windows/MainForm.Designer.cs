@@ -57,6 +57,9 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -288,11 +291,14 @@
 			// hilfeToolStripMenuItem
 			// 
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tutorialVideoToolStripMenuItem,
+            this.discordServerToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
+            this.threadImYTFToolStripMenuItem,
             this.strohiAufTwitterToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
-			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.hilfeToolStripMenuItem.Text = "Hilfe";
+			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
+			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
@@ -368,6 +374,25 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
+			// tutorialVideoToolStripMenuItem
+			// 
+			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
+			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
+			// 
+			// threadImYTFToolStripMenuItem
+			// 
+			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
+			// 
+			// discordServerToolStripMenuItem
+			// 
+			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.discordServerToolStripMenuItem.Text = "Discord-Server";
+			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -378,7 +403,7 @@
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Strohis Toolset Für Uploads - AutoUploader";
+			this.Text = "[BETA] Strohis Toolset Für Uploads - AutoUploader";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
 			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.tlpSettings.ResumeLayout(false);
@@ -421,6 +446,9 @@
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImLPFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem strohiAufTwitterToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tutorialVideoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
 	}
 }
 

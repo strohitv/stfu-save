@@ -380,5 +380,10 @@ namespace STFU.AutoUploader
 		{
 			Process.Start("https://twitter.com/strohkoenig");
 		}
+
+		private void discordServerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://discord.gg/pDcw6rQ");
+		}
 	}
 }
