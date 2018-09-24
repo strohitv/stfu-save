@@ -53,13 +53,13 @@
 			this.btnSave = new System.Windows.Forms.Button();
 			this.cobSelectedTemplate = new System.Windows.Forms.ComboBox();
 			this.label4 = new System.Windows.Forms.Label();
+			this.deactivateCheckbox = new System.Windows.Forms.CheckBox();
 			this.chbRecursive = new System.Windows.Forms.CheckBox();
 			this.chbHidden = new System.Windows.Forms.CheckBox();
-			this.deactivateCheckbox = new System.Windows.Forms.CheckBox();
+			this.btnMarkAsRead = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.btnMarkAsRead = new System.Windows.Forms.Button();
 			this.chosePathTlp.SuspendLayout();
 			this.editPathGroupbox.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
@@ -130,13 +130,13 @@
 			this.lvPaths.GridLines = true;
 			this.lvPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.lvPaths.HideSelection = false;
-			this.lvPaths.Location = new System.Drawing.Point(56, 28);
+			this.lvPaths.Location = new System.Drawing.Point(67, 28);
 			this.lvPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvPaths.MultiSelect = false;
 			this.lvPaths.Name = "lvPaths";
 			this.chosePathTlp.SetRowSpan(this.lvPaths, 10);
 			this.lvPaths.ShowGroups = false;
-			this.lvPaths.Size = new System.Drawing.Size(955, 293);
+			this.lvPaths.Size = new System.Drawing.Size(944, 293);
 			this.lvPaths.TabIndex = 10;
 			this.lvPaths.UseCompatibleStateImageBehavior = false;
 			this.lvPaths.View = System.Windows.Forms.View.Details;
@@ -182,7 +182,7 @@
 			this.addPathButton.Location = new System.Drawing.Point(10, 28);
 			this.addPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addPathButton.Name = "addPathButton";
-			this.addPathButton.Size = new System.Drawing.Size(41, 41);
+			this.addPathButton.Size = new System.Drawing.Size(52, 41);
 			this.addPathButton.TabIndex = 1;
 			this.addPathButton.Text = "+";
 			this.toolTip.SetToolTip(this.addPathButton, "Fügt einen neuen Pfad hinzu");
@@ -198,7 +198,7 @@
 			this.movePathUpButton.Location = new System.Drawing.Point(10, 74);
 			this.movePathUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathUpButton.Name = "movePathUpButton";
-			this.movePathUpButton.Size = new System.Drawing.Size(41, 41);
+			this.movePathUpButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathUpButton.TabIndex = 1;
 			this.movePathUpButton.Text = "↑";
 			this.toolTip.SetToolTip(this.movePathUpButton, "Schiebt den markierten Pfad um eine Stelle nach oben");
@@ -214,7 +214,7 @@
 			this.movePathDownButton.Location = new System.Drawing.Point(10, 120);
 			this.movePathDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathDownButton.Name = "movePathDownButton";
-			this.movePathDownButton.Size = new System.Drawing.Size(41, 41);
+			this.movePathDownButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathDownButton.TabIndex = 1;
 			this.movePathDownButton.Text = "↓";
 			this.toolTip.SetToolTip(this.movePathDownButton, "Schiebt den markierten Pfad um eine Stelle nach unten");
@@ -231,7 +231,7 @@
 			this.deletePathButton.Location = new System.Drawing.Point(10, 166);
 			this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deletePathButton.Name = "deletePathButton";
-			this.deletePathButton.Size = new System.Drawing.Size(41, 41);
+			this.deletePathButton.Size = new System.Drawing.Size(52, 41);
 			this.deletePathButton.TabIndex = 1;
 			this.deletePathButton.Text = "-";
 			this.toolTip.SetToolTip(this.deletePathButton, "Löscht den markierten Pfad");
@@ -248,7 +248,7 @@
 			this.clearButton.Location = new System.Drawing.Point(10, 212);
 			this.clearButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(41, 41);
+			this.clearButton.Size = new System.Drawing.Size(52, 41);
 			this.clearButton.TabIndex = 1;
 			this.clearButton.Text = "x";
 			this.toolTip.SetToolTip(this.clearButton, "Löscht alle Pfade");
@@ -275,7 +275,7 @@
 			// 
 			this.tlpEditPaths.AutoSize = true;
 			this.tlpEditPaths.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpEditPaths.ColumnCount = 11;
+			this.tlpEditPaths.ColumnCount = 13;
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -287,18 +287,20 @@
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tlpEditPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpEditPaths.Controls.Add(this.txtbxAddPath, 3, 1);
 			this.tlpEditPaths.Controls.Add(this.label2, 1, 1);
-			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 9, 1);
+			this.tlpEditPaths.Controls.Add(this.btnSelectPath, 11, 1);
 			this.tlpEditPaths.Controls.Add(this.label3, 1, 3);
 			this.tlpEditPaths.Controls.Add(this.txtbxAddFilter, 3, 3);
 			this.tlpEditPaths.Controls.Add(this.btnCancel, 3, 7);
 			this.tlpEditPaths.Controls.Add(this.btnSave, 1, 7);
 			this.tlpEditPaths.Controls.Add(this.cobSelectedTemplate, 3, 5);
 			this.tlpEditPaths.Controls.Add(this.label4, 1, 5);
-			this.tlpEditPaths.Controls.Add(this.deactivateCheckbox, 9, 5);
-			this.tlpEditPaths.Controls.Add(this.chbRecursive, 7, 3);
-			this.tlpEditPaths.Controls.Add(this.chbHidden, 9, 3);
+			this.tlpEditPaths.Controls.Add(this.deactivateCheckbox, 11, 5);
+			this.tlpEditPaths.Controls.Add(this.chbRecursive, 9, 3);
+			this.tlpEditPaths.Controls.Add(this.chbHidden, 11, 3);
 			this.tlpEditPaths.Controls.Add(this.btnMarkAsRead, 7, 5);
 			this.tlpEditPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpEditPaths.Enabled = false;
@@ -321,7 +323,7 @@
 			// txtbxAddPath
 			// 
 			this.txtbxAddPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpEditPaths.SetColumnSpan(this.txtbxAddPath, 5);
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddPath, 7);
 			this.txtbxAddPath.Location = new System.Drawing.Point(123, 11);
 			this.txtbxAddPath.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddPath.Name = "txtbxAddPath";
@@ -365,11 +367,11 @@
 			// txtbxAddFilter
 			// 
 			this.txtbxAddFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 3);
+			this.tlpEditPaths.SetColumnSpan(this.txtbxAddFilter, 5);
 			this.txtbxAddFilter.Location = new System.Drawing.Point(123, 43);
 			this.txtbxAddFilter.Margin = new System.Windows.Forms.Padding(0);
 			this.txtbxAddFilter.Name = "txtbxAddFilter";
-			this.txtbxAddFilter.Size = new System.Drawing.Size(495, 20);
+			this.txtbxAddFilter.Size = new System.Drawing.Size(616, 20);
 			this.txtbxAddFilter.TabIndex = 15;
 			this.toolTip.SetToolTip(this.txtbxAddFilter, "Hier kannst du einstellen, nach welchen Kriterien die Videos gesucht werden solle" +
         "n.");
@@ -427,14 +429,28 @@
 			this.label4.TabIndex = 14;
 			this.label4.Text = "Template: ";
 			// 
+			// deactivateCheckbox
+			// 
+			this.deactivateCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.deactivateCheckbox.AutoSize = true;
+			this.deactivateCheckbox.Location = new System.Drawing.Point(875, 76);
+			this.deactivateCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.deactivateCheckbox.Name = "deactivateCheckbox";
+			this.deactivateCheckbox.Size = new System.Drawing.Size(112, 17);
+			this.deactivateCheckbox.TabIndex = 16;
+			this.deactivateCheckbox.Text = "Inaktiv";
+			this.toolTip.SetToolTip(this.deactivateCheckbox, "Wenn diese Option gewählt wird, wird der Pfad deaktiviert. Er wird bis zum Entfer" +
+        "nen des Hakens vom Uploader nicht mehr berücksichtigt.");
+			this.deactivateCheckbox.UseVisualStyleBackColor = true;
+			// 
 			// chbRecursive
 			// 
 			this.chbRecursive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbRecursive.AutoSize = true;
-			this.chbRecursive.Location = new System.Drawing.Point(628, 44);
+			this.chbRecursive.Location = new System.Drawing.Point(749, 44);
 			this.chbRecursive.Margin = new System.Windows.Forms.Padding(0);
 			this.chbRecursive.Name = "chbRecursive";
-			this.chbRecursive.Size = new System.Drawing.Size(237, 17);
+			this.chbRecursive.Size = new System.Drawing.Size(116, 17);
 			this.chbRecursive.TabIndex = 16;
 			this.chbRecursive.Text = "Unterverzeichnisse";
 			this.toolTip.SetToolTip(this.chbRecursive, "Wenn diese Option gewählt wird, werden alle unter dem Verzeichnis liegenden Ordne" +
@@ -455,19 +471,20 @@
 			this.toolTip.SetToolTip(this.chbHidden, "Wenn diese Option gewählt wird, werden auch versteckte Unterordner durchsucht.");
 			this.chbHidden.UseVisualStyleBackColor = true;
 			// 
-			// deactivateCheckbox
+			// btnMarkAsRead
 			// 
-			this.deactivateCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.deactivateCheckbox.AutoSize = true;
-			this.deactivateCheckbox.Location = new System.Drawing.Point(875, 76);
-			this.deactivateCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.deactivateCheckbox.Name = "deactivateCheckbox";
-			this.deactivateCheckbox.Size = new System.Drawing.Size(112, 17);
-			this.deactivateCheckbox.TabIndex = 16;
-			this.deactivateCheckbox.Text = "Inaktiv";
-			this.toolTip.SetToolTip(this.deactivateCheckbox, "Wenn diese Option gewählt wird, wird der Pfad deaktiviert. Er wird bis zum Entfer" +
-        "nen des Hakens vom Uploader nicht mehr berücksichtigt.");
-			this.deactivateCheckbox.UseVisualStyleBackColor = true;
+			this.btnMarkAsRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnMarkAsRead.AutoSize = true;
+			this.tlpEditPaths.SetColumnSpan(this.btnMarkAsRead, 3);
+			this.btnMarkAsRead.Location = new System.Drawing.Point(628, 73);
+			this.btnMarkAsRead.Margin = new System.Windows.Forms.Padding(0);
+			this.btnMarkAsRead.Name = "btnMarkAsRead";
+			this.btnMarkAsRead.Padding = new System.Windows.Forms.Padding(19, 0, 19, 0);
+			this.btnMarkAsRead.Size = new System.Drawing.Size(237, 23);
+			this.btnMarkAsRead.TabIndex = 17;
+			this.btnMarkAsRead.Text = "Alle Videos als hochgeladen markieren";
+			this.btnMarkAsRead.UseVisualStyleBackColor = true;
+			this.btnMarkAsRead.Click += new System.EventHandler(this.btnMarkAsReadClick);
 			// 
 			// label1
 			// 
@@ -492,20 +509,6 @@
 			this.toolTip.InitialDelay = 500;
 			this.toolTip.ReshowDelay = 100;
 			this.toolTip.ShowAlways = true;
-			// 
-			// btnMarkAsRead
-			// 
-			this.btnMarkAsRead.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnMarkAsRead.AutoSize = true;
-			this.btnMarkAsRead.Location = new System.Drawing.Point(628, 73);
-			this.btnMarkAsRead.Margin = new System.Windows.Forms.Padding(0);
-			this.btnMarkAsRead.Name = "btnMarkAsRead";
-			this.btnMarkAsRead.Padding = new System.Windows.Forms.Padding(19, 0, 19, 0);
-			this.btnMarkAsRead.Size = new System.Drawing.Size(237, 23);
-			this.btnMarkAsRead.TabIndex = 17;
-			this.btnMarkAsRead.Text = "Alle Videos als hochgeladen markieren";
-			this.btnMarkAsRead.UseVisualStyleBackColor = true;
-			this.btnMarkAsRead.Click += new System.EventHandler(this.btnMarkAsReadClick);
 			// 
 			// PathForm
 			// 
