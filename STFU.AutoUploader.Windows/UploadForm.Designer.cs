@@ -37,10 +37,10 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.btnStop = new System.Windows.Forms.Button();
-			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this.fileStaticLabel = new System.Windows.Forms.Label();
 			this.fileLabel = new System.Windows.Forms.Label();
 			this.statusLabel = new System.Windows.Forms.Label();
+			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this.tlpRunning.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -183,15 +183,10 @@
 			this.btnStop.UseVisualStyleBackColor = true;
 			this.btnStop.Click += new System.EventHandler(this.btnStopClick);
 			// 
-			// refreshTimer
-			// 
-			this.refreshTimer.Enabled = true;
-			this.refreshTimer.Interval = 10;
-			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
-			// 
 			// fileStaticLabel
 			// 
-			this.fileStaticLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.fileStaticLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.fileStaticLabel.AutoSize = true;
 			this.fileStaticLabel.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.fileStaticLabel.Location = new System.Drawing.Point(10, 10);
@@ -226,17 +221,23 @@
 			this.statusLabel.Size = new System.Drawing.Size(530, 18);
 			this.statusLabel.TabIndex = 0;
 			// 
+			// refreshTimer
+			// 
+			this.refreshTimer.Enabled = true;
+			this.refreshTimer.Interval = 10;
+			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
+			// 
 			// UploadForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(648, 167);
-			this.ControlBox = false;
 			this.Controls.Add(this.tlpRunning);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "UploadForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Lade Dateien hoch...";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UploadFormFormClosing);
 			this.Load += new System.EventHandler(this.UploadFormLoad);
 			this.tlpRunning.ResumeLayout(false);
 			this.tlpRunning.PerformLayout();
