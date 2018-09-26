@@ -8,6 +8,8 @@ using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System.IO;
+using System.Threading;
 
 namespace STFU.Lib.Youtube
 {
@@ -185,12 +187,31 @@ namespace STFU.Lib.Youtube
 			{
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists);
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
-				
-				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
-				NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-				jobUploader.UploadAsync();
 
-				runningJobUploaders.Add(jobUploader);
+				bool start = false;
+				while (!start && nextJob.Video.File.Exists)
+				{
+					try
+					{
+						using (StreamWriter writer = new StreamWriter(nextJob.Video.File.FullName, true))
+						{
+							start = true;
+						}
+					}
+					catch (System.Exception)
+					{
+						Thread.Sleep(500);
+					}
+				}
+
+				if (nextJob.Video.File.Exists)
+				{
+					var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
+					NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
+					jobUploader.UploadAsync();
+
+					runningJobUploaders.Add(jobUploader);
+				}
 			}
 
 			if (State != UploaderState.CancelPending)
