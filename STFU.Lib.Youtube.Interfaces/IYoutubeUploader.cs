@@ -10,6 +10,11 @@ namespace STFU.Lib.Youtube.Interfaces
 	public interface IYoutubeUploader: INotifyPropertyChanged
 	{
 		/// <summary>
+		/// Gets or sets if the uploader should remove jobs when they are completed
+		/// </summary>
+		bool RemoveCompletedJobs { get; set; }
+
+		/// <summary>
 		/// Gets or sets if the uploader should stop after it completed the last upload in queue
 		/// </summary>
 		bool StopAfterCompleting { get; set; }

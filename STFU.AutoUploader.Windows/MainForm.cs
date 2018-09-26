@@ -181,6 +181,7 @@ namespace STFU.AutoUploader
 				var account = accountContainer.RegisteredAccounts.First();
 				var uploader = new YoutubeUploader();
 				uploader.StopAfterCompleting = false;
+				uploader.RemoveCompletedJobs = true;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
 				autoUploader.ProcessContainer = processContainer;

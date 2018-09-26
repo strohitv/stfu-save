@@ -22,6 +22,8 @@ namespace STFU.Lib.Youtube
 
 		private IList<YoutubeJobUploader> runningJobUploaders = new List<YoutubeJobUploader>();
 
+		public bool RemoveCompletedJobs { get; set; }
+
 		/// <see cref="IYoutubeUploader.MaxSimultaneousUploads"/>
 		public int MaxSimultaneousUploads
 		{
@@ -248,6 +250,11 @@ namespace STFU.Lib.Youtube
 			{
 				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);
 				runningJobUploaders.Remove(jobUploader);
+
+				if (RemoveCompletedJobs)
+				{
+					RemoveFromQueue(job);
+				}
 
 				StartJobUploaders();
 			}
