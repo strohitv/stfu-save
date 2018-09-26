@@ -7,8 +7,8 @@
     <ProjectGuid>{E78EE90C-15E6-49C3-A166-5EFC933E7F21}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>STFU.AutoUploader.Multiplatform</RootNamespace>
-    <AssemblyName>STFU.AutoUploader.Multiplatform</AssemblyName>
+    <RootNamespace>STFU.AutoUploader</RootNamespace>
+    <AssemblyName>STFU.AutoUploader</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -175,6 +175,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">

@@ -276,7 +276,7 @@ namespace STFU.AutoUploader
 			}
 
 			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsolutePath);
+			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsoluteUri);
 			p.Start();
 		}
 
