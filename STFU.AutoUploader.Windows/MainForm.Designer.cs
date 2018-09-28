@@ -55,13 +55,13 @@
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -309,6 +309,7 @@
 			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
 			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
+			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
@@ -329,6 +330,7 @@
 			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
 			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
+			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
@@ -336,6 +338,18 @@
 			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
 			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// downloadSeiteToolStripMenuItem
+			// 
+			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
+			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
 			// lblFinishAction
 			// 
@@ -396,18 +410,6 @@
 			// 
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
-			// 
-			// downloadSeiteToolStripMenuItem
-			// 
-			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
-			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
-			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
 			// 
 			// MainForm
 			// 
