@@ -8,9 +8,7 @@ namespace STFU.Lib.Youtube
 {
 	public class YoutubeClientContainer : IYoutubeClientContainer
 	{
-		private IList<IYoutubeClient> clients = new List<IYoutubeClient>();
-
-		private IList<IYoutubeClient> Clients => clients;
+		private IList<IYoutubeClient> Clients { get; } = new List<IYoutubeClient>();
 
 		public IReadOnlyCollection<IYoutubeClient> RegisteredClients => new ReadOnlyCollection<IYoutubeClient>(Clients);
 

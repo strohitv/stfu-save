@@ -37,10 +37,10 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.btnStop = new System.Windows.Forms.Button();
-			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this.fileStaticLabel = new System.Windows.Forms.Label();
 			this.fileLabel = new System.Windows.Forms.Label();
 			this.statusLabel = new System.Windows.Forms.Label();
+			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
 			this.tlpRunning.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -83,7 +83,7 @@
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.Size = new System.Drawing.Size(648, 167);
+			this.tlpRunning.Size = new System.Drawing.Size(648, 175);
 			this.tlpRunning.TabIndex = 2;
 			// 
 			// statusStaticLabel
@@ -103,7 +103,7 @@
 			// 
 			this.prgbarProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tlpRunning.SetColumnSpan(this.prgbarProgress, 7);
-			this.prgbarProgress.Location = new System.Drawing.Point(10, 99);
+			this.prgbarProgress.Location = new System.Drawing.Point(10, 107);
 			this.prgbarProgress.Margin = new System.Windows.Forms.Padding(0);
 			this.prgbarProgress.MarqueeAnimationSpeed = 10;
 			this.prgbarProgress.Maximum = 10000;
@@ -115,7 +115,7 @@
 			// 
 			this.finishActionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.finishActionLabel.AutoSize = true;
-			this.finishActionLabel.Location = new System.Drawing.Point(10, 137);
+			this.finishActionLabel.Location = new System.Drawing.Point(10, 145);
 			this.finishActionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.finishActionLabel.Name = "finishActionLabel";
 			this.finishActionLabel.Size = new System.Drawing.Size(88, 13);
@@ -132,7 +132,7 @@
             "Zurück zum Hauptmenü",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(108, 133);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(108, 141);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
 			this.cmbbxFinishAction.Size = new System.Drawing.Size(242, 21);
@@ -144,7 +144,7 @@
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.AutoSize = true;
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(360, 135);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(360, 143);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -159,7 +159,7 @@
 			this.btnChoseProcs.AutoSize = true;
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(520, 130);
+			this.btnChoseProcs.Location = new System.Drawing.Point(520, 138);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -174,7 +174,7 @@
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStop.AutoSize = true;
 			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStop.Location = new System.Drawing.Point(566, 97);
+			this.btnStop.Location = new System.Drawing.Point(566, 105);
 			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(72, 23);
@@ -183,15 +183,10 @@
 			this.btnStop.UseVisualStyleBackColor = true;
 			this.btnStop.Click += new System.EventHandler(this.btnStopClick);
 			// 
-			// refreshTimer
-			// 
-			this.refreshTimer.Enabled = true;
-			this.refreshTimer.Interval = 10;
-			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
-			// 
 			// fileStaticLabel
 			// 
-			this.fileStaticLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.fileStaticLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.fileStaticLabel.AutoSize = true;
 			this.fileStaticLabel.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.fileStaticLabel.Location = new System.Drawing.Point(10, 10);
@@ -226,17 +221,23 @@
 			this.statusLabel.Size = new System.Drawing.Size(530, 18);
 			this.statusLabel.TabIndex = 0;
 			// 
+			// refreshTimer
+			// 
+			this.refreshTimer.Enabled = true;
+			this.refreshTimer.Interval = 10;
+			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimerTick);
+			// 
 			// UploadForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(648, 167);
-			this.ControlBox = false;
+			this.ClientSize = new System.Drawing.Size(648, 175);
 			this.Controls.Add(this.tlpRunning);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "UploadForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Lade Dateien hoch...";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UploadFormFormClosing);
 			this.Load += new System.EventHandler(this.UploadFormLoad);
 			this.tlpRunning.ResumeLayout(false);
 			this.tlpRunning.PerformLayout();

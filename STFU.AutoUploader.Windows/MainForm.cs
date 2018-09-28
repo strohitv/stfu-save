@@ -36,6 +36,8 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
+			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
+
 			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
 				"cKUCRQz0sE4UUmvUHW6qckbP",
 				"Strohis Toolset Für Uploads", false);
@@ -162,9 +164,9 @@ namespace STFU.AutoUploader
 				return;
 			}
 
-			if (pathContainer.RegisteredPaths.Count == 0)
+			if (pathContainer.ActivePaths.Count == 0)
 			{
-				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -179,6 +181,7 @@ namespace STFU.AutoUploader
 				var account = accountContainer.RegisteredAccounts.First();
 				var uploader = new YoutubeUploader();
 				uploader.StopAfterCompleting = false;
+				uploader.RemoveCompletedJobs = true;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
 				autoUploader.ProcessContainer = processContainer;
@@ -274,7 +277,7 @@ namespace STFU.AutoUploader
 			}
 
 			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsolutePath);
+			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsoluteUri);
 			p.Start();
 		}
 
@@ -379,6 +382,26 @@ namespace STFU.AutoUploader
 		private void strohiAufTwitterToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://twitter.com/strohkoenig");
+		}
+
+		private void discordServerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://discord.gg/pDcw6rQ");
+		}
+
+		private void downloadSeiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://drive.google.com/drive/folders/1kCRPLg-95PjbQKjEpj-HW7tjvzmZ87RI");
+		}
+
+		private void tutorialVideoToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://www.youtube.com/watch?v=XjYvy36BrNo");
+		}
+
+		private void threadImYTFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://ytforum.de/index.php/Thread/19543-BETA-Strohis-Toolset-Für-Uploads-v0-1-1-Videos-automatisch-hochladen/");
 		}
 	}
 }

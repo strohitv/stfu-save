@@ -2,8 +2,11 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Internal;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -11,11 +14,10 @@ namespace STFU.Lib.Youtube.Automation
 	{
 		public PathContainer() { }
 
-		private IList<IPath> paths = new List<IPath>();
+		private IList<IPath> Paths { get; } = new List<IPath>();
 
-		private IList<IPath> Paths => paths;
-
-		public IReadOnlyCollection<IPath> RegisteredPaths => new ReadOnlyCollection<IPath>(paths);
+		public IReadOnlyCollection<IPath> RegisteredPaths => new ReadOnlyCollection<IPath>(Paths);
+		public IReadOnlyCollection<IPath> ActivePaths => new ReadOnlyCollection<IPath>(Paths.Where(p => !p.Inactive).ToList());
 
 		private bool PathIsAlreadyRegistered(IPath path)
 		{
@@ -64,7 +66,7 @@ namespace STFU.Lib.Youtube.Automation
 				&& (firstToChange = Paths.FirstOrDefault(p => p == first)) != null
 				&& (secondToChange = Paths.FirstOrDefault(p => p == second)) != null)
 			{
-				ShiftPathPositionsAt(paths.IndexOf(firstToChange), paths.IndexOf(secondToChange));
+				ShiftPathPositionsAt(Paths.IndexOf(firstToChange), Paths.IndexOf(secondToChange));
 			}
 		}
 
@@ -72,10 +74,31 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Paths.Count && secondIndex < Paths.Count)
 			{
-				var save = paths[firstIndex];
-				paths[firstIndex] = paths[secondIndex];
-				paths[secondIndex] = save;
+				var save = Paths[firstIndex];
+				Paths[firstIndex] = Paths[secondIndex];
+				Paths[secondIndex] = save;
 			}
+		}
+
+		public void MarkAllFilesAsRead(IPath path)
+		{
+			FileSearcher searcher = new FileSearcher();
+			searcher.FileFound += SearcherFileFound;
+
+			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden);
+
+			while (searcher.State != RunningState.NotRunning)
+			{
+				Thread.Sleep(5);
+			}
+		}
+
+		private void SearcherFileFound(FileSystemEventArgs e)
+		{
+			var movedPath = Path.GetDirectoryName(e.FullPath)
+				   + "\\_" + Path.GetFileNameWithoutExtension(e.FullPath).Remove(0, 1)
+				   + Path.GetExtension(e.FullPath);
+			File.Move(e.FullPath, movedPath);
 		}
 	}
 }

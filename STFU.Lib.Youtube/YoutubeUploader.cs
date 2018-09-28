@@ -8,7 +8,8 @@ using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using System;
+using System.IO;
+using System.Threading;
 
 namespace STFU.Lib.Youtube
 {
@@ -20,6 +21,8 @@ namespace STFU.Lib.Youtube
 		private bool stopAfterCompleting = true;
 
 		private IList<YoutubeJobUploader> runningJobUploaders = new List<YoutubeJobUploader>();
+
+		public bool RemoveCompletedJobs { get; set; }
 
 		/// <see cref="IYoutubeUploader.MaxSimultaneousUploads"/>
 		public int MaxSimultaneousUploads
@@ -174,7 +177,6 @@ namespace STFU.Lib.Youtube
 		{
 			if (State == UploaderState.NotRunning)
 			{
-				//State = UploaderState.Waiting;
 				StartJobUploaders();
 			}
 		}
@@ -183,18 +185,35 @@ namespace STFU.Lib.Youtube
 		{
 			while (State != UploaderState.CancelPending
 				&& runningJobUploaders.Count < MaxSimultaneousUploads
-				&& Queue.Any(job => job.State == UploadState.NotStarted))
+				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists))
 			{
-				var nextJob = Queue.First(job => job.State == UploadState.NotStarted);
+				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists);
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
-				//State = UploaderState.Uploading;
+				bool start = false;
+				while (!start && nextJob.Video.File.Exists)
+				{
+					try
+					{
+						using (StreamWriter writer = new StreamWriter(nextJob.Video.File.FullName, true))
+						{
+							start = true;
+						}
+					}
+					catch (System.Exception)
+					{
+						Thread.Sleep(500);
+					}
+				}
 
-				var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
-				NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-				jobUploader.UploadAsync();
+				if (nextJob.Video.File.Exists)
+				{
+					var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
+					NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
+					jobUploader.UploadAsync();
 
-				runningJobUploaders.Add(jobUploader);
+					runningJobUploaders.Add(jobUploader);
+				}
 			}
 
 			if (State != UploaderState.CancelPending)
@@ -231,6 +250,11 @@ namespace STFU.Lib.Youtube
 			{
 				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);
 				runningJobUploaders.Remove(jobUploader);
+
+				if (RemoveCompletedJobs)
+				{
+					RemoveFromQueue(job);
+				}
 
 				StartJobUploaders();
 			}

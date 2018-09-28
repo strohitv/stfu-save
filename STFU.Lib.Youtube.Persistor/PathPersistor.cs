@@ -10,14 +10,9 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class PathPersistor
 	{
-		private string path = null;
-		public string Path { get => path; private set => path = value; }
-
-		IPathContainer container = null;
-		public IPathContainer Container { get => container; private set => container = value; }
-
-		IPathContainer saved = null;
-		public IPathContainer Saved { get => saved; private set => saved = value; }
+		public string Path { get; private set; } = null;
+		public IPathContainer Container { get; private set; } = null;
+		public IPathContainer Saved { get; private set; } = null;
 
 		public PathPersistor(IPathContainer container, string path)
 		{
@@ -27,7 +22,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Load()
 		{
-			container.UnregisterAllPaths();
+			Container.UnregisterAllPaths();
 
 			bool worked = true;
 
@@ -43,7 +38,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 						foreach (var loaded in paths)
 						{
-							container.RegisterPath(loaded);
+							Container.RegisterPath(loaded);
 						}
 					}
 				}
@@ -66,7 +61,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
-			IPath[] paths = container.RegisteredPaths.ToArray();
+			IPath[] paths = Container.RegisteredPaths.ToArray();
 
 			var json = JsonConvert.SerializeObject(paths);
 

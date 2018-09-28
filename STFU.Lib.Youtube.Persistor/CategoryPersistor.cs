@@ -10,14 +10,9 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class CategoryPersistor
 	{
-		private string path = null;
-		public string Path { get => path; private set => path = value; }
-
-		IYoutubeCategoryContainer container = null;
-		public IYoutubeCategoryContainer Container { get => container; private set => container = value; }
-
-		IYoutubeCategoryContainer saved = null;
-		public IYoutubeCategoryContainer Saved { get => saved; private set => saved = value; }
+		public string Path { get; private set; } = null;
+		public IYoutubeCategoryContainer Container { get; private set; } = null;
+		public IYoutubeCategoryContainer Saved { get; private set; } = null;
 
 		public CategoryPersistor(IYoutubeCategoryContainer container, string path)
 		{
@@ -27,7 +22,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Load()
 		{
-			container.UnregisterAllCategories();
+			Container.UnregisterAllCategories();
 
 			bool worked = true;
 
@@ -43,7 +38,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 						foreach (var loaded in categories)
 						{
-							container.RegisterCategory(loaded);
+							Container.RegisterCategory(loaded);
 						}
 					}
 				}
@@ -66,7 +61,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
-			ICategory[] categories = container.RegisteredCategories.ToArray();
+			ICategory[] categories = Container.RegisteredCategories.ToArray();
 
 			var json = JsonConvert.SerializeObject(categories);
 

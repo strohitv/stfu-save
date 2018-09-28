@@ -219,5 +219,14 @@ namespace STFU.AutoUploader
 		{
 			ChoseProcesses();
 		}
+
+		private void UploadFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (!ended)
+			{
+				e.Cancel = true;
+				btnStopClick(this, e);
+			}
+		}
 	}
 }

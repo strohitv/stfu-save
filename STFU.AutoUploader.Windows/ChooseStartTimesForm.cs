@@ -21,7 +21,7 @@ namespace STFU.AutoUploader
 			this.pathContainer = pathContainer;
 			this.templateContainer = templateContainer;
 
-			foreach (var path in pathContainer.RegisteredPaths)
+			foreach (var path in pathContainer.ActivePaths)
 			{
 				publishSettings.Add(new ObservationConfiguration(path, templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == path.SelectedTemplateId)));
 			}

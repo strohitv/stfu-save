@@ -8,9 +8,7 @@ namespace STFU.Lib.Youtube
 {
 	public class YoutubeCategoryContainer: IYoutubeCategoryContainer
 	{
-		private IList<ICategory> categories = new List<ICategory>();
-
-		private IList<ICategory> Categories => categories;
+		private IList<ICategory> Categories { get; } = new List<ICategory>();
 
 		public IReadOnlyCollection<ICategory> RegisteredCategories => new ReadOnlyCollection<ICategory>(Categories);
 

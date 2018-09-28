@@ -42,10 +42,6 @@
   <ItemGroup>
     <Compile Include="AutomationUploader.cs" />
     <Compile Include="Internal\FileSearcher.cs" />
-    <Compile Include="Internal\Parser\LicenseParser.cs" />
-    <Compile Include="Internal\Parser\PathParser.cs" />
-    <Compile Include="Internal\Parser\PrivacyStatusParser.cs" />
-    <Compile Include="Internal\Parser\TemplateParser.cs" />
     <Compile Include="Internal\Watcher\DirectoryWatcher.cs" />
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />

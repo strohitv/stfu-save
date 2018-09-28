@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Net;
 using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Interfaces.Model;

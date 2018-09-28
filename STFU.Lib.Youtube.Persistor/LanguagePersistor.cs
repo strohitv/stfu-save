@@ -10,14 +10,9 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class LanguagePersistor
 	{
-		private string path = null;
-		public string Path { get => path; private set => path = value; }
-
-		IYoutubeLanguageContainer container = null;
-		public IYoutubeLanguageContainer Container { get => container; private set => container = value; }
-
-		IYoutubeLanguageContainer saved = null;
-		public IYoutubeLanguageContainer Saved { get => saved; private set => saved = value; }
+		public string Path { get; private set; } = null;
+		public IYoutubeLanguageContainer Container { get; private set; } = null;
+		public IYoutubeLanguageContainer Saved { get; private set; } = null;
 
 		public LanguagePersistor(IYoutubeLanguageContainer container, string path)
 		{
@@ -27,7 +22,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Load()
 		{
-			container.UnregisterAllLanguages();
+			Container.UnregisterAllLanguages();
 
 			bool worked = true;
 
@@ -43,7 +38,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 						foreach (var loaded in languages)
 						{
-							container.RegisterLanguage(loaded);
+							Container.RegisterLanguage(loaded);
 						}
 					}
 				}
@@ -66,7 +61,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
-			ILanguage[] languages = container.RegisteredLanguages.ToArray();
+			ILanguage[] languages = Container.RegisteredLanguages.ToArray();
 
 			var json = JsonConvert.SerializeObject(languages);
 

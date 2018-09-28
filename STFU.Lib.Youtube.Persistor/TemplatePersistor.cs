@@ -13,14 +13,9 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class TemplatePersistor
 	{
-		private string path = null;
-		public string Path { get => path; private set => path = value; }
-
-		ITemplateContainer container = null;
-		public ITemplateContainer Container { get => container; private set => container = value; }
-
-		ITemplateContainer saved = null;
-		public ITemplateContainer Saved { get => saved; private set => saved = value; }
+		public string Path { get; private set; } = null;
+		public ITemplateContainer Container { get; private set; } = null;
+		public ITemplateContainer Saved { get; private set; } = null;
 
 		public TemplatePersistor(ITemplateContainer container, string path)
 		{
@@ -30,7 +25,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Load()
 		{
-			container.UnregisterAllTemplates();
+			Container.UnregisterAllTemplates();
 
 			bool worked = true;
 
@@ -46,7 +41,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 						foreach (var loaded in templates)
 						{
-							container.RegisterTemplate(loaded);
+							Container.RegisterTemplate(loaded);
 						}
 					}
 				}
@@ -70,7 +65,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		private void EnsureStandardTemplateExists()
 		{
-			if (!container.RegisteredTemplates.Any(t => t.Id == 0))
+			if (!Container.RegisteredTemplates.Any(t => t.Id == 0))
 			{
 				var language = new YoutubeLanguage() {
 					Hl = "de",
@@ -81,13 +76,13 @@ namespace STFU.Lib.Youtube.Persistor
 				var category = new YoutubeCategory(20, "Gaming");
 
 				var standardTemplate = new Template(0, "Standard", language, category, new List<IPublishTime>(), new Dictionary<string, IVariable>());
-				container.RegisterTemplate(standardTemplate);
+				Container.RegisterTemplate(standardTemplate);
 			}
 		}
 
 		public bool Save()
 		{
-			ITemplate[] templates = container.RegisteredTemplates.ToArray();
+			ITemplate[] templates = Container.RegisteredTemplates.ToArray();
 
 			var json = JsonConvert.SerializeObject(templates);
 

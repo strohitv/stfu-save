@@ -50,8 +50,13 @@
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
@@ -288,11 +293,30 @@
 			// hilfeToolStripMenuItem
 			// 
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tutorialVideoToolStripMenuItem,
+            this.discordServerToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
-            this.strohiAufTwitterToolStripMenuItem});
+            this.threadImYTFToolStripMenuItem,
+            this.strohiAufTwitterToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.downloadSeiteToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
-			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.hilfeToolStripMenuItem.Text = "Hilfe";
+			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
+			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
+			// 
+			// tutorialVideoToolStripMenuItem
+			// 
+			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
+			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
+			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
+			// 
+			// discordServerToolStripMenuItem
+			// 
+			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.discordServerToolStripMenuItem.Text = "Discord-Server";
+			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
@@ -301,12 +325,31 @@
 			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
 			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
 			// 
+			// threadImYTFToolStripMenuItem
+			// 
+			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
+			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
+			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
 			this.strohiAufTwitterToolStripMenuItem.Name = "strohiAufTwitterToolStripMenuItem";
 			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
 			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// downloadSeiteToolStripMenuItem
+			// 
+			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
+			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
 			// lblFinishAction
 			// 
@@ -378,7 +421,7 @@
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Strohis Toolset Für Uploads - AutoUploader";
+			this.Text = "[BETA] Strohis Toolset Für Uploads - AutoUploader";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
 			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.tlpSettings.ResumeLayout(false);
@@ -421,6 +464,11 @@
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImLPFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem strohiAufTwitterToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tutorialVideoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 	}
 }
 
