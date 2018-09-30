@@ -1,4 +1,7 @@
-﻿namespace STFU.AutoUploader
+﻿using System.Windows.Forms;
+using FastColoredTextBoxNS;
+
+namespace STFU.AutoUploader
 {
 	partial class TemplateForm
 	{
@@ -50,9 +53,9 @@
 			this.templateTitleLabel = new System.Windows.Forms.Label();
 			this.templateDescriptionLabel = new System.Windows.Forms.Label();
 			this.templateTagsLabel = new System.Windows.Forms.Label();
-			this.templateTitleTextbox = new System.Windows.Forms.TextBox();
-			this.templateDescriptionTextbox = new System.Windows.Forms.TextBox();
-			this.templateTagsTextbox = new System.Windows.Forms.TextBox();
+			this.templateTitleTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.templateDescriptionTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.templateTagsTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.maxTitleLengthLabel = new System.Windows.Forms.Label();
 			this.maxDescriptionLengthLabel = new System.Windows.Forms.Label();
 			this.maxTagsLengthLabel = new System.Windows.Forms.Label();
@@ -91,7 +94,7 @@
 			this.defaultLanguageCombobox = new System.Windows.Forms.ComboBox();
 			this.licenseCombobox = new System.Windows.Forms.ComboBox();
 			this.thumbnailLabel = new System.Windows.Forms.Label();
-			this.thumbnailTextbox = new System.Windows.Forms.TextBox();
+			this.thumbnailTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.chooseThumbnailPathButton = new System.Windows.Forms.Button();
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
@@ -122,12 +125,16 @@
 			this.templateValuesTabControl.SuspendLayout();
 			this.commonTabPage.SuspendLayout();
 			this.templateCommonTableLayoutPannel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.templateTitleTextbox)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.templateDescriptionTextbox)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.templateTagsTextbox)).BeginInit();
 			this.publishTabPage.SuspendLayout();
 			this.publishTableLayoutPanel.SuspendLayout();
 			this.publishGroupbox.SuspendLayout();
 			this.publishPanel.SuspendLayout();
 			this.otherTabPage.SuspendLayout();
 			this.otherTlp.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).BeginInit();
 			this.variablesTabpage.SuspendLayout();
 			this.globalVarsTlp.SuspendLayout();
 			this.editVarGroupbox.SuspendLayout();
@@ -352,6 +359,7 @@
 			// templateNameTextbox
 			// 
 			this.templateNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.templateNameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.editTemplateTableLayoutPanel.SetColumnSpan(this.templateNameTextbox, 4);
 			this.templateNameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.templateNameTextbox.Location = new System.Drawing.Point(61, 33);
@@ -496,41 +504,120 @@
 			// templateTitleTextbox
 			// 
 			this.templateTitleTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.templateTitleTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.templateTitleTextbox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.templateTitleTextbox.AutoScrollMinSize = new System.Drawing.Size(2, 18);
+			this.templateTitleTextbox.BackBrush = null;
+			this.templateTitleTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.templateTitleTextbox.CharHeight = 18;
+			this.templateTitleTextbox.CharWidth = 10;
+			this.templateTitleTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.templateTitleTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.templateTitleTextbox.Font = new System.Drawing.Font("Courier New", 12F);
+			this.templateTitleTextbox.IsReplaceMode = false;
 			this.templateTitleTextbox.Location = new System.Drawing.Point(48, 7);
 			this.templateTitleTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.templateTitleTextbox.Multiline = false;
 			this.templateTitleTextbox.Name = "templateTitleTextbox";
+			this.templateTitleTextbox.Paddings = new System.Windows.Forms.Padding(0);
+			this.templateTitleTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.templateTitleTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTitleTextbox.ServiceColors")));
+			this.templateTitleTextbox.ShowLineNumbers = false;
+			this.templateTitleTextbox.ShowScrollBars = false;
 			this.templateTitleTextbox.Size = new System.Drawing.Size(845, 26);
 			this.templateTitleTextbox.TabIndex = 3;
-			this.templateTitleTextbox.TextChanged += new System.EventHandler(this.templateTitleTextboxTextChanged);
+			this.templateTitleTextbox.WordWrapIndent = 4;
+			this.templateTitleTextbox.Zoom = 100;
+			this.templateTitleTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateTitleTextboxTextChanged);
 			// 
 			// templateDescriptionTextbox
 			// 
+			this.templateDescriptionTextbox.AutoCompleteBrackets = true;
+			this.templateDescriptionTextbox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.templateDescriptionTextbox.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+			this.templateDescriptionTextbox.BackBrush = null;
+			this.templateDescriptionTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.templateDescriptionTextbox.CharHeight = 18;
+			this.templateDescriptionTextbox.CharWidth = 10;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateDescriptionTextbox, 3);
+			this.templateDescriptionTextbox.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.templateDescriptionTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.templateDescriptionTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.templateDescriptionTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.templateDescriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.templateDescriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F);
+			this.templateDescriptionTextbox.IsReplaceMode = false;
+			this.templateDescriptionTextbox.Language = FastColoredTextBoxNS.Language.CSharp;
 			this.templateDescriptionTextbox.Location = new System.Drawing.Point(5, 74);
 			this.templateDescriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.templateDescriptionTextbox.Multiline = true;
 			this.templateDescriptionTextbox.Name = "templateDescriptionTextbox";
-			this.templateDescriptionTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.templateDescriptionTextbox.Paddings = new System.Windows.Forms.Padding(0);
+			this.templateDescriptionTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.templateDescriptionTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateDescriptionTextbox.ServiceColors")));
 			this.templateDescriptionTextbox.Size = new System.Drawing.Size(888, 345);
 			this.templateDescriptionTextbox.TabIndex = 4;
-			this.templateDescriptionTextbox.TextChanged += new System.EventHandler(this.templateDescriptionTextboxTextChanged);
+			this.templateDescriptionTextbox.WordWrap = true;
+			this.templateDescriptionTextbox.WordWrapIndent = 6;
+			this.templateDescriptionTextbox.Zoom = 100;
+			this.templateDescriptionTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateDescriptionTextboxTextChanged);
 			// 
 			// templateTagsTextbox
 			// 
+			this.templateTagsTextbox.AutoCompleteBrackets = true;
+			this.templateTagsTextbox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.templateTagsTextbox.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+			this.templateTagsTextbox.BackBrush = null;
+			this.templateTagsTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.templateTagsTextbox.CharHeight = 18;
+			this.templateTagsTextbox.CharWidth = 10;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsTextbox, 3);
+			this.templateTagsTextbox.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.templateTagsTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.templateTagsTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.templateTagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F);
+			this.templateTagsTextbox.IsReplaceMode = false;
+			this.templateTagsTextbox.Language = FastColoredTextBoxNS.Language.CSharp;
 			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 460);
 			this.templateTagsTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.templateTagsTextbox.Multiline = true;
 			this.templateTagsTextbox.Name = "templateTagsTextbox";
-			this.templateTagsTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.templateTagsTextbox.Paddings = new System.Windows.Forms.Padding(0);
+			this.templateTagsTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.templateTagsTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTagsTextbox.ServiceColors")));
 			this.templateTagsTextbox.Size = new System.Drawing.Size(888, 138);
 			this.templateTagsTextbox.TabIndex = 5;
-			this.templateTagsTextbox.TextChanged += new System.EventHandler(this.templateTagsTextboxTextChanged);
+			this.templateTagsTextbox.WordWrap = true;
+			this.templateTagsTextbox.WordWrapIndent = 6;
+			this.templateTagsTextbox.Zoom = 100;
+			this.templateTagsTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateTagsTextboxTextChanged);
 			// 
 			// maxTitleLengthLabel
 			// 
@@ -1181,13 +1268,39 @@
 			// thumbnailTextbox
 			// 
 			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.thumbnailTextbox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.thumbnailTextbox.AutoScrollMinSize = new System.Drawing.Size(2, 18);
+			this.thumbnailTextbox.BackBrush = null;
+			this.thumbnailTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.thumbnailTextbox.CharHeight = 18;
+			this.thumbnailTextbox.CharWidth = 10;
+			this.thumbnailTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.thumbnailTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F);
+			this.thumbnailTextbox.IsReplaceMode = false;
 			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.thumbnailTextbox.Multiline = false;
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
+			this.thumbnailTextbox.Paddings = new System.Windows.Forms.Padding(0);
+			this.thumbnailTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.thumbnailTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("thumbnailTextbox.ServiceColors")));
+			this.thumbnailTextbox.ShowLineNumbers = false;
+			this.thumbnailTextbox.ShowScrollBars = false;
 			this.thumbnailTextbox.Size = new System.Drawing.Size(683, 26);
 			this.thumbnailTextbox.TabIndex = 9;
-			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextboxTextChanged);
+			this.thumbnailTextbox.Zoom = 100;
+			this.thumbnailTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.thumbnailTextboxTextChanged);
 			// 
 			// chooseThumbnailPathButton
 			// 
@@ -1465,6 +1578,7 @@
 			// varNameTextbox
 			// 
 			this.varNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varNameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.varNameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.varNameTextbox.Location = new System.Drawing.Point(100, 7);
 			this.varNameTextbox.Margin = new System.Windows.Forms.Padding(0);
@@ -1475,6 +1589,7 @@
 			// varContentTextbox
 			// 
 			this.varContentTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.varContentTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.varContentTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.varContentTextbox.Location = new System.Drawing.Point(100, 43);
 			this.varContentTextbox.Margin = new System.Windows.Forms.Padding(0);
@@ -1572,6 +1687,9 @@
 			this.commonTabPage.ResumeLayout(false);
 			this.templateCommonTableLayoutPannel.ResumeLayout(false);
 			this.templateCommonTableLayoutPannel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.templateTitleTextbox)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.templateDescriptionTextbox)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.templateTagsTextbox)).EndInit();
 			this.publishTabPage.ResumeLayout(false);
 			this.publishTableLayoutPanel.ResumeLayout(false);
 			this.publishTableLayoutPanel.PerformLayout();
@@ -1582,6 +1700,7 @@
 			this.otherTabPage.ResumeLayout(false);
 			this.otherTlp.ResumeLayout(false);
 			this.otherTlp.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).EndInit();
 			this.variablesTabpage.ResumeLayout(false);
 			this.globalVarsTlp.ResumeLayout(false);
 			this.globalVarsTlp.PerformLayout();
@@ -1622,9 +1741,9 @@
 		private System.Windows.Forms.Label templateTitleLabel;
 		private System.Windows.Forms.Label templateDescriptionLabel;
 		private System.Windows.Forms.Label templateTagsLabel;
-		private System.Windows.Forms.TextBox templateTitleTextbox;
-		private System.Windows.Forms.TextBox templateDescriptionTextbox;
-		private System.Windows.Forms.TextBox templateTagsTextbox;
+		private FastColoredTextBoxNS.FastColoredTextBox templateTitleTextbox;
+		private FastColoredTextBox templateDescriptionTextbox;
+		private FastColoredTextBoxNS.FastColoredTextBox templateTagsTextbox;
 		private System.Windows.Forms.TableLayoutPanel publishTableLayoutPanel;
 		private System.Windows.Forms.ListView timesListView;
 		private System.Windows.Forms.ColumnHeader weekdayColumnHeader;
@@ -1662,7 +1781,7 @@
 		private System.Windows.Forms.ComboBox defaultLanguageCombobox;
 		private System.Windows.Forms.ComboBox licenseCombobox;
 		private System.Windows.Forms.Label thumbnailLabel;
-		private System.Windows.Forms.TextBox thumbnailTextbox;
+		private FastColoredTextBoxNS.FastColoredTextBox thumbnailTextbox;
 		private System.Windows.Forms.Button chooseThumbnailPathButton;
 		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 		private System.Windows.Forms.CheckBox autoLevelsCheckbox;

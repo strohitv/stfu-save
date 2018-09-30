@@ -359,7 +359,7 @@ namespace STFU.AutoUploader
 		private void templateTitleTextboxTextChanged(object sender, EventArgs e)
 		{
 			maxTitleLengthLabel.Text = $"Länge Titel: {templateTitleTextbox.Text.Length} / {YoutubeVideo.MaxTitleLength} Zeichen";
-			if (!reordering)
+			if (!reordering && current != null)
 			{
 				current.Title = templateTitleTextbox.Text;
 			}
@@ -368,7 +368,7 @@ namespace STFU.AutoUploader
 		private void templateDescriptionTextboxTextChanged(object sender, EventArgs e)
 		{
 			maxDescriptionLengthLabel.Text = $"Länge Beschreibung: {templateDescriptionTextbox.Text.Length} / {YoutubeVideo.MaxDescriptionLength} Zeichen";
-			if (!reordering)
+			if (!reordering && current != null)
 			{
 				current.Description = templateDescriptionTextbox.Text;
 			}
@@ -377,7 +377,7 @@ namespace STFU.AutoUploader
 		private void templateTagsTextboxTextChanged(object sender, EventArgs e)
 		{
 			maxTagsLengthLabel.Text = $"Länge Tags: {templateTagsTextbox.Text.Length} / {YoutubeVideo.MaxTagsLength} Zeichen";
-			if (!reordering)
+			if (!reordering && current != null)
 			{
 				current.Tags = templateTagsTextbox.Text;
 			}
@@ -686,7 +686,10 @@ namespace STFU.AutoUploader
 
 		private void thumbnailTextboxTextChanged(object sender, EventArgs e)
 		{
-			current.ThumbnailPath = thumbnailTextbox.Text;
+			if (current != null)
+			{
+				current.ThumbnailPath = thumbnailTextbox.Text;
+			}
 		}
 
 		private void chooseThumbnailPathButtonClick(object sender, EventArgs e)
