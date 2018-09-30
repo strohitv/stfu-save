@@ -4,7 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using MoonSharp.Interpreter;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using mss = MoonSharp.Interpreter;
 
 namespace STFU.Lib.Youtube.Automation.Programming
 {
@@ -14,11 +19,54 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		private string TemplateName { get; set; }
 		private IReadOnlyDictionary<string, IVariable> Variables { get; set; }
 
+		private ScriptState<object> CsScript { get; set; }
+
 		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, IVariable> variables)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;
 			Variables = variables;
+
+			CreateExpressionEvaluator().Wait();
+		}
+
+		private async Task CreateExpressionEvaluator()
+		{
+			CsScript = await CSharpScript.RunAsync("using System;");
+		}
+
+		public async void EvaluateCsharp()
+		{
+			MoonSharpFactorial();
+
+			var state = await CSharpScript.RunAsync("int x = 1;");
+			state = await state.ContinueWithAsync("int y = 2;");
+			state = await state.ContinueWithAsync("x+y");
+			Console.WriteLine(state.ReturnValue);
+
+			var state2 = await CSharpScript.RunAsync("string filename = \"Hello World\"; return filename.Replace('o', 'O');");
+			state2 = await state2.ContinueWithAsync("filename.Replace('o', 'O')");
+			var test = state2.ReturnValue;
+		}
+
+		double MoonSharpFactorial()
+		{
+			string script = @"    
+		-- defines a factorial function
+		function fact (n)
+			if (n == 0) then
+				return 1
+			else
+				return n*fact(n - 1)
+			end
+		end
+
+		return fact(5)";
+
+			script = "return 3 + 5";
+
+			DynValue res = mss.Script.RunString(script);
+			return res.Number;
 		}
 
 		public string Evaluate(string text)
@@ -32,16 +80,89 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			{
 				if (text[currentPos] == '<')
 				{
-					int closingPos = FindClosingPosition(text, currentPos);
-					if (closingPos > currentPos)
+					ScriptType scriptType = FindScriptType(text, currentPos);
+
+					// Get if it is a simple script, a C# one or a LUA one
+					if (scriptType.HasFlag(ScriptType.Simple))
 					{
-						var replacement = EvaluateExpression(text.Substring(currentPos + 1, closingPos - currentPos - 1));
-						text = $"{text.Substring(0, currentPos)}{replacement}{text.Substring(closingPos + 1)}";
+						// Old simple script interpreter
+						int closingPos = FindClosingPosition(text, currentPos);
+						if (closingPos > currentPos)
+						{
+							var replacement = EvaluateExpression(text.Substring(currentPos + 1, closingPos - currentPos - 1));
+							text = $"{text.Substring(0, currentPos)}{replacement}{text.Substring(closingPos + 1)}";
+						}
 					}
+					else
+					{
+						int closingPos = FindComplexClosingPosition(text, currentPos);
+
+						string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
+						string script = wholeText.Substring(3, closingPos - currentPos - 3);
+
+						if (script.StartsWith("c", StringComparison.InvariantCultureIgnoreCase)
+							|| script.StartsWith("l", StringComparison.InvariantCultureIgnoreCase))
+						{
+							script = script.Remove(0, 1);
+						}
+
+						string result = string.Empty;
+
+						if (scriptType.HasFlag(ScriptType.CSharp))
+						{
+							// CSharp auswerten
+							var state = CsScript.ContinueWithAsync(script);
+							//var state = CSharpScript.RunAsync(script);
+							state.Wait();
+
+							result = state.Result.ReturnValue.ToString();
+						}
+
+						if (scriptType.HasFlag(ScriptType.LUA) && result == string.Empty)
+						{
+							DynValue res = mss.Script.RunString(script);
+							result = res.ToPrintString();
+						}
+
+						string before = text.Substring(0, currentPos);
+						string after = text.Substring(closingPos + 3);
+
+						text = $"{before}{result}{after}";
+					}
+
 				}
 			}
 
 			return text;
+		}
+
+		private ScriptType FindScriptType(string text, int currentPos)
+		{
+			ScriptType type = ScriptType.Simple;
+
+			bool isComplex = text.Length > currentPos + 3
+				&& text[currentPos + 1] == '<'
+				&& text[currentPos + 2] == '<';
+
+			if (isComplex && text.ToLower()[currentPos + 3] == 'c')
+			{
+				type = ScriptType.CSharp;
+			}
+			else if (isComplex && text.ToLower()[currentPos + 3] == 'l')
+			{
+				type = ScriptType.LUA;
+			}
+			else
+			{
+				type = ScriptType.CSharp | ScriptType.LUA;
+			}
+
+			return type;
+		}
+
+		private int FindComplexClosingPosition(string text, int currentPos)
+		{
+			return text.IndexOf(">>>", currentPos);
 		}
 
 		private string EvaluateExpression(string expression)
@@ -217,10 +338,10 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					result = result.Substring(0, end);
 				}
 			}
-			else if (arguments.Count > 1 
-				&& int.TryParse(arguments[0], out start) 
-				&& int.TryParse(arguments[1], out end) 
-				&& start >= 0 
+			else if (arguments.Count > 1
+				&& int.TryParse(arguments[0], out start)
+				&& int.TryParse(arguments[1], out end)
+				&& start >= 0
 				&& end >= start)
 			{
 				if (start <= result.Length - 1)
