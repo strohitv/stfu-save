@@ -87,8 +87,11 @@ namespace STFU.Lib.Youtube.Automation.Programming
 									result = state.Result.ReturnValue.ToString();
 								}
 							}
-							catch (CompilationErrorException)
-							{ }
+							catch (CompilationErrorException ex)
+							{
+								// TODO: Logging
+								Console.WriteLine(ex);
+							}
 						}
 
 						if (scriptType.HasFlag(ScriptType.LUA) && result == string.Empty)
@@ -98,8 +101,11 @@ namespace STFU.Lib.Youtube.Automation.Programming
 								DynValue res = mss.Script.RunString(script);
 								result = res.ToPrintString();
 							}
-							catch (InterpreterException)
-							{ }
+							catch (InterpreterException ex)
+							{
+								// TODO: Logging
+								Console.WriteLine(ex);
+							}
 						}
 
 						string before = text.Substring(0, currentPos);
@@ -130,7 +136,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			{
 				type = ScriptType.LUA;
 			}
-			else
+			else if (isComplex)
 			{
 				type = ScriptType.CSharp | ScriptType.LUA;
 			}
