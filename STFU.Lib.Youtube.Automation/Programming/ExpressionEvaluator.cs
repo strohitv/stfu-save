@@ -35,40 +35,6 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			CsScript = await CSharpScript.RunAsync("using System;");
 		}
 
-		public async void EvaluateCsharp()
-		{
-			MoonSharpFactorial();
-
-			var state = await CSharpScript.RunAsync("int x = 1;");
-			state = await state.ContinueWithAsync("int y = 2;");
-			state = await state.ContinueWithAsync("x+y");
-			Console.WriteLine(state.ReturnValue);
-
-			var state2 = await CSharpScript.RunAsync("string filename = \"Hello World\"; return filename.Replace('o', 'O');");
-			state2 = await state2.ContinueWithAsync("filename.Replace('o', 'O')");
-			var test = state2.ReturnValue;
-		}
-
-		double MoonSharpFactorial()
-		{
-			string script = @"    
-		-- defines a factorial function
-		function fact (n)
-			if (n == 0) then
-				return 1
-			else
-				return n*fact(n - 1)
-			end
-		end
-
-		return fact(5)";
-
-			script = "return 3 + 5";
-
-			DynValue res = mss.Script.RunString(script);
-			return res.Number;
-		}
-
 		public string Evaluate(string text)
 		{
 			if (text == null)
@@ -110,18 +76,30 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 						if (scriptType.HasFlag(ScriptType.CSharp))
 						{
-							// CSharp auswerten
-							var state = CsScript.ContinueWithAsync(script);
-							//var state = CSharpScript.RunAsync(script);
-							state.Wait();
+							try
+							{
+								var state = CsScript.ContinueWithAsync(script);
 
-							result = state.Result.ReturnValue.ToString();
+								if (state.Status != TaskStatus.Faulted)
+								{
+									state.Wait();
+
+									result = state.Result.ReturnValue.ToString();
+								}
+							}
+							catch (CompilationErrorException)
+							{ }
 						}
 
 						if (scriptType.HasFlag(ScriptType.LUA) && result == string.Empty)
 						{
-							DynValue res = mss.Script.RunString(script);
-							result = res.ToPrintString();
+							try
+							{
+								DynValue res = mss.Script.RunString(script);
+								result = res.ToPrintString();
+							}
+							catch (InterpreterException)
+							{ }
 						}
 
 						string before = text.Substring(0, currentPos);

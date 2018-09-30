@@ -3,7 +3,6 @@ using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Internal.Watcher;
-using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -98,9 +97,6 @@ namespace STFU.Lib.Youtube.Automation
 
 		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
 		{
-			ExpressionEvaluator eval = new ExpressionEvaluator(null, null, null);
-			eval.EvaluateCsharp();
-
 			Uploader = uploader;
 			Account = account;
 
