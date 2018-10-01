@@ -33,6 +33,11 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		private async Task CreateExpressionEvaluator()
 		{
 			CsScript = await CSharpScript.RunAsync("using System;");
+			foreach (var var in Variable.GlobalVariables)
+			{
+				string func = $"string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+				CsScript = await CsScript.ContinueWithAsync(func);
+			}
 		}
 
 		public string Evaluate(string text)
@@ -89,8 +94,22 @@ namespace STFU.Lib.Youtube.Automation.Programming
 							}
 							catch (CompilationErrorException ex)
 							{
-								// TODO: Logging
-								Console.WriteLine(ex);
+								if (!Directory.Exists("errors"))
+								{
+									Directory.CreateDirectory("errors");
+								}
+
+								using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
+								{
+									writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
+									writer.WriteLine();
+									WriteException(ex, writer, script);
+
+									writer.WriteLine();
+									writer.WriteLine("=======================");
+									writer.WriteLine();
+									writer.WriteLine();
+								}
 							}
 						}
 
@@ -118,6 +137,30 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 
 			return text;
+		}
+
+		private void WriteException(Exception ex, StreamWriter writer, string script)
+		{
+			WriteException(ex, writer, script, "");
+		}
+
+		private void WriteException(Exception ex, StreamWriter writer, string script, string prefix)
+		{
+			writer.WriteLine($"{prefix}Fehlermeldung: {ex.Message}");
+			writer.WriteLine($"{prefix}Source: {ex.Source}");
+			writer.WriteLine($"{prefix}Stacktrace: {ex.StackTrace}");
+			writer.WriteLine($"{prefix}TargetSite: {ex.TargetSite}");
+			writer.WriteLine($"{prefix}Hilfelink: {ex.HelpLink}");
+
+			if (script != null)
+			{
+				writer.WriteLine($"{prefix}Auszuführendes Script: {script}");
+			}
+
+			if (ex.InnerException != null)
+			{
+				WriteException(ex.InnerException, writer, null, "        ");
+			}
 		}
 
 		private ScriptType FindScriptType(string text, int currentPos)
