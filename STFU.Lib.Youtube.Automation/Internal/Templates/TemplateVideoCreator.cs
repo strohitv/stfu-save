@@ -24,7 +24,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishCalculator.Template;
 
-			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.LocalVariables);
+			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.LocalVariables, template.CSharpPreparationScript, template.CSharpCleanUpScript);
 
 			// Werte füllen
 			video.Title = CutOff(evaluator.Evaluate(template.Title), YoutubeVideo.MaxTitleLength);
@@ -57,6 +57,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			{
 				video.Tags.Add(tag);
 			}
+
+			evaluator.CleanUp().Wait();
 
 			return video;
 		}

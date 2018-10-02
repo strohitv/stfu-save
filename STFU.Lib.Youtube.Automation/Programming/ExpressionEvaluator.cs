@@ -17,27 +17,94 @@ namespace STFU.Lib.Youtube.Automation.Programming
 	{
 		private string FilePath { get; set; }
 		private string TemplateName { get; set; }
+		private string CSharpPreparationScript { get; set; }
+		private string CSharpCleanupScript { get; set; }
 		private IReadOnlyDictionary<string, IVariable> Variables { get; set; }
 
 		private ScriptState<object> CsScript { get; set; }
 
-		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, IVariable> variables)
+		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, IVariable> variables, string csharpPreparationScript, string csharpCleanupScript)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;
 			Variables = variables;
+
+			CSharpPreparationScript = csharpPreparationScript;
+			CSharpCleanupScript = csharpCleanupScript;
 
 			CreateExpressionEvaluator().Wait();
 		}
 
 		private async Task CreateExpressionEvaluator()
 		{
-			CsScript = await CSharpScript.RunAsync("using System;");
 			foreach (var var in Variable.GlobalVariables)
 			{
-				string func = $"string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
-				CsScript = await CsScript.ContinueWithAsync(func);
+				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+
+				if (CsScript == null)
+				{
+					CsScript = await CSharpScript.RunAsync(func);
+				}
+				else
+				{
+					CsScript = await CsScript.ContinueWithAsync(func);
+				}
 			}
+
+			try
+			{
+				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript);
+			}
+			catch (CompilationErrorException ex)
+			{
+				CsScript = await CSharpScript.RunAsync("using System;");
+				
+				if (!Directory.Exists("errors"))
+				{
+					Directory.CreateDirectory("errors");
+				}
+
+				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
+				{
+					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
+					writer.WriteLine();
+					WriteException(ex, writer, CSharpPreparationScript);
+
+					writer.WriteLine();
+					writer.WriteLine("=======================");
+					writer.WriteLine();
+					writer.WriteLine();
+				}
+			}
+		}
+
+		public async Task CleanUp()
+		{
+			try
+			{
+				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript);
+			}
+			catch (CompilationErrorException ex)
+			{
+				if (!Directory.Exists("errors"))
+				{
+					Directory.CreateDirectory("errors");
+				}
+
+				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
+				{
+					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
+					writer.WriteLine();
+					WriteException(ex, writer, CSharpPreparationScript);
+
+					writer.WriteLine();
+					writer.WriteLine("=======================");
+					writer.WriteLine();
+					writer.WriteLine();
+				}
+			}
+
+			CsScript = null;
 		}
 
 		public string Evaluate(string text)
@@ -89,7 +156,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 								{
 									state.Wait();
 
-									result = state.Result.ReturnValue.ToString();
+									result = state.Result.ReturnValue?.ToString() ?? string.Empty;
 								}
 							}
 							catch (CompilationErrorException ex)
