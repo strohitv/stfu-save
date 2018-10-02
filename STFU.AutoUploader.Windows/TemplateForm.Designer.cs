@@ -116,17 +116,17 @@ namespace STFU.AutoUploader
 			this.varContentTextbox = new System.Windows.Forms.TextBox();
 			this.globalVarsTextbox = new System.Windows.Forms.TextBox();
 			this.localVarsLabel = new System.Windows.Forms.Label();
+			this.cSharpTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.cSharpPrepareFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.editTemplateLabel = new System.Windows.Forms.Label();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.openThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
-			this.cSharpTabPage = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.cSharpPrepareFctb = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.templateOverviewTableLayouPanel.SuspendLayout();
 			this.editTemplateTableLayoutPanel.SuspendLayout();
 			this.templateValuesTabControl.SuspendLayout();
@@ -146,14 +146,14 @@ namespace STFU.AutoUploader
 			this.globalVarsTlp.SuspendLayout();
 			this.editVarGroupbox.SuspendLayout();
 			this.editVarsTlp.SuspendLayout();
+			this.cSharpTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
 			this.splitContainer.SuspendLayout();
-			this.cSharpTabPage.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// templateOverviewTableLayouPanel
@@ -596,6 +596,7 @@ namespace STFU.AutoUploader
 			this.templateDescriptionTextbox.WordWrap = true;
 			this.templateDescriptionTextbox.WordWrapIndent = 6;
 			this.templateDescriptionTextbox.Zoom = 100;
+			this.templateDescriptionTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateDescriptionTextboxTextChanged);
 			// 
 			// templateTagsTextbox
 			// 
@@ -1650,48 +1651,6 @@ namespace STFU.AutoUploader
 			this.localVarsLabel.TabIndex = 12;
 			this.localVarsLabel.Text = "Eigene Variablen:";
 			// 
-			// editTemplateLabel
-			// 
-			this.editTemplateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.editTemplateLabel.AutoSize = true;
-			this.editTemplateTableLayoutPanel.SetColumnSpan(this.editTemplateLabel, 6);
-			this.editTemplateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.editTemplateLabel.Location = new System.Drawing.Point(10, 10);
-			this.editTemplateLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.editTemplateLabel.Name = "editTemplateLabel";
-			this.editTemplateLabel.Size = new System.Drawing.Size(910, 13);
-			this.editTemplateLabel.TabIndex = 0;
-			this.editTemplateLabel.Text = "Template bearbeiten: ";
-			// 
-			// splitContainer
-			// 
-			this.splitContainer.BackColor = System.Drawing.SystemColors.Control;
-			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer.Margin = new System.Windows.Forms.Padding(0);
-			this.splitContainer.Name = "splitContainer";
-			// 
-			// splitContainer.Panel1
-			// 
-			this.splitContainer.Panel1.Controls.Add(this.templateOverviewTableLayouPanel);
-			// 
-			// splitContainer.Panel2
-			// 
-			this.splitContainer.Panel2.Controls.Add(this.editTemplateTableLayoutPanel);
-			this.splitContainer.Size = new System.Drawing.Size(1205, 770);
-			this.splitContainer.SplitterDistance = 264;
-			this.splitContainer.SplitterWidth = 11;
-			this.splitContainer.TabIndex = 1;
-			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
-			// 
-			// openThumbnailDialog
-			// 
-			this.openThumbnailDialog.CheckFileExists = false;
-			this.openThumbnailDialog.CheckPathExists = false;
-			this.openThumbnailDialog.Filter = "Alle unterstützten Dateitypen|*.jpg;*.jpeg;*.png|JPEG-Dateien|*.jpg;*.jpeg|PNG-Da" +
-    "teien|*.png";
-			this.openThumbnailDialog.Title = "Bitte wähle das entsprechende Thumbnail aus...";
-			// 
 			// cSharpTabPage
 			// 
 			this.cSharpTabPage.BackColor = System.Drawing.SystemColors.Control;
@@ -1709,7 +1668,7 @@ namespace STFU.AutoUploader
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Controls.Add(this.fastColoredTextBox1, 1, 7);
+			this.tableLayoutPanel1.Controls.Add(this.cSharpCleanupFctb, 1, 7);
 			this.tableLayoutPanel1.Controls.Add(this.cSharpPrepareFctb, 1, 4);
 			this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.label1, 1, 3);
@@ -1730,21 +1689,51 @@ namespace STFU.AutoUploader
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(896, 622);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
-			// textBox1
+			// cSharpCleanupFctb
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBox1.Location = new System.Drawing.Point(10, 10);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(0);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(876, 92);
-			this.textBox1.TabIndex = 12;
-			this.textBox1.TabStop = false;
-			this.textBox1.Text = resources.GetString("textBox1.Text");
+			this.cSharpCleanupFctb.AutoCompleteBrackets = true;
+			this.cSharpCleanupFctb.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.cSharpCleanupFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
+    "?<range>:)\\s*(?<range>[^;]+);\n";
+			this.cSharpCleanupFctb.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+			this.cSharpCleanupFctb.BackBrush = null;
+			this.cSharpCleanupFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.cSharpCleanupFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+			this.cSharpCleanupFctb.CharHeight = 18;
+			this.cSharpCleanupFctb.CharWidth = 10;
+			this.cSharpCleanupFctb.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.cSharpCleanupFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.cSharpCleanupFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.cSharpCleanupFctb.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cSharpCleanupFctb.Font = new System.Drawing.Font("Courier New", 12F);
+			this.cSharpCleanupFctb.IsReplaceMode = false;
+			this.cSharpCleanupFctb.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.cSharpCleanupFctb.LeftBracket = '(';
+			this.cSharpCleanupFctb.LeftBracket2 = '{';
+			this.cSharpCleanupFctb.Location = new System.Drawing.Point(10, 379);
+			this.cSharpCleanupFctb.Margin = new System.Windows.Forms.Padding(0);
+			this.cSharpCleanupFctb.Name = "cSharpCleanupFctb";
+			this.cSharpCleanupFctb.Paddings = new System.Windows.Forms.Padding(0);
+			this.cSharpCleanupFctb.RightBracket = ')';
+			this.cSharpCleanupFctb.RightBracket2 = '}';
+			this.cSharpCleanupFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.cSharpCleanupFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpCleanupFctb.ServiceColors")));
+			this.cSharpCleanupFctb.Size = new System.Drawing.Size(876, 231);
+			this.cSharpCleanupFctb.TabIndex = 14;
+			this.cSharpCleanupFctb.WordWrap = true;
+			this.cSharpCleanupFctb.WordWrapIndent = 6;
+			this.cSharpCleanupFctb.Zoom = 100;
+			this.cSharpCleanupFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpCleanupFctbTextChanged);
 			// 
 			// cSharpPrepareFctb
 			// 
@@ -1790,51 +1779,23 @@ namespace STFU.AutoUploader
 			this.cSharpPrepareFctb.WordWrap = true;
 			this.cSharpPrepareFctb.WordWrapIndent = 6;
 			this.cSharpPrepareFctb.Zoom = 100;
+			this.cSharpPrepareFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpPrepareFctbTextChanged);
 			// 
-			// fastColoredTextBox1
+			// textBox1
 			// 
-			this.fastColoredTextBox1.AutoCompleteBrackets = true;
-			this.fastColoredTextBox1.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.fastColoredTextBox1.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
-    "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.fastColoredTextBox1.AutoScrollMinSize = new System.Drawing.Size(0, 18);
-			this.fastColoredTextBox1.BackBrush = null;
-			this.fastColoredTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.fastColoredTextBox1.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-			this.fastColoredTextBox1.CharHeight = 18;
-			this.fastColoredTextBox1.CharWidth = 10;
-			this.fastColoredTextBox1.CurrentLineColor = System.Drawing.Color.LightGray;
-			this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-			this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 12F);
-			this.fastColoredTextBox1.IsReplaceMode = false;
-			this.fastColoredTextBox1.Language = FastColoredTextBoxNS.Language.CSharp;
-			this.fastColoredTextBox1.LeftBracket = '(';
-			this.fastColoredTextBox1.LeftBracket2 = '{';
-			this.fastColoredTextBox1.Location = new System.Drawing.Point(10, 379);
-			this.fastColoredTextBox1.Margin = new System.Windows.Forms.Padding(0);
-			this.fastColoredTextBox1.Name = "fastColoredTextBox1";
-			this.fastColoredTextBox1.Paddings = new System.Windows.Forms.Padding(0);
-			this.fastColoredTextBox1.RightBracket = ')';
-			this.fastColoredTextBox1.RightBracket2 = '}';
-			this.fastColoredTextBox1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.fastColoredTextBox1.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fastColoredTextBox1.ServiceColors")));
-			this.fastColoredTextBox1.Size = new System.Drawing.Size(876, 231);
-			this.fastColoredTextBox1.TabIndex = 14;
-			this.fastColoredTextBox1.WordWrap = true;
-			this.fastColoredTextBox1.WordWrapIndent = 6;
-			this.fastColoredTextBox1.Zoom = 100;
+			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.textBox1.Location = new System.Drawing.Point(10, 10);
+			this.textBox1.Margin = new System.Windows.Forms.Padding(0);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
+			this.textBox1.Size = new System.Drawing.Size(876, 92);
+			this.textBox1.TabIndex = 12;
+			this.textBox1.TabStop = false;
+			this.textBox1.Text = resources.GetString("textBox1.Text");
 			// 
 			// label1
 			// 
@@ -1857,6 +1818,48 @@ namespace STFU.AutoUploader
 			this.label2.Size = new System.Drawing.Size(876, 13);
 			this.label2.TabIndex = 15;
 			this.label2.Text = "Globales Nachbereitungsskript:";
+			// 
+			// editTemplateLabel
+			// 
+			this.editTemplateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.editTemplateLabel.AutoSize = true;
+			this.editTemplateTableLayoutPanel.SetColumnSpan(this.editTemplateLabel, 6);
+			this.editTemplateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.editTemplateLabel.Location = new System.Drawing.Point(10, 10);
+			this.editTemplateLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.editTemplateLabel.Name = "editTemplateLabel";
+			this.editTemplateLabel.Size = new System.Drawing.Size(910, 13);
+			this.editTemplateLabel.TabIndex = 0;
+			this.editTemplateLabel.Text = "Template bearbeiten: ";
+			// 
+			// splitContainer
+			// 
+			this.splitContainer.BackColor = System.Drawing.SystemColors.Control;
+			this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer.Margin = new System.Windows.Forms.Padding(0);
+			this.splitContainer.Name = "splitContainer";
+			// 
+			// splitContainer.Panel1
+			// 
+			this.splitContainer.Panel1.Controls.Add(this.templateOverviewTableLayouPanel);
+			// 
+			// splitContainer.Panel2
+			// 
+			this.splitContainer.Panel2.Controls.Add(this.editTemplateTableLayoutPanel);
+			this.splitContainer.Size = new System.Drawing.Size(1205, 770);
+			this.splitContainer.SplitterDistance = 264;
+			this.splitContainer.SplitterWidth = 11;
+			this.splitContainer.TabIndex = 1;
+			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
+			// 
+			// openThumbnailDialog
+			// 
+			this.openThumbnailDialog.CheckFileExists = false;
+			this.openThumbnailDialog.CheckPathExists = false;
+			this.openThumbnailDialog.Filter = "Alle unterstützten Dateitypen|*.jpg;*.jpeg;*.png|JPEG-Dateien|*.jpg;*.jpeg|PNG-Da" +
+    "teien|*.png";
+			this.openThumbnailDialog.Title = "Bitte wähle das entsprechende Thumbnail aus...";
 			// 
 			// TemplateForm
 			// 
@@ -1899,15 +1902,15 @@ namespace STFU.AutoUploader
 			this.editVarGroupbox.PerformLayout();
 			this.editVarsTlp.ResumeLayout(false);
 			this.editVarsTlp.PerformLayout();
+			this.cSharpTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).EndInit();
 			this.splitContainer.Panel1.ResumeLayout(false);
 			this.splitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
 			this.splitContainer.ResumeLayout(false);
-			this.cSharpTabPage.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -2003,7 +2006,7 @@ namespace STFU.AutoUploader
 		private System.Windows.Forms.OpenFileDialog openThumbnailDialog;
 		private TabPage cSharpTabPage;
 		private TableLayoutPanel tableLayoutPanel1;
-		private FastColoredTextBox fastColoredTextBox1;
+		private FastColoredTextBox cSharpCleanupFctb;
 		private FastColoredTextBox cSharpPrepareFctb;
 		private TextBox textBox1;
 		private Label label1;

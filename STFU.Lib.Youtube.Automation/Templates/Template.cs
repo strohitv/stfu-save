@@ -21,9 +21,9 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public string Name { get; set; }
 
-		public string Title { get; set; }
+		public string Title { get; set; } = string.Empty;
 
-		public string Description { get; set; }
+		public string Description { get; set; } = string.Empty;
 
 		public ICategory Category { get; set; } = new YoutubeCategory(20, "Gaming");
 
@@ -34,27 +34,34 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			Name = "Deutsch"
 		};
 
-		public string Tags { get; set; }
+		public string Tags { get; set; } = string.Empty;
 
 		[JsonConverter(typeof(EnumConverter))]
-		public PrivacyStatus Privacy { get; set; }
+		public PrivacyStatus Privacy { get; set; } = PrivacyStatus.Private;
 
 		[JsonConverter(typeof(EnumConverter))]
-		public License License { get; set; }
+		public License License { get; set; } = License.Youtube;
 
-		public bool IsEmbeddable { get; set; }
+		public bool IsEmbeddable { get; set; } = true;
 
-		public bool PublicStatsViewable { get; set; }
+		public bool PublicStatsViewable { get; set; } = false;
 
-		public bool NotifySubscribers { get; set; }
+		public bool NotifySubscribers { get; set; } = true;
 
-		public bool AutoLevels { get; set; }
+		public bool AutoLevels { get; set; } = false;
 
-		public bool Stabilize { get; set; }
+		public bool Stabilize { get; set; } = false;
 
-		public bool ShouldPublishAt { get; set; }
+		public bool ShouldPublishAt { get; set; } = false;
 
-		public string ThumbnailPath { get; set; }
+		public string ThumbnailPath { get; set; } = string.Empty;
+
+		public string CSharpPreparationScript { get; set; } = "// Dieses Skript wird vor allen Skripten in Beschreibung, Titel usw. ausgeführt und kann daher zur Vorbereitung genutzt werden (z. B. zum Erstellen von Variablen)." + Environment.NewLine
+			+ "// Dieses Feld soll ausschließlich C#-Code enthalten. Bitte keine <<<, <<<C und >>> schreiben." + Environment.NewLine + Environment.NewLine
+			+ "using System;";
+
+		public string CSharpCleanUpScript { get; set; } = "// Dieses Skript wird nach allen Skripten in Beschreibung, Titel usw. ausgeführt und kann daher zum Aufräumen verwendet werden (z. B. um Disposes durchzuführen)." + Environment.NewLine
+			+ "// Dieses Feld soll ausschließlich C#-Code enthalten. Bitte keine <<<, <<<C und >>> schreiben.";
 
 		internal Dictionary<string, IVariable> LocalVars { get; set; } = new Dictionary<string, IVariable>();
 
@@ -101,9 +108,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		{ }
 
 		public Template()
-		{
-
-		}
+		{ }
 
 		public void AddVariable()
 		{
@@ -192,7 +197,10 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				Stabilize = template.Stabilize,
 				Tags = template.Tags,
 				ThumbnailPath = template.ThumbnailPath,
-				Title = template.Title
+				Title = template.Title,
+
+				CSharpPreparationScript = template.CSharpPreparationScript,
+				CSharpCleanUpScript = template.CSharpCleanUpScript
 			};
 		}
 	}

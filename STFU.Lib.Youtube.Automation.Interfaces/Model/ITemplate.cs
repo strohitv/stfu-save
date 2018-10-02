@@ -25,6 +25,9 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		string ThumbnailPath { get; set; }
 		string Title { get; set; }
 
+		string CSharpPreparationScript { get; set; }
+		string CSharpCleanUpScript { get; set; }
+
 		void AddVariable();
 		void AddVariable(string name, string content);
 		void ClearVariables();

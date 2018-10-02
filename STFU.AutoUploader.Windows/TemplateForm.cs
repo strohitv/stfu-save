@@ -185,6 +185,9 @@ namespace STFU.AutoUploader
 
 			thumbnailTextbox.Text = template.ThumbnailPath;
 
+			cSharpPrepareFctb.Text = template.CSharpPreparationScript;
+			cSharpCleanupFctb.Text = template.CSharpCleanUpScript;
+
 			RefillTimesListView();
 			RefillVariablesListView();
 
@@ -698,6 +701,30 @@ namespace STFU.AutoUploader
 			if (result == DialogResult.OK)
 			{
 				thumbnailTextbox.Text = openThumbnailDialog.FileName;
+			}
+		}
+
+		private void templateDescriptionTextboxTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (current != null)
+			{
+				current.Description = templateDescriptionTextbox.Text;
+			}
+		}
+
+		private void cSharpPrepareFctbTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (current != null)
+			{
+				current.CSharpPreparationScript = cSharpPrepareFctb.Text;
+			}
+		}
+
+		private void cSharpCleanupFctbTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (current != null)
+			{
+				current.CSharpCleanUpScript = cSharpCleanupFctb.Text;
 			}
 		}
 	}
