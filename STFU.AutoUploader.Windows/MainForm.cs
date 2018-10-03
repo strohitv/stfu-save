@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using STFU.Lib.Updater;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
@@ -35,6 +36,8 @@ namespace STFU.AutoUploader
 		public MainForm()
 		{
 			InitializeComponent();
+
+			var newVerAvailable = new VersionChecker().CheckStfuVersion(ProductVersion);
 
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 

@@ -194,6 +194,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Updater\STFU.Lib.Updater.csproj">
+      <Project>{4FB3D7AE-980F-41A0-B97B-EA11EFFF3508}</Project>
+      <Name>STFU.Lib.Updater</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
       <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
       <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>
