@@ -8,11 +8,17 @@ namespace STFU.Lib.Updater
 {
 	public class VersionChecker
     {
-		public bool CheckStfuVersion (string currentVersion)
+		public UpdateInformation CheckStfuVersion (string currentVersion)
 		{
-			var file = GetLatestStfuZipInfo();
+			UpdateInformation infos = new UpdateInformation(false, null, null);
 
-			return file != null && NewVersionAvailable(file, currentVersion);
+			var file = GetLatestStfuZipInfo();
+			if (file != null && NewVersionAvailable(file, currentVersion))
+			{
+				infos = new UpdateInformation(true, file.Name.Split('-')[1], file.Id);
+			}
+
+			return infos;
 		}
 
 		private bool NewVersionAvailable(File file, string currentVersion)
@@ -29,6 +35,13 @@ namespace STFU.Lib.Updater
 					&& newV > oldV)
 				{
 					isAvailable = true;
+					break;
+				}
+				else if (newestVersionArray.Length > i && currentVersionArray.Length > i
+					&& int.TryParse(newestVersionArray[i], out newV) && int.TryParse(currentVersionArray[i], out oldV)
+					&& newV < oldV)
+				{
+					isAvailable = false;
 					break;
 				}
 			}

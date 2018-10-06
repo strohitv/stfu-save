@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.Lib.Updater;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
@@ -37,7 +36,12 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
-			var newVerAvailable = new VersionChecker().CheckStfuVersion(ProductVersion);
+			//IUpdater updater = new Updater(ProductVersion);
+			//if (updater.UpdateAvailable)
+			//{
+			//	updater.DownloadUpdate();
+			//	FileInfo updateExe = updater.ExtractUpdateExe();
+			//}
 
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 
@@ -256,6 +260,18 @@ namespace STFU.AutoUploader
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
+			if (File.Exists("stfu-updater.exe"))
+			{
+				File.Delete("stfu-updater.exe");
+			}
+
+			var updateForm = new UpdateForm();
+			if (updateForm.ShowDialog(this) == DialogResult.Yes)
+			{
+				Close();
+				return;
+			}
+
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
 			if (accountContainer.RegisteredAccounts.Count > 0)
