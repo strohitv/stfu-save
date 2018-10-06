@@ -36,6 +36,13 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
+			//IUpdater updater = new Updater(ProductVersion);
+			//if (updater.UpdateAvailable)
+			//{
+			//	updater.DownloadUpdate();
+			//	FileInfo updateExe = updater.ExtractUpdateExe();
+			//}
+
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 
 			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
@@ -253,6 +260,18 @@ namespace STFU.AutoUploader
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
+			if (File.Exists("stfu-updater.exe"))
+			{
+				File.Delete("stfu-updater.exe");
+			}
+
+			var updateForm = new UpdateForm();
+			if (updateForm.ShowDialog(this) == DialogResult.Yes)
+			{
+				Close();
+				return;
+			}
+
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
 			if (accountContainer.RegisteredAccounts.Count > 0)
