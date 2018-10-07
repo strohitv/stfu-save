@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.AutoUploader", "STFU.AutoUploader.Multiplatform\STFU.Executable.AutoUploader.csproj", "{E78EE90C-15E6-49C3-A166-5EFC933E7F21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.AutoUploader", "STFU.Executable.AutoUploader\STFU.Executable.AutoUploader.csproj", "{E78EE90C-15E6-49C3-A166-5EFC933E7F21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Interfaces", "STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj", "{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Persistor"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Updater", "STFU.Lib.Updater\STFU.Lib.Updater.csproj", "{4FB3D7AE-980F-41A0-B97B-EA11EFFF3508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.Updater", "STFU.Updater\STFU.Executable.Updater.csproj", "{0DE91581-FEA3-43B5-AB9A-3A094A230911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.Updater", "STFU.Executable.Updater\STFU.Executable.Updater.csproj", "{0DE91581-FEA3-43B5-AB9A-3A094A230911}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
