@@ -36,13 +36,6 @@ namespace STFU.AutoUploader
 		{
 			InitializeComponent();
 
-			//IUpdater updater = new Updater(ProductVersion);
-			//if (updater.UpdateAvailable)
-			//{
-			//	updater.DownloadUpdate();
-			//	FileInfo updateExe = updater.ExtractUpdateExe();
-			//}
-
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 
 			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
@@ -264,6 +257,9 @@ namespace STFU.AutoUploader
 			{
 				File.Delete("stfu-updater.exe");
 			}
+
+			var releaseNotesForm = new ReleaseNotesForm();
+			releaseNotesForm.ShowDialog(this);
 
 			var updateForm = new UpdateForm();
 			if (updateForm.ShowDialog(this) == DialogResult.Yes)
