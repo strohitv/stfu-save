@@ -62,6 +62,8 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -293,6 +295,8 @@
 			// hilfeToolStripMenuItem
 			// 
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.neueFunktionenToolStripMenuItem,
+            this.toolStripSeparator2,
             this.tutorialVideoToolStripMenuItem,
             this.discordServerToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
@@ -411,6 +415,18 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+			// 
+			// neueFunktionenToolStripMenuItem
+			// 
+			this.neueFunktionenToolStripMenuItem.Name = "neueFunktionenToolStripMenuItem";
+			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.neueFunktionenToolStripMenuItem.Text = "Neue Funktionen";
+			this.neueFunktionenToolStripMenuItem.Click += new System.EventHandler(this.neueFunktionenToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -469,6 +485,8 @@
 		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem neueFunktionenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }
 

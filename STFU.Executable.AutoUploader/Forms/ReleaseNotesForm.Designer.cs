@@ -117,6 +117,7 @@
 			this.disableNotesCheckbox.TabIndex = 3;
 			this.disableNotesCheckbox.Text = "Beim nächsten Start anzeigen";
 			this.disableNotesCheckbox.UseVisualStyleBackColor = true;
+			this.disableNotesCheckbox.CheckedChanged += new System.EventHandler(this.disableNotesCheckboxCheckedChanged);
 			// 
 			// ReleaseNotesForm
 			// 

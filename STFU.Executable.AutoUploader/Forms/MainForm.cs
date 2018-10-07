@@ -11,6 +11,7 @@ using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
+using STFU.Lib.Youtube.Persistor.Model;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -26,15 +27,22 @@ namespace STFU.Executable.AutoUploader.Forms
 		IAutomationUploader autoUploader = new AutomationUploader();
 		IProcessContainer processContainer = new ProcessContainer();
 
+		AutoUploaderSettings autoUploaderSettings = new AutoUploaderSettings();
+
 		PathPersistor pathPersistor = null;
 		TemplatePersistor templatePersistor = null;
 		AccountPersistor accountPersistor = null;
 		CategoryPersistor categoryPersistor = null;
 		LanguagePersistor languagePersistor = null;
+		AutoUploaderSettingsPersistor settingsPersistor = null;
 
-		public MainForm()
+		private bool showReleaseNotes = false;
+
+		public MainForm(bool showReleaseNotes)
 		{
 			InitializeComponent();
+
+			this.showReleaseNotes = showReleaseNotes;
 
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
 
@@ -62,6 +70,9 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
 			languagePersistor.Load();
+
+			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
+			settingsPersistor.Load();
 
 			RefillListView();
 			ActivateAccountLink();
@@ -258,8 +269,13 @@ namespace STFU.Executable.AutoUploader.Forms
 				File.Delete("stfu-updater.exe");
 			}
 
-			var releaseNotesForm = new ReleaseNotesForm();
-			releaseNotesForm.ShowDialog(this);
+			if (showReleaseNotes || autoUploaderSettings.ShowReleaseNotes)
+			{
+				var releaseNotesForm = new ReleaseNotesForm(autoUploaderSettings);
+				releaseNotesForm.ShowDialog(this);
+
+				settingsPersistor.Save();
+			}
 
 			var updateForm = new UpdateForm();
 			if (updateForm.ShowDialog(this) == DialogResult.Yes)
@@ -335,11 +351,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
 		{
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
-
-			//if (uploader != null)
-			//{
-			//	uploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
-			//}
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
@@ -417,6 +428,14 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void threadImYTFToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://ytforum.de/index.php/Thread/19543-BETA-Strohis-Toolset-Für-Uploads-v0-1-1-Videos-automatisch-hochladen/");
+		}
+
+		private void neueFunktionenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var releaseNotesForm = new ReleaseNotesForm(autoUploaderSettings);
+			releaseNotesForm.ShowDialog(this);
+
+			settingsPersistor.Save();
 		}
 	}
 }
