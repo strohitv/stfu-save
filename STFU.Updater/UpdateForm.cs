@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace STFU.Updater
+namespace STFU.Executable.Updater
 {
 	public partial class UpdateForm : Form
 	{

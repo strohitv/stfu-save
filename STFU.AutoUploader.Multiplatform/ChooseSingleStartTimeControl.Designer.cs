@@ -1,4 +1,4 @@
-﻿namespace STFU.AutoUploader
+﻿namespace STFU.Executable.AutoUploader
 {
 	partial class ChooseSingleStartTimeControl
 	{

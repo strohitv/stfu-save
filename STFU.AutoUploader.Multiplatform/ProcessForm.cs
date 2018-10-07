@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public partial class ProcessForm : Form
 	{

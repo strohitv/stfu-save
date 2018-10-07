@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public partial class AddAccountForm : Form
 	{

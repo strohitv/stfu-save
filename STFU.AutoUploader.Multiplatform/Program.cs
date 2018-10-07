@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public static class Program
 	{

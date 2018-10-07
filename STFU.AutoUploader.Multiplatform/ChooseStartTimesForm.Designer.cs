@@ -1,4 +1,4 @@
-﻿namespace STFU.AutoUploader
+﻿namespace STFU.Executable.AutoUploader
 {
 	partial class ChooseStartTimesForm
 	{
@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.mainTlp = new System.Windows.Forms.TableLayoutPanel();
-			this.chooseCustomTimesControl = new STFU.AutoUploader.ChooseMultipleStartTimesScrollControl();
+			this.chooseCustomTimesControl = new STFU.Executable.AutoUploader.ChooseMultipleStartTimesScrollControl();
 			this.startButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.globalSettingsControl = new STFU.AutoUploader.ChooseSingleStartTimeControl();
+			this.globalSettingsControl = new STFU.Executable.AutoUploader.ChooseSingleStartTimeControl();
 			this.mainTlp.SuspendLayout();
 			this.SuspendLayout();
 			// 

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public partial class ChooseSingleStartTimeControl : UserControl
 	{

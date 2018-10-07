@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace STFU.Updater
+namespace STFU.Executable.Updater
 {
 	static class Program
 	{

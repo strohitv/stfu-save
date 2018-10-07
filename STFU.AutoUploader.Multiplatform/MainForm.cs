@@ -12,7 +12,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public partial class MainForm : Form
 	{

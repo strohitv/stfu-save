@@ -1,4 +1,4 @@
-﻿namespace STFU.Updater
+﻿namespace STFU.Executable.Updater
 {
 	partial class UpdateForm
 	{

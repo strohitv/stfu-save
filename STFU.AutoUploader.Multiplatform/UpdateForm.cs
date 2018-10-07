@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using STFU.Lib.Updater;
 
-namespace STFU.AutoUploader
+namespace STFU.Executable.AutoUploader
 {
 	public partial class UpdateForm : Form
 	{

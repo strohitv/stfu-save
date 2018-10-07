@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0DE91581-FEA3-43B5-AB9A-3A094A230911}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>STFU.Updater</RootNamespace>
+    <RootNamespace>STFU.Executable.Updater</RootNamespace>
     <AssemblyName>stfu-updater</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>

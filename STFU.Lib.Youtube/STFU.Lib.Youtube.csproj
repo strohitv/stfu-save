@@ -67,7 +67,7 @@
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
-      <Name>STFU.Lib.Youtube.Common.Model</Name>
+      <Name>STFU.Lib.Youtube.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>

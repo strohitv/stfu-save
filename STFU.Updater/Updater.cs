@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 
-namespace STFU.Updater
+namespace STFU.Executable.Updater
 {
 	internal class Updater
 	{
