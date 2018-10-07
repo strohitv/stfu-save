@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using FastColoredTextBoxNS;
 
-namespace STFU.Executable.AutoUploader
+namespace STFU.Executable.AutoUploader.Forms
 {
 	partial class TemplateForm
 	{

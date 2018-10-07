@@ -10,7 +10,7 @@ using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
 
-namespace STFU.Executable.AutoUploader
+namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class TemplateForm : Form
 	{

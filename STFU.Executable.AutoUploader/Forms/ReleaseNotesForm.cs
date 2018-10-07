@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace STFU.Executable.AutoUploader
+namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class ReleaseNotesForm : Form
 	{

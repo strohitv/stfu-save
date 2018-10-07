@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
-namespace STFU.Executable.AutoUploader
+namespace STFU.Executable.AutoUploader.Controls
 {
 	public partial class ChooseMultipleStartTimesScrollControl : UserControl
 	{

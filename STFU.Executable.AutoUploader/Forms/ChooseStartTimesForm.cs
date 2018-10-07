@@ -6,7 +6,7 @@ using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Templates;
 
-namespace STFU.Executable.AutoUploader
+namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class ChooseStartTimesForm : Form
 	{

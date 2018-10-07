@@ -1,4 +1,4 @@
-﻿namespace STFU.Executable.AutoUploader
+﻿namespace STFU.Executable.AutoUploader.Controls
 {
 	partial class ChooseMultipleStartTimesScrollControl
 	{
