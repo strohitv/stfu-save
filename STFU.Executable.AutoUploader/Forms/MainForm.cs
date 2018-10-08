@@ -266,7 +266,13 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (File.Exists("stfu-updater.exe"))
 			{
-				File.Delete("stfu-updater.exe");
+				try
+				{
+					File.Delete("stfu-updater.exe");
+				}
+				catch (Exception)
+				{
+				}
 			}
 
 			if (showReleaseNotes || autoUploaderSettings.ShowReleaseNotes)
