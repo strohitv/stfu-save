@@ -151,7 +151,6 @@
     <Compile Include="ProcessContainer.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Programming\ScriptType.cs" />
-    <Compile Include="Programming\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateContainer.cs" />
     <Compile Include="Internal\Templates\PublishTimeCalculator.cs" />

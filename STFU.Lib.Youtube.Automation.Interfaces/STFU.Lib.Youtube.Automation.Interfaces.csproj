@@ -42,7 +42,6 @@
     <Compile Include="Model\IPublishTime.cs" />
     <Compile Include="Model\ITemplate.cs" />
     <Compile Include="ITemplateContainer.cs" />
-    <Compile Include="Model\IVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
