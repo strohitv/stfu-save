@@ -192,16 +192,6 @@
         CgAAAAAAAAAAjQABAAH4/////P///woAAAAAAAAAAKQAAQAB9/////z///8KAAAAAAAAAACWAAEACw==
 </value>
   </data>
-  <data name="globalVarsTextbox.Text" xml:space="preserve">
-    <value>--- Standardvariablen (mit Beispiel in Klammern) ---
-file = gesamter Pfad der hochzuladenen Datei (C:\video\test.mp4)
-fileName = nur der Dateiname der Datei (test)
-fileExt = nur die Erweiterung der Datei (mp4)
-fileNameExt = Dateiname und Erweiterung (test.mp4)
-folder = gesamter Pfad zum Ordner, in dem die Datei liegt (C:\video\)
-folderName = Name des Ordners, in dem die Datei liegt (video)
-template = Name des Templates</value>
-  </data>
   <data name="cSharpCleanupFctb.ServiceColors" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdGYXN0Q29sb3JlZFRleHRCb3gsIFZlcnNpb249Mi4xNi4yMS4w
@@ -238,7 +228,7 @@ template = Name des Templates</value>
         CgAAAAAAAAAAjQABAAH4/////P///woAAAAAAAAAAKQAAQAB9/////z///8KAAAAAAAAAACWAAEACw==
 </value>
   </data>
-  <data name="textBox1.Text" xml:space="preserve">
+  <data name="csDescriptionTxbx.Text" xml:space="preserve">
     <value>--- Standardvariablen (mit Beispiel in Klammern; nur kleingeschrieben!) ---
 file = gesamter Pfad der hochzuladenen Datei (C:\video\test.mp4)
 filename = nur der Dateiname der Datei (test)

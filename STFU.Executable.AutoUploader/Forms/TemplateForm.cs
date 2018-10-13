@@ -332,11 +332,6 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void saveTemplateButtonClick(object sender, EventArgs e)
 		{
-			if (editVarGroupbox.Enabled == true)
-			{
-				saveVarButtonClick(sender, e);
-			}
-
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				reordering = true;
@@ -598,73 +593,14 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillVariablesListView()
 		{
-			localVarsListview.SelectedIndices.Clear();
-			localVarsListview.Items.Clear();
+			filenamesListView.SelectedIndices.Clear();
+			filenamesListView.Items.Clear();
 
 			foreach (var variable in current.LocalVariables.OrderBy(v => v.Key))
 			{
 				ListViewItem item = new ListViewItem(variable.Value.Name);
 				item.SubItems.Add(variable.Value.Content);
-				localVarsListview.Items.Add(item);
-			}
-		}
-
-		private void addVarButtonClick(object sender, EventArgs e)
-		{
-			current.AddVariable();
-			RefillVariablesListView();
-		}
-
-		private void removeVarButtonClick(object sender, EventArgs e)
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				current.RemoveVariable(varName);
-			}
-		}
-
-		private void clearVarsButtonClick(object sender, EventArgs e)
-		{
-			current.ClearVariables();
-			RefillVariablesListView();
-		}
-
-		private void RefillEditVarBox()
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				varNameTextbox.Text = varName;
-				varContentTextbox.Text = current.LocalVariables[varName.ToLower()].Content;
-			}
-			else
-			{
-				varNameTextbox.Text = string.Empty;
-				varContentTextbox.Text = string.Empty;
-			}
-
-			editVarGroupbox.Enabled = localVarsListview.SelectedIndices.Count == 1;
-		}
-
-		private void localVarsListviewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			RefillEditVarBox();
-		}
-
-		private void saveVarButtonClick(object sender, EventArgs e)
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				if (varName != varNameTextbox.Text)
-				{
-					varName = current.RenameVariable(varName, varNameTextbox.Text);
-				}
-
-				current.EditVariable(varName, varContentTextbox.Text);
-
-				RefillVariablesListView();
+				filenamesListView.Items.Add(item);
 			}
 		}
 

@@ -99,30 +99,31 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
-			this.variablesTabpage = new System.Windows.Forms.TabPage();
-			this.globalVarsTlp = new System.Windows.Forms.TableLayoutPanel();
-			this.addVarButton = new System.Windows.Forms.Button();
-			this.removeVarButton = new System.Windows.Forms.Button();
-			this.clearVarsButton = new System.Windows.Forms.Button();
-			this.localVarsListview = new System.Windows.Forms.ListView();
+			this.planVideosTabpage = new System.Windows.Forms.TabPage();
+			this.planVideosTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.addFilenameButton = new System.Windows.Forms.Button();
+			this.removeFilenameButton = new System.Windows.Forms.Button();
+			this.clearFilenamesButton = new System.Windows.Forms.Button();
+			this.filenamesListView = new System.Windows.Forms.ListView();
 			this.varNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.varContentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.editVarGroupbox = new System.Windows.Forms.GroupBox();
-			this.editVarsTlp = new System.Windows.Forms.TableLayoutPanel();
-			this.varNameLabel = new System.Windows.Forms.Label();
-			this.varContentLabel = new System.Windows.Forms.Label();
-			this.saveVarButton = new System.Windows.Forms.Button();
-			this.varNameTextbox = new System.Windows.Forms.TextBox();
-			this.varContentTextbox = new System.Windows.Forms.TextBox();
-			this.globalVarsTextbox = new System.Windows.Forms.TextBox();
-			this.localVarsLabel = new System.Windows.Forms.Label();
+			this.filenamesLabel = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.fillFieldsTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.listView1 = new System.Windows.Forms.ListView();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.filenameFieldLabel = new System.Windows.Forms.Label();
+			this.filenameValueLabel = new System.Windows.Forms.Label();
+			this.filenameFieldTxbx = new System.Windows.Forms.TextBox();
+			this.filenameValueTxbx = new System.Windows.Forms.TextBox();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.csTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.cSharpPrepareFctb = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
+			this.csDescriptionTxbx = new System.Windows.Forms.TextBox();
+			this.globalPrepareScriptLabel = new System.Windows.Forms.Label();
+			this.globalAfterScriptsLabel = new System.Windows.Forms.Label();
 			this.editTemplateLabel = new System.Windows.Forms.Label();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
@@ -142,12 +143,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTabPage.SuspendLayout();
 			this.otherTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).BeginInit();
-			this.variablesTabpage.SuspendLayout();
-			this.globalVarsTlp.SuspendLayout();
-			this.editVarGroupbox.SuspendLayout();
-			this.editVarsTlp.SuspendLayout();
+			this.planVideosTabpage.SuspendLayout();
+			this.planVideosTlp.SuspendLayout();
+			this.groupBox1.SuspendLayout();
+			this.fillFieldsTlp.SuspendLayout();
 			this.cSharpTabPage.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.csTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -416,7 +417,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateValuesTabControl.Controls.Add(this.commonTabPage);
 			this.templateValuesTabControl.Controls.Add(this.publishTabPage);
 			this.templateValuesTabControl.Controls.Add(this.otherTabPage);
-			this.templateValuesTabControl.Controls.Add(this.variablesTabpage);
+			this.templateValuesTabControl.Controls.Add(this.planVideosTabpage);
 			this.templateValuesTabControl.Controls.Add(this.cSharpTabPage);
 			this.templateValuesTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateValuesTabControl.Location = new System.Drawing.Point(10, 69);
@@ -1386,275 +1387,259 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
 			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckboxCheckedChanged);
 			// 
-			// variablesTabpage
+			// planVideosTabpage
 			// 
-			this.variablesTabpage.BackColor = System.Drawing.SystemColors.Control;
-			this.variablesTabpage.Controls.Add(this.globalVarsTlp);
-			this.variablesTabpage.Location = new System.Drawing.Point(4, 22);
-			this.variablesTabpage.Margin = new System.Windows.Forms.Padding(2);
-			this.variablesTabpage.Name = "variablesTabpage";
-			this.variablesTabpage.Padding = new System.Windows.Forms.Padding(2);
-			this.variablesTabpage.Size = new System.Drawing.Size(902, 628);
-			this.variablesTabpage.TabIndex = 3;
-			this.variablesTabpage.Text = "Variablen";
+			this.planVideosTabpage.BackColor = System.Drawing.SystemColors.Control;
+			this.planVideosTabpage.Controls.Add(this.planVideosTlp);
+			this.planVideosTabpage.Location = new System.Drawing.Point(4, 22);
+			this.planVideosTabpage.Margin = new System.Windows.Forms.Padding(2);
+			this.planVideosTabpage.Name = "planVideosTabpage";
+			this.planVideosTabpage.Padding = new System.Windows.Forms.Padding(2);
+			this.planVideosTabpage.Size = new System.Drawing.Size(902, 628);
+			this.planVideosTabpage.TabIndex = 3;
+			this.planVideosTabpage.Text = "Videos planen";
 			// 
-			// globalVarsTlp
+			// planVideosTlp
 			// 
-			this.globalVarsTlp.ColumnCount = 5;
-			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.globalVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.Controls.Add(this.addVarButton, 1, 5);
-			this.globalVarsTlp.Controls.Add(this.removeVarButton, 1, 7);
-			this.globalVarsTlp.Controls.Add(this.clearVarsButton, 1, 9);
-			this.globalVarsTlp.Controls.Add(this.localVarsListview, 3, 5);
-			this.globalVarsTlp.Controls.Add(this.editVarGroupbox, 1, 12);
-			this.globalVarsTlp.Controls.Add(this.globalVarsTextbox, 1, 1);
-			this.globalVarsTlp.Controls.Add(this.localVarsLabel, 1, 3);
-			this.globalVarsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.globalVarsTlp.Location = new System.Drawing.Point(2, 2);
-			this.globalVarsTlp.Margin = new System.Windows.Forms.Padding(0);
-			this.globalVarsTlp.Name = "globalVarsTlp";
-			this.globalVarsTlp.RowCount = 14;
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.globalVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.globalVarsTlp.Size = new System.Drawing.Size(898, 624);
-			this.globalVarsTlp.TabIndex = 0;
+			this.planVideosTlp.ColumnCount = 5;
+			this.planVideosTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.planVideosTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.planVideosTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.Controls.Add(this.addFilenameButton, 1, 3);
+			this.planVideosTlp.Controls.Add(this.removeFilenameButton, 1, 5);
+			this.planVideosTlp.Controls.Add(this.clearFilenamesButton, 1, 7);
+			this.planVideosTlp.Controls.Add(this.filenamesListView, 3, 3);
+			this.planVideosTlp.Controls.Add(this.filenamesLabel, 1, 1);
+			this.planVideosTlp.Controls.Add(this.groupBox1, 1, 10);
+			this.planVideosTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.planVideosTlp.Location = new System.Drawing.Point(2, 2);
+			this.planVideosTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.planVideosTlp.Name = "planVideosTlp";
+			this.planVideosTlp.RowCount = 12;
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.36735F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.63265F));
+			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.planVideosTlp.Size = new System.Drawing.Size(898, 624);
+			this.planVideosTlp.TabIndex = 0;
 			// 
-			// addVarButton
+			// addFilenameButton
 			// 
-			this.addVarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.addVarButton.AutoSize = true;
-			this.addVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addVarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.addVarButton.ForeColor = System.Drawing.Color.ForestGreen;
-			this.addVarButton.Location = new System.Drawing.Point(10, 193);
-			this.addVarButton.Margin = new System.Windows.Forms.Padding(0);
-			this.addVarButton.Name = "addVarButton";
-			this.addVarButton.Size = new System.Drawing.Size(41, 41);
-			this.addVarButton.TabIndex = 2;
-			this.addVarButton.Text = "+";
-			this.addVarButton.UseVisualStyleBackColor = true;
-			this.addVarButton.Click += new System.EventHandler(this.addVarButtonClick);
+			this.addFilenameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addFilenameButton.AutoSize = true;
+			this.addFilenameButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addFilenameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addFilenameButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.addFilenameButton.Location = new System.Drawing.Point(10, 28);
+			this.addFilenameButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addFilenameButton.Name = "addFilenameButton";
+			this.addFilenameButton.Size = new System.Drawing.Size(41, 41);
+			this.addFilenameButton.TabIndex = 2;
+			this.addFilenameButton.Text = "+";
+			this.addFilenameButton.UseVisualStyleBackColor = true;
 			// 
-			// removeVarButton
+			// removeFilenameButton
 			// 
-			this.removeVarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.removeVarButton.AutoSize = true;
-			this.removeVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.removeVarButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.removeVarButton.ForeColor = System.Drawing.Color.Red;
-			this.removeVarButton.Location = new System.Drawing.Point(10, 244);
-			this.removeVarButton.Margin = new System.Windows.Forms.Padding(0);
-			this.removeVarButton.Name = "removeVarButton";
-			this.removeVarButton.Size = new System.Drawing.Size(41, 41);
-			this.removeVarButton.TabIndex = 5;
-			this.removeVarButton.Text = "-";
-			this.removeVarButton.UseVisualStyleBackColor = true;
-			this.removeVarButton.Click += new System.EventHandler(this.removeVarButtonClick);
+			this.removeFilenameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.removeFilenameButton.AutoSize = true;
+			this.removeFilenameButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.removeFilenameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.removeFilenameButton.ForeColor = System.Drawing.Color.Red;
+			this.removeFilenameButton.Location = new System.Drawing.Point(10, 79);
+			this.removeFilenameButton.Margin = new System.Windows.Forms.Padding(0);
+			this.removeFilenameButton.Name = "removeFilenameButton";
+			this.removeFilenameButton.Size = new System.Drawing.Size(41, 41);
+			this.removeFilenameButton.TabIndex = 5;
+			this.removeFilenameButton.Text = "-";
+			this.removeFilenameButton.UseVisualStyleBackColor = true;
 			// 
-			// clearVarsButton
+			// clearFilenamesButton
 			// 
-			this.clearVarsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.clearVarsButton.AutoSize = true;
-			this.clearVarsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.clearVarsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.clearVarsButton.ForeColor = System.Drawing.Color.Red;
-			this.clearVarsButton.Location = new System.Drawing.Point(10, 295);
-			this.clearVarsButton.Margin = new System.Windows.Forms.Padding(0);
-			this.clearVarsButton.Name = "clearVarsButton";
-			this.clearVarsButton.Size = new System.Drawing.Size(41, 41);
-			this.clearVarsButton.TabIndex = 6;
-			this.clearVarsButton.Text = "x";
-			this.clearVarsButton.UseVisualStyleBackColor = true;
-			this.clearVarsButton.Click += new System.EventHandler(this.clearVarsButtonClick);
+			this.clearFilenamesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearFilenamesButton.AutoSize = true;
+			this.clearFilenamesButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearFilenamesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearFilenamesButton.ForeColor = System.Drawing.Color.Red;
+			this.clearFilenamesButton.Location = new System.Drawing.Point(10, 130);
+			this.clearFilenamesButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearFilenamesButton.Name = "clearFilenamesButton";
+			this.clearFilenamesButton.Size = new System.Drawing.Size(41, 41);
+			this.clearFilenamesButton.TabIndex = 6;
+			this.clearFilenamesButton.Text = "x";
+			this.clearFilenamesButton.UseVisualStyleBackColor = true;
 			// 
-			// localVarsListview
+			// filenamesListView
 			// 
-			this.localVarsListview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.filenamesListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.localVarsListview.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+			this.filenamesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.varNameColumnHeader,
             this.varContentColumnHeader});
-			this.localVarsListview.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.localVarsListview.FullRowSelect = true;
-			this.localVarsListview.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.localVarsListview.HideSelection = false;
-			this.localVarsListview.Location = new System.Drawing.Point(61, 193);
-			this.localVarsListview.Margin = new System.Windows.Forms.Padding(0);
-			this.localVarsListview.Name = "localVarsListview";
-			this.globalVarsTlp.SetRowSpan(this.localVarsListview, 6);
-			this.localVarsListview.ShowGroups = false;
-			this.localVarsListview.Size = new System.Drawing.Size(827, 279);
-			this.localVarsListview.TabIndex = 9;
-			this.localVarsListview.UseCompatibleStateImageBehavior = false;
-			this.localVarsListview.View = System.Windows.Forms.View.Details;
-			this.localVarsListview.SelectedIndexChanged += new System.EventHandler(this.localVarsListviewSelectedIndexChanged);
+			this.filenamesListView.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.filenamesListView.FullRowSelect = true;
+			this.filenamesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.filenamesListView.HideSelection = false;
+			this.filenamesListView.Location = new System.Drawing.Point(61, 28);
+			this.filenamesListView.Margin = new System.Windows.Forms.Padding(0);
+			this.filenamesListView.Name = "filenamesListView";
+			this.planVideosTlp.SetRowSpan(this.filenamesListView, 6);
+			this.filenamesListView.ShowGroups = false;
+			this.filenamesListView.Size = new System.Drawing.Size(827, 222);
+			this.filenamesListView.TabIndex = 9;
+			this.filenamesListView.UseCompatibleStateImageBehavior = false;
+			this.filenamesListView.View = System.Windows.Forms.View.Details;
 			// 
 			// varNameColumnHeader
 			// 
-			this.varNameColumnHeader.Text = "Variablenname";
-			this.varNameColumnHeader.Width = 160;
+			this.varNameColumnHeader.Text = "Dateiname";
+			this.varNameColumnHeader.Width = 400;
 			// 
 			// varContentColumnHeader
 			// 
-			this.varContentColumnHeader.Text = "Variableninhalt";
-			this.varContentColumnHeader.Width = 450;
+			this.varContentColumnHeader.Text = "Alle Felder ausgefüllt";
+			this.varContentColumnHeader.Width = 250;
 			// 
-			// editVarGroupbox
+			// filenamesLabel
 			// 
-			this.editVarGroupbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.filenamesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenamesLabel.AutoSize = true;
+			this.planVideosTlp.SetColumnSpan(this.filenamesLabel, 3);
+			this.filenamesLabel.Location = new System.Drawing.Point(13, 10);
+			this.filenamesLabel.Name = "filenamesLabel";
+			this.filenamesLabel.Size = new System.Drawing.Size(872, 13);
+			this.filenamesLabel.TabIndex = 12;
+			this.filenamesLabel.Text = "Dateien:";
+			// 
+			// groupBox1
+			// 
+			this.planVideosTlp.SetColumnSpan(this.groupBox1, 3);
+			this.groupBox1.Controls.Add(this.fillFieldsTlp);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBox1.Location = new System.Drawing.Point(10, 260);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(878, 353);
+			this.groupBox1.TabIndex = 13;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Felder ausfüllen: ";
+			// 
+			// fillFieldsTlp
+			// 
+			this.fillFieldsTlp.ColumnCount = 5;
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.Controls.Add(this.listView1, 1, 1);
+			this.fillFieldsTlp.Controls.Add(this.filenameFieldLabel, 1, 3);
+			this.fillFieldsTlp.Controls.Add(this.filenameValueLabel, 1, 5);
+			this.fillFieldsTlp.Controls.Add(this.filenameFieldTxbx, 3, 3);
+			this.fillFieldsTlp.Controls.Add(this.filenameValueTxbx, 3, 5);
+			this.fillFieldsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.fillFieldsTlp.Location = new System.Drawing.Point(3, 16);
+			this.fillFieldsTlp.Name = "fillFieldsTlp";
+			this.fillFieldsTlp.RowCount = 7;
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.fillFieldsTlp.Size = new System.Drawing.Size(872, 334);
+			this.fillFieldsTlp.TabIndex = 0;
+			// 
+			// listView1
+			// 
+			this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.editVarGroupbox.AutoSize = true;
-			this.editVarGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.globalVarsTlp.SetColumnSpan(this.editVarGroupbox, 3);
-			this.editVarGroupbox.Controls.Add(this.editVarsTlp);
-			this.editVarGroupbox.Enabled = false;
-			this.editVarGroupbox.Location = new System.Drawing.Point(10, 482);
-			this.editVarGroupbox.Margin = new System.Windows.Forms.Padding(0);
-			this.editVarGroupbox.Name = "editVarGroupbox";
-			this.editVarGroupbox.Size = new System.Drawing.Size(878, 132);
-			this.editVarGroupbox.TabIndex = 10;
-			this.editVarGroupbox.TabStop = false;
-			this.editVarGroupbox.Text = "Variable bearbeiten";
+			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+			this.fillFieldsTlp.SetColumnSpan(this.listView1, 3);
+			this.listView1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.listView1.FullRowSelect = true;
+			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.listView1.HideSelection = false;
+			this.listView1.Location = new System.Drawing.Point(10, 10);
+			this.listView1.Margin = new System.Windows.Forms.Padding(0);
+			this.listView1.Name = "listView1";
+			this.listView1.ShowGroups = false;
+			this.listView1.Size = new System.Drawing.Size(852, 181);
+			this.listView1.TabIndex = 9;
+			this.listView1.UseCompatibleStateImageBehavior = false;
+			this.listView1.View = System.Windows.Forms.View.Details;
 			// 
-			// editVarsTlp
+			// columnHeader1
 			// 
-			this.editVarsTlp.AutoSize = true;
-			this.editVarsTlp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.editVarsTlp.ColumnCount = 5;
-			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.editVarsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.editVarsTlp.Controls.Add(this.varNameLabel, 1, 1);
-			this.editVarsTlp.Controls.Add(this.varContentLabel, 1, 3);
-			this.editVarsTlp.Controls.Add(this.saveVarButton, 3, 5);
-			this.editVarsTlp.Controls.Add(this.varNameTextbox, 3, 1);
-			this.editVarsTlp.Controls.Add(this.varContentTextbox, 3, 3);
-			this.editVarsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.editVarsTlp.Location = new System.Drawing.Point(3, 16);
-			this.editVarsTlp.Name = "editVarsTlp";
-			this.editVarsTlp.RowCount = 8;
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.editVarsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.editVarsTlp.Size = new System.Drawing.Size(872, 113);
-			this.editVarsTlp.TabIndex = 0;
+			this.columnHeader1.Text = "Feld";
+			this.columnHeader1.Width = 250;
 			// 
-			// varNameLabel
+			// columnHeader2
 			// 
-			this.varNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.varNameLabel.AutoSize = true;
-			this.varNameLabel.Location = new System.Drawing.Point(7, 13);
-			this.varNameLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.varNameLabel.Name = "varNameLabel";
-			this.varNameLabel.Size = new System.Drawing.Size(83, 13);
-			this.varNameLabel.TabIndex = 0;
-			this.varNameLabel.Text = "Variablenname: ";
+			this.columnHeader2.Text = "Wert";
+			this.columnHeader2.Width = 400;
 			// 
-			// varContentLabel
+			// filenameFieldLabel
 			// 
-			this.varContentLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.varContentLabel.AutoSize = true;
-			this.varContentLabel.Location = new System.Drawing.Point(7, 49);
-			this.varContentLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.varContentLabel.Name = "varContentLabel";
-			this.varContentLabel.Size = new System.Drawing.Size(83, 13);
-			this.varContentLabel.TabIndex = 0;
-			this.varContentLabel.Text = "Variableninhalt: ";
+			this.filenameFieldLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenameFieldLabel.AutoSize = true;
+			this.filenameFieldLabel.Location = new System.Drawing.Point(10, 207);
+			this.filenameFieldLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.filenameFieldLabel.Name = "filenameFieldLabel";
+			this.filenameFieldLabel.Size = new System.Drawing.Size(33, 13);
+			this.filenameFieldLabel.TabIndex = 10;
+			this.filenameFieldLabel.Text = "Feld:";
 			// 
-			// saveVarButton
+			// filenameValueLabel
 			// 
-			this.saveVarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.saveVarButton.AutoSize = true;
-			this.saveVarButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.saveVarButton.Location = new System.Drawing.Point(765, 79);
-			this.saveVarButton.Margin = new System.Windows.Forms.Padding(0);
-			this.saveVarButton.Name = "saveVarButton";
-			this.saveVarButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
-			this.saveVarButton.Size = new System.Drawing.Size(100, 27);
-			this.saveVarButton.TabIndex = 2;
-			this.saveVarButton.Text = "Übernehmen";
-			this.saveVarButton.UseVisualStyleBackColor = true;
-			this.saveVarButton.Click += new System.EventHandler(this.saveVarButtonClick);
+			this.filenameValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenameValueLabel.AutoSize = true;
+			this.filenameValueLabel.Location = new System.Drawing.Point(10, 243);
+			this.filenameValueLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.filenameValueLabel.Name = "filenameValueLabel";
+			this.filenameValueLabel.Size = new System.Drawing.Size(33, 13);
+			this.filenameValueLabel.TabIndex = 10;
+			this.filenameValueLabel.Text = "Wert:";
 			// 
-			// varNameTextbox
+			// filenameFieldTxbx
 			// 
-			this.varNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.varNameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.varNameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.varNameTextbox.Location = new System.Drawing.Point(100, 7);
-			this.varNameTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.varNameTextbox.Name = "varNameTextbox";
-			this.varNameTextbox.Size = new System.Drawing.Size(765, 26);
-			this.varNameTextbox.TabIndex = 4;
+			this.filenameFieldTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenameFieldTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.filenameFieldTxbx.Location = new System.Drawing.Point(53, 201);
+			this.filenameFieldTxbx.Margin = new System.Windows.Forms.Padding(0);
+			this.filenameFieldTxbx.Name = "filenameFieldTxbx";
+			this.filenameFieldTxbx.ReadOnly = true;
+			this.filenameFieldTxbx.Size = new System.Drawing.Size(809, 26);
+			this.filenameFieldTxbx.TabIndex = 11;
 			// 
-			// varContentTextbox
+			// filenameValueTxbx
 			// 
-			this.varContentTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.varContentTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.varContentTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.varContentTextbox.Location = new System.Drawing.Point(100, 43);
-			this.varContentTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.varContentTextbox.Name = "varContentTextbox";
-			this.varContentTextbox.Size = new System.Drawing.Size(765, 26);
-			this.varContentTextbox.TabIndex = 4;
-			// 
-			// globalVarsTextbox
-			// 
-			this.globalVarsTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.globalVarsTlp.SetColumnSpan(this.globalVarsTextbox, 3);
-			this.globalVarsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.globalVarsTextbox.Location = new System.Drawing.Point(10, 10);
-			this.globalVarsTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.globalVarsTextbox.Multiline = true;
-			this.globalVarsTextbox.Name = "globalVarsTextbox";
-			this.globalVarsTextbox.ReadOnly = true;
-			this.globalVarsTextbox.Size = new System.Drawing.Size(878, 155);
-			this.globalVarsTextbox.TabIndex = 11;
-			this.globalVarsTextbox.TabStop = false;
-			this.globalVarsTextbox.Text = resources.GetString("globalVarsTextbox.Text");
-			// 
-			// localVarsLabel
-			// 
-			this.localVarsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.localVarsLabel.AutoSize = true;
-			this.globalVarsTlp.SetColumnSpan(this.localVarsLabel, 3);
-			this.localVarsLabel.Location = new System.Drawing.Point(13, 175);
-			this.localVarsLabel.Name = "localVarsLabel";
-			this.localVarsLabel.Size = new System.Drawing.Size(872, 13);
-			this.localVarsLabel.TabIndex = 12;
-			this.localVarsLabel.Text = "Eigene Variablen:";
+			this.filenameValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenameValueTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.filenameValueTxbx.Location = new System.Drawing.Point(53, 237);
+			this.filenameValueTxbx.Margin = new System.Windows.Forms.Padding(0);
+			this.filenameValueTxbx.Name = "filenameValueTxbx";
+			this.filenameValueTxbx.Size = new System.Drawing.Size(809, 26);
+			this.filenameValueTxbx.TabIndex = 11;
 			// 
 			// cSharpTabPage
 			// 
 			this.cSharpTabPage.BackColor = System.Drawing.SystemColors.Control;
-			this.cSharpTabPage.Controls.Add(this.tableLayoutPanel1);
+			this.cSharpTabPage.Controls.Add(this.csTlp);
 			this.cSharpTabPage.Location = new System.Drawing.Point(4, 22);
 			this.cSharpTabPage.Name = "cSharpTabPage";
 			this.cSharpTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -1662,32 +1647,32 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpTabPage.TabIndex = 4;
 			this.cSharpTabPage.Text = "C#-Scripting";
 			// 
-			// tableLayoutPanel1
+			// csTlp
 			// 
-			this.tableLayoutPanel1.ColumnCount = 3;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Controls.Add(this.cSharpCleanupFctb, 1, 7);
-			this.tableLayoutPanel1.Controls.Add(this.cSharpPrepareFctb, 1, 4);
-			this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this.label1, 1, 3);
-			this.tableLayoutPanel1.Controls.Add(this.label2, 1, 6);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 9;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(896, 622);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this.csTlp.ColumnCount = 3;
+			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.Controls.Add(this.cSharpCleanupFctb, 1, 7);
+			this.csTlp.Controls.Add(this.cSharpPrepareFctb, 1, 4);
+			this.csTlp.Controls.Add(this.csDescriptionTxbx, 1, 1);
+			this.csTlp.Controls.Add(this.globalPrepareScriptLabel, 1, 3);
+			this.csTlp.Controls.Add(this.globalAfterScriptsLabel, 1, 6);
+			this.csTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.csTlp.Location = new System.Drawing.Point(3, 3);
+			this.csTlp.Name = "csTlp";
+			this.csTlp.RowCount = 9;
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.csTlp.Size = new System.Drawing.Size(896, 622);
+			this.csTlp.TabIndex = 0;
 			// 
 			// cSharpCleanupFctb
 			// 
@@ -1781,44 +1766,44 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpPrepareFctb.Zoom = 100;
 			this.cSharpPrepareFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpPrepareFctbTextChanged);
 			// 
-			// textBox1
+			// csDescriptionTxbx
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.csDescriptionTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBox1.Location = new System.Drawing.Point(10, 10);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(0);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(876, 92);
-			this.textBox1.TabIndex = 12;
-			this.textBox1.TabStop = false;
-			this.textBox1.Text = resources.GetString("textBox1.Text");
+			this.csDescriptionTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.csDescriptionTxbx.Location = new System.Drawing.Point(10, 10);
+			this.csDescriptionTxbx.Margin = new System.Windows.Forms.Padding(0);
+			this.csDescriptionTxbx.Multiline = true;
+			this.csDescriptionTxbx.Name = "csDescriptionTxbx";
+			this.csDescriptionTxbx.ReadOnly = true;
+			this.csDescriptionTxbx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.csDescriptionTxbx.Size = new System.Drawing.Size(876, 92);
+			this.csDescriptionTxbx.TabIndex = 12;
+			this.csDescriptionTxbx.TabStop = false;
+			this.csDescriptionTxbx.Text = resources.GetString("csDescriptionTxbx.Text");
 			// 
-			// label1
+			// globalPrepareScriptLabel
 			// 
-			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(10, 112);
-			this.label1.Margin = new System.Windows.Forms.Padding(0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(876, 13);
-			this.label1.TabIndex = 15;
-			this.label1.Text = "Globales Vorbereitungsskript:";
+			this.globalPrepareScriptLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.globalPrepareScriptLabel.AutoSize = true;
+			this.globalPrepareScriptLabel.Location = new System.Drawing.Point(10, 112);
+			this.globalPrepareScriptLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.globalPrepareScriptLabel.Name = "globalPrepareScriptLabel";
+			this.globalPrepareScriptLabel.Size = new System.Drawing.Size(876, 13);
+			this.globalPrepareScriptLabel.TabIndex = 15;
+			this.globalPrepareScriptLabel.Text = "Globales Vorbereitungsskript:";
 			// 
-			// label2
+			// globalAfterScriptsLabel
 			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 366);
-			this.label2.Margin = new System.Windows.Forms.Padding(0);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(876, 13);
-			this.label2.TabIndex = 15;
-			this.label2.Text = "Globales Nachbereitungsskript:";
+			this.globalAfterScriptsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.globalAfterScriptsLabel.AutoSize = true;
+			this.globalAfterScriptsLabel.Location = new System.Drawing.Point(10, 366);
+			this.globalAfterScriptsLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.globalAfterScriptsLabel.Name = "globalAfterScriptsLabel";
+			this.globalAfterScriptsLabel.Size = new System.Drawing.Size(876, 13);
+			this.globalAfterScriptsLabel.TabIndex = 15;
+			this.globalAfterScriptsLabel.Text = "Globales Nachbereitungsskript:";
 			// 
 			// editTemplateLabel
 			// 
@@ -1896,16 +1881,15 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTlp.ResumeLayout(false);
 			this.otherTlp.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).EndInit();
-			this.variablesTabpage.ResumeLayout(false);
-			this.globalVarsTlp.ResumeLayout(false);
-			this.globalVarsTlp.PerformLayout();
-			this.editVarGroupbox.ResumeLayout(false);
-			this.editVarGroupbox.PerformLayout();
-			this.editVarsTlp.ResumeLayout(false);
-			this.editVarsTlp.PerformLayout();
+			this.planVideosTabpage.ResumeLayout(false);
+			this.planVideosTlp.ResumeLayout(false);
+			this.planVideosTlp.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.fillFieldsTlp.ResumeLayout(false);
+			this.fillFieldsTlp.PerformLayout();
 			this.cSharpTabPage.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this.csTlp.ResumeLayout(false);
+			this.csTlp.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).EndInit();
 			this.splitContainer.Panel1.ResumeLayout(false);
@@ -1986,31 +1970,32 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
 		private System.Windows.Forms.CheckBox stabilizeCheckbox;
-		private System.Windows.Forms.TabPage variablesTabpage;
-		private System.Windows.Forms.TableLayoutPanel globalVarsTlp;
-		private System.Windows.Forms.Button addVarButton;
-		private System.Windows.Forms.Button removeVarButton;
-		private System.Windows.Forms.Button clearVarsButton;
-		private System.Windows.Forms.ListView localVarsListview;
+		private System.Windows.Forms.TabPage planVideosTabpage;
+		private System.Windows.Forms.TableLayoutPanel planVideosTlp;
+		private System.Windows.Forms.Button addFilenameButton;
+		private System.Windows.Forms.Button removeFilenameButton;
+		private System.Windows.Forms.Button clearFilenamesButton;
+		private System.Windows.Forms.ListView filenamesListView;
 		private System.Windows.Forms.ColumnHeader varNameColumnHeader;
 		private System.Windows.Forms.ColumnHeader varContentColumnHeader;
-		private System.Windows.Forms.GroupBox editVarGroupbox;
-		private System.Windows.Forms.TextBox globalVarsTextbox;
-		private System.Windows.Forms.TableLayoutPanel editVarsTlp;
-		private System.Windows.Forms.Label varNameLabel;
-		private System.Windows.Forms.Label varContentLabel;
-		private System.Windows.Forms.Button saveVarButton;
-		private System.Windows.Forms.TextBox varNameTextbox;
-		private System.Windows.Forms.TextBox varContentTextbox;
-		private System.Windows.Forms.Label localVarsLabel;
+		private System.Windows.Forms.Label filenamesLabel;
 		private System.Windows.Forms.Button duplicateTemplateButton;
 		private System.Windows.Forms.OpenFileDialog openThumbnailDialog;
 		private TabPage cSharpTabPage;
-		private TableLayoutPanel tableLayoutPanel1;
+		private TableLayoutPanel csTlp;
 		private FastColoredTextBox cSharpCleanupFctb;
 		private FastColoredTextBox cSharpPrepareFctb;
-		private TextBox textBox1;
-		private Label label1;
-		private Label label2;
+		private TextBox csDescriptionTxbx;
+		private Label globalPrepareScriptLabel;
+		private Label globalAfterScriptsLabel;
+		private GroupBox groupBox1;
+		private TableLayoutPanel fillFieldsTlp;
+		private ListView listView1;
+		private ColumnHeader columnHeader1;
+		private ColumnHeader columnHeader2;
+		private Label filenameFieldLabel;
+		private Label filenameValueLabel;
+		private TextBox filenameFieldTxbx;
+		private TextBox filenameValueTxbx;
 	}
 }
