@@ -155,6 +155,7 @@
     <Compile Include="TemplateContainer.cs" />
     <Compile Include="Internal\Templates\PublishTimeCalculator.cs" />
     <Compile Include="Templates\ObservationConfiguration.cs" />
+    <Compile Include="Templates\PlannedVideo.cs" />
     <Compile Include="Templates\PublishTime.cs" />
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Internal\Templates\TemplateVideoCreator.cs" />

@@ -120,6 +120,49 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			CsScript = null;
 		}
 
+		public static IList<string> GetFieldNames(ITemplate template)
+		{
+			List<string> result = new List<string>();
+
+			result.AddRange(FindFieldNames(template.Title));
+			result.AddRange(FindFieldNames(template.Description));
+			result.AddRange(FindFieldNames(template.Tags));
+			result.AddRange(FindFieldNames(template.ThumbnailPath));
+
+			return result.Distinct().ToList();
+		}
+
+		private static IList<string> FindFieldNames(string text)
+		{
+			IList<string> result = new List<string>();
+
+			if (text == null)
+			{
+				text = string.Empty;
+			}
+
+			for (int currentPos = 0; currentPos < text.Length; currentPos++)
+			{
+				if (text[currentPos] == '<')
+				{
+					ScriptType scriptType = FindScriptType(text, currentPos);
+
+					// Get if it is a simple script
+					if (scriptType.HasFlag(ScriptType.Simple))
+					{
+						int closingPos = FindClosingPosition(text, currentPos);
+						if (closingPos > currentPos)
+						{
+							var fieldName = text.Substring(currentPos + 1, closingPos - currentPos - 2).ToLower().Trim();
+							result.Add(fieldName);
+						}
+					}
+				}
+			}
+			
+			return result;
+		}
+
 		public string Evaluate(string text)
 		{
 			if (text == null)
@@ -243,7 +286,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 		}
 
-		private ScriptType FindScriptType(string text, int currentPos)
+		private static ScriptType FindScriptType(string text, int currentPos)
 		{
 			ScriptType type = ScriptType.Simple;
 
@@ -290,7 +333,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			return result;
 		}
 
-		private int FindClosingPosition(string text, int start)
+		private static int FindClosingPosition(string text, int start)
 		{
 			int openedCount = 0;
 			int closingPosition = -1;
