@@ -5,10 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
+using STFU.Lib.Youtube.Persistor;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -17,16 +19,18 @@ namespace STFU.Executable.AutoUploader.Forms
 		private ITemplateContainer templateContainer;
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private TemplatePersistor templatePersistor;
 		private ITemplate current;
 		private bool reordering = false;
 
-		public TemplateForm(ITemplateContainer templateContainer, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
+		public TemplateForm(TemplatePersistor persistor, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
 		{
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
 
-			this.templateContainer = templateContainer;
+			templatePersistor = persistor;
+			this.templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
 		}
@@ -342,6 +346,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
 				current = new Template();
 				ClearEditView();
+
+				templatePersistor.Save();
 			}
 		}
 
@@ -647,6 +653,93 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.CSharpCleanUpScript = cSharpCleanupFctb.Text;
+			}
+		}
+
+		private void planVideosTabpageEntered(object sender, EventArgs e)
+		{
+			RefreshFieldNames();
+			RefillPlannedVideosListView();
+		}
+
+		private void RefreshFieldNames()
+		{
+			// Refresh der Feldnamen
+			var fieldNames = ExpressionEvaluator.GetFieldNames(current);
+
+			foreach (var plannedVid in current.PlannedVideos)
+			{
+				var fieldsDict = fieldNames.ToDictionary(name => name, name => string.Empty);
+
+				foreach (var name in fieldNames)
+				{
+					if (plannedVid.Fields.ContainsKey(name))
+					{
+						fieldsDict[name] = plannedVid.Fields[name];
+					}
+				}
+
+				plannedVid.Fields = fieldsDict;
+			}
+		}
+
+		private void RefillPlannedVideosListView()
+		{
+			filenamesListView.Items.Clear();
+
+			foreach (var plannedVid in current.PlannedVideos)
+			{
+				ListViewItem item = new ListViewItem(plannedVid.Name);
+				item.SubItems.Add(plannedVid.Fields.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein");
+
+				filenamesListView.Items.Add(item);
+			}
+		}
+
+		private void RefillFillFieldsListView()
+		{
+			fillFieldsListView.Items.Clear();
+			filenameFieldTxbx.Text = string.Empty;
+			filenameValueTxbx.Text = string.Empty;
+
+			if (filenamesListView.SelectedIndices.Count == 1)
+			{
+				foreach (var field in current.PlannedVideos[filenamesListView.SelectedIndices[0]].Fields)
+				{
+					ListViewItem item = new ListViewItem(field.Key);
+					item.SubItems.Add(field.Value);
+
+					fillFieldsListView.Items.Add(item);
+				}
+			}
+		}
+
+		private void filenamesListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			fillFieldsGroupbox.Enabled = filenamesListView.SelectedIndices.Count == 1;
+
+			RefillFillFieldsListView();
+		}
+
+		private void addFilenameButtonClick(object sender, EventArgs e)
+		{
+			AddPlannedVideoForm addForm = new AddPlannedVideoForm();
+			var result = addForm.ShowDialog();
+
+			if (result == DialogResult.OK
+				&& current.PlannedVideos.All(v => v.Name.ToLower() != addForm.Filename.ToLower())
+				&& !string.IsNullOrWhiteSpace(addForm.Filename))
+			{
+				IPlannedVideo video = new PlannedVideo();
+				video.Name = addForm.Filename.ToLower();
+				current.PlannedVideos.Add(video);
+
+				RefreshFieldNames();
+
+				RefillPlannedVideosListView();
+
+				filenamesListView.SelectedIndices.Clear();
+				filenamesListView.SelectedIndices.Add(filenamesListView.Items.Count - 1);
 			}
 		}
 	}

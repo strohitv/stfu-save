@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -153,9 +152,13 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						int closingPos = FindClosingPosition(text, currentPos);
 						if (closingPos > currentPos)
 						{
-							var fieldName = text.Substring(currentPos + 1, closingPos - currentPos - 2).ToLower().Trim();
+							var fieldName = text.Substring(currentPos + 1, closingPos - currentPos - 1).ToLower().Trim();
 							result.Add(fieldName);
 						}
+					}
+					else
+					{
+						currentPos = FindComplexClosingPosition(text, currentPos);
 					}
 				}
 			}
@@ -310,7 +313,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			return type;
 		}
 
-		private int FindComplexClosingPosition(string text, int currentPos)
+		private static int FindComplexClosingPosition(string text, int currentPos)
 		{
 			return text.IndexOf(">>>", currentPos);
 		}
