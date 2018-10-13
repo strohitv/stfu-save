@@ -189,7 +189,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			cSharpCleanupFctb.Text = template.CSharpCleanUpScript;
 
 			RefillTimesListView();
-			RefillVariablesListView();
 
 			if (template.PublishTimes.Count > 0)
 			{
@@ -589,19 +588,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.Stabilize = stabilizeCheckbox.Checked;
-		}
-
-		private void RefillVariablesListView()
-		{
-			filenamesListView.SelectedIndices.Clear();
-			filenamesListView.Items.Clear();
-
-			foreach (var variable in current.LocalVariables.OrderBy(v => v.Key))
-			{
-				ListViewItem item = new ListViewItem(variable.Value.Name);
-				item.SubItems.Add(variable.Value.Content);
-				filenamesListView.Items.Add(item);
-			}
 		}
 
 		private void duplicateTemplateButtonClick(object sender, EventArgs e)

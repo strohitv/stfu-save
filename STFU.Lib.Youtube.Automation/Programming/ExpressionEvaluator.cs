@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using MoonSharp.Interpreter;
-using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using mss = MoonSharp.Interpreter;
 
 namespace STFU.Lib.Youtube.Automation.Programming
@@ -19,15 +18,13 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		private string TemplateName { get; set; }
 		private string CSharpPreparationScript { get; set; }
 		private string CSharpCleanupScript { get; set; }
-		private IReadOnlyDictionary<string, IVariable> Variables { get; set; }
 
 		private ScriptState<object> CsScript { get; set; }
 
-		public ExpressionEvaluator(string filepath, string templatename, IReadOnlyDictionary<string, IVariable> variables, string csharpPreparationScript, string csharpCleanupScript)
+		public ExpressionEvaluator(string filepath, string templatename, string csharpPreparationScript, string csharpCleanupScript)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;
-			Variables = variables;
 
 			CSharpPreparationScript = csharpPreparationScript;
 			CSharpCleanupScript = csharpCleanupScript;
@@ -341,11 +338,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		{
 			string result = identifier;
 
-			if (Variables.ContainsKey(identifier.ToLower()))
-			{
-				result = Evaluate(Variables[identifier.ToLower()].Content);
-			}
-			else if (Variable.GlobalVariables.ContainsKey(identifier.ToLower()))
+			if (Variable.GlobalVariables.ContainsKey(identifier.ToLower()))
 			{
 				result = Variable.GlobalVariables[identifier.ToLower()](FilePath, TemplateName);
 			}

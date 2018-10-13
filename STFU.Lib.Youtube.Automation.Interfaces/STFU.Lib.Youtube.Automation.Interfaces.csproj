@@ -38,6 +38,7 @@
     <Compile Include="Model\IObservationConfiguration.cs" />
     <Compile Include="Model\IPath.cs" />
     <Compile Include="IPathContainer.cs" />
+    <Compile Include="Model\IPlannedVideo.cs" />
     <Compile Include="Model\IPublishTime.cs" />
     <Compile Include="Model\ITemplate.cs" />
     <Compile Include="ITemplateContainer.cs" />
