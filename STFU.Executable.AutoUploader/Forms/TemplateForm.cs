@@ -699,8 +699,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void RefillFillFieldsListView()
 		{
 			fillFieldsListView.Items.Clear();
-			filenameFieldTxbx.Text = string.Empty;
-			filenameValueTxbx.Text = string.Empty;
+			fieldNameTxbx.Text = string.Empty;
+			fieldValueTxbx.Text = string.Empty;
 
 			if (filenamesListView.SelectedIndices.Count == 1)
 			{
@@ -741,6 +741,50 @@ namespace STFU.Executable.AutoUploader.Forms
 				filenamesListView.SelectedIndices.Clear();
 				filenamesListView.SelectedIndices.Add(filenamesListView.Items.Count - 1);
 			}
+		}
+
+		private void fillFieldsListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (fillFieldsListView.SelectedIndices.Count == 1)
+			{
+				fieldNameTxbx.Text = fillFieldsListView.SelectedItems[0].Text;
+
+				fieldValueTxbx.Text = current
+					.PlannedVideos[filenamesListView.SelectedIndices[0]]
+					.Fields[fillFieldsListView.SelectedItems[0].Text];
+			}
+			else
+			{
+				fieldNameTxbx.Text = string.Empty;
+				fieldValueTxbx.Text = string.Empty;
+			}
+		}
+
+		private void fieldValueTxbxTextChanged(object sender, EventArgs e)
+		{
+			if (fillFieldsListView.SelectedIndices.Count == 1)
+			{
+				current
+					.PlannedVideos[filenamesListView.SelectedIndices[0]]
+					.Fields[fillFieldsListView.SelectedItems[0].Text]
+					= fieldValueTxbx.Text;
+
+				RefreshFieldValue();
+				RefreshFilenamesAllFilled();
+			}
+		}
+
+		private void RefreshFieldValue()
+		{
+			fillFieldsListView.SelectedItems[0].SubItems[1].Text = fieldValueTxbx.Text;
+		}
+
+		private void RefreshFilenamesAllFilled()
+		{
+			filenamesListView.SelectedItems[0].SubItems[1].Text 
+				= current.PlannedVideos[filenamesListView.SelectedIndices[0]]
+				.Fields
+				.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein";
 		}
 	}
 }

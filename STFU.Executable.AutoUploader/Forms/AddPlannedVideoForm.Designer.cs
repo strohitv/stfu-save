@@ -141,6 +141,7 @@
 			this.ClientSize = new System.Drawing.Size(487, 137);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "AddPlannedVideoForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Video hinzufügen";
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();

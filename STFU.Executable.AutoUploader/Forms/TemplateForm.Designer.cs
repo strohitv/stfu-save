@@ -115,8 +115,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.filenameFieldLabel = new System.Windows.Forms.Label();
 			this.filenameValueLabel = new System.Windows.Forms.Label();
-			this.filenameFieldTxbx = new System.Windows.Forms.TextBox();
-			this.filenameValueTxbx = new System.Windows.Forms.TextBox();
+			this.fieldNameTxbx = new System.Windows.Forms.TextBox();
+			this.fieldValueTxbx = new System.Windows.Forms.TextBox();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
 			this.csTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -1549,8 +1549,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsTlp.Controls.Add(this.fillFieldsListView, 1, 1);
 			this.fillFieldsTlp.Controls.Add(this.filenameFieldLabel, 1, 3);
 			this.fillFieldsTlp.Controls.Add(this.filenameValueLabel, 1, 5);
-			this.fillFieldsTlp.Controls.Add(this.filenameFieldTxbx, 3, 3);
-			this.fillFieldsTlp.Controls.Add(this.filenameValueTxbx, 3, 5);
+			this.fillFieldsTlp.Controls.Add(this.fieldNameTxbx, 3, 3);
+			this.fillFieldsTlp.Controls.Add(this.fieldValueTxbx, 3, 5);
 			this.fillFieldsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fillFieldsTlp.Location = new System.Drawing.Point(3, 16);
 			this.fillFieldsTlp.Name = "fillFieldsTlp";
@@ -1586,6 +1586,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsListView.TabIndex = 9;
 			this.fillFieldsListView.UseCompatibleStateImageBehavior = false;
 			this.fillFieldsListView.View = System.Windows.Forms.View.Details;
+			this.fillFieldsListView.SelectedIndexChanged += new System.EventHandler(this.fillFieldsListViewSelectedIndexChanged);
 			// 
 			// columnHeader1
 			// 
@@ -1619,26 +1620,27 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameValueLabel.TabIndex = 10;
 			this.filenameValueLabel.Text = "Wert:";
 			// 
-			// filenameFieldTxbx
+			// fieldNameTxbx
 			// 
-			this.filenameFieldTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.filenameFieldTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.filenameFieldTxbx.Location = new System.Drawing.Point(53, 201);
-			this.filenameFieldTxbx.Margin = new System.Windows.Forms.Padding(0);
-			this.filenameFieldTxbx.Name = "filenameFieldTxbx";
-			this.filenameFieldTxbx.ReadOnly = true;
-			this.filenameFieldTxbx.Size = new System.Drawing.Size(809, 26);
-			this.filenameFieldTxbx.TabIndex = 11;
+			this.fieldNameTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.fieldNameTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.fieldNameTxbx.Location = new System.Drawing.Point(53, 201);
+			this.fieldNameTxbx.Margin = new System.Windows.Forms.Padding(0);
+			this.fieldNameTxbx.Name = "fieldNameTxbx";
+			this.fieldNameTxbx.ReadOnly = true;
+			this.fieldNameTxbx.Size = new System.Drawing.Size(809, 26);
+			this.fieldNameTxbx.TabIndex = 11;
 			// 
-			// filenameValueTxbx
+			// fieldValueTxbx
 			// 
-			this.filenameValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.filenameValueTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.filenameValueTxbx.Location = new System.Drawing.Point(53, 237);
-			this.filenameValueTxbx.Margin = new System.Windows.Forms.Padding(0);
-			this.filenameValueTxbx.Name = "filenameValueTxbx";
-			this.filenameValueTxbx.Size = new System.Drawing.Size(809, 26);
-			this.filenameValueTxbx.TabIndex = 11;
+			this.fieldValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.fieldValueTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.fieldValueTxbx.Location = new System.Drawing.Point(53, 237);
+			this.fieldValueTxbx.Margin = new System.Windows.Forms.Padding(0);
+			this.fieldValueTxbx.Name = "fieldValueTxbx";
+			this.fieldValueTxbx.Size = new System.Drawing.Size(809, 26);
+			this.fieldValueTxbx.TabIndex = 11;
+			this.fieldValueTxbx.TextChanged += new System.EventHandler(this.fieldValueTxbxTextChanged);
 			// 
 			// cSharpTabPage
 			// 
@@ -1999,7 +2001,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private ColumnHeader columnHeader2;
 		private Label filenameFieldLabel;
 		private Label filenameValueLabel;
-		private TextBox filenameFieldTxbx;
-		private TextBox filenameValueTxbx;
+		private TextBox fieldNameTxbx;
+		private TextBox fieldValueTxbx;
 	}
 }
