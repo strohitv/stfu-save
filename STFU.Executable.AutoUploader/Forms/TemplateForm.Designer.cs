@@ -386,6 +386,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.saveTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.saveTemplateButton.AutoSize = true;
 			this.saveTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.saveTemplateButton.Enabled = false;
 			this.saveTemplateButton.Location = new System.Drawing.Point(736, 733);
 			this.saveTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveTemplateButton.Name = "saveTemplateButton";
@@ -401,6 +402,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.resetTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.resetTemplateButton.AutoSize = true;
 			this.resetTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.resetTemplateButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.resetTemplateButton.Enabled = false;
 			this.resetTemplateButton.Location = new System.Drawing.Point(833, 733);
 			this.resetTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.resetTemplateButton.Name = "resetTemplateButton";
@@ -1857,6 +1860,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// TemplateForm
 			// 
+			this.AcceptButton = this.saveTemplateButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1205, 770);
@@ -1866,6 +1870,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Templates bearbeiten";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TemplateFormFormClosing);
 			this.Load += new System.EventHandler(this.TemplateFormLoad);
 			this.templateOverviewTableLayouPanel.ResumeLayout(false);
 			this.templateOverviewTableLayouPanel.PerformLayout();

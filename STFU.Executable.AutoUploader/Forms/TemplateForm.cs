@@ -21,7 +21,27 @@ namespace STFU.Executable.AutoUploader.Forms
 		private IYoutubeLanguageContainer languageContainer;
 		private TemplatePersistor templatePersistor;
 		private ITemplate current;
+
 		private bool reordering = false;
+		private bool isDirty = false;
+		private bool skipDirtyManipulation = false;
+
+		private bool IsDirty
+		{
+			get
+			{
+				return isDirty;
+			}
+			set
+			{
+				if (!skipDirtyManipulation)
+				{
+					isDirty = value;
+					saveTemplateButton.Enabled = isDirty;
+					resetTemplateButton.Enabled = isDirty;
+				}
+			}
+		}
 
 		public TemplateForm(TemplatePersistor persistor, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
 		{
@@ -132,6 +152,10 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (!reordering)
 			{
+				AskForSaveIfIsDirty();
+
+				skipDirtyManipulation = true;
+
 				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
 				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
 
@@ -147,6 +171,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 					FillTemplateIntoEditView(current);
 				}
+
+				skipDirtyManipulation = false;
 			}
 		}
 
@@ -164,6 +190,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void FillTemplateIntoEditView(ITemplate template)
 		{
+			skipDirtyManipulation = true;
+
 			templateNameTextbox.Text = template.Name;
 
 			templateTitleTextbox.Text = template.Title;
@@ -202,6 +230,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				timesListView.SelectedIndices.Clear();
 				timesListView.SelectedIndices.Add(0);
 			}
+
+			skipDirtyManipulation = false;
 		}
 
 		private void publishAtCheckboxCheckedChanged(object sender, EventArgs e)
@@ -210,6 +240,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				current.ShouldPublishAt = publishAtCheckbox.Checked;
 				enablePublishAtControls();
+				IsDirty = true;
 			}
 		}
 
@@ -242,12 +273,39 @@ namespace STFU.Executable.AutoUploader.Forms
 						current.Privacy = PrivacyStatus.Private;
 						break;
 				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void AskForSaveIfIsDirty()
+		{
+			if (IsDirty)
+			{
+				var result = MessageBox.Show(this, "Das Template wurde bearbeitet. Speichern?", "Das Template wurde bearbeitet, aber nicht abgespeichert. Soll es jetzt gespeichert werden?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					templateContainer.UpdateTemplate(current);
+					templatePersistor.Save();
+
+					for (int i = 0; i < templateListView.Items.Count; i++)
+					{
+						var template = templateContainer.RegisteredTemplates.ElementAt(i);
+						templateListView.Items[i].Text = !string.IsNullOrWhiteSpace(template.Name) ? template.Name : "<Template ohne Namen>";
+					}
+				}
+
+				IsDirty = false;
 			}
 		}
 
 		private void resetTemplateButtonClick(object sender, EventArgs e)
 		{
-			templateListView.SelectedIndices.Clear();
+			if (resetTemplateButton.Enabled)
+			{
+				IsDirty = false;
+				templateListViewSelectedIndexChanged(sender, e);
+			}
 		}
 
 		private void addTimeButtonClick(object sender, EventArgs e)
@@ -275,6 +333,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void RefillTimesListView()
@@ -337,19 +396,19 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void saveTemplateButtonClick(object sender, EventArgs e)
 		{
-			if (templateListView.SelectedIndices.Count == 1)
+			if (saveTemplateButton.Enabled && templateListView.SelectedIndices.Count == 1)
 			{
 				reordering = true;
 				templateContainer.UpdateTemplate(current);
-				RefillListView();
+				templatePersistor.Save();
+
+				IsDirty = false;
+				
+				templateListView.Items[templateListView.SelectedIndices[0]].Text
+					= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
 				reordering = false;
 
-				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
-				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
-				current = new Template();
-				ClearEditView();
-
-				templatePersistor.Save();
+				templateListViewSelectedIndexChanged(sender, e);
 			}
 		}
 
@@ -358,6 +417,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering)
 			{
 				current.Name = templateNameTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -367,6 +427,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Title = templateTitleTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -376,6 +437,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Description = templateDescriptionTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -385,6 +447,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Tags = templateTagsTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -441,12 +504,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void clearTimesButtonClick(object sender, EventArgs e)
 		{
 			current.PublishTimes.Clear();
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void addOneDayButtonClick(object sender, EventArgs e)
@@ -457,6 +522,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -471,6 +537,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -482,6 +549,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -497,6 +565,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -526,6 +595,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				RefillTimesListView();
 				timesListView.Select();
+				IsDirty = true;
 			}
 		}
 
@@ -555,47 +625,56 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				RefillTimesListView();
 				timesListView.Select();
+				IsDirty = true;
 			}
 		}
 
 		private void categoryComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.Category = categoryContainer.RegisteredCategories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
+			IsDirty = true;
 		}
 
 		private void defaultLanguageComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.DefaultLanguage = languageContainer.RegisteredLanguages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
+			IsDirty = true;
 		}
 
 		private void licenseComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.License = (License)licenseCombobox.SelectedIndex;
+			IsDirty = true;
 		}
 
 		private void isEmbeddableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.IsEmbeddable = isEmbeddableCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void publicStatsViewableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.PublicStatsViewable = publicStatsViewableCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void notifySubscribersCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.NotifySubscribers = notifySubscribersCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void autoLevelsCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.AutoLevels = autoLevelsCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.Stabilize = stabilizeCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void duplicateTemplateButtonClick(object sender, EventArgs e)
@@ -622,6 +701,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.ThumbnailPath = thumbnailTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -639,6 +719,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.Description = templateDescriptionTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -647,6 +728,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.CSharpPreparationScript = cSharpPrepareFctb.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -655,6 +737,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.CSharpCleanUpScript = cSharpCleanupFctb.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -743,6 +826,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				filenamesListView.SelectedIndices.Clear();
 				filenamesListView.SelectedIndices.Add(filenamesListView.Items.Count - 1);
+				IsDirty = true;
 			}
 		}
 
@@ -787,6 +871,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				RefreshFieldValue();
 				RefreshFilenamesAllFilled();
+				IsDirty = true;
 			}
 		}
 
@@ -797,10 +882,15 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefreshFilenamesAllFilled()
 		{
-			filenamesListView.SelectedItems[0].SubItems[1].Text 
+			filenamesListView.SelectedItems[0].SubItems[1].Text
 				= current.PlannedVideos[filenamesListView.SelectedIndices[0]]
 				.Fields
 				.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein";
+		}
+
+		private void TemplateFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			AskForSaveIfIsDirty();
 		}
 	}
 }
