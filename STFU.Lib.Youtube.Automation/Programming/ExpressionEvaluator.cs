@@ -119,6 +119,16 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			CsScript = null;
 		}
 
+		public static bool IsFieldOnlyInDescription(string fieldname, ITemplate template)
+		{
+			var field = fieldname.ToLower();
+
+			return FindFieldNames(template.Description).Contains(field)
+				&& !FindFieldNames(template.Title).Contains(field)
+				&& !FindFieldNames(template.Tags).Contains(field)
+				&& !FindFieldNames(template.ThumbnailPath).Contains(field);
+		}
+
 		public static IList<string> GetFieldNames(ITemplate template)
 		{
 			List<string> result = new List<string>();
@@ -162,7 +172,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					}
 				}
 			}
-			
+
 			return result;
 		}
 

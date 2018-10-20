@@ -1560,8 +1560,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.fillFieldsTlp.Size = new System.Drawing.Size(872, 334);
 			this.fillFieldsTlp.TabIndex = 0;
 			// 
@@ -1611,10 +1611,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// filenameValueLabel
 			// 
-			this.filenameValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filenameValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.filenameValueLabel.AutoSize = true;
-			this.filenameValueLabel.Location = new System.Drawing.Point(10, 243);
-			this.filenameValueLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.filenameValueLabel.Location = new System.Drawing.Point(10, 244);
+			this.filenameValueLabel.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this.filenameValueLabel.Name = "filenameValueLabel";
 			this.filenameValueLabel.Size = new System.Drawing.Size(33, 13);
 			this.filenameValueLabel.TabIndex = 10;
@@ -1633,7 +1634,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// fieldValueTxbx
 			// 
-			this.fieldValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.fieldValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.fieldValueTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.fieldValueTxbx.Location = new System.Drawing.Point(53, 237);
 			this.fieldValueTxbx.Margin = new System.Windows.Forms.Padding(0);

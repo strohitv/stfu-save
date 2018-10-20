@@ -158,6 +158,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			templateTagsTextbox.Text = string.Empty;
 
 			templateValuesTabControl.SelectedIndex = 0;
+
+			RefillPlannedVideosListView();
 		}
 
 		private void FillTemplateIntoEditView(ITemplate template)
@@ -685,6 +687,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillPlannedVideosListView()
 		{
+			filenamesListView.SelectedIndices.Clear();
 			filenamesListView.Items.Clear();
 
 			foreach (var plannedVid in current.PlannedVideos)
@@ -748,6 +751,19 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (fillFieldsListView.SelectedIndices.Count == 1)
 			{
 				fieldNameTxbx.Text = fillFieldsListView.SelectedItems[0].Text;
+
+				var multiline = ExpressionEvaluator.IsFieldOnlyInDescription(fieldNameTxbx.Text, current);
+				fieldValueTxbx.Multiline = multiline;
+
+				if (multiline)
+				{
+					fieldValueTxbx.Dock = DockStyle.Fill;
+				}
+				else
+				{
+					fieldValueTxbx.Dock = DockStyle.None;
+					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Top;
+				}
 
 				fieldValueTxbx.Text = current
 					.PlannedVideos[filenamesListView.SelectedIndices[0]]
