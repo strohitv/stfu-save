@@ -80,12 +80,12 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public IList<IPlannedVideo> PlannedVideos { get; set; } = new List<IPlannedVideo>();
 
-		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes)
-			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList())
+		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, IList<IPlannedVideo> plannedVideos)
+			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), plannedVideos.Select(pv => (PlannedVideo)pv).ToList())
 		{ }
 
 		[JsonConstructor]
-		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes)
+		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes, IList<PlannedVideo> plannedVideos)
 		{
 			Id = id;
 			Name = name;
@@ -98,6 +98,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			DefaultLanguage = defaultlanguage;
 			Category = category;
 			PublishTimes = publishTimes.Select(pt => (IPublishTime)pt).ToList();
+			PlannedVideos = plannedVideos.Select(pv => (IPlannedVideo)pv).ToList();
 		}
 
 		public Template()
@@ -115,7 +116,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public static ITemplate Duplicate(ITemplate template)
 		{
-			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes)
+			return new Template(template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.PlannedVideos)
 			{
 				AutoLevels = template.AutoLevels,
 				Description = template.Description,
@@ -124,6 +125,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				NotifySubscribers = template.NotifySubscribers,
 				Privacy = template.Privacy,
 				PublicStatsViewable = template.PublicStatsViewable,
+				PlannedVideos = new List<IPlannedVideo>(template.PlannedVideos),
 				PublishTimes = new List<IPublishTime>(template.PublishTimes),
 				ShouldPublishAt = template.ShouldPublishAt,
 				Stabilize = template.Stabilize,
