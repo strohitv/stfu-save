@@ -6,9 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using MoonSharp.Interpreter;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
-using mss = MoonSharp.Interpreter;
 
 namespace STFU.Lib.Youtube.Automation.Programming
 {
@@ -157,7 +155,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					ScriptType scriptType = FindScriptType(text, currentPos);
 
 					// Get if it is a simple script
-					if (scriptType.HasFlag(ScriptType.Simple))
+					if (scriptType == ScriptType.Simple)
 					{
 						int closingPos = FindClosingPosition(text, currentPos);
 						if (closingPos > currentPos)
@@ -190,7 +188,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					ScriptType scriptType = FindScriptType(text, currentPos);
 
 					// Get if it is a simple script, a C# one or a LUA one
-					if (scriptType.HasFlag(ScriptType.Simple))
+					if (scriptType == ScriptType.Simple)
 					{
 						// Old simple script interpreter
 						int closingPos = FindClosingPosition(text, currentPos);
@@ -207,59 +205,36 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
 						string script = wholeText.Substring(3, closingPos - currentPos - 3);
 
-						if (script.StartsWith("c", StringComparison.InvariantCultureIgnoreCase)
-							|| script.StartsWith("l", StringComparison.InvariantCultureIgnoreCase))
-						{
-							script = script.Remove(0, 1);
-						}
-
 						string result = string.Empty;
 
-						if (scriptType.HasFlag(ScriptType.CSharp))
+						try
 						{
-							try
+							var state = CsScript.ContinueWithAsync(script);
+
+							if (state.Status != TaskStatus.Faulted)
 							{
-								var state = CsScript.ContinueWithAsync(script);
+								state.Wait();
 
-								if (state.Status != TaskStatus.Faulted)
-								{
-									state.Wait();
-
-									result = state.Result.ReturnValue?.ToString() ?? string.Empty;
-								}
-							}
-							catch (CompilationErrorException ex)
-							{
-								if (!Directory.Exists("errors"))
-								{
-									Directory.CreateDirectory("errors");
-								}
-
-								using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-								{
-									writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-									writer.WriteLine();
-									WriteException(ex, writer, script);
-
-									writer.WriteLine();
-									writer.WriteLine("=======================");
-									writer.WriteLine();
-									writer.WriteLine();
-								}
+								result = state.Result.ReturnValue?.ToString() ?? string.Empty;
 							}
 						}
-
-						if (scriptType.HasFlag(ScriptType.LUA) && result == string.Empty)
+						catch (CompilationErrorException ex)
 						{
-							try
+							if (!Directory.Exists("errors"))
 							{
-								DynValue res = mss.Script.RunString(script);
-								result = res.ToPrintString();
+								Directory.CreateDirectory("errors");
 							}
-							catch (InterpreterException ex)
+
+							using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
 							{
-								// TODO: Logging
-								Console.WriteLine(ex);
+								writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
+								writer.WriteLine();
+								WriteException(ex, writer, script);
+
+								writer.WriteLine();
+								writer.WriteLine("=======================");
+								writer.WriteLine();
+								writer.WriteLine();
 							}
 						}
 
@@ -307,17 +282,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				&& text[currentPos + 1] == '<'
 				&& text[currentPos + 2] == '<';
 
-			if (isComplex && text.ToLower()[currentPos + 3] == 'c')
+			if (isComplex)
 			{
 				type = ScriptType.CSharp;
-			}
-			else if (isComplex && text.ToLower()[currentPos + 3] == 'l')
-			{
-				type = ScriptType.LUA;
-			}
-			else if (isComplex)
-			{
-				type = ScriptType.CSharp | ScriptType.LUA;
 			}
 
 			return type;

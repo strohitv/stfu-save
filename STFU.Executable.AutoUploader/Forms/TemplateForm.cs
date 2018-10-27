@@ -305,6 +305,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				IsDirty = false;
 				templateListViewSelectedIndexChanged(sender, e);
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
 			}
 		}
 
@@ -403,7 +405,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				templatePersistor.Save();
 
 				IsDirty = false;
-				
+
 				templateListView.Items[templateListView.SelectedIndices[0]].Text
 					= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
 				reordering = false;
@@ -803,7 +805,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void filenamesListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
-			fillFieldsGroupbox.Enabled = filenamesListView.SelectedIndices.Count == 1;
+			fillFieldsGroupbox.Enabled = removeFilenameButton.Enabled = filenamesListView.SelectedIndices.Count == 1;
 
 			RefillFillFieldsListView();
 		}
@@ -849,7 +851,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				else
 				{
 					fieldValueTxbx.Dock = DockStyle.None;
-					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Top;
+					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 				}
 
 				skipDirtyManipulation = true;
@@ -897,6 +899,28 @@ namespace STFU.Executable.AutoUploader.Forms
 				RefreshFieldValue();
 				RefreshFilenamesAllFilled();
 				IsDirty = true;
+			}
+		}
+
+		private void removeFilenameButtonClick(object sender, EventArgs e)
+		{
+			if (filenamesListView.SelectedIndices.Count == 1)
+			{
+				current.PlannedVideos.RemoveAt(filenamesListView.SelectedIndices[0]);
+				IsDirty = true;
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
+			}
+		}
+
+		private void clearFilenamesButtonClick(object sender, EventArgs e)
+		{
+			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) )
+			{
+				current.PlannedVideos.Clear();
+				IsDirty = true;
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
 			}
 		}
 	}

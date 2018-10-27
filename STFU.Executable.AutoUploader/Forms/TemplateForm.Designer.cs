@@ -583,7 +583,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateDescriptionTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateDescriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F);
 			this.templateDescriptionTextbox.IsReplaceMode = false;
-			this.templateDescriptionTextbox.Language = FastColoredTextBoxNS.Language.CSharp;
 			this.templateDescriptionTextbox.LeftBracket = '(';
 			this.templateDescriptionTextbox.LeftBracket2 = '{';
 			this.templateDescriptionTextbox.Location = new System.Drawing.Point(5, 74);
@@ -630,7 +629,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F);
 			this.templateTagsTextbox.IsReplaceMode = false;
-			this.templateTagsTextbox.Language = FastColoredTextBoxNS.Language.CSharp;
 			this.templateTagsTextbox.LeftBracket = '(';
 			this.templateTagsTextbox.LeftBracket2 = '{';
 			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 460);
@@ -1457,6 +1455,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.removeFilenameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.removeFilenameButton.AutoSize = true;
 			this.removeFilenameButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.removeFilenameButton.Enabled = false;
 			this.removeFilenameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.removeFilenameButton.ForeColor = System.Drawing.Color.Red;
 			this.removeFilenameButton.Location = new System.Drawing.Point(10, 79);
@@ -1466,6 +1465,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.removeFilenameButton.TabIndex = 5;
 			this.removeFilenameButton.Text = "-";
 			this.removeFilenameButton.UseVisualStyleBackColor = true;
+			this.removeFilenameButton.Click += new System.EventHandler(this.removeFilenameButtonClick);
 			// 
 			// clearFilenamesButton
 			// 
@@ -1481,6 +1481,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearFilenamesButton.TabIndex = 6;
 			this.clearFilenamesButton.Text = "x";
 			this.clearFilenamesButton.UseVisualStyleBackColor = true;
+			this.clearFilenamesButton.Click += new System.EventHandler(this.clearFilenamesButtonClick);
 			// 
 			// filenamesListView
 			// 
