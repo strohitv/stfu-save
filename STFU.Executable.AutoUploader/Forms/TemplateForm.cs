@@ -787,6 +787,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			fillFieldsListView.Items.Clear();
 			fieldNameTxbx.Text = string.Empty;
 			fieldValueTxbx.Text = string.Empty;
+			fieldValueTxbx.Enabled = false;
 
 			if (filenamesListView.SelectedIndices.Count == 1)
 			{
@@ -832,6 +833,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void fillFieldsListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
+			fieldValueTxbx.Enabled = fillFieldsListView.SelectedIndices.Count == 1;
+
 			if (fillFieldsListView.SelectedIndices.Count == 1)
 			{
 				fieldNameTxbx.Text = fillFieldsListView.SelectedItems[0].Text;
@@ -882,7 +885,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			AskForSaveIfIsDirty();
 		}
 
-		private void fieldValueTxbxTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		private void fieldValueTxbxTextChanged(object sender, EventArgs e)
 		{
 			if (fillFieldsListView.SelectedIndices.Count == 1)
 			{

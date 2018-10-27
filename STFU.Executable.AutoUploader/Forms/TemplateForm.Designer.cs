@@ -116,7 +116,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameFieldLabel = new System.Windows.Forms.Label();
 			this.filenameValueLabel = new System.Windows.Forms.Label();
 			this.fieldNameTxbx = new System.Windows.Forms.TextBox();
-			this.fieldValueTxbx = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.fieldValueTxbx = new System.Windows.Forms.TextBox();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
 			this.csTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
@@ -147,7 +147,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.planVideosTlp.SuspendLayout();
 			this.fillFieldsGroupbox.SuspendLayout();
 			this.fillFieldsTlp.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.fieldValueTxbx)).BeginInit();
 			this.cSharpTabPage.SuspendLayout();
 			this.csTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).BeginInit();
@@ -1548,7 +1547,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.fillFieldsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.fillFieldsTlp.Controls.Add(this.fillFieldsListView, 1, 1);
 			this.fillFieldsTlp.Controls.Add(this.filenameFieldLabel, 1, 3);
 			this.fillFieldsTlp.Controls.Add(this.filenameValueLabel, 1, 5);
@@ -1585,7 +1584,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsListView.Margin = new System.Windows.Forms.Padding(0);
 			this.fillFieldsListView.Name = "fillFieldsListView";
 			this.fillFieldsListView.ShowGroups = false;
-			this.fillFieldsListView.Size = new System.Drawing.Size(852, 181);
+			this.fillFieldsListView.Size = new System.Drawing.Size(862, 181);
 			this.fillFieldsListView.TabIndex = 9;
 			this.fillFieldsListView.UseCompatibleStateImageBehavior = false;
 			this.fillFieldsListView.View = System.Windows.Forms.View.Details;
@@ -1620,7 +1619,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameValueLabel.Location = new System.Drawing.Point(10, 244);
 			this.filenameValueLabel.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this.filenameValueLabel.Name = "filenameValueLabel";
-			this.filenameValueLabel.Size = new System.Drawing.Size(33, 13);
+			this.filenameValueLabel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+			this.filenameValueLabel.Size = new System.Drawing.Size(33, 19);
 			this.filenameValueLabel.TabIndex = 10;
 			this.filenameValueLabel.Text = "Wert:";
 			// 
@@ -1632,45 +1632,24 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fieldNameTxbx.Margin = new System.Windows.Forms.Padding(0);
 			this.fieldNameTxbx.Name = "fieldNameTxbx";
 			this.fieldNameTxbx.ReadOnly = true;
-			this.fieldNameTxbx.Size = new System.Drawing.Size(809, 26);
+			this.fieldNameTxbx.Size = new System.Drawing.Size(819, 26);
 			this.fieldNameTxbx.TabIndex = 11;
 			// 
 			// fieldValueTxbx
 			// 
+			this.fieldValueTxbx.AcceptsReturn = true;
 			this.fieldValueTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.fieldValueTxbx.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.fieldValueTxbx.AutoScrollMinSize = new System.Drawing.Size(2, 18);
-			this.fieldValueTxbx.BackBrush = null;
 			this.fieldValueTxbx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.fieldValueTxbx.CharHeight = 18;
-			this.fieldValueTxbx.CharWidth = 10;
 			this.fieldValueTxbx.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.fieldValueTxbx.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.fieldValueTxbx.Font = new System.Drawing.Font("Courier New", 12F);
-			this.fieldValueTxbx.IsReplaceMode = false;
 			this.fieldValueTxbx.Location = new System.Drawing.Point(53, 237);
 			this.fieldValueTxbx.Margin = new System.Windows.Forms.Padding(0);
-			this.fieldValueTxbx.Multiline = false;
 			this.fieldValueTxbx.Name = "fieldValueTxbx";
-			this.fieldValueTxbx.Paddings = new System.Windows.Forms.Padding(0);
-			this.fieldValueTxbx.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.fieldValueTxbx.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("fieldValueTxbx.ServiceColors")));
-			this.fieldValueTxbx.ShowLineNumbers = false;
-			this.fieldValueTxbx.Size = new System.Drawing.Size(809, 26);
+			this.fieldValueTxbx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.fieldValueTxbx.Size = new System.Drawing.Size(819, 26);
 			this.fieldValueTxbx.TabIndex = 11;
-			this.fieldValueTxbx.Zoom = 100;
-			this.fieldValueTxbx.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.fieldValueTxbxTextChanged);
+			this.fieldValueTxbx.TextChanged += new System.EventHandler(this.fieldValueTxbxTextChanged);
 			// 
 			// cSharpTabPage
 			// 
@@ -1925,7 +1904,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsGroupbox.ResumeLayout(false);
 			this.fillFieldsTlp.ResumeLayout(false);
 			this.fillFieldsTlp.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.fieldValueTxbx)).EndInit();
 			this.cSharpTabPage.ResumeLayout(false);
 			this.csTlp.ResumeLayout(false);
 			this.csTlp.PerformLayout();
@@ -2035,6 +2013,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private Label filenameFieldLabel;
 		private Label filenameValueLabel;
 		private TextBox fieldNameTxbx;
-		private FastColoredTextBox fieldValueTxbx;
+		private TextBox fieldValueTxbx;
 	}
 }
