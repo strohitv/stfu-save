@@ -332,7 +332,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		{
 			string result = string.Empty;
 
-			expression = expression.Trim();
+			expression = expression.Trim().ToLower();
 			var fileName = Path.GetFileNameWithoutExtension(FilePath).ToLower();
 			var fileNameExt = Path.GetFileName(FilePath).ToLower();
 

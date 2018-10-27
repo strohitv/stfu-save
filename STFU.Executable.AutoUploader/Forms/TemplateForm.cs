@@ -849,29 +849,18 @@ namespace STFU.Executable.AutoUploader.Forms
 					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Top;
 				}
 
+				skipDirtyManipulation = true;
+
 				fieldValueTxbx.Text = current
 					.PlannedVideos[filenamesListView.SelectedIndices[0]]
 					.Fields[fillFieldsListView.SelectedItems[0].Text];
+
+				skipDirtyManipulation = false;
 			}
 			else
 			{
 				fieldNameTxbx.Text = string.Empty;
 				fieldValueTxbx.Text = string.Empty;
-			}
-		}
-
-		private void fieldValueTxbxTextChanged(object sender, EventArgs e)
-		{
-			if (fillFieldsListView.SelectedIndices.Count == 1)
-			{
-				current
-					.PlannedVideos[filenamesListView.SelectedIndices[0]]
-					.Fields[fillFieldsListView.SelectedItems[0].Text]
-					= fieldValueTxbx.Text;
-
-				RefreshFieldValue();
-				RefreshFilenamesAllFilled();
-				IsDirty = true;
 			}
 		}
 
@@ -891,6 +880,21 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void TemplateFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			AskForSaveIfIsDirty();
+		}
+
+		private void fieldValueTxbxTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (fillFieldsListView.SelectedIndices.Count == 1)
+			{
+				current
+					.PlannedVideos[filenamesListView.SelectedIndices[0]]
+					.Fields[fillFieldsListView.SelectedItems[0].Text]
+					= fieldValueTxbx.Text;
+
+				RefreshFieldValue();
+				RefreshFilenamesAllFilled();
+				IsDirty = true;
+			}
 		}
 	}
 }
