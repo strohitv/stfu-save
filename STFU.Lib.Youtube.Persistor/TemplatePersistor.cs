@@ -75,7 +75,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 				var category = new YoutubeCategory(20, "Gaming");
 
-				var standardTemplate = new Template(0, "Standard", language, category, new List<IPublishTime>(), new Dictionary<string, IVariable>());
+				var standardTemplate = new Template(0, "Standard", language, category, new List<IPublishTime>(), new List<IPlannedVideo>());
 				Container.RegisterTemplate(standardTemplate);
 			}
 		}
@@ -115,13 +115,14 @@ namespace STFU.Lib.Youtube.Persistor
 			Saved = new TemplateContainer();
 			foreach (var template in Container.RegisteredTemplates)
 			{
-				var newTemplate = new Template (template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.LocalVariables.ToDictionary(x => x.Key, x => x.Value))
+				var newTemplate = new Template (template.Id, template.Name, template.DefaultLanguage, template.Category, template.PublishTimes, template.PlannedVideos)
 				{
 					AutoLevels = template.AutoLevels,
 					Description = template.Description,
 					IsEmbeddable = template.IsEmbeddable,
 					License = template.License,
 					NotifySubscribers = template.NotifySubscribers,
+					PlannedVideos = template.PlannedVideos,
 					Privacy = template.Privacy,
 					PublicStatsViewable = template.PublicStatsViewable,
 					PublishTimes = template.PublishTimes,
