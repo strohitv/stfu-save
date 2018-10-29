@@ -83,8 +83,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, IList<IPlannedVideo> plannedVideos)
 			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), plannedVideos.Select(pv => (PlannedVideo)pv).ToList())
 		{ }
-
-		[JsonConstructor]
+		
 		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes, IList<PlannedVideo> plannedVideos)
 		{
 			Id = id;
@@ -99,6 +98,22 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			Category = category;
 			PublishTimes = publishTimes.Select(pt => (IPublishTime)pt).ToList();
 			PlannedVideos = plannedVideos.Select(pv => (IPlannedVideo)pv).ToList();
+		}
+		
+		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes)
+		{
+			Id = id;
+			Name = name;
+			Privacy = PrivacyStatus.Private;
+			Title = string.Empty;
+			Description = string.Empty;
+			Tags = string.Empty;
+			NotifySubscribers = true;
+			License = License.Youtube;
+			DefaultLanguage = defaultlanguage;
+			Category = category;
+			PublishTimes = publishTimes.Select(pt => (IPublishTime)pt).ToList();
+			PlannedVideos = new List<IPlannedVideo>();
 		}
 
 		public Template()

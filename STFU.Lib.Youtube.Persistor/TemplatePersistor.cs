@@ -45,9 +45,6 @@ namespace STFU.Lib.Youtube.Persistor
 						}
 					}
 				}
-				
-				EnsureStandardTemplateExists();
-				RecreateSaved();
 			}
 			catch (Exception e)
 			when (e is UnauthorizedAccessException
@@ -59,6 +56,9 @@ namespace STFU.Lib.Youtube.Persistor
 			{
 				worked = false;
 			}
+
+			EnsureStandardTemplateExists();
+			RecreateSaved();
 
 			return worked;
 		}
