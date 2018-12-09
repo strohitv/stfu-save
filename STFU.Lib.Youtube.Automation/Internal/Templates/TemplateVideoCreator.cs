@@ -51,6 +51,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				&& template.PublishTimes.Count > 0)
 			{
 				video.PublishAt = publishCalculator.GetNextPublishTime();
+				template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
 			}
 
 			foreach (var tag in CutOff(evaluator.Evaluate(template.Tags).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxTagsLength).Split(','))

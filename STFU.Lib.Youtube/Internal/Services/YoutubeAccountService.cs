@@ -62,6 +62,8 @@ namespace STFU.Lib.Youtube.Internal.Services
 						access.AccessToken = authResponse.access_token;
 						access.TokenType = authResponse.token_type;
 						access.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
+						access.RefreshToken = firstOutdatedAccess.RefreshToken;
+						access.ClientId = firstOutdatedAccess.ClientId;
 
 						account.Access.Remove(firstOutdatedAccess);
 						account.Access.Add(access);
