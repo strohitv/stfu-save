@@ -372,7 +372,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(templateContainer, categoryContainer, languageContainer);
+			TemplateForm tf = new TemplateForm(templatePersistor, categoryContainer, languageContainer);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
 

@@ -24,11 +24,11 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishCalculator.Template;
 
-			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.LocalVariables, template.CSharpPreparationScript, template.CSharpCleanUpScript);
+			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.PlannedVideos, template.CSharpPreparationScript, template.CSharpCleanUpScript);
 
 			// Werte füllen
-			video.Title = CutOff(evaluator.Evaluate(template.Title), YoutubeVideo.MaxTitleLength);
-			video.Description = CutOff(evaluator.Evaluate(template.Description), YoutubeVideo.MaxDescriptionLength);
+			video.Title = CutOff(evaluator.Evaluate(template.Title).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxTitleLength);
+			video.Description = CutOff(evaluator.Evaluate(template.Description).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxDescriptionLength);
 			video.Category = template.Category;
 			video.DefaultLanguage = template.DefaultLanguage;
 
@@ -51,9 +51,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				&& template.PublishTimes.Count > 0)
 			{
 				video.PublishAt = publishCalculator.GetNextPublishTime();
+				template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
 			}
 
-			foreach (var tag in CutOff(evaluator.Evaluate(template.Tags), YoutubeVideo.MaxTagsLength).Split(','))
+			foreach (var tag in CutOff(evaluator.Evaluate(template.Tags).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxTagsLength).Split(','))
 			{
 				video.Tags.Add(tag);
 			}

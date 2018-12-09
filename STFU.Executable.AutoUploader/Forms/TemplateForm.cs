@@ -5,10 +5,12 @@ using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
+using STFU.Lib.Youtube.Persistor;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -17,16 +19,38 @@ namespace STFU.Executable.AutoUploader.Forms
 		private ITemplateContainer templateContainer;
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private TemplatePersistor templatePersistor;
 		private ITemplate current;
-		private bool reordering = false;
 
-		public TemplateForm(ITemplateContainer templateContainer, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
+		private bool reordering = false;
+		private bool isDirty = false;
+		private bool skipDirtyManipulation = false;
+
+		private bool IsDirty
+		{
+			get
+			{
+				return isDirty;
+			}
+			set
+			{
+				if (!skipDirtyManipulation)
+				{
+					isDirty = value;
+					saveTemplateButton.Enabled = isDirty;
+					resetTemplateButton.Enabled = isDirty;
+				}
+			}
+		}
+
+		public TemplateForm(TemplatePersistor persistor, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
 		{
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
 
-			this.templateContainer = templateContainer;
+			templatePersistor = persistor;
+			this.templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
 		}
@@ -128,6 +152,10 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (!reordering)
 			{
+				AskForSaveIfIsDirty();
+
+				skipDirtyManipulation = true;
+
 				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
 				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
 
@@ -143,6 +171,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 					FillTemplateIntoEditView(current);
 				}
+
+				skipDirtyManipulation = false;
 			}
 		}
 
@@ -154,10 +184,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			templateTagsTextbox.Text = string.Empty;
 
 			templateValuesTabControl.SelectedIndex = 0;
+
+			RefillPlannedVideosListView();
 		}
 
 		private void FillTemplateIntoEditView(ITemplate template)
 		{
+			skipDirtyManipulation = true;
+
 			templateNameTextbox.Text = template.Name;
 
 			templateTitleTextbox.Text = template.Title;
@@ -189,7 +223,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			cSharpCleanupFctb.Text = template.CSharpCleanUpScript;
 
 			RefillTimesListView();
-			RefillVariablesListView();
 
 			if (template.PublishTimes.Count > 0)
 			{
@@ -197,6 +230,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				timesListView.SelectedIndices.Clear();
 				timesListView.SelectedIndices.Add(0);
 			}
+
+			skipDirtyManipulation = false;
 		}
 
 		private void publishAtCheckboxCheckedChanged(object sender, EventArgs e)
@@ -205,6 +240,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				current.ShouldPublishAt = publishAtCheckbox.Checked;
 				enablePublishAtControls();
+				IsDirty = true;
 			}
 		}
 
@@ -237,12 +273,41 @@ namespace STFU.Executable.AutoUploader.Forms
 						current.Privacy = PrivacyStatus.Private;
 						break;
 				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void AskForSaveIfIsDirty()
+		{
+			if (IsDirty)
+			{
+				var result = MessageBox.Show(this, "Das Template wurde bearbeitet. Speichern?", "Das Template wurde bearbeitet, aber nicht abgespeichert. Soll es jetzt gespeichert werden?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					templateContainer.UpdateTemplate(current);
+					templatePersistor.Save();
+
+					for (int i = 0; i < templateListView.Items.Count; i++)
+					{
+						var template = templateContainer.RegisteredTemplates.ElementAt(i);
+						templateListView.Items[i].Text = !string.IsNullOrWhiteSpace(template.Name) ? template.Name : "<Template ohne Namen>";
+					}
+				}
+
+				IsDirty = false;
 			}
 		}
 
 		private void resetTemplateButtonClick(object sender, EventArgs e)
 		{
-			templateListView.SelectedIndices.Clear();
+			if (resetTemplateButton.Enabled)
+			{
+				IsDirty = false;
+				templateListViewSelectedIndexChanged(sender, e);
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
+			}
 		}
 
 		private void addTimeButtonClick(object sender, EventArgs e)
@@ -270,6 +335,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void RefillTimesListView()
@@ -332,22 +398,19 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void saveTemplateButtonClick(object sender, EventArgs e)
 		{
-			if (editVarGroupbox.Enabled == true)
-			{
-				saveVarButtonClick(sender, e);
-			}
-
-			if (templateListView.SelectedIndices.Count == 1)
+			if (saveTemplateButton.Enabled && templateListView.SelectedIndices.Count == 1)
 			{
 				reordering = true;
 				templateContainer.UpdateTemplate(current);
-				RefillListView();
+				templatePersistor.Save();
+
+				IsDirty = false;
+
+				templateListView.Items[templateListView.SelectedIndices[0]].Text
+					= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
 				reordering = false;
 
-				editTemplateTableLayoutPanel.Enabled = templateListView.SelectedIndices.Count > 0;
-				deleteTemplateButton.Enabled = templateListView.SelectedIndices.Count > 0 && templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]).Id != 0;
-				current = new Template();
-				ClearEditView();
+				templateListViewSelectedIndexChanged(sender, e);
 			}
 		}
 
@@ -356,6 +419,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering)
 			{
 				current.Name = templateNameTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -365,6 +429,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Title = templateTitleTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -374,6 +439,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Description = templateDescriptionTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -383,6 +449,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (!reordering && current != null)
 			{
 				current.Tags = templateTagsTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -439,12 +506,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void clearTimesButtonClick(object sender, EventArgs e)
 		{
 			current.PublishTimes.Clear();
 			RefillTimesListView();
+			IsDirty = true;
 		}
 
 		private void addOneDayButtonClick(object sender, EventArgs e)
@@ -455,6 +524,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -469,6 +539,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -480,6 +551,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -495,6 +567,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RefillTimesListView();
+			IsDirty = true;
 			timesListView.Select();
 		}
 
@@ -524,6 +597,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				RefillTimesListView();
 				timesListView.Select();
+				IsDirty = true;
 			}
 		}
 
@@ -553,119 +627,56 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				RefillTimesListView();
 				timesListView.Select();
+				IsDirty = true;
 			}
 		}
 
 		private void categoryComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.Category = categoryContainer.RegisteredCategories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
+			IsDirty = true;
 		}
 
 		private void defaultLanguageComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.DefaultLanguage = languageContainer.RegisteredLanguages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
+			IsDirty = true;
 		}
 
 		private void licenseComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			current.License = (License)licenseCombobox.SelectedIndex;
+			IsDirty = true;
 		}
 
 		private void isEmbeddableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.IsEmbeddable = isEmbeddableCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void publicStatsViewableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.PublicStatsViewable = publicStatsViewableCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void notifySubscribersCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.NotifySubscribers = notifySubscribersCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void autoLevelsCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.AutoLevels = autoLevelsCheckbox.Checked;
+			IsDirty = true;
 		}
 
 		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			current.Stabilize = stabilizeCheckbox.Checked;
-		}
-
-		private void RefillVariablesListView()
-		{
-			localVarsListview.SelectedIndices.Clear();
-			localVarsListview.Items.Clear();
-
-			foreach (var variable in current.LocalVariables.OrderBy(v => v.Key))
-			{
-				ListViewItem item = new ListViewItem(variable.Value.Name);
-				item.SubItems.Add(variable.Value.Content);
-				localVarsListview.Items.Add(item);
-			}
-		}
-
-		private void addVarButtonClick(object sender, EventArgs e)
-		{
-			current.AddVariable();
-			RefillVariablesListView();
-		}
-
-		private void removeVarButtonClick(object sender, EventArgs e)
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				current.RemoveVariable(varName);
-			}
-		}
-
-		private void clearVarsButtonClick(object sender, EventArgs e)
-		{
-			current.ClearVariables();
-			RefillVariablesListView();
-		}
-
-		private void RefillEditVarBox()
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				varNameTextbox.Text = varName;
-				varContentTextbox.Text = current.LocalVariables[varName.ToLower()].Content;
-			}
-			else
-			{
-				varNameTextbox.Text = string.Empty;
-				varContentTextbox.Text = string.Empty;
-			}
-
-			editVarGroupbox.Enabled = localVarsListview.SelectedIndices.Count == 1;
-		}
-
-		private void localVarsListviewSelectedIndexChanged(object sender, EventArgs e)
-		{
-			RefillEditVarBox();
-		}
-
-		private void saveVarButtonClick(object sender, EventArgs e)
-		{
-			if (localVarsListview.SelectedIndices.Count == 1)
-			{
-				string varName = localVarsListview.SelectedItems[0].Text;
-				if (varName != varNameTextbox.Text)
-				{
-					varName = current.RenameVariable(varName, varNameTextbox.Text);
-				}
-
-				current.EditVariable(varName, varContentTextbox.Text);
-
-				RefillVariablesListView();
-			}
+			IsDirty = true;
 		}
 
 		private void duplicateTemplateButtonClick(object sender, EventArgs e)
@@ -692,6 +703,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.ThumbnailPath = thumbnailTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -709,6 +721,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.Description = templateDescriptionTextbox.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -717,6 +730,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.CSharpPreparationScript = cSharpPrepareFctb.Text;
+				IsDirty = true;
 			}
 		}
 
@@ -725,6 +739,188 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.CSharpCleanUpScript = cSharpCleanupFctb.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void planVideosTabpageEntered(object sender, EventArgs e)
+		{
+			RefreshFieldNames();
+			RefillPlannedVideosListView();
+		}
+
+		private void RefreshFieldNames()
+		{
+			// Refresh der Feldnamen
+			var fieldNames = ExpressionEvaluator.GetFieldNames(current);
+
+			foreach (var plannedVid in current.PlannedVideos)
+			{
+				var fieldsDict = fieldNames.ToDictionary(name => name, name => string.Empty);
+
+				foreach (var name in fieldNames)
+				{
+					if (plannedVid.Fields.ContainsKey(name))
+					{
+						fieldsDict[name] = plannedVid.Fields[name];
+					}
+				}
+
+				plannedVid.Fields = fieldsDict;
+			}
+		}
+
+		private void RefillPlannedVideosListView()
+		{
+			filenamesListView.SelectedIndices.Clear();
+			filenamesListView.Items.Clear();
+
+			foreach (var plannedVid in current.PlannedVideos)
+			{
+				ListViewItem item = new ListViewItem(plannedVid.Name);
+				item.SubItems.Add(plannedVid.Fields.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein");
+
+				filenamesListView.Items.Add(item);
+			}
+		}
+
+		private void RefillFillFieldsListView()
+		{
+			fillFieldsListView.Items.Clear();
+			fieldNameTxbx.Text = string.Empty;
+			fieldValueTxbx.Text = string.Empty;
+			fieldValueTxbx.Enabled = false;
+
+			if (filenamesListView.SelectedIndices.Count == 1)
+			{
+				foreach (var field in current.PlannedVideos[filenamesListView.SelectedIndices[0]].Fields)
+				{
+					ListViewItem item = new ListViewItem(field.Key);
+					item.SubItems.Add(field.Value);
+
+					fillFieldsListView.Items.Add(item);
+				}
+			}
+		}
+
+		private void filenamesListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			fillFieldsGroupbox.Enabled = removeFilenameButton.Enabled = filenamesListView.SelectedIndices.Count == 1;
+
+			RefillFillFieldsListView();
+		}
+
+		private void addFilenameButtonClick(object sender, EventArgs e)
+		{
+			AddPlannedVideoForm addForm = new AddPlannedVideoForm();
+			var result = addForm.ShowDialog();
+
+			if (result == DialogResult.OK
+				&& current.PlannedVideos.All(v => v.Name.ToLower() != addForm.Filename.ToLower())
+				&& !string.IsNullOrWhiteSpace(addForm.Filename))
+			{
+				IPlannedVideo video = new PlannedVideo();
+				video.Name = addForm.Filename.ToLower();
+				current.PlannedVideos.Add(video);
+
+				RefreshFieldNames();
+
+				RefillPlannedVideosListView();
+
+				filenamesListView.SelectedIndices.Clear();
+				filenamesListView.SelectedIndices.Add(filenamesListView.Items.Count - 1);
+				IsDirty = true;
+			}
+		}
+
+		private void fillFieldsListViewSelectedIndexChanged(object sender, EventArgs e)
+		{
+			fieldValueTxbx.Enabled = fillFieldsListView.SelectedIndices.Count == 1;
+
+			if (fillFieldsListView.SelectedIndices.Count == 1)
+			{
+				fieldNameTxbx.Text = fillFieldsListView.SelectedItems[0].Text;
+
+				var multiline = ExpressionEvaluator.IsFieldOnlyInDescription(fieldNameTxbx.Text, current);
+				fieldValueTxbx.Multiline = multiline;
+
+				if (multiline)
+				{
+					fieldValueTxbx.Dock = DockStyle.Fill;
+				}
+				else
+				{
+					fieldValueTxbx.Dock = DockStyle.None;
+					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+				}
+
+				skipDirtyManipulation = true;
+
+				fieldValueTxbx.Text = current
+					.PlannedVideos[filenamesListView.SelectedIndices[0]]
+					.Fields[fillFieldsListView.SelectedItems[0].Text];
+
+				skipDirtyManipulation = false;
+			}
+			else
+			{
+				fieldNameTxbx.Text = string.Empty;
+				fieldValueTxbx.Text = string.Empty;
+			}
+		}
+
+		private void RefreshFieldValue()
+		{
+			fillFieldsListView.SelectedItems[0].SubItems[1].Text = fieldValueTxbx.Text;
+		}
+
+		private void RefreshFilenamesAllFilled()
+		{
+			filenamesListView.SelectedItems[0].SubItems[1].Text
+				= current.PlannedVideos[filenamesListView.SelectedIndices[0]]
+				.Fields
+				.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein";
+		}
+
+		private void TemplateFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			AskForSaveIfIsDirty();
+		}
+
+		private void fieldValueTxbxTextChanged(object sender, EventArgs e)
+		{
+			if (fillFieldsListView.SelectedIndices.Count == 1)
+			{
+				current
+					.PlannedVideos[filenamesListView.SelectedIndices[0]]
+					.Fields[fillFieldsListView.SelectedItems[0].Text]
+					= fieldValueTxbx.Text;
+
+				RefreshFieldValue();
+				RefreshFilenamesAllFilled();
+				IsDirty = true;
+			}
+		}
+
+		private void removeFilenameButtonClick(object sender, EventArgs e)
+		{
+			if (filenamesListView.SelectedIndices.Count == 1)
+			{
+				current.PlannedVideos.RemoveAt(filenamesListView.SelectedIndices[0]);
+				IsDirty = true;
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
+			}
+		}
+
+		private void clearFilenamesButtonClick(object sender, EventArgs e)
+		{
+			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) )
+			{
+				current.PlannedVideos.Clear();
+				IsDirty = true;
+				RefillPlannedVideosListView();
+				RefillFillFieldsListView();
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
@@ -13,7 +14,6 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		int Id { get; }
 		bool IsEmbeddable { get; set; }
 		License License { get; set; }
-		IReadOnlyDictionary<string, IVariable> LocalVariables { get; }
 		string Name { get; set; }
 		bool NotifySubscribers { get; set; }
 		PrivacyStatus Privacy { get; set; }
@@ -24,16 +24,13 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		string Tags { get; set; }
 		string ThumbnailPath { get; set; }
 		string Title { get; set; }
+		DateTime NextUploadSuggestion { get; set; }
+
+		IList<IPlannedVideo> PlannedVideos { get; set; }
 
 		string CSharpPreparationScript { get; set; }
 		string CSharpCleanUpScript { get; set; }
-
-		void AddVariable();
-		void AddVariable(string name, string content);
-		void ClearVariables();
-		void EditVariable(string name, string newValue);
-		void RemoveVariable(string name);
-		string RenameVariable(string oldName, string newName);
+		
 		string ToString();
 	}
 }

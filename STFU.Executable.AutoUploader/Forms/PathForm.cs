@@ -98,7 +98,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			foreach (var template in templateContainer.RegisteredTemplates)
 			{
-				cobSelectedTemplate.Items.Add(template.Name);
+				cobSelectedTemplate.Items.Add(string.IsNullOrWhiteSpace(template.Name) ? "<namenloses Template>" : template.Name);
 			}
 
 			RefillListView();
@@ -254,8 +254,8 @@ Platzhalter: ? für ein beliebiges Zeichen, * für beliebig viele beliebige Zeic
 Beispielhafte Filter: 
 *.mp4  findet alle mp4-Dateien. 
 video*.mp4 findet alle mp4-Dateien, die mit 'video' beginnen. 
-video?.mp4 findet video1.mp4, aber nicht video12.mp4, da das Fragezeichen nur ein Zeichen ersetzen kann.
-video *.mp4 findet auch video.mp4, da der *auch für kein Zeichen stehen kann.
+video?.mp4 findet video1.mp4, aber nicht video1a.mp4, da das Fragezeichen nur ein Zeichen ersetzen kann.
+video*.mp4 findet auch video.mp4, da der * auch für 'kein Zeichen' stehen kann.
 * mp4; *mkv findet alle mp4 - und alle mkv-Dateien.";
 			toolTip.Show(tooltipText, txtbxAddFilter, 60000);
 		}

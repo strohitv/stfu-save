@@ -90,6 +90,7 @@
 			this.releaseNotesBox.Size = new System.Drawing.Size(911, 557);
 			this.releaseNotesBox.TabIndex = 1;
 			this.releaseNotesBox.Text = "";
+			this.releaseNotesBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.releaseNotesBoxLinkClicked);
 			// 
 			// closeButton
 			// 

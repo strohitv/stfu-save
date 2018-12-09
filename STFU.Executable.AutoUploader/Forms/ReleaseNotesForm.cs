@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Persistor.Model;
@@ -34,6 +35,11 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void disableNotesCheckboxCheckedChanged(object sender, EventArgs e)
 		{
 			settings.ShowReleaseNotes = disableNotesCheckbox.Checked;
+		}
+
+		private void releaseNotesBoxLinkClicked(object sender, LinkClickedEventArgs e)
+		{
+			Process.Start(e.LinkText);
 		}
 	}
 }
