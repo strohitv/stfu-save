@@ -21,13 +21,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         public bool ShowReleaseNotes
         {
-            get => MainWindow.Settings.ShowReleaseNotes;
+            get => MainViewModel.AutoUploaderSettings.ShowReleaseNotes;
             set
             {
-                if (MainWindow.Settings.ShowReleaseNotes == value)
+                if (MainViewModel.AutoUploaderSettings.ShowReleaseNotes == value)
                     return;
 
-                MainWindow.Settings.ShowReleaseNotes = value;
+                MainViewModel.AutoUploaderSettings.ShowReleaseNotes = value;
                 OnPropertyChanged();
             }
         }

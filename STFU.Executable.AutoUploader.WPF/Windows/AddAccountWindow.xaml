@@ -4,9 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
+        xmlns:viewmodels="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="AddAccountWindow" Height="450" Width="800">
-    <Grid>
+        Title="AddAccountWindow" Height="250" Width="500">
+    <Window.DataContext>
+        <viewmodels:AddAccountViewModel />
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.ColumnSpan="3" Grid.Row="0" Content="Anmeldung über einen Externen Browser"/>
+        <TextBlock Grid.ColumnSpan="3" Grid.Row="1" TextWrapping="Wrap" Text="Bitte öffne den folgenden Link in einem externen Browser. Dort kannst du dich dann anmelden und dem Uploader die benötigten Rechte einräumen. Am Ende des Verfahrens wird dir ein Code genannt. Bitte füge diesen dann unten ein." />
+
+        <Label Grid.Row="2" Content="Folgenden Link öffnen: " VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Text="{Binding ExternalCodeUri}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
+            <Hyperlink Click="ExternalLink_Click"><TextBlock Text="Link im Browser öffnen" /></Hyperlink>
+        </TextBlock>
         
+        <Label Grid.Row="4" Content="Code Eintragen: " VerticalAlignment="Center"/>
+        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding Mode=TwoWay, Path=AuthToken}"/>
+        <Button Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="7 0 0 0" Content="Anmelden!" Click="SignIn_Click" />
     </Grid>
 </Window>

@@ -4,9 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
+        xmlns:viewmodels="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
+        xmlns:converters="clr-namespace:STFU.Executable.AutoUploader.WPF.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid>
-        
-    </Grid>
+    <Window.DataContext>
+        <viewmodels:MainViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBoolean" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Datei">
+                <MenuItem Header="Beenden" Click="CloseItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Verwalten">
+                <MenuItem Header="YouTube-Account">
+                    <MenuItem Header="Verbinden" Click="ConnectYouTubeItem_Click" IsEnabled="{Binding Path=LoggedIn, Converter={StaticResource InverseBoolean}}" />
+                    <MenuItem Header="Verbindung lösen" Click="DisonnectYouTubeItem_Click" IsEnabled="{Binding LoggedIn}"/>
+                </MenuItem>
+                <MenuItem Header="Templates" Click="TemplatesItem_Click"/>
+                <MenuItem Header="Pfade" Click="PathsItem_Click"/>
+                <MenuItem Header="Unvollständiger Upload" Click="UncompletedUploadItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Hilfe/Support">
+                <MenuItem Header="Neue Funktionen" />
+                <Separator />
+                <MenuItem Header="Tutorial-Video" Click="TutorialVideoItem_Click" />
+                <MenuItem Header="Discord-Server" Click="DiscordServerItem_Click" />
+                <MenuItem Header="Thread im LPF" Click="LPFThreadItem_Click" />
+                <MenuItem Header="Thread im YTF" Click="YTFThreadItem_Click"/>
+                <MenuItem Header="strohi auf Twitter" Click="StrohiTwitterItem_Click" />
+                <Separator />
+                <MenuItem Header="Download-Seite" Click="DownloadPageItem_Click" />
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding Path=LoggedIn, Converter={StaticResource BooleanToVisibility}}">
+                <Label Content="Angemeldet:" />
+                <Label>
+                    <TextBlock>
+                    <Hyperlink NavigateUri="{Binding YouTubeAccountVM.Uri}" Click="ChannelLink_Click" ><TextBlock Text="{Binding YouTubeAccountVM.Title}"/></Hyperlink>
+                </TextBlock>
+                </Label>
+            </StackPanel>
+            <Label Grid.Column="2" Content="Am Ende:" />
+            <ComboBox Grid.Column="3" SelectedIndex="-1">
+                <ComboBoxItem Content="Nichts tun" />
+                <ComboBoxItem Content="Zurück zum Hauptmenü" />
+                <ComboBoxItem Content="Programm schließen" />
+                <ComboBoxItem Content="Herunterfahren" />
+            </ComboBox>
+            <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center"/>
+            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Click="ChooseProcess_Click"/>
+            <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Click="Start_Click" IsEnabled="{Binding LoggedIn}" />
+        </Grid>
+        <Grid>
+            <ListView>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Pfad" />
+                        <GridViewColumn Header="Filter" />
+                        <GridViewColumn Header="Template" />
+                        <GridViewColumn Header="Unterverzeichnisse" />
+                        <GridViewColumn Header="Versteckte"/>
+                        <GridViewColumn Header="Inaktiv" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </DockPanel>
 </Window>

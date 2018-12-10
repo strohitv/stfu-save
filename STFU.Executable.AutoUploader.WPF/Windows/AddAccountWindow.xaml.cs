@@ -1,4 +1,5 @@
-﻿using System;
+﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,25 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     /// </summary>
     public partial class AddAccountWindow : Window
     {
-        public AddAccountWindow()
+        public AddAccountViewModel ViewModel { get; set; }
+
+        public AddAccountWindow(string externalCodeUri, string localHostUri)
         {
             InitializeComponent();
+            ViewModel = DataContext as AddAccountViewModel;
+            ViewModel.ExternalCodeUri = externalCodeUri;
+            ViewModel.LocalHostUri = localHostUri;
+        }
+
+        private void ExternalLink_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenExternalUrl();
+        }
+
+        private void SignIn_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = ViewModel.SignIn();
+            Close();
         }
     }
 }

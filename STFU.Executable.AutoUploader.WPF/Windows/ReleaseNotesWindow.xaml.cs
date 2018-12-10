@@ -27,9 +27,9 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
 
         public ReleaseNotesWindow()
         {
-            ViewModel = new ReleaseNotesViewModel();
-            ViewModel.Load();
             InitializeComponent();
+            ViewModel = DataContext as ReleaseNotesViewModel;
+            ViewModel.Load();
             ReleaseNotesBox.Document = ViewModel.ReleaseNotesDocument;
         }
 

@@ -1,4 +1,5 @@
-﻿using STFU.Lib.Youtube.Persistor.Model;
+﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
+using STFU.Lib.Youtube.Persistor.Model;
 using System.Linq;
 using System.Windows;
 
@@ -11,10 +12,7 @@ namespace STFU.Executable.AutoUploader.WPF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            WPF.Windows.MainWindow.Settings = new AutoUploaderSettings
-            {
-                ShowReleaseNotes = true || e.Args.Any(arg => arg.ToLower() == "showreleasenotes")
-            };
+            MainViewModel.AutoUploaderSettings.ShowReleaseNotes = e.Args.Any(arg => arg.ToLower() == "showreleasenotes");
         }
     }
 }
