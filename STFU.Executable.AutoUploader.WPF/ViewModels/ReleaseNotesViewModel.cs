@@ -1,23 +1,31 @@
 ﻿using STFU.Executable.AutoUploader.WPF.Helpers;
-using STFU.Executable.AutoUploader.WPF.Windows;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Documents.Serialization;
 
 namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
     public class ReleaseNotesViewModel : ViewModelBase
     {
+        #region Private Fields
+
         private const string FILENAME = "ReleaseNotes.rtf";
         private FlowDocument releaseNotesDocument;
+
+        #endregion Private Fields
+
+        #region Public Properties
+
+        public FlowDocument ReleaseNotesDocument
+        {
+            get => releaseNotesDocument;
+
+            set
+            {
+                releaseNotesDocument = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool ShowReleaseNotes
         {
@@ -32,21 +40,18 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        public FlowDocument ReleaseNotesDocument
-        {
-            get => releaseNotesDocument;
+        #endregion Public Properties
 
-            set
-            {
-                releaseNotesDocument = value;
-                OnPropertyChanged();
-            }
-        }
+        #region Public Methods
 
         public void Load()
         {
             LoadDocument();
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         private void LoadDocument()
         {
@@ -60,5 +65,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             releaseNotesDocument.ParseHyperlinks();
             OnPropertyChanged(nameof(ReleaseNotesDocument));
         }
+
+        #endregion Private Methods
     }
 }

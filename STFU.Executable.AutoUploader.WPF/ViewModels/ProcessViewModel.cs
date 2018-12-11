@@ -1,37 +1,24 @@
-﻿using System;
+﻿using STFU.Lib.Youtube.Automation.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using STFU.Lib.Youtube.Automation.Interfaces;
 
 namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
     public class ProcessViewModel : ViewModelBase
     {
-        private bool reactToCheckedEvents;
+        #region Private Fields
 
         private IProcessContainer processContainer;
+        private bool reactToCheckedEvents;
         private List<Process> selectedProcesses = new List<Process>();
 
-        public IReadOnlyCollection<Process> Selected { get { return selectedProcesses; } }
+        #endregion Private Fields
 
-        internal void RefreshSelectedProcesses()
-        {
-            selectedProcesses.Clear();
-            selectedProcesses.AddRange(Processes.Where(i => i.Checked).Select(i => i.Process));
-        }
-
-        public ObservableCollection<ProcessSelectionVM> Processes { get; set; } = new ObservableCollection<ProcessSelectionVM>();
-
-        public void ApplyProcessSelection()
-        {
-            RefreshSelectedProcesses();
-            ProcessContainer.RemoveAllProcesses();
-            ProcessContainer.AddProcesses(Selected);
-        }
+        #region Public Properties
 
         public IProcessContainer ProcessContainer
         {
@@ -44,7 +31,20 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
+        public ObservableCollection<ProcessSelectionVM> Processes { get; set; } = new ObservableCollection<ProcessSelectionVM>();
         public bool ReactToCheckedEvents { get => reactToCheckedEvents; set { reactToCheckedEvents = value; OnPropertyChanged(); } }
+        public IReadOnlyCollection<Process> Selected { get { return selectedProcesses; } }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public void ApplyProcessSelection()
+        {
+            RefreshSelectedProcesses();
+            ProcessContainer.RemoveAllProcesses();
+            ProcessContainer.AddProcesses(Selected);
+        }
 
         public async void RefreshAllProcessesAsync()
         {
@@ -87,6 +87,20 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             ReactToCheckedEvents = true;
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal void RefreshSelectedProcesses()
+        {
+            selectedProcesses.Clear();
+            selectedProcesses.AddRange(Processes.Where(i => i.Checked).Select(i => i.Process));
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+
         private bool HasAccess(Process p)
         {
             bool result = false;
@@ -100,5 +114,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
             return result;
         }
+
+        #endregion Private Methods
     }
 }

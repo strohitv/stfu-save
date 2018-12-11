@@ -1,19 +1,25 @@
 ﻿using STFU.Executable.AutoUploader.WPF.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
     public class AddAccountViewModel : ViewModelBase
     {
+        #region Private Fields
+
+        private string authToken;
         private string externalCodeUri;
         private string localHostUri;
         private bool usedLocalHostRedirect;
-        private string authToken;
+
+        #endregion Private Fields
+
+        #region Public Properties
+
+        public string AuthToken
+        {
+            get { return authToken; }
+            set { authToken = value; OnPropertyChanged(); }
+        }
 
         public string ExternalCodeUri
         {
@@ -33,11 +39,9 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             private set { usedLocalHostRedirect = value; OnPropertyChanged(); }
         }
 
-        public string AuthToken
-        {
-            get { return authToken; }
-            set { authToken = value; OnPropertyChanged(); }
-        }
+        #endregion Public Properties
+
+        #region Public Methods
 
         public void OpenExternalUrl() => BrowserHelper.Open(externalCodeUri);
 
@@ -46,5 +50,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             usedLocalHostRedirect = false;
             return true;
         }
+
+        #endregion Public Methods
     }
 }

@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace STFU.Executable.AutoUploader.WPF.Windows
 {
@@ -19,9 +8,20 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     /// </summary>
     public partial class UpdateWindow : Window
     {
+        public UpdateViewModel ViewModel { get; set; }
+        public bool RequiresRestart { get { return ViewModel?.RequiresRestart ?? false; } }
+
+        #region Public Constructors
+
         public UpdateWindow()
         {
             InitializeComponent();
+            ViewModel = DataContext as UpdateViewModel;
+            ViewModel.Close += (s,e) => Close();
         }
+
+        #endregion Public Constructors
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) => ViewModel.Start();
     }
 }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Documents;
 
 namespace STFU.Executable.AutoUploader.WPF.Helpers
 {
     public static class FlowDocumentExtension
     {
+        #region Public Methods
+
         public static void ParseHyperlinks(this FlowDocument document)
         {
             var elements = LogicalTreeUtility.GetChildren<Run>(document, true);
@@ -27,5 +24,7 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
                 }
             }
         }
+
+        #endregion Public Methods
     }
 }

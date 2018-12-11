@@ -1,18 +1,5 @@
 ﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace STFU.Executable.AutoUploader.WPF.Windows
 {
@@ -21,7 +8,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     /// </summary>
     public partial class ProcessWindow : Window
     {
-        public ProcessViewModel ViewModel { get; set; }
+        #region Public Constructors
 
         public ProcessWindow(Lib.Youtube.Automation.Interfaces.IProcessContainer processContainer)
         {
@@ -31,13 +18,21 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
             ViewModel.RefreshAllProcessesAsync();
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public ProcessViewModel ViewModel { get; set; }
+
+        #endregion Public Properties
+
+        #region Private Methods
+
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             Close();
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshAllProcessesAsync();
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
@@ -46,5 +41,9 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
         }
 
         private void ProcessCheck_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshSelectedProcesses();
+
+        private void Refresh_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshAllProcessesAsync();
+
+        #endregion Private Methods
     }
 }

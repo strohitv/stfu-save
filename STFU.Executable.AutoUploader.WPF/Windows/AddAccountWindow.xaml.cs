@@ -1,17 +1,5 @@
 ﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace STFU.Executable.AutoUploader.WPF.Windows
 {
@@ -20,7 +8,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     /// </summary>
     public partial class AddAccountWindow : Window
     {
-        public AddAccountViewModel ViewModel { get; set; }
+        #region Public Constructors
 
         public AddAccountWindow(string externalCodeUri, string localHostUri)
         {
@@ -29,6 +17,16 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
             ViewModel.ExternalCodeUri = externalCodeUri;
             ViewModel.LocalHostUri = localHostUri;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public AddAccountViewModel ViewModel { get; set; }
+
+        #endregion Public Properties
+
+        #region Private Methods
 
         private void ExternalLink_Click(object sender, RoutedEventArgs e)
         {
@@ -40,5 +38,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
             DialogResult = ViewModel.SignIn();
             Close();
         }
+
+        #endregion Private Methods
     }
 }

@@ -6,6 +6,8 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
 {
     public static class LogicalTreeUtility
     {
+        #region Public Methods
+
         public static IEnumerable GetChildren(DependencyObject obj, bool allChildrenInHierachy)
         {
             if (!allChildrenInHierachy)
@@ -18,6 +20,17 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
             }
         }
 
+        public static IEnumerable<ReturnType> GetChildren<ReturnType>(DependencyObject obj, bool allChildrenInHierachy)
+        {
+            foreach (object child in GetChildren(obj, allChildrenInHierachy))
+                if (child is ReturnType)
+                    yield return (ReturnType)child;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
         private static void RecursionReturnAllChildren(DependencyObject obj, IList<object> returnValues)
         {
             foreach (object curChild in LogicalTreeHelper.GetChildren(obj))
@@ -28,11 +41,6 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
             }
         }
 
-        public static IEnumerable<ReturnType> GetChildren<ReturnType>(DependencyObject obj, bool allChildrenInHierachy)
-        {
-            foreach (object child in GetChildren(obj, allChildrenInHierachy))
-                if (child is ReturnType)
-                    yield return (ReturnType)child;
-        }
+        #endregion Private Methods
     }
 }

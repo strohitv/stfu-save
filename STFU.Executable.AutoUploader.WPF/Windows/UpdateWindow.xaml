@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
+        xmlns:viewmodels="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="UpdateWindow" Height="450" Width="800">
+        Title="UpdateWindow" Height="100" Width="450" Loaded="Window_Loaded" >
+    <Window.DataContext>
+        <viewmodels:UpdateViewModel />
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="{Binding Status}" />
+        <ProgressBar Grid.Row="1" Margin="10 0 10 10" IsIndeterminate="{Binding ProgressUnknown}" Value="{Binding Progress, Mode=OneWay}" />
     </Grid>
 </Window>

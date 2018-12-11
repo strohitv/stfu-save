@@ -5,7 +5,16 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
     [DebuggerDisplay("{Name}")]
     public class ProcessSelectionVM : ViewModelBase
     {
+        #region Private Fields
+
+        private string description;
         private bool isChecked;
+
+        private string name;
+
+        #endregion Private Fields
+
+        #region Public Properties
 
         public bool Checked
         {
@@ -13,7 +22,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             set { isChecked = value; OnPropertyChanged(); }
         }
 
-        private string name;
+        public string Description
+        {
+            get { return description; }
+            set { description = value; OnPropertyChanged(); }
+        }
 
         public string Name
         {
@@ -21,14 +34,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             set { name = value; OnPropertyChanged(); }
         }
 
-        private string description;
-
-        public string Description
-        {
-            get { return description; }
-            set { description = value; OnPropertyChanged(); }
-        }
-
         public Process Process { get; set; }
+
+        #endregion Public Properties
     }
 }

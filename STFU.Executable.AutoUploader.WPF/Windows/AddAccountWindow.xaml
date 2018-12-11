@@ -23,18 +23,18 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.ColumnSpan="3" Grid.Row="0" Content="Anmeldung über einen Externen Browser"/>
+        <Label Grid.ColumnSpan="3" Grid.Row="0" Content="Anmeldung über einen Externen Browser" />
         <TextBlock Grid.ColumnSpan="3" Grid.Row="1" TextWrapping="Wrap" Text="Bitte öffne den folgenden Link in einem externen Browser. Dort kannst du dich dann anmelden und dem Uploader die benötigten Rechte einräumen. Am Ende des Verfahrens wird dir ein Code genannt. Bitte füge diesen dann unten ein." />
 
-        <Label Grid.Row="2" Content="Folgenden Link öffnen: " VerticalAlignment="Center"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Text="{Binding ExternalCodeUri}"/>
+        <Label Grid.Row="2" Content="Folgenden Link öffnen: " VerticalAlignment="Center" />
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Text="{Binding ExternalCodeUri}" />
 
         <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
             <Hyperlink Click="ExternalLink_Click"><TextBlock Text="Link im Browser öffnen" /></Hyperlink>
         </TextBlock>
-        
-        <Label Grid.Row="4" Content="Code Eintragen: " VerticalAlignment="Center"/>
-        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding Mode=TwoWay, Path=AuthToken}"/>
+
+        <Label Grid.Row="4" Content="Code Eintragen: " VerticalAlignment="Center" />
+        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding Mode=TwoWay, Path=AuthToken}" />
         <Button Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Margin="7 0 0 0" Content="Anmelden!" Click="SignIn_Click" />
     </Grid>
 </Window>

@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
         xmlns:converters="clr-namespace:STFU.Executable.AutoUploader.WPF.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.DataContext>
         <viewmodels:MainViewModel />
     </Window.DataContext>
@@ -19,27 +19,27 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Datei">
-                <MenuItem Header="Beenden" Click="CloseItem_Click"/>
+                <MenuItem Header="Beenden" Click="CloseItem_Click" />
             </MenuItem>
             <MenuItem Header="Verwalten">
                 <MenuItem Header="YouTube-Account">
                     <MenuItem Header="Verbinden" Click="ConnectYouTubeItem_Click" IsEnabled="{Binding Path=LoggedIn, Converter={StaticResource InverseBoolean}}" />
-                    <MenuItem Header="Verbindung lösen" Click="DisonnectYouTubeItem_Click" IsEnabled="{Binding LoggedIn}"/>
+                    <MenuItem Header="Verbindung lösen" Click="DisonnectYouTubeItem_Click" IsEnabled="{Binding LoggedIn}" />
                 </MenuItem>
-                <MenuItem Header="Templates" Click="TemplatesItem_Click"/>
-                <MenuItem Header="Pfade" Click="PathsItem_Click"/>
-                <MenuItem Header="Unvollständiger Upload" Click="UncompletedUploadItem_Click"/>
+                <MenuItem Header="Templates" Click="TemplatesItem_Click" />
+                <MenuItem Header="Pfade" Click="PathsItem_Click" />
+                <MenuItem Header="Unvollständiger Upload" Click="UncompletedUploadItem_Click" />
             </MenuItem>
             <MenuItem Header="Hilfe/Support">
-                <MenuItem Header="Neue Funktionen" Click="NewFeaturesItem_Click"/>
+                <MenuItem Header="Neue Funktionen" Tag="{x:Static viewmodels:HelpLinkAction.NewFeatures}" Click="HelpItem_Click" />
                 <Separator />
-                <MenuItem Header="Tutorial-Video" Click="TutorialVideoItem_Click" />
-                <MenuItem Header="Discord-Server" Click="DiscordServerItem_Click" />
-                <MenuItem Header="Thread im LPF" Click="LPFThreadItem_Click" />
-                <MenuItem Header="Thread im YTF" Click="YTFThreadItem_Click"/>
-                <MenuItem Header="strohi auf Twitter" Click="StrohiTwitterItem_Click" />
+                <MenuItem Header="Tutorial-Video" Tag="{x:Static viewmodels:HelpLinkAction.Tutorial}" Click="HelpItem_Click" />
+                <MenuItem Header="Discord-Server" Tag="{x:Static viewmodels:HelpLinkAction.Discord}" Click="HelpItem_Click" />
+                <MenuItem Header="Thread im LPF" Tag="{x:Static viewmodels:HelpLinkAction.LPFThread}" Click="HelpItem_Click" />
+                <MenuItem Header="Thread im YTF" Tag="{x:Static viewmodels:HelpLinkAction.YTFThread}" Click="HelpItem_Click" />
+                <MenuItem Header="strohi auf Twitter" Tag="{x:Static viewmodels:HelpLinkAction.TwitterStrohi}" Click="HelpItem_Click" />
                 <Separator />
-                <MenuItem Header="Download-Seite" Click="DownloadPageItem_Click" />
+                <MenuItem Header="Download-Seite" Tag="{x:Static viewmodels:HelpLinkAction.Download}" Click="HelpItem_Click" />
             </MenuItem>
         </Menu>
         <Grid DockPanel.Dock="Bottom" Margin="10">
@@ -56,19 +56,19 @@
                 <Label Content="Angemeldet:" />
                 <Label>
                     <TextBlock>
-                    <Hyperlink NavigateUri="{Binding YouTubeAccountVM.Uri}" Click="ChannelLink_Click" ><TextBlock Text="{Binding YouTubeAccountVM.Title}"/></Hyperlink>
+                    <Hyperlink NavigateUri="{Binding YouTubeAccountVM.Uri}" Click="ChannelLink_Click" ><TextBlock Text="{Binding YouTubeAccountVM.Title}" /></Hyperlink>
                 </TextBlock>
                 </Label>
             </StackPanel>
             <Label Grid.Column="2" Content="Am Ende:" />
-            <ComboBox Grid.Column="3" SelectedIndex="{Binding Path=DependentActivity, Converter={StaticResource EnumToInt32}}">
+            <ComboBox Grid.Column="3" SelectedIndex="{Binding Path=DependentActivity, Converter={StaticResource EnumToInt32}}" SelectionChanged="FinishActivity_SelectionChanged">
                 <ComboBoxItem Content="Nichts tun" />
                 <ComboBoxItem Content="Zurück zum Hauptmenü" />
                 <ComboBoxItem Content="Programm schließen" />
                 <ComboBoxItem Content="Herunterfahren" />
             </ComboBox>
-            <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center" IsChecked="{Binding WaitForProcess}" Checked="WaitForProcess_Checked" IsEnabled="{Binding Path=ActivitySelected}"/>
-            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Click="ChooseProcess_Click"/>
+            <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center" IsChecked="{Binding WaitForProcess}" Checked="WaitForProcess_Checked" IsEnabled="{Binding Path=ActivitySelected}" />
+            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Click="ChooseProcess_Click" />
             <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Click="Start_Click" IsEnabled="{Binding LoggedIn}" />
         </Grid>
         <Grid>
@@ -79,7 +79,7 @@
                         <GridViewColumn Header="Filter" />
                         <GridViewColumn Header="Template" />
                         <GridViewColumn Header="Unterverzeichnisse" />
-                        <GridViewColumn Header="Versteckte"/>
+                        <GridViewColumn Header="Versteckte" />
                         <GridViewColumn Header="Inaktiv" />
                     </GridView>
                 </ListView.View>

@@ -20,10 +20,9 @@
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <CheckBox Grid.Column="0" Content="Beim nächsten Start anzeigen" IsChecked="{Binding ShowReleaseNotes}" HorizontalAlignment="Right"/>
-            <Button Grid.Column="2" Click="Close_Click" MinWidth="80" Content="Schließen" HorizontalAlignment="Right"/>
+            <CheckBox Grid.Column="0" Content="Beim nächsten Start anzeigen" IsChecked="{Binding ShowReleaseNotes}" HorizontalAlignment="Right" />
+            <Button Grid.Column="2" Click="Close_Click" MinWidth="80" Content="Schließen" HorizontalAlignment="Right" />
         </Grid>
-        <FlowDocumentReader Name="ReleaseNotesBox" Margin="0 10 0 10" ViewingMode="Scroll"/>
-        
+        <FlowDocumentReader Name="ReleaseNotesBox" Margin="0 10 0 10" ViewingMode="Scroll" />
     </DockPanel>
 </Window>

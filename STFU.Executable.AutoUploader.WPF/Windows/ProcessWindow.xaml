@@ -11,7 +11,7 @@
         <viewmodels:ProcessViewModel />
     </Window.DataContext>
     <DockPanel>
-        <Label DockPanel.Dock="Top" Content="Verfügbare Prozesse:" Margin="0 5 0 0"/>
+        <Label DockPanel.Dock="Top" Content="Verfügbare Prozesse:" Margin="0 5 0 0" />
         <Grid DockPanel.Dock="Bottom" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Margin="5" Content="Bestätigen" Click="Accept_Click" />
             <Button Grid.Column="1" Margin="5" Content="Aktualisieren" Click="Refresh_Click" />
-            <Button Grid.Column="2" Margin="5" Content="Abbrechen" Click="Cancel_Click"/>
+            <Button Grid.Column="2" Margin="5" Content="Abbrechen" Click="Cancel_Click" />
         </Grid>
         <Grid>
             <ListView ItemsSource="{Binding Processes}" IsEnabled="{Binding ReactToCheckedEvents}">

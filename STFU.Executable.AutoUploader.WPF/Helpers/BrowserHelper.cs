@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace STFU.Executable.AutoUploader.WPF.Helpers
 {
     public static class BrowserHelper
     {
+        #region Public Methods
+
         public static void Open(string address)
         {
             Process.Start(address);
@@ -18,5 +16,7 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
         {
             Process.Start(address.AbsoluteUri);
         }
+
+        #endregion Public Methods
     }
 }
