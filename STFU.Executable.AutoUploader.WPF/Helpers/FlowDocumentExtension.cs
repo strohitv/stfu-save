@@ -22,7 +22,7 @@ namespace STFU.Executable.AutoUploader.WPF.Helpers
                     {
                         NavigateUri = new Uri(run.Text)
                     };
-                    hyperlink.RequestNavigate += (sender, e) => { Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)); e.Handled = true; };
+                    hyperlink.RequestNavigate += (sender, e) => { BrowserHelper.Open(e.Uri); e.Handled = true; };
                     span.Inlines.Add(hyperlink);
                 }
             }

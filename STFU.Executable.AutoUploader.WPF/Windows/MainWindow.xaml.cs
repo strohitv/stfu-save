@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using STFU.Executable.AutoUploader.WPF.Helpers;
 using STFU.Executable.AutoUploader.WPF.ViewModels;
 using STFU.Lib.Youtube.Persistor.Model;
 
@@ -33,23 +34,14 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (MainViewModel.AutoUploaderSettings.ShowReleaseNotes)
-                new ReleaseNotesWindow().ShowDialog();
+                ViewModel.ShowReleaseNotes();
         }
 
-        private void CloseItem_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void CloseItem_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void ConnectYouTubeItem_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ConnectToYouTube();
-        }
+        private void ConnectYouTubeItem_Click(object sender, RoutedEventArgs e) => ViewModel.ConnectToYouTube();
 
-        private void DisonnectYouTubeItem_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.RevokeAccess();
-        }
+        private void DisonnectYouTubeItem_Click(object sender, RoutedEventArgs e) => ViewModel.RevokeAccess();
 
         private void TemplatesItem_Click(object sender, RoutedEventArgs e)
         {
@@ -66,49 +58,26 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
 
         }
 
-        private void TutorialVideoItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void TutorialVideoItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenTutorialVideo();
 
-        }
+        private void DiscordServerItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenDiscordServer();
 
-        private void DiscordServerItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void LPFThreadItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenLPFThread();
 
-        }
+        private void YTFThreadItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenYTFThread();
 
-        private void LPFThreadItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void StrohiTwitterItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenStrohiTwitter();
 
-        }
+        private void DownloadPageItem_Click(object sender, RoutedEventArgs e) => ViewModel.OpenDownloadPage();
 
-        private void YTFThreadItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void ChannelLink_Click(object sender, RoutedEventArgs e) => ViewModel.YouTubeAccountVM.OpenChannelInBrowser();
 
-        }
+        private void ChooseProcess_Click(object sender, RoutedEventArgs e) => ViewModel.ChoseProcessToWaitFor();
 
-        private void StrohiTwitterItem_Click(object sender, RoutedEventArgs e)
-        {
+        private void Start_Click(object sender, RoutedEventArgs e) => ViewModel.Start();
 
-        }
+        private void NewFeaturesItem_Click(object sender, RoutedEventArgs e) => ViewModel.ShowReleaseNotes();
 
-        private void DownloadPageItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ChannelLink_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.YouTubeAccountVM.OpenChannelInBrowser();
-        }
-
-        private void ChooseProcess_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Start_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void WaitForProcess_Checked(object sender, RoutedEventArgs e) => ViewModel.ChoseProcessToWaitFor();
     }
 }

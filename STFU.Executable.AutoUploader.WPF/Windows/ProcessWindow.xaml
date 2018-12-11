@@ -4,9 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
+        xmlns:viewmodels="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
         mc:Ignorable="d"
         Title="ProcessWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Window.DataContext>
+        <viewmodels:ProcessViewModel />
+    </Window.DataContext>
+    <DockPanel>
+        <Label DockPanel.Dock="Top" Content="Verfügbare Prozesse:" Margin="0 5 0 0"/>
+        <Grid DockPanel.Dock="Bottom" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="5" Content="Bestätigen" Click="Accept_Click" />
+            <Button Grid.Column="1" Margin="5" Content="Aktualisieren" Click="Refresh_Click" />
+            <Button Grid.Column="2" Margin="5" Content="Abbrechen" Click="Cancel_Click"/>
+        </Grid>
+        <Grid>
+            <ListView ItemsSource="{Binding Processes}" IsEnabled="{Binding ReactToCheckedEvents}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=Checked, Mode=TwoWay}" Click="ProcessCheck_Click" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Beschreibung" DisplayMemberBinding="{Binding Description}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </DockPanel>
 </Window>

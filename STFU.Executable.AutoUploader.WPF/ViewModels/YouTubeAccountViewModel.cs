@@ -1,4 +1,5 @@
-﻿using STFU.Lib.Youtube.Interfaces.Model;
+﻿using STFU.Executable.AutoUploader.WPF.Helpers;
+using STFU.Lib.Youtube.Interfaces.Model;
 using System;
 using System.Diagnostics;
 
@@ -16,11 +17,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         public string Region { get { return account?.Region ?? string.Empty; } }
 
-        public override void Load()
-        {
-
-        }
-
         public void RegisterAccount(IYoutubeAccount youtubeAccount)
         {
             account = youtubeAccount;
@@ -35,9 +31,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             OnPropertyChanged(nameof(Uri));
         }
 
-        public void OpenChannelInBrowser()
-        {
-            Process.Start(Uri);
-        }
+        public void OpenChannelInBrowser() => BrowserHelper.Open(Uri);
     }
 }

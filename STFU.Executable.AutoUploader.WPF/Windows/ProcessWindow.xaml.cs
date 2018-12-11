@@ -1,5 +1,7 @@
-﻿using System;
+﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,30 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     /// </summary>
     public partial class ProcessWindow : Window
     {
-        public ProcessWindow()
+        public ProcessViewModel ViewModel { get; set; }
+
+        public ProcessWindow(Lib.Youtube.Automation.Interfaces.IProcessContainer processContainer)
         {
             InitializeComponent();
+            ViewModel = DataContext as ProcessViewModel;
+            ViewModel.ProcessContainer = processContainer;
+            ViewModel.RefreshAllProcessesAsync();
         }
+
+        private void Accept_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+            Close();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshAllProcessesAsync();
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
+        }
+
+        private void ProcessCheck_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshSelectedProcesses();
     }
 }

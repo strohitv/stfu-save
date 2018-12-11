@@ -1,4 +1,5 @@
-﻿using System;
+﻿using STFU.Executable.AutoUploader.WPF.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,15 +39,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             set { authToken = value; OnPropertyChanged(); }
         }
 
-        public override void Load()
-        {
-
-        }
-
-        public void OpenExternalUrl()
-        {
-            Process.Start(externalCodeUri);
-        }
+        public void OpenExternalUrl() => BrowserHelper.Open(externalCodeUri);
 
         public bool? SignIn()
         {

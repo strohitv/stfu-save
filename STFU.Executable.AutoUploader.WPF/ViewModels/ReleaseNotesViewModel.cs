@@ -43,7 +43,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        public override void Load()
+        public void Load()
         {
             LoadDocument();
         }

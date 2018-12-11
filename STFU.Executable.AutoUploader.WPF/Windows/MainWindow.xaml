@@ -14,6 +14,7 @@
     <Window.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBoolean" />
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:EnumToInt32Converter x:Key="EnumToInt32" />
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -30,7 +31,7 @@
                 <MenuItem Header="Unvollständiger Upload" Click="UncompletedUploadItem_Click"/>
             </MenuItem>
             <MenuItem Header="Hilfe/Support">
-                <MenuItem Header="Neue Funktionen" />
+                <MenuItem Header="Neue Funktionen" Click="NewFeaturesItem_Click"/>
                 <Separator />
                 <MenuItem Header="Tutorial-Video" Click="TutorialVideoItem_Click" />
                 <MenuItem Header="Discord-Server" Click="DiscordServerItem_Click" />
@@ -60,13 +61,13 @@
                 </Label>
             </StackPanel>
             <Label Grid.Column="2" Content="Am Ende:" />
-            <ComboBox Grid.Column="3" SelectedIndex="-1">
+            <ComboBox Grid.Column="3" SelectedIndex="{Binding Path=DependentActivity, Converter={StaticResource EnumToInt32}}">
                 <ComboBoxItem Content="Nichts tun" />
                 <ComboBoxItem Content="Zurück zum Hauptmenü" />
                 <ComboBoxItem Content="Programm schließen" />
                 <ComboBoxItem Content="Herunterfahren" />
             </ComboBox>
-            <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center"/>
+            <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center" IsChecked="{Binding WaitForProcess}" Checked="WaitForProcess_Checked" IsEnabled="{Binding Path=ActivitySelected}"/>
             <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Click="ChooseProcess_Click"/>
             <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Click="Start_Click" IsEnabled="{Binding LoggedIn}" />
         </Grid>

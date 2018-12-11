@@ -11,7 +11,5 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public abstract void Load();
     }
 }
