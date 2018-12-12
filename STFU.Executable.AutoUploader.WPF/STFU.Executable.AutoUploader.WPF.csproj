@@ -80,6 +80,7 @@
     <Compile Include="Helpers\FlowDocumentExtension.cs" />
     <Compile Include="Helpers\LogicalTreeUtility.cs" />
     <Compile Include="ViewModels\AddAccountViewModel.cs" />
+    <Compile Include="ViewModels\ButtonCommand.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PathViewModel.cs" />

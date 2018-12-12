@@ -23,23 +23,23 @@
             </MenuItem>
             <MenuItem Header="Verwalten">
                 <MenuItem Header="YouTube-Account">
-                    <MenuItem Header="Verbinden" Click="ConnectYouTubeItem_Click" IsEnabled="{Binding Path=LoggedIn, Converter={StaticResource InverseBoolean}}" />
-                    <MenuItem Header="Verbindung lösen" Click="DisonnectYouTubeItem_Click" IsEnabled="{Binding LoggedIn}" />
+                    <MenuItem Header="Verbinden" Command="{Binding ConnectAccountCommand}" IsEnabled="{Binding Path=LoggedIn, Converter={StaticResource InverseBoolean}}" />
+                    <MenuItem Header="Verbindung lösen" Command="{Binding DisconnectAccountCommand}" IsEnabled="{Binding LoggedIn}" />
                 </MenuItem>
-                <MenuItem Header="Templates" Click="TemplatesItem_Click" />
-                <MenuItem Header="Pfade" Click="PathsItem_Click" />
-                <MenuItem Header="Unvollständiger Upload" Click="UncompletedUploadItem_Click" />
+                <MenuItem Header="Templates" />
+                <MenuItem Header="Pfade" Command="{Binding PathSettingsCommand}" />
+                <MenuItem Header="Unvollständiger Upload" />
             </MenuItem>
             <MenuItem Header="Hilfe/Support">
-                <MenuItem Header="Neue Funktionen" Tag="{x:Static viewmodels:HelpLinkAction.NewFeatures}" Click="HelpItem_Click" />
+                <MenuItem Header="Neue Funktionen" CommandParameter="{x:Static viewmodels:HelpLinkAction.NewFeatures}" Command="{Binding HelpActionCommand}"/>
                 <Separator />
-                <MenuItem Header="Tutorial-Video" Tag="{x:Static viewmodels:HelpLinkAction.Tutorial}" Click="HelpItem_Click" />
-                <MenuItem Header="Discord-Server" Tag="{x:Static viewmodels:HelpLinkAction.Discord}" Click="HelpItem_Click" />
-                <MenuItem Header="Thread im LPF" Tag="{x:Static viewmodels:HelpLinkAction.LPFThread}" Click="HelpItem_Click" />
-                <MenuItem Header="Thread im YTF" Tag="{x:Static viewmodels:HelpLinkAction.YTFThread}" Click="HelpItem_Click" />
-                <MenuItem Header="strohi auf Twitter" Tag="{x:Static viewmodels:HelpLinkAction.TwitterStrohi}" Click="HelpItem_Click" />
+                <MenuItem Header="Tutorial-Video" CommandParameter="{x:Static viewmodels:HelpLinkAction.Tutorial}" Command="{Binding HelpActionCommand}"/>
+                <MenuItem Header="Discord-Server" CommandParameter="{x:Static viewmodels:HelpLinkAction.Discord}" Command="{Binding HelpActionCommand}"/>
+                <MenuItem Header="Thread im LPF" CommandParameter="{x:Static viewmodels:HelpLinkAction.LPFThread}" Command="{Binding HelpActionCommand}"/>
+                <MenuItem Header="Thread im YTF" CommandParameter="{x:Static viewmodels:HelpLinkAction.YTFThread}" Command="{Binding HelpActionCommand}"/>
+                <MenuItem Header="strohi auf Twitter" CommandParameter="{x:Static viewmodels:HelpLinkAction.TwitterStrohi}" Command="{Binding HelpActionCommand}"/>
                 <Separator />
-                <MenuItem Header="Download-Seite" Tag="{x:Static viewmodels:HelpLinkAction.Download}" Click="HelpItem_Click" />
+                <MenuItem Header="Download-Seite" CommandParameter="{x:Static viewmodels:HelpLinkAction.Download}" Command="{Binding HelpActionCommand}"/>
             </MenuItem>
         </Menu>
         <Grid DockPanel.Dock="Bottom" Margin="10">
@@ -56,8 +56,10 @@
                 <Label Content="Angemeldet:" />
                 <Label>
                     <TextBlock>
-                    <Hyperlink NavigateUri="{Binding YouTubeAccountVM.Uri}" Click="ChannelLink_Click" ><TextBlock Text="{Binding YouTubeAccountVM.Title}" /></Hyperlink>
-                </TextBlock>
+                        <Hyperlink NavigateUri="{Binding YouTubeAccountVM.Uri}" Command="{Binding ChannelLinkCommand}" >
+                            <TextBlock Text="{Binding YouTubeAccountVM.Title}" />
+                        </Hyperlink>
+                    </TextBlock>
                 </Label>
             </StackPanel>
             <Label Grid.Column="2" Content="Am Ende:" />
@@ -68,8 +70,8 @@
                 <ComboBoxItem Content="Herunterfahren" />
             </ComboBox>
             <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center" IsChecked="{Binding WaitForProcess}" Checked="WaitForProcess_Checked" IsEnabled="{Binding Path=ActivitySelected}" />
-            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Click="ChooseProcess_Click" />
-            <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Click="Start_Click" IsEnabled="{Binding LoggedIn}" />
+            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Command="{Binding ChooseProcessCommand}" />
+            <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Command="{Binding StartCommand}" IsEnabled="{Binding LoggedIn}" />
         </Grid>
         <Grid>
             <ListView>

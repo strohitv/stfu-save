@@ -51,6 +51,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             return true;
         }
 
+        public ButtonCommand ExternalLinkCommand { get; set; }
+
+        public AddAccountViewModel()
+        {
+            ExternalLinkCommand = new ButtonCommand(OpenExternalUrl);
+        }
+
         #endregion Public Methods
     }
 }

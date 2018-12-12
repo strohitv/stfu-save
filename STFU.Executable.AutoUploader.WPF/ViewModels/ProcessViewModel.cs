@@ -16,6 +16,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         private bool reactToCheckedEvents;
         private List<Process> selectedProcesses = new List<Process>();
 
+        public ProcessViewModel()
+        {
+            RefreshCommand = new ButtonCommand(RefreshAllProcessesAsync);
+        }
+
         #endregion Private Fields
 
         #region Public Properties
@@ -32,8 +37,12 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         }
 
         public ObservableCollection<ProcessSelectionVM> Processes { get; set; } = new ObservableCollection<ProcessSelectionVM>();
+
         public bool ReactToCheckedEvents { get => reactToCheckedEvents; set { reactToCheckedEvents = value; OnPropertyChanged(); } }
+
         public IReadOnlyCollection<Process> Selected { get { return selectedProcesses; } }
+
+        public ButtonCommand RefreshCommand { get; set; }
 
         #endregion Public Properties
 

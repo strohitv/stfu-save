@@ -42,8 +42,6 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
 
         private void ProcessCheck_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshSelectedProcesses();
 
-        private void Refresh_Click(object sender, RoutedEventArgs e) => ViewModel.RefreshAllProcessesAsync();
-
         #endregion Private Methods
     }
 }

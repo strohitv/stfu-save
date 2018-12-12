@@ -1,4 +1,5 @@
 ﻿using STFU.Executable.AutoUploader.WPF.ViewModels;
+using STFU.Lib.Youtube.Automation.Interfaces;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,10 +12,12 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
     {
         #region Public Constructors
 
-        public PathWindow()
+        public PathWindow(IPathContainer pathContainer, ITemplateContainer templateContainer)
         {
             InitializeComponent();
             ViewModel = DataContext as PathViewModel;
+            ViewModel.PathContainer = pathContainer;
+            ViewModel.TemplateContainer = templateContainer;
         }
 
         public PathViewModel ViewModel { get; private set; }
@@ -25,26 +28,6 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
         {
             var button = (Button)sender;
             ViewModel.DoAction((PathWindowAction)button.Tag);
-        }
-
-        private void ChosePath_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MarkAllVideos_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

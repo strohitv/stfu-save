@@ -28,11 +28,6 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
 
         #region Private Methods
 
-        private void ExternalLink_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.OpenExternalUrl();
-        }
-
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = ViewModel.SignIn();

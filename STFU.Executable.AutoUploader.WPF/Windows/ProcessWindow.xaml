@@ -19,7 +19,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Margin="5" Content="Bestätigen" Click="Accept_Click" />
-            <Button Grid.Column="1" Margin="5" Content="Aktualisieren" Click="Refresh_Click" />
+            <Button Grid.Column="1" Margin="5" Content="Aktualisieren" Command="{Binding RefreshCommand}" />
             <Button Grid.Column="2" Margin="5" Content="Abbrechen" Click="Cancel_Click" />
         </Grid>
         <Grid>

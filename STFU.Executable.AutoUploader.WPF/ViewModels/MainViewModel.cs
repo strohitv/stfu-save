@@ -44,7 +44,26 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         private TemplatePersistor templatePersistor = null;
 
+        public void PathSettings()
+        {
+            PathWindow pathWindow = new PathWindow(pathContainer, templateContainer);
+            pathWindow.ShowDialog();
+            pathPersistor.Save();
+        }
+
         private bool waitForProcess;
+
+        public MainViewModel()
+        {
+            help.ShowFeatures += (e, a) => ShowReleaseNotes();
+            HelpActionCommand = new ButtonCommand<HelpLinkAction>(help.OpenHelpLink);
+            StartCommand = new ButtonCommand(Start);
+            ChooseProcessCommand = new ButtonCommand(ChooseProcessToWaitFor);
+            ConnectAccountCommand = new ButtonCommand(ConnectToYouTube);
+            DisconnectAccountCommand = new ButtonCommand(RevokeAccess);
+            PathSettingsCommand = new ButtonCommand(PathSettings);
+            ChannelLinkCommand = new ButtonCommand(YouTubeAccountVM.OpenChannelInBrowser);
+        }
 
         #endregion Private Fields
 
@@ -79,6 +98,20 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
+        public ButtonCommand<HelpLinkAction> HelpActionCommand { get; set; }
+
+        public ButtonCommand StartCommand { get; set; }
+
+        public ButtonCommand ChooseProcessCommand { get; set; }
+
+        public ButtonCommand ConnectAccountCommand { get; set; }
+
+        public ButtonCommand DisconnectAccountCommand { get; set; }
+
+        public ButtonCommand PathSettingsCommand { get; set; }
+
+        public ButtonCommand ChannelLinkCommand { get; set; }
+
         public bool LoggedIn
         {
             get => accountContainer.RegisteredAccounts.Count > 0;
@@ -101,11 +134,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             WaitForProcess = false;
         }
 
-        public void ChoseProcessToWaitFor()
+        public void ChooseProcessToWaitFor()
         {
-            ProcessWindow processChoser = new ProcessWindow(processContainer);
-            if (processChoser.ShowDialog() == true && processChoser.ViewModel.Selected.Count > 0)
-                processChoser.ViewModel.ApplyProcessSelection();
+            ProcessWindow processChooser = new ProcessWindow(processContainer);
+            if (processChooser.ShowDialog() == true && processChooser.ViewModel.Selected.Count > 0)
+                processChooser.ViewModel.ApplyProcessSelection();
             else
                 WaitForProcess = false;
         }

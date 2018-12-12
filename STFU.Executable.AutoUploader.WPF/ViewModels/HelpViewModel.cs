@@ -35,6 +35,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             actions = new Dictionary<HelpLinkAction, Action>
             {
+                { HelpLinkAction.NewFeatures, () => { OnShowFeatures(); } },
                 { HelpLinkAction.Discord, () => { BrowserHelper.Open(DISCORD_SERVER); } },
                 { HelpLinkAction.Download, () => { BrowserHelper.Open(DOWNLOAD_PAGE); } },
                 { HelpLinkAction.LPFThread, () => { BrowserHelper.Open(LPF_THREAD); } },
@@ -43,6 +44,10 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
                 { HelpLinkAction.TwitterStrohi, () => { BrowserHelper.Open(STROHI_TWITTER); } }
             };
         }
+
+        public event EventHandler ShowFeatures;
+
+        protected void OnShowFeatures() => ShowFeatures?.Invoke(this, new EventArgs());
 
         #endregion Public Constructors
 

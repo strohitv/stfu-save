@@ -28,10 +28,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
 
         #region Private Methods
 
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void Close_Click(object sender, RoutedEventArgs e) => Close();
 
         #endregion Private Methods
     }

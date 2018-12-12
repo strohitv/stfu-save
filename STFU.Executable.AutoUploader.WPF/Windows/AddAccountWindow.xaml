@@ -30,7 +30,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Text="{Binding ExternalCodeUri}" />
 
         <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
-            <Hyperlink Click="ExternalLink_Click"><TextBlock Text="Link im Browser öffnen" /></Hyperlink>
+            <Hyperlink Command="{Binding ExternalLinkCommand}"><TextBlock Text="Link im Browser öffnen" /></Hyperlink>
         </TextBlock>
 
         <Label Grid.Row="4" Content="Code Eintragen: " VerticalAlignment="Center" />
