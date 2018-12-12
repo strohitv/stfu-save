@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\AddAccountViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PathViewModel.cs" />
     <Compile Include="ViewModels\ProcessSelectionVM.cs" />
     <Compile Include="ViewModels\ProcessViewModel.cs" />
     <Compile Include="ViewModels\ReleaseNotesViewModel.cs" />
@@ -236,6 +237,21 @@
       <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
       <Name>STFU.Lib.Youtube</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\X.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

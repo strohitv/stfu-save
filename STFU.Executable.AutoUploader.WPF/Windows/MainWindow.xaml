@@ -75,12 +75,12 @@
             <ListView>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Pfad" />
-                        <GridViewColumn Header="Filter" />
-                        <GridViewColumn Header="Template" />
-                        <GridViewColumn Header="Unterverzeichnisse" />
-                        <GridViewColumn Header="Versteckte" />
-                        <GridViewColumn Header="Inaktiv" />
+                        <GridViewColumn Header="Pfad" Width="290" />
+                        <GridViewColumn Header="Filter"  Width="120"/>
+                        <GridViewColumn Header="Template" Width="120" />
+                        <GridViewColumn Header="Unterverzeichnisse" Width="120" />
+                        <GridViewColumn Header="Versteckte" Width="70" />
+                        <GridViewColumn Header="Inaktiv" Width="50" />
                     </GridView>
                 </ListView.View>
             </ListView>
