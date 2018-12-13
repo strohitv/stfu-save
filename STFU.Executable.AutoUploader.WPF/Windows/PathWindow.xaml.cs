@@ -18,6 +18,8 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
             ViewModel = DataContext as PathViewModel;
             ViewModel.PathContainer = pathContainer;
             ViewModel.TemplateContainer = templateContainer;
+            ViewModel.RefreshPathVMs();
+            ViewModel.RefreshTemplateVMs();
         }
 
         public PathViewModel ViewModel { get; private set; }

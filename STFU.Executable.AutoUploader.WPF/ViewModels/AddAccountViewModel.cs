@@ -13,6 +13,15 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #endregion Private Fields
 
+        #region Public Constructors
+
+        public AddAccountViewModel()
+        {
+            ExternalLinkCommand = new ButtonCommand(OpenExternalUrl);
+        }
+
+        #endregion Public Constructors
+
         #region Public Properties
 
         public string AuthToken
@@ -26,6 +35,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             get => externalCodeUri;
             set { externalCodeUri = value; OnPropertyChanged(); }
         }
+
+        public ButtonCommand ExternalLinkCommand { get; set; }
 
         public string LocalHostUri
         {
@@ -49,13 +60,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             usedLocalHostRedirect = false;
             return true;
-        }
-
-        public ButtonCommand ExternalLinkCommand { get; set; }
-
-        public AddAccountViewModel()
-        {
-            ExternalLinkCommand = new ButtonCommand(OpenExternalUrl);
         }
 
         #endregion Public Methods
