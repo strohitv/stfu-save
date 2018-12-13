@@ -45,16 +45,24 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             };
         }
 
+        #endregion Public Constructors
+
+        #region Public Events
+
         public event EventHandler ShowFeatures;
 
-        protected void OnShowFeatures() => ShowFeatures?.Invoke(this, new EventArgs());
-
-        #endregion Public Constructors
+        #endregion Public Events
 
         #region Public Methods
 
         public void OpenHelpLink(HelpLinkAction link) => actions[link]();
 
         #endregion Public Methods
+
+        #region Protected Methods
+
+        protected void OnShowFeatures() => ShowFeatures?.Invoke(this, new EventArgs());
+
+        #endregion Protected Methods
     }
 }

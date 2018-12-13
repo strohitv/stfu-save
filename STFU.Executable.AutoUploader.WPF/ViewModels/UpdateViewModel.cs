@@ -42,9 +42,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         public bool ProgressUnknown { get { return progressUnknown; } set { progressUnknown = value; OnPropertyChanged(); } }
 
-        public string Status { get { return status; } set { status = value; OnPropertyChanged(); } }
-
         public bool RequiresRestart { get; private set; }
+        public string Status { get { return status; } set { status = value; OnPropertyChanged(); } }
 
         #endregion Public Properties
 

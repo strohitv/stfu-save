@@ -55,6 +55,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,20 +74,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanXorMultiConverter.cs" />
+    <Compile Include="Converters\BooleanAndMultiConverter.cs" />
+    <Compile Include="Converters\BooleanOrMultiConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\EnumToInt32Converter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\BrowserHelper.cs" />
+    <Compile Include="Helpers\CollectionExtension.cs" />
     <Compile Include="Helpers\FlowDocumentExtension.cs" />
     <Compile Include="Helpers\LogicalTreeUtility.cs" />
     <Compile Include="ViewModels\AddAccountViewModel.cs" />
     <Compile Include="ViewModels\ButtonCommand.cs" />
+    <Compile Include="ViewModels\CategoryVM.cs" />
+    <Compile Include="ViewModels\FieldNameVM.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
+    <Compile Include="ViewModels\IDataViewModel.cs" />
+    <Compile Include="ViewModels\LanguageVM.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PathViewModel.cs" />
+    <Compile Include="ViewModels\PathVM.cs" />
+    <Compile Include="ViewModels\PlannedVideoVM.cs" />
     <Compile Include="ViewModels\ProcessSelectionVM.cs" />
     <Compile Include="ViewModels\ProcessViewModel.cs" />
+    <Compile Include="ViewModels\PublishTimeVM.cs" />
     <Compile Include="ViewModels\ReleaseNotesViewModel.cs" />
+    <Compile Include="ViewModels\TemplateVM.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\YouTubeAccountViewModel.cs" />

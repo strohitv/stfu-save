@@ -44,14 +44,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         private TemplatePersistor templatePersistor = null;
 
-        public void PathSettings()
-        {
-            PathWindow pathWindow = new PathWindow(pathContainer, templateContainer);
-            pathWindow.ShowDialog();
-            pathPersistor.Save();
-        }
-
         private bool waitForProcess;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public MainViewModel()
         {
@@ -65,7 +62,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             ChannelLinkCommand = new ButtonCommand(YouTubeAccountVM.OpenChannelInBrowser);
         }
 
-        #endregion Private Fields
+        #endregion Public Constructors
 
         #region Public Enums
 
@@ -87,6 +84,12 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         public bool ActivitySelected { get { return dependentActivity != FinishActivity.DoNothing; } }
 
+        public ButtonCommand ChannelLinkCommand { get; set; }
+
+        public ButtonCommand ChooseProcessCommand { get; set; }
+
+        public ButtonCommand ConnectAccountCommand { get; set; }
+
         public FinishActivity DependentActivity
         {
             get => dependentActivity;
@@ -98,24 +101,18 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        public ButtonCommand<HelpLinkAction> HelpActionCommand { get; set; }
-
-        public ButtonCommand StartCommand { get; set; }
-
-        public ButtonCommand ChooseProcessCommand { get; set; }
-
-        public ButtonCommand ConnectAccountCommand { get; set; }
-
         public ButtonCommand DisconnectAccountCommand { get; set; }
 
-        public ButtonCommand PathSettingsCommand { get; set; }
-
-        public ButtonCommand ChannelLinkCommand { get; set; }
+        public ButtonCommand<HelpLinkAction> HelpActionCommand { get; set; }
 
         public bool LoggedIn
         {
             get => accountContainer.RegisteredAccounts.Count > 0;
         }
+
+        public ButtonCommand PathSettingsCommand { get; set; }
+
+        public ButtonCommand StartCommand { get; set; }
 
         public bool WaitForProcess { get => waitForProcess; set { waitForProcess = value; OnPropertyChanged(); } }
 
@@ -214,6 +211,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             settingsPersistor.Load();
         }
 
+        public void PathSettings()
+        {
+            PathWindow pathWindow = new PathWindow(pathContainer, templateContainer);
+            pathWindow.ShowDialog();
+            pathPersistor.Save();
+        }
+
         public void RevokeAccess()
         {
             YouTubeAccountVM.UnregisterAccount();
@@ -257,7 +261,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
             var updateWindow = new UpdateWindow();
             updateWindow.ShowDialog();
-            if(updateWindow.RequiresRestart)
+            if (updateWindow.RequiresRestart)
             {
                 OnClose();
                 return;
