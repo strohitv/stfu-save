@@ -100,7 +100,9 @@
     <Compile Include="ViewModels\ProcessViewModel.cs" />
     <Compile Include="ViewModels\PublishTimeVM.cs" />
     <Compile Include="ViewModels\ReleaseNotesViewModel.cs" />
+    <Compile Include="ViewModels\TemplateViewModel.cs" />
     <Compile Include="ViewModels\TemplateVM.cs" />
+    <Compile Include="ViewModels\ToolAction.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\YouTubeAccountViewModel.cs" />
@@ -267,6 +269,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Clone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

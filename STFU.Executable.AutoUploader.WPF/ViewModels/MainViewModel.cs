@@ -60,6 +60,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             DisconnectAccountCommand = new ButtonCommand(RevokeAccess);
             PathSettingsCommand = new ButtonCommand(PathSettings);
             ChannelLinkCommand = new ButtonCommand(YouTubeAccountVM.OpenChannelInBrowser);
+            TemplateSettingsCommand = new ButtonCommand(TemplateSettings);
         }
 
         #endregion Public Constructors
@@ -85,6 +86,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         public bool ActivitySelected { get { return dependentActivity != FinishActivity.DoNothing; } }
 
         public ButtonCommand ChannelLinkCommand { get; set; }
+
+        public ButtonCommand TemplateSettingsCommand { get; private set; }
 
         public ButtonCommand ChooseProcessCommand { get; set; }
 
@@ -216,6 +219,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             PathWindow pathWindow = new PathWindow(pathContainer, templateContainer);
             pathWindow.ShowDialog();
             pathPersistor.Save();
+        }
+
+        public void TemplateSettings()
+        {
+            TemplateWindow templateWindow = new TemplateWindow(templatePersistor, categoryContainer, languageContainer);
+            templateWindow.ShowDialog();
+            templatePersistor.Save();
         }
 
         public void RevokeAccess()

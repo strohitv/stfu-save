@@ -29,7 +29,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
         private void ActionButton_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            ViewModel.DoAction((PathWindowAction)button.Tag);
+            ViewModel.DoAction((ToolAction)button.Tag);
         }
     }
 }

@@ -29,8 +29,6 @@
                 <RowDefinition />
                 <RowDefinition Height="5" />
                 <RowDefinition />
-                <RowDefinition Height="5" />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -66,24 +64,21 @@
             <ComboBox Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" IsEnabled="{Binding HasSelection}" ItemsSource="{Binding Templates}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTemplate}" />
             <Button Grid.Column="5" Grid.Row="6" Grid.ColumnSpan="3" Content="Alle Videos als hochgeladen markieren" Padding="10,1" VerticalAlignment="Center" Command="{Binding MarkAllVideosCommand}" IsEnabled="{Binding HasSelection}"/>
             <CheckBox Grid.Column="9" Grid.Row="6" Content="Inaktiv"  VerticalAlignment="Center" IsEnabled="{Binding HasSelection}" IsChecked="{Binding SelectedPath.Inactive}"/>
-
-            <Button Grid.Column="0" Grid.Row="8" Content="Speichern" MinWidth="100" Command="{Binding SaveCommand}" />
-            <Button Grid.Column="2" Grid.Row="8" Content="Abbrechen" MinWidth="100" Command="{Binding CancelCommand}" />
         </Grid>
         <StackPanel DockPanel.Dock="Left" Width="80">
-            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:PathWindowAction.Add}"  Command="{Binding ToolCommand}">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Add}"  Command="{Binding ToolCommand}">
                 <Image Source="/STFU.AutoUploader.WPF;component/Resources/Plus.png" />
             </Button>
-            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:PathWindowAction.MoveUp}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedUp}">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.MoveUp}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedUp}">
                 <Image Source="/STFU.AutoUploader.WPF;component/Resources/Up.png" />
             </Button>
-            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:PathWindowAction.MoveDown}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedDown}">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.MoveDown}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedDown}">
                 <Image Source="/STFU.AutoUploader.WPF;component/Resources/Down.png" />
             </Button>
-            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:PathWindowAction.Delete}"  Command="{Binding ToolCommand}" IsEnabled="{Binding HasSelection}">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Delete}"  Command="{Binding ToolCommand}" IsEnabled="{Binding HasSelection}">
                 <Image Source="/STFU.AutoUploader.WPF;component/Resources/Minus.png" />
             </Button>
-            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:PathWindowAction.Clear}" Command="{Binding ToolCommand}">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Clear}" Command="{Binding ToolCommand}">
                 <Image Source="/STFU.AutoUploader.WPF;component/Resources/X.png" />
             </Button>
         </StackPanel>

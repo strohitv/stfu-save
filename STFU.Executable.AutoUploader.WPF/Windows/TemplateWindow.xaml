@@ -4,8 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
+        xmlns:viewmodel="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
         mc:Ignorable="d"
         Title="TemplateWindow" Height="450" Width="800">
-    <Grid>
-    </Grid>
+    <Window.DataContext>
+        <viewmodel:TemplateViewModel />
+    </Window.DataContext>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" Width="80">
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Add}"  Command="{Binding ToolCommand}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/Plus.png" />
+            </Button>
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Clone}"  Command="{Binding ToolCommand}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/Clone.png" />
+            </Button>
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.MoveUp}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedUp}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/Up.png" />
+            </Button>
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.MoveDown}"  Command="{Binding ToolCommand}" IsEnabled="{Binding CanSelectedMovedDown}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/Down.png" />
+            </Button>
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Delete}"  Command="{Binding ToolCommand}" IsEnabled="{Binding HasSelection}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/Minus.png" />
+            </Button>
+            <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Clear}" Command="{Binding ToolCommand}">
+                <Image Source="/STFU.AutoUploader.WPF;component/Resources/X.png" />
+            </Button>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox Margin="0 10"/>
+            <GridSplitter Grid.Column="1" />
+            <DockPanel Grid.Column="2" Margin="10">
+                <Label DockPanel.Dock="Top" Content="Template bearbeiten:" />
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Name:" />
+                    <TextBox Grid.Column="2" />
+                </Grid>
+                <TabControl Margin="0 10 0 0">
+                    <TabItem Header="Allgemein">
+                        
+                    </TabItem>
+                    <TabItem Header="Veröffentlichung">
+                        
+                    </TabItem>
+                    <TabItem Header="Sonstiges">
+                        
+                    </TabItem>
+                    <TabItem Header="Videos planen">
+                        
+                    </TabItem>
+                    <TabItem Header="C#-Scripting">
+                        
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </Window>

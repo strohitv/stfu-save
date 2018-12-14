@@ -10,14 +10,6 @@ using System.Windows.Forms;
 
 namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
-    public enum PathWindowAction
-    {
-        Add,
-        MoveUp,
-        MoveDown,
-        Delete,
-        Clear
-    }
 
     public class PathViewModel : ViewModelBase
     {
@@ -41,7 +33,7 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         #region Private Fields
 
         private bool hasSelection;
-        private Dictionary<PathWindowAction, Action> toolActions;
+        private Dictionary<ToolAction, Action> toolActions;
 
         #endregion Private Fields
 
@@ -50,17 +42,15 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         public PathViewModel()
         {
             ChoosePathCommand = new ButtonCommand(ChoosePath);
-            SaveCommand = new ButtonCommand(Save);
             MarkAllVideosCommand = new ButtonCommand(MarkAllVideos);
-            CancelCommand = new ButtonCommand(Cancel);
-            ToolCommand = new ButtonCommand<PathWindowAction>(DoAction);
-            toolActions = new Dictionary<PathWindowAction, Action>
+            ToolCommand = new ButtonCommand<ToolAction>(DoAction);
+            toolActions = new Dictionary<ToolAction, Action>
             {
-                { PathWindowAction.Add, ToolAdd },
-                { PathWindowAction.Clear, ToolClear },
-                { PathWindowAction.Delete, ToolDelete },
-                { PathWindowAction.MoveDown, ToolMoveDown },
-                { PathWindowAction.MoveUp, ToolMoveUp }
+                { ToolAction.Add, ToolAdd },
+                { ToolAction.Clear, ToolClear },
+                { ToolAction.Delete, ToolDelete },
+                { ToolAction.MoveDown, ToolMoveDown },
+                { ToolAction.MoveUp, ToolMoveUp }
             };
         }
 
@@ -90,13 +80,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         }
         public ITemplateContainer TemplateContainer { get; set; }
         public ObservableCollection<TemplateVM> Templates { get; } = new ObservableCollection<TemplateVM>();
-        public ButtonCommand<PathWindowAction> ToolCommand { get; set; }
+        public ButtonCommand<ToolAction> ToolCommand { get; set; }
 
         #endregion Public Properties
 
         #region Public Methods
 
-        public void DoAction(PathWindowAction action) => toolActions[action]();
+        public void DoAction(ToolAction action) => toolActions[action]();
 
         public void RefreshPathVMs()
         {
@@ -121,11 +111,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Private Methods
 
-        private void Cancel()
-        {
-            SelectedPath = null;
-        }
-
         private void ChoosePath()
         {
             if (SelectedPath == null)
@@ -145,10 +130,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             PathContainer.MarkAllFilesAsRead(SelectedPath.Source);
             System.Windows.MessageBox.Show("Die Videos, die durch diesen Pfad gefunden werden können, wurden erfolgreich als bereits hochgeladen markiert. Der Uploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder umbenennen, sodass sie nicht mehr mit einem Unterstrich _ startet.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void Save()
-        {
         }
 
         private void ToolAdd()
