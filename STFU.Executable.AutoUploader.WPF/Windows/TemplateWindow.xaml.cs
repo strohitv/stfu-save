@@ -24,5 +24,7 @@ namespace STFU.Executable.AutoUploader.WPF.Windows
         }
 
         #endregion Public Constructors
+
+        private void TimePicker_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => ViewModel.TimePicker.ItemSelected(sender, e);
     }
 }

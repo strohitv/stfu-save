@@ -19,7 +19,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        private void OnSourceUpdated() => SourceUpdated?.Invoke(this, new EventArgs());
+        private void OnSourceUpdated()
+        {
+            OnPropertyChanged(nameof(IsSourceSet));
+            SourceUpdated?.Invoke(this, new EventArgs());
+        }
 
         public event EventHandler SourceUpdated;
 
@@ -62,5 +66,6 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             set { fieldNames = value; OnPropertyChanged(); }
         }
 
+        public bool IsSourceSet => source != null;
     }
 }

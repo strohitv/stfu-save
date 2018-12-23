@@ -40,7 +40,19 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         public int SelectedTemplateId { get => source.SelectedTemplateId; set { source.SelectedTemplateId = value; OnPropertyChanged(); } }
 
-        public IPath Source { get => source; set { source = value; OnPropertyChanged(); Refresh(); OnSourceUpdated(); } }
+        public IPath Source
+        {
+            get => source;
+            set
+            {
+                source = value;
+                OnPropertyChanged();
+                Refresh();
+                OnSourceUpdated();
+            }
+        }
+
+        public bool IsSourceSet => source != null;
 
         #endregion Public Properties
 
@@ -62,7 +74,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Protected Methods
 
-        protected void OnSourceUpdated() => SourceUpdated?.Invoke(this, new EventArgs());
+        protected void OnSourceUpdated()
+        {
+            OnPropertyChanged(nameof(IsSourceSet));
+            SourceUpdated?.Invoke(this, new EventArgs());
+        }
 
         #endregion Protected Methods
     }

@@ -34,6 +34,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
+        public bool IsSourceSet => source != null;
+
         #endregion Public Properties
 
         #region Public Methods
@@ -49,7 +51,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Protected Methods
 
-        protected void OnSourceUpdated() => SourceUpdated?.Invoke(this, new EventArgs());
+        protected void OnSourceUpdated()
+        {
+            OnPropertyChanged(nameof(IsSourceSet));
+            SourceUpdated?.Invoke(this, new EventArgs());
+        }
 
         #endregion Protected Methods
     }

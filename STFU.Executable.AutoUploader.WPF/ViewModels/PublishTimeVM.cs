@@ -7,7 +7,17 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
     {
         private IPublishTime source;
 
-        public IPublishTime Source { get => source; set { source = value; OnPropertyChanged(); Refresh(); OnSourceUpdated(); } }
+        public IPublishTime Source
+        {
+            get => source;
+            set
+            {
+                source = value;
+                OnPropertyChanged();
+                Refresh();
+                OnSourceUpdated();
+            }
+        }
 
         public DayOfWeek DayOfWeek
         {
@@ -26,8 +36,14 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             get => source.Time;
             set { source.Time = value; OnPropertyChanged(); }
         }
-        
-        private void OnSourceUpdated() => SourceUpdated?.Invoke(this, new EventArgs());
+
+        public bool IsSourceSet => source != null;
+
+        private void OnSourceUpdated()
+        {
+            OnPropertyChanged(nameof(IsSourceSet));
+            SourceUpdated?.Invoke(this, new EventArgs());
+        }
 
         public event EventHandler SourceUpdated;
 

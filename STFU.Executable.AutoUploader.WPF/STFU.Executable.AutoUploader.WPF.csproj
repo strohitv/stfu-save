@@ -80,6 +80,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\EnumToInt32Converter.cs" />
+    <Compile Include="Converters\Int32ToStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\BrowserHelper.cs" />
     <Compile Include="Helpers\CollectionExtension.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="ViewModels\FieldNameVM.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\IDataViewModel.cs" />
+    <Compile Include="ViewModels\Internal\TimePickerVM.cs" />
     <Compile Include="ViewModels\LanguageVM.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PathViewModel.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="ViewModels\ProcessViewModel.cs" />
     <Compile Include="ViewModels\PublishTimeVM.cs" />
     <Compile Include="ViewModels\ReleaseNotesViewModel.cs" />
+    <Compile Include="ViewModels\SelectableDayOfWeek.cs" />
     <Compile Include="ViewModels\TemplateViewModel.cs" />
     <Compile Include="ViewModels\TemplateVM.cs" />
     <Compile Include="ViewModels\ToolAction.cs" />
@@ -272,6 +275,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Clone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GlyphUp_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GlyphDown_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

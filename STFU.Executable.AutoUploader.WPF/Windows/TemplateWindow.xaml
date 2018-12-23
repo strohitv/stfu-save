@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STFU.Executable.AutoUploader.WPF.Windows"
         xmlns:viewmodel="clr-namespace:STFU.Executable.AutoUploader.WPF.ViewModels"
+        xmlns:converter="clr-namespace:STFU.Executable.AutoUploader.WPF.Converters"
         mc:Ignorable="d"
-        Title="TemplateWindow" Height="450" Width="800">
+        Title="TemplateWindow" Height="800" Width="1000">
     <Window.DataContext>
         <viewmodel:TemplateViewModel />
     </Window.DataContext>
+    <Window.Resources>
+        <converter:Int32ToStringConverter x:Key="Int32ToString"/>
+    </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Left" Width="80">
             <Button Margin="20 20 20 0" Width="40" Height="40" CommandParameter="{x:Static viewmodel:ToolAction.Add}"  Command="{Binding ToolCommand}">
@@ -37,9 +41,9 @@
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListBox Margin="0 10"/>
+            <ListBox Margin="0 10" ItemsSource="{Binding Templates}" DisplayMemberPath="Name" SelectedItem="{Binding Template.Source}" />
             <GridSplitter Grid.Column="1" />
-            <DockPanel Grid.Column="2" Margin="10">
+            <DockPanel Grid.Column="2" Margin="10" IsEnabled="{Binding Template.IsSourceSet}">
                 <Label DockPanel.Dock="Top" Content="Template bearbeiten:" />
                 <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
@@ -48,23 +52,193 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label Content="Name:" />
-                    <TextBox Grid.Column="2" />
+                    <TextBox Grid.Column="2" Text="{Binding Template.Name}" />
                 </Grid>
                 <TabControl Margin="0 10 0 0">
                     <TabItem Header="Allgemein">
-                        
+                        <Grid Margin="10 10 10 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"  />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Content="Titel:" />
+                            <TextBox Grid.Column="1" />
+                            <Label Grid.Column="1" Grid.Row="1">
+                                <DockPanel>
+                                    <TextBlock Text="Länge Titel: " />
+                                    <TextBlock Text="0" />
+                                    <TextBlock Text=" / " />
+                                    <TextBlock Text="100" />
+                                    <TextBlock Text=" Zeichen" />
+                                </DockPanel>
+                            </Label>
+                            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Beschreibung:" />
+                            <TextBox Grid.Row="3" Grid.ColumnSpan="2"/>
+                            <Label Grid.Column="1" Grid.Row="4">
+                                <DockPanel>
+                                    <TextBlock Text="Länge Beschreibung: " />
+                                    <TextBlock Text="0" />
+                                    <TextBlock Text=" / " />
+                                    <TextBlock Text="5000" />
+                                    <TextBlock Text=" Zeichen" />
+                                </DockPanel>
+                            </Label>
+                            <Label Grid.Row="5" Grid.ColumnSpan="2" Content="Tags:" />
+                            <TextBox Grid.Row="6" Grid.ColumnSpan="2"/>
+                            <Label Grid.Column="1" Grid.Row="7">
+                                <DockPanel>
+                                    <TextBlock Text="Länge Tags: " />
+                                    <TextBlock Text="0" />
+                                    <TextBlock Text=" / " />
+                                    <TextBlock Text="500" />
+                                    <TextBlock Text=" Zeichen" />
+                                </DockPanel>
+                            </Label>
+                        </Grid>
                     </TabItem>
                     <TabItem Header="Veröffentlichung">
-                        
+                        <DockPanel Margin="10 10 10 0">
+                            <DockPanel DockPanel.Dock="Top">
+                                <Label Content="Sichtbarkeit:" />
+                                <TextBox />
+                            </DockPanel>
+                            <CheckBox DockPanel.Dock="Top" Margin="10" Content="Video geplant veröffentlichen"/>
+                            <Label DockPanel.Dock="Top" Content="Veröffentlichungszeiten" />
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Left" Width="80">
+                                    <Button Margin="20 0" Width="40" Height="40" >
+                                        <Image Source="/STFU.AutoUploader.WPF;component/Resources/Up.png" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <Image Source="/STFU.AutoUploader.WPF;component/Resources/Down.png" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <TextBlock Text="+1" FontWeight="Bold" FontSize="14" Margin="-2 0 0 -1" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <TextBlock Text="-1" FontWeight="Bold" FontSize="14" Margin="-2 0 0 -1" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <TextBlock Text="+7" FontWeight="Bold" FontSize="14" Margin="-2 0 0 -1" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <TextBlock Text="-7" FontWeight="Bold" FontSize="14" Margin="-2 0 0 -1" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <Image Source="/STFU.AutoUploader.WPF;component/Resources/Minus.png" />
+                                    </Button>
+                                    <Button Margin="20 20 20 0" Width="40" Height="40">
+                                        <Image Source="/STFU.AutoUploader.WPF;component/Resources/X.png" />
+                                    </Button>
+                                </StackPanel>
+                                <DockPanel DockPanel.Dock="Bottom" Margin="0 5">
+                                    <Label Content="Wochentag:" />
+                                    <ComboBox ItemsSource="{Binding WeekDayItems}" />
+                                    <Label Content="Zeit:" />
+                                    <DockPanel DataContext="{Binding TimePicker}">
+                                        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}">
+                                            <DockPanel VerticalAlignment="Center" Margin="5 0">
+                                                <TextBlock Text="{Binding Hours, Converter={StaticResource Int32ToString}}" Margin="2 0" MouseDown="TimePicker_MouseDown" Tag="h">
+                                                    <TextBlock.Style>
+                                                        <Style>
+                                                            <Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>
+                                                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsHoursSelected}" Value="True" >
+                                                                    <Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <TextBlock Text=":" />
+                                                <TextBlock Text="{Binding Minutes, Converter={StaticResource Int32ToString}}" Margin="2 0" MouseDown="TimePicker_MouseDown" Tag="m" >
+                                                    <TextBlock.Style>
+                                                        <Style>
+                                                            <Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>
+                                                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsMinutesSelected}" Value="True" >
+                                                                    <Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </DockPanel>
+                                        </Border>
+                                    </DockPanel>
+                                    <StackPanel Margin="0 0 10 0">
+                                        <Button Height="13" Command="{Binding TimePicker.Up}">
+                                            <Rectangle Width="10" Height="10">
+                                                <Rectangle.Fill>
+                                                    <DrawingBrush>
+                                                        <DrawingBrush.Drawing>
+                                                            <DrawingGroup>
+                                                                <DrawingGroup.Children>
+                                                                    <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M1.5859,11L7.9999,4.586 14.4139,11z" />
+                                                                    <GeometryDrawing Brush="#FF424242" Geometry="F1M12,10L4,10 8,6z" />
+                                                                </DrawingGroup.Children>
+                                                            </DrawingGroup>
+                                                        </DrawingBrush.Drawing>
+                                                    </DrawingBrush>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Button>
+                                        <Button Height="13" Command="{Binding TimePicker.Down}">
+                                            <Rectangle Width="10" Height="10">
+                                                <Rectangle.Fill>
+                                                    <DrawingBrush>
+                                                        <DrawingBrush.Drawing>
+                                                            <DrawingGroup>
+                                                                <DrawingGroup.Children>
+                                                                    <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M1.5859,5L14.4139,5 7.9999,11.414z" />
+                                                                    <GeometryDrawing Brush="#FF424242" Geometry="F1M8,10L4,6 12,6z" />
+                                                                </DrawingGroup.Children>
+                                                            </DrawingGroup>
+                                                        </DrawingBrush.Drawing>
+                                                    </DrawingBrush>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </Button>
+                                    </StackPanel>
+                                    <Button MinWidth="100" Content="Hinzufügen" />
+                                    <Grid />
+                                </DockPanel>
+                                <ListView>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Wochentag" Width="100" />
+                                            <GridViewColumn Header="Zeit" Width="100"  />
+                                            <GridViewColumn Header="Tage überspringen" Width="150"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </DockPanel>
+                        </DockPanel>
                     </TabItem>
                     <TabItem Header="Sonstiges">
-                        
+
                     </TabItem>
                     <TabItem Header="Videos planen">
-                        
+
                     </TabItem>
                     <TabItem Header="C#-Scripting">
-                        
+
                     </TabItem>
                 </TabControl>
             </DockPanel>

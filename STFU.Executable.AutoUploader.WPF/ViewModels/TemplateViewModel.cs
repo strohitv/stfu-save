@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using STFU.Executable.AutoUploader.WPF.ViewModels.Internal;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Persistor;
 
@@ -12,6 +15,14 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
     public class TemplateViewModel : ViewModelBase
     {
+        public string[] WeekDayItems { get { return Enum.GetNames(typeof(SelectableDayOfWeek)); } }
+
+        public TimePickerVM TimePicker { get; } = new TimePickerVM();
+
+        public TemplateVM Template { get; } = new TemplateVM();
+
+        public ObservableCollection<ITemplate> Templates { get; } = new ObservableCollection<ITemplate>();
+
         private TemplatePersistor templatePersistor;
 
         public TemplatePersistor TemplatePersistor
@@ -25,9 +36,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         public ITemplateContainer TemplateContainer
         {
             get => templateContainer;
-            set { templateContainer = value; OnPropertyChanged(); }
+            set
+            {
+                templateContainer = value;
+                OnPropertyChanged();
+                ApplyTemplateContainer();
+            }
         }
-
 
         private IYoutubeCategoryContainer categoryContainer;
 
@@ -38,6 +53,14 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         }
 
         private IYoutubeLanguageContainer languageContainer;
+
+
+        private void ApplyTemplateContainer()
+        {
+            Templates.Clear();
+            foreach (var template in templateContainer.RegisteredTemplates)
+                Templates.Add(template);
+        }
 
         public IYoutubeLanguageContainer LanguageContainer
         {

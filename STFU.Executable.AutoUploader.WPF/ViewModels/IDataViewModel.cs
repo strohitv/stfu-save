@@ -14,6 +14,8 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         T Source { get; set; }
 
+        bool IsSourceSet { get; }
+
         #endregion Public Properties
 
         #region Public Methods

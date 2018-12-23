@@ -70,7 +70,7 @@
                 <ComboBoxItem Content="Herunterfahren" />
             </ComboBox>
             <CheckBox Grid.Column="4" Content="Programmenden abwarten" Margin="10 0 0 0" VerticalAlignment="Center" IsChecked="{Binding WaitForProcess}" Checked="WaitForProcess_Checked" IsEnabled="{Binding Path=ActivitySelected}" />
-            <Button Grid.Column="5" Content="[...]" Padding="10 0" Margin="10 0 0 0" Command="{Binding ChooseProcessCommand}" />
+            <Button Grid.Column="5" Content="..." Padding="10 0" Margin="10 0 0 0" Command="{Binding ChooseProcessCommand}" />
             <Button Grid.Column="6" Content="Start!" Padding="20 0" Margin="10 0 0 0" Command="{Binding StartCommand}" IsEnabled="{Binding LoggedIn}" />
         </Grid>
         <Grid>
