@@ -37,18 +37,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\UploadGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UploadGrid.Designer.cs">
+      <DependentUpon>UploadGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddAccountForm.designer.cs">
+      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +61,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\UploadGrid.resx">
+      <DependentUpon>UploadGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddAccountForm.resx">
+      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -82,6 +92,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
+      <Project>{42d1e275-4f3e-4adf-8c4f-c4b3f9a5e49d}</Project>
+      <Name>STFU.Lib.Youtube.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
+      <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
+      <Name>STFU.Lib.Youtube.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Persistor\STFU.Lib.Youtube.Persistor.csproj">
+      <Project>{2DF8CA4E-27AD-4C59-A1FD-0110DB602E3A}</Project>
+      <Name>STFU.Lib.Youtube.Persistor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube\STFU.Lib.Youtube.csproj">
+      <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
+      <Name>STFU.Lib.Youtube</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

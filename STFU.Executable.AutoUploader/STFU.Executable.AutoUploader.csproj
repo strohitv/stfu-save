@@ -65,10 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AddAccountForm.cs">
+    <Compile Include="..\STFU.Executable.StandardUploader\Forms\AddAccountForm.cs">
+      <Link>Forms\AddAccountForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddAccountForm.designer.cs">
+    <Compile Include="..\STFU.Executable.StandardUploader\Forms\AddAccountForm.designer.cs">
+      <Link>Forms\AddAccountForm.designer.cs</Link>
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ChooseMultipleStartTimesScrollControl.cs">
@@ -139,7 +141,8 @@
     <Compile Include="Forms\UpdateForm.Designer.cs">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\AddAccountForm.resx">
+    <EmbeddedResource Include="..\STFU.Executable.StandardUploader\Forms\AddAccountForm.resx">
+      <Link>Forms\AddAccountForm.resx</Link>
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ChooseMultipleStartTimesScrollControl.resx">
