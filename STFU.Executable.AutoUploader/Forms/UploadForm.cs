@@ -3,6 +3,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace STFU.Executable.AutoUploader.Forms
@@ -12,8 +13,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		IAutomationUploader autoUploader = null;
 
 		string fileText = string.Empty;
-		string statusText = "Warte auf Dateien für den Upload...";
 		int progress = 0;
+
+		string[] statusTextLines = new [] { "Warte auf Dateien für den Upload...", string.Empty };
 
 		bool aborted = false;
 		bool ended = false;
@@ -55,11 +57,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				if (job.State == UploadState.ThumbnailUploading)
 				{
-					statusText = $"Lade Thumbnail hoch: {job.Progress:0.00} %";
+					statusTextLines[0] = $"Lade Thumbnail hoch: {job.Progress:0.00} %";
 				}
 				else
 				{
-					statusText = $"Lade Video hoch: {job.Progress:0.00} %";
+					statusTextLines[0] = $"Lade Video hoch: {job.Progress:0.00} %";
 				}
 				progress = (int)(job.Progress * 100);
 			}
@@ -70,19 +72,24 @@ namespace STFU.Executable.AutoUploader.Forms
 					case UploadState.NotStarted:
 					case UploadState.Running:
 						fileText = job.Video.Title;
-						statusText = $"Video-Upload wird gestartet...";
+						statusTextLines[0] = $"Video-Upload wird gestartet...";
+						statusTextLines[1] = string.Empty;
 						break;
 					case UploadState.ThumbnailUploading:
-						statusText = $"Thumbnail-Upload wird gestartet...";
+						statusTextLines[0] = $"Thumbnail-Upload wird gestartet...";
+						statusTextLines[1] = string.Empty;
 						break;
 					case UploadState.CancelPending:
-						statusText = $"Upload wird abgebrochen...";
+						statusTextLines[0] = $"Upload wird abgebrochen...";
+						statusTextLines[1] = string.Empty;
 						break;
 					case UploadState.Error:
-						statusText = $"Es gab einen Fehler beim Upload.";
+						statusTextLines[0] = $"Es gab einen Fehler beim Upload.";
+						statusTextLines[1] = string.Empty;
 						break;
 					case UploadState.Canceled:
-						statusText = $"Upload wurde abgebrochen.";
+						statusTextLines[0] = $"Upload wurde abgebrochen.";
+						statusTextLines[1] = string.Empty;
 						break;
 					case UploadState.Successful:
 						fileText = oldtitle;
@@ -91,13 +98,18 @@ namespace STFU.Executable.AutoUploader.Forms
 						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
 				}
 			}
+			else if (e.PropertyName == nameof(job.RemainingDuration) || e.PropertyName == nameof(job.UploadedDuration))
+			{
+				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
+			}
 		}
 
 		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
 			{
-				statusText = $"Upload abgeschlossen.{Environment.NewLine}Warte auf Dateien für den Upload...";
+				statusTextLines[0] = "Upload abgeschlossen.";
+				statusTextLines[1] = "Warte auf Dateien für den Upload...";
 			}
 		}
 
@@ -118,7 +130,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void refreshTimerTick(object sender, EventArgs e)
 		{
 			fileLabel.Text = fileText;
-			statusLabel.Text = statusText;
+			statusLabel.Text = statusTextLines.Aggregate((i, j) => i + Environment.NewLine + j);
 			prgbarProgress.Value = progress;
 
 			if (ended)

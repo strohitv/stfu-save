@@ -65,6 +65,41 @@ namespace STFU.Lib.Youtube.Internal
 			}
 		}
 
+		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
+		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
+
+		public TimeSpan UploadedDuration
+		{
+			get
+			{
+				return uploadedDuration;
+			}
+			 set
+			{
+				if (uploadedDuration != value)
+				{
+					uploadedDuration = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public TimeSpan RemainingDuration
+		{
+			get
+			{
+				return remainingDuration;
+			}
+			set
+			{
+				if (remainingDuration != value)
+				{
+					remainingDuration = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public IYoutubeVideo Video { get; }
 
 		public Uri Uri { get; set; }

@@ -83,6 +83,14 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				Job.Progress = fileUploader.Progress;
 			}
+			else if (e.PropertyName == nameof(fileUploader.RemainingDuration))
+			{
+				Job.RemainingDuration = fileUploader.RemainingDuration;
+			}
+			else if (e.PropertyName == nameof(fileUploader.UploadedDuration))
+			{
+				Job.UploadedDuration = fileUploader.UploadedDuration;
+			}
 			else
 			{
 				Job.Error = FailReasonConverter.GetError(fileUploader.FailureReason);
