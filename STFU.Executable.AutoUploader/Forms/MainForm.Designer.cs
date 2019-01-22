@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.lvSelectedPaths = new System.Windows.Forms.ListView();
@@ -50,6 +51,8 @@
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,8 +65,6 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -308,50 +309,62 @@
 			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
 			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
 			// 
+			// neueFunktionenToolStripMenuItem
+			// 
+			this.neueFunktionenToolStripMenuItem.Name = "neueFunktionenToolStripMenuItem";
+			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.neueFunktionenToolStripMenuItem.Text = "Neue Funktionen";
+			this.neueFunktionenToolStripMenuItem.Click += new System.EventHandler(this.neueFunktionenToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+			// 
 			// tutorialVideoToolStripMenuItem
 			// 
 			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
-			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
 			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
 			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
-			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.discordServerToolStripMenuItem.Text = "Discord-Server";
 			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
 			this.threadImLPFToolStripMenuItem.Name = "threadImLPFToolStripMenuItem";
-			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
 			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
 			// 
 			// threadImYTFToolStripMenuItem
 			// 
 			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
-			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
 			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
 			this.strohiAufTwitterToolStripMenuItem.Name = "strohiAufTwitterToolStripMenuItem";
-			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
 			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
 			// 
 			// downloadSeiteToolStripMenuItem
 			// 
 			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
-			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
 			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
 			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
@@ -415,24 +428,13 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-			// 
-			// neueFunktionenToolStripMenuItem
-			// 
-			this.neueFunktionenToolStripMenuItem.Name = "neueFunktionenToolStripMenuItem";
-			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.neueFunktionenToolStripMenuItem.Text = "Neue Funktionen";
-			this.neueFunktionenToolStripMenuItem.Click += new System.EventHandler(this.neueFunktionenToolStripMenuItem_Click);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(979, 323);
 			this.Controls.Add(this.tlpSettings);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.mainMenu;
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "MainForm";
