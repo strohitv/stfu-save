@@ -40,5 +40,15 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// Contains information about the error if something fails
 		/// </summary>
 		IYoutubeError Error { get; }
+
+		/// <summary>
+		/// Time the Job has being uploaded
+		/// </summary>
+		TimeSpan UploadedDuration { get; }
+
+		/// <summary>
+		/// Remaining Time the Job will probably need to finish uploading
+		/// </summary>
+		TimeSpan RemainingDuration { get; }
 	}
 }

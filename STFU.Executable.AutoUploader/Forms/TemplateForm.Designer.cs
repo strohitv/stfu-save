@@ -1513,7 +1513,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// varContentColumnHeader
 			// 
-			this.varContentColumnHeader.Text = "Alle Felder ausgefüllt";
+			this.varContentColumnHeader.Text = "Alles ausgefüllt";
 			this.varContentColumnHeader.Width = 250;
 			// 
 			// filenamesLabel
@@ -1539,7 +1539,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsGroupbox.Size = new System.Drawing.Size(878, 353);
 			this.fillFieldsGroupbox.TabIndex = 13;
 			this.fillFieldsGroupbox.TabStop = false;
-			this.fillFieldsGroupbox.Text = "Felder ausfüllen: ";
+			this.fillFieldsGroupbox.Text = "Platzhalter ausfüllen: ";
 			// 
 			// fillFieldsTlp
 			// 
@@ -1608,9 +1608,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameFieldLabel.Location = new System.Drawing.Point(10, 207);
 			this.filenameFieldLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.filenameFieldLabel.Name = "filenameFieldLabel";
-			this.filenameFieldLabel.Size = new System.Drawing.Size(33, 13);
+			this.filenameFieldLabel.Size = new System.Drawing.Size(105, 13);
 			this.filenameFieldLabel.TabIndex = 10;
-			this.filenameFieldLabel.Text = "Feld:";
+			this.filenameFieldLabel.Text = "Platzhalter: ";
 			// 
 			// filenameValueLabel
 			// 
@@ -1621,19 +1621,19 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameValueLabel.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
 			this.filenameValueLabel.Name = "filenameValueLabel";
 			this.filenameValueLabel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-			this.filenameValueLabel.Size = new System.Drawing.Size(33, 19);
+			this.filenameValueLabel.Size = new System.Drawing.Size(105, 19);
 			this.filenameValueLabel.TabIndex = 10;
-			this.filenameValueLabel.Text = "Wert:";
+			this.filenameValueLabel.Text = "Einzufügender Text: ";
 			// 
 			// fieldNameTxbx
 			// 
 			this.fieldNameTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.fieldNameTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.fieldNameTxbx.Location = new System.Drawing.Point(53, 201);
+			this.fieldNameTxbx.Location = new System.Drawing.Point(125, 201);
 			this.fieldNameTxbx.Margin = new System.Windows.Forms.Padding(0);
 			this.fieldNameTxbx.Name = "fieldNameTxbx";
 			this.fieldNameTxbx.ReadOnly = true;
-			this.fieldNameTxbx.Size = new System.Drawing.Size(819, 26);
+			this.fieldNameTxbx.Size = new System.Drawing.Size(747, 26);
 			this.fieldNameTxbx.TabIndex = 11;
 			// 
 			// fieldValueTxbx
@@ -1644,11 +1644,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fieldValueTxbx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.fieldValueTxbx.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.fieldValueTxbx.Font = new System.Drawing.Font("Courier New", 12F);
-			this.fieldValueTxbx.Location = new System.Drawing.Point(53, 237);
+			this.fieldValueTxbx.Location = new System.Drawing.Point(125, 237);
 			this.fieldValueTxbx.Margin = new System.Windows.Forms.Padding(0);
 			this.fieldValueTxbx.Name = "fieldValueTxbx";
 			this.fieldValueTxbx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.fieldValueTxbx.Size = new System.Drawing.Size(819, 26);
+			this.fieldValueTxbx.Size = new System.Drawing.Size(747, 26);
 			this.fieldValueTxbx.TabIndex = 11;
 			this.fieldValueTxbx.TextChanged += new System.EventHandler(this.fieldValueTxbxTextChanged);
 			// 

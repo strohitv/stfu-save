@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -20,6 +21,42 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				if (progress != value)
 				{
 					progress = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private DateTime started;
+		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
+		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
+
+		public TimeSpan UploadedDuration
+		{
+			get
+			{
+				return uploadedDuration;
+			}
+			private set
+			{
+				if (uploadedDuration != value)
+				{
+					uploadedDuration = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public TimeSpan RemainingDuration
+		{
+			get
+			{
+				return remainingDuration;
+			}
+			private set
+			{
+				if (remainingDuration != value)
+				{
+					remainingDuration = value;
 					OnPropertyChanged();
 				}
 			}
@@ -81,6 +118,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					fileStream.Position = startPosition;
 				}
 
+				started = DateTime.Now;
 				State = RunningState.Running;
 
 				// Upload initiieren
@@ -95,6 +133,9 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					{
 						requestStream.Write(buffer, 0, bytesRead);
 						Progress = fileStream.Position / (double)fileStream.Length * 100;
+
+						UploadedDuration = DateTime.Now - started;
+						RemainingDuration = new TimeSpan(0 , 0, (int)(UploadedDuration.TotalSeconds / Progress * 100));
 					}
 				}
 				catch (WebException)

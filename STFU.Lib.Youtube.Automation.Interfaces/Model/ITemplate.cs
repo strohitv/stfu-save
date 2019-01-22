@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
@@ -23,6 +24,7 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		string Tags { get; set; }
 		string ThumbnailPath { get; set; }
 		string Title { get; set; }
+		DateTime NextUploadSuggestion { get; set; }
 
 		IList<IPlannedVideo> PlannedVideos { get; set; }
 
