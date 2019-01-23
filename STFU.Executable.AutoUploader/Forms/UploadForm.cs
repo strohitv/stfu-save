@@ -112,7 +112,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else if (e.PropertyName == nameof(job.RemainingDuration) || e.PropertyName == nameof(job.UploadedDuration))
 			{
-				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
+				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, Restzeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
 			}
 		}
 

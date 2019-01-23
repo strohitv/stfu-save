@@ -135,7 +135,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 						Progress = fileStream.Position / (double)fileStream.Length * 100;
 
 						UploadedDuration = DateTime.Now - started;
-						RemainingDuration = new TimeSpan(0 , 0, (int)(UploadedDuration.TotalSeconds / Progress * 100));
+						RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
 					}
 				}
 				catch (WebException)
