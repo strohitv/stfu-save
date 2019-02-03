@@ -53,8 +53,12 @@
     <ApplicationIcon>Morlord.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastColoredTextBox, Version=2.16.21.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
+      <HintPath>..\packages\FCTB.2.16.21.0\lib\FastColoredTextBox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,12 +72,16 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\FastColoredTextBox.xaml.cs">
+      <DependentUpon>FastColoredTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BooleanXorMultiConverter.cs" />
     <Compile Include="Converters\BooleanAndMultiConverter.cs" />
     <Compile Include="Converters\BooleanOrMultiConverter.cs" />
@@ -82,16 +90,21 @@
     <Compile Include="Converters\EnumToInt32Converter.cs" />
     <Compile Include="Converters\Int32ToStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\StringGetLengthConverter.cs" />
+    <Compile Include="Converters\StringIsNotEmptyConverter.cs" />
     <Compile Include="Helpers\BrowserHelper.cs" />
     <Compile Include="Helpers\CollectionExtension.cs" />
     <Compile Include="Helpers\FlowDocumentExtension.cs" />
+    <Compile Include="Helpers\TextToInline.cs" />
     <Compile Include="Helpers\LogicalTreeUtility.cs" />
     <Compile Include="ViewModels\AddAccountViewModel.cs" />
+    <Compile Include="ViewModels\AddPlannedVideoViewModel.cs" />
     <Compile Include="ViewModels\ButtonCommand.cs" />
     <Compile Include="ViewModels\CategoryVM.cs" />
     <Compile Include="ViewModels\FieldNameVM.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\IDataViewModel.cs" />
+    <Compile Include="ViewModels\IDialogViewModel.cs" />
     <Compile Include="ViewModels\Internal\TimePickerVM.cs" />
     <Compile Include="ViewModels\LanguageVM.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -130,6 +143,10 @@
     <Compile Include="Windows\UploadWindow.xaml.cs">
       <DependentUpon>UploadWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\FastColoredTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AddAccountWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,6 +219,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -281,6 +299,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\GlyphDown_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ScriptingDocumentation.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AddPlannedVideoDescription.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

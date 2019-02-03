@@ -1,0 +1,10 @@
+﻿$ Das hier ist ein Kommentar. Kommentare können auch inline stehen (also am Ende einer Zeile).
+$ Ein # erzeugt eine Überschrift. Ein = trennt eine Dokumentationsdefinition in [VARIABEL-NAME] = [DOCUMENTATION]
+# Standardvariablen (mit Beispiel in Klammern; nur kleingeschrieben!)
+file = gesamter Pfad der hochzuladenen Datei (C:\video\test.mp4)
+filename = nur der Dateiname der Datei (test)
+fileext = nur die Erweiterung der Datei (mp4)
+filenameext = Dateiname und Erweiterung (test.mp4)
+folder = gesamter Pfad zum Ordner, in dem die Datei liegt (C:\video\)
+foldername = Name des Ordners, in dem die Datei liegt (video)
+template = Name des Templates

@@ -8,21 +8,19 @@ using System.Windows.Data;
 
 namespace STFU.Executable.AutoUploader.WPF.Converters
 {
-    public class Int32ToStringConverter : IValueConverter
+    public class StringGetLengthConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(string))
-                throw new ArgumentException("targetType must be a string.", nameof(targetType));
-            return ((int)value).ToString("00");
+            string text = value as string;
+            if (text == null)
+                return "0";
+            return text.Length.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(int))
-                throw new ArgumentException($"targetType must be of type {typeof(int)}.", nameof(targetType));
-            int.TryParse((string)value, out int result);
-            return result;
+            throw new NotSupportedException();
         }
     }
 }

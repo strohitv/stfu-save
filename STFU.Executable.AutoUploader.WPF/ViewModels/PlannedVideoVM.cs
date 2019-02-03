@@ -1,12 +1,55 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using STFU.Executable.AutoUploader.WPF.Converters;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 
 namespace STFU.Executable.AutoUploader.WPF.ViewModels
 {
     public class PlannedVideoVM : ViewModelBase, IDataViewModel<IPlannedVideo>
     {
+        #region Private Fields
+
+        private BooleanToStringConverter boolConverter;
+        private ObservableCollection<FieldNameVM> fieldNames;
         private IPlannedVideo source;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public PlannedVideoVM()
+        {
+            boolConverter = new BooleanToStringConverter();
+            fieldNames = new ObservableCollection<FieldNameVM>();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Events
+
+        public event EventHandler SourceUpdated;
+
+        #endregion Public Events
+
+        #region Public Properties
+
+        public string AllFieldsSet { get { return boolConverter.Convert(fieldNames.All(v => !string.IsNullOrWhiteSpace(v.Value)), typeof(string), null, CultureInfo.InvariantCulture) as string; } }
+
+        public ObservableCollection<FieldNameVM> FieldNames
+        {
+            get => fieldNames;
+            set { fieldNames = value; OnPropertyChanged(); }
+        }
+
+        public bool IsSourceSet => source != null;
+
+        public string Name
+        {
+            get => source.Name;
+            set { source.Name = value; OnPropertyChanged(); }
+        }
 
         public IPlannedVideo Source
         {
@@ -19,17 +62,13 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        private void OnSourceUpdated()
-        {
-            OnPropertyChanged(nameof(IsSourceSet));
-            SourceUpdated?.Invoke(this, new EventArgs());
-        }
+        #endregion Public Properties
 
-        public event EventHandler SourceUpdated;
+        #region Public Methods
 
         public void Refresh()
         {
-            FieldNames = new ObservableCollection<FieldNameVM>();
+            FieldNames.Clear();
             foreach (var field in source.Fields)
             {
                 var fieldName = new FieldNameVM()
@@ -43,29 +82,25 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             OnPropertyChanged(nameof(Name));
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private void FieldName_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var fieldName = sender as FieldNameVM;
-            if(e.PropertyName == nameof(fieldName.Value))
+            if (e.PropertyName == nameof(fieldName.Value))
             {
                 source.Fields[fieldName.Key] = fieldName.Value;
             }
         }
 
-        public string Name
+        private void OnSourceUpdated()
         {
-            get => source.Name;
-            set { source.Name = value; OnPropertyChanged(); }
+            OnPropertyChanged(nameof(IsSourceSet));
+            SourceUpdated?.Invoke(this, new EventArgs());
         }
 
-        private ObservableCollection<FieldNameVM> fieldNames;
-
-        public ObservableCollection<FieldNameVM> FieldNames
-        {
-            get => fieldNames;
-            set { fieldNames = value; OnPropertyChanged(); }
-        }
-
-        public bool IsSourceSet => source != null;
+        #endregion Private Methods
     }
 }

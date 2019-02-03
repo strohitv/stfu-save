@@ -19,9 +19,9 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Public Properties
 
-        public string Hl { get => source.Hl; set { source.Hl = value; OnPropertyChanged(); } }
-        public string Id { get => source.Id; set { source.Id = value; OnPropertyChanged(); } }
-        public string Name { get => source.Name; set { source.Name = value; OnPropertyChanged(); } }
+        public string Hl { get => source?.Hl; set { source.Hl = value; OnPropertyChanged(); } }
+        public string Id { get => source?.Id; set { source.Id = value; OnPropertyChanged(); } }
+        public string Name { get => source?.Name; set { source.Name = value; OnPropertyChanged(); } }
         public ILanguage Source
         {
             get => source;

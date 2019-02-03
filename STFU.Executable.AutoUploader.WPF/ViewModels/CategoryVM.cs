@@ -19,7 +19,24 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Public Properties
 
-        public int Id => source.Id;
+        public int Id
+        {
+            get
+            {
+                return source?.Id ?? 0;
+            }
+            set
+            {
+                OnCategoryRequested(value);
+            }
+        }
+
+        public event EventHandler<CategoryRequestEventArgs> CategoryRequested;
+
+        private void OnCategoryRequested(int id)
+        {
+            CategoryRequested?.Invoke(this, new CategoryRequestEventArgs(id));
+        }
 
         public ICategory Source
         {
@@ -33,7 +50,17 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        public string Title => source.Title;
+        public string Title
+        {
+            get
+            {
+                return source?.Title;
+            }
+            set
+            {
+
+            }
+        }
 
         public bool IsSourceSet => source != null;
 
@@ -55,6 +82,16 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             OnPropertyChanged(nameof(IsSourceSet));
             SourceUpdated?.Invoke(this, new EventArgs());
+        }
+
+        public class CategoryRequestEventArgs
+        {
+            public CategoryRequestEventArgs(int id)
+            {
+                Id = id;
+            }
+
+            public int Id { get; set; }
         }
 
         #endregion Protected Methods

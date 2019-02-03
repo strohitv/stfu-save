@@ -1,4 +1,6 @@
-﻿using STFU.Lib.Youtube.Automation.Interfaces.Model;
+﻿using STFU.Executable.AutoUploader.WPF.Windows;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -43,6 +45,44 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             get => source?.AutoLevels ?? false;
             set { source.AutoLevels = value; OnPropertyChanged(); }
+        }
+
+        public void AddPublishTime()
+        {
+
+        }
+
+        public void UsePlannedVideoTool(ToolAction action)
+        {
+            switch (action)
+            {
+                case ToolAction.Add:
+                    var addWindow = new AddPlannedVideoWindow();
+
+                    if (addWindow.ShowDialog() != true)
+                        return;
+                    if (string.IsNullOrWhiteSpace(addWindow.Filename))
+                        return;
+                    if (!plannedVideos.All(v => v.Name.ToLower() != addWindow.Filename.ToLower()))
+                        return;
+
+                    IPlannedVideo video = new PlannedVideo
+                    {
+                        Name = addWindow.Filename.ToLower()
+                    };
+
+                    plannedVideos.Add(new PlannedVideoVM() { Source = video });
+                    SelectedPlannedVideo = plannedVideos[plannedVideos.Count - 1];
+                    break;
+                case ToolAction.Delete:
+                    if (selectedPlannedVideo == null)
+                        return;
+                    plannedVideos.Remove(selectedPlannedVideo);
+                    break;
+                case ToolAction.Clear:
+                    plannedVideos.Clear();
+                    break;
+            }
         }
 
         public CategoryVM Category { get; private set; }
@@ -104,6 +144,14 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
         {
             get => plannedVideos;
             set { plannedVideos = value; OnPropertyChanged(); }
+        }
+
+        private PlannedVideoVM selectedPlannedVideo;
+
+        public PlannedVideoVM SelectedPlannedVideo
+        {
+            get => selectedPlannedVideo;
+            set { selectedPlannedVideo = value; OnPropertyChanged(); }
         }
 
         public PrivacyStatus Privacy
@@ -210,6 +258,12 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             for (int i = 0; i < source.PublishTimes.Count; i++)
                 PublishTimes.Add(new PublishTimeVM() { Source = source.PublishTimes[i] });
 
+            var t = new PublishTimeVM
+            {
+                Source = new PublishTime()
+            };
+            PublishTimes.Add(t);
+
             internalEdit = false;
         }
 
@@ -232,15 +286,22 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
 
         #region Private Methods
 
-        private void Category_SourceUpdated(object sender, EventArgs e) => OnPropertyChanged(nameof(Category));
+        private void Category_SourceUpdated(object sender, EventArgs e)
+        {
+            source.Category = Category.Source;
+            OnPropertyChanged(nameof(Category));
+        }
 
         private void CollectionChanged<T1, T2>(ObservableCollection<T1> collection, IList<T2> sourceList, NotifyCollectionChangedEventArgs e) where T1 : ViewModelBase, IDataViewModel<T2>
         {
             if (internalEdit)
                 return;
 
-            T2 newItem = e.NewItems?.Count > 0 ? e.NewItems.Cast<T2>().FirstOrDefault() : default(T2);
-            T2 oldItem = e.OldItems?.Count > 0 ? e.OldItems.Cast<T2>().FirstOrDefault() : default(T2);
+            // Why do I access the items only with [0] and not with an iterator?
+            // The answer: The ObservableCollection<T> does not add more than one item to the NewItems or OldItems collections. 
+            // This means that we only need to address the first item in the list and only check if it exists at all.
+            T2 newItem = e.NewItems?.Count > 0 ? ((T1)e.NewItems[0]).Source : default(T2);
+            T2 oldItem = e.OldItems?.Count > 0 ? ((T1)e.OldItems[0]).Source : default(T2);
 
             switch (e.Action)
             {
@@ -266,7 +327,11 @@ namespace STFU.Executable.AutoUploader.WPF.ViewModels
             }
         }
 
-        private void Language_SourceUpdated(object sender, EventArgs e) => OnPropertyChanged(nameof(Language));
+        private void Language_SourceUpdated(object sender, EventArgs e)
+        {
+            source.DefaultLanguage = Language.Source;
+            OnPropertyChanged(nameof(Language));
+        }
 
         private void PlannedVideos_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => CollectionChanged(PlannedVideos, source.PlannedVideos, e);
 

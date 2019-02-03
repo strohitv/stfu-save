@@ -1,0 +1,2 @@
+﻿Gib hier bitte den Dateinamen des Videos, dessen Veröffentlichungsdetails du planen willst, ein.
+Dabei kannst du die Dateiendung (z. B. .mkv oder .mp4) weglassen, es funktioniert aber auch mit der Endung.
