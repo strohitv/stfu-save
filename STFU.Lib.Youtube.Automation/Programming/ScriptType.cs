@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace STFU.Lib.Youtube.Automation.Programming
+﻿namespace STFU.Lib.Youtube.Automation.Programming
 {
 	internal enum ScriptType
 	{
