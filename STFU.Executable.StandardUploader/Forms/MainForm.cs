@@ -51,7 +51,7 @@ namespace STFU.Executable.StandardUploader.Forms
 
 		private void ConnectToYoutube()
 		{
-			mainTabcontrol.Enabled = false;
+			mainTableLayoutPanel.Enabled = false;
 
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
@@ -91,7 +91,7 @@ namespace STFU.Executable.StandardUploader.Forms
 				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 
-			mainTabcontrol.Enabled = true;
+			mainTableLayoutPanel.Enabled = true;
 		}
 	}
 }

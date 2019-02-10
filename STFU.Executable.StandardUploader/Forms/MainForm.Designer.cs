@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
@@ -38,50 +38,52 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.channelLinkLabel = new System.Windows.Forms.LinkLabel();
 			this.programmBeendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.jobQueue = new STFU.Executable.StandardUploader.Controls.Queue.JobQueue();
+			this.mainTableLayoutPanel.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tableLayoutPanel1
+			// mainTableLayoutPanel
 			// 
-			this.tableLayoutPanel1.ColumnCount = 13;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label1, 1, 2);
-			this.tableLayoutPanel1.Controls.Add(this.label2, 5, 5);
-			this.tableLayoutPanel1.Controls.Add(this.successfulActionCombobox, 7, 5);
-			this.tableLayoutPanel1.Controls.Add(this.label3, 1, 5);
-			this.tableLayoutPanel1.Controls.Add(this.channelLinkLabel, 3, 5);
-			this.tableLayoutPanel1.Controls.Add(this.startButton, 11, 5);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 7;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1128, 702);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this.mainTableLayoutPanel.ColumnCount = 13;
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.Controls.Add(this.menuStrip1, 0, 0);
+			this.mainTableLayoutPanel.Controls.Add(this.label1, 1, 2);
+			this.mainTableLayoutPanel.Controls.Add(this.label2, 5, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.successfulActionCombobox, 7, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.label3, 1, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.channelLinkLabel, 3, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.startButton, 11, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.jobQueue, 1, 3);
+			this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+			this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
+			this.mainTableLayoutPanel.RowCount = 7;
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.Size = new System.Drawing.Size(1128, 702);
+			this.mainTableLayoutPanel.TabIndex = 0;
 			// 
 			// menuStrip1
 			// 
-			this.tableLayoutPanel1.SetColumnSpan(this.menuStrip1, 13);
+			this.mainTableLayoutPanel.SetColumnSpan(this.menuStrip1, 13);
 			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem});
@@ -103,7 +105,7 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.label1, 11);
+			this.mainTableLayoutPanel.SetColumnSpan(this.label1, 11);
 			this.label1.Location = new System.Drawing.Point(10, 34);
 			this.label1.Margin = new System.Windows.Forms.Padding(0);
 			this.label1.Name = "label1";
@@ -181,19 +183,28 @@
 			this.programmBeendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.programmBeendenToolStripMenuItem.Text = "Programm beenden";
 			// 
+			// jobQueue
+			// 
+			this.mainTableLayoutPanel.SetColumnSpan(this.jobQueue, 11);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(13, 50);
+			this.jobQueue.Name = "jobQueue";
+			this.jobQueue.Size = new System.Drawing.Size(1102, 600);
+			this.jobQueue.TabIndex = 9;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1128, 702);
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.Controls.Add(this.mainTableLayoutPanel);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "MainForm";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this.mainTableLayoutPanel.ResumeLayout(false);
+			this.mainTableLayoutPanel.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
@@ -202,7 +213,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel mainTableLayoutPanel;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
 		private System.Windows.Forms.Label label1;
@@ -212,5 +223,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.LinkLabel channelLinkLabel;
 		private System.Windows.Forms.ToolStripMenuItem programmBeendenToolStripMenuItem;
+		private Controls.Queue.JobQueue jobQueue;
 	}
 }

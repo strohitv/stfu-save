@@ -37,10 +37,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Queue\JobControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Queue\JobControl.Designer.cs">
+      <DependentUpon>JobControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Queue\JobQueue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Queue\JobQueue.Designer.cs">
+      <DependentUpon>JobQueue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\UploadGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -61,6 +75,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Queue\JobControl.resx">
+      <DependentUpon>JobControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Queue\JobQueue.resx">
+      <DependentUpon>JobQueue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\UploadGrid.resx">
       <DependentUpon>UploadGrid.cs</DependentUpon>
     </EmbeddedResource>
