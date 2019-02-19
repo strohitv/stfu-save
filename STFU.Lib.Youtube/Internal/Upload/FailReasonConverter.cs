@@ -4,28 +4,28 @@ namespace STFU.Lib.Youtube.Internal.Upload
 {
 	internal static class FailReasonConverter
 	{
-		internal static InternalYoutubeError GetError(FailureReason reason)
+		internal static YoutubeError GetError(FailureReason reason)
 		{
-			InternalYoutubeError error = null;
+			YoutubeError error = null;
 
 			switch (reason)
 			{
 				case FailureReason.None:
 					break;
 				case FailureReason.Unknown:
-					error = new InternalYoutubeError("Unbekannter Fehler.");
+					error = new YoutubeError("Unbekannter Fehler.");
 					break;
 				case FailureReason.FileTooBig:
-					error = new InternalYoutubeError("Die Datei ist zu groß und kann daher nicht hochgeladen werden.");
+					error = new YoutubeError("Die Datei ist zu groß und kann daher nicht hochgeladen werden.");
 					break;
 				case FailureReason.FileDoesNotExist:
-					error = new InternalYoutubeError("Die angegebene Datei konnte nicht gefunden werden.");
+					error = new YoutubeError("Die angegebene Datei konnte nicht gefunden werden.");
 					break;
 				case FailureReason.ReadError:
-					error = new InternalYoutubeError("Es gab einen Fehler beim Lesen der Datei.");
+					error = new YoutubeError("Es gab einen Fehler beim Lesen der Datei.");
 					break;
 				case FailureReason.SendError:
-					error = new InternalYoutubeError("Es gab einen Fehler beim Senden der Datei.");
+					error = new YoutubeError("Es gab einen Fehler beim Senden der Datei.");
 					break;
 				default:
 					throw new NotSupportedException("Das entsprechende Feld des Enums wird nicht unterstützt!");
