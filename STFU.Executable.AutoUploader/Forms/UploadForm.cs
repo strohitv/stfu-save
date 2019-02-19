@@ -1,4 +1,8 @@
-﻿using System;
+using Microsoft.WindowsAPICodePack.Taskbar;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,6 +50,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			args.Job.PropertyChanged += CurrentUploadPropertyChanged;
 		}
 
+		delegate void action();
 		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = (IYoutubeJob)sender;
@@ -64,6 +69,9 @@ namespace STFU.Executable.AutoUploader.Forms
 					statusTextLines[0] = $"Lade Video hoch: {job.Progress:0.00} %";
 				}
 				progress = (int)(job.Progress * 100);
+
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
 			}
 			else if (e.PropertyName == nameof(job.State))
 			{
@@ -94,6 +102,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					case UploadState.CancelPending:
 						statusTextLines[0] = $"Upload wird abgebrochen...";
 						statusTextLines[1] = string.Empty;
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
 						break;
 					case UploadState.Canceled:
 						statusTextLines[0] = $"Upload wurde abgebrochen.";
@@ -103,6 +112,8 @@ namespace STFU.Executable.AutoUploader.Forms
 					case UploadState.ThumbnailError:
 						statusTextLines[0] = $"Es gab einen Fehler beim Upload.";
 						statusTextLines[1] = string.Empty;
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 						break;
 					case UploadState.PausePending:
 						statusTextLines[0] = $"Video-Upload wird pausiert...";
@@ -111,9 +122,13 @@ namespace STFU.Executable.AutoUploader.Forms
 					case UploadState.Paused:
 						statusTextLines[0] = $"Video-Upload ist pausiert...";
 						statusTextLines[1] = string.Empty;
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 						break;
 					case UploadState.Successful:
 						fileText = oldtitle;
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 						break;
 					default:
 						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
@@ -121,7 +136,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else if (e.PropertyName == nameof(job.RemainingDuration) || e.PropertyName == nameof(job.UploadedDuration))
 			{
-				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
+				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, Restzeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
 			}
 		}
 
@@ -131,6 +146,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				statusTextLines[0] = "Upload abgeschlossen.";
 				statusTextLines[1] = "Warte auf Dateien für den Upload...";
+
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 			}
 		}
 
