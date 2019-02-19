@@ -34,6 +34,9 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// </summary>
 		IReadOnlyCollection<IYoutubeJob> Queue { get; }
 
+		/// <summary>
+		/// Will be fired as soon as a new Upload is being started
+		/// </summary>
 		event UploadStarted NewUploadStarted;
 
 		/// <summary>
@@ -47,11 +50,6 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// Requests the uploader to cancel immediately.
 		/// </summary>
 		void CancelAll();
-
-		/// <summary>
-		/// Requests the uploader to cancel a currently running job.
-		/// </summary>
-		void CancelJob(IYoutubeJob job);
 
 		/// <summary>
 		/// Adds a job to queue.

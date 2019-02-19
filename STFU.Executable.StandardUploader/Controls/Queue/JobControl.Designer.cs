@@ -35,11 +35,14 @@
 			this.uploadStateLabel = new System.Windows.Forms.Label();
 			this.actionsButton = new System.Windows.Forms.Button();
 			this.actionsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.detailsBearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.überspringenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.startenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pausierenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.abbrechenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.detailsBearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.überspringenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.löschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.refreshUploadStateTimer = new System.Windows.Forms.Timer(this.components);
+			this.fortsetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainTableLayoutPanel.SuspendLayout();
 			this.actionsContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -54,43 +57,43 @@
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTableLayoutPanel.Controls.Add(this.progressBar, 1, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.progressBar, 1, 3);
 			this.mainTableLayoutPanel.Controls.Add(this.uploadTitle, 1, 1);
-			this.mainTableLayoutPanel.Controls.Add(this.uploadStateLabel, 1, 3);
-			this.mainTableLayoutPanel.Controls.Add(this.actionsButton, 3, 5);
+			this.mainTableLayoutPanel.Controls.Add(this.uploadStateLabel, 1, 2);
+			this.mainTableLayoutPanel.Controls.Add(this.actionsButton, 3, 1);
 			this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
-			this.mainTableLayoutPanel.RowCount = 7;
+			this.mainTableLayoutPanel.RowCount = 5;
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTableLayoutPanel.Size = new System.Drawing.Size(649, 129);
+			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.mainTableLayoutPanel.Size = new System.Drawing.Size(550, 138);
 			this.mainTableLayoutPanel.TabIndex = 0;
 			// 
 			// progressBar
 			// 
+			this.mainTableLayoutPanel.SetColumnSpan(this.progressBar, 3);
 			this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.progressBar.Location = new System.Drawing.Point(10, 90);
-			this.progressBar.Margin = new System.Windows.Forms.Padding(0);
+			this.progressBar.Location = new System.Drawing.Point(10, 99);
+			this.progressBar.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(530, 29);
 			this.progressBar.TabIndex = 0;
+			this.progressBar.Visible = false;
 			// 
 			// uploadTitle
 			// 
 			this.uploadTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.uploadTitle.AutoSize = true;
-			this.mainTableLayoutPanel.SetColumnSpan(this.uploadTitle, 3);
 			this.uploadTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadTitle.Location = new System.Drawing.Point(10, 10);
+			this.uploadTitle.Location = new System.Drawing.Point(10, 14);
 			this.uploadTitle.Margin = new System.Windows.Forms.Padding(0);
 			this.uploadTitle.Name = "uploadTitle";
-			this.uploadTitle.Size = new System.Drawing.Size(629, 20);
+			this.uploadTitle.Size = new System.Drawing.Size(431, 20);
 			this.uploadTitle.TabIndex = 1;
 			this.uploadTitle.Text = "Titel";
 			// 
@@ -100,19 +103,20 @@
 			this.uploadStateLabel.AutoSize = true;
 			this.mainTableLayoutPanel.SetColumnSpan(this.uploadStateLabel, 3);
 			this.uploadStateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadStateLabel.Location = new System.Drawing.Point(10, 40);
-			this.uploadStateLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadStateLabel.Location = new System.Drawing.Point(10, 49);
+			this.uploadStateLabel.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.uploadStateLabel.Name = "uploadStateLabel";
-			this.uploadStateLabel.Size = new System.Drawing.Size(629, 40);
+			this.uploadStateLabel.Size = new System.Drawing.Size(530, 40);
 			this.uploadStateLabel.TabIndex = 2;
 			this.uploadStateLabel.Text = "Uploadstatus\r\nZweite Zeile";
+			this.uploadStateLabel.Visible = false;
 			// 
 			// actionsButton
 			// 
 			this.actionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.actionsButton.AutoSize = true;
 			this.actionsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.actionsButton.Location = new System.Drawing.Point(550, 90);
+			this.actionsButton.Location = new System.Drawing.Point(451, 10);
 			this.actionsButton.Margin = new System.Windows.Forms.Padding(0);
 			this.actionsButton.Name = "actionsButton";
 			this.actionsButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -125,43 +129,72 @@
 			// actionsContextMenuStrip
 			// 
 			this.actionsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startenToolStripMenuItem,
+            this.pausierenToolStripMenuItem,
+            this.fortsetzenToolStripMenuItem,
+            this.abbrechenToolStripMenuItem,
             this.detailsBearbeitenToolStripMenuItem,
             this.überspringenToolStripMenuItem,
-            this.pausierenToolStripMenuItem,
-            this.abbrechenToolStripMenuItem,
             this.löschenToolStripMenuItem});
 			this.actionsContextMenuStrip.Name = "actionsContextMenuStrip";
-			this.actionsContextMenuStrip.Size = new System.Drawing.Size(169, 114);
+			this.actionsContextMenuStrip.Size = new System.Drawing.Size(181, 180);
+			// 
+			// startenToolStripMenuItem
+			// 
+			this.startenToolStripMenuItem.Name = "startenToolStripMenuItem";
+			this.startenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.startenToolStripMenuItem.Text = "Starten";
+			this.startenToolStripMenuItem.Click += new System.EventHandler(this.startenToolStripMenuItem_Click);
+			// 
+			// pausierenToolStripMenuItem
+			// 
+			this.pausierenToolStripMenuItem.Enabled = false;
+			this.pausierenToolStripMenuItem.Name = "pausierenToolStripMenuItem";
+			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pausierenToolStripMenuItem.Text = "Pausieren";
+			this.pausierenToolStripMenuItem.Click += new System.EventHandler(this.pausierenToolStripMenuItem_Click);
+			// 
+			// abbrechenToolStripMenuItem
+			// 
+			this.abbrechenToolStripMenuItem.Enabled = false;
+			this.abbrechenToolStripMenuItem.Name = "abbrechenToolStripMenuItem";
+			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.abbrechenToolStripMenuItem.Text = "Abbrechen";
+			this.abbrechenToolStripMenuItem.Click += new System.EventHandler(this.abbrechenToolStripMenuItem_Click);
 			// 
 			// detailsBearbeitenToolStripMenuItem
 			// 
 			this.detailsBearbeitenToolStripMenuItem.Name = "detailsBearbeitenToolStripMenuItem";
-			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.detailsBearbeitenToolStripMenuItem.Text = "Details bearbeiten";
 			// 
 			// überspringenToolStripMenuItem
 			// 
+			this.überspringenToolStripMenuItem.CheckOnClick = true;
 			this.überspringenToolStripMenuItem.Name = "überspringenToolStripMenuItem";
-			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.überspringenToolStripMenuItem.Text = "Überspringen";
-			// 
-			// pausierenToolStripMenuItem
-			// 
-			this.pausierenToolStripMenuItem.Name = "pausierenToolStripMenuItem";
-			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-			this.pausierenToolStripMenuItem.Text = "Pausieren";
-			// 
-			// abbrechenToolStripMenuItem
-			// 
-			this.abbrechenToolStripMenuItem.Name = "abbrechenToolStripMenuItem";
-			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-			this.abbrechenToolStripMenuItem.Text = "Abbrechen";
+			this.überspringenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.überspringenToolStripMenuItem_CheckedChanged);
 			// 
 			// löschenToolStripMenuItem
 			// 
 			this.löschenToolStripMenuItem.Name = "löschenToolStripMenuItem";
-			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.löschenToolStripMenuItem.Text = "Löschen";
+			this.löschenToolStripMenuItem.Click += new System.EventHandler(this.löschenToolStripMenuItem_Click);
+			// 
+			// refreshUploadStateTimer
+			// 
+			this.refreshUploadStateTimer.Interval = 10;
+			this.refreshUploadStateTimer.Tick += new System.EventHandler(this.refreshUploadStateTimer_Tick);
+			// 
+			// fortsetzenToolStripMenuItem
+			// 
+			this.fortsetzenToolStripMenuItem.Enabled = false;
+			this.fortsetzenToolStripMenuItem.Name = "fortsetzenToolStripMenuItem";
+			this.fortsetzenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.fortsetzenToolStripMenuItem.Text = "Fortsetzen";
+			this.fortsetzenToolStripMenuItem.Click += new System.EventHandler(this.fortsetzenToolStripMenuItem_Click);
 			// 
 			// JobControl
 			// 
@@ -172,7 +205,7 @@
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.mainTableLayoutPanel);
 			this.Name = "JobControl";
-			this.Size = new System.Drawing.Size(649, 129);
+			this.Size = new System.Drawing.Size(550, 138);
 			this.mainTableLayoutPanel.ResumeLayout(false);
 			this.mainTableLayoutPanel.PerformLayout();
 			this.actionsContextMenuStrip.ResumeLayout(false);
@@ -194,5 +227,8 @@
 		private System.Windows.Forms.ToolStripMenuItem pausierenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem abbrechenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem löschenToolStripMenuItem;
+		private System.Windows.Forms.Timer refreshUploadStateTimer;
+		private System.Windows.Forms.ToolStripMenuItem startenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem fortsetzenToolStripMenuItem;
 	}
 }

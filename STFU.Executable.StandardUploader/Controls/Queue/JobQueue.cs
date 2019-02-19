@@ -1,10 +1,34 @@
 ﻿using System;
 using System.Windows.Forms;
+using STFU.Lib.Youtube.Interfaces;
 
 namespace STFU.Executable.StandardUploader.Controls.Queue
 {
 	public partial class JobQueue : UserControl
 	{
+		private IYoutubeUploader uploader = null;
+		public IYoutubeUploader Uploader
+		{
+			get
+			{
+				return uploader;
+			}
+			set
+			{
+				if (uploader != value)
+				{
+					uploader = value;
+
+					ClearItems();
+
+					foreach (var entry in uploader.Queue)
+					{
+						AddItem(new JobControl() { Job = entry });
+					}
+				}
+			}
+		}
+
 		public JobQueue()
 		{
 			InitializeComponent();
@@ -12,32 +36,24 @@ namespace STFU.Executable.StandardUploader.Controls.Queue
 
 		private void JobQueue_Load(object sender, EventArgs e)
 		{
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
-			AddItems(new JobControl());
+
 		}
 
-		private void itemsPanel_ControlAdded(object sender, ControlEventArgs e)
-		{
-		}
-
-		private void AddItems(JobControl control)
+		private void AddItem(JobControl control)
 		{
 			control.Margin = new Padding(0, 0, 0, 0);
 			control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
-			mainTlp.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-			mainTlp.RowCount++;
-			mainTlp.RowStyles[mainTlp.RowCount - 2].SizeType = SizeType.AutoSize;
-			mainTlp.RowStyles[mainTlp.RowCount - 2].Height = 0;
+			mainTlp.RowStyles.Insert(mainTlp.RowCount - 1, new RowStyle(SizeType.AutoSize));
 			mainTlp.Controls.Add(control, 0, mainTlp.RowCount - 2);
+		}
+
+		private void ClearItems()
+		{
+			while (mainTlp.RowStyles.Count > 1)
+			{
+				mainTlp.RowStyles.RemoveAt(0);
+			}
 		}
 	}
 }

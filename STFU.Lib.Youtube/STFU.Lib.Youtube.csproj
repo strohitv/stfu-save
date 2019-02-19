@@ -46,11 +46,12 @@
     <Compile Include="Internal\Upload\FailReasonConverter.cs" />
     <Compile Include="Internal\Upload\FileUploader.cs" />
     <Compile Include="Internal\Upload\HttpWebRequestCreator.cs" />
+    <Compile Include="Internal\Upload\Model\Uploadable.cs" />
     <Compile Include="Internal\Upload\YoutubeThumbnailUploader.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
     <Compile Include="Internal\WebService.cs" />
-    <Compile Include="Internal\InternalYoutubeError.cs" />
-    <Compile Include="Internal\InternalYoutubeJob.cs" />
+    <Compile Include="Internal\YoutubeError.cs" />
+    <Compile Include="Internal\YoutubeJob.cs" />
     <Compile Include="Internal\Services\YoutubeAccountService.cs" />
     <Compile Include="Internal\Services\YoutubeClientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
