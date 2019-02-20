@@ -15,9 +15,25 @@ namespace STFU.Lib.Youtube.Automation.Templates
 	{
 		private IList<IPublishTime> publishTimes;
 
-		public int Id { get; internal set; }
+		public int Id { get; internal set; } = 0;
 
-		public string Name { get; set; }
+		private string name = string.Empty;
+		public string Name
+		{
+			get
+			{
+				if (name == null)
+				{
+					name = string.Empty;
+				}
+
+				return name;
+			}
+			set
+			{
+				name = value;
+			}
+		}
 
 		public string Title { get; set; } = string.Empty;
 
@@ -80,10 +96,32 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public IList<IPlannedVideo> PlannedVideos { get; set; } = new List<IPlannedVideo>();
 
+		private DateTime? nextUploadSuggestion = null;
+
+		public DateTime NextUploadSuggestion
+		{
+			get
+			{
+				if (nextUploadSuggestion == null || nextUploadSuggestion.Value < DateTime.Now)
+				{
+					nextUploadSuggestion = DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
+				}
+
+				return nextUploadSuggestion.Value;
+			}
+			set
+			{
+				if (value != null)
+				{
+					nextUploadSuggestion = value;
+				}
+			}
+		}
+
 		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, IList<IPlannedVideo> plannedVideos)
 			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), plannedVideos.Select(pv => (PlannedVideo)pv).ToList())
 		{ }
-		
+    
 		[JsonConstructor]
 		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes, IList<PlannedVideo> plannedVideos)
 		{
@@ -108,7 +146,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				PlannedVideos = plannedVideos.Select(pv => (IPlannedVideo)pv).ToList();
 			}
 		}
-		
+
 		public Template(int id, string name, YoutubeLanguage defaultlanguage, YoutubeCategory category, IList<PublishTime> publishTimes)
 		{
 			Id = id;

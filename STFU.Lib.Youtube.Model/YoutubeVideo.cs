@@ -9,6 +9,9 @@ namespace STFU.Lib.Youtube.Model
 {
 	public class YoutubeVideo : IYoutubeVideo
 	{
+		public YoutubeVideo()
+		{ }
+
 		public YoutubeVideo(string path)
 		{
 			Path = path;
@@ -30,7 +33,7 @@ namespace STFU.Lib.Youtube.Model
 
 		public string MediaType => MimeMapping.GetMimeMapping(Path);
 
-		public bool MediaTypeOk 
+		public bool MediaTypeOk
 			=> MediaType.ToLower().StartsWith("video/") || MediaType.ToLower().StartsWith("application/");
 
 		public bool NotifySubscribers { get; set; }

@@ -18,6 +18,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		{
 			PathInfo = pathInfo;
 			Template = template;
+			StartDate = template.NextUploadSuggestion;
 		}
 	}
 }

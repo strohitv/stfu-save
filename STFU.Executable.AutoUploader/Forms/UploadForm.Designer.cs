@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UploadForm));
 			this.tlpRunning = new System.Windows.Forms.TableLayoutPanel();
 			this.statusStaticLabel = new System.Windows.Forms.Label();
 			this.prgbarProgress = new System.Windows.Forms.ProgressBar();
@@ -83,7 +84,7 @@
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpRunning.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpRunning.Size = new System.Drawing.Size(648, 175);
+			this.tlpRunning.Size = new System.Drawing.Size(749, 175);
 			this.tlpRunning.TabIndex = 2;
 			// 
 			// statusStaticLabel
@@ -108,7 +109,7 @@
 			this.prgbarProgress.MarqueeAnimationSpeed = 10;
 			this.prgbarProgress.Maximum = 10000;
 			this.prgbarProgress.Name = "prgbarProgress";
-			this.prgbarProgress.Size = new System.Drawing.Size(546, 19);
+			this.prgbarProgress.Size = new System.Drawing.Size(647, 19);
 			this.prgbarProgress.TabIndex = 1;
 			// 
 			// finishActionLabel
@@ -135,7 +136,7 @@
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(108, 141);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(242, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(343, 21);
 			this.cmbbxFinishAction.TabIndex = 16;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -144,7 +145,7 @@
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.AutoSize = true;
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(360, 143);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(461, 143);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -159,7 +160,7 @@
 			this.btnChoseProcs.AutoSize = true;
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(520, 138);
+			this.btnChoseProcs.Location = new System.Drawing.Point(621, 138);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -174,7 +175,7 @@
 			this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnStop.AutoSize = true;
 			this.btnStop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStop.Location = new System.Drawing.Point(566, 105);
+			this.btnStop.Location = new System.Drawing.Point(667, 105);
 			this.btnStop.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(72, 23);
@@ -205,7 +206,7 @@
 			this.fileLabel.Location = new System.Drawing.Point(108, 10);
 			this.fileLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.fileLabel.Name = "fileLabel";
-			this.fileLabel.Size = new System.Drawing.Size(530, 18);
+			this.fileLabel.Size = new System.Drawing.Size(631, 18);
 			this.fileLabel.TabIndex = 0;
 			// 
 			// statusLabel
@@ -218,7 +219,7 @@
 			this.statusLabel.Location = new System.Drawing.Point(108, 38);
 			this.statusLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(530, 18);
+			this.statusLabel.Size = new System.Drawing.Size(631, 18);
 			this.statusLabel.TabIndex = 0;
 			// 
 			// refreshTimer
@@ -231,8 +232,9 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(648, 175);
+			this.ClientSize = new System.Drawing.Size(749, 175);
 			this.Controls.Add(this.tlpRunning);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "UploadForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

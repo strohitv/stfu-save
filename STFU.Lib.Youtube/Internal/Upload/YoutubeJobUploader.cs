@@ -1,62 +1,57 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Internal.Upload.Model;
 using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeJobUploader : INotifyPropertyChanged
+	internal class YoutubeJobUploader : Uploadable, INotifyPropertyChanged
 	{
+		internal static YoutubeJobUploader EmptyUploader { get; } = new YoutubeJobUploader();
+
+		public string VideoId { get; set; } = string.Empty;
+
 		private YoutubeVideoUploadInitializer initializer = null;
 		private YoutubeVideoUploader videoUploader = null;
 		private YoutubeThumbnailUploader thumbnailUploader = null;
 
-		public InternalYoutubeJob Job { get; set; }
+		private bool IsEmpty { get; set; } = false;
 
-		private RunningState state = RunningState.NotRunning;
-		public RunningState State
+		private YoutubeJobUploader()
 		{
-			get
-			{
-				return state;
-			}
-			private set
-			{
-				if (state != value)
-				{
-					state = value;
-					OnPropertyChanged();
-				}
-			}
+			IsEmpty = true;
 		}
 
-		internal YoutubeJobUploader(InternalYoutubeJob job)
+		internal YoutubeJobUploader(IYoutubeVideo video, IYoutubeAccount account)
 		{
-			Job = job;
-			initializer = new YoutubeVideoUploadInitializer(Job);
-			videoUploader = new YoutubeVideoUploader(Job);
-			thumbnailUploader = new YoutubeThumbnailUploader(Job);
+			Video = video;
+			Account = account;
+
+			initializer = new YoutubeVideoUploadInitializer(video, account);
 		}
 
-		public async void UploadAsync()
+		internal async Task UploadAsync()
 		{
-			State = RunningState.Running;
-			Job.State = UploadState.Running;
+			State = UploadState.VideoInitializing;
+
 			await Task.Run(() => Upload());
 		}
 
-		public void Upload()
+		private void Upload()
 		{
-			initializer.InitializeUpload();
+			initializer?.InitializeUpload();
 
-			if (initializer.Successful && CancelNotRequested())
+			if (initializer != null && initializer.Successful && CancelNotRequested())
 			{
-				Job.Uri = initializer.VideoUploadUri;
+				UploadUri = initializer.VideoUploadUri;
+				videoUploader = new YoutubeVideoUploader(Video, Account, UploadUri);
+				videoUploader.PropertyChanged += Uploader_PropertyChanged;
 
 				int uploadUnsuccessfulCounter = 0;
 				while (CancelNotRequested() && NotTooManyAttempts(uploadUnsuccessfulCounter))
@@ -64,7 +59,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					bool uploadSuccessful = TryUploadVideo();
 					if (uploadSuccessful)
 					{
-						Job.State = UploadState.Successful;
+						State = UploadState.Successful;
 						break;
 					}
 
@@ -74,8 +69,41 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 			else
 			{
-				State = RunningState.NotRunning;
-				Job.State = UploadState.Error;
+				State = UploadState.VideoError;
+			}
+		}
+
+		private void Uploader_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			var notifier = (Uploadable)sender;
+
+			if (e.PropertyName == nameof(notifier.State))
+			{
+				State = notifier.State;
+			}
+			else if (e.PropertyName == nameof(notifier.Progress))
+			{
+				Progress = notifier.Progress;
+			}
+			else if (e.PropertyName == nameof(notifier.FailureReason))
+			{
+				Error = FailReasonConverter.GetError(notifier.FailureReason);
+			}
+			else if (e.PropertyName == nameof(notifier.Error))
+			{
+				Error = notifier.Error;
+			}
+			else if (e.PropertyName == nameof(notifier.RemainingDuration))
+			{
+				RemainingDuration = notifier.RemainingDuration;
+			}
+			else if (e.PropertyName == nameof(notifier.Started))
+			{
+				Started = notifier.Started;
+			}
+			else if (e.PropertyName == nameof(notifier.UploadedDuration))
+			{
+				UploadedDuration = notifier.UploadedDuration;
 			}
 		}
 
@@ -85,10 +113,22 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			string result = null;
 
 			bool uploadFinished = UploadVideo(out result);
-			if (uploadFinished && State != RunningState.CancelPending)
+			if (uploadFinished && State != UploadState.CancelPending)
 			{
-				Job.VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+				VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+				videoUploader.PropertyChanged -= Uploader_PropertyChanged;
+
+				thumbnailUploader = new YoutubeThumbnailUploader(Video, VideoId, Account);
+				thumbnailUploader.PropertyChanged += Uploader_PropertyChanged;
+
 				finished = thumbnailUploader.UploadThumbnail();
+
+				thumbnailUploader.PropertyChanged -= Uploader_PropertyChanged;
+
+				if (finished)
+				{
+					State = UploadState.Successful;
+				}
 			}
 
 			return finished;
@@ -101,10 +141,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			var successful = videoUploader.Upload();
 			if (successful)
 			{
-				var movedPath = Path.GetDirectoryName(Job.Video.File.FullName)
-					   + "\\_" + Path.GetFileNameWithoutExtension(Job.Video.File.FullName).Remove(0, 1)
-					   + Path.GetExtension(Job.Video.File.FullName);
-				File.Move(Job.Video.File.FullName, movedPath);
+				var movedPath = Path.GetDirectoryName(Video.File.FullName)
+					   + "\\_" + Path.GetFileNameWithoutExtension(Video.File.FullName).Remove(0, 1)
+					   + Path.GetExtension(Video.File.FullName);
+				File.Move(Video.File.FullName, movedPath);
 				result = videoUploader.Response;
 			}
 
@@ -113,9 +153,9 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal void Cancel()
 		{
-			if (State == RunningState.Running)
+			if (State.IsRunningOrInitializing())
 			{
-				State = RunningState.CancelPending;
+				State = UploadState.CancelPending;
 				videoUploader.Cancel();
 				thumbnailUploader.Cancel();
 			}
@@ -128,17 +168,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private bool CancelNotRequested()
 		{
-			return State != RunningState.CancelPending;
+			return State != UploadState.CancelPending;
 		}
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged([CallerMemberName]string name = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion INofityPropertyChanged
 	}
 }

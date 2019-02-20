@@ -25,15 +25,14 @@ namespace STFU.Executable.AutoUploader.Controls
 
 			SetPublishControlsVisibility(settings.Template.ShouldPublishAt, settings.Template.ShouldPublishAt);
 
-			shouldOverridePublishAtCheckbox.Checked = false;
+			shouldOverridePublishAtCheckbox.Checked = settings.Template.ShouldPublishAt;
 
 			explanationTextbox.Visible = false;
 		}
 
 		private void ChooseSingleStartTimeControlLoad(object sender, EventArgs e)
 		{
-			DateTime publishDt = DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
-			overrideDateTimePicker.Value = publishDt;
+			overrideDateTimePicker.Value = publishSettings?.StartDate ?? DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
 
 			if (publishSettings != null)
 			{
@@ -122,7 +121,7 @@ namespace STFU.Executable.AutoUploader.Controls
 		}
 
 		public IObservationConfiguration GetPublishSettings()
-		{ 
+		{
 			publishSettings.IgnorePath = dontObservePathCheckbox.Checked;
 			publishSettings.UploadPrivate = uploadVideosPrivateCheckbox.Checked;
 

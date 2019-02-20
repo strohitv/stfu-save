@@ -1,35 +1,17 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Web;
+using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Internal.Services;
+using STFU.Lib.Youtube.Internal.Upload.Model;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeThumbnailUploader : INotifyPropertyChanged
+	internal class YoutubeThumbnailUploader : Uploadable, INotifyPropertyChanged
 	{
 		private FileUploader fileUploader = new FileUploader();
-
-		private InternalYoutubeJob Job { get; set; }
-
-		private RunningState state = RunningState.NotRunning;
-		public RunningState State
-		{
-			get
-			{
-				return state;
-			}
-			private set
-			{
-				if (state != value)
-				{
-					state = value;
-					OnPropertyChanged();
-				}
-			}
-		}
 
 		private string response = null;
 		public string Response
@@ -49,50 +31,71 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
-		internal YoutubeThumbnailUploader(InternalYoutubeJob job)
+		private string videoId = null;
+		public string VideoId
 		{
-			Job = job;
+			get
+			{
+				return videoId;
+			}
+
+			set
+			{
+				if (value != videoId)
+				{
+					videoId = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		internal YoutubeThumbnailUploader(IYoutubeVideo video, string videoId, IYoutubeAccount account)
+		{
+			Video = video;
+			VideoId = videoId;
+			Account = account;
 		}
 
 		internal bool UploadThumbnail()
 		{
 			var successful = true;
 
-			if (File.Exists(Job.Video.ThumbnailPath))
+			if (File.Exists(Video.ThumbnailPath))
 			{
-				State = RunningState.Running;
-				Job.State = UploadState.ThumbnailUploading;
+				State = UploadState.ThumbnailUploading;
 
-				var accessToken = YoutubeAccountService.GetAccessToken(Job.Account);
-				var secret = Job.Account.Access.First(a => a.AccessToken == accessToken).Client.Secret;
+				var accessToken = YoutubeAccountService.GetAccessToken(Account);
+				var secret = Account.Access.First(a => a.AccessToken == accessToken).Client.Secret;
 
 				var request = HttpWebRequestCreator.CreateWithAuthHeader(
-					$"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={Job.VideoId}&key={secret}",
+					$"https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId={VideoId}&key={secret}",
 					"POST", accessToken);
 
-				FileInfo file = new FileInfo(Job.Video.ThumbnailPath);
+				FileInfo file = new FileInfo(Video.ThumbnailPath);
 				request.ContentLength = file.Length;
-				request.ContentType = MimeMapping.GetMimeMapping(Job.Video.ThumbnailPath);
+				request.ContentType = MimeMapping.GetMimeMapping(Video.ThumbnailPath);
 
 				fileUploader.PropertyChanged += FileUploaderPropertyChanged;
 
-				successful = fileUploader.UploadFile(Job.Video.ThumbnailPath, request);
+				successful = fileUploader.UploadFile(Video.ThumbnailPath, request);
 				if (successful)
 				{
 					Response = WebService.Communicate(request);
 				}
+				else
+				{
+					Error = FailReasonConverter.GetError(fileUploader.FailureReason);
+				}
 			}
-
-			State = RunningState.NotRunning;
 
 			return successful;
 		}
 
 		internal void Cancel()
 		{
-			if (State == RunningState.Running)
+			if (State.IsRunningOrInitializing())
 			{
-				State = RunningState.CancelPending;
+				State = UploadState.CancelPending;
 				fileUploader.Cancel();
 			}
 		}
@@ -101,22 +104,21 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			if (e.PropertyName == nameof(fileUploader.Progress))
 			{
-				Job.Progress = fileUploader.Progress;
+				Progress = fileUploader.Progress;
 			}
-			else
+			else if (e.PropertyName == nameof(fileUploader.RemainingDuration))
 			{
-				Job.Error = FailReasonConverter.GetError(fileUploader.FailureReason);
+				RemainingDuration = fileUploader.RemainingDuration;
+			}
+			else if (e.PropertyName == nameof(fileUploader.UploadedDuration))
+			{
+				UploadedDuration = fileUploader.UploadedDuration;
+			}
+			else if (e.PropertyName == nameof(fileUploader.FailureReason))
+			{
+				Error = FailReasonConverter.GetError(fileUploader.FailureReason);
+				State = UploadState.ThumbnailError;
 			}
 		}
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged([CallerMemberName]string name = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion INofityPropertyChanged
 	}
 }

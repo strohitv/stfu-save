@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using STFU.Lib.Youtube.Internal;
-using STFU.Lib.Youtube.Internal.Upload;
+using System.Threading;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using System.IO;
-using System.Threading;
+using STFU.Lib.Youtube.Internal;
 
 namespace STFU.Lib.Youtube
 {
@@ -19,8 +18,6 @@ namespace STFU.Lib.Youtube
 		private IList<IYoutubeJob> jobQueue = new List<IYoutubeJob>();
 		private UploaderState state = UploaderState.NotRunning;
 		private bool stopAfterCompleting = true;
-
-		private IList<YoutubeJobUploader> runningJobUploaders = new List<YoutubeJobUploader>();
 
 		public bool RemoveCompletedJobs { get; set; }
 
@@ -98,7 +95,7 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
-		public event UploadStarted NewUploadStarted = null;
+		public event UploadStarted NewUploadStarted;
 
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
 		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account)
@@ -108,12 +105,12 @@ namespace STFU.Lib.Youtube
 				return Queue.Single(job => job.Video == video && job.Account == account);
 			}
 
-			var newJob = new InternalYoutubeJob(video, account);
+			var newJob = new YoutubeJob(video, account);
 			JobQueue.Add(newJob);
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
-				StartJobUploaders();
+				StartJobs();
 			}
 
 			return newJob;
@@ -122,28 +119,21 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.CancelAll"/>
 		public void CancelAll()
 		{
-			if (State == UploaderState.Uploading || State == UploaderState.Waiting)
+			var runningJobs = JobQueue.Where(j => j.State.IsRunningOrInitializing()).ToArray();
+			if (runningJobs.Length > 0
+				&& (State == UploaderState.Uploading || State == UploaderState.Waiting))
 			{
-				if (runningJobUploaders.Any(ju => ju.State != RunningState.NotRunning))
-				{
-					State = UploaderState.CancelPending;
+				State = UploaderState.CancelPending;
 
-					foreach (var uploader in runningJobUploaders)
-					{
-						uploader.Cancel();
-					}
-				}
-				else
+				foreach (var runningJob in runningJobs)
 				{
-					State = UploaderState.NotRunning;
+					runningJob.CancelUploadAsync();
 				}
 			}
-		}
-
-		public void CancelJob(IYoutubeJob job)
-		{
-			var jobUploader = runningJobUploaders.FirstOrDefault(ju => ju.Job == job);
-			jobUploader?.Cancel();
+			else
+			{
+				State = UploaderState.NotRunning;
+			}
 		}
 
 		/// <see cref="IYoutubeUploader.ChangePositionInQueue(IYoutubeJob, IYoutubeJob)"/>
@@ -177,14 +167,14 @@ namespace STFU.Lib.Youtube
 		{
 			if (State == UploaderState.NotRunning)
 			{
-				StartJobUploaders();
+				StartJobs();
 			}
 		}
 
-		private void StartJobUploaders()
+		private void StartJobs()
 		{
 			while (State != UploaderState.CancelPending
-				&& runningJobUploaders.Count < MaxSimultaneousUploads
+				&& JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists))
 			{
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists);
@@ -207,17 +197,17 @@ namespace STFU.Lib.Youtube
 
 				if (nextJob.Video.File.Exists)
 				{
-					var jobUploader = new YoutubeJobUploader(nextJob as InternalYoutubeJob);
 					NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-					jobUploader.UploadAsync();
-
-					runningJobUploaders.Add(jobUploader);
+					nextJob.UploadAsync();
 				}
 			}
+		}
 
+		private void RefreshUploaderState()
+		{
 			if (State != UploaderState.CancelPending)
 			{
-				if (runningJobUploaders.Count == 0)
+				if (JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() == 0)
 				{
 					if (StopAfterCompleting)
 					{
@@ -242,20 +232,21 @@ namespace STFU.Lib.Youtube
 		private void RunningJobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = sender as IYoutubeJob;
-			if (e.PropertyName == nameof(IYoutubeJob.State)
-				&& (job.State == UploadState.Successful
-				|| job.State == UploadState.Canceled
-				|| job.State == UploadState.Error))
+			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
-				var jobUploader = runningJobUploaders.Single(upl => upl.Job == job);
-				runningJobUploaders.Remove(jobUploader);
+				RefreshUploaderState();
 
-				if (RemoveCompletedJobs)
+				if ((job.State == UploadState.Successful
+				|| job.State.IsCanceled()
+				|| job.State.IsFailed()))
 				{
-					RemoveFromQueue(job);
-				}
+					if (RemoveCompletedJobs)
+					{
+						RemoveFromQueue(job);
+					}
 
-				StartJobUploaders();
+					StartJobs();
+				}
 			}
 		}
 

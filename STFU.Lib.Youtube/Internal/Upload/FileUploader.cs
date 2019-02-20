@@ -1,62 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Runtime.CompilerServices;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Internal.Upload.Model;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class FileUploader : INotifyPropertyChanged
+	internal class FileUploader : Uploadable, INotifyPropertyChanged
 	{
-		private double progress = 0.0;
-		internal double Progress
-		{
-			get
-			{
-				return progress;
-			}
-			private set
-			{
-				if (progress != value)
-				{
-					progress = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		private RunningState state = RunningState.NotRunning;
-		public RunningState State
-		{
-			get
-			{
-				return state;
-			}
-			private set
-			{
-				if (state != value)
-				{
-					state = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		private FailureReason failureReason = FailureReason.None;
-		internal FailureReason FailureReason
-		{
-			get
-			{
-				return failureReason;
-			}
-
-			set
-			{
-				failureReason = value;
-				OnPropertyChanged();
-			}
-		}
-
 		internal FileUploader() { }
 
 		internal bool UploadFile(string path, HttpWebRequest request)
@@ -81,7 +33,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					fileStream.Position = startPosition;
 				}
 
-				State = RunningState.Running;
+				Started = DateTime.Now;
+				RunningState = RunningState.Running;
 
 				// Upload initiieren
 				Stream requestStream = request.GetRequestStream();
@@ -91,10 +44,13 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				try
 				{
 					// Hochladen
-					while (State != RunningState.CancelPending && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+					while (RunningState != RunningState.CancelPending && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
 					{
 						requestStream.Write(buffer, 0, bytesRead);
 						Progress = fileStream.Position / (double)fileStream.Length * 100;
+
+						UploadedDuration = DateTime.Now - Started;
+						RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
 					}
 				}
 				catch (WebException)
@@ -123,8 +79,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					return false;
 				}
 
-				var result = State != RunningState.CancelPending;
-				State = RunningState.NotRunning;
+				var result = RunningState != RunningState.CancelPending;
+				RunningState = RunningState.NotRunning;
 				return result;
 			}
 			else
@@ -137,20 +93,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal void Cancel()
 		{
-			if (State == RunningState.Running)
+			if (RunningState == RunningState.Running)
 			{
-				State = RunningState.CancelPending;
+				RunningState = RunningState.CancelPending;
 			}
 		}
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged([CallerMemberName]string name = "")
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion INofityPropertyChanged
 	}
 }

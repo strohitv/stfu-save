@@ -2,6 +2,7 @@
 using System.Web;
 using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Interfaces.Model;
+using System;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
@@ -27,11 +28,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return request;
 		}
 		
-		internal static HttpWebRequest CreateForNewUpload(IYoutubeJob job)
+		internal static HttpWebRequest CreateForNewUpload(Uri uri,  IYoutubeVideo video, IYoutubeAccount account)
 		{
-			var request = CreateWithAuthHeader(job.Uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(job.Account));
-			request.ContentLength = job.Video.File.Length;
-			request.ContentType = MimeMapping.GetMimeMapping(job.Video.File.Name);
+			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(account));
+			request.ContentLength = video.File.Length;
+			request.ContentType = MimeMapping.GetMimeMapping(video.File.Name);
 
 			// Am Leben halten (wichtig bei großen Dateien)!
 			request.ServicePoint.SetTcpKeepAlive(true, 10000, 1000);
@@ -41,11 +42,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return request;
 		}
 
-		internal static HttpWebRequest CreateForResumeUpload(IYoutubeJob job, long lastbyte)
+		internal static HttpWebRequest CreateForResumeUpload(Uri uri, IYoutubeVideo video, IYoutubeAccount account, long lastbyte)
 		{
-			var request = CreateWithAuthHeader(job.Uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(job.Account));
-			request.Headers.Add($"Content-Range: bytes {lastbyte + 1}-{job.Video.File.Length - 1}/{job.Video.File.Length}");
-			request.ContentLength = job.Video.File.Length - (lastbyte + 1);
+			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(account));
+			request.Headers.Add($"Content-Range: bytes {lastbyte + 1}-{video.File.Length - 1}/{video.File.Length}");
+			request.ContentLength = video.File.Length - (lastbyte + 1);
 
 			// Am Leben halten (wichtig bei großen Dateien)!
 			request.ServicePoint.SetTcpKeepAlive(true, 10000, 1000);
