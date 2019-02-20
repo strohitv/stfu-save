@@ -44,7 +44,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 				var bytes = Encoding.UTF8.GetBytes(content);
 
 				// Request erstellen
-				WebRequest request = WebRequest.Create("https://www.googleapis.com/oauth2/v4/token");
+				WebRequest request = WebRequest.Create($"https://www.googleapis.com/oauth2/v4/token");
 				request.Method = "POST";
 				request.ContentType = "application/x-www-form-urlencoded";
 
