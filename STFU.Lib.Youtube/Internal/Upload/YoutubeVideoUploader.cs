@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Net;
-using System.Runtime.CompilerServices;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Internal.Services;

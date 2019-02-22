@@ -6,9 +6,6 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.Lib.Youtube.Automation.Interfaces;
-using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
