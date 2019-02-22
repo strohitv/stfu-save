@@ -110,7 +110,7 @@ namespace STFU.Lib.Youtube
 			var newJob = new YoutubeJob(video, account);
 			JobQueue.Add(newJob);
 
-			OnJobQueued(video, JobQueue.IndexOf(newJob));
+			OnJobQueued(newJob, JobQueue.IndexOf(newJob));
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
@@ -158,12 +158,12 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.RemoveFromQueue(IYoutubeJob)"/>
 		public void RemoveFromQueue(IYoutubeJob job)
 		{
-			if (!Queue.Contains(job))
+			if (Queue.Contains(job))
 			{
-				return;
+				int position = JobQueue.IndexOf(job);
+				JobQueue.Remove(job);
+				OnJobDequeued(job, position);
 			}
-
-			JobQueue.Remove(job);
 		}
 
 		/// <see cref="IYoutubeUploader.StartUploader"/>
@@ -262,10 +262,16 @@ namespace STFU.Lib.Youtube
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
-		public event JobQueuedEventHandler VideoQueued;
-		private void OnJobQueued(IYoutubeVideo video, int position)
+		public event JobQueuedEventHandler JobQueued;
+		private void OnJobQueued(IYoutubeJob job, int position)
 		{
-			VideoQueued?.Invoke(this, new JobQueuedEventArgs(video, position));
+			JobQueued?.Invoke(this, new JobQueuedEventArgs(job, position));
+		}
+
+		public event JobDequeuedEventHandler JobDequeued;
+		private void OnJobDequeued(IYoutubeJob job, int position)
+		{
+			JobDequeued?.Invoke(this, new JobDequeuedEventArgs(job, position));
 		}
 
 		#endregion Events

@@ -77,6 +77,11 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// <summary>
 		/// Fired when a new Upload is added to the queue
 		/// </summary>
-		event JobQueuedEventHandler VideoQueued;
+		event JobQueuedEventHandler JobQueued;
+
+		/// <summary>
+		/// Fired when a Upload is removed from the queue
+		/// </summary>
+		event JobDequeuedEventHandler JobDequeued;
 	}
 }

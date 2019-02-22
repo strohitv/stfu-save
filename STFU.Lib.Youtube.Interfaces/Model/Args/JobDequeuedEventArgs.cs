@@ -2,9 +2,9 @@
 
 namespace STFU.Lib.Youtube.Interfaces.Model.Args
 {
-	public class JobQueuedEventArgs : EventArgs
+	public class JobDequeuedEventArgs : EventArgs
 	{
-		public JobQueuedEventArgs (IYoutubeJob job, int position)
+		public JobDequeuedEventArgs(IYoutubeJob job, int position)
 		{
 			Job = job;
 			Position = position;
