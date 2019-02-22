@@ -185,6 +185,7 @@ namespace STFU.Lib.Youtube
 				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
 				bool start = false;
+				State = UploaderState.Uploading;
 				while (!start && nextJob.Video.File.Exists)
 				{
 					try
@@ -195,9 +196,7 @@ namespace STFU.Lib.Youtube
 						}
 					}
 					catch (System.Exception)
-					{
-						Thread.Sleep(500);
-					}
+					{ }
 				}
 
 				if (nextJob.Video.File.Exists)
