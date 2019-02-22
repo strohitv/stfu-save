@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube;
@@ -18,13 +19,19 @@ namespace STFU.Executable.StandardUploader.Forms
 		IYoutubeCategoryContainer categoryContainer = new YoutubeCategoryContainer();
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 
+		IYoutubeUploader uploader = new YoutubeUploader();
+
 		AccountPersistor accountPersistor = null;
 		CategoryPersistor categoryPersistor = null;
 		LanguagePersistor languagePersistor = null;
 
+		public IYoutubeUploader Uploader { get => uploader; set => uploader = value; }
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			jobQueue.Uploader = Uploader;
 
 			Text = $"Strohis Toolset Für Uploads - StandardUploader v{ProductVersion} [BETA]";
 
@@ -47,6 +54,12 @@ namespace STFU.Executable.StandardUploader.Forms
 			languagePersistor = new LanguagePersistor(languageContainer, "./settings/standard-languages.json");
 			languagePersistor.Load();
 
+			Uploader.PropertyChanged += Uploader_PropertyChanged;
+		}
+
+		private void Uploader_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			throw new System.NotImplementedException();
 		}
 
 		private void ConnectToYoutube()

@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model.Args;
 
 namespace STFU.Executable.StandardUploader.Controls.Queue
 {
 	public partial class JobQueue : UserControl
 	{
+		private List<JobControl> jobControls = new List<JobControl>();
+
 		private IYoutubeUploader uploader = null;
 		public IYoutubeUploader Uploader
 		{
@@ -17,7 +22,18 @@ namespace STFU.Executable.StandardUploader.Controls.Queue
 			{
 				if (uploader != value)
 				{
+					if (uploader != null)
+					{
+						Uploader.JobQueued -= Uploader_JobQueued;
+						Uploader.JobDequeued -= Uploader_JobDequeued;
+						Uploader.JobPositionChanged -= Uploader_JobPositionChanged;
+					}
+
 					uploader = value;
+
+					Uploader.JobQueued += Uploader_JobQueued;
+					Uploader.JobDequeued += Uploader_JobDequeued;
+					Uploader.JobPositionChanged += Uploader_JobPositionChanged;
 
 					ClearItems();
 
@@ -39,13 +55,63 @@ namespace STFU.Executable.StandardUploader.Controls.Queue
 
 		}
 
+		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
+		{
+			AddItem(new JobControl() { Job = e.Job }, e.Position);
+		}
+
+		private void Uploader_JobPositionChanged(object sender, JobPositionChangedEventArgs e)
+		{
+			var control = jobControls.First(jc => jc.Job == e.Job);
+
+			mainTlp.SuspendLayout();
+			RemoveItemFromMainTlp(control, e.OldPosition);
+			AddItemToMainTlp(control, e.NewPosition);
+			mainTlp.ResumeLayout();
+		}
+
+		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
+		{
+			var control = jobControls.First(jc => jc.Job == e.Job);
+
+			jobControls.Remove(control);
+			RemoveItemFromMainTlp(control, e.Position);
+		}
+
+		private void RemoveItemFromMainTlp(JobControl control, int position)
+		{
+			mainTlp.Controls.Remove(control);
+			mainTlp.RowStyles.RemoveAt(position);
+		}
+
 		private void AddItem(JobControl control)
 		{
+			AddItem(control, int.MaxValue);
+		}
+
+		private void AddItem(JobControl control, int position)
+		{
+			if (position < 0)
+			{
+				position = 0;
+			}
+			else if (position > mainTlp.RowCount - 1)
+			{
+				position = mainTlp.RowCount - 1;
+			}
+
+			jobControls.Insert(position, control);
+
 			control.Margin = new Padding(0, 0, 0, 0);
 			control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
-			mainTlp.RowStyles.Insert(mainTlp.RowCount - 1, new RowStyle(SizeType.AutoSize));
-			mainTlp.Controls.Add(control, 0, mainTlp.RowCount - 2);
+			AddItemToMainTlp(control, position);
+		}
+
+		private void AddItemToMainTlp(JobControl control, int position)
+		{
+			mainTlp.RowStyles.Insert(position, new RowStyle(SizeType.AutoSize));
+			mainTlp.Controls.Add(control, 0, position - 1);
 		}
 
 		private void ClearItems()

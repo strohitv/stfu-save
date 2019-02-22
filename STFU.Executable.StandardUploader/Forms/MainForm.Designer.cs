@@ -31,13 +31,13 @@
 			this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.programmBeendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
-			this.startButton = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.successfulActionCombobox = new System.Windows.Forms.ComboBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.channelLinkLabel = new System.Windows.Forms.LinkLabel();
-			this.programmBeendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.startButton = new System.Windows.Forms.Button();
 			this.jobQueue = new STFU.Executable.StandardUploader.Controls.Queue.JobQueue();
 			this.mainTableLayoutPanel.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -101,6 +101,12 @@
 			this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
 			this.dateiToolStripMenuItem.Text = "Datei";
 			// 
+			// programmBeendenToolStripMenuItem
+			// 
+			this.programmBeendenToolStripMenuItem.Name = "programmBeendenToolStripMenuItem";
+			this.programmBeendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.programmBeendenToolStripMenuItem.Text = "Programm beenden";
+			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -112,20 +118,6 @@
 			this.label1.Size = new System.Drawing.Size(1108, 13);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Warteschlange:";
-			// 
-			// startButton
-			// 
-			this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.startButton.AutoSize = true;
-			this.startButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.startButton.Location = new System.Drawing.Point(1046, 663);
-			this.startButton.Margin = new System.Windows.Forms.Padding(0);
-			this.startButton.Name = "startButton";
-			this.startButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.startButton.Size = new System.Drawing.Size(72, 29);
-			this.startButton.TabIndex = 2;
-			this.startButton.Text = "Start!";
-			this.startButton.UseVisualStyleBackColor = true;
 			// 
 			// label2
 			// 
@@ -177,11 +169,19 @@
 			this.channelLinkLabel.TabStop = true;
 			this.channelLinkLabel.Text = "strohi";
 			// 
-			// programmBeendenToolStripMenuItem
+			// startButton
 			// 
-			this.programmBeendenToolStripMenuItem.Name = "programmBeendenToolStripMenuItem";
-			this.programmBeendenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.programmBeendenToolStripMenuItem.Text = "Programm beenden";
+			this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.startButton.AutoSize = true;
+			this.startButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.startButton.Location = new System.Drawing.Point(1046, 663);
+			this.startButton.Margin = new System.Windows.Forms.Padding(0);
+			this.startButton.Name = "startButton";
+			this.startButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.startButton.Size = new System.Drawing.Size(72, 29);
+			this.startButton.TabIndex = 2;
+			this.startButton.Text = "Start!";
+			this.startButton.UseVisualStyleBackColor = true;
 			// 
 			// jobQueue
 			// 
@@ -191,6 +191,7 @@
 			this.jobQueue.Name = "jobQueue";
 			this.jobQueue.Size = new System.Drawing.Size(1102, 600);
 			this.jobQueue.TabIndex = 9;
+			this.jobQueue.Uploader = null;
 			// 
 			// MainForm
 			// 
