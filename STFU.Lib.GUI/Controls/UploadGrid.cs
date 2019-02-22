@@ -3,7 +3,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
 
-namespace STFU.Executable.StandardUploader.Controls
+namespace STFU.Lib.GUI.Controls
 {
 	public partial class UploadGrid : UserControl
 	{

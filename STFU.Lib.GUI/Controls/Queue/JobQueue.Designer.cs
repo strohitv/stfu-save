@@ -1,4 +1,4 @@
-﻿namespace STFU.Executable.StandardUploader.Controls.Queue
+﻿namespace STFU.Lib.GUI.Controls.Queue
 {
 	partial class JobQueue
 	{

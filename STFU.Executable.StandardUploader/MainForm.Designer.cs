@@ -38,7 +38,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.channelLinkLabel = new System.Windows.Forms.LinkLabel();
 			this.startButton = new System.Windows.Forms.Button();
-			this.jobQueue = new STFU.Executable.StandardUploader.Controls.Queue.JobQueue();
+			this.jobQueue = new Lib.GUI.Controls.Queue.JobQueue();
 			this.mainTableLayoutPanel.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -224,6 +224,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.LinkLabel channelLinkLabel;
 		private System.Windows.Forms.ToolStripMenuItem programmBeendenToolStripMenuItem;
-		private Controls.Queue.JobQueue jobQueue;
+		private Lib.GUI.Controls.Queue.JobQueue jobQueue;
 	}
 }

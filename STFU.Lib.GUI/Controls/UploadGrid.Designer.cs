@@ -1,4 +1,4 @@
-﻿namespace STFU.Executable.StandardUploader.Controls
+﻿namespace STFU.Lib.GUI.Controls
 {
 	partial class UploadGrid
 	{

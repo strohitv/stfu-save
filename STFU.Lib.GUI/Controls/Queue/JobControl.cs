@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
-namespace STFU.Executable.StandardUploader.Controls.Queue
+namespace STFU.Lib.GUI.Controls.Queue
 {
 	public partial class JobControl : UserControl
 	{

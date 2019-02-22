@@ -1,4 +1,4 @@
-﻿namespace STFU.Executable.StandardUploader.Forms
+﻿namespace STFU.Lib.GUI.Forms
 {
 	partial class AddAccountForm
 	{

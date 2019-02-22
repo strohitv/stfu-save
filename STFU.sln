@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.Updater", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Executable.StandardUploader", "STFU.Executable.StandardUploader\STFU.Executable.StandardUploader.csproj", "{D4C7A65D-E0E2-4E44-A54A-BB179FD194E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.GUI", "STFU.Lib.GUI\STFU.Lib.GUI.csproj", "{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,18 @@ Global
 		{D4C7A65D-E0E2-4E44-A54A-BB179FD194E0}.Release|x64.Build.0 = Release|Any CPU
 		{D4C7A65D-E0E2-4E44-A54A-BB179FD194E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4C7A65D-E0E2-4E44-A54A-BB179FD194E0}.Release|x86.Build.0 = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|x64.Build.0 = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Debug|x86.Build.0 = Debug|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|x64.ActiveCfg = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|x64.Build.0 = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
