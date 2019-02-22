@@ -56,23 +56,20 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// Adds a job to queue.
 		/// </summary>
 		/// <param name="job"></param>
-		/// <exception cref="ArgumentException">Thrown when Job is already contained in queue.</exception>
 		IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account);
 
 		/// <summary>
 		/// Removes a job from queue.
 		/// </summary>
 		/// <param name="job"></param>
-		/// <exception cref="ArgumentException">Thrown when Job is not contained in queue.</exception>
 		void RemoveFromQueue(IYoutubeJob job);
 
 		/// <summary>
-		/// switches two jobs in queue.
+		/// Switches a jobs Position in queue
 		/// </summary>
-		/// <param name="first"></param>
-		/// <param name="second"></param>
-		/// <exception cref="ArgumentException">Thrown when at least one Job is not contained in queue.</exception>
-		void ChangePositionInQueue(IYoutubeJob first, IYoutubeJob second);
+		/// <param name="job"></param>
+		/// <param name="newPosition"></param>
+		void ChangePosition(IYoutubeJob job, int newPosition);
 
 		/// <summary>
 		/// Fired when a new Upload is added to the queue
@@ -83,5 +80,10 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// Fired when a Upload is removed from the queue
 		/// </summary>
 		event JobDequeuedEventHandler JobDequeued;
+
+		/// <summary>
+		/// Fired when a Upload is removed from the queue
+		/// </summary>
+		event JobPositionChangedEventHandler JobPositionChanged;
 	}
 }

@@ -140,19 +140,27 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
-		/// <see cref="IYoutubeUploader.ChangePositionInQueue(IYoutubeJob, IYoutubeJob)"/>
-		public void ChangePositionInQueue(IYoutubeJob first, IYoutubeJob second)
+		/// <see cref="IYoutubeUploader.ChangePosition(IYoutubeJob job, int newPosition)"/>
+		public void ChangePosition(IYoutubeJob job, int newPosition)
 		{
-			if (!Queue.Contains(first) || !Queue.Contains(second))
+			if (Queue.Contains(job))
 			{
-				return;
+				int oldPosition = JobQueue.IndexOf(job);
+
+				JobQueue.RemoveAt(oldPosition);
+
+				if (JobQueue.Count < newPosition)
+				{
+					newPosition = JobQueue.Count;
+				}
+				else if (newPosition < 0)
+				{
+					newPosition = 0;
+				}
+
+				JobQueue.Insert(newPosition, job);
+				OnJobPositionChanged(job, oldPosition, newPosition);
 			}
-
-			int firstPos = JobQueue.IndexOf(first);
-			int secondPos = JobQueue.IndexOf(second);
-
-			JobQueue[firstPos] = second;
-			JobQueue[secondPos] = first;
 		}
 
 		/// <see cref="IYoutubeUploader.RemoveFromQueue(IYoutubeJob)"/>
@@ -272,6 +280,12 @@ namespace STFU.Lib.Youtube
 		private void OnJobDequeued(IYoutubeJob job, int position)
 		{
 			JobDequeued?.Invoke(this, new JobDequeuedEventArgs(job, position));
+		}
+
+		public event JobPositionChangedEventHandler JobPositionChanged;
+		private void OnJobPositionChanged(IYoutubeJob job, int oldPosition, int newPosition)
+		{
+			JobPositionChanged?.Invoke(this, new JobPositionChangedEventArgs(job, oldPosition, newPosition));
 		}
 
 		#endregion Events
