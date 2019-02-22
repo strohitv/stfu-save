@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 
 namespace STFU.Lib.Youtube.Interfaces
 {
@@ -72,5 +73,10 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// <param name="second"></param>
 		/// <exception cref="ArgumentException">Thrown when at least one Job is not contained in queue.</exception>
 		void ChangePositionInQueue(IYoutubeJob first, IYoutubeJob second);
+
+		/// <summary>
+		/// Fired when a new Upload is added to the queue
+		/// </summary>
+		event JobQueuedEventHandler VideoQueued;
 	}
 }

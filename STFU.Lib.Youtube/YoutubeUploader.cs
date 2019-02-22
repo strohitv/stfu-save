@@ -7,7 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 using STFU.Lib.Youtube.Internal;
 
 namespace STFU.Lib.Youtube
@@ -107,6 +109,8 @@ namespace STFU.Lib.Youtube
 
 			var newJob = new YoutubeJob(video, account);
 			JobQueue.Add(newJob);
+
+			OnJobQueued(video, JobQueue.IndexOf(newJob));
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
@@ -251,7 +255,7 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
-		#region INotifyPropertyChanged
+		#region Events
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void OnPropertyChanged([CallerMemberName]string name = "")
@@ -259,6 +263,12 @@ namespace STFU.Lib.Youtube
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
-		#endregion INofityPropertyChanged
+		public event JobQueuedEventHandler VideoQueued;
+		private void OnJobQueued(IYoutubeVideo video, int position)
+		{
+			VideoQueued?.Invoke(this, new JobQueuedEventArgs(video, position));
+		}
+
+		#endregion Events
 	}
 }

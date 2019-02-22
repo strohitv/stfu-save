@@ -1,4 +1,4 @@
-﻿using STFU.Lib.Youtube.Interfaces.Model.EventHandler;
+﻿using STFU.Lib.Youtube.Interfaces.Model.Handler;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {

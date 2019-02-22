@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.Lib.Youtube.Interfaces.Model.EventHandler;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 using STFU.Lib.Youtube.Internal.Upload;
 
 namespace STFU.Lib.Youtube.Internal
