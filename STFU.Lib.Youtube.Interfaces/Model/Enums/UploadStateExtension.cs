@@ -30,5 +30,9 @@
 		{
 			return ((int)state & 0b01000000) > 0;
 		}
+		public static bool IsPausingOrPaused(this UploadState state)
+		{
+			return ((int)state & 0b10000000) > 0;
+		}
 	}
 }

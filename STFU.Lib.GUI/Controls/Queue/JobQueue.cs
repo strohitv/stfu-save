@@ -39,7 +39,28 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					foreach (var entry in uploader.Queue)
 					{
-						AddItem(new JobControl() { Job = entry });
+						AddItem(new JobControl() { Job = entry, ActionsButtonsVisible = ShowActionsButtons });
+					}
+				}
+			}
+		}
+
+		private bool showActionButtons = true;
+		public bool ShowActionsButtons
+		{
+			get
+			{
+				return showActionButtons;
+			}
+			set
+			{
+				if (showActionButtons != value)
+				{
+					showActionButtons = value;
+
+					foreach (var control in jobControls)
+					{
+						control.ActionsButtonsVisible = showActionButtons;
 					}
 				}
 			}
@@ -57,25 +78,34 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
 		{
-			AddItem(new JobControl() { Job = e.Job }, e.Position);
+			Invoke((Action)delegate
+			{
+				AddItem(new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons }, e.Position);
+			});
 		}
 
 		private void Uploader_JobPositionChanged(object sender, JobPositionChangedEventArgs e)
 		{
-			var control = jobControls.First(jc => jc.Job == e.Job);
+			Invoke((Action)delegate
+			{
+				var control = jobControls.First(jc => jc.Job == e.Job);
 
-			mainTlp.SuspendLayout();
-			RemoveItemFromMainTlp(control, e.OldPosition);
-			AddItemToMainTlp(control, e.NewPosition);
-			mainTlp.ResumeLayout();
+				mainTlp.SuspendLayout();
+				RemoveItemFromMainTlp(control, e.OldPosition);
+				AddItemToMainTlp(control, e.NewPosition);
+				mainTlp.ResumeLayout();
+			});
 		}
 
 		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
 		{
-			var control = jobControls.First(jc => jc.Job == e.Job);
+			Invoke((Action)delegate
+			{
+				var control = jobControls.First(jc => jc.Job == e.Job);
 
-			jobControls.Remove(control);
-			RemoveItemFromMainTlp(control, e.Position);
+				jobControls.Remove(control);
+				RemoveItemFromMainTlp(control, e.Position);
+			});
 		}
 
 		private void RemoveItemFromMainTlp(JobControl control, int position)
@@ -116,9 +146,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void ClearItems()
 		{
-			while (mainTlp.RowStyles.Count > 1)
+			if (mainTlp.RowStyles.Count > 1)
 			{
-				mainTlp.RowStyles.RemoveAt(0);
+				Invoke((Action)delegate
+				{
+					while (mainTlp.RowStyles.Count > 1)
+					{
+						mainTlp.RowStyles.RemoveAt(0);
+					}
+				});
 			}
 		}
 	}

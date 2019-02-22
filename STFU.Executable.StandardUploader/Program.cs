@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Windows.Forms;
 using STFU.Executable.StandardUploader.Forms;
 
@@ -12,6 +13,7 @@ namespace STFU.Executable.StandardUploader
 		[STAThread]
 		static void Main()
 		{
+			ServicePointManager.DefaultConnectionLimit = int.MaxValue;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm());

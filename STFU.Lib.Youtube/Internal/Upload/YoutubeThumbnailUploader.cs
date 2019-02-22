@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -119,6 +120,16 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				Error = FailReasonConverter.GetError(fileUploader.FailureReason);
 				State = UploadState.ThumbnailError;
 			}
+		}
+
+		internal void Pause()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Resume()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

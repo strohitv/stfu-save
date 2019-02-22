@@ -73,7 +73,8 @@ namespace STFU.Lib.Youtube.Internal
 
 					if (state == UploadState.VideoInitializing || oldState == UploadState.ThumbnailUploading
 						|| oldState == UploadState.VideoUploading || state == UploadState.ThumbnailUploading
-						|| state == UploadState.VideoUploading)
+						|| state == UploadState.VideoUploading || state == UploadState.CancelPending 
+						|| state == UploadState.Canceled)
 					{
 						OnPropertyChanged(nameof(IsUploading));
 					}
@@ -155,7 +156,7 @@ namespace STFU.Lib.Youtube.Internal
 
 		public async void UploadAsync()
 		{
-			if (!ShouldBeSkipped)
+			if (!ShouldBeSkipped && (JobUploader == null || !JobUploader.State.IsRunningOrInitializing()))
 			{
 				JobUploader = new YoutubeJobUploader(Video, Account);
 				JobUploader.PropertyChanged += JobUploader_PropertyChanged;
@@ -166,7 +167,13 @@ namespace STFU.Lib.Youtube.Internal
 
 		public async void ForceUploadAsync()
 		{
-			await JobUploader.UploadAsync();
+			if (JobUploader == null || !JobUploader.State.IsRunningOrInitializing())
+			{
+				JobUploader = new YoutubeJobUploader(Video, Account);
+				JobUploader.PropertyChanged += JobUploader_PropertyChanged;
+
+				await JobUploader.UploadAsync();
+			}
 		}
 
 		public async void CancelUploadAsync()
@@ -176,17 +183,17 @@ namespace STFU.Lib.Youtube.Internal
 
 		private async Task InternalCancelUploadAsync()
 		{
-
+			await Task.Run(() => JobUploader.Cancel());
 		}
 
 		public async void PauseUploadAsync()
 		{
-			throw new NotImplementedException();
+			await Task.Run(() => JobUploader.Pause());
 		}
 
 		public async void ResumeUploadAsync()
 		{
-			throw new NotImplementedException();
+			await Task.Run(() => JobUploader.Resume());
 		}
 
 		public async void DeleteAsync()
@@ -240,5 +247,10 @@ namespace STFU.Lib.Youtube.Internal
 		}
 
 		#endregion Events
+
+		public override string ToString()
+		{
+			return Video?.ToString() ?? "kein Titel";
+		}
 	}
 }

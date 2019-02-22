@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
@@ -97,6 +97,11 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
+		public YoutubeUploader()
+		{
+			ServicePointManager.DefaultConnectionLimit = 100;
+		}
+
 		public event UploadStarted NewUploadStarted;
 
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
@@ -108,6 +113,9 @@ namespace STFU.Lib.Youtube
 			}
 
 			var newJob = new YoutubeJob(video, account);
+			newJob.TriggerDeletion += Job_TriggerDeletion;
+			newJob.PropertyChanged += RunningJobPropertyChanged;
+
 			JobQueue.Add(newJob);
 
 			OnJobQueued(newJob, JobQueue.IndexOf(newJob));
@@ -118,6 +126,11 @@ namespace STFU.Lib.Youtube
 			}
 
 			return newJob;
+		}
+
+		private void Job_TriggerDeletion(object sender, System.EventArgs args)
+		{
+			RemoveFromQueue((YoutubeJob)sender);
 		}
 
 		/// <see cref="IYoutubeUploader.CancelAll"/>
@@ -169,6 +182,8 @@ namespace STFU.Lib.Youtube
 			if (Queue.Contains(job))
 			{
 				int position = JobQueue.IndexOf(job);
+				job.TriggerDeletion -= Job_TriggerDeletion;
+				job.PropertyChanged -= RunningJobPropertyChanged;
 				JobQueue.Remove(job);
 				OnJobDequeued(job, position);
 			}
@@ -190,7 +205,6 @@ namespace STFU.Lib.Youtube
 				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists))
 			{
 				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists);
-				nextJob.PropertyChanged += RunningJobPropertyChanged;
 
 				bool start = false;
 				State = UploaderState.Uploading;
@@ -213,6 +227,11 @@ namespace STFU.Lib.Youtube
 					nextJob.UploadAsync();
 				}
 			}
+		}
+
+		private void NextJob_TriggerDeletion(object sender, System.EventArgs args)
+		{
+			throw new System.NotImplementedException();
 		}
 
 		private void RefreshUploaderState()
@@ -248,11 +267,11 @@ namespace STFU.Lib.Youtube
 			{
 				RefreshUploaderState();
 
-				if ((job.State == UploadState.Successful
-				|| job.State.IsCanceled()
-				|| job.State.IsFailed()))
+				if (job.State == UploadState.Successful
+				|| job.State.IsFailed()
+				|| (job.State.IsCanceled() && State != UploaderState.CancelPending))
 				{
-					if (RemoveCompletedJobs)
+					if (RemoveCompletedJobs && !job.State.IsCanceled())
 					{
 						RemoveFromQueue(job);
 					}

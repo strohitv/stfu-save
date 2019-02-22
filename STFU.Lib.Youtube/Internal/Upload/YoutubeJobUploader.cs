@@ -88,6 +88,15 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			else if (e.PropertyName == nameof(notifier.FailureReason))
 			{
 				Error = FailReasonConverter.GetError(notifier.FailureReason);
+
+				if (sender is YoutubeThumbnailUploader)
+				{
+					State = UploadState.ThumbnailError;
+				}
+				else
+				{
+					State = UploadState.VideoError;
+				}
 			}
 			else if (e.PropertyName == nameof(notifier.Error))
 			{
@@ -156,8 +165,50 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			if (State.IsRunningOrInitializing())
 			{
 				State = UploadState.CancelPending;
-				videoUploader.Cancel();
-				thumbnailUploader.Cancel();
+
+				if (videoUploader != null)
+				{
+					videoUploader.Cancel();
+				}
+
+				if (thumbnailUploader != null)
+				{
+					thumbnailUploader.Cancel();
+				}
+			}
+		}
+
+		internal void Pause()
+		{
+			if (State.IsRunningOrInitializing())
+			{
+				State = UploadState.PausePending;
+
+				if (videoUploader != null)
+				{
+					videoUploader.Pause();
+				}
+
+				if (thumbnailUploader != null)
+				{
+					thumbnailUploader.Pause();
+				}
+			}
+		}
+
+		internal void Resume()
+		{
+			if (State.IsRunningOrInitializing())
+			{
+				if (videoUploader != null && videoUploader.State.IsPausingOrPaused())
+				{
+					videoUploader.Resume();
+				}
+
+				if (thumbnailUploader != null)
+				{
+					thumbnailUploader.Resume();
+				}
 			}
 		}
 

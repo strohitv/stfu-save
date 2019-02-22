@@ -9,6 +9,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 {
 	internal class FileUploader : Uploadable, INotifyPropertyChanged
 	{
+		private bool Skip { get; set; } = false;
+
 		internal FileUploader() { }
 
 		internal bool UploadFile(string path, HttpWebRequest request)
@@ -18,77 +20,101 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal bool UploadFile(string path, HttpWebRequest request, long maxFileSize, long startPosition)
 		{
+			bool result = false;
+
 			if (File.Exists(path))
 			{
-				FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-				if (fileStream.Length > maxFileSize)
+				using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 				{
-					FailureReason = FailureReason.FileTooBig;
-					return false;
-				}
-
-				if (startPosition > 0)
-				{
-					fileStream.Position = startPosition;
-				}
-
-				Started = DateTime.Now;
-				RunningState = RunningState.Running;
-
-				// Upload initiieren
-				Stream requestStream = request.GetRequestStream();
-				byte[] buffer = new byte[128 * 1024];
-				int bytesRead = 0;
-
-				try
-				{
-					// Hochladen
-					while (RunningState != RunningState.CancelPending && (bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+					if (fileStream.Length > maxFileSize)
 					{
-						requestStream.Write(buffer, 0, bytesRead);
-						Progress = fileStream.Position / (double)fileStream.Length * 100;
+						FailureReason = FailureReason.FileTooBig;
+						return false;
+					}
 
-						UploadedDuration = DateTime.Now - Started;
-						RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
+					if (startPosition > 0)
+					{
+						fileStream.Position = startPosition;
+					}
+
+					Started = DateTime.Now;
+					RunningState = RunningState.Running;
+
+					try
+					{
+						// Upload initiieren
+						using (Stream requestStream = request.GetRequestStream())
+						{
+							TryUpload(fileStream, requestStream);
+						}
+
+						result = true;
+						Progress = 100.0;
+						RunningState = RunningState.NotRunning;
+					}
+					catch (WebException)
+					{
+						if (RunningState != RunningState.CancelPending)
+						{
+							FailureReason = FailureReason.Unknown;
+						}
+						else
+						{
+							RunningState = RunningState.Canceled;
+						}
 					}
 				}
-				catch (WebException)
-				{
-					requestStream.Close();
-					FailureReason = FailureReason.SendError;
-					return false;
-				}
-				catch (IOException)
-				{
-					requestStream.Close();
-					FailureReason = FailureReason.ReadError;
-					return false;
-				}
-
-				fileStream.Close();
-
-				try
-				{
-					requestStream.Close();
-					Progress = 100.0;
-				}
-				catch (WebException)
-				{
-					FailureReason = FailureReason.Unknown;
-					return false;
-				}
-
-				var result = RunningState != RunningState.CancelPending;
-				RunningState = RunningState.NotRunning;
-				return result;
 			}
 			else
 			{
 				FailureReason = FailureReason.FileDoesNotExist;
 			}
 
-			return false;
+			return result;
+		}
+
+		private void TryUpload(FileStream fileStream, Stream requestStream)
+		{
+			try
+			{
+				Upload(fileStream, requestStream);
+			}
+			catch (WebException)
+			{
+				requestStream.Close();
+				FailureReason = FailureReason.SendError;
+			}
+			catch (IOException)
+			{
+				requestStream.Close();
+				FailureReason = FailureReason.ReadError;
+			}
+		}
+
+		private void Upload(FileStream fileStream, Stream requestStream)
+		{
+			// Hochladen
+			byte[] buffer = new byte[128 * 1024];
+			int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
+
+			while (RunningState != RunningState.CancelPending && bytesRead != 0)
+			{
+				if (RunningState == RunningState.PausePending)
+				{
+					RunningState = RunningState.Paused;
+				}
+
+				if (!Skip)
+				{
+					requestStream.Write(buffer, 0, bytesRead);
+					Progress = fileStream.Position / (double)fileStream.Length * 100;
+
+					UploadedDuration = DateTime.Now - Started;
+					RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
+
+					bytesRead = fileStream.Read(buffer, 0, buffer.Length);
+				}
+			}
 		}
 
 		internal void Cancel()
@@ -97,6 +123,18 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				RunningState = RunningState.CancelPending;
 			}
+		}
+
+		internal void Pause()
+		{
+			RunningState = RunningState.PausePending;
+			Skip = true;
+		}
+
+		internal void Resume()
+		{
+			RunningState = RunningState.Running;
+			Skip = false;
 		}
 	}
 }

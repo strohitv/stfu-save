@@ -61,5 +61,10 @@ namespace STFU.Lib.Youtube.Model
 		public static int MaxDescriptionLength => 5000;
 
 		public static int MaxTagsLength => 500;
+
+		public override string ToString()
+		{
+			return Title;
+		}
 	}
 }

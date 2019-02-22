@@ -77,6 +77,18 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				Error = FailReasonConverter.GetError(fileUploader.FailureReason);
 				State = UploadState.VideoError;
 			}
+			else if (e.PropertyName == nameof(fileUploader.RunningState))
+			{
+				if (fileUploader.RunningState == RunningState.Paused)
+				{
+					State = UploadState.Paused;
+				}
+				else if (fileUploader.RunningState == RunningState.Running 
+					&& State.IsPausingOrPaused())
+				{
+					State = UploadState.VideoUploading;
+				}
+			}
 		}
 
 		internal long CheckUploadStatus()
@@ -109,10 +121,27 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal void Cancel()
 		{
-			if (State == UploadState.VideoInitializing || State == UploadState.VideoUploaded)
+			if (State.IsRunningOrInitializing())
 			{
 				State = UploadState.CancelPending;
 				fileUploader.Cancel();
+			}
+		}
+
+		internal void Pause()
+		{
+			if (State.IsRunningOrInitializing())
+			{
+				State = UploadState.PausePending;
+				fileUploader.Pause();
+			}
+		}
+
+		internal void Resume()
+		{
+			if (State.IsPausingOrPaused())
+			{
+				fileUploader.Resume(); 
 			}
 		}
 	}

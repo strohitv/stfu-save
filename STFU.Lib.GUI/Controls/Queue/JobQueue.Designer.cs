@@ -42,7 +42,7 @@
 			this.borderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.borderPanel.Location = new System.Drawing.Point(0, 0);
 			this.borderPanel.Name = "borderPanel";
-			this.borderPanel.Size = new System.Drawing.Size(1062, 297);
+			this.borderPanel.Size = new System.Drawing.Size(232, 118);
 			this.borderPanel.TabIndex = 4;
 			// 
 			// mainTlp
@@ -58,7 +58,7 @@
 			this.mainTlp.Name = "mainTlp";
 			this.mainTlp.RowCount = 1;
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mainTlp.Size = new System.Drawing.Size(1060, 0);
+			this.mainTlp.Size = new System.Drawing.Size(230, 0);
 			this.mainTlp.TabIndex = 2;
 			// 
 			// JobQueue
@@ -67,7 +67,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.borderPanel);
 			this.Name = "JobQueue";
-			this.Size = new System.Drawing.Size(1062, 297);
+			this.Size = new System.Drawing.Size(232, 118);
 			this.Load += new System.EventHandler(this.JobQueue_Load);
 			this.borderPanel.ResumeLayout(false);
 			this.borderPanel.PerformLayout();

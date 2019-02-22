@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -10,8 +9,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 {
 	public partial class JobControl : UserControl
 	{
-		delegate void EnableDelegate();
-
 		private IYoutubeJob job = null;
 		public IYoutubeJob Job
 		{
@@ -29,39 +26,48 @@ namespace STFU.Lib.GUI.Controls.Queue
 					}
 
 					job = value;
-					uploadTitle.Text = job.Video.Title;
+					RefreshContextMenuEnabled();
+					RefreshTitleLabel(job.Video.Title);
 					job.PropertyChanged += JobPropertyChanged;
 				}
 			}
 		}
 
-		private string[] Messages { get; set; } = new string[2];
-		public string Message => Messages.Aggregate((x, y) => $"{x}{Environment.NewLine}{y}");
-		public int Progress { get; private set; }
-		private string VideoTitle { get; set; }
-		private bool DisableTimer { get; set; } = false;
-		private Color BackgroundColor { get; set; } = SystemColors.Control;
-
-		private EnableDelegate EnableTimer;
+		private bool actionsButtonVisible = true;
+		public bool ActionsButtonsVisible
+		{
+			get
+			{
+				return actionsButtonVisible;
+			}
+			set
+			{
+				if (actionsButtonVisible != value)
+				{
+					actionsButtonVisible = value;
+					RefreshActionsButtonVisibility(ActionsButtonsVisible);
+				}
+			}
+		}
 
 		private void JobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(Job.IsUploading))
 			{
-				RunningInformationShown = Job.IsUploading;
+				RefreshShowUploadState(Job.State.IsRunningOrInitializing() || Job.State.IsCanceled());
 			}
 			else if (e.PropertyName == nameof(Job.Progress))
 			{
-				Progress = (int)(Job.Progress * 100);
+				RefreshProgressBar((int)(Job.Progress * 100));
 
 				if (Job.State == UploadState.ThumbnailUploading
 					&& (Job.State == UploadState.VideoUploading || Job.State == UploadState.ThumbnailUploading))
 				{
-					Messages[0] = $"Lade Thumbnail hoch: {Job.Progress:0.00} %";
+					RefreshDetailFirstLineLabel($"Lade Thumbnail hoch: {Job.Progress:0.00} %");
 				}
 				else if (Job.State == UploadState.VideoUploading)
 				{
-					Messages[0] = $"Lade Video hoch: {Job.Progress:0.00} %";
+					RefreshDetailFirstLineLabel($"Lade Video hoch: {Job.Progress:0.00} %");
 				}
 			}
 			else if (e.PropertyName == nameof(Job.State))
@@ -69,130 +75,174 @@ namespace STFU.Lib.GUI.Controls.Queue
 				switch (job.State)
 				{
 					case UploadState.NotStarted:
-						Messages[0] = string.Empty;
-						Messages[1] = string.Empty;
-						BackgroundColor = SystemColors.Control;
+						RefreshDetailLabel(string.Empty, string.Empty);
+						RefreshBackColor(SystemColors.Control);
 
 						break;
+					case UploadState.VideoInitializing:
 					case UploadState.VideoUploading:
-						VideoTitle = job.Video.Title;
-						Messages[0] = $"Video-Upload wird gestartet...";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.LightBlue;
+						RefreshDetailLabel($"Video-Upload wird gestartet...", string.Empty);
+						RefreshBackColor(Color.LightBlue);
 
-						Invoke(EnableTimer);
 						break;
+					case UploadState.VideoUploaded:
 					case UploadState.ThumbnailUploading:
-						Messages[0] = $"Thumbnail-Upload wird gestartet...";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.LightBlue;
+						RefreshDetailLabel($"Thumbnail-Upload wird gestartet...", string.Empty);
+						RefreshBackColor(Color.LightBlue);
 
-						Invoke(EnableTimer);
 						break;
 					case UploadState.CancelPending:
-						Messages[0] = $"Upload wird abgebrochen...";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.LightYellow;
+						RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
+						RefreshBackColor(Color.LightYellow);
 
 						break;
 					case UploadState.VideoError:
 					case UploadState.ThumbnailError:
-						Messages[0] = $"Es gab einen Fehler beim Upload.";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.IndianRed;
+						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", string.Empty);
+						RefreshBackColor(Color.IndianRed);
 
-						DisableTimer = true;
 						break;
 					case UploadState.Canceled:
-						Messages[0] = $"Upload wurde abgebrochen.";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.IndianRed;
+						RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
+						RefreshBackColor(Color.IndianRed);
 
-						DisableTimer = true;
+						break;
+					case UploadState.PausePending:
+						RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
+						RefreshBackColor(Color.LightGray);
+
+						break;
+					case UploadState.Paused:
+						RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
+						RefreshBackColor(Color.LightGray);
+
 						break;
 					case UploadState.Successful:
-						Messages[0] = $"Upload wurde erfolgreich abgeschlossen.";
-						Messages[1] = string.Empty;
-						BackgroundColor = Color.LightGreen;
+						RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
+						RefreshBackColor(Color.LightGreen);
 
-						DisableTimer = true;
 						break;
 					default:
 						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
 				}
 
-				refreshUploadStateTimer.Enabled = true;
+				RefreshContextMenuEnabled();
 			}
 			else if (e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
 			{
-				Messages[1] = $"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
+				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}");
 			}
 		}
 
-		public bool RunningInformationShown
+		private void RefreshActionsButtonVisibility(bool visible)
 		{
-			get
-			{
-				return progressBar.Visible;
-			}
-			private set
-			{
-				progressBar.Visible = uploadStateLabel.Visible = value;
-			}
+			Safe(() => actionsButton.Visible = visible, actionsButton);
+		}
+
+		private void RefreshTitleLabel(string title)
+		{
+			Safe(() => uploadTitle.Text = title, uploadTitle);
+		}
+
+		private string firstDetailLine = string.Empty;
+		private string secondDetailLine = string.Empty;
+		private void RefreshDetailLabel(string firstLine, string secondLine)
+		{
+			firstDetailLine = firstLine;
+			secondDetailLine = secondLine;
+			Safe(() => uploadStateLabel.Text = $"{firstLine}{Environment.NewLine}{secondLine}", uploadStateLabel);
+		}
+
+		private void RefreshDetailFirstLineLabel(string firstLine)
+		{
+			firstDetailLine = firstLine;
+			Safe(() => uploadStateLabel.Text = $"{firstLine}{Environment.NewLine}{secondDetailLine}", uploadStateLabel);
+		}
+
+		private void RefreshDetailSecondLineLabel(string secondLine)
+		{
+			secondDetailLine = secondLine;
+			Safe(() => uploadStateLabel.Text = $"{firstDetailLine}{Environment.NewLine}{secondLine}", uploadStateLabel);
+		}
+
+		private void RefreshProgressBar(int progress)
+		{
+			Safe(() => progressBar.Value = progress, progressBar);
+		}
+
+		private void RefreshBackColor(Color backgroundColor)
+		{
+			Safe(() => BackColor = backgroundColor);
+		}
+
+		private void RefreshShowUploadState(bool showIt)
+		{
+			Safe(() => progressBar.Visible = uploadStateLabel.Visible = showIt, progressBar);
+		}
+
+		private void RefreshContextMenuEnabled()
+		{
+			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted());
+			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadState.Paused);
+			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsStarted());
+			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted());
 		}
 
 		public JobControl()
 		{
 			InitializeComponent();
-
-			EnableTimer = new EnableDelegate(() => refreshUploadStateTimer.Enabled = true);
 		}
 
 		private void actionsButton_Click(object sender, EventArgs e)
 		{
-			actionsContextMenuStrip.Show(actionsButton, 0, 0);
-		}
-
-		private void refreshUploadStateTimer_Tick(object sender, EventArgs e)
-		{
-			uploadStateLabel.Text = Message;
-			progressBar.Value = Progress;
-			BackColor = BackgroundColor;
-
-			if (DisableTimer)
-			{
-				refreshUploadStateTimer.Enabled = false;
-			}
+			Safe(() => actionsContextMenuStrip.Show(actionsButton, 0, 0));
 		}
 
 		private void startenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.ForceUploadAsync();
+			Safe(() => Job.ForceUploadAsync());
 		}
 
 		private void pausierenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.PauseUploadAsync();
+			Safe(() => Job.PauseUploadAsync());
 		}
 
 		private void fortsetzenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.ResumeUploadAsync();
+			Safe(() => Job.ResumeUploadAsync());
 		}
 
 		private void abbrechenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.CancelUploadAsync();
+			Safe(() => Job.CancelUploadAsync());
 		}
 
 		private void überspringenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
 		{
-			Job.ShouldBeSkipped = überspringenToolStripMenuItem.Checked;
+			Safe(() => Job.ShouldBeSkipped = überspringenToolStripMenuItem.Checked);
 		}
 
 		private void löschenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.DeleteAsync();
+			Safe(() => Job.DeleteAsync());
+		}
+
+		private void Safe(Action action)
+		{
+			Safe(action, this);
+		}
+
+		private void Safe(Action action, Control control)
+		{
+			if (InvokeRequired)
+			{
+				Invoke(action);
+			}
+			else
+			{
+				action();
+			}
 		}
 	}
 }

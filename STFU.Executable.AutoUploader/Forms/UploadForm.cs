@@ -4,7 +4,6 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace STFU.Executable.AutoUploader.Forms
@@ -12,11 +11,8 @@ namespace STFU.Executable.AutoUploader.Forms
 	public partial class UploadForm : Form
 	{
 		IAutomationUploader autoUploader = null;
-
-		string fileText = string.Empty;
+		
 		int progress = 0;
-
-		string[] statusTextLines = new[] { "Warte auf Dateien für den Upload...", string.Empty };
 
 		bool aborted = false;
 		bool ended = false;
@@ -32,6 +28,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
 			autoUploader.Uploader.NewUploadStarted += OnNewUploadStarted;
+
+			jobQueue.ShowActionsButtons = true;
+			jobQueue.Uploader = autoUploader.Uploader;
 
 			cmbbxFinishAction.SelectedIndex = UploadEndedActionIndex = uploadEndedIndex;
 			chbChoseProcesses.Checked = autoUploader.ProcessContainer.ProcessesToWatch.Count > 0;
@@ -51,89 +50,14 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = (IYoutubeJob)sender;
-			var oldtitle = fileText;
-			fileText = job.Video.Title;
 
 			if (e.PropertyName == nameof(job.Progress)
 				&& (job.State == UploadState.VideoUploading || job.State == UploadState.ThumbnailUploading))
 			{
-				if (job.State == UploadState.ThumbnailUploading)
-				{
-					statusTextLines[0] = $"Lade Thumbnail hoch: {job.Progress:0.00} %";
-				}
-				else
-				{
-					statusTextLines[0] = $"Lade Video hoch: {job.Progress:0.00} %";
-				}
 				progress = (int)(job.Progress * 100);
 
 				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
 				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
-			}
-			else if (e.PropertyName == nameof(job.State))
-			{
-				switch (job.State)
-				{
-					default:
-						break;
-				}
-
-				switch (job.State)
-				{
-					case UploadState.NotStarted:
-					case UploadState.VideoInitializing:
-					case UploadState.VideoUploading:
-						fileText = job.Video.Title;
-						statusTextLines[0] = $"Video-Upload wird gestartet...";
-						statusTextLines[1] = string.Empty;
-						break;
-					case UploadState.VideoUploaded:
-						fileText = job.Video.Title;
-						statusTextLines[0] = $"Video erfolgreich hochgeladen...";
-						statusTextLines[1] = string.Empty;
-						break;
-					case UploadState.ThumbnailUploading:
-						statusTextLines[0] = $"Thumbnail-Upload wird gestartet...";
-						statusTextLines[1] = string.Empty;
-						break;
-					case UploadState.CancelPending:
-						statusTextLines[0] = $"Upload wird abgebrochen...";
-						statusTextLines[1] = string.Empty;
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
-						break;
-					case UploadState.Canceled:
-						statusTextLines[0] = $"Upload wurde abgebrochen.";
-						statusTextLines[1] = string.Empty;
-						break;
-					case UploadState.VideoError:
-					case UploadState.ThumbnailError:
-						statusTextLines[0] = $"Es gab einen Fehler beim Upload.";
-						statusTextLines[1] = string.Empty;
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
-						break;
-					case UploadState.PausePending:
-						statusTextLines[0] = $"Video-Upload wird pausiert...";
-						statusTextLines[1] = string.Empty;
-						break;
-					case UploadState.Paused:
-						statusTextLines[0] = $"Video-Upload ist pausiert...";
-						statusTextLines[1] = string.Empty;
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Error, Handle)));
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
-						break;
-					case UploadState.Successful:
-						fileText = oldtitle;
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
-						Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
-						break;
-					default:
-						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
-				}
-			}
-			else if (e.PropertyName == nameof(job.RemainingDuration) || e.PropertyName == nameof(job.UploadedDuration))
-			{
-				statusTextLines[1] = $"Bisher benötigt: {job.UploadedDuration.ToString("hh\\:mm\\:ss")}, Restzeit: {job.RemainingDuration.ToString("hh\\:mm\\:ss")}";
 			}
 		}
 
@@ -141,9 +65,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
 			{
-				statusTextLines[0] = "Upload abgeschlossen.";
-				statusTextLines[1] = "Warte auf Dateien für den Upload...";
-
 				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
 				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 			}
@@ -165,10 +86,6 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void refreshTimerTick(object sender, EventArgs e)
 		{
-			fileLabel.Text = fileText;
-			statusLabel.Text = statusTextLines.Aggregate((i, j) => i + Environment.NewLine + j);
-			prgbarProgress.Value = progress;
-
 			if (ended)
 			{
 				refreshTimer.Enabled = false;
