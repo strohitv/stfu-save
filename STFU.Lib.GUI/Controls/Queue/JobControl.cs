@@ -82,44 +82,44 @@ namespace STFU.Lib.GUI.Controls.Queue
 					case UploadState.VideoInitializing:
 					case UploadState.VideoUploading:
 						RefreshDetailLabel($"Video-Upload wird gestartet...", string.Empty);
-						RefreshBackColor(Color.LightBlue);
+						RefreshBackColor(Color.FromArgb(192, 255, 255));
 
 						break;
 					case UploadState.VideoUploaded:
 					case UploadState.ThumbnailUploading:
 						RefreshDetailLabel($"Thumbnail-Upload wird gestartet...", string.Empty);
-						RefreshBackColor(Color.LightBlue);
+						RefreshBackColor(Color.FromArgb(192, 255, 255));
 
 						break;
 					case UploadState.CancelPending:
 						RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
-						RefreshBackColor(Color.LightYellow);
+						RefreshBackColor(Color.FromArgb(255, 255, 192));
 
 						break;
 					case UploadState.VideoError:
 					case UploadState.ThumbnailError:
 						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error.Message);
-						RefreshBackColor(Color.IndianRed);
+						RefreshBackColor(Color.FromArgb(255, 192, 192));
 
 						break;
 					case UploadState.Canceled:
 						RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
-						RefreshBackColor(Color.IndianRed);
+						RefreshBackColor(Color.FromArgb(255, 192, 192));
 
 						break;
 					case UploadState.PausePending:
 						RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
-						RefreshBackColor(Color.LightGray);
+						RefreshBackColor(Color.FromArgb(224, 224, 224));
 
 						break;
 					case UploadState.Paused:
 						RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
-						RefreshBackColor(Color.LightGray);
+						RefreshBackColor(Color.FromArgb(224, 224, 224));
 
 						break;
 					case UploadState.Successful:
 						RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
-						RefreshBackColor(Color.LightGreen);
+						RefreshBackColor(Color.FromArgb(192, 255, 192));
 
 						break;
 					default:
