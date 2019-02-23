@@ -55,6 +55,7 @@
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />
     <Compile Include="Model\Enums\YoutubeScope.cs" />
     <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
+    <Compile Include="Model\Enums\FailureReason.cs" />
     <Compile Include="Model\Handler\JobPositionChangedEventHandler.cs" />
     <Compile Include="Model\Handler\JobDequeuedEventHandler.cs" />
     <Compile Include="Model\Handler\TriggerDeletionEventHandler.cs" />

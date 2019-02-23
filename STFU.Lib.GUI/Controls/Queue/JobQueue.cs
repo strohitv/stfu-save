@@ -99,13 +99,18 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
 		{
-			Invoke((Action)delegate
+			try
 			{
-				var control = jobControls.First(jc => jc.Job == e.Job);
+				Invoke((Action)delegate
+				{
+					var control = jobControls.First(jc => jc.Job == e.Job);
 
-				jobControls.Remove(control);
-				RemoveItemFromMainTlp(control, e.Position);
-			});
+					jobControls.Remove(control);
+					RemoveItemFromMainTlp(control, e.Position);
+				});
+			}
+			catch (Exception)
+			{ }
 		}
 
 		private void RemoveItemFromMainTlp(JobControl control, int position)

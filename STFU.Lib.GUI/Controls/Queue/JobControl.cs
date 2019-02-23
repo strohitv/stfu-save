@@ -98,7 +98,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 						break;
 					case UploadState.VideoError:
 					case UploadState.ThumbnailError:
-						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", string.Empty);
+						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error.Message);
 						RefreshBackColor(Color.IndianRed);
 
 						break;
@@ -131,6 +131,14 @@ namespace STFU.Lib.GUI.Controls.Queue
 			else if (e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
 			{
 				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}");
+			}
+			else if (e.PropertyName == nameof(Job.Error))
+			{
+				RefreshDetailSecondLineLabel(Job.Error.Message);
+				if (Job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
+				{
+					Safe(() => MessageBox.Show(this, $"Youtube hat den Upload weiterer Videos vorerst abgelehnt, da für diesen Account in der letzten Stunde zu viele Videos hochgeladen wurden.{Environment.NewLine}{Environment.NewLine}In der Regel sollte der Upload bald wieder klappen.{Environment.NewLine}Versuche es am besten in ungefähr einer Stunde noch mal.{Environment.NewLine}Solltest du nicht so lange warten wollen, wirst du auf die von Youtube angebotene Upload-Seite im Internet oder auf ein anderes Upload-Programm ausweichen müssen.{Environment.NewLine}{Environment.NewLine}Es handelt sich hierbei nicht um einen Fehler des Programms. Der Upload wird von Youtube direkt abgelehnt.", "Weitere Videos abgelehnt", MessageBoxButtons.OK, MessageBoxIcon.Error), this);
+				}
 			}
 		}
 
@@ -184,8 +192,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted());
 			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadState.Paused);
-			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsStarted());
+			Safe(() => pausierenToolStripMenuItem.Enabled = !Job.State.IsPausingOrPaused());
 			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted());
+			Safe(() => überspringenToolStripMenuItem.Enabled = !Job.State.IsStarted());
 		}
 
 		public JobControl()

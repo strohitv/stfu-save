@@ -2,6 +2,8 @@
 {
 	public interface IYoutubeError
 	{
+		FailureReason FailReason { get; }
+
 		/// <summary>
 		/// http status number of the error
 		/// </summary>

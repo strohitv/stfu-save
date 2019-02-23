@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Internal.Upload.Model;
 

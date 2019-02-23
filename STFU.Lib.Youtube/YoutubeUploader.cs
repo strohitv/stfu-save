@@ -201,9 +201,9 @@ namespace STFU.Lib.Youtube
 		{
 			while (State != UploaderState.CancelPending
 				&& JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() < MaxSimultaneousUploads
-				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists))
+				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
-				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists);
+				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
 
 				bool start = false;
 				State = UploaderState.Uploading;
@@ -226,11 +226,6 @@ namespace STFU.Lib.Youtube
 					nextJob.UploadAsync();
 				}
 			}
-		}
-
-		private void NextJob_TriggerDeletion(object sender, System.EventArgs args)
-		{
-			throw new System.NotImplementedException();
 		}
 
 		private void RefreshUploaderState()
@@ -269,13 +264,19 @@ namespace STFU.Lib.Youtube
 					job.PropertyChanged -= RunningJobPropertyChanged;
 				}
 
+				if (job.State.IsFailed() && job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
+				{
+					State = UploaderState.CancelPending;
+				}
+
 				RefreshUploaderState();
 
-				if (job.State == UploadState.Successful
-				|| job.State.IsFailed()
-				|| (job.State.IsCanceled() && State != UploaderState.CancelPending))
+				if (State != UploaderState.CancelPending && State != UploaderState.NotRunning
+					&& (job.State == UploadState.Successful
+					|| job.State.IsFailed()
+					|| job.State.IsCanceled()))
 				{
-					if (RemoveCompletedJobs && !job.State.IsCanceled())
+					if (RemoveCompletedJobs && !job.State.IsCanceled() && !job.State.IsFailed())
 					{
 						RemoveFromQueue(job);
 					}

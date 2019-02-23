@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Internal\Services\YoutubeLanguageService.cs" />
     <Compile Include="Internal\Services\YoutubeCategoryService.cs" />
-    <Compile Include="Internal\Upload\FailureReason.cs" />
     <Compile Include="Internal\Upload\FailReasonConverter.cs" />
     <Compile Include="Internal\Upload\FileUploader.cs" />
     <Compile Include="Internal\Upload\HttpWebRequestCreator.cs" />

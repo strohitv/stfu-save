@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Web;
 using Newtonsoft.Json;
@@ -16,6 +17,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		internal bool Successful { get; private set; }
 		internal Uri VideoUploadUri { get; private set; }
 
+		internal YoutubeError Error { get; set; }
+
 		internal YoutubeVideoUploadInitializer(IYoutubeVideo video, IYoutubeAccount account)
 		{
 			Video = video;
@@ -24,12 +27,31 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal void InitializeUpload()
 		{
-			string url = InitializeUploadOnYoutube();
+			string result = InitializeUploadOnYoutube();
 
 			Uri uri = null;
-			if (Successful = Uri.TryCreate(url, UriKind.Absolute, out uri))
+			if (Successful = Uri.TryCreate(result, UriKind.Absolute, out uri))
 			{
 				VideoUploadUri = uri;
+			}
+			else
+			{
+				YoutubeErrorResponse error = null;
+				try
+				{
+					error = JsonConvert.DeserializeObject<YoutubeErrorResponse>(result);
+				}
+				catch (Exception)
+				{ }
+
+				if (error != null && error.error != null && error.error.errors != null && error.error.errors.Any(e => e.reason == "uploadLimitExceeded"))
+				{
+					Error = FailReasonConverter.GetError(FailureReason.UserUploadLimitExceeded);
+				}
+				else
+				{
+					Error = FailReasonConverter.GetError(FailureReason.Unknown);
+				}
 			}
 		}
 

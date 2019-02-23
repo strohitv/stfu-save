@@ -58,6 +58,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 			else
 			{
+				Error = initializer.Error;
 				State = UploadState.VideoError;
 			}
 		}
