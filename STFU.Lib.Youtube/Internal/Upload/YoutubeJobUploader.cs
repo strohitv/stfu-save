@@ -132,7 +132,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			string result = null;
 
 			bool uploadFinished = UploadVideoAndMoveFile(out result);
-			if (uploadFinished && State != UploadState.CancelPending && State != UploadState.Paused)
+			if (uploadFinished && State != UploadState.Canceled && State != UploadState.Paused)
 			{
 				VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
 				videoUploader.PropertyChanged -= Uploader_PropertyChanged;
@@ -231,7 +231,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private bool CancelNotRequested()
 		{
-			return State != UploadState.CancelPending;
+			return !State.IsCanceled() || State == UploadState.CancelPending;
 		}
 	}
 }

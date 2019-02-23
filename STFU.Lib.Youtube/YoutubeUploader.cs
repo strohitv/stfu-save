@@ -183,7 +183,6 @@ namespace STFU.Lib.Youtube
 			{
 				int position = JobQueue.IndexOf(job);
 				job.TriggerDeletion -= Job_TriggerDeletion;
-				job.PropertyChanged -= RunningJobPropertyChanged;
 				JobQueue.Remove(job);
 				OnJobDequeued(job, position);
 			}
@@ -265,6 +264,11 @@ namespace STFU.Lib.Youtube
 			var job = sender as IYoutubeJob;
 			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
+				if (job.State == UploadState.Canceled || job.State == UploadState.Successful || job.State.IsFailed())
+				{
+					job.PropertyChanged -= RunningJobPropertyChanged;
+				}
+
 				RefreshUploaderState();
 
 				if (job.State == UploadState.Successful
