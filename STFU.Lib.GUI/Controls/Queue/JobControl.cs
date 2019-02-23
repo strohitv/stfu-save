@@ -137,7 +137,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 				RefreshDetailSecondLineLabel(Job.Error.Message);
 				if (Job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
 				{
-					Safe(() => MessageBox.Show(this, $"Youtube hat den Upload weiterer Videos vorerst abgelehnt, da für diesen Account in der letzten Stunde zu viele Videos hochgeladen wurden.{Environment.NewLine}{Environment.NewLine}In der Regel sollte der Upload bald wieder klappen.{Environment.NewLine}Versuche es am besten in ungefähr einer Stunde noch mal.{Environment.NewLine}Solltest du nicht so lange warten wollen, wirst du auf die von Youtube angebotene Upload-Seite im Internet oder auf ein anderes Upload-Programm ausweichen müssen.{Environment.NewLine}{Environment.NewLine}Es handelt sich hierbei nicht um einen Fehler des Programms. Der Upload wird von Youtube direkt abgelehnt.", "Weitere Videos abgelehnt", MessageBoxButtons.OK, MessageBoxIcon.Error), this);
+					Safe(() => MessageBox.Show(this, $"Youtube hat den Upload weiterer Videos vorerst abgelehnt, da für diesen Account in den letzten Stunden zu viele Videos hochgeladen wurden.{Environment.NewLine}{Environment.NewLine}In der Regel sollte der Upload bald wieder klappen.{Environment.NewLine}Versuche es am besten in ungefähr einer bis ein paar Stunden noch mal.{Environment.NewLine}Solltest du nicht so lange warten wollen, wirst du auf die von Youtube angebotene Upload-Seite im Internet oder auf ein anderes Upload-Programm ausweichen müssen.{Environment.NewLine}{Environment.NewLine}Es handelt sich hierbei nicht um einen Fehler des Programms. Der Upload wird von Youtube direkt abgelehnt.", "Weitere Videos abgelehnt", MessageBoxButtons.OK, MessageBoxIcon.Error), this);
 				}
 			}
 		}
@@ -190,10 +190,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void RefreshContextMenuEnabled()
 		{
-			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted());
+			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted() || Job.State.IsFailed() || Job.State.IsCanceled());
 			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadState.Paused);
 			Safe(() => pausierenToolStripMenuItem.Enabled = !Job.State.IsPausingOrPaused());
-			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted());
+			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsFailed() && !Job.State.IsCanceled());
 			Safe(() => überspringenToolStripMenuItem.Enabled = !Job.State.IsStarted());
 		}
 

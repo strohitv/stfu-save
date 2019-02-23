@@ -29,7 +29,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					error = new YoutubeError(reason, "Es gab einen Fehler beim Senden der Datei.");
 					break;
 				case FailureReason.UserUploadLimitExceeded:
-					error = new YoutubeError(reason, "In der letzten Stunde wurden zu viele Videos auf diesen Account hochgeladen. Youtube wird einige Zeit lang keine weiteren Videos für diesen Account mehr akzeptieren.");
+					error = new YoutubeError(reason, "In den letzten Stunden wurden zu viele Videos auf diesen Account hochgeladen. Youtube wird einige Zeit lang keine weiteren Videos für diesen Account mehr akzeptieren.");
 					break;
 				default:
 					throw new NotSupportedException("Das entsprechende Feld des Enums wird nicht unterstützt!");
