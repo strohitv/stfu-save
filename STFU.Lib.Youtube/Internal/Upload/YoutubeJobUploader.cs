@@ -177,11 +177,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				State = UploadState.CancelPending;
 
-				if (videoUploader != null && videoUploader.RunningState != RunningState.NotRunning)
+				if (videoUploader != null && videoUploader.State.IsRunningOrInitializing() && !videoUploader.State.IsPausingOrPaused())
 				{
 					videoUploader.Cancel();
 				}
-				else if (thumbnailUploader != null && thumbnailUploader.RunningState != RunningState.NotRunning)
+				else if (thumbnailUploader != null && thumbnailUploader.State.IsRunningOrInitializing() && !thumbnailUploader.State.IsPausingOrPaused())
 				{
 					thumbnailUploader.Cancel();
 				}
