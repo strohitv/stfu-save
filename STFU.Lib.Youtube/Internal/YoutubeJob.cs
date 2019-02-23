@@ -73,7 +73,7 @@ namespace STFU.Lib.Youtube.Internal
 
 					if (state == UploadState.VideoInitializing || oldState == UploadState.ThumbnailUploading
 						|| oldState == UploadState.VideoUploading || state == UploadState.ThumbnailUploading
-						|| state == UploadState.VideoUploading || state == UploadState.CancelPending 
+						|| state == UploadState.VideoUploading || state == UploadState.CancelPending
 						|| state == UploadState.Canceled)
 					{
 						OnPropertyChanged(nameof(IsUploading));
@@ -161,7 +161,12 @@ namespace STFU.Lib.Youtube.Internal
 				JobUploader = new YoutubeJobUploader(Video, Account);
 				JobUploader.PropertyChanged += JobUploader_PropertyChanged;
 
-				await JobUploader.UploadAsync();
+				try
+				{
+					await JobUploader.UploadAsync();
+				}
+				catch (Exception)
+				{ }
 			}
 		}
 
