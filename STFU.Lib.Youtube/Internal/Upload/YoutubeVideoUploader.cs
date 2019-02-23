@@ -50,7 +50,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				State = UploadState.Canceled;
 			}
-			else
+			else if (State != UploadState.Paused)
 			{
 				State = UploadState.VideoError;
 			}

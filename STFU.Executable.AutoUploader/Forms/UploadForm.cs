@@ -1,17 +1,17 @@
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class UploadForm : Form
 	{
 		IAutomationUploader autoUploader = null;
-		
+
 		int progress = 0;
 
 		bool aborted = false;
@@ -56,8 +56,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				progress = (int)(job.Progress * 100);
 
-				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
-				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
+				try
+				{
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
+				}
+				catch (InvalidOperationException)
+				{ }
 			}
 		}
 

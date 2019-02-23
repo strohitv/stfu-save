@@ -14,8 +14,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		private static TimeSpan MinimalReferenceTime { get; } = new TimeSpan(0, 0, 0, 0, 50);
 		private static TimeSpan MaximalReferenceTime { get; } = new TimeSpan(0, 0, 0, 2, 0);
 
-		private bool Skip { get; set; } = false;
-
 		internal FileUploader() { }
 
 		internal bool UploadFile(string path, HttpWebRequest request)
@@ -59,11 +57,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					}
 					catch (WebException)
 					{
-						if (RunningState != RunningState.CancelPending)
+						if (RunningState != RunningState.CancelPending && RunningState != RunningState.Paused)
 						{
 							FailureReason = FailureReason.Unknown;
 						}
-						else
+						else if (RunningState == RunningState.CancelPending)
 						{
 							RunningState = RunningState.Canceled;
 						}
@@ -102,14 +100,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			byte[] buffer = new byte[128];
 			int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
-			while (RunningState != RunningState.CancelPending && bytesRead != 0)
+			while (RunningState != RunningState.CancelPending
+				&& RunningState != RunningState.Paused
+				&& bytesRead != 0)
 			{
-				if (RunningState == RunningState.PausePending)
-				{
-					RunningState = RunningState.Paused;
-				}
-
-				if (!Skip)
+				if (RunningState != RunningState.PausePending)
 				{
 					var sendStart = DateTime.Now;
 					requestStream.Write(buffer, 0, bytesRead);
@@ -131,6 +126,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 					bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 				}
+				else
+				{
+					RunningState = RunningState.Paused;
+				}
 			}
 		}
 
@@ -145,13 +144,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		internal void Pause()
 		{
 			RunningState = RunningState.PausePending;
-			Skip = true;
 		}
 
 		internal void Resume()
 		{
 			RunningState = RunningState.Running;
-			Skip = false;
 		}
 	}
 }

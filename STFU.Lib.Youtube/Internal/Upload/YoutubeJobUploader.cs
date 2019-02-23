@@ -50,22 +50,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			if (initializer != null && initializer.Successful && CancelNotRequested())
 			{
 				UploadUri = initializer.VideoUploadUri;
+
 				videoUploader = new YoutubeVideoUploader(Video, Account, UploadUri);
 				videoUploader.PropertyChanged += Uploader_PropertyChanged;
 
-				int uploadUnsuccessfulCounter = 0;
-				while (CancelNotRequested() && NotTooManyAttempts(uploadUnsuccessfulCounter))
-				{
-					bool uploadSuccessful = TryUploadVideo();
-					if (uploadSuccessful)
-					{
-						State = UploadState.Successful;
-						break;
-					}
-
-					uploadUnsuccessfulCounter++;
-					Thread.Sleep(new TimeSpan(0, 1, 0));
-				}
+				UploadVideo();
 			}
 			else
 			{
@@ -116,13 +105,34 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
+		private void UploadVideo()
+		{
+			int uploadUnsuccessfulCounter = 0;
+			while (CancelNotRequested() && NotTooManyAttempts(uploadUnsuccessfulCounter))
+			{
+				bool uploadSuccessful = TryUploadVideo();
+				if (uploadSuccessful)
+				{
+					State = UploadState.Successful;
+					break;
+				}
+				else if (State.IsPausingOrPaused())
+				{
+					break;
+				}
+
+				uploadUnsuccessfulCounter++;
+				Thread.Sleep(new TimeSpan(0, 0, 1));
+			}
+		}
+
 		private bool TryUploadVideo()
 		{
 			bool finished = false;
 			string result = null;
 
-			bool uploadFinished = UploadVideo(out result);
-			if (uploadFinished && State != UploadState.CancelPending)
+			bool uploadFinished = UploadVideoAndMoveFile(out result);
+			if (uploadFinished && State != UploadState.CancelPending && State != UploadState.Paused)
 			{
 				VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
 				videoUploader.PropertyChanged -= Uploader_PropertyChanged;
@@ -143,7 +153,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return finished;
 		}
 
-		private bool UploadVideo(out string result)
+		private bool UploadVideoAndMoveFile(out string result)
 		{
 			result = null;
 
@@ -178,10 +188,12 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
+		private UploadState oldState = UploadState.NotStarted;
 		internal void Pause()
 		{
 			if (State.IsRunningOrInitializing())
 			{
+				oldState = State;
 				State = UploadState.PausePending;
 
 				if (videoUploader != null)
@@ -200,12 +212,12 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			if (State.IsRunningOrInitializing())
 			{
-				if (videoUploader != null && videoUploader.State.IsPausingOrPaused())
+				if (videoUploader != null && oldState.IsVideo())
 				{
-					videoUploader.Resume();
+					UploadVideo();
 				}
 
-				if (thumbnailUploader != null)
+				if (thumbnailUploader != null && oldState.IsThumbnail())
 				{
 					thumbnailUploader.Resume();
 				}
