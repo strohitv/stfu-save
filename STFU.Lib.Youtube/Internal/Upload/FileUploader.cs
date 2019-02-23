@@ -40,7 +40,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 						fileStream.Position = startPosition;
 					}
 
-					Started = DateTime.Now;
+					if (Started == default(DateTime))
+					{
+						Started = DateTime.Now;
+					}
+
 					RunningState = RunningState.Running;
 
 					try
@@ -121,7 +125,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 					Progress = fileStream.Position / (double)fileStream.Length * 100;
 
-					UploadedDuration = DateTime.Now - Started;
+					UploadedDuration += sendTime;
 					RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
 
 					bytesRead = fileStream.Read(buffer, 0, buffer.Length);
