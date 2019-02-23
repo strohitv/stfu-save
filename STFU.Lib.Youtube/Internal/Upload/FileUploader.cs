@@ -9,6 +9,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 {
 	internal class FileUploader : Uploadable, INotifyPropertyChanged
 	{
+		const double multiplier = 1.1;
+
+		private static TimeSpan MinimalReferenceTime { get; } = new TimeSpan(0, 0, 0, 0, 50);
+		private static TimeSpan MaximalReferenceTime { get; } = new TimeSpan(0, 0, 0, 2, 0);
+
 		private bool Skip { get; set; } = false;
 
 		internal FileUploader() { }
@@ -94,7 +99,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		private void Upload(FileStream fileStream, Stream requestStream)
 		{
 			// Hochladen
-			byte[] buffer = new byte[128 * 1024];
+			byte[] buffer = new byte[128];
 			int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
 			while (RunningState != RunningState.CancelPending && bytesRead != 0)
@@ -106,7 +111,19 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 				if (!Skip)
 				{
+					var sendStart = DateTime.Now;
 					requestStream.Write(buffer, 0, bytesRead);
+					var sendTime = DateTime.Now - sendStart;
+
+					if (sendTime < MinimalReferenceTime)
+					{
+						buffer = new byte[(int)(buffer.Length * multiplier)];
+					}
+					else if (sendTime > MaximalReferenceTime && buffer.Length / multiplier > 128)
+					{
+						buffer = new byte[(int)(buffer.Length / multiplier)];
+					}
+
 					Progress = fileStream.Position / (double)fileStream.Length * 100;
 
 					UploadedDuration = DateTime.Now - Started;
