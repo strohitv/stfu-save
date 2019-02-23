@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.Youtube.Automation.Interfaces;
-using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Executable.AutoUploader.Forms
@@ -27,7 +27,6 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
-			autoUploader.Uploader.NewUploadStarted += OnNewUploadStarted;
 
 			jobQueue.ShowActionsButtons = true;
 			jobQueue.Uploader = autoUploader.Uploader;
@@ -41,20 +40,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			DialogResult = DialogResult.Cancel;
 		}
 
-		private void OnNewUploadStarted(UploadStartedEventArgs args)
-		{
-			args.Job.PropertyChanged += CurrentUploadPropertyChanged;
-		}
-
 		delegate void action();
-		private void CurrentUploadPropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			var job = (IYoutubeJob)sender;
-
-			if (e.PropertyName == nameof(job.Progress)
-				&& (job.State == UploadState.VideoUploading || job.State == UploadState.ThumbnailUploading))
+			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
 			{
-				progress = (int)(job.Progress * 100);
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
+			}
+			else if (e.PropertyName == nameof(IYoutubeUploader.Progress))
+			{
+				progress = autoUploader.Uploader.Progress;
 
 				try
 				{
@@ -63,15 +59,6 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 				catch (InvalidOperationException)
 				{ }
-			}
-		}
-
-		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(autoUploader.Uploader.State) && autoUploader.Uploader.State == UploaderState.Waiting)
-			{
-				Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
-				Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 			}
 		}
 
@@ -102,7 +89,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
-			autoUploader.Uploader.NewUploadStarted -= OnNewUploadStarted;
 			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
 
 			ended = true;

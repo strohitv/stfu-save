@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -92,6 +93,25 @@ namespace STFU.Lib.Youtube
 				if (stopAfterCompleting != value)
 				{
 					stopAfterCompleting = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private int progress = 0;
+		/// <see cref="IYoutubeUploader.MaxSimultaneousUploads"/>
+		public int Progress
+		{
+			get
+			{
+				return progress;
+			}
+
+			set
+			{
+				if (progress != value && value > 0)
+				{
+					progress = value;
 					OnPropertyChanged();
 				}
 			}
@@ -283,6 +303,24 @@ namespace STFU.Lib.Youtube
 
 					StartJobs();
 				}
+			}
+			else if (e.PropertyName == nameof(IYoutubeJob.Progress))
+			{
+				RecalculateProgress();
+			}
+		}
+
+		private void RecalculateProgress()
+		{
+			var runningJobs = JobQueue.Where(j => j.State.IsRunningOrInitializing()).ToArray();
+
+			if (runningJobs.Length > 0)
+			{
+				Progress = runningJobs.Sum(j => (int)(j.Progress * 100)) / runningJobs.Length;
+			}
+			else
+			{
+				Progress = 0;
 			}
 		}
 

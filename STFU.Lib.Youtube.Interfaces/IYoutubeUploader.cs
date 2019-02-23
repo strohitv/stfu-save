@@ -26,6 +26,11 @@ namespace STFU.Lib.Youtube.Interfaces
 		int MaxSimultaneousUploads { get; set; }
 
 		/// <summary>
+		/// Gets the current average progress of all running jobs
+		/// </summary>
+		int Progress { get; }
+
+		/// <summary>
 		/// Current State of the uploader
 		/// </summary>
 		UploaderState State { get; }
