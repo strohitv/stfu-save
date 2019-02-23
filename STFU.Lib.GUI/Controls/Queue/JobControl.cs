@@ -192,7 +192,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted() || Job.State.IsFailed() || Job.State.IsCanceled());
 			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadState.Paused);
-			Safe(() => pausierenToolStripMenuItem.Enabled = !Job.State.IsPausingOrPaused());
+			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsRunningOrInitializing() && !Job.State.IsPausingOrPaused());
 			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsFailed() && !Job.State.IsCanceled());
 			Safe(() => überspringenToolStripMenuItem.Enabled = !Job.State.IsStarted());
 		}
