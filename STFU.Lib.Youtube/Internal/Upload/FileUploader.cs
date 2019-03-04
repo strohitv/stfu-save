@@ -127,7 +127,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					Progress = fileStream.Position / (double)fileStream.Length * 100;
 
 					UploadedDuration += sendTime;
-					RemainingDuration = new TimeSpan(0, 0, (int)(UploadedDuration.TotalSeconds / Progress * (100 - (int)Progress)));
+					RemainingDuration = new TimeSpan(0, 0, 0, 0, (int)(UploadedDuration.TotalSeconds * 1000 / Progress * (100 - Progress)));
 
 					bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 				}
