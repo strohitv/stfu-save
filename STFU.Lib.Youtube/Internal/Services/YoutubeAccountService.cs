@@ -2,6 +2,7 @@
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,15 +16,20 @@ namespace STFU.Lib.Youtube.Internal.Services
 
 		internal static string GetAccessToken(IYoutubeAccount account)
 		{
+			return GetAccessToken(account.Access);
+		}
+
+		internal static string GetAccessToken(IList<IYoutubeAccountAccess> access)
+		{
 			string token = null;
 
-			if (account.Access.Any(ac => ac.Client != null && !ac.Client.LimitReached))
+			if (access.Any(ac => !ac.Client?.LimitReached ?? false))
 			{
-				var firstUsefullAccess = account.Access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+				var firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
 
-				if (firstUsefullAccess == null && RefreshAccess(account))
+				while (firstUsefullAccess == null && RefreshAccess(access))
 				{
-					firstUsefullAccess = account.Access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+					firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
 				}
 
 				token = firstUsefullAccess?.AccessToken;
@@ -32,11 +38,11 @@ namespace STFU.Lib.Youtube.Internal.Services
 			return token;
 		}
 
-		internal static bool RefreshAccess(IYoutubeAccount account)
+		internal static bool RefreshAccess(IList<IYoutubeAccountAccess> access)
 		{
-			var firstOutdatedAccess = account.Access.FirstOrDefault(ac => !ac.Client.LimitReached && ac.IsExpired);
+			var firstOutdatedAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && ac.IsExpired && ac.RefreshAllowed);
 
-			bool result = true;
+			bool result = false;
 			if (firstOutdatedAccess != null)
 			{
 				// Content zusammenbauen
@@ -52,26 +58,27 @@ namespace STFU.Lib.Youtube.Internal.Services
 
 				if (response != null && !response.Contains("revoked"))
 				{
+					result = true;
+
 					// Account 
 					var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(response);
 
 					if (!string.IsNullOrWhiteSpace(authResponse.access_token))
 					{
-						var access = new YoutubeAccountAccess();
-						access.Client = firstOutdatedAccess.Client;
-						access.AccessToken = authResponse.access_token;
-						access.TokenType = authResponse.token_type;
-						access.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
-						access.RefreshToken = firstOutdatedAccess.RefreshToken;
-						access.ClientId = firstOutdatedAccess.ClientId;
+						var newAccess = new YoutubeAccountAccess();
+						newAccess.Client = firstOutdatedAccess.Client;
+						newAccess.AccessToken = authResponse.access_token;
+						newAccess.TokenType = authResponse.token_type;
+						newAccess.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
+						newAccess.RefreshToken = firstOutdatedAccess.RefreshToken;
+						newAccess.ClientId = firstOutdatedAccess.ClientId;
 
-						account.Access.Remove(firstOutdatedAccess);
-						account.Access.Add(access);
-						result = true;
+						access.Remove(firstOutdatedAccess);
+						access.Add(newAccess);
 					}
 					else
 					{
-						result = false;
+						firstOutdatedAccess.NextRefreshAllowed = DateTime.Now.Add(new TimeSpan(1, 0, 0));
 					}
 				}
 			}

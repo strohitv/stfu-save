@@ -31,6 +31,16 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		bool IsExpired { get; }
 
 		/// <summary>
+		/// Determines if access is expired
+		/// </summary>
+		DateTime NextRefreshAllowed { get; set; }
+
+		/// <summary>
+		/// Determines if access is expired
+		/// </summary>
+		bool RefreshAllowed { get; }
+
+		/// <summary>
 		/// The id of the youtube client the account is connected to
 		/// </summary>
 		string ClientId { get; set; }

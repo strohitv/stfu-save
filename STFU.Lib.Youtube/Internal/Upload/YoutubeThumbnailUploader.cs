@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Internal.Upload.Model;
 
 namespace STFU.Lib.Youtube.Internal.Upload
@@ -65,7 +64,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				State = UploadState.ThumbnailUploading;
 
-				var accessToken = YoutubeAccountService.GetAccessToken(Account);
+				var accessToken = Account.GetActiveToken();
 				var secret = Account.Access.First(a => a.AccessToken == accessToken).Client.Secret;
 
 				var request = HttpWebRequestCreator.CreateWithAuthHeader(
@@ -81,6 +80,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				successful = fileUploader.UploadFile(Video.ThumbnailPath, request);
 				if (successful)
 				{
+					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					Response = WebService.Communicate(request);
 				}
 				else

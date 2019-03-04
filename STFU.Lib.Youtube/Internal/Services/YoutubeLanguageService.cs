@@ -23,7 +23,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 				if (container.RegisteredAccounts.Count > 0)
 				{
 					var account = container.RegisteredAccounts.First();
-					languages = GetLanguages(YoutubeAccountService.GetAccessToken(account)).ToList();
+					languages = GetLanguages(account.GetActiveToken()).ToList();
 				}
 				else
 				{

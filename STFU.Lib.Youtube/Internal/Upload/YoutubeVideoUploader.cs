@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Net;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Internal.Upload.Model;
 
 namespace STFU.Lib.Youtube.Internal.Upload
@@ -43,6 +42,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 			if (successful)
 			{
+				request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 				Response = WebService.Communicate(request);
 				State = UploadState.VideoUploaded;
 			}
@@ -93,8 +93,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal long CheckUploadStatus()
 		{
-			var request = HttpWebRequestCreator.CreateWithAuthHeader(UploadUri.AbsoluteUri, "PUT",
-				YoutubeAccountService.GetAccessToken(Account));
+			var request = HttpWebRequestCreator.CreateWithAuthHeader(UploadUri.AbsoluteUri, "PUT", Account.GetActiveToken());
 			request.ContentLength = 0;
 			request.Headers.Add($"content-range: bytes */{Video.File.Length}");
 

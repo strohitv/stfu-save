@@ -133,7 +133,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			string result = null;
 
 			bool uploadFinished = UploadVideoAndMoveFile(out result);
-			if (uploadFinished && State != UploadState.Canceled && State != UploadState.Paused)
+			if (uploadFinished && State != UploadState.Canceled && State != UploadState.Paused && result != null)
 			{
 				VideoId = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
 				videoUploader.PropertyChanged -= Uploader_PropertyChanged;

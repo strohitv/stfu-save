@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Web;
-using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Interfaces.Model;
 using System;
 
@@ -30,7 +29,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		
 		internal static HttpWebRequest CreateForNewUpload(Uri uri,  IYoutubeVideo video, IYoutubeAccount account)
 		{
-			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(account));
+			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", account.GetActiveToken());
 			request.ContentLength = video.File.Length;
 			request.ContentType = MimeMapping.GetMimeMapping(video.File.Name);
 
@@ -44,7 +43,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal static HttpWebRequest CreateForResumeUpload(Uri uri, IYoutubeVideo video, IYoutubeAccount account, long lastbyte)
 		{
-			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", YoutubeAccountService.GetAccessToken(account));
+			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", account.GetActiveToken());
 			request.Headers.Add($"Content-Range: bytes {lastbyte + 1}-{video.File.Length - 1}/{video.File.Length}");
 			request.ContentLength = video.File.Length - (lastbyte + 1);
 

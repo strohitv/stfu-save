@@ -30,7 +30,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 						region = "de";
 					}
 
-					categories = GetVideoCategories(region, YoutubeAccountService.GetAccessToken(account)).ToList();
+					categories = GetVideoCategories(region, account.GetActiveToken()).ToList();
 				}
 				else
 				{

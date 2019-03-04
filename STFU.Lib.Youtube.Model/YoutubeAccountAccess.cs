@@ -9,7 +9,11 @@ namespace STFU.Lib.Youtube.Model
 
 		public DateTime ExpirationDate { get; set; }
 
-		public bool IsExpired => ExpirationDate < DateTime.Now;
+		public bool IsExpired => ExpirationDate.AddMinutes(1) < DateTime.Now;
+
+		public DateTime NextRefreshAllowed { get; set; }
+
+		public bool RefreshAllowed => NextRefreshAllowed < DateTime.Now;
 
 		public string RefreshToken { get; set; }
 

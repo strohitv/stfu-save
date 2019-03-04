@@ -4,7 +4,6 @@ using System.Text;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
@@ -66,7 +65,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				+ $"&autoLevels={Video.AutoLevels}&notifySubscribers={Video.NotifySubscribers}"
 				+ $"&stabilize={Video.Stabilize}&part=snippet,status,contentDetails",
 				"POST",
-				YoutubeAccountService.GetAccessToken(Account));
+				Account.GetActiveToken());
 
 			request.Headers.Add($"x-upload-content-length: {Video.File.Length}");
 			//request.Headers.Add($"x-upload-content-type: video/*");
