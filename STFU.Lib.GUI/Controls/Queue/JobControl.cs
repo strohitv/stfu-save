@@ -7,8 +7,16 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.GUI.Controls.Queue
 {
+	public delegate void MoveRequested(JobControl sender);
+
 	public partial class JobControl : UserControl
 	{
+		public event MoveRequested MoveUpRequested;
+		public event MoveRequested MoveDownRequested;
+
+		public bool CanBeMovedUp { get => nachObenSchiebenToolStripMenuItem.Enabled; set => nachObenSchiebenToolStripMenuItem.Enabled = value; }
+		public bool CanBeMovedDown { get => nachUntenSchiebenToolStripMenuItem.Enabled; set => nachUntenSchiebenToolStripMenuItem.Enabled = value; }
+
 		private IYoutubeJob job = null;
 		public IYoutubeJob Job
 		{
@@ -244,14 +252,34 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Safe(Action action, Control control)
 		{
-			if (InvokeRequired)
+			try
 			{
-				Invoke(action);
+				if (InvokeRequired)
+				{
+					Invoke(action);
+				}
+				else
+				{
+					action();
+				}
 			}
-			else
-			{
-				action();
-			}
+			catch (Exception)
+			{ }
+		}
+
+		private void nachObenSchiebenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MoveUpRequested?.Invoke(this);
+		}
+
+		private void nachUntenSchiebenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MoveDownRequested?.Invoke(this);
+		}
+
+		public override string ToString()
+		{
+			return Job.ToString();
 		}
 	}
 }

@@ -42,6 +42,10 @@
 			this.detailsBearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.überspringenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.löschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.nachObenSchiebenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.nachUntenSchiebenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainTableLayoutPanel.SuspendLayout();
 			this.actionsContextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -70,14 +74,14 @@
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.mainTableLayoutPanel.Size = new System.Drawing.Size(550, 138);
+			this.mainTableLayoutPanel.Size = new System.Drawing.Size(550, 149);
 			this.mainTableLayoutPanel.TabIndex = 0;
 			// 
 			// progressBar
 			// 
 			this.mainTableLayoutPanel.SetColumnSpan(this.progressBar, 3);
 			this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.progressBar.Location = new System.Drawing.Point(10, 99);
+			this.progressBar.Location = new System.Drawing.Point(10, 110);
 			this.progressBar.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.progressBar.Maximum = 10000;
 			this.progressBar.Name = "progressBar";
@@ -90,12 +94,12 @@
 			this.uploadTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.uploadTitle.AutoSize = true;
 			this.uploadTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadTitle.Location = new System.Drawing.Point(10, 14);
+			this.uploadTitle.Location = new System.Drawing.Point(10, 10);
 			this.uploadTitle.Margin = new System.Windows.Forms.Padding(0);
 			this.uploadTitle.Name = "uploadTitle";
-			this.uploadTitle.Size = new System.Drawing.Size(431, 20);
+			this.uploadTitle.Size = new System.Drawing.Size(431, 40);
 			this.uploadTitle.TabIndex = 1;
-			this.uploadTitle.Text = "Titel";
+			this.uploadTitle.Text = "Titel\r\nzweizeilig";
 			// 
 			// uploadStateLabel
 			// 
@@ -103,7 +107,7 @@
 			this.uploadStateLabel.AutoSize = true;
 			this.mainTableLayoutPanel.SetColumnSpan(this.uploadStateLabel, 3);
 			this.uploadStateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadStateLabel.Location = new System.Drawing.Point(10, 49);
+			this.uploadStateLabel.Location = new System.Drawing.Point(10, 60);
 			this.uploadStateLabel.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.uploadStateLabel.Name = "uploadStateLabel";
 			this.uploadStateLabel.Size = new System.Drawing.Size(530, 40);
@@ -116,7 +120,7 @@
 			this.actionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.actionsButton.AutoSize = true;
 			this.actionsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.actionsButton.Location = new System.Drawing.Point(451, 10);
+			this.actionsButton.Location = new System.Drawing.Point(451, 15);
 			this.actionsButton.Margin = new System.Windows.Forms.Padding(0);
 			this.actionsButton.Name = "actionsButton";
 			this.actionsButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -132,17 +136,21 @@
             this.startenToolStripMenuItem,
             this.pausierenToolStripMenuItem,
             this.fortsetzenToolStripMenuItem,
-            this.abbrechenToolStripMenuItem,
-            this.detailsBearbeitenToolStripMenuItem,
             this.überspringenToolStripMenuItem,
+            this.abbrechenToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.detailsBearbeitenToolStripMenuItem,
+            this.nachObenSchiebenToolStripMenuItem,
+            this.nachUntenSchiebenToolStripMenuItem,
+            this.toolStripSeparator2,
             this.löschenToolStripMenuItem});
 			this.actionsContextMenuStrip.Name = "actionsContextMenuStrip";
-			this.actionsContextMenuStrip.Size = new System.Drawing.Size(181, 180);
+			this.actionsContextMenuStrip.Size = new System.Drawing.Size(187, 236);
 			// 
 			// startenToolStripMenuItem
 			// 
 			this.startenToolStripMenuItem.Name = "startenToolStripMenuItem";
-			this.startenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.startenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.startenToolStripMenuItem.Text = "Starten";
 			this.startenToolStripMenuItem.Click += new System.EventHandler(this.startenToolStripMenuItem_Click);
 			// 
@@ -150,7 +158,7 @@
 			// 
 			this.pausierenToolStripMenuItem.Enabled = false;
 			this.pausierenToolStripMenuItem.Name = "pausierenToolStripMenuItem";
-			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.pausierenToolStripMenuItem.Text = "Pausieren";
 			this.pausierenToolStripMenuItem.Click += new System.EventHandler(this.pausierenToolStripMenuItem_Click);
 			// 
@@ -158,7 +166,7 @@
 			// 
 			this.fortsetzenToolStripMenuItem.Enabled = false;
 			this.fortsetzenToolStripMenuItem.Name = "fortsetzenToolStripMenuItem";
-			this.fortsetzenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.fortsetzenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.fortsetzenToolStripMenuItem.Text = "Fortsetzen";
 			this.fortsetzenToolStripMenuItem.Click += new System.EventHandler(this.fortsetzenToolStripMenuItem_Click);
 			// 
@@ -166,14 +174,14 @@
 			// 
 			this.abbrechenToolStripMenuItem.Enabled = false;
 			this.abbrechenToolStripMenuItem.Name = "abbrechenToolStripMenuItem";
-			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.abbrechenToolStripMenuItem.Text = "Abbrechen";
 			this.abbrechenToolStripMenuItem.Click += new System.EventHandler(this.abbrechenToolStripMenuItem_Click);
 			// 
 			// detailsBearbeitenToolStripMenuItem
 			// 
 			this.detailsBearbeitenToolStripMenuItem.Name = "detailsBearbeitenToolStripMenuItem";
-			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.detailsBearbeitenToolStripMenuItem.Text = "Details bearbeiten";
 			this.detailsBearbeitenToolStripMenuItem.Visible = false;
 			// 
@@ -181,16 +189,40 @@
 			// 
 			this.überspringenToolStripMenuItem.CheckOnClick = true;
 			this.überspringenToolStripMenuItem.Name = "überspringenToolStripMenuItem";
-			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.überspringenToolStripMenuItem.Text = "Überspringen";
 			this.überspringenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.überspringenToolStripMenuItem_CheckedChanged);
 			// 
 			// löschenToolStripMenuItem
 			// 
 			this.löschenToolStripMenuItem.Name = "löschenToolStripMenuItem";
-			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.löschenToolStripMenuItem.Text = "Löschen";
 			this.löschenToolStripMenuItem.Click += new System.EventHandler(this.löschenToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(183, 6);
+			// 
+			// nachObenSchiebenToolStripMenuItem
+			// 
+			this.nachObenSchiebenToolStripMenuItem.Name = "nachObenSchiebenToolStripMenuItem";
+			this.nachObenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.nachObenSchiebenToolStripMenuItem.Text = "Nach oben schieben";
+			this.nachObenSchiebenToolStripMenuItem.Click += new System.EventHandler(this.nachObenSchiebenToolStripMenuItem_Click);
+			// 
+			// nachUntenSchiebenToolStripMenuItem
+			// 
+			this.nachUntenSchiebenToolStripMenuItem.Name = "nachUntenSchiebenToolStripMenuItem";
+			this.nachUntenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.nachUntenSchiebenToolStripMenuItem.Text = "Nach unten schieben";
+			this.nachUntenSchiebenToolStripMenuItem.Click += new System.EventHandler(this.nachUntenSchiebenToolStripMenuItem_Click);
 			// 
 			// JobControl
 			// 
@@ -201,7 +233,7 @@
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.mainTableLayoutPanel);
 			this.Name = "JobControl";
-			this.Size = new System.Drawing.Size(550, 138);
+			this.Size = new System.Drawing.Size(550, 149);
 			this.mainTableLayoutPanel.ResumeLayout(false);
 			this.mainTableLayoutPanel.PerformLayout();
 			this.actionsContextMenuStrip.ResumeLayout(false);
@@ -225,5 +257,9 @@
 		private System.Windows.Forms.ToolStripMenuItem löschenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem startenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem fortsetzenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem nachObenSchiebenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem nachUntenSchiebenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }

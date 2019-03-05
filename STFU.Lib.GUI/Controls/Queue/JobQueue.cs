@@ -88,13 +88,28 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			Invoke((Action)delegate
 			{
-				var control = jobControls.First(jc => jc.Job == e.Job);
+				var control = jobControls[e.OldPosition];
+				jobControls.RemoveAt(e.OldPosition);
+				jobControls.Insert(e.NewPosition, control);
 
 				mainTlp.SuspendLayout();
-				RemoveItemFromMainTlp(control, e.OldPosition);
-				AddItemToMainTlp(control, e.NewPosition);
+
+				while (mainTlp.RowStyles.Count > 1)
+				{
+					RemoveItemFromMainTlp(mainTlp.Controls[0] as JobControl, 0);
+				}
+
+				int position = 0;
+				foreach (var entry in uploader.Queue)
+				{
+					AddItemToMainTlp(position, jobControls.Single(jc => jc.Job == entry));
+					position++;
+				}
+
 				mainTlp.ResumeLayout();
 			});
+
+			RefreshMoveButtonsEnabled();
 		}
 
 		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
@@ -108,6 +123,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 					jobControls.Remove(control);
 					RemoveItemFromMainTlp(control, e.Position);
 				});
+
+				RefreshMoveButtonsEnabled();
 			}
 			catch (Exception)
 			{ }
@@ -130,23 +147,56 @@ namespace STFU.Lib.GUI.Controls.Queue
 			{
 				position = 0;
 			}
-			else if (position > mainTlp.RowCount - 1)
+			else if (position > jobControls.Count)
 			{
-				position = mainTlp.RowCount - 1;
+				position = jobControls.Count;
 			}
 
 			jobControls.Insert(position, control);
 
+			RefreshMoveButtonsEnabled();
+
+			control.MoveUpRequested += Control_MoveUpRequested;
+			control.MoveDownRequested += Control_MoveDownRequested;
+
 			control.Margin = new Padding(0, 0, 0, 0);
 			control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
-			AddItemToMainTlp(control, position);
+			AddItemToMainTlp(position, control);
 		}
 
-		private void AddItemToMainTlp(JobControl control, int position)
+		private void Control_MoveUpRequested(JobControl sender)
+		{
+			uploader.ChangePosition(sender.Job, jobControls.IndexOf(sender) - 1);
+		}
+
+		private void Control_MoveDownRequested(JobControl sender)
+		{
+			uploader.ChangePosition(sender.Job, jobControls.IndexOf(sender) + 1);
+		}
+
+		private void RefreshMoveButtonsEnabled()
+		{
+			Invoke((Action)delegate
+			{
+				if (jobControls.Count > 0)
+				{
+					for (int i = 0; i < jobControls.Count; i++)
+					{
+						jobControls[i].CanBeMovedUp = true;
+						jobControls[i].CanBeMovedDown = true;
+					}
+
+					jobControls.Single(jc => jc.Job == uploader.Queue.First()).CanBeMovedUp = false;
+					jobControls.Single(jc => jc.Job == uploader.Queue.Last()).CanBeMovedDown = false;
+				}
+			});
+		}
+
+		private void AddItemToMainTlp(int position, JobControl control)
 		{
 			mainTlp.RowStyles.Insert(position, new RowStyle(SizeType.AutoSize));
-			mainTlp.Controls.Add(control, 0, position - 1);
+			mainTlp.Controls.Add(control, 0, position);
 		}
 
 		private void ClearItems()
