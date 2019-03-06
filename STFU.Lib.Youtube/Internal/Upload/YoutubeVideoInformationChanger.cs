@@ -23,66 +23,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		public void Run()
 		{
-			State = UploadStepState.Initializing;
-
-			string result = InitializeUploadOnYoutube();
-
-			Uri uri = null;
-			if (Uri.TryCreate(result, UriKind.Absolute, out uri))
-			{
-				Video.UploadUri = uri;
-				State = UploadStepState.Successful;
-			}
-			else
-			{
-				SetError(result);
-			}
-		}
-
-		private string InitializeUploadOnYoutube()
-		{
-			var ytVideo = SerializableYoutubeVideo.Create(Video);
-			string content = JsonConvert.SerializeObject(ytVideo);
-			var bytes = Encoding.UTF8.GetBytes(content);
-
-			var request = HttpWebRequestCreator.CreateWithAuthHeader(
-				$"https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable"
-				+ $"&autoLevels={Video.AutoLevels}&notifySubscribers={Video.NotifySubscribers}"
-				+ $"&stabilize={Video.Stabilize}&part=snippet,status,contentDetails",
-				"POST",
-				Account.GetActiveToken());
-
-			request.Headers.Add($"x-upload-content-length: {Video.File.Length}");
-			request.Headers.Add($"x-upload-content-type: {MimeMapping.GetMimeMapping(Video.File.Name)}");
-
-			request.ContentLength = bytes.Length;
-			request.ContentType = "application/json; charset=utf-8";
-
-			State = UploadStepState.Running;
-
-			return WebService.Communicate(request, bytes, "Location");
-		}
-
-		private void SetError(string result)
-		{
-			YoutubeErrorResponse error = null;
-			try
-			{
-				error = JsonConvert.DeserializeObject<YoutubeErrorResponse>(result);
-			}
-			catch (Exception)
-			{ }
-
-			if (error != null && error.error != null && error.error.errors != null && error.error.errors.Any(e => e.reason == "uploadLimitExceeded"))
-			{
-				Error = FailReasonConverter.GetError(FailureReason.UserUploadLimitExceeded);
-			}
-			else
-			{
-				Error = FailReasonConverter.GetError(FailureReason.Unknown);
-			}
-
-			State = UploadStepState.Error;
+			// TODO!
 		}
 
 		public override void Cancel()
