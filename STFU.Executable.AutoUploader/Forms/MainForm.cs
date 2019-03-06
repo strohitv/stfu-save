@@ -198,7 +198,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
 				autoUploader.ProcessContainer = processContainer;
 
-				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex);
+				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex, categoryContainer, languageContainer);
 				if (uploadForm.ShowDialog(this) == DialogResult.OK)
 				{
 					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;

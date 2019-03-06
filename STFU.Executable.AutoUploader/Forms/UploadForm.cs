@@ -20,9 +20,12 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public int UploadEndedActionIndex { get; set; }
 
-		public UploadForm(IAutomationUploader upl, int uploadEndedIndex)
+		public UploadForm(IAutomationUploader upl, int uploadEndedIndex, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
 		{
 			InitializeComponent();
+
+			jobQueue.Fill(catContainer, langContainer);
+
 			autoUploader = upl;
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;

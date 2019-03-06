@@ -10,9 +10,9 @@ using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeVideoUploadInitializer : UploadStep
+	internal class YoutubeVideoInformationChanger : UploadStep
 	{
-		public YoutubeVideoUploadInitializer(IYoutubeVideo video, IYoutubeAccount account)
+		public YoutubeVideoInformationChanger(IYoutubeVideo video, IYoutubeAccount account)
 			: base(video, account)
 		{ }
 
@@ -31,19 +31,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			if (Uri.TryCreate(result, UriKind.Absolute, out uri))
 			{
 				Video.UploadUri = uri;
-
-				if (State == UploadStepState.PausePending)
-				{
-					State = UploadStepState.Paused;
-				}
-				else if (State == UploadStepState.CancelPending)
-				{
-					State = UploadStepState.Canceled;
-				}
-				else
-				{
-					State = UploadStepState.Successful;
-				}
+				State = UploadStepState.Successful;
 			}
 			else
 			{

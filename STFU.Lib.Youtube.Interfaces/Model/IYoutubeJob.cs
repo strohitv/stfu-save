@@ -17,16 +17,6 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		IYoutubeAccount Account { get; }
 
 		/// <summary>
-		/// id of the video after it was successfully uploaded
-		/// </summary>
-		string VideoId { get; }
-
-		/// <summary>
-		/// the url the video has to be uploaded
-		/// </summary>
-		Uri Uri { get; }
-
-		/// <summary>
 		/// current state of the job
 		/// </summary>
 		UploadState State { get; }
@@ -100,5 +90,20 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// This will notify parents that the job should be removed from queues or similar.
 		/// </summary>
 		void DeleteAsync();
+
+		/// <summary>
+		/// Determines if the Jobs underlying video is being edited at the moment
+		/// </summary>
+		bool IsInEditMode { get; }
+
+		/// <summary>
+		/// Sets the Job into edit mode which causes a running job not to success until FinishEdit() is being called.
+		/// </summary>
+		void BeginEdit();
+
+		/// <summary>
+		/// Finishes the Jobs edit mode.
+		/// </summary>
+		void FinishEditAsync();
 	}
 }

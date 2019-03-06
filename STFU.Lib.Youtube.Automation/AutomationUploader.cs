@@ -233,8 +233,33 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (!e.Name.StartsWith("_") && !Uploader.Queue.Any(job => job.Video.File.FullName.ToLower() == e.FullPath.ToLower()))
 			{
-				Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
+				var job = Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
+				job.PropertyChanged += Job_PropertyChanged;
+
 				Uploader.StartUploader();
+			}
+		}
+
+		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			var job = (IYoutubeJob)sender;
+			if (e.PropertyName == nameof(job.State) && job.State == UploadState.Successful)
+			{
+				var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
+					   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
+					   + Path.GetExtension(job.Video.File.FullName);
+
+				int number = 1;
+				while (File.Exists(movedPath))
+				{
+					movedPath = Path.GetDirectoryName(movedPath) 
+						+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number 
+						+ Path.GetExtension(movedPath);
+ 				}
+
+				File.Move(job.Video.File.FullName, movedPath);
+
+				job.PropertyChanged -= Job_PropertyChanged;
 			}
 		}
 

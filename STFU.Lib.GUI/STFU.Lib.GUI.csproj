@@ -55,17 +55,23 @@
     <Compile Include="Controls\Queue\JobQueue.Designer.cs">
       <DependentUpon>JobQueue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\UploadGrid.cs">
+    <Compile Include="Controls\EditVideoGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\UploadGrid.Designer.cs">
-      <DependentUpon>UploadGrid.cs</DependentUpon>
+    <Compile Include="Controls\EditVideoGrid.Designer.cs">
+      <DependentUpon>EditVideoGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AddAccountForm.designer.cs">
       <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditVideoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditVideoForm.Designer.cs">
+      <DependentUpon>EditVideoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -76,21 +82,26 @@
     <EmbeddedResource Include="Controls\Queue\JobQueue.resx">
       <DependentUpon>JobQueue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\UploadGrid.resx">
-      <DependentUpon>UploadGrid.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\EditVideoGrid.resx">
+      <DependentUpon>EditVideoGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddAccountForm.resx">
       <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditVideoForm.resx">
+      <DependentUpon>EditVideoForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
       <Name>STFU.Lib.Youtube.Model</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

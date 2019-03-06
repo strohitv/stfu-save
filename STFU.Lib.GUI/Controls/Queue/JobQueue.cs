@@ -9,6 +9,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 {
 	public partial class JobQueue : UserControl
 	{
+		private IYoutubeCategoryContainer categoryContainer;
+		private IYoutubeLanguageContainer languageContainer;
+
 		private List<JobControl> jobControls = new List<JobControl>();
 
 		private IYoutubeUploader uploader = null;
@@ -39,7 +42,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					foreach (var entry in uploader.Queue)
 					{
-						AddItem(new JobControl() { Job = entry, ActionsButtonsVisible = ShowActionsButtons });
+						var control = new JobControl() { Job = entry, ActionsButtonsVisible = ShowActionsButtons };
+						control.Fill(categoryContainer, languageContainer);
+
+						AddItem(control);
 					}
 				}
 			}
@@ -71,6 +77,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 			InitializeComponent();
 		}
 
+		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		{
+			categoryContainer = catContainer;
+			languageContainer = langContainer;
+		}
+
 		private void JobQueue_Load(object sender, EventArgs e)
 		{
 
@@ -80,7 +92,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			Invoke((Action)delegate
 			{
-				AddItem(new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons }, e.Position);
+				var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
+				control.Fill(categoryContainer, languageContainer);
+
+				AddItem(control, e.Position);
 			});
 		}
 

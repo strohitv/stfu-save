@@ -7,8 +7,8 @@ using Google.Apis.Services;
 namespace STFU.Lib.Updater
 {
 	public class VersionChecker
-    {
-		public UpdateInformation CheckStfuVersion (string currentVersion)
+	{
+		public UpdateInformation CheckStfuVersion(string currentVersion)
 		{
 			UpdateInformation infos = new UpdateInformation(false, null, null);
 
@@ -65,11 +65,11 @@ namespace STFU.Lib.Updater
 				result = request.Execute();
 			}
 			catch (Exception)
-			{			}
+			{ }
 
 			var file = result?.Files?.FirstOrDefault(f => f.MimeType == "application/x-zip-compressed");
 
 			return file;
 		}
-    }
+	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace STFU.Lib.GUI.Controls
 {
-	partial class UploadGrid
+	partial class EditVideoGrid
 	{
 		/// <summary> 
 		/// Erforderliche Designervariable.
@@ -30,9 +30,6 @@
 		{
 			this.mainTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.mainSettingsGroupbox = new System.Windows.Forms.GroupBox();
-			this.otherSettingsGroupbox = new System.Windows.Forms.GroupBox();
-			this.saveButton = new System.Windows.Forms.Button();
-			this.resetButton = new System.Windows.Forms.Button();
 			this.mainSettingsTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.titleLabel = new System.Windows.Forms.Label();
 			this.descriptionLabel = new System.Windows.Forms.Label();
@@ -44,62 +41,44 @@
 			this.tagsTextbox = new System.Windows.Forms.TextBox();
 			this.thumbnailTextbox = new System.Windows.Forms.TextBox();
 			this.thumbnailButton = new System.Windows.Forms.Button();
-			this.privacyCombobox = new System.Windows.Forms.ComboBox();
 			this.publishAtDatetimepicker = new System.Windows.Forms.DateTimePicker();
 			this.publishAtCheckbox = new System.Windows.Forms.CheckBox();
+			this.privacyCombobox = new System.Windows.Forms.ComboBox();
+			this.otherSettingsGroupbox = new System.Windows.Forms.GroupBox();
 			this.otherSettingsTlp = new System.Windows.Forms.TableLayoutPanel();
-			this.categoryLabel = new System.Windows.Forms.Label();
-			this.defaultLanguageLabel = new System.Windows.Forms.Label();
+			this.licenseCombobox = new System.Windows.Forms.ComboBox();
 			this.licenseLabel = new System.Windows.Forms.Label();
 			this.isEmbeddableCheckbox = new System.Windows.Forms.CheckBox();
 			this.publicStatsViewableCheckbox = new System.Windows.Forms.CheckBox();
+			this.defaultLanguageLabel = new System.Windows.Forms.Label();
+			this.categoryLabel = new System.Windows.Forms.Label();
 			this.categoryCombobox = new System.Windows.Forms.ComboBox();
 			this.defaultLanguageCombobox = new System.Windows.Forms.ComboBox();
-			this.licenseCombobox = new System.Windows.Forms.ComboBox();
-			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
-			this.filePathButton = new System.Windows.Forms.Button();
-			this.filePathLabel = new System.Windows.Forms.Label();
-			this.filePathTextbox = new System.Windows.Forms.TextBox();
+			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.selectVideoDialog = new System.Windows.Forms.OpenFileDialog();
 			this.mainTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
-			this.otherSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
+			this.otherSettingsGroupbox.SuspendLayout();
 			this.otherSettingsTlp.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// mainTlp
 			// 
-			this.mainTlp.ColumnCount = 10;
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.mainTlp.ColumnCount = 3;
 			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.Controls.Add(this.filePathLabel, 1, 1);
-			this.mainTlp.Controls.Add(this.mainSettingsGroupbox, 1, 3);
-			this.mainTlp.Controls.Add(this.otherSettingsGroupbox, 1, 5);
-			this.mainTlp.Controls.Add(this.saveButton, 4, 7);
-			this.mainTlp.Controls.Add(this.filePathButton, 8, 1);
-			this.mainTlp.Controls.Add(this.filePathTextbox, 3, 1);
-			this.mainTlp.Controls.Add(this.resetButton, 6, 7);
+			this.mainTlp.Controls.Add(this.mainSettingsGroupbox, 1, 1);
+			this.mainTlp.Controls.Add(this.otherSettingsGroupbox, 1, 3);
 			this.mainTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mainTlp.Location = new System.Drawing.Point(0, 0);
 			this.mainTlp.Name = "mainTlp";
-			this.mainTlp.RowCount = 9;
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mainTlp.RowCount = 5;
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -108,60 +87,15 @@
 			// 
 			// mainSettingsGroupbox
 			// 
-			this.mainTlp.SetColumnSpan(this.mainSettingsGroupbox, 8);
 			this.mainSettingsGroupbox.Controls.Add(this.mainSettingsTlp);
 			this.mainSettingsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mainSettingsGroupbox.Location = new System.Drawing.Point(10, 49);
+			this.mainSettingsGroupbox.Location = new System.Drawing.Point(10, 10);
 			this.mainSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.mainSettingsGroupbox.Name = "mainSettingsGroupbox";
-			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1130, 444);
+			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1130, 522);
 			this.mainSettingsGroupbox.TabIndex = 0;
 			this.mainSettingsGroupbox.TabStop = false;
 			this.mainSettingsGroupbox.Text = "Allgemeine Einstellungen";
-			// 
-			// otherSettingsGroupbox
-			// 
-			this.otherSettingsGroupbox.AutoSize = true;
-			this.otherSettingsGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.mainTlp.SetColumnSpan(this.otherSettingsGroupbox, 8);
-			this.otherSettingsGroupbox.Controls.Add(this.otherSettingsTlp);
-			this.otherSettingsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 503);
-			this.otherSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
-			this.otherSettingsGroupbox.Name = "otherSettingsGroupbox";
-			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1130, 272);
-			this.otherSettingsGroupbox.TabIndex = 1;
-			this.otherSettingsGroupbox.TabStop = false;
-			this.otherSettingsGroupbox.Text = "Weitere Einstellungen";
-			// 
-			// saveButton
-			// 
-			this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.saveButton.AutoSize = true;
-			this.saveButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.saveButton.Location = new System.Drawing.Point(814, 785);
-			this.saveButton.Margin = new System.Windows.Forms.Padding(0);
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.saveButton.Size = new System.Drawing.Size(204, 29);
-			this.saveButton.TabIndex = 2;
-			this.saveButton.Text = "In die Warteschlange aufnehmen";
-			this.saveButton.UseVisualStyleBackColor = true;
-			// 
-			// resetButton
-			// 
-			this.resetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.resetButton.AutoSize = true;
-			this.resetButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.mainTlp.SetColumnSpan(this.resetButton, 3);
-			this.resetButton.Location = new System.Drawing.Point(1028, 785);
-			this.resetButton.Margin = new System.Windows.Forms.Padding(0);
-			this.resetButton.Name = "resetButton";
-			this.resetButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.resetButton.Size = new System.Drawing.Size(112, 29);
-			this.resetButton.TabIndex = 3;
-			this.resetButton.Text = "Zurücksetzen";
-			this.resetButton.UseVisualStyleBackColor = true;
 			// 
 			// mainSettingsTlp
 			// 
@@ -205,7 +139,7 @@
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainSettingsTlp.Size = new System.Drawing.Size(1124, 425);
+			this.mainSettingsTlp.Size = new System.Drawing.Size(1124, 503);
 			this.mainSettingsTlp.TabIndex = 0;
 			// 
 			// titleLabel
@@ -236,7 +170,7 @@
 			this.tagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tagsLabel.AutoSize = true;
 			this.mainSettingsTlp.SetColumnSpan(this.tagsLabel, 5);
-			this.tagsLabel.Location = new System.Drawing.Point(10, 180);
+			this.tagsLabel.Location = new System.Drawing.Point(10, 219);
 			this.tagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsLabel.Name = "tagsLabel";
 			this.tagsLabel.Size = new System.Drawing.Size(1104, 13);
@@ -247,7 +181,7 @@
 			// 
 			this.thumbnailLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailLabel.AutoSize = true;
-			this.thumbnailLabel.Location = new System.Drawing.Point(10, 322);
+			this.thumbnailLabel.Location = new System.Drawing.Point(10, 400);
 			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailLabel.Name = "thumbnailLabel";
 			this.thumbnailLabel.Size = new System.Drawing.Size(176, 13);
@@ -258,7 +192,7 @@
 			// 
 			this.privacyLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.privacyLabel.AutoSize = true;
-			this.privacyLabel.Location = new System.Drawing.Point(10, 359);
+			this.privacyLabel.Location = new System.Drawing.Point(10, 437);
 			this.privacyLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyLabel.Name = "privacyLabel";
 			this.privacyLabel.Size = new System.Drawing.Size(176, 13);
@@ -275,9 +209,11 @@
 			this.titleTextbox.Name = "titleTextbox";
 			this.titleTextbox.Size = new System.Drawing.Size(918, 26);
 			this.titleTextbox.TabIndex = 6;
+			this.titleTextbox.TextChanged += new System.EventHandler(this.titleTextbox_TextChanged);
 			// 
 			// descriptionTextbox
 			// 
+			this.descriptionTextbox.AcceptsReturn = true;
 			this.mainSettingsTlp.SetColumnSpan(this.descriptionTextbox, 5);
 			this.descriptionTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.descriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -285,37 +221,41 @@
 			this.descriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionTextbox.Multiline = true;
 			this.descriptionTextbox.Name = "descriptionTextbox";
-			this.descriptionTextbox.Size = new System.Drawing.Size(1104, 111);
+			this.descriptionTextbox.Size = new System.Drawing.Size(1104, 150);
 			this.descriptionTextbox.TabIndex = 7;
+			this.descriptionTextbox.TextChanged += new System.EventHandler(this.descriptionTextbox_TextChanged);
 			// 
 			// tagsTextbox
 			// 
+			this.tagsTextbox.AcceptsReturn = true;
 			this.mainSettingsTlp.SetColumnSpan(this.tagsTextbox, 5);
 			this.tagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tagsTextbox.Location = new System.Drawing.Point(10, 193);
+			this.tagsTextbox.Location = new System.Drawing.Point(10, 232);
 			this.tagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsTextbox.Multiline = true;
 			this.tagsTextbox.Name = "tagsTextbox";
-			this.tagsTextbox.Size = new System.Drawing.Size(1104, 111);
+			this.tagsTextbox.Size = new System.Drawing.Size(1104, 150);
 			this.tagsTextbox.TabIndex = 8;
+			this.tagsTextbox.TextChanged += new System.EventHandler(this.tagsTextbox_TextChanged);
 			// 
 			// thumbnailTextbox
 			// 
 			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 315);
+			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 393);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
 			this.thumbnailTextbox.Size = new System.Drawing.Size(846, 26);
 			this.thumbnailTextbox.TabIndex = 9;
+			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextbox_TextChanged);
 			// 
 			// thumbnailButton
 			// 
 			this.thumbnailButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailButton.AutoSize = true;
 			this.thumbnailButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.thumbnailButton.Location = new System.Drawing.Point(1052, 314);
+			this.thumbnailButton.Location = new System.Drawing.Point(1052, 392);
 			this.thumbnailButton.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailButton.Name = "thumbnailButton";
 			this.thumbnailButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -323,6 +263,34 @@
 			this.thumbnailButton.TabIndex = 10;
 			this.thumbnailButton.Text = "[...]";
 			this.thumbnailButton.UseVisualStyleBackColor = true;
+			// 
+			// publishAtDatetimepicker
+			// 
+			this.publishAtDatetimepicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mainSettingsTlp.SetColumnSpan(this.publishAtDatetimepicker, 3);
+			this.publishAtDatetimepicker.CustomFormat = "dd.MM.yyyy HH:mm";
+			this.publishAtDatetimepicker.Enabled = false;
+			this.publishAtDatetimepicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.publishAtDatetimepicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 467);
+			this.publishAtDatetimepicker.Margin = new System.Windows.Forms.Padding(0);
+			this.publishAtDatetimepicker.Name = "publishAtDatetimepicker";
+			this.publishAtDatetimepicker.Size = new System.Drawing.Size(918, 26);
+			this.publishAtDatetimepicker.TabIndex = 12;
+			this.publishAtDatetimepicker.ValueChanged += new System.EventHandler(this.publishAtDatetimepicker_ValueChanged);
+			// 
+			// publishAtCheckbox
+			// 
+			this.publishAtCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.publishAtCheckbox.AutoSize = true;
+			this.publishAtCheckbox.Enabled = false;
+			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 471);
+			this.publishAtCheckbox.Name = "publishAtCheckbox";
+			this.publishAtCheckbox.Size = new System.Drawing.Size(170, 17);
+			this.publishAtCheckbox.TabIndex = 13;
+			this.publishAtCheckbox.Text = "Video geplant veröffentlichen: ";
+			this.publishAtCheckbox.UseVisualStyleBackColor = true;
+			this.publishAtCheckbox.CheckedChanged += new System.EventHandler(this.publishAtCheckbox_CheckedChanged);
 			// 
 			// privacyCombobox
 			// 
@@ -335,37 +303,26 @@
             "Öffentlich",
             "Nicht gelistet",
             "Privat"});
-			this.privacyCombobox.Location = new System.Drawing.Point(196, 353);
+			this.privacyCombobox.Location = new System.Drawing.Point(196, 431);
 			this.privacyCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyCombobox.Name = "privacyCombobox";
 			this.privacyCombobox.Size = new System.Drawing.Size(918, 26);
 			this.privacyCombobox.TabIndex = 11;
+			this.privacyCombobox.SelectedIndexChanged += new System.EventHandler(this.privacyCombobox_SelectedIndexChanged);
 			// 
-			// publishAtDatetimepicker
+			// otherSettingsGroupbox
 			// 
-			this.publishAtDatetimepicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.mainSettingsTlp.SetColumnSpan(this.publishAtDatetimepicker, 3);
-			this.publishAtDatetimepicker.CustomFormat = "dd.MM.yyyy HH:mm";
-			this.publishAtDatetimepicker.Enabled = false;
-			this.publishAtDatetimepicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.publishAtDatetimepicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 389);
-			this.publishAtDatetimepicker.Margin = new System.Windows.Forms.Padding(0);
-			this.publishAtDatetimepicker.Name = "publishAtDatetimepicker";
-			this.publishAtDatetimepicker.Size = new System.Drawing.Size(918, 26);
-			this.publishAtDatetimepicker.TabIndex = 12;
-			// 
-			// publishAtCheckbox
-			// 
-			this.publishAtCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.publishAtCheckbox.AutoSize = true;
-			this.publishAtCheckbox.Enabled = false;
-			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 393);
-			this.publishAtCheckbox.Name = "publishAtCheckbox";
-			this.publishAtCheckbox.Size = new System.Drawing.Size(170, 17);
-			this.publishAtCheckbox.TabIndex = 13;
-			this.publishAtCheckbox.Text = "Video geplant veröffentlichen: ";
-			this.publishAtCheckbox.UseVisualStyleBackColor = true;
+			this.otherSettingsGroupbox.AutoSize = true;
+			this.otherSettingsGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.otherSettingsGroupbox.Controls.Add(this.otherSettingsTlp);
+			this.otherSettingsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 542);
+			this.otherSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
+			this.otherSettingsGroupbox.Name = "otherSettingsGroupbox";
+			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1130, 272);
+			this.otherSettingsGroupbox.TabIndex = 1;
+			this.otherSettingsGroupbox.TabStop = false;
+			this.otherSettingsGroupbox.Text = "Weitere Einstellungen";
 			// 
 			// otherSettingsTlp
 			// 
@@ -413,27 +370,21 @@
 			this.otherSettingsTlp.Size = new System.Drawing.Size(1124, 253);
 			this.otherSettingsTlp.TabIndex = 0;
 			// 
-			// categoryLabel
+			// licenseCombobox
 			// 
-			this.categoryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.categoryLabel.AutoSize = true;
-			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
-			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.categoryLabel.Name = "categoryLabel";
-			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
-			this.categoryLabel.TabIndex = 8;
-			this.categoryLabel.Text = "Kategorie: ";
-			// 
-			// defaultLanguageLabel
-			// 
-			this.defaultLanguageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.defaultLanguageLabel.AutoSize = true;
-			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
-			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
-			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
-			this.defaultLanguageLabel.TabIndex = 9;
-			this.defaultLanguageLabel.Text = "Videosprache: ";
+			this.licenseCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.licenseCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.licenseCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.licenseCombobox.FormattingEnabled = true;
+			this.licenseCombobox.Items.AddRange(new object[] {
+            "Standard-Youtube-Lizenz",
+            "Creative-Commons - Namensnennung"});
+			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
+			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.licenseCombobox.Name = "licenseCombobox";
+			this.licenseCombobox.Size = new System.Drawing.Size(936, 26);
+			this.licenseCombobox.TabIndex = 18;
+			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseCombobox_SelectedIndexChanged);
 			// 
 			// licenseLabel
 			// 
@@ -458,6 +409,7 @@
 			this.isEmbeddableCheckbox.TabIndex = 11;
 			this.isEmbeddableCheckbox.Text = "Einbetten zulassen";
 			this.isEmbeddableCheckbox.UseVisualStyleBackColor = true;
+			this.isEmbeddableCheckbox.CheckedChanged += new System.EventHandler(this.isEmbeddableCheckbox_CheckedChanged);
 			// 
 			// publicStatsViewableCheckbox
 			// 
@@ -471,6 +423,29 @@
 			this.publicStatsViewableCheckbox.TabIndex = 15;
 			this.publicStatsViewableCheckbox.Text = "Videostatistik auf der Wiedergabeseite öffentlich sichtbar machen";
 			this.publicStatsViewableCheckbox.UseVisualStyleBackColor = true;
+			this.publicStatsViewableCheckbox.CheckedChanged += new System.EventHandler(this.publicStatsViewableCheckbox_CheckedChanged);
+			// 
+			// defaultLanguageLabel
+			// 
+			this.defaultLanguageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.defaultLanguageLabel.AutoSize = true;
+			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
+			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
+			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
+			this.defaultLanguageLabel.TabIndex = 9;
+			this.defaultLanguageLabel.Text = "Videosprache: ";
+			// 
+			// categoryLabel
+			// 
+			this.categoryLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.categoryLabel.AutoSize = true;
+			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
+			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.categoryLabel.Name = "categoryLabel";
+			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
+			this.categoryLabel.TabIndex = 8;
+			this.categoryLabel.Text = "Kategorie: ";
 			// 
 			// categoryCombobox
 			// 
@@ -483,6 +458,7 @@
 			this.categoryCombobox.Name = "categoryCombobox";
 			this.categoryCombobox.Size = new System.Drawing.Size(936, 26);
 			this.categoryCombobox.TabIndex = 16;
+			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryCombobox_SelectedIndexChanged);
 			// 
 			// defaultLanguageCombobox
 			// 
@@ -495,34 +471,7 @@
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
 			this.defaultLanguageCombobox.Size = new System.Drawing.Size(936, 26);
 			this.defaultLanguageCombobox.TabIndex = 17;
-			// 
-			// licenseCombobox
-			// 
-			this.licenseCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.licenseCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.licenseCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.licenseCombobox.FormattingEnabled = true;
-			this.licenseCombobox.Items.AddRange(new object[] {
-            "Standard-Youtube-Lizenz",
-            "Creative-Commons - Namensnennung"});
-			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
-			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
-			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(936, 26);
-			this.licenseCombobox.TabIndex = 18;
-			// 
-			// notifySubscribersCheckbox
-			// 
-			this.notifySubscribersCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.notifySubscribersCheckbox.AutoSize = true;
-			this.otherSettingsTlp.SetColumnSpan(this.notifySubscribersCheckbox, 3);
-			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 172);
-			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
-			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(1104, 17);
-			this.notifySubscribersCheckbox.TabIndex = 12;
-			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
-			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
+			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageCombobox_SelectedIndexChanged);
 			// 
 			// autoLevelsCheckbox
 			// 
@@ -536,6 +485,7 @@
 			this.autoLevelsCheckbox.TabIndex = 13;
 			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
 			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
+			this.autoLevelsCheckbox.CheckedChanged += new System.EventHandler(this.autoLevelsCheckbox_CheckedChanged);
 			// 
 			// stabilizeCheckbox
 			// 
@@ -549,42 +499,21 @@
 			this.stabilizeCheckbox.TabIndex = 14;
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
+			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckbox_CheckedChanged);
 			// 
-			// filePathButton
+			// notifySubscribersCheckbox
 			// 
-			this.filePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.filePathButton.AutoSize = true;
-			this.filePathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.filePathButton.Location = new System.Drawing.Point(1078, 10);
-			this.filePathButton.Margin = new System.Windows.Forms.Padding(0);
-			this.filePathButton.Name = "filePathButton";
-			this.filePathButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.filePathButton.Size = new System.Drawing.Size(62, 29);
-			this.filePathButton.TabIndex = 10;
-			this.filePathButton.Text = "[...]";
-			this.filePathButton.UseVisualStyleBackColor = true;
-			// 
-			// filePathLabel
-			// 
-			this.filePathLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.filePathLabel.AutoSize = true;
-			this.filePathLabel.Location = new System.Drawing.Point(10, 18);
-			this.filePathLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.filePathLabel.Name = "filePathLabel";
-			this.filePathLabel.Size = new System.Drawing.Size(63, 13);
-			this.filePathLabel.TabIndex = 0;
-			this.filePathLabel.Text = "Videodatei: ";
-			// 
-			// filePathTextbox
-			// 
-			this.filePathTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.mainTlp.SetColumnSpan(this.filePathTextbox, 4);
-			this.filePathTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.filePathTextbox.Location = new System.Drawing.Point(83, 11);
-			this.filePathTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.filePathTextbox.Name = "filePathTextbox";
-			this.filePathTextbox.Size = new System.Drawing.Size(985, 26);
-			this.filePathTextbox.TabIndex = 9;
+			this.notifySubscribersCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.notifySubscribersCheckbox.AutoSize = true;
+			this.otherSettingsTlp.SetColumnSpan(this.notifySubscribersCheckbox, 3);
+			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 172);
+			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
+			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.notifySubscribersCheckbox.TabIndex = 12;
+			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
+			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
+			this.notifySubscribersCheckbox.CheckedChanged += new System.EventHandler(this.notifySubscribersCheckbox_CheckedChanged);
 			// 
 			// selectVideoDialog
 			// 
@@ -593,20 +522,20 @@
     " Dateien|*.*";
 			this.selectVideoDialog.Title = "Bitte Video zum Upload auswählen...";
 			// 
-			// UploadGrid
+			// EditVideoGrid
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.mainTlp);
-			this.Name = "UploadGrid";
+			this.Name = "EditVideoGrid";
 			this.Size = new System.Drawing.Size(1150, 824);
 			this.mainTlp.ResumeLayout(false);
 			this.mainTlp.PerformLayout();
 			this.mainSettingsGroupbox.ResumeLayout(false);
-			this.otherSettingsGroupbox.ResumeLayout(false);
-			this.otherSettingsGroupbox.PerformLayout();
 			this.mainSettingsTlp.ResumeLayout(false);
 			this.mainSettingsTlp.PerformLayout();
+			this.otherSettingsGroupbox.ResumeLayout(false);
+			this.otherSettingsGroupbox.PerformLayout();
 			this.otherSettingsTlp.ResumeLayout(false);
 			this.otherSettingsTlp.PerformLayout();
 			this.ResumeLayout(false);
@@ -618,8 +547,6 @@
 		private System.Windows.Forms.TableLayoutPanel mainTlp;
 		private System.Windows.Forms.GroupBox mainSettingsGroupbox;
 		private System.Windows.Forms.GroupBox otherSettingsGroupbox;
-		private System.Windows.Forms.Button saveButton;
-		private System.Windows.Forms.Button resetButton;
 		private System.Windows.Forms.TableLayoutPanel mainSettingsTlp;
 		private System.Windows.Forms.Label titleLabel;
 		private System.Windows.Forms.Label descriptionLabel;
@@ -646,9 +573,6 @@
 		private System.Windows.Forms.CheckBox publicStatsViewableCheckbox;
 		private System.Windows.Forms.ComboBox defaultLanguageCombobox;
 		private System.Windows.Forms.ComboBox categoryCombobox;
-		private System.Windows.Forms.Label filePathLabel;
-		private System.Windows.Forms.Button filePathButton;
-		private System.Windows.Forms.TextBox filePathTextbox;
 		private System.Windows.Forms.OpenFileDialog selectVideoDialog;
 	}
 }

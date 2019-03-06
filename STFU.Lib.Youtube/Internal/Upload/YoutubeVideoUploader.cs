@@ -1,61 +1,66 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Net;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Internal.Upload.Model;
+using STFU.Lib.Youtube.Model.Serializable;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal class YoutubeVideoUploader : Uploadable, INotifyPropertyChanged
+	internal class YoutubeVideoUploader : UploadStep
 	{
 		FileUploader fileUploader = new FileUploader();
 
-		internal string Response { get; private set; }
-
-		internal YoutubeVideoUploader(IYoutubeVideo video, IYoutubeAccount account, Uri uploadUri)
+		internal YoutubeVideoUploader(IYoutubeVideo video, IYoutubeAccount account)
+			: base(video, account)
 		{
-			Video = video;
-			Account = account;
-			UploadUri = uploadUri;
-
 			fileUploader.PropertyChanged += OnUploadProgressChanged;
 		}
 
-		internal bool Upload()
+		public override async Task RunAsync()
 		{
+			await Task.Run(() => Run());
+		}
+
+		public void Run()
+		{
+			State = UploadStepState.Initializing;
+
 			var lastbyte = CheckUploadStatus();
 
 			HttpWebRequest request = null;
 			if (lastbyte == -1)
 			{
-				request = HttpWebRequestCreator.CreateForNewUpload(UploadUri, Video, Account);
+				request = HttpWebRequestCreator.CreateForNewUpload(Video.UploadUri, Video, Account);
 			}
 			else
 			{
-				request = HttpWebRequestCreator.CreateForResumeUpload(UploadUri, Video, Account, lastbyte);
+				request = HttpWebRequestCreator.CreateForResumeUpload(Video.UploadUri, Video, Account, lastbyte);
 			}
 
-			State = UploadState.VideoUploading;
+			State = UploadStepState.Running;
 
-			bool successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte);
+			bool successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte + 1);
 
 			if (successful)
 			{
 				request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
-				Response = WebService.Communicate(request);
-				State = UploadState.VideoUploaded;
-			}
-			else if (State == UploadState.CancelPending)
-			{
-				State = UploadState.Canceled;
-			}
-			else if (State != UploadState.Paused)
-			{
-				State = UploadState.VideoError;
-			}
+				string result = WebService.Communicate(request);
 
-			return successful;
+				Video.Id = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+				State = UploadStepState.Successful;
+			}
+			else if (State == UploadStepState.CancelPending)
+			{
+				State = UploadStepState.Canceled;
+			}
+			else if (State != UploadStepState.Paused)
+			{
+				State = UploadStepState.Error;
+			}
 		}
 
 		private void OnUploadProgressChanged(object sender, PropertyChangedEventArgs e)
@@ -68,32 +73,36 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				RemainingDuration = fileUploader.RemainingDuration;
 			}
+			else if (e.PropertyName == nameof(fileUploader.Started))
+			{
+				Started = fileUploader.Started;
+			}
 			else if (e.PropertyName == nameof(fileUploader.UploadedDuration))
 			{
-				UploadedDuration = fileUploader.UploadedDuration;
+				CurrentDuration = fileUploader.UploadedDuration;
 			}
 			else if (e.PropertyName == nameof(fileUploader.FailureReason))
 			{
 				Error = FailReasonConverter.GetError(fileUploader.FailureReason);
-				State = UploadState.VideoError;
+				State = UploadStepState.Error;
 			}
 			else if (e.PropertyName == nameof(fileUploader.RunningState))
 			{
 				if (fileUploader.RunningState == RunningState.Paused)
 				{
-					State = UploadState.Paused;
+					State = UploadStepState.Paused;
 				}
-				else if (fileUploader.RunningState == RunningState.Running 
-					&& State.IsPausingOrPaused())
+				else if (fileUploader.RunningState == RunningState.Running
+					&& (State == UploadStepState.PausePending || State == UploadStepState.Paused))
 				{
-					State = UploadState.VideoUploading;
+					State = UploadStepState.Running;
 				}
 			}
 		}
 
 		internal long CheckUploadStatus()
 		{
-			var request = HttpWebRequestCreator.CreateWithAuthHeader(UploadUri.AbsoluteUri, "PUT", Account.GetActiveToken());
+			var request = HttpWebRequestCreator.CreateWithAuthHeader(Video.UploadUri.AbsoluteUri, "PUT", Account.GetActiveToken());
 			request.ContentLength = 0;
 			request.Headers.Add($"content-range: bytes */{Video.File.Length}");
 
@@ -118,29 +127,30 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return lastbyte;
 		}
 
-		internal void Cancel()
+		public override void Cancel()
 		{
-			if (State.IsRunningOrInitializing())
+			if (State == UploadStepState.Initializing || State == UploadStepState.Running)
 			{
-				State = UploadState.CancelPending;
+				State = UploadStepState.CancelPending;
 				fileUploader.Cancel();
 			}
 		}
 
-		internal void Pause()
+		public override void Pause()
 		{
-			if (State.IsRunningOrInitializing())
+			if (State == UploadStepState.Initializing || State == UploadStepState.Running)
 			{
-				State = UploadState.PausePending;
+				State = UploadStepState.PausePending;
 				fileUploader.Pause();
 			}
 		}
 
-		internal void Resume()
+		public override void Resume()
 		{
-			if (State.IsPausingOrPaused())
+			if (State == UploadStepState.PausePending || State == UploadStepState.Paused)
 			{
-				fileUploader.Resume(); 
+				fileUploader.Resume();
+				Run();
 			}
 		}
 	}

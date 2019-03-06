@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using STFU.Lib.GUI.Forms;
+using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
@@ -11,6 +13,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 	public partial class JobControl : UserControl
 	{
+		private IYoutubeCategoryContainer categoryContainer;
+		private IYoutubeLanguageContainer languageContainer;
+
 		public event MoveRequested MoveUpRequested;
 		public event MoveRequested MoveDownRequested;
 
@@ -150,6 +155,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 		}
 
+		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		{
+			categoryContainer = catContainer;
+			languageContainer = langContainer;
+		}
+
 		private void RefreshActionsButtonVisibility(bool visible)
 		{
 			Safe(() => actionsButton.Visible = visible, actionsButton);
@@ -280,6 +291,20 @@ namespace STFU.Lib.GUI.Controls.Queue
 		public override string ToString()
 		{
 			return Job.ToString();
+		}
+
+		private void detailsBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Job.BeginEdit();
+
+			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), categoryContainer, languageContainer);
+			
+			if (form.ShowDialog(this) == DialogResult.OK)
+			{
+				Job.Video.FillFields(form.Video);
+			}
+
+			Job.FinishEditAsync();
 		}
 	}
 }
