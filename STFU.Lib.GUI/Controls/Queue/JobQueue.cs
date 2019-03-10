@@ -175,7 +175,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 			control.MoveDownRequested += Control_MoveDownRequested;
 
 			control.Margin = new Padding(0, 0, 0, 0);
-			control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+			control.Dock = DockStyle.Fill;
 
 			AddItemToMainTlp(position, control);
 		}

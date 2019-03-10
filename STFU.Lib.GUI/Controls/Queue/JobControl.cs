@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using ImageProcessor;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -41,8 +43,31 @@ namespace STFU.Lib.GUI.Controls.Queue
 					job = value;
 					RefreshContextMenuEnabled();
 					RefreshTitleLabel(job.Video.Title);
+					RefreshThumbnail(job.Video.ThumbnailPath);
 					job.PropertyChanged += JobPropertyChanged;
 				}
+			}
+		}
+
+		private void RefreshThumbnail(string thumbnailPath)
+		{
+			if (File.Exists(thumbnailPath))
+			{
+				try
+				{
+					ImageFactory imageFactory = new ImageFactory().Load(thumbnailPath);
+					thumbnailBox.BackgroundImage = imageFactory.Image;
+					thumbnailBox.BackgroundImageLayout = ImageLayout.Zoom;
+					thumbnailBox.Visible = true;
+				}
+				catch (Exception)
+				{
+					thumbnailBox.Visible = false;
+				}
+			}
+			else
+			{
+				thumbnailBox.Visible = false;
 			}
 		}
 
@@ -298,7 +323,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 			Job.BeginEdit();
 
 			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), categoryContainer, languageContainer);
-			
+
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
 				Job.Video.FillFields(form.Video);
