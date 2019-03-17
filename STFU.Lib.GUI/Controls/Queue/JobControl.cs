@@ -329,7 +329,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 				Job.Video.FillFields(form.Video);
 			}
 
-			Job.FinishEditAsync();
+			Job.FinishEdit();
 		}
 	}
 }

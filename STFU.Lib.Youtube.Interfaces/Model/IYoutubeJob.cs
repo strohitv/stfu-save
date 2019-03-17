@@ -104,6 +104,6 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Finishes the Jobs edit mode.
 		/// </summary>
-		void FinishEditAsync();
+		void FinishEdit();
 	}
 }

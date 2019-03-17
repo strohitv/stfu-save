@@ -211,7 +211,11 @@ namespace STFU.Lib.Youtube.Internal
 				{
 					Steps.Enqueue(new YoutubeVideoUploadInitializer(Video, Account));
 					Steps.Enqueue(new YoutubeVideoUploader(Video, Account));
-					Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+
+					if (!string.IsNullOrWhiteSpace(Video.ThumbnailPath))
+					{
+						Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+					}
 				}
 
 				try
@@ -397,7 +401,7 @@ namespace STFU.Lib.Youtube.Internal
 			IsInEditMode = true;
 		}
 
-		public async void FinishEditAsync()
+		public void FinishEdit()
 		{
 			IsInEditMode = false;
 
