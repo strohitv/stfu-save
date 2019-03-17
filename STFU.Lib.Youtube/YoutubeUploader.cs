@@ -222,27 +222,30 @@ namespace STFU.Lib.Youtube
 				&& JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
-				var nextJob = Queue.First(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
+				var nextJob = Queue.FirstOrDefault(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
 
-				bool start = false;
-				State = UploaderState.Uploading;
-				while (!start && nextJob.Video.File.Exists)
+				if (nextJob != null)
 				{
-					try
+					bool start = false;
+					State = UploaderState.Uploading;
+					while (!start && nextJob.Video.File.Exists)
 					{
-						using (StreamWriter writer = new StreamWriter(nextJob.Video.File.FullName, true))
+						try
 						{
-							start = true;
+							using (StreamWriter writer = new StreamWriter(nextJob.Video.File.FullName, true))
+							{
+								start = true;
+							}
 						}
+						catch (System.Exception)
+						{ }
 					}
-					catch (System.Exception)
-					{ }
-				}
 
-				if (nextJob.Video.File.Exists)
-				{
-					NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-					nextJob.UploadAsync();
+					if (nextJob.Video.File.Exists)
+					{
+						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
+						nextJob.UploadAsync();
+					}
 				}
 			}
 		}
