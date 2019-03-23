@@ -327,6 +327,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
 				Job.Video.FillFields(form.Video);
+
+				RefreshTitleLabel(job.Video.Title);
+				RefreshThumbnail(job.Video.ThumbnailPath);
 			}
 
 			Job.FinishEdit();

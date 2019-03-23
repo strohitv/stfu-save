@@ -54,7 +54,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Determines if the jobs upload should be skipped if <see cref="IYoutubeUploader"/> searches for a new job to upload.
 		/// Setting this property does not have any effect if the upload has already been started.
-		/// Starting the job using <see cref="UploadAsync"/> will not work if this property is true.
+		/// Starting the job using <see cref="StartUpload"/> will not work if this property is true.
 		/// Starting the job using <see cref="ForceUploadAsync"/> will ignore this property and start the job immediately.
 		/// </summary>
 		bool ShouldBeSkipped { get; set; }
@@ -62,7 +62,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Starts the jobs upload only if <see cref="ShouldBeSkipped"/> is false
 		/// </summary>
-		void UploadAsync();
+		void StartUpload();
 
 		/// <summary>
 		/// Starts the jobs upload even if <see cref="ShouldBeSkipped"/> is true

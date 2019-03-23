@@ -159,7 +159,7 @@ namespace STFU.Lib.Youtube.Internal
 			Video = video;
 		}
 
-		public async void UploadAsync()
+		public void StartUpload()
 		{
 			if (!ShouldBeSkipped && RunningStep == null)
 			{
@@ -167,7 +167,11 @@ namespace STFU.Lib.Youtube.Internal
 				{
 					Steps.Enqueue(new YoutubeVideoUploadInitializer(Video, Account));
 					Steps.Enqueue(new YoutubeVideoUploader(Video, Account));
-					Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+
+					if (!string.IsNullOrWhiteSpace(Video.ThumbnailPath))
+					{
+						Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+					}
 				}
 
 				try

@@ -244,7 +244,7 @@ namespace STFU.Lib.Youtube
 					if (nextJob.Video.File.Exists)
 					{
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-						nextJob.UploadAsync();
+						nextJob.StartUpload();
 					}
 				}
 			}
