@@ -149,7 +149,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			if (State == UploadStepState.PausePending || State == UploadStepState.Paused)
 			{
-				fileUploader.Resume();
+				fileUploader.SetSateToRunning();
 				Run();
 			}
 		}

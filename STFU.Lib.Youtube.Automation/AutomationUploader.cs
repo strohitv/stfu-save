@@ -1,4 +1,10 @@
-﻿using STFU.Lib.Youtube.Automation.Interfaces;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
@@ -6,12 +12,6 @@ using STFU.Lib.Youtube.Automation.Internal.Watcher;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -231,7 +231,14 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void FileToUploadOccured(FileSystemEventArgs e)
 		{
-			if (!e.Name.StartsWith("_") && !Uploader.Queue.Any(job => job.Video.File.FullName.ToLower() == e.FullPath.ToLower()))
+			if (!e.Name.StartsWith("_")
+				&& Uploader.Queue
+					.Where(job
+						=> job.Video.File.FullName.ToLower() == e.FullPath.ToLower())
+					.All(job
+						=> job.State == UploadProgress.Successful
+						|| job.State == UploadProgress.Failed
+						|| job.State == UploadProgress.Canceled))
 			{
 				var job = Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
 				job.PropertyChanged += Job_PropertyChanged;
@@ -243,7 +250,7 @@ namespace STFU.Lib.Youtube.Automation
 		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = (IYoutubeJob)sender;
-			if (e.PropertyName == nameof(job.State) && job.State == UploadState.Successful)
+			if (e.PropertyName == nameof(job.State) && job.State == UploadProgress.Successful)
 			{
 				var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
 					   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
@@ -252,10 +259,10 @@ namespace STFU.Lib.Youtube.Automation
 				int number = 1;
 				while (File.Exists(movedPath))
 				{
-					movedPath = Path.GetDirectoryName(movedPath) 
-						+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number 
+					movedPath = Path.GetDirectoryName(movedPath)
+						+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
 						+ Path.GetExtension(movedPath);
- 				}
+				}
 
 				File.Move(job.Video.File.FullName, movedPath);
 

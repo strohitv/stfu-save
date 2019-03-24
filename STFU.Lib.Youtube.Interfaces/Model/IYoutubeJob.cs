@@ -19,17 +19,12 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// current state of the job
 		/// </summary>
-		UploadState State { get; }
+		UploadObject CurrentObject { get; }
 
 		/// <summary>
-		/// Determines if the video is being uploaded right now. Is true if job is paused
+		/// current state of the job
 		/// </summary>
-		bool IsUploading { get; }
-
-		/// <summary>
-		/// Determines if the upload job is paused
-		/// </summary>
-		bool IsUploadPaused { get; }
+		UploadProgress State { get; }
 
 		/// <summary>
 		/// current progress of the job

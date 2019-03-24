@@ -62,13 +62,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
-		internal bool UploadThumbnail()
-		{
-			var successful = true;
-
-			return successful;
-		}
-
 		public override void Cancel()
 		{
 			if (State == UploadStepState.Initializing || State == UploadStepState.Running)
@@ -124,7 +117,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			if (State == UploadStepState.PausePending || State == UploadStepState.Paused)
 			{
-				fileUploader.Resume();
+				fileUploader.SetSateToRunning();
 				Run();
 			}
 		}

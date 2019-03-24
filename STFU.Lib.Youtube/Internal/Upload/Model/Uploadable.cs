@@ -8,12 +8,6 @@ namespace STFU.Lib.Youtube.Internal.Upload.Model
 {
 	internal class Uploadable : INotifyPropertyChanged
 	{
-		protected IYoutubeVideo Video { get; set; }
-
-		protected IYoutubeAccount Account { get; set; }
-
-		protected Uri UploadUri { get; set; }
-
 		private double progress = 0.0;
 		public double Progress
 		{
@@ -83,23 +77,6 @@ namespace STFU.Lib.Youtube.Internal.Upload.Model
 			}
 		}
 
-		private UploadState state = UploadState.NotStarted;
-		public UploadState State
-		{
-			get
-			{
-				return state;
-			}
-			protected set
-			{
-				if (state != value)
-				{
-					state = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		private RunningState runningState = RunningState.NotRunning;
 		public RunningState RunningState
 		{
@@ -129,24 +106,6 @@ namespace STFU.Lib.Youtube.Internal.Upload.Model
 			{
 				failureReason = value;
 				OnPropertyChanged();
-			}
-		}
-
-		private IYoutubeError error = null;
-		public IYoutubeError Error
-		{
-			get
-			{
-				return error;
-			}
-
-			set
-			{
-				if (value != error)
-				{
-					error = value;
-					OnPropertyChanged();
-				}
 			}
 		}
 
