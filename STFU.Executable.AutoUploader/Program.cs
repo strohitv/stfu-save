@@ -43,28 +43,54 @@ namespace STFU.Executable.AutoUploader
 
 		private static void LogException(object sender, FirstChanceExceptionEventArgs e)
 		{
-			if (!Directory.Exists("errors"))
+			if (!IsIncompleteResume(e)
+				&& !IsCoreLibException(e)
+				&& !IsCancelException(e))
 			{
-				Directory.CreateDirectory("errors");
+				if (!Directory.Exists("errors"))
+				{
+					Directory.CreateDirectory("errors");
+				}
+
+				if (!Directory.Exists(@"errors\autouploader"))
+				{
+					Directory.CreateDirectory(@"errors\autouploader");
+				}
+
+				var filename = @"errors\autouploader\" + Application.ProductVersion + " - " + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
+
+				using (StreamWriter writer = new StreamWriter(filename, true))
+				{
+					writer.WriteLine($"============================================");
+					writer.WriteLine($"Begin Log - Exception Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm")}");
+					writer.WriteLine($"============================================");
+					writer.WriteLine();
+
+					WriteException(writer, e.Exception, string.Empty);
+
+					writer.WriteLine();
+					writer.WriteLine();
+					writer.WriteLine();
+				}
 			}
+		}
 
-			if (!Directory.Exists(@"errors\autouploader"))
-			{
-				Directory.CreateDirectory(@"errors\autouploader");
-			}
+		private static bool IsCancelException(FirstChanceExceptionEventArgs e)
+		{
+			return (e.Exception is IOException && ((IOException)e.Exception).HResult == -2146232800)
+				|| (e.Exception is WebException && ((WebException)e.Exception).Status == WebExceptionStatus.RequestCanceled);
+		}
 
-			var filename = @"errors\autouploader\" + Application.ProductVersion + " - " + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + ".log";
+		private static bool IsCoreLibException(FirstChanceExceptionEventArgs e)
+		{
+			return e.Exception.Source == "mscorlib";
+		}
 
-			using (StreamWriter writer = new StreamWriter(filename))
-			{
-				WriteException(writer, e.Exception, string.Empty);
-
-				writer.WriteLine();
-				writer.WriteLine("Ende der Exception.");
-				writer.WriteLine();
-				writer.WriteLine();
-				writer.WriteLine();
-			}
+		private static bool IsIncompleteResume(FirstChanceExceptionEventArgs e)
+		{
+			return e.Exception is WebException
+					&& ((WebException)e.Exception).Status == WebExceptionStatus.ProtocolError
+					&& (int)(((WebException)e.Exception).Response as HttpWebResponse).StatusCode == 308;
 		}
 
 		private static void WriteException(StreamWriter writer, Exception ex, string prefix)

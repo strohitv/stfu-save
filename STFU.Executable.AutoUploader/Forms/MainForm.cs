@@ -444,5 +444,15 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			settingsPersistor.Save();
 		}
+
+		private void fehlerverzeichnisÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!Directory.Exists("errors"))
+			{
+				Directory.CreateDirectory("errors");
+			}
+
+			Process.Start("explorer.exe", "errors");
+		}
 	}
 }
