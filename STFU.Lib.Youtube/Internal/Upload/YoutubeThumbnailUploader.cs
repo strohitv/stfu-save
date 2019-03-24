@@ -49,6 +49,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					var thumbnailResource = WebService.Communicate(request);
 					State = UploadStepState.Successful;
+					Video.IsThumbnailDirty = false;
 				}
 				else if (State == UploadStepState.CancelPending)
 				{

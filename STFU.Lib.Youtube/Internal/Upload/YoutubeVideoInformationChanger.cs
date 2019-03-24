@@ -31,6 +31,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			var response = WebService.Communicate(request, bytes);
 
 			State = UploadStepState.Successful;
+			Video.IsDirty = false;
 		}
 
 		public override void Cancel()

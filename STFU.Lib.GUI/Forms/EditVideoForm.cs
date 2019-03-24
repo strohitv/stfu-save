@@ -18,6 +18,7 @@ namespace STFU.Lib.GUI.Forms
 			: this()
 		{
 			Video = video;
+			uploadGrid.IsNewUpload = false;
 			uploadGrid.Fill(video, catContainer, langContainer);
 		}
 

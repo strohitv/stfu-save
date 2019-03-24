@@ -54,10 +54,10 @@
 			this.categoryLabel = new System.Windows.Forms.Label();
 			this.categoryCombobox = new System.Windows.Forms.ComboBox();
 			this.defaultLanguageCombobox = new System.Windows.Forms.ComboBox();
-			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
-			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
-			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.selectVideoDialog = new System.Windows.Forms.OpenFileDialog();
+			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
+			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
+			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.mainTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
@@ -342,13 +342,13 @@
 			this.otherSettingsTlp.Controls.Add(this.categoryLabel, 1, 1);
 			this.otherSettingsTlp.Controls.Add(this.categoryCombobox, 3, 1);
 			this.otherSettingsTlp.Controls.Add(this.defaultLanguageCombobox, 3, 3);
-			this.otherSettingsTlp.Controls.Add(this.autoLevelsCheckbox, 1, 13);
-			this.otherSettingsTlp.Controls.Add(this.stabilizeCheckbox, 1, 15);
-			this.otherSettingsTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 11);
+			this.otherSettingsTlp.Controls.Add(this.autoLevelsCheckbox, 1, 11);
+			this.otherSettingsTlp.Controls.Add(this.stabilizeCheckbox, 1, 12);
+			this.otherSettingsTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 10);
 			this.otherSettingsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.otherSettingsTlp.Location = new System.Drawing.Point(3, 16);
 			this.otherSettingsTlp.Name = "otherSettingsTlp";
-			this.otherSettingsTlp.RowCount = 17;
+			this.otherSettingsTlp.RowCount = 14;
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -359,13 +359,12 @@
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.otherSettingsTlp.Size = new System.Drawing.Size(1124, 253);
 			this.otherSettingsTlp.TabIndex = 0;
@@ -473,19 +472,12 @@
 			this.defaultLanguageCombobox.TabIndex = 17;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageCombobox_SelectedIndexChanged);
 			// 
-			// autoLevelsCheckbox
+			// selectVideoDialog
 			// 
-			this.autoLevelsCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.autoLevelsCheckbox.AutoSize = true;
-			this.otherSettingsTlp.SetColumnSpan(this.autoLevelsCheckbox, 3);
-			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 199);
-			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
-			this.autoLevelsCheckbox.Size = new System.Drawing.Size(1104, 17);
-			this.autoLevelsCheckbox.TabIndex = 13;
-			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
-			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
-			this.autoLevelsCheckbox.CheckedChanged += new System.EventHandler(this.autoLevelsCheckbox_CheckedChanged);
+			this.selectVideoDialog.Filter = "Video-Dateien|*.mkv;*.mp4;*.mov;*.avi;*.flv;*.webm|MKV-Videos|*.mkv|MP4-Videos|*." +
+    "mp4;|MOV-Videos|*.mov|AVI-Videos|*.avi|Flash-Videos|*.flv|WEBM-Videos|*.flv|Alle" +
+    " Dateien|*.*";
+			this.selectVideoDialog.Title = "Bitte Video zum Upload auswählen...";
 			// 
 			// stabilizeCheckbox
 			// 
@@ -493,13 +485,29 @@
 			this.stabilizeCheckbox.AutoSize = true;
 			this.otherSettingsTlp.SetColumnSpan(this.stabilizeCheckbox, 3);
 			this.stabilizeCheckbox.Location = new System.Drawing.Point(10, 226);
-			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.stabilizeCheckbox.Name = "stabilizeCheckbox";
 			this.stabilizeCheckbox.Size = new System.Drawing.Size(1104, 17);
 			this.stabilizeCheckbox.TabIndex = 14;
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
+			this.stabilizeCheckbox.Visible = false;
 			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckbox_CheckedChanged);
+			// 
+			// autoLevelsCheckbox
+			// 
+			this.autoLevelsCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.autoLevelsCheckbox.AutoSize = true;
+			this.otherSettingsTlp.SetColumnSpan(this.autoLevelsCheckbox, 3);
+			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 199);
+			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
+			this.autoLevelsCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.autoLevelsCheckbox.TabIndex = 13;
+			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
+			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
+			this.autoLevelsCheckbox.Visible = false;
+			this.autoLevelsCheckbox.CheckedChanged += new System.EventHandler(this.autoLevelsCheckbox_CheckedChanged);
 			// 
 			// notifySubscribersCheckbox
 			// 
@@ -507,20 +515,14 @@
 			this.notifySubscribersCheckbox.AutoSize = true;
 			this.otherSettingsTlp.SetColumnSpan(this.notifySubscribersCheckbox, 3);
 			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 172);
-			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
 			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(1104, 17);
 			this.notifySubscribersCheckbox.TabIndex = 12;
 			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
 			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
+			this.notifySubscribersCheckbox.Visible = false;
 			this.notifySubscribersCheckbox.CheckedChanged += new System.EventHandler(this.notifySubscribersCheckbox_CheckedChanged);
-			// 
-			// selectVideoDialog
-			// 
-			this.selectVideoDialog.Filter = "Video-Dateien|*.mkv;*.mp4;*.mov;*.avi;*.flv;*.webm|MKV-Videos|*.mkv|MP4-Videos|*." +
-    "mp4;|MOV-Videos|*.mov|AVI-Videos|*.avi|Flash-Videos|*.flv|WEBM-Videos|*.flv|Alle" +
-    " Dateien|*.*";
-			this.selectVideoDialog.Title = "Bitte Video zum Upload auswählen...";
 			// 
 			// EditVideoGrid
 			// 
@@ -562,17 +564,17 @@
 		private System.Windows.Forms.DateTimePicker publishAtDatetimepicker;
 		private System.Windows.Forms.CheckBox publishAtCheckbox;
 		private System.Windows.Forms.TableLayoutPanel otherSettingsTlp;
-		private System.Windows.Forms.CheckBox stabilizeCheckbox;
-		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 		private System.Windows.Forms.Label defaultLanguageLabel;
 		private System.Windows.Forms.ComboBox licenseCombobox;
 		private System.Windows.Forms.Label licenseLabel;
 		private System.Windows.Forms.CheckBox isEmbeddableCheckbox;
-		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
 		private System.Windows.Forms.Label categoryLabel;
 		private System.Windows.Forms.CheckBox publicStatsViewableCheckbox;
 		private System.Windows.Forms.ComboBox defaultLanguageCombobox;
 		private System.Windows.Forms.ComboBox categoryCombobox;
 		private System.Windows.Forms.OpenFileDialog selectVideoDialog;
+		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
+		private System.Windows.Forms.CheckBox stabilizeCheckbox;
+		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 	}
 }

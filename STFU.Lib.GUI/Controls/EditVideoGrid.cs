@@ -11,6 +11,7 @@ namespace STFU.Lib.GUI.Controls
 	{
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private bool isNewUpload = false;
 
 		private IYoutubeVideo video;
 		public IYoutubeVideo Video
@@ -24,6 +25,24 @@ namespace STFU.Lib.GUI.Controls
 				video = value;
 				RefreshView();
 			}
+		}
+
+		public bool IsNewUpload
+		{
+			get
+			{
+				return isNewUpload;
+			}
+			set
+			{
+				isNewUpload = value;
+				RefreshCheckboxesVisibility();
+			}
+		}
+
+		private void RefreshCheckboxesVisibility()
+		{
+			notifySubscribersCheckbox.Visible = autoLevelsCheckbox.Visible = stabilizeCheckbox.Visible = IsNewUpload;
 		}
 
 		public EditVideoGrid()
@@ -110,21 +129,21 @@ namespace STFU.Lib.GUI.Controls
 			stabilizeCheckbox.Checked = video.Stabilize;
 		}
 
-		private void titleTextbox_TextChanged(object sender, System.EventArgs e)
+		private void titleTextbox_TextChanged(object sender, EventArgs e)
 		{
 			Video.Title = titleTextbox.Text;
 		}
 
-		private void descriptionTextbox_TextChanged(object sender, System.EventArgs e)
+		private void descriptionTextbox_TextChanged(object sender, EventArgs e)
 		{
 			Video.Description = descriptionTextbox.Text;
 		}
 
-		private void tagsTextbox_TextChanged(object sender, System.EventArgs e)
+		private void tagsTextbox_TextChanged(object sender, EventArgs e)
 		{
 			var tags = tagsTextbox.Text
 				.Replace(Environment.NewLine, string.Empty)
-				.Split(';')
+				.Split(',')
 				.Select(t => t.Trim());
 
 			Video.Tags.Clear();
@@ -134,12 +153,12 @@ namespace STFU.Lib.GUI.Controls
 			}
 		}
 
-		private void thumbnailTextbox_TextChanged(object sender, System.EventArgs e)
+		private void thumbnailTextbox_TextChanged(object sender, EventArgs e)
 		{
 			Video.ThumbnailPath = thumbnailTextbox.Text;
 		}
 
-		private void privacyCombobox_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void privacyCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			publishAtCheckbox.Enabled = privacyCombobox.SelectedIndex == 2;
 
@@ -162,53 +181,53 @@ namespace STFU.Lib.GUI.Controls
 			}
 		}
 
-		private void publishAtCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void publishAtCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
 			publishAtDatetimepicker.Enabled = publishAtCheckbox.Checked;
 			Video.PublishAt = publishAtCheckbox.Checked ? (DateTime?)publishAtDatetimepicker.Value : null;
 		}
 
-		private void publishAtDatetimepicker_ValueChanged(object sender, System.EventArgs e)
+		private void publishAtDatetimepicker_ValueChanged(object sender, EventArgs e)
 		{
 			Video.PublishAt = (DateTime?)publishAtDatetimepicker.Value;
 		}
 
-		private void categoryCombobox_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void categoryCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Video.Category = categoryContainer.RegisteredCategories.ElementAt(categoryCombobox.SelectedIndex);
 		}
 
-		private void defaultLanguageCombobox_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void defaultLanguageCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Video.DefaultLanguage = languageContainer.RegisteredLanguages.ElementAt(defaultLanguageCombobox.SelectedIndex);
 		}
 
-		private void licenseCombobox_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void licenseCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Video.License = (License)licenseCombobox.SelectedIndex;
 		}
 
-		private void isEmbeddableCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void isEmbeddableCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
 			Video.IsEmbeddable = isEmbeddableCheckbox.Checked;
 		}
 
-		private void publicStatsViewableCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void publicStatsViewableCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
 			Video.PublicStatsViewable = publicStatsViewableCheckbox.Checked;
 		}
 
-		private void notifySubscribersCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void notifySubscribersCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
-			Video.NotifySubscribers= notifySubscribersCheckbox.Checked;
+			Video.NotifySubscribers = notifySubscribersCheckbox.Checked;
 		}
 
-		private void autoLevelsCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void autoLevelsCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
 			Video.AutoLevels = autoLevelsCheckbox.Checked;
 		}
 
-		private void stabilizeCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		private void stabilizeCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
 			Video.Stabilize = stabilizeCheckbox.Checked;
 		}

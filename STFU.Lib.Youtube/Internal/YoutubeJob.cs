@@ -191,9 +191,12 @@ namespace STFU.Lib.Youtube.Internal
 						RunningStep.PropertyChanged -= RunningStep_PropertyChanged;
 					}
 
-					RunningStep = Steps.Dequeue();
-					RunningStep.PropertyChanged += RunningStep_PropertyChanged;
-					await RunningStep.RunAsync();
+					if (Steps.Count > 0)
+					{
+						RunningStep = Steps.Dequeue();
+						RunningStep.PropertyChanged += RunningStep_PropertyChanged;
+						await RunningStep.RunAsync();
+					}
 				}
 				else
 				{
