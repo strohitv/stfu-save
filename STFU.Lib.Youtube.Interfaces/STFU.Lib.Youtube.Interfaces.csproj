@@ -51,7 +51,9 @@
     <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />
     <Compile Include="Model\Enums\PrivacyStatus.cs" />
-    <Compile Include="Model\Enums\UploadStateExtension.cs" />
+    <Compile Include="Model\Enums\UploadObject.cs" />
+    <Compile Include="Model\Enums\UploadProgress.cs" />
+    <Compile Include="Model\Enums\UploadProgressExtension.cs" />
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />
     <Compile Include="Model\Enums\YoutubeScope.cs" />
     <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="Model\IYoutubeError.cs" />
     <Compile Include="Model\IYoutubeVideo.cs" />
     <Compile Include="Model\Enums\UploaderState.cs" />
-    <Compile Include="Model\Enums\UploadState.cs" />
     <Compile Include="Model\UploadStartedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

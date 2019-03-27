@@ -155,7 +155,7 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.CancelAll"/>
 		public void CancelAll()
 		{
-			var runningJobs = JobQueue.Where(j => j.State.IsRunningOrInitializing()).ToArray();
+			var runningJobs = JobQueue.Where(j => j.State.IsStarted()).ToArray();
 			if (runningJobs.Length > 0
 				&& (State == UploaderState.Uploading || State == UploaderState.Waiting))
 			{
@@ -219,10 +219,10 @@ namespace STFU.Lib.Youtube
 		private void StartJobs()
 		{
 			while (State != UploaderState.CancelPending
-				&& JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() < MaxSimultaneousUploads
-				&& Queue.Any(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped))
+				&& JobQueue.Where(j => j.State.IsStarted()).Count() < MaxSimultaneousUploads
+				&& Queue.Any(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
-				var nextJob = Queue.FirstOrDefault(job => job.State == UploadState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
+				var nextJob = Queue.FirstOrDefault(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped);
 
 				if (nextJob != null)
 				{
@@ -244,7 +244,7 @@ namespace STFU.Lib.Youtube
 					if (nextJob.Video.File.Exists)
 					{
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-						nextJob.UploadAsync();
+						nextJob.StartUpload();
 					}
 				}
 			}
@@ -254,7 +254,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (State != UploaderState.CancelPending)
 			{
-				if (JobQueue.Where(j => j.State.IsRunningOrInitializing()).Count() == 0)
+				if (JobQueue.Where(j => j.State.IsStarted()).Count() == 0)
 				{
 					if (StopAfterCompleting)
 					{
@@ -281,7 +281,7 @@ namespace STFU.Lib.Youtube
 			var job = sender as IYoutubeJob;
 			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
-				if (job.State == UploadState.Canceled || job.State == UploadState.Successful || job.State.IsFailed())
+				if (job.State == UploadProgress.Canceled || job.State == UploadProgress.Successful || job.State.IsFailed())
 				{
 					job.PropertyChanged -= RunningJobPropertyChanged;
 				}
@@ -294,7 +294,7 @@ namespace STFU.Lib.Youtube
 				RefreshUploaderState();
 
 				if (State != UploaderState.CancelPending && State != UploaderState.NotRunning
-					&& (job.State == UploadState.Successful
+					&& (job.State == UploadProgress.Successful
 					|| job.State.IsFailed()
 					|| job.State.IsCanceled()))
 				{
@@ -314,7 +314,7 @@ namespace STFU.Lib.Youtube
 
 		private void RecalculateProgress()
 		{
-			var runningJobs = JobQueue.Where(j => j.State.IsRunningOrInitializing()).ToArray();
+			var runningJobs = JobQueue.Where(j => j.State.IsStarted()).ToArray();
 
 			if (runningJobs.Length > 0)
 			{

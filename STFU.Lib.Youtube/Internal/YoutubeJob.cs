@@ -16,7 +16,8 @@ namespace STFU.Lib.Youtube.Internal
 	{
 		private IYoutubeError error = null;
 		private double progress = 0.0;
-		private UploadState state = UploadState.NotStarted;
+		private UploadProgress state = UploadProgress.NotRunning;
+		private UploadObject currentObject = UploadObject.Nothing;
 
 		private bool shouldBeSkipped = false;
 
@@ -59,7 +60,7 @@ namespace STFU.Lib.Youtube.Internal
 			}
 		}
 
-		public UploadState State
+		public UploadProgress State
 		{
 			get
 			{
@@ -70,27 +71,27 @@ namespace STFU.Lib.Youtube.Internal
 			{
 				if (value != state)
 				{
-					var oldState = state;
 					state = value;
 					OnPropertyChanged();
-
-					if (state == UploadState.VideoInitializing || oldState == UploadState.ThumbnailUploading
-						|| oldState == UploadState.VideoUploading || state == UploadState.ThumbnailUploading
-						|| state == UploadState.VideoUploading || state == UploadState.CancelPending
-						|| state == UploadState.Canceled)
-					{
-						OnPropertyChanged(nameof(IsUploading));
-					}
-
-					if (oldState == UploadState.Paused || state == UploadState.Paused)
-					{
-						OnPropertyChanged(nameof(IsUploadPaused));
-					}
 				}
 			}
 		}
 
-		public bool IsUploading => State == UploadState.VideoUploading || State == UploadState.ThumbnailUploading;
+		public UploadObject CurrentObject
+		{
+			get
+			{
+				return currentObject;
+			}
+			set
+			{
+				if (value != currentObject)
+				{
+					currentObject = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public TimeSpan UploadedDuration
 		{
@@ -126,8 +127,6 @@ namespace STFU.Lib.Youtube.Internal
 
 		public IYoutubeVideo Video { get; }
 
-		public bool IsUploadPaused => State == UploadState.Paused;
-
 		public bool ShouldBeSkipped
 		{
 			get
@@ -151,61 +150,15 @@ namespace STFU.Lib.Youtube.Internal
 
 		public bool IsInEditMode { get; private set; }
 
-		private bool RefreshVideoInfosOnYoutube { get; set; }
-
 		internal YoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
 		{
 			Account = account;
 			Video = video;
 		}
 
-		public async void UploadAsync()
+		public void StartUpload()
 		{
 			if (!ShouldBeSkipped && RunningStep == null)
-			{
-				if (Steps.Count == 0)
-				{
-					Steps.Enqueue(new YoutubeVideoUploadInitializer(Video, Account));
-					Steps.Enqueue(new YoutubeVideoUploader(Video, Account));
-					Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
-				}
-
-				try
-				{
-					StartFirstStepAsync();
-				}
-				catch (Exception)
-				{ }
-			}
-		}
-
-		private async void StartFirstStepAsync()
-		{
-			if ((Steps.Count > 0 && RunningStep == null) || StepIsNotRunning())
-			{
-				if (RunningStep == null)
-				{
-					RunningStep = Steps.Dequeue();
-					RunningStep.PropertyChanged += RunningStep_PropertyChanged;
-				}
-
-				await RunningStep.RunAsync();
-			}
-		}
-
-		private bool StepIsNotRunning()
-		{
-			return RunningStep != null
-				&& RunningStep.State != UploadStepState.Initializing
-				&& RunningStep.State != UploadStepState.Running
-				&& RunningStep.State != UploadStepState.CancelPending
-				&& RunningStep.State != UploadStepState.PausePending
-				&& RunningStep.State != UploadStepState.PausePending;
-		}
-
-		public void ForceUploadAsync()
-		{
-			if (RunningStep == null)
 			{
 				if (Steps.Count == 0)
 				{
@@ -225,6 +178,71 @@ namespace STFU.Lib.Youtube.Internal
 				catch (Exception)
 				{ }
 			}
+		}
+
+		private async void StartFirstStepAsync()
+		{
+			if ((Steps.Count > 0 && RunningStep == null) || StepIsNotRunning())
+			{
+				if (RunningStep == null || RunningStep.State == UploadStepState.Successful)
+				{
+					if (RunningStep != null)
+					{
+						RunningStep.PropertyChanged -= RunningStep_PropertyChanged;
+					}
+
+					if (Steps.Count > 0)
+					{
+						RunningStep = Steps.Dequeue();
+						RunningStep.PropertyChanged += RunningStep_PropertyChanged;
+						await RunningStep.RunAsync();
+					}
+				}
+				else
+				{
+					if (RunningStep.State == UploadStepState.PausePending
+						|| RunningStep.State == UploadStepState.Paused)
+					{
+						RunningStep.Resume();
+					}
+					else
+					{
+						await RunningStep.RunAsync();
+					}
+				}
+			}
+		}
+
+		private bool StepIsNotRunning()
+		{
+			return RunningStep != null
+				&& RunningStep.State != UploadStepState.Initializing
+				&& RunningStep.State != UploadStepState.Running
+				&& RunningStep.State != UploadStepState.CancelPending
+				&& RunningStep.State != UploadStepState.PausePending
+				&& RunningStep.State != UploadStepState.PausePending;
+		}
+
+		public void ForceUploadAsync()
+		{
+			RunningStep = null;
+
+			Steps.Clear();
+
+			Steps.Enqueue(new YoutubeVideoUploadInitializer(Video, Account));
+			Steps.Enqueue(new YoutubeVideoUploader(Video, Account));
+
+			if (!string.IsNullOrWhiteSpace(Video.ThumbnailPath))
+			{
+				Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+			}
+
+			try
+			{
+				StartFirstStepAsync();
+			}
+			catch (Exception)
+			{ }
 		}
 
 		public async void CancelUploadAsync()
@@ -286,9 +304,9 @@ namespace STFU.Lib.Youtube.Internal
 		{
 			if (e.PropertyName == nameof(RunningStep.State))
 			{
-				SetState(RunningStep.State, RunningStep);
+				SetState(RunningStep);
 
-				if (RunningStep.State == UploadStepState.Successful)
+				if (RunningStep.State == UploadStepState.Successful && State == UploadProgress.Running)
 				{
 					RunningStep.PropertyChanged -= RunningStep_PropertyChanged;
 					RunningStep = null;
@@ -317,75 +335,67 @@ namespace STFU.Lib.Youtube.Internal
 			}
 		}
 
-		private void SetState(UploadStepState state, IUploadStep step)
+		private void SetState(IUploadStep step)
 		{
-			switch (state)
+			switch (step.State)
 			{
 				case UploadStepState.NotRunning:
-					State = UploadState.NotStarted;
+					if (!Steps.Any())
+					{
+						State = UploadProgress.NotRunning;
+						CurrentObject = UploadObject.Nothing;
+					}
 					break;
 				case UploadStepState.Initializing:
-					if (step is YoutubeVideoUploadInitializer || step is YoutubeVideoUploader)
-					{
-						State = UploadState.VideoInitializing;
-					}
-					else if (step is YoutubeThumbnailUploader)
-					{
-						State = UploadState.ThumbnailUploading;
-					}
-					break;
 				case UploadStepState.Running:
-					if (step is YoutubeVideoUploadInitializer)
+					if (step is YoutubeVideoUploadInitializer || step is YoutubeVideoUploader || step is YoutubeVideoInformationChanger)
 					{
-						State = UploadState.VideoInitializing;
-					}
-					else if (step is YoutubeVideoUploader)
-					{
-						State = UploadState.VideoUploading;
+						CurrentObject = UploadObject.Video;
 					}
 					else if (step is YoutubeThumbnailUploader)
 					{
-						State = UploadState.ThumbnailUploading;
+						CurrentObject = UploadObject.Thumbnail;
 					}
+					State = UploadProgress.Running;
 					break;
 				case UploadStepState.Successful:
-					if (step is YoutubeVideoUploadInitializer)
+					if (!Steps.Any())
 					{
-						State = UploadState.VideoInitializing;
+						State = UploadProgress.Successful;
+						CurrentObject = UploadObject.Nothing;
 					}
-					else if (step is YoutubeVideoUploader)
+					else if (IsInEditMode)
 					{
-						State = UploadState.VideoUploaded;
+						State = UploadProgress.Paused;
 					}
-					else if (step is YoutubeThumbnailUploader)
+					else if (State == UploadProgress.PausePending)
 					{
-						State = UploadState.Successful;
+						State = UploadProgress.Paused;
+					}
+					else if (State == UploadProgress.CancelPending)
+					{
+						State = UploadProgress.Canceled;
+						Steps.Clear();
 					}
 					break;
 				case UploadStepState.Error:
-					if (step is YoutubeVideoUploadInitializer || step is YoutubeVideoUploader)
-					{
-						State = UploadState.VideoError;
-					}
-					else if (step is YoutubeThumbnailUploader)
-					{
-						State = UploadState.ThumbnailError;
-					}
+					State = UploadProgress.Failed;
+					Steps.Clear();
 					break;
 				case UploadStepState.CancelPending:
-					State = UploadState.CancelPending;
+					State = UploadProgress.CancelPending;
 					break;
 				case UploadStepState.Canceled:
-					State = UploadState.Canceled;
+					State = UploadProgress.Canceled;
 					break;
 				case UploadStepState.PausePending:
-					State = UploadState.PausePending;
+					State = UploadProgress.PausePending;
 					break;
 				case UploadStepState.Paused:
-					State = UploadState.Paused;
+					State = UploadProgress.Paused;
 					break;
 				default:
-					throw new ArgumentException($"Der gewünschte Status {state} wird nicht unterstützt.");
+					throw new InvalidEnumArgumentException("Dieses Feld existiert nicht.");
 			}
 		}
 
@@ -405,17 +415,20 @@ namespace STFU.Lib.Youtube.Internal
 		{
 			IsInEditMode = false;
 
-			if (Video.IsDirty && !Steps.Any(s => s is YoutubeVideoInformationChanger))
+			if (State != UploadProgress.NotRunning && State != UploadProgress.Canceled && State != UploadProgress.Failed)
 			{
-				Steps.Enqueue(new YoutubeVideoInformationChanger(Video, Account));
-			}
+				if (Video.IsDirty && !Steps.Any(s => s is YoutubeVideoInformationChanger))
+				{
+					Steps.Enqueue(new YoutubeVideoInformationChanger(Video, Account));
+				}
 
-			if (Video.IsThumbnailDirty && !Steps.Any(s => s is YoutubeThumbnailUploader))
-			{
-				Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
-			}
+				if (Video.IsThumbnailDirty && !Steps.Any(s => s is YoutubeThumbnailUploader))
+				{
+					Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
+				}
 
-			StartFirstStepAsync();
+				StartFirstStepAsync();
+			}
 		}
 	}
 }

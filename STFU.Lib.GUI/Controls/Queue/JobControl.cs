@@ -24,6 +24,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 		public bool CanBeMovedUp { get => nachObenSchiebenToolStripMenuItem.Enabled; set => nachObenSchiebenToolStripMenuItem.Enabled = value; }
 		public bool CanBeMovedDown { get => nachUntenSchiebenToolStripMenuItem.Enabled; set => nachUntenSchiebenToolStripMenuItem.Enabled = value; }
 
+		private string currentUploadObject = "nichts";
+
 		private IYoutubeJob job = null;
 		public IYoutubeJob Job
 		{
@@ -42,20 +44,22 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					job = value;
 					RefreshContextMenuEnabled();
-					RefreshTitleLabel(job.Video.Title);
-					RefreshThumbnail(job.Video.ThumbnailPath);
+
+					RefreshTitleLabel();
+					RefreshThumbnail();
+
 					job.PropertyChanged += JobPropertyChanged;
 				}
 			}
 		}
 
-		private void RefreshThumbnail(string thumbnailPath)
+		private void RefreshThumbnail()
 		{
-			if (File.Exists(thumbnailPath))
+			if (File.Exists(Job.Video.ThumbnailPath))
 			{
 				try
 				{
-					ImageFactory imageFactory = new ImageFactory().Load(thumbnailPath);
+					ImageFactory imageFactory = new ImageFactory().Load(Job.Video.ThumbnailPath);
 					thumbnailBox.BackgroundImage = imageFactory.Image;
 					thumbnailBox.BackgroundImageLayout = ImageLayout.Zoom;
 					thumbnailBox.Visible = true;
@@ -90,81 +94,29 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void JobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(Job.IsUploading))
-			{
-				RefreshShowUploadState(Job.State.IsRunningOrInitializing() || Job.State.IsCanceled());
-			}
-			else if (e.PropertyName == nameof(Job.Progress))
+			if (e.PropertyName == nameof(Job.Progress))
 			{
 				RefreshProgressBar((int)(Job.Progress * 100));
-
-				if (Job.State == UploadState.ThumbnailUploading
-					&& (Job.State == UploadState.VideoUploading || Job.State == UploadState.ThumbnailUploading))
+				RefreshDetailFirstLineLabel($"Lade {currentUploadObject} hoch: {Job.Progress:0.00} %");
+			}
+			else if (e.PropertyName == nameof(Job.CurrentObject))
+			{
+				switch (Job.CurrentObject)
 				{
-					RefreshDetailFirstLineLabel($"Lade Thumbnail hoch: {Job.Progress:0.00} %");
-				}
-				else if (Job.State == UploadState.VideoUploading)
-				{
-					RefreshDetailFirstLineLabel($"Lade Video hoch: {Job.Progress:0.00} %");
+					case UploadObject.Video:
+						currentUploadObject = "Video";
+						break;
+					case UploadObject.Thumbnail:
+						currentUploadObject = "Thumbnail";
+						break;
+					default:
+						currentUploadObject = "nichts";
+						break;
 				}
 			}
 			else if (e.PropertyName == nameof(Job.State))
 			{
-				switch (job.State)
-				{
-					case UploadState.NotStarted:
-						RefreshDetailLabel(string.Empty, string.Empty);
-						RefreshBackColor(SystemColors.Control);
-
-						break;
-					case UploadState.VideoInitializing:
-					case UploadState.VideoUploading:
-						RefreshDetailLabel($"Video-Upload wird gestartet...", string.Empty);
-						RefreshBackColor(Color.FromArgb(192, 255, 255));
-
-						break;
-					case UploadState.VideoUploaded:
-					case UploadState.ThumbnailUploading:
-						RefreshDetailLabel($"Thumbnail-Upload wird gestartet...", string.Empty);
-						RefreshBackColor(Color.FromArgb(192, 255, 255));
-
-						break;
-					case UploadState.CancelPending:
-						RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
-						RefreshBackColor(Color.FromArgb(255, 255, 192));
-
-						break;
-					case UploadState.VideoError:
-					case UploadState.ThumbnailError:
-						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error.Message);
-						RefreshBackColor(Color.FromArgb(255, 192, 192));
-
-						break;
-					case UploadState.Canceled:
-						RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
-						RefreshBackColor(Color.FromArgb(255, 192, 192));
-
-						break;
-					case UploadState.PausePending:
-						RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
-						RefreshBackColor(Color.FromArgb(224, 224, 224));
-
-						break;
-					case UploadState.Paused:
-						RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
-						RefreshBackColor(Color.FromArgb(224, 224, 224));
-
-						break;
-					case UploadState.Successful:
-						RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
-						RefreshBackColor(Color.FromArgb(192, 255, 192));
-
-						break;
-					default:
-						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
-				}
-
-				RefreshContextMenuEnabled();
+				RefreshControl();
 			}
 			else if (e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
 			{
@@ -178,6 +130,72 @@ namespace STFU.Lib.GUI.Controls.Queue
 					Safe(() => MessageBox.Show(this, $"Youtube hat den Upload weiterer Videos vorerst abgelehnt, da für diesen Account in den letzten Stunden zu viele Videos hochgeladen wurden.{Environment.NewLine}{Environment.NewLine}In der Regel sollte der Upload bald wieder klappen.{Environment.NewLine}Versuche es am besten in ungefähr einer bis ein paar Stunden noch mal.{Environment.NewLine}Solltest du nicht so lange warten wollen, wirst du auf die von Youtube angebotene Upload-Seite im Internet oder auf ein anderes Upload-Programm ausweichen müssen.{Environment.NewLine}{Environment.NewLine}Es handelt sich hierbei nicht um einen Fehler des Programms. Der Upload wird von Youtube direkt abgelehnt.", "Weitere Videos abgelehnt", MessageBoxButtons.OK, MessageBoxIcon.Error), this);
 				}
 			}
+			else if (e.PropertyName == nameof(Job.ShouldBeSkipped))
+			{
+				if (Job.ShouldBeSkipped)
+				{
+					RefreshDetailLabel($"Upload wird übersprungen...", string.Empty);
+					Safe(() => uploadTitle.Text = $"{Job.Video.Title} (wird übersprungen)");
+					RefreshBackColor(Color.FromArgb(180, 180, 180));
+				}
+				else
+				{
+					Safe(() => uploadTitle.Text = Job.Video.Title);
+					RefreshControl();
+				}
+			}
+		}
+
+		private void RefreshControl()
+		{
+			switch (job.State)
+			{
+				case UploadProgress.NotRunning:
+					RefreshDetailLabel(string.Empty, string.Empty);
+					RefreshBackColor(Color.Transparent);
+
+					break;
+				case UploadProgress.Running:
+					RefreshDetailLabel($"Upload wird gestartet...", string.Empty);
+					RefreshBackColor(Color.FromArgb(192, 255, 255));
+
+					break;
+				case UploadProgress.CancelPending:
+					RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
+					RefreshBackColor(Color.FromArgb(255, 255, 192));
+
+					break;
+				case UploadProgress.Failed:
+					RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error.Message);
+					RefreshBackColor(Color.FromArgb(255, 192, 192));
+
+					break;
+				case UploadProgress.Canceled:
+					RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
+					RefreshBackColor(Color.FromArgb(255, 192, 192));
+
+					break;
+				case UploadProgress.PausePending:
+					RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
+					RefreshBackColor(Color.FromArgb(224, 224, 224));
+
+					break;
+				case UploadProgress.Paused:
+					RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
+					RefreshBackColor(Color.FromArgb(224, 224, 224));
+
+					break;
+				case UploadProgress.Successful:
+					RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
+					RefreshBackColor(Color.FromArgb(192, 255, 192));
+
+					break;
+				default:
+					throw new ArgumentException("Dieser Status wird nicht unterstützt.");
+			}
+
+			RefreshShowUploadState(Job.State.IsStarted() || Job.State.IsCanceled());
+			RefreshContextMenuEnabled();
 		}
 
 		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
@@ -191,9 +209,16 @@ namespace STFU.Lib.GUI.Controls.Queue
 			Safe(() => actionsButton.Visible = visible, actionsButton);
 		}
 
-		private void RefreshTitleLabel(string title)
+		private void RefreshTitleLabel()
 		{
-			Safe(() => uploadTitle.Text = title, uploadTitle);
+			if (Job.ShouldBeSkipped)
+			{
+				Safe(() => uploadTitle.Text = $"{Job.Video.Title} (wird übersprungen)");
+			}
+			else
+			{
+				Safe(() => uploadTitle.Text = Job.Video.Title, uploadTitle);
+			}
 		}
 
 		private string firstDetailLine = string.Empty;
@@ -235,8 +260,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private void RefreshContextMenuEnabled()
 		{
 			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted() || Job.State.IsFailed() || Job.State.IsCanceled());
-			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadState.Paused);
-			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsRunningOrInitializing() && !Job.State.IsPausingOrPaused());
+			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadProgress.Paused);
+			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsPausingOrPaused());
 			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsFailed() && !Job.State.IsCanceled());
 			Safe(() => überspringenToolStripMenuItem.Enabled = !Job.State.IsStarted());
 		}
@@ -327,6 +352,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
 				Job.Video.FillFields(form.Video);
+
+				RefreshTitleLabel();
+				RefreshThumbnail();
 			}
 
 			Job.FinishEdit();

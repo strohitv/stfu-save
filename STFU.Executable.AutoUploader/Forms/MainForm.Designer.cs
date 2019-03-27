@@ -65,6 +65,8 @@
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -304,7 +306,9 @@
             this.threadImYTFToolStripMenuItem,
             this.strohiAufTwitterToolStripMenuItem,
             this.toolStripSeparator1,
-            this.downloadSeiteToolStripMenuItem});
+            this.downloadSeiteToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.fehlerverzeichnisÖffnenToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
 			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
 			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
@@ -312,59 +316,59 @@
 			// neueFunktionenToolStripMenuItem
 			// 
 			this.neueFunktionenToolStripMenuItem.Name = "neueFunktionenToolStripMenuItem";
-			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.neueFunktionenToolStripMenuItem.Text = "Neue Funktionen";
 			this.neueFunktionenToolStripMenuItem.Click += new System.EventHandler(this.neueFunktionenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
 			// 
 			// tutorialVideoToolStripMenuItem
 			// 
 			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
-			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
 			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
 			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
-			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.discordServerToolStripMenuItem.Text = "Discord-Server";
 			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
 			this.threadImLPFToolStripMenuItem.Name = "threadImLPFToolStripMenuItem";
-			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
 			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
 			// 
 			// threadImYTFToolStripMenuItem
 			// 
 			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
-			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
 			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
 			this.strohiAufTwitterToolStripMenuItem.Name = "strohiAufTwitterToolStripMenuItem";
-			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
 			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
 			// 
 			// downloadSeiteToolStripMenuItem
 			// 
 			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
-			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
 			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
@@ -428,6 +432,18 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+			// 
+			// fehlerverzeichnisÖffnenToolStripMenuItem
+			// 
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Name = "fehlerverzeichnisÖffnenToolStripMenuItem";
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Text = "Fehlerverzeichnis öffnen";
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.fehlerverzeichnisÖffnenToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -489,6 +505,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem neueFunktionenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem fehlerverzeichnisÖffnenToolStripMenuItem;
 	}
 }
 

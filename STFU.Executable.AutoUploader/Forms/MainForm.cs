@@ -193,7 +193,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				var account = accountContainer.RegisteredAccounts.First();
 				var uploader = new YoutubeUploader();
 				uploader.StopAfterCompleting = false;
-				uploader.RemoveCompletedJobs = true;
+				uploader.RemoveCompletedJobs = false;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
 				autoUploader.ProcessContainer = processContainer;
@@ -443,6 +443,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			releaseNotesForm.ShowDialog(this);
 
 			settingsPersistor.Save();
+		}
+
+		private void fehlerverzeichnisÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!Directory.Exists("errors"))
+			{
+				Directory.CreateDirectory("errors");
+			}
+
+			Process.Start("explorer.exe", "errors");
 		}
 	}
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Internal.Upload.Model;
@@ -23,7 +20,18 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		public void Run()
 		{
-			// TODO!
+			State = UploadStepState.Initializing;
+			var request = HttpWebRequestCreator.CreateWithAuthHeader("https://www.googleapis.com/youtube/v3/videos?part=snippet,status", "PUT", Account.GetActiveToken());
+			request.ContentType = "application/json";
+
+			SerializableYoutubeVideo resource = SerializableYoutubeVideo.Create(Video);
+			var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(resource));
+
+			State = UploadStepState.Running;
+			var response = WebService.Communicate(request, bytes);
+
+			State = UploadStepState.Successful;
+			Video.IsDirty = false;
 		}
 
 		public override void Cancel()

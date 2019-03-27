@@ -101,7 +101,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		private void Upload(FileStream fileStream, Stream requestStream)
 		{
-			// Hochladen
 			byte[] buffer = new byte[128];
 			int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
 
@@ -151,7 +150,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			RunningState = RunningState.PausePending;
 		}
 
-		internal void Resume()
+		internal void SetSateToRunning()
 		{
 			RunningState = RunningState.Running;
 		}

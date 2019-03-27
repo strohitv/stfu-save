@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,6 +49,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					var thumbnailResource = WebService.Communicate(request);
 					State = UploadStepState.Successful;
+					Video.IsThumbnailDirty = false;
 				}
 				else if (State == UploadStepState.CancelPending)
 				{
@@ -61,13 +61,6 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					State = UploadStepState.Error;
 				}
 			}
-		}
-
-		internal bool UploadThumbnail()
-		{
-			var successful = true;
-
-			return successful;
 		}
 
 		public override void Cancel()
@@ -125,7 +118,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			if (State == UploadStepState.PausePending || State == UploadStepState.Paused)
 			{
-				fileUploader.Resume();
+				fileUploader.SetSateToRunning();
 				Run();
 			}
 		}

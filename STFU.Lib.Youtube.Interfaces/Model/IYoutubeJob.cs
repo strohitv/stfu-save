@@ -19,17 +19,12 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// current state of the job
 		/// </summary>
-		UploadState State { get; }
+		UploadObject CurrentObject { get; }
 
 		/// <summary>
-		/// Determines if the video is being uploaded right now. Is true if job is paused
+		/// current state of the job
 		/// </summary>
-		bool IsUploading { get; }
-
-		/// <summary>
-		/// Determines if the upload job is paused
-		/// </summary>
-		bool IsUploadPaused { get; }
+		UploadProgress State { get; }
 
 		/// <summary>
 		/// current progress of the job
@@ -54,7 +49,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Determines if the jobs upload should be skipped if <see cref="IYoutubeUploader"/> searches for a new job to upload.
 		/// Setting this property does not have any effect if the upload has already been started.
-		/// Starting the job using <see cref="UploadAsync"/> will not work if this property is true.
+		/// Starting the job using <see cref="StartUpload"/> will not work if this property is true.
 		/// Starting the job using <see cref="ForceUploadAsync"/> will ignore this property and start the job immediately.
 		/// </summary>
 		bool ShouldBeSkipped { get; set; }
@@ -62,7 +57,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Starts the jobs upload only if <see cref="ShouldBeSkipped"/> is false
 		/// </summary>
-		void UploadAsync();
+		void StartUpload();
 
 		/// <summary>
 		/// Starts the jobs upload even if <see cref="ShouldBeSkipped"/> is true

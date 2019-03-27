@@ -24,7 +24,28 @@ namespace STFU.Lib.Youtube.Model
 
 		public ILanguage DefaultLanguage { get; set; }
 
-		public string Description { get; set; }
+		private string description = string.Empty;
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				if (value != null)
+				{
+					value = value.Replace("<", string.Empty).Replace(">", string.Empty);
+
+					if (value.Length > MaxDescriptionLength)
+					{
+						value = value.Substring(0, MaxDescriptionLength);
+					}
+				}
+
+				description = value;
+			}
+		}
 
 		public FileInfo File => new FileInfo(Path);
 
@@ -51,17 +72,85 @@ namespace STFU.Lib.Youtube.Model
 
 		public bool Stabilize { get; set; }
 
-		public ICollection<string> Tags { get; } = new List<string>();
+		private List<string> tags = new List<string>();
+		public ICollection<string> Tags
+		{
+			get
+			{
+				EnsureNoTagIsTooLong();
+				EnsureTagStringIsNotTooLong();
+
+				return tags;
+			}
+		}
+
+		private void EnsureNoTagIsTooLong()
+		{
+			for (int i = 0; i < tags.Count; i++)
+			{
+				if (!string.IsNullOrWhiteSpace(tags[i]))
+				{
+					tags[i] = tags[i].Replace("<", string.Empty).Replace(">", string.Empty).Trim();
+
+					if (tags[i].Length > MaxSingleTagLength)
+					{
+						tags[i] = tags[i].Substring(0, MaxSingleTagLength).Trim();
+					}
+				}
+				else
+				{
+					tags.RemoveAt(i);
+					i--;
+				}
+			}
+		}
+
+		private void EnsureTagStringIsNotTooLong()
+		{
+			var count = 0;
+
+			while (tags.Count > 0 &&
+				(count = tags
+				.Select(t => t.Contains(" ") ? $"\"{t}\"" : t)
+				.Aggregate((a, b) => $"{a},{b}")
+				.Length) > MaxTagsLength)
+			{
+				tags.RemoveAt(tags.Count - 1);
+			}
+		}
 
 		public string ThumbnailPath { get; set; }
 
-		public string Title { get; set; }
+		private string title = string.Empty;
+		public string Title
+		{
+			get
+			{
+				return title;
+			}
+			set
+			{
+				if (value != null)
+				{
+					value = value.Replace("<", string.Empty).Replace(">", string.Empty);
+
+					if (value.Length > MaxTitleLength)
+					{
+						value = value.Substring(0, MaxTitleLength);
+					}
+				}
+
+				title = value;
+			}
+		}
 
 		public static int MaxTitleLength => 100;
 
 		public static int MaxDescriptionLength => 5000;
 
 		public static int MaxTagsLength => 500;
+
+		public static int MaxSingleTagLength => 100;
 
 		public bool IsDirty { get; set; }
 
