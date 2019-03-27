@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace STFU.Executable.Updater
 {
@@ -122,8 +123,23 @@ namespace STFU.Executable.Updater
 			FileInfo[] files = dir.GetFiles();
 			foreach (FileInfo file in files)
 			{
-				string temppath = Path.Combine(destDirName, file.Name);
-				file.CopyTo(temppath, false);
+				bool stop = false;
+
+				while (!stop)
+				{
+					try
+					{
+						string temppath = Path.Combine(destDirName, file.Name);
+						file.CopyTo(temppath, false);
+						stop = true;
+					}
+					catch (Exception ex)
+					{
+						Message = $"Konnte Datei nicht extrahieren...{Environment.NewLine}Versuche es gleich erneut...";
+						Thread.Sleep(5000);
+					}
+				}
+
 			}
 
 			// If copying subdirectories, copy them and their contents to new location.
