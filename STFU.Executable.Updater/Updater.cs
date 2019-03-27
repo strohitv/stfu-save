@@ -124,16 +124,18 @@ namespace STFU.Executable.Updater
 			foreach (FileInfo file in files)
 			{
 				bool stop = false;
+				int tries = 0;
 
 				while (!stop)
 				{
 					try
 					{
+						tries++;
 						string temppath = Path.Combine(destDirName, file.Name);
 						file.CopyTo(temppath, false);
 						stop = true;
 					}
-					catch (Exception ex)
+					catch (Exception) when (tries <= 12)
 					{
 						Message = $"Konnte Datei nicht extrahieren...{Environment.NewLine}Versuche es gleich erneut...";
 						Thread.Sleep(5000);

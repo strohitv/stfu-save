@@ -65,15 +65,17 @@ namespace STFU.Lib.Updater
 							if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
 							{
 								bool stop = false;
+								int tries = 0;
 
 								while (!stop)
 								{
 									try
 									{
+										tries++;
 										entry.ExtractToFile(destinationPath, true);
 										stop = true;
 									}
-									catch (Exception ex)
+									catch (Exception) when (tries <= 12)
 									{
 										Thread.Sleep(5000);
 									}
