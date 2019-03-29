@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -35,7 +37,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			jobQueue.Uploader = autoUploader.Uploader;
 
 			cmbbxFinishAction.SelectedIndex = UploadEndedActionIndex = uploadEndedIndex;
-			chbChoseProcesses.Checked = autoUploader.ProcessContainer.ProcessesToWatch.Count > 0;
+			chbChoseProcesses.Checked = autoUploader.WatchedProcesses.Count > 0;
 			btnChoseProcs.Enabled = chbChoseProcesses.Enabled;
 
 			allowChosingProcs = true;
@@ -116,8 +118,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			UploadEndedActionIndex = cmbbxFinishAction.SelectedIndex;
 			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
 
-			autoUploader.ProcessContainer.Stop();
-
 			if (autoUploader != null)
 			{
 				autoUploader.EndAfterUpload = cmbbxFinishAction.SelectedIndex != 0;
@@ -125,12 +125,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
-				autoUploader?.ProcessContainer.RemoveAllProcesses();
+				autoUploader?.WatchedProcesses.Clear();
 				chbChoseProcesses.Checked = false;
-			}
-			else
-			{
-				autoUploader.ProcessContainer.Start();
 			}
 		}
 
@@ -147,31 +143,29 @@ namespace STFU.Executable.AutoUploader.Forms
 				else
 				{
 					autoUploader.EndAfterUpload = false;
-					autoUploader.ProcessContainer.RemoveAllProcesses();
+					autoUploader.WatchedProcesses.Clear();
 				}
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			autoUploader.ProcessContainer.Stop();
+			var procs = autoUploader.WatchedProcesses.Where(p => !p.HasExited).ToArray();
+			autoUploader.WatchedProcesses.Clear();
 
-			ProcessForm processChoser = new ProcessForm(autoUploader.ProcessContainer.ProcessesToWatch);
+			ProcessForm processChoser = new ProcessForm(procs);
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
-				var procs = processChoser.Selected;
-				autoUploader.ProcessContainer.RemoveAllProcesses();
-				autoUploader.ProcessContainer.AddProcesses(procs);
+				procs = processChoser.Selected.ToArray();
+				((ProcessList)autoUploader.WatchedProcesses).AddRange(procs);
 				autoUploader.EndAfterUpload = true;
 			}
 			else
 			{
 				chbChoseProcesses.Checked = false;
 			}
-
-			autoUploader.ProcessContainer.Start();
 		}
 
 		private void btnChoseProcsClick(object sender, EventArgs e)

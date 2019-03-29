@@ -26,7 +26,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
 		IAutomationUploader autoUploader = new AutomationUploader();
-		IProcessContainer processContainer = new ProcessContainer();
+		ProcessList processes = new ProcessList();
 
 		AutoUploaderSettings autoUploaderSettings = new AutoUploaderSettings();
 
@@ -196,7 +196,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				uploader.RemoveCompletedJobs = false;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
-				autoUploader.ProcessContainer = processContainer;
+				autoUploader.WatchedProcesses = processes;
 
 				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex, categoryContainer, languageContainer);
 				if (uploadForm.ShowDialog(this) == DialogResult.OK)
@@ -334,20 +334,20 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
-				processContainer.RemoveAllProcesses();
+				processes.Clear();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			ProcessForm processChoser = new ProcessForm(processContainer.ProcessesToWatch);
+			ProcessForm processChoser = new ProcessForm(processes);
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
 				var procs = processChoser.Selected;
-				processContainer.RemoveAllProcesses();
-				processContainer.AddProcesses(procs);
+				processes.Clear();
+				processes.AddRange(procs);
 			}
 			else
 			{
@@ -361,7 +361,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
-				processContainer.RemoveAllProcesses();
+				processes.Clear();
 				chbChoseProcesses.Checked = false;
 			}
 		}

@@ -145,7 +145,7 @@
     <Compile Include="Internal\Watcher\DirectoryWatcher.cs" />
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />
-    <Compile Include="ProcessContainer.cs" />
+    <Compile Include="ProcessList.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Programming\ScriptType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

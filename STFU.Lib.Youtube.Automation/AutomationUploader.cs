@@ -69,18 +69,18 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private IProcessContainer processesToWatch = new ProcessContainer();
-		public IProcessContainer ProcessContainer
+		private IProcessList watchedProcesses = new ProcessList();
+		public IProcessList WatchedProcesses
 		{
 			get
 			{
-				return processesToWatch;
+				return watchedProcesses;
 			}
 			set
 			{
-				if (processesToWatch != value && value != null)
+				if (watchedProcesses != value && value != null)
 				{
-					processesToWatch = value;
+					watchedProcesses = value;
 					OnPropertyChaged();
 				}
 			}
@@ -136,9 +136,7 @@ namespace STFU.Lib.Youtube.Automation
 
 			State = RunningState.Running;
 
-			ProcessContainer.AllProcessesCompleted += ProcessContainerAllProcessesCompleted;
-
-			//ReloadProcesses();
+			WatchedProcesses.ProcessesCompleted += OnProcessesCompleted;
 
 			var infos = Configuration
 				.Where(c => !c.IgnorePath)
@@ -167,7 +165,7 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private void ProcessContainerAllProcessesCompleted(object sender, System.EventArgs e)
+		private void OnProcessesCompleted(object sender, System.EventArgs e)
 		{
 			if (EndAfterUpload && uploader.State != UploaderState.Uploading && uploader.State != UploaderState.CancelPending && Searcher.State == RunningState.NotRunning)
 			{
@@ -205,18 +203,63 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (e.PropertyName == nameof(Uploader.State))
 			{
-				if (Uploader.State == UploaderState.Waiting && EndAfterUpload && ProcessContainer.ShouldEnd)
+				if (Uploader.State == UploaderState.Waiting)
 				{
-					Uploader.CancelAll();
+					WatchedProcesses.ProcessesCompleted += ProcessesCompleted;
+					EndIfShouldEnd();
 				}
-
-				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && EndAfterUpload && ProcessContainer.ShouldEnd)
+				else if (Uploader.State == UploaderState.Uploading)
+				{
+					WatchedProcesses.ProcessesCompleted -= ProcessesCompleted;
+				}
+				else if (Uploader.State == UploaderState.NotRunning)
 				{
 					DirectoryWatcher.Cancel();
+					EndIfShouldEnd();
 				}
 
+
+
+
+
+				//if (Uploader.State == UploaderState.Waiting && EndAfterUpload && WatchedProcesses.AllProcessesCompleted)
+				//{
+				//	Uploader.CancelAll();
+				//}
+
+				//if (DirectoryWatcher.State == RunningState.Running
+				//	&& Uploader.State == UploaderState.NotRunning
+				//	&& EndAfterUpload
+				//	&& WatchedProcesses.AllProcessesCompleted)
+				//{
+				//	DirectoryWatcher.Cancel();
+				//}
+
+				//if (EndAfterUpload && WatchedProcesses.AllProcessesCompleted)
+				//{
+				//	WatchedProcesses.ProcessesCompleted -= OnProcessesCompleted;
+				//}
+
+				//RefreshState();
+			}
+		}
+
+		private void EndIfShouldEnd()
+		{
+			if (EndAfterUpload
+				&& WatchedProcesses.AllProcessesCompleted
+				&& Uploader.State != UploaderState.Uploading
+				&& Searcher.State != RunningState.Running)
+			{
+				Uploader.CancelAll();
+				DirectoryWatcher.Cancel();
 				RefreshState();
 			}
+		}
+
+		private void ProcessesCompleted(object sender, System.EventArgs e)
+		{
+			EndIfShouldEnd();
 		}
 
 		private void RefreshState()

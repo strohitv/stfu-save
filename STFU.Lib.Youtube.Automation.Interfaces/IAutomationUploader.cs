@@ -20,7 +20,7 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		/// To set while running set Pause Property to true.
 		/// Settings will be ignored if EndAfterUpload is set.
 		/// </summary>
-		IProcessContainer ProcessContainer { get; set; }
+		IProcessList WatchedProcesses { get; set; }
 
 		bool EndAfterUpload { get; set; }
 
