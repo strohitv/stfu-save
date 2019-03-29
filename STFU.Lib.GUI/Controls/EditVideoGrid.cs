@@ -231,5 +231,13 @@ namespace STFU.Lib.GUI.Controls
 		{
 			Video.Stabilize = stabilizeCheckbox.Checked;
 		}
+
+		private void thumbnailButton_Click(object sender, EventArgs e)
+		{
+			if (selectThumbnailDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				thumbnailTextbox.Text = selectThumbnailDialog.FileName;
+			}
+		}
 	}
 }
