@@ -340,7 +340,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ChoseProcesses()
 		{
-			ProcessForm processChoser = new ProcessForm(processes);
+			ProcessForm processChoser = new ProcessForm(processes.Where(p => !p.HasExited).ToList());
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
