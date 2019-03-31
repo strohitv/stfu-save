@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {
@@ -32,11 +33,6 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		double Progress { get; }
 
 		/// <summary>
-		/// The Action to be executed as soon as the Upload ist completed
-		/// </summary>
-		Action<IYoutubeJob> UploadCompletedAction { get; set; }
-
-		/// <summary>
 		/// Contains information about the error if something fails
 		/// </summary>
 		IYoutubeError Error { get; }
@@ -58,6 +54,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// Starting the job using <see cref="ForceUploadAsync"/> will ignore this property and start the job immediately.
 		/// </summary>
 		bool ShouldBeSkipped { get; set; }
+
+		/// <summary>
+		/// The Action to be executed as soon as the Upload ist completed
+		/// </summary>
+		event JobFinishedEventHandler UploadCompletedAction;
 
 		/// <summary>
 		/// Starts the jobs upload only if <see cref="ShouldBeSkipped"/> is false

@@ -119,12 +119,20 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fieldValueTxbx = new System.Windows.Forms.TextBox();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
 			this.csTlp = new System.Windows.Forms.TableLayoutPanel();
-			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.csDescriptionLabel = new System.Windows.Forms.Label();
+			this.cSharpScriptingTabControl = new System.Windows.Forms.TabControl();
+			this.systemFunctionsTabPage = new System.Windows.Forms.TabPage();
+			this.cSharpSystemFunctionsFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.usableVariablesTabPage = new System.Windows.Forms.TabPage();
+			this.globalVarsFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.referencedAssembliesTabPage = new System.Windows.Forms.TabPage();
+			this.assemblyReferencesFctb = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.preparationScriptTabPage = new System.Windows.Forms.TabPage();
 			this.cSharpPrepareFctb = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.csDescriptionTxbx = new System.Windows.Forms.TextBox();
-			this.globalPrepareScriptLabel = new System.Windows.Forms.Label();
-			this.globalAfterScriptsLabel = new System.Windows.Forms.Label();
+			this.cleanUpScriptTabPage = new System.Windows.Forms.TabPage();
+			this.cSharpCleanupFctb = new FastColoredTextBoxNS.FastColoredTextBox();
 			this.editTemplateLabel = new System.Windows.Forms.Label();
+			this.useExpertmodeCheckbox = new System.Windows.Forms.CheckBox();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.openThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
@@ -149,8 +157,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsTlp.SuspendLayout();
 			this.cSharpTabPage.SuspendLayout();
 			this.csTlp.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).BeginInit();
+			this.cSharpScriptingTabControl.SuspendLayout();
+			this.systemFunctionsTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpSystemFunctionsFctb)).BeginInit();
+			this.usableVariablesTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.globalVarsFctb)).BeginInit();
+			this.referencedAssembliesTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.assemblyReferencesFctb)).BeginInit();
+			this.preparationScriptTabPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).BeginInit();
+			this.cleanUpScriptTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.Panel1.SuspendLayout();
 			this.splitContainer.Panel2.SuspendLayout();
@@ -302,7 +319,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// templatesColumnHeader
 			// 
 			this.templatesColumnHeader.Text = "Template";
-			this.templatesColumnHeader.Width = 150;
+			this.templatesColumnHeader.Width = 250;
 			// 
 			// duplicateTemplateButton
 			// 
@@ -339,6 +356,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.editTemplateTableLayoutPanel.Controls.Add(this.resetTemplateButton, 6, 7);
 			this.editTemplateTableLayoutPanel.Controls.Add(this.templateValuesTabControl, 1, 5);
 			this.editTemplateTableLayoutPanel.Controls.Add(this.editTemplateLabel, 1, 1);
+			this.editTemplateTableLayoutPanel.Controls.Add(this.useExpertmodeCheckbox, 4, 3);
 			this.editTemplateTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.editTemplateTableLayoutPanel.Enabled = false;
 			this.editTemplateTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
@@ -372,18 +390,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.templateNameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.templateNameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.editTemplateTableLayoutPanel.SetColumnSpan(this.templateNameTextbox, 4);
 			this.templateNameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.templateNameTextbox.Location = new System.Drawing.Point(61, 33);
 			this.templateNameTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateNameTextbox.Name = "templateNameTextbox";
-			this.templateNameTextbox.Size = new System.Drawing.Size(859, 26);
+			this.templateNameTextbox.Size = new System.Drawing.Size(675, 26);
 			this.templateNameTextbox.TabIndex = 1;
 			this.templateNameTextbox.TextChanged += new System.EventHandler(this.templateNameTextboxTextChanged);
 			// 
 			// saveTemplateButton
 			// 
-			this.saveTemplateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.saveTemplateButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.saveTemplateButton.AutoSize = true;
 			this.saveTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.saveTemplateButton.Enabled = false;
@@ -1661,7 +1678,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpTabPage.Padding = new System.Windows.Forms.Padding(3);
 			this.cSharpTabPage.Size = new System.Drawing.Size(902, 628);
 			this.cSharpTabPage.TabIndex = 4;
-			this.cSharpTabPage.Text = "C#-Scripting";
+			this.cSharpTabPage.Text = "C#-Scripting (Expertenmodus)";
 			// 
 			// csTlp
 			// 
@@ -1669,31 +1686,61 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.csTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.csTlp.Controls.Add(this.cSharpCleanupFctb, 1, 7);
-			this.csTlp.Controls.Add(this.cSharpPrepareFctb, 1, 4);
-			this.csTlp.Controls.Add(this.csDescriptionTxbx, 1, 1);
-			this.csTlp.Controls.Add(this.globalPrepareScriptLabel, 1, 3);
-			this.csTlp.Controls.Add(this.globalAfterScriptsLabel, 1, 6);
+			this.csTlp.Controls.Add(this.csDescriptionLabel, 1, 1);
+			this.csTlp.Controls.Add(this.cSharpScriptingTabControl, 1, 3);
 			this.csTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.csTlp.Location = new System.Drawing.Point(3, 3);
 			this.csTlp.Name = "csTlp";
-			this.csTlp.RowCount = 9;
-			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+			this.csTlp.RowCount = 5;
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.66667F));
+			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.csTlp.Size = new System.Drawing.Size(896, 622);
 			this.csTlp.TabIndex = 0;
 			// 
-			// cSharpCleanupFctb
+			// csDescriptionLabel
 			// 
-			this.cSharpCleanupFctb.AutoCompleteBrackets = true;
-			this.cSharpCleanupFctb.AutoCompleteBracketsList = new char[] {
+			this.csDescriptionLabel.AutoSize = true;
+			this.csDescriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.csDescriptionLabel.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.csDescriptionLabel.Location = new System.Drawing.Point(10, 10);
+			this.csDescriptionLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.csDescriptionLabel.Name = "csDescriptionLabel";
+			this.csDescriptionLabel.Size = new System.Drawing.Size(876, 162);
+			this.csDescriptionLabel.TabIndex = 12;
+			this.csDescriptionLabel.Text = resources.GetString("csDescriptionLabel.Text");
+			// 
+			// tabControl1
+			// 
+			this.cSharpScriptingTabControl.Controls.Add(this.systemFunctionsTabPage);
+			this.cSharpScriptingTabControl.Controls.Add(this.usableVariablesTabPage);
+			this.cSharpScriptingTabControl.Controls.Add(this.referencedAssembliesTabPage);
+			this.cSharpScriptingTabControl.Controls.Add(this.preparationScriptTabPage);
+			this.cSharpScriptingTabControl.Controls.Add(this.cleanUpScriptTabPage);
+			this.cSharpScriptingTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cSharpScriptingTabControl.Location = new System.Drawing.Point(13, 185);
+			this.cSharpScriptingTabControl.Name = "tabControl1";
+			this.cSharpScriptingTabControl.SelectedIndex = 0;
+			this.cSharpScriptingTabControl.Size = new System.Drawing.Size(870, 424);
+			this.cSharpScriptingTabControl.TabIndex = 16;
+			// 
+			// systemFunctionsTabPage
+			// 
+			this.systemFunctionsTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.systemFunctionsTabPage.Controls.Add(this.cSharpSystemFunctionsFctb);
+			this.systemFunctionsTabPage.Location = new System.Drawing.Point(4, 22);
+			this.systemFunctionsTabPage.Name = "systemFunctionsTabPage";
+			this.systemFunctionsTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.systemFunctionsTabPage.Size = new System.Drawing.Size(862, 398);
+			this.systemFunctionsTabPage.TabIndex = 0;
+			this.systemFunctionsTabPage.Text = "Systemfunktionen (read-only)";
+			// 
+			// cSharpSystemFunctionsFctb
+			// 
+			this.cSharpSystemFunctionsFctb.AutoCompleteBrackets = true;
+			this.cSharpSystemFunctionsFctb.AutoCompleteBracketsList = new char[] {
         '(',
         ')',
         '{',
@@ -1704,37 +1751,162 @@ namespace STFU.Executable.AutoUploader.Forms
         '\"',
         '\'',
         '\''};
-			this.cSharpCleanupFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
+			this.cSharpSystemFunctionsFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
     "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.cSharpCleanupFctb.AutoScrollMinSize = new System.Drawing.Size(0, 18);
-			this.cSharpCleanupFctb.BackBrush = null;
-			this.cSharpCleanupFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.cSharpCleanupFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-			this.cSharpCleanupFctb.CharHeight = 18;
-			this.cSharpCleanupFctb.CharWidth = 10;
-			this.cSharpCleanupFctb.CurrentLineColor = System.Drawing.Color.LightGray;
-			this.cSharpCleanupFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.cSharpCleanupFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-			this.cSharpCleanupFctb.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cSharpCleanupFctb.Font = new System.Drawing.Font("Courier New", 12F);
-			this.cSharpCleanupFctb.IsReplaceMode = false;
-			this.cSharpCleanupFctb.Language = FastColoredTextBoxNS.Language.CSharp;
-			this.cSharpCleanupFctb.LeftBracket = '(';
-			this.cSharpCleanupFctb.LeftBracket2 = '{';
-			this.cSharpCleanupFctb.Location = new System.Drawing.Point(10, 379);
-			this.cSharpCleanupFctb.Margin = new System.Windows.Forms.Padding(0);
-			this.cSharpCleanupFctb.Name = "cSharpCleanupFctb";
-			this.cSharpCleanupFctb.Paddings = new System.Windows.Forms.Padding(0);
-			this.cSharpCleanupFctb.RightBracket = ')';
-			this.cSharpCleanupFctb.RightBracket2 = '}';
-			this.cSharpCleanupFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.cSharpCleanupFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpCleanupFctb.ServiceColors")));
-			this.cSharpCleanupFctb.Size = new System.Drawing.Size(876, 231);
-			this.cSharpCleanupFctb.TabIndex = 14;
-			this.cSharpCleanupFctb.WordWrap = true;
-			this.cSharpCleanupFctb.WordWrapIndent = 6;
-			this.cSharpCleanupFctb.Zoom = 100;
-			this.cSharpCleanupFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpCleanupFctbTextChanged);
+			this.cSharpSystemFunctionsFctb.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+			this.cSharpSystemFunctionsFctb.BackBrush = null;
+			this.cSharpSystemFunctionsFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.cSharpSystemFunctionsFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+			this.cSharpSystemFunctionsFctb.CharHeight = 18;
+			this.cSharpSystemFunctionsFctb.CharWidth = 10;
+			this.cSharpSystemFunctionsFctb.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.cSharpSystemFunctionsFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.cSharpSystemFunctionsFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.cSharpSystemFunctionsFctb.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cSharpSystemFunctionsFctb.Font = new System.Drawing.Font("Courier New", 12F);
+			this.cSharpSystemFunctionsFctb.IsReplaceMode = false;
+			this.cSharpSystemFunctionsFctb.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.cSharpSystemFunctionsFctb.LeftBracket = '(';
+			this.cSharpSystemFunctionsFctb.LeftBracket2 = '{';
+			this.cSharpSystemFunctionsFctb.Location = new System.Drawing.Point(3, 3);
+			this.cSharpSystemFunctionsFctb.Margin = new System.Windows.Forms.Padding(0);
+			this.cSharpSystemFunctionsFctb.Name = "cSharpSystemFunctionsFctb";
+			this.cSharpSystemFunctionsFctb.Paddings = new System.Windows.Forms.Padding(0);
+			this.cSharpSystemFunctionsFctb.ReadOnly = true;
+			this.cSharpSystemFunctionsFctb.RightBracket = ')';
+			this.cSharpSystemFunctionsFctb.RightBracket2 = '}';
+			this.cSharpSystemFunctionsFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.cSharpSystemFunctionsFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpSystemFunctionsFctb.ServiceColors")));
+			this.cSharpSystemFunctionsFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpSystemFunctionsFctb.TabIndex = 14;
+			this.cSharpSystemFunctionsFctb.WordWrap = true;
+			this.cSharpSystemFunctionsFctb.WordWrapIndent = 6;
+			this.cSharpSystemFunctionsFctb.Zoom = 100;
+			// 
+			// usableVariablesTabPage
+			// 
+			this.usableVariablesTabPage.Controls.Add(this.globalVarsFctb);
+			this.usableVariablesTabPage.Location = new System.Drawing.Point(4, 22);
+			this.usableVariablesTabPage.Name = "usableVariablesTabPage";
+			this.usableVariablesTabPage.Size = new System.Drawing.Size(862, 398);
+			this.usableVariablesTabPage.TabIndex = 4;
+			this.usableVariablesTabPage.Text = "Verwendbare Variablen (read-only)";
+			this.usableVariablesTabPage.UseVisualStyleBackColor = true;
+			// 
+			// globalVarsFctb
+			// 
+			this.globalVarsFctb.AutoCompleteBrackets = true;
+			this.globalVarsFctb.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.globalVarsFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
+    "?<range>:)\\s*(?<range>[^;]+);\n";
+			this.globalVarsFctb.AutoScrollMinSize = new System.Drawing.Size(0, 396);
+			this.globalVarsFctb.BackBrush = null;
+			this.globalVarsFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.globalVarsFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+			this.globalVarsFctb.CharHeight = 18;
+			this.globalVarsFctb.CharWidth = 10;
+			this.globalVarsFctb.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.globalVarsFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.globalVarsFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.globalVarsFctb.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.globalVarsFctb.Font = new System.Drawing.Font("Courier New", 12F);
+			this.globalVarsFctb.IsReplaceMode = false;
+			this.globalVarsFctb.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.globalVarsFctb.LeftBracket = '(';
+			this.globalVarsFctb.LeftBracket2 = '{';
+			this.globalVarsFctb.Location = new System.Drawing.Point(0, 0);
+			this.globalVarsFctb.Margin = new System.Windows.Forms.Padding(0);
+			this.globalVarsFctb.Name = "globalVarsFctb";
+			this.globalVarsFctb.Paddings = new System.Windows.Forms.Padding(0);
+			this.globalVarsFctb.ReadOnly = true;
+			this.globalVarsFctb.RightBracket = ')';
+			this.globalVarsFctb.RightBracket2 = '}';
+			this.globalVarsFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.globalVarsFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("globalVarsFctb.ServiceColors")));
+			this.globalVarsFctb.Size = new System.Drawing.Size(862, 398);
+			this.globalVarsFctb.TabIndex = 15;
+			this.globalVarsFctb.Text = resources.GetString("globalVarsFctb.Text");
+			this.globalVarsFctb.WordWrap = true;
+			this.globalVarsFctb.WordWrapIndent = 6;
+			this.globalVarsFctb.Zoom = 100;
+			// 
+			// referencedAssembliesTabPage
+			// 
+			this.referencedAssembliesTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.referencedAssembliesTabPage.Controls.Add(this.assemblyReferencesFctb);
+			this.referencedAssembliesTabPage.Location = new System.Drawing.Point(4, 22);
+			this.referencedAssembliesTabPage.Name = "referencedAssembliesTabPage";
+			this.referencedAssembliesTabPage.Size = new System.Drawing.Size(862, 398);
+			this.referencedAssembliesTabPage.TabIndex = 5;
+			this.referencedAssembliesTabPage.Text = "Referenzierte Assemblies";
+			// 
+			// assemblyReferencesFctb
+			// 
+			this.assemblyReferencesFctb.AutoCompleteBrackets = true;
+			this.assemblyReferencesFctb.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.assemblyReferencesFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
+    "?<range>:)\\s*(?<range>[^;]+);\n";
+			this.assemblyReferencesFctb.AutoScrollMinSize = new System.Drawing.Size(0, 396);
+			this.assemblyReferencesFctb.BackBrush = null;
+			this.assemblyReferencesFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.assemblyReferencesFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+			this.assemblyReferencesFctb.CharHeight = 18;
+			this.assemblyReferencesFctb.CharWidth = 10;
+			this.assemblyReferencesFctb.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.assemblyReferencesFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.assemblyReferencesFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.assemblyReferencesFctb.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.assemblyReferencesFctb.Font = new System.Drawing.Font("Courier New", 12F);
+			this.assemblyReferencesFctb.IsReplaceMode = false;
+			this.assemblyReferencesFctb.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.assemblyReferencesFctb.LeftBracket = '(';
+			this.assemblyReferencesFctb.LeftBracket2 = '{';
+			this.assemblyReferencesFctb.Location = new System.Drawing.Point(0, 0);
+			this.assemblyReferencesFctb.Margin = new System.Windows.Forms.Padding(0);
+			this.assemblyReferencesFctb.Name = "assemblyReferencesFctb";
+			this.assemblyReferencesFctb.Paddings = new System.Windows.Forms.Padding(0);
+			this.assemblyReferencesFctb.RightBracket = ')';
+			this.assemblyReferencesFctb.RightBracket2 = '}';
+			this.assemblyReferencesFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.assemblyReferencesFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("assemblyReferencesFctb.ServiceColors")));
+			this.assemblyReferencesFctb.Size = new System.Drawing.Size(862, 398);
+			this.assemblyReferencesFctb.TabIndex = 16;
+			this.assemblyReferencesFctb.Text = resources.GetString("assemblyReferencesFctb.Text");
+			this.assemblyReferencesFctb.WordWrap = true;
+			this.assemblyReferencesFctb.WordWrapIndent = 6;
+			this.assemblyReferencesFctb.Zoom = 100;
+			this.assemblyReferencesFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.assemblyReferencesFctb_TextChanged);
+			// 
+			// preparationScriptTabPage
+			// 
+			this.preparationScriptTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.preparationScriptTabPage.Controls.Add(this.cSharpPrepareFctb);
+			this.preparationScriptTabPage.Location = new System.Drawing.Point(4, 22);
+			this.preparationScriptTabPage.Name = "preparationScriptTabPage";
+			this.preparationScriptTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.preparationScriptTabPage.Size = new System.Drawing.Size(862, 398);
+			this.preparationScriptTabPage.TabIndex = 2;
+			this.preparationScriptTabPage.Text = "Upload-Vorbereitungsskript";
 			// 
 			// cSharpPrepareFctb
 			// 
@@ -1767,7 +1939,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpPrepareFctb.Language = FastColoredTextBoxNS.Language.CSharp;
 			this.cSharpPrepareFctb.LeftBracket = '(';
 			this.cSharpPrepareFctb.LeftBracket2 = '{';
-			this.cSharpPrepareFctb.Location = new System.Drawing.Point(10, 125);
+			this.cSharpPrepareFctb.Location = new System.Drawing.Point(3, 3);
 			this.cSharpPrepareFctb.Margin = new System.Windows.Forms.Padding(0);
 			this.cSharpPrepareFctb.Name = "cSharpPrepareFctb";
 			this.cSharpPrepareFctb.Paddings = new System.Windows.Forms.Padding(0);
@@ -1775,51 +1947,69 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpPrepareFctb.RightBracket2 = '}';
 			this.cSharpPrepareFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.cSharpPrepareFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpPrepareFctb.ServiceColors")));
-			this.cSharpPrepareFctb.Size = new System.Drawing.Size(876, 231);
-			this.cSharpPrepareFctb.TabIndex = 13;
+			this.cSharpPrepareFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpPrepareFctb.TabIndex = 14;
 			this.cSharpPrepareFctb.WordWrap = true;
 			this.cSharpPrepareFctb.WordWrapIndent = 6;
 			this.cSharpPrepareFctb.Zoom = 100;
 			this.cSharpPrepareFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpPrepareFctbTextChanged);
 			// 
-			// csDescriptionTxbx
+			// cleanUpScriptTabPage
 			// 
-			this.csDescriptionTxbx.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.csDescriptionTxbx.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.csDescriptionTxbx.Location = new System.Drawing.Point(10, 10);
-			this.csDescriptionTxbx.Margin = new System.Windows.Forms.Padding(0);
-			this.csDescriptionTxbx.Multiline = true;
-			this.csDescriptionTxbx.Name = "csDescriptionTxbx";
-			this.csDescriptionTxbx.ReadOnly = true;
-			this.csDescriptionTxbx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.csDescriptionTxbx.Size = new System.Drawing.Size(876, 92);
-			this.csDescriptionTxbx.TabIndex = 12;
-			this.csDescriptionTxbx.TabStop = false;
-			this.csDescriptionTxbx.Text = resources.GetString("csDescriptionTxbx.Text");
+			this.cleanUpScriptTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.cleanUpScriptTabPage.Controls.Add(this.cSharpCleanupFctb);
+			this.cleanUpScriptTabPage.Location = new System.Drawing.Point(4, 22);
+			this.cleanUpScriptTabPage.Name = "cleanUpScriptTabPage";
+			this.cleanUpScriptTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.cleanUpScriptTabPage.Size = new System.Drawing.Size(862, 398);
+			this.cleanUpScriptTabPage.TabIndex = 3;
+			this.cleanUpScriptTabPage.Text = "Upload-Nachbereitungsskript";
 			// 
-			// globalPrepareScriptLabel
+			// cSharpCleanupFctb
 			// 
-			this.globalPrepareScriptLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.globalPrepareScriptLabel.AutoSize = true;
-			this.globalPrepareScriptLabel.Location = new System.Drawing.Point(10, 112);
-			this.globalPrepareScriptLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.globalPrepareScriptLabel.Name = "globalPrepareScriptLabel";
-			this.globalPrepareScriptLabel.Size = new System.Drawing.Size(876, 13);
-			this.globalPrepareScriptLabel.TabIndex = 15;
-			this.globalPrepareScriptLabel.Text = "Globales Vorbereitungsskript:";
-			// 
-			// globalAfterScriptsLabel
-			// 
-			this.globalAfterScriptsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.globalAfterScriptsLabel.AutoSize = true;
-			this.globalAfterScriptsLabel.Location = new System.Drawing.Point(10, 366);
-			this.globalAfterScriptsLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.globalAfterScriptsLabel.Name = "globalAfterScriptsLabel";
-			this.globalAfterScriptsLabel.Size = new System.Drawing.Size(876, 13);
-			this.globalAfterScriptsLabel.TabIndex = 15;
-			this.globalAfterScriptsLabel.Text = "Globales Nachbereitungsskript:";
+			this.cSharpCleanupFctb.AutoCompleteBrackets = true;
+			this.cSharpCleanupFctb.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+			this.cSharpCleanupFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
+    "?<range>:)\\s*(?<range>[^;]+);\n";
+			this.cSharpCleanupFctb.AutoScrollMinSize = new System.Drawing.Size(0, 18);
+			this.cSharpCleanupFctb.BackBrush = null;
+			this.cSharpCleanupFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.cSharpCleanupFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
+			this.cSharpCleanupFctb.CharHeight = 18;
+			this.cSharpCleanupFctb.CharWidth = 10;
+			this.cSharpCleanupFctb.CurrentLineColor = System.Drawing.Color.LightGray;
+			this.cSharpCleanupFctb.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.cSharpCleanupFctb.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+			this.cSharpCleanupFctb.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cSharpCleanupFctb.Font = new System.Drawing.Font("Courier New", 12F);
+			this.cSharpCleanupFctb.IsReplaceMode = false;
+			this.cSharpCleanupFctb.Language = FastColoredTextBoxNS.Language.CSharp;
+			this.cSharpCleanupFctb.LeftBracket = '(';
+			this.cSharpCleanupFctb.LeftBracket2 = '{';
+			this.cSharpCleanupFctb.Location = new System.Drawing.Point(3, 3);
+			this.cSharpCleanupFctb.Margin = new System.Windows.Forms.Padding(0);
+			this.cSharpCleanupFctb.Name = "cSharpCleanupFctb";
+			this.cSharpCleanupFctb.Paddings = new System.Windows.Forms.Padding(0);
+			this.cSharpCleanupFctb.RightBracket = ')';
+			this.cSharpCleanupFctb.RightBracket2 = '}';
+			this.cSharpCleanupFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			this.cSharpCleanupFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpCleanupFctb.ServiceColors")));
+			this.cSharpCleanupFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpCleanupFctb.TabIndex = 15;
+			this.cSharpCleanupFctb.WordWrap = true;
+			this.cSharpCleanupFctb.WordWrapIndent = 6;
+			this.cSharpCleanupFctb.Zoom = 100;
+			this.cSharpCleanupFctb.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.cSharpCleanupFctbTextChanged);
 			// 
 			// editTemplateLabel
 			// 
@@ -1833,6 +2023,20 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.editTemplateLabel.Size = new System.Drawing.Size(910, 13);
 			this.editTemplateLabel.TabIndex = 0;
 			this.editTemplateLabel.Text = "Template bearbeiten: ";
+			// 
+			// useExpertmodeCheckbox
+			// 
+			this.useExpertmodeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.useExpertmodeCheckbox.AutoSize = true;
+			this.editTemplateTableLayoutPanel.SetColumnSpan(this.useExpertmodeCheckbox, 3);
+			this.useExpertmodeCheckbox.Location = new System.Drawing.Point(746, 37);
+			this.useExpertmodeCheckbox.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
+			this.useExpertmodeCheckbox.Name = "useExpertmodeCheckbox";
+			this.useExpertmodeCheckbox.Size = new System.Drawing.Size(174, 17);
+			this.useExpertmodeCheckbox.TabIndex = 5;
+			this.useExpertmodeCheckbox.Text = "Expertenmodus anzeigen";
+			this.useExpertmodeCheckbox.UseVisualStyleBackColor = true;
+			this.useExpertmodeCheckbox.CheckedChanged += new System.EventHandler(this.useExpertmodeCheckbox_CheckedChanged);
 			// 
 			// splitContainer
 			// 
@@ -1875,6 +2079,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Templates bearbeiten";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TemplateFormFormClosing);
 			this.Load += new System.EventHandler(this.TemplateFormLoad);
 			this.templateOverviewTableLayouPanel.ResumeLayout(false);
@@ -1908,8 +2113,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpTabPage.ResumeLayout(false);
 			this.csTlp.ResumeLayout(false);
 			this.csTlp.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).EndInit();
+			this.cSharpScriptingTabControl.ResumeLayout(false);
+			this.systemFunctionsTabPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.cSharpSystemFunctionsFctb)).EndInit();
+			this.usableVariablesTabPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.globalVarsFctb)).EndInit();
+			this.referencedAssembliesTabPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.assemblyReferencesFctb)).EndInit();
+			this.preparationScriptTabPage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.cSharpPrepareFctb)).EndInit();
+			this.cleanUpScriptTabPage.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.cSharpCleanupFctb)).EndInit();
 			this.splitContainer.Panel1.ResumeLayout(false);
 			this.splitContainer.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
@@ -2001,11 +2215,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.OpenFileDialog openThumbnailDialog;
 		private TabPage cSharpTabPage;
 		private TableLayoutPanel csTlp;
-		private FastColoredTextBox cSharpCleanupFctb;
-		private FastColoredTextBox cSharpPrepareFctb;
-		private TextBox csDescriptionTxbx;
-		private Label globalPrepareScriptLabel;
-		private Label globalAfterScriptsLabel;
+		private Label csDescriptionLabel;
 		private GroupBox fillFieldsGroupbox;
 		private TableLayoutPanel fillFieldsTlp;
 		private ListView fillFieldsListView;
@@ -2015,5 +2225,17 @@ namespace STFU.Executable.AutoUploader.Forms
 		private Label filenameValueLabel;
 		private TextBox fieldNameTxbx;
 		private TextBox fieldValueTxbx;
+		private TabControl cSharpScriptingTabControl;
+		private TabPage systemFunctionsTabPage;
+		private TabPage preparationScriptTabPage;
+		private TabPage cleanUpScriptTabPage;
+		private FastColoredTextBox cSharpSystemFunctionsFctb;
+		private FastColoredTextBox cSharpPrepareFctb;
+		private FastColoredTextBox cSharpCleanupFctb;
+		private TabPage usableVariablesTabPage;
+		private FastColoredTextBox globalVarsFctb;
+		private CheckBox useExpertmodeCheckbox;
+		private TabPage referencedAssembliesTabPage;
+		private FastColoredTextBox assemblyReferencesFctb;
 	}
 }

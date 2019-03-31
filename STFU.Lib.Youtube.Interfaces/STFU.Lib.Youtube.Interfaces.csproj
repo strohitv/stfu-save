@@ -46,6 +46,7 @@
     <Compile Include="IYoutubeClientContainer.cs" />
     <Compile Include="IYoutubeLanguageContainer.cs" />
     <Compile Include="IYoutubeUploader.cs" />
+    <Compile Include="Model\Args\JobFinishedEventArgs.cs" />
     <Compile Include="Model\Args\JobPositionChangedEventArgs.cs" />
     <Compile Include="Model\Args\JobDequeuedEventArgs.cs" />
     <Compile Include="Model\Enums\RunningState.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Model\Enums\YoutubeScope.cs" />
     <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
     <Compile Include="Model\Enums\FailureReason.cs" />
+    <Compile Include="Model\Handler\JobFinishedEventHandler.cs" />
     <Compile Include="Model\Handler\JobPositionChangedEventHandler.cs" />
     <Compile Include="Model\Handler\JobDequeuedEventHandler.cs" />
     <Compile Include="Model\Handler\TriggerDeletionEventHandler.cs" />

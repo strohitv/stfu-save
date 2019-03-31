@@ -70,12 +70,52 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public string ThumbnailPath { get; set; } = string.Empty;
 
-		public string CSharpPreparationScript { get; set; } = "// Dieses Skript wird vor allen Skripten in Beschreibung, Titel usw. ausgeführt und kann daher zur Vorbereitung genutzt werden (z. B. zum Erstellen von Variablen)." + Environment.NewLine
-			+ "// Dieses Feld soll ausschließlich C#-Code enthalten. Bitte keine <<<, <<<C und >>> schreiben." + Environment.NewLine + Environment.NewLine
-			+ "using System;";
+		public bool EnableExpertMode { get; set; } = false;
 
-		public string CSharpCleanUpScript { get; set; } = "// Dieses Skript wird nach allen Skripten in Beschreibung, Titel usw. ausgeführt und kann daher zum Aufräumen verwendet werden (z. B. um Disposes durchzuführen)." + Environment.NewLine
-			+ "// Dieses Feld soll ausschließlich C#-Code enthalten. Bitte keine <<<, <<<C und >>> schreiben.";
+		public string CSharpPreparationScript { get; set; } = @"/// <summary>
+/// Der Code in diesem Textfeld kann geändert werden.
+/// 
+/// Der folgende Code wird jeweils vor der Erstellung eines Uploads vor der Auswertung des Codes 
+/// in Titel, Beschreibung, Tags und Thumbnail-Pfad ausgeführt.
+/// Beispielsweise könnten hier eigene Felder für die Benutzung in den Textfeldern initialisiert werden.
+/// </summary>
+
+";
+
+		public string CSharpCleanUpScript { get; set; } = @"/// <summary>
+/// Der Code in diesem Textfeld kann geändert werden.
+/// 
+/// Der folgende Code wird jeweils nach dem erfolgreichen Ende eines Uploads ausgeführt.
+/// Beispielsweise könnte die Datei hier in ein anderes Verzeichnis verschoben werden,
+/// oder eine Mail versandt werden, dass der Upload fertig ist.
+/// (Den Code dafür müsst ihr selbst schreiben. ;)
+/// </summary>
+
+";
+
+		public string ReferencedAssembliesText { get; set; } = @"/// <summary>
+/// Der Text in diesem Textfeld kann geändert werden.
+/// 
+/// In diesem Textfeld kann pro Zeile eine Assembly angegeben werden, die vor dem Ausführen von C#-Code referenziert werden soll.
+/// Das kann ein Pfad zur DLL sein (relativ oder absolut) oder ein Assemblyname (qualifiziert oder unqualifiziert).
+/// Assemblynamen werden mit der Standard-Vorgehensweise bei .NET gesucht.
+/// Ausgangsverzeichnis für relative Pfade ist das Verzeichnis, in dem die AutoUploader.exe liegt.
+/// Ich empfehle, eigene DLLs in ein separates Verzeichnis (z. B. mylibs) zu legen.
+/// 
+/// Leerzeilen und Zeilen, die mit // beginnen, sind Kommentare und werden ignoriert. Mehrzeilige Kommentare werden nicht unterstützt.
+/// 
+/// Beispiele für mögliche Referenzen:
+/// via Assemblyname:
+/// System.Windows.Forms
+/// System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+/// 
+/// via Pfad:
+/// C:\Pfad\...\MeineDll.dll
+/// .\mylib\MeineDll.dll
+/// lib\NewtonSoft.Json.dll
+/// </summary>
+
+";
 
 		public IList<IPublishTime> PublishTimes
 		{
@@ -195,8 +235,10 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				ThumbnailPath = template.ThumbnailPath,
 				Title = template.Title,
 
+				EnableExpertMode = template.EnableExpertMode,
 				CSharpPreparationScript = template.CSharpPreparationScript,
-				CSharpCleanUpScript = template.CSharpCleanUpScript
+				CSharpCleanUpScript = template.CSharpCleanUpScript,
+				ReferencedAssembliesText = template.ReferencedAssembliesText
 			};
 		}
 	}

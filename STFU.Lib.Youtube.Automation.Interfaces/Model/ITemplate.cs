@@ -28,9 +28,11 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 
 		IList<IPlannedVideo> PlannedVideos { get; set; }
 
+		bool EnableExpertMode { get; set; }
 		string CSharpPreparationScript { get; set; }
 		string CSharpCleanUpScript { get; set; }
-		
+		string ReferencedAssembliesText { get; set; }
+
 		string ToString();
 	}
 }

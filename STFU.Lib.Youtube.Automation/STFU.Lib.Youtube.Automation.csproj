@@ -146,8 +146,10 @@
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />
     <Compile Include="ProcessList.cs" />
+    <Compile Include="Programming\AssemblyNameResolver.cs" />
     <Compile Include="Programming\ExpressionEvaluator.cs" />
     <Compile Include="Programming\ScriptType.cs" />
+    <Compile Include="Programming\StandardFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateContainer.cs" />
     <Compile Include="Internal\Templates\PublishTimeCalculator.cs" />

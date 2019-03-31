@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -16,7 +17,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			PublishInfos = publishInfo;
 		}
 
-		internal IYoutubeVideo CreateVideo(string path)
+		internal Tuple<IYoutubeVideo, ExpressionEvaluator> CreateVideo(string path)
 		{
 			IYoutubeVideo video = new YoutubeVideo(path);
 
@@ -24,7 +25,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishCalculator.Template;
 
-			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.PlannedVideos, template.CSharpPreparationScript, template.CSharpCleanUpScript);
+			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.PlannedVideos, template.CSharpPreparationScript, template.CSharpCleanUpScript, template.ReferencedAssembliesText);
 
 			// Werte füllen
 			video.Title = CutOff(evaluator.Evaluate(template.Title).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxTitleLength);
@@ -59,9 +60,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				video.Tags.Add(tag);
 			}
 
-			evaluator.CleanUp().Wait();
-
-			return video;
+			return new Tuple<IYoutubeVideo, ExpressionEvaluator>(video, evaluator);
 		}
 
 		private string CutOff(string value, int maxlength)

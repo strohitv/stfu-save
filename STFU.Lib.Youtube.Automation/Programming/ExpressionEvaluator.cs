@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
@@ -28,12 +29,14 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		private string TemplateName { get; set; }
 		private string CSharpPreparationScript { get; set; }
 		private string CSharpCleanupScript { get; set; }
+		private string ReferencedAssembliesText { get; set; }
 
 		private ScriptState<object> CsScript { get; set; }
+		private ScriptOptions Options { get; set; }
 
 		private IList<IPlannedVideo> PlannedVideos { get; set; } = new List<IPlannedVideo>();
 
-		public ExpressionEvaluator(string filepath, string templatename, IList<IPlannedVideo> plannedVideos, string csharpPreparationScript, string csharpCleanupScript)
+		public ExpressionEvaluator(string filepath, string templatename, IList<IPlannedVideo> plannedVideos, string csharpPreparationScript, string csharpCleanupScript, string referencedAssembliesText)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;
@@ -41,16 +44,56 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 			CSharpPreparationScript = csharpPreparationScript;
 			CSharpCleanupScript = csharpCleanupScript;
+			ReferencedAssembliesText = referencedAssembliesText;
 
 			CreateExpressionEvaluator().Wait();
 		}
 
 		private async Task CreateExpressionEvaluator()
 		{
-			foreach (var var in GlobalVariables)
-			{
-				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+			Options = ScriptOptions.Default;
 
+			var assemblyLines = ReferencedAssembliesText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (var line in assemblyLines)
+			{
+				if (!line.StartsWith("//") && !string.IsNullOrWhiteSpace(line))
+				{
+					var trimmed = line.Trim();
+
+					try
+					{
+						var assembly = Assembly.LoadFrom(trimmed);
+						Options = Options.AddReferences(assembly);
+					}
+					catch (Exception ex1)
+					{
+						try
+						{
+							var netAssembly = Assembly.Load(trimmed);
+							Options = Options.AddReferences(netAssembly);
+						}
+						catch (Exception ex2)
+						{
+							try
+							{
+								var gacAssemblyPath = AssemblyNameResolver.GetAssemblyPath(trimmed);
+								var gacAssembly = Assembly.LoadFrom(gacAssemblyPath);
+								Options = Options.AddReferences(gacAssembly);
+							}
+							catch (Exception ex3)
+							{
+								LogException(ex1, $"Die Referenz {trimmed} sollte geladen werden.");
+								LogException(ex2, $"Die Referenz {trimmed} sollte geladen werden.");
+								LogException(ex3, $"Die Referenz {trimmed} sollte geladen werden.");
+							}
+						}
+					}
+				}
+			}
+
+			foreach (var func in StandardFunctions.GlobalFunctions)
+			{
 				if (CsScript == null)
 				{
 					CsScript = await CSharpScript.RunAsync(func);
@@ -61,30 +104,45 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				}
 			}
 
+			foreach (var var in GlobalVariables)
+			{
+				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+				CsScript = await CsScript.ContinueWithAsync(func);
+			}
+
 			try
 			{
-				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript);
+				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript, Options);
 			}
 			catch (CompilationErrorException ex)
 			{
 				CsScript = await CSharpScript.RunAsync("using System;");
+				LogException(ex, CSharpPreparationScript);
+			}
+		}
 
-				if (!Directory.Exists("errors"))
-				{
-					Directory.CreateDirectory("errors");
-				}
+		private void LogException(Exception ex, string script)
+		{
+			if (!Directory.Exists("errors"))
+			{
+				Directory.CreateDirectory("errors");
+			}
 
-				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-				{
-					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-					writer.WriteLine();
-					WriteException(ex, writer, CSharpPreparationScript);
+			if (!Directory.Exists(@"errors\csharp"))
+			{
+				Directory.CreateDirectory(@"errors\csharp");
+			}
 
-					writer.WriteLine();
-					writer.WriteLine("=======================");
-					writer.WriteLine();
-					writer.WriteLine();
-				}
+			using (StreamWriter writer = new StreamWriter($@"errors\csharp\{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
+			{
+				writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
+				writer.WriteLine();
+				WriteException(ex, writer, script);
+
+				writer.WriteLine();
+				writer.WriteLine("=======================");
+				writer.WriteLine();
+				writer.WriteLine();
 			}
 		}
 
@@ -92,26 +150,11 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		{
 			try
 			{
-				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript);
+				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript, Options);
 			}
 			catch (CompilationErrorException ex)
 			{
-				if (!Directory.Exists("errors"))
-				{
-					Directory.CreateDirectory("errors");
-				}
-
-				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-				{
-					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-					writer.WriteLine();
-					WriteException(ex, writer, CSharpPreparationScript);
-
-					writer.WriteLine();
-					writer.WriteLine("=======================");
-					writer.WriteLine();
-					writer.WriteLine();
-				}
+				LogException(ex, CSharpCleanupScript);
 			}
 
 			CsScript = null;
@@ -220,22 +263,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						}
 						catch (CompilationErrorException ex)
 						{
-							if (!Directory.Exists("errors"))
-							{
-								Directory.CreateDirectory("errors");
-							}
-
-							using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-							{
-								writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-								writer.WriteLine();
-								WriteException(ex, writer, script);
-
-								writer.WriteLine();
-								writer.WriteLine("=======================");
-								writer.WriteLine();
-								writer.WriteLine();
-							}
+							LogException(ex, script);
 						}
 
 						string before = text.Substring(0, currentPos);

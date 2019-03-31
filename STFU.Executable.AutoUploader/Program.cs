@@ -39,6 +39,18 @@ namespace STFU.Executable.AutoUploader
 					}
 				}
 			}
+
+			if (Directory.Exists(@"errors\csharp"))
+			{
+				var maxTime = new TimeSpan(14, 0, 0, 0);
+				foreach (var file in Directory.EnumerateFiles(@"errors\csharp"))
+				{
+					if (DateTime.Now - new FileInfo(file).CreationTime > maxTime)
+					{
+						File.Delete(file);
+					}
+				}
+			}
 		}
 
 		private static void LogException(object sender, FirstChanceExceptionEventArgs e)

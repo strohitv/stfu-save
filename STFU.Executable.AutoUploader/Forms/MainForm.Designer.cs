@@ -60,13 +60,13 @@
 			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.SuspendLayout();
@@ -372,6 +372,18 @@
 			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
 			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+			// 
+			// fehlerverzeichnisÖffnenToolStripMenuItem
+			// 
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Name = "fehlerverzeichnisÖffnenToolStripMenuItem";
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Text = "Fehlerverzeichnis öffnen";
+			this.fehlerverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.fehlerverzeichnisÖffnenToolStripMenuItem_Click);
+			// 
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -432,20 +444,9 @@
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
-			// toolStripSeparator3
-			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
-			// 
-			// fehlerverzeichnisÖffnenToolStripMenuItem
-			// 
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Name = "fehlerverzeichnisÖffnenToolStripMenuItem";
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Text = "Fehlerverzeichnis öffnen";
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.fehlerverzeichnisÖffnenToolStripMenuItem_Click);
-			// 
 			// MainForm
 			// 
+			this.AcceptButton = this.btnStart;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(979, 323);

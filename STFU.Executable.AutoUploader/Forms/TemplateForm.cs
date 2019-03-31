@@ -53,6 +53,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
+
+			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
 		}
 
 		private void addTemplateButtonClick(object sender, EventArgs e)
@@ -114,7 +119,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void TemplateFormLoad(object sender, EventArgs e)
 		{
 			RefillListView();
-			//privacyComboBox.SelectedIndex = 2;
+
+			cSharpSystemFunctionsFctb.Text = StandardFunctions.GlobalFunctions.Aggregate((a, b) => $"{a}{Environment.NewLine}{Environment.NewLine}{b}");
+			cSharpScriptingTabControl.SelectedIndex = 2;
 		}
 
 		private void deleteTemplateButtonClick(object sender, EventArgs e)
@@ -185,6 +192,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			templateValuesTabControl.SelectedIndex = 0;
 
+			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
 			RefillPlannedVideosListView();
 		}
 
@@ -219,8 +231,19 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			thumbnailTextbox.Text = template.ThumbnailPath;
 
+			useExpertmodeCheckbox.Checked = template.EnableExpertMode;
+			if (template.EnableExpertMode && !templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Add(cSharpTabPage);
+			}
+			else if (!template.EnableExpertMode && templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
 			cSharpPrepareFctb.Text = template.CSharpPreparationScript;
 			cSharpCleanupFctb.Text = template.CSharpCleanUpScript;
+			assemblyReferencesFctb.Text = template.ReferencedAssembliesText;
 
 			RefillTimesListView();
 
@@ -915,12 +938,39 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearFilenamesButtonClick(object sender, EventArgs e)
 		{
-			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) )
+			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
 			{
 				current.PlannedVideos.Clear();
 				IsDirty = true;
 				RefillPlannedVideosListView();
 				RefillFillFieldsListView();
+			}
+		}
+
+		private void useExpertmodeCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null)
+			{
+				current.EnableExpertMode = useExpertmodeCheckbox.Checked;
+				if (current.EnableExpertMode && !templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+				{
+					templateValuesTabControl.TabPages.Add(cSharpTabPage);
+				}
+				else if (!current.EnableExpertMode && templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+				{
+					templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void assemblyReferencesFctb_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (current != null)
+			{
+				current.ReferencedAssembliesText = assemblyReferencesFctb.Text;
+				IsDirty = true;
 			}
 		}
 	}

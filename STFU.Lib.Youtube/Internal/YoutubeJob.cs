@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
 using STFU.Lib.Youtube.Internal.Upload;
@@ -21,12 +22,12 @@ namespace STFU.Lib.Youtube.Internal
 
 		private bool shouldBeSkipped = false;
 
+		public event JobFinishedEventHandler UploadCompletedAction;
+
 		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
 		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
 
 		public IYoutubeAccount Account { get; }
-
-		public Action<IYoutubeJob> UploadCompletedAction { get; set; }
 
 		public IYoutubeError Error
 		{
@@ -363,7 +364,7 @@ namespace STFU.Lib.Youtube.Internal
 				case UploadStepState.Successful:
 					if (!Steps.Any())
 					{
-						UploadCompletedAction?.Invoke(this);
+						UploadCompletedAction?.Invoke(new JobFinishedEventArgs(this));
 
 						State = UploadProgress.Successful;
 						CurrentObject = UploadObject.Nothing;
