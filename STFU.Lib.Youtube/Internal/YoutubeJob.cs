@@ -26,6 +26,8 @@ namespace STFU.Lib.Youtube.Internal
 
 		public IYoutubeAccount Account { get; }
 
+		public Action<IYoutubeJob> UploadCompletedAction { get; set; }
+
 		public IYoutubeError Error
 		{
 			get
@@ -361,6 +363,8 @@ namespace STFU.Lib.Youtube.Internal
 				case UploadStepState.Successful:
 					if (!Steps.Any())
 					{
+						UploadCompletedAction?.Invoke(this);
+
 						State = UploadProgress.Successful;
 						CurrentObject = UploadObject.Nothing;
 					}

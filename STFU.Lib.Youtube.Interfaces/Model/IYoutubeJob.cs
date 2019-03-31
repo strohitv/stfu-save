@@ -32,6 +32,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		double Progress { get; }
 
 		/// <summary>
+		/// The Action to be executed as soon as the Upload ist completed
+		/// </summary>
+		Action<IYoutubeJob> UploadCompletedAction { get; set; }
+
+		/// <summary>
 		/// Contains information about the error if something fails
 		/// </summary>
 		IYoutubeError Error { get; }

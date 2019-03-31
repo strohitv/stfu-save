@@ -284,33 +284,28 @@ namespace STFU.Lib.Youtube.Automation
 						|| job.State == UploadProgress.Canceled))
 			{
 				var job = Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
-				job.PropertyChanged += Job_PropertyChanged;
+
+				job.UploadCompletedAction = (j) => RenameVideo(j);
 
 				Uploader.StartUploader();
 			}
 		}
 
-		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void RenameVideo(IYoutubeJob job)
 		{
-			var job = (IYoutubeJob)sender;
-			if (e.PropertyName == nameof(job.State) && job.State == UploadProgress.Successful)
+			var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
+				   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
+				   + Path.GetExtension(job.Video.File.FullName);
+
+			int number = 1;
+			while (File.Exists(movedPath))
 			{
-				var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
-					   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
-					   + Path.GetExtension(job.Video.File.FullName);
-
-				int number = 1;
-				while (File.Exists(movedPath))
-				{
-					movedPath = Path.GetDirectoryName(movedPath)
-						+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
-						+ Path.GetExtension(movedPath);
-				}
-
-				File.Move(job.Video.File.FullName, movedPath);
-
-				job.PropertyChanged -= Job_PropertyChanged;
+				movedPath = Path.GetDirectoryName(movedPath)
+					+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
+					+ Path.GetExtension(movedPath);
 			}
+
+			File.Move(job.Video.File.FullName, movedPath);
 		}
 
 		#region PropertyChanged
