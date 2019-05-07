@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Events;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Internal.Watcher;
@@ -106,6 +108,8 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
+		public event FileToUploadPlannedEventHandler FileToUploadOccured;
+
 		public void Cancel()
 		{
 			if (State == RunningState.Running)
@@ -154,8 +158,8 @@ namespace STFU.Lib.Youtube.Automation
 			Uploader.PropertyChanged += UploaderPropertyChanged;
 			Searcher.PropertyChanged += SearcherPropertyChanged;
 
-			Searcher.FileFound += FileToUploadOccured;
-			DirectoryWatcher.FileAdded += FileToUploadOccured;
+			Searcher.FileFound += OnFileToUploadOccured;
+			DirectoryWatcher.FileAdded += OnFileToUploadOccured;
 
 			foreach (var path in Configuration.Where(c => !c.IgnorePath))
 			{
@@ -248,7 +252,7 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private void FileToUploadOccured(FileSystemEventArgs e)
+		private void OnFileToUploadOccured(FileSystemEventArgs e)
 		{
 			if (!e.Name.StartsWith("_")
 				&& Uploader.Queue
@@ -260,6 +264,7 @@ namespace STFU.Lib.Youtube.Automation
 						|| job.State == UploadProgress.Canceled))
 			{
 				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
+				FileToUploadOccured?.Invoke(this, new EventArgs());
 				var video = videoAndEvaluator.Item1;
 				var evaluator = videoAndEvaluator.Item2;
 				var job = Uploader.QueueUpload(video, Account);

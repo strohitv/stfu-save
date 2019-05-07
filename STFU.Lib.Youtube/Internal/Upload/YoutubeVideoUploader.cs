@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -29,21 +30,44 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			State = UploadStepState.Initializing;
 
-			var lastbyte = CheckUploadStatus();
-
+			bool successful = false;
 			HttpWebRequest request = null;
-			if (lastbyte == -1)
-			{
-				request = HttpWebRequestCreator.CreateForNewUpload(Video.UploadUri, Video, Account);
-			}
-			else
-			{
-				request = HttpWebRequestCreator.CreateForResumeUpload(Video.UploadUri, Video, Account, lastbyte);
-			}
+			long lastLastByte = -1;
+			int tries = 0;
 
-			State = UploadStepState.Running;
+			while (!successful && tries < 10)
+			{
+				var lastbyte = CheckUploadStatus();
 
-			bool successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte + 1);
+				if (lastbyte == -1)
+				{
+					request = HttpWebRequestCreator.CreateForNewUpload(Video.UploadUri, Video, Account);
+				}
+				else
+				{
+					request = HttpWebRequestCreator.CreateForResumeUpload(Video.UploadUri, Video, Account, lastbyte);
+				}
+
+				State = UploadStepState.Running;
+
+				successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte + 1);
+
+				if (lastLastByte == lastbyte)
+				{
+					tries++;
+				}
+				else
+				{
+					tries = 0;
+					lastLastByte = lastbyte;
+				}
+
+				if (!successful)
+				{
+					State = UploadStepState.Broke;
+					Thread.Sleep(90000);
+				}
+			}
 
 			if (successful)
 			{

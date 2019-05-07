@@ -6,6 +6,7 @@
 		Initializing,
 		Running,
 		Successful,
+		Broke,
 		Error,
 		CancelPending,
 		Canceled,

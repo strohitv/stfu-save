@@ -196,6 +196,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				uploader.RemoveCompletedJobs = false;
 
 				autoUploader = new AutomationUploader(uploader, account, publishSettings);
+				autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 				autoUploader.WatchedProcesses = processes;
 
 				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex, categoryContainer, languageContainer);
@@ -222,6 +223,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			// Fenster wieder anzeigen.
 			ShowInTaskbar = true;
 			Visible = true;
+		}
+
+		private void AutoUploader_FileToUploadOccured(object sender, EventArgs e)
+		{
+			templatePersistor.Save();
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)

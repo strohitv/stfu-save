@@ -1,4 +1,5 @@
 ﻿using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Events;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -14,6 +15,8 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		IYoutubeAccount Account { get; set; }
 		
 		IList<IObservationConfiguration> Configuration { get; }
+
+		event FileToUploadPlannedEventHandler FileToUploadOccured;
 
 		/// <summary>
 		/// Setting this value while Uploader has state other than not running will be ignored.
