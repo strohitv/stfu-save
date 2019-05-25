@@ -101,14 +101,14 @@ namespace STFU.Lib.GUI.Controls
 					break;
 			}
 
-			publishAtCheckbox.Enabled = video.Privacy == PrivacyStatus.Private;
-			publishAtCheckbox.Checked = video.PublishAt.HasValue && (video.Privacy == PrivacyStatus.Private);
-			publishAtDatetimepicker.Enabled = publishAtCheckbox.Checked;
-
 			if (video.PublishAt.HasValue)
 			{
 				publishAtDatetimepicker.Value = video.PublishAt.Value;
 			}
+
+			publishAtCheckbox.Enabled = video.Privacy == PrivacyStatus.Private;
+			publishAtCheckbox.Checked = video.PublishAt.HasValue && (video.Privacy == PrivacyStatus.Private);
+			publishAtDatetimepicker.Enabled = publishAtCheckbox.Checked;
 
 			if (video.Category != null && categoryCombobox.Items.Contains(video.Category.Title))
 			{

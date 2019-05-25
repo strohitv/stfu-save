@@ -24,7 +24,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal bool UploadFile(string path, HttpWebRequest request, long maxFileSize, long startPosition)
 		{
-			bool result = false;
+			bool finishedSuccessful = false;
 
 			if (File.Exists(path))
 			{
@@ -53,12 +53,14 @@ namespace STFU.Lib.Youtube.Internal.Upload
 						// Upload initiieren
 						using (Stream requestStream = request.GetRequestStream())
 						{
-							TryUpload(fileStream, requestStream);
+							finishedSuccessful = TryUpload(fileStream, requestStream);
 						}
 
-						result = true;
-						Progress = 100.0;
-						RunningState = RunningState.NotRunning;
+						if (finishedSuccessful)
+						{
+							Progress = 100.0;
+							RunningState = RunningState.NotRunning;
+						}
 					}
 					catch (WebException)
 					{
@@ -78,25 +80,31 @@ namespace STFU.Lib.Youtube.Internal.Upload
 				FailureReason = FailureReason.FileDoesNotExist;
 			}
 
-			return result;
+			return finishedSuccessful;
 		}
 
-		private void TryUpload(FileStream fileStream, Stream requestStream)
+		private bool TryUpload(FileStream fileStream, Stream requestStream)
 		{
+			var result = false;
+
 			try
 			{
 				Upload(fileStream, requestStream);
+				result = true;
 			}
 			catch (WebException)
 			{
+				// Hier fliegt im Falle eines gewollten Abbruchs eine erwartete WebException.
 				requestStream.Close();
 				FailureReason = FailureReason.SendError;
 			}
-			catch (IOException)
+			catch (Exception)
 			{
 				requestStream.Close();
-				FailureReason = FailureReason.ReadError;
+				// FailureReason = FailureReason.ReadError;
 			}
+
+			return result;
 		}
 
 		private void Upload(FileStream fileStream, Stream requestStream)

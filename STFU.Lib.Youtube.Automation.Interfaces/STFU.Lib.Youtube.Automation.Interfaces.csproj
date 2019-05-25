@@ -33,6 +33,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Model\Events\FileToUploadPlannedEventHandler.cs" />
     <Compile Include="IAutomationUploader.cs" />
     <Compile Include="IProcessList.cs" />
     <Compile Include="Model\IObservationConfiguration.cs" />

@@ -5,7 +5,8 @@
 		public static bool IsStarted(this UploadProgress state)
 		{
 			return state == UploadProgress.Running || state == UploadProgress.PausePending
-				 || state == UploadProgress.Paused || state == UploadProgress.CancelPending;
+				 || state == UploadProgress.Paused || state == UploadProgress.CancelPending 
+				 || state == UploadProgress.Broke;
 		}
 
 		public static bool IsCanceled(this UploadProgress state)

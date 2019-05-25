@@ -223,7 +223,8 @@ namespace STFU.Lib.Youtube.Internal
 				&& RunningStep.State != UploadStepState.Running
 				&& RunningStep.State != UploadStepState.CancelPending
 				&& RunningStep.State != UploadStepState.PausePending
-				&& RunningStep.State != UploadStepState.PausePending;
+				&& RunningStep.State != UploadStepState.Paused
+				&& RunningStep.State != UploadStepState.Broke;
 		}
 
 		public void ForceUploadAsync()
@@ -398,6 +399,9 @@ namespace STFU.Lib.Youtube.Internal
 					break;
 				case UploadStepState.Paused:
 					State = UploadProgress.Paused;
+					break;
+				case UploadStepState.Broke:
+					State = UploadProgress.Broke;
 					break;
 				default:
 					throw new InvalidEnumArgumentException("Dieses Feld existiert nicht.");

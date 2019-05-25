@@ -190,6 +190,11 @@ namespace STFU.Lib.GUI.Controls.Queue
 					RefreshBackColor(Color.FromArgb(192, 255, 192));
 
 					break;
+				case UploadProgress.Broke:
+					RefreshDetailLabel($"Upload wurde unterbrochen. Versuche es in 1:30 Minuten erneut.", string.Empty);
+					RefreshBackColor(Color.FromArgb(224, 224, 224));
+
+					break;
 				default:
 					throw new ArgumentException("Dieser Status wird nicht unterstützt.");
 			}

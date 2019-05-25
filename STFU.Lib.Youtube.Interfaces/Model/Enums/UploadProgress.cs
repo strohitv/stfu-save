@@ -4,6 +4,7 @@
 	{
 		NotRunning,
 		Running,
+		Broke,
 		PausePending,
 		Paused,
 		CancelPending,
