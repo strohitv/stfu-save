@@ -35,7 +35,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			long lastLastByte = -1;
 			int tries = 0;
 
-			while (!successful && tries < 10)
+			while (!successful && tries < 10
+				&& State != UploadStepState.CancelPending
+				&& State != UploadStepState.Canceled
+				&& State != UploadStepState.PausePending
+				&& State != UploadStepState.Paused)
 			{
 				var lastbyte = CheckUploadStatus();
 
@@ -64,8 +68,14 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 				if (!successful)
 				{
-					State = UploadStepState.Broke;
-					Thread.Sleep(90000);
+					if (State != UploadStepState.CancelPending
+						&& State != UploadStepState.Canceled
+						&& State != UploadStepState.PausePending
+						&& State != UploadStepState.Paused)
+					{
+						State = UploadStepState.Broke;
+						Thread.Sleep(90000);
+					}
 				}
 			}
 

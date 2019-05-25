@@ -90,7 +90,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			try
 			{
 				Upload(fileStream, requestStream);
-				result = true;
+				result = RunningState != RunningState.CancelPending
+					&& RunningState != RunningState.Canceled
+					&& RunningState != RunningState.PausePending
+					&& RunningState != RunningState.Paused;
 			}
 			catch (WebException)
 			{

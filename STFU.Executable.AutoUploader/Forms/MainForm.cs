@@ -286,6 +286,11 @@ namespace STFU.Executable.AutoUploader.Forms
 				if (autoUploader.State == RunningState.NotRunning)
 				{
 					ended = true;
+					Invoke(new action(() => autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt"));
+				}
+				else
+				{
+					Invoke(new action(() => autoUploaderStateLabel.Text = "Der AutoUploader läuft und fügt gefundene Videos automatisch hinzu"));
 				}
 
 				RenameStartButton();

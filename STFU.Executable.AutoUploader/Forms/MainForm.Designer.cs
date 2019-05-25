@@ -75,6 +75,7 @@
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
+			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -430,7 +431,7 @@
 			// 
 			// tableLayoutPanel2
 			// 
-			this.tableLayoutPanel2.ColumnCount = 11;
+			this.tableLayoutPanel2.ColumnCount = 13;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -442,12 +443,15 @@
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel2.Controls.Add(this.btnStart, 9, 3);
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.Controls.Add(this.btnStart, 11, 3);
 			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 1, 3);
 			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 3, 3);
 			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 5, 3);
 			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 7, 3);
 			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 1, 1);
+			this.tableLayoutPanel2.Controls.Add(this.autoUploaderStateLabel, 9, 3);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -498,7 +502,7 @@
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(73, 542);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(761, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(602, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -506,7 +510,7 @@
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(844, 544);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(685, 544);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -520,7 +524,7 @@
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(1004, 539);
+			this.btnChoseProcs.Location = new System.Drawing.Point(845, 539);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -532,7 +536,7 @@
 			// 
 			// jobQueue
 			// 
-			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 9);
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 11);
 			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.jobQueue.Location = new System.Drawing.Point(10, 10);
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
@@ -552,6 +556,17 @@
 			this.watchingTimer.Enabled = true;
 			this.watchingTimer.Interval = 50;
 			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
+			// 
+			// autoUploaderStateLabel
+			// 
+			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.autoUploaderStateLabel.AutoSize = true;
+			this.autoUploaderStateLabel.Location = new System.Drawing.Point(891, 546);
+			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
+			this.autoUploaderStateLabel.Size = new System.Drawing.Size(149, 13);
+			this.autoUploaderStateLabel.TabIndex = 19;
+			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
 			// 
 			// MainForm
 			// 
@@ -630,6 +645,7 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private Lib.GUI.Controls.Queue.JobQueue jobQueue;
 		private System.Windows.Forms.Timer watchingTimer;
+		private System.Windows.Forms.Label autoUploaderStateLabel;
 	}
 }
 
