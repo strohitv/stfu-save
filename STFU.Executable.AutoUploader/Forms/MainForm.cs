@@ -91,6 +91,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
 			RefillListView();
 			ActivateAccountLink();
@@ -116,6 +117,10 @@ namespace STFU.Executable.AutoUploader.Forms
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
 			}
+		}
+		private void AutoUploader_FileToUploadOccured(object sender, EventArgs e)
+		{
+			templatePersistor.Save();
 		}
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
