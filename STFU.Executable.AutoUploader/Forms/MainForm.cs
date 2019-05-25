@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
@@ -10,6 +12,7 @@ using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
 using STFU.Lib.Youtube.Persistor.Model;
@@ -25,7 +28,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeCategoryContainer categoryContainer = new YoutubeCategoryContainer();
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
-		IAutomationUploader autoUploader = new AutomationUploader();
+		IAutomationUploader autoUploader;
 		ProcessList processes = new ProcessList();
 
 		AutoUploaderSettings autoUploaderSettings = new AutoUploaderSettings();
@@ -38,6 +41,10 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 
 		private bool showReleaseNotes = false;
+		bool ended = false;
+		bool canceled = false;
+
+		int progress = 0;
 
 		public MainForm(bool showReleaseNotes)
 		{
@@ -74,6 +81,16 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
 			settingsPersistor.Load();
+
+			var uploader = new YoutubeUploader();
+			uploader.StopAfterCompleting = false;
+			uploader.RemoveCompletedJobs = false;
+
+			autoUploader = new AutomationUploader(uploader);
+			autoUploader.WatchedProcesses = processes;
+
+			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
 
 			RefillListView();
 			ActivateAccountLink();
@@ -170,58 +187,104 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
-			if (accountContainer.RegisteredAccounts.Count == 0)
+			if (autoUploader.State == RunningState.NotRunning
+				&& autoUploader.Uploader.State == UploaderState.NotRunning)
 			{
-				MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			if (pathContainer.ActivePaths.Count == 0)
-			{
-				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			Visible = false;
-			ShowInTaskbar = false;
-
-			ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
-
-			if (cstForm.ShowDialog(this) == DialogResult.OK)
-			{
-				var publishSettings = cstForm.GetPublishSettingsArray();
-				var account = accountContainer.RegisteredAccounts.First();
-				var uploader = new YoutubeUploader();
-				uploader.StopAfterCompleting = false;
-				uploader.RemoveCompletedJobs = false;
-
-				autoUploader = new AutomationUploader(uploader, account, publishSettings);
-				autoUploader.WatchedProcesses = processes;
-
-				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex, categoryContainer, languageContainer);
-				if (uploadForm.ShowDialog(this) == DialogResult.OK)
+				if (accountContainer.RegisteredAccounts.Count == 0)
 				{
-					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
+					MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 
-					// Upload wurde regulär beendet.
-					switch (cmbbxFinishAction.SelectedIndex)
+				if (pathContainer.ActivePaths.Count == 0)
+				{
+					MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
+				var shouldStartUpload = cstForm.ShowDialog(this);
+
+				if (shouldStartUpload == DialogResult.OK)
+				{
+					var publishSettings = cstForm.GetPublishSettingsArray();
+					var account = accountContainer.RegisteredAccounts.First();
+
+					autoUploader.Configuration.Clear();
+					autoUploader.Account = account;
+
+					foreach (var setting in publishSettings)
 					{
-						case 2:
-							Close();
-							return;
-						case 3:
-							Process.Start("shutdown.exe", "-s -t 60");
-							Close();
-							return;
-						default:
-							break;
+						autoUploader.Configuration.Add(setting);
 					}
+
+					jobQueue.Fill(categoryContainer, languageContainer);
+
+					jobQueue.ShowActionsButtons = true;
+					jobQueue.Uploader = autoUploader.Uploader;
+
+					autoUploader.StartAsync();
 				}
 			}
+			else
+			{
+				canceled = true;
+				autoUploader.Cancel();
+				autoUploader.Uploader.CancelAll();
+			}
+		}
 
-			// Fenster wieder anzeigen.
-			ShowInTaskbar = true;
-			Visible = true;
+		delegate void action();
+		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IYoutubeUploader.State))
+			{
+				if (autoUploader.Uploader.State == UploaderState.Waiting)
+				{
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
+				}
+
+				RenameStartButton();
+			}
+			else if (e.PropertyName == nameof(IYoutubeUploader.Progress))
+			{
+				progress = autoUploader.Uploader.Progress;
+
+				try
+				{
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
+				}
+				catch (InvalidOperationException)
+				{ }
+			}
+		}
+
+		private void RenameStartButton()
+		{
+			if (autoUploader.State == RunningState.NotRunning
+				&& autoUploader.Uploader.State == UploaderState.NotRunning)
+			{
+				Invoke(new action(() => btnStart.Text = "Start!"));
+			}
+			else
+			{
+				Invoke(new action(() => btnStart.Text = "Abbrechen!"));
+			}
+		}
+
+		private void AutoUploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(autoUploader.State))
+			{
+				if (autoUploader.State == RunningState.NotRunning)
+				{
+					ended = true;
+				}
+
+				RenameStartButton();
+			}
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)
@@ -232,6 +295,9 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
+			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
+
 			autoUploader?.Cancel();
 			pathPersistor.Save();
 			templatePersistor.Save();
@@ -357,7 +423,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
+			autoUploader.EndAfterUpload = chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex > 0;
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
@@ -453,6 +519,32 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			Process.Start("explorer.exe", "errors");
+		}
+
+		private void watchingTimer_Tick(object sender, EventArgs e)
+		{
+			if (ended)
+			{
+				if (!canceled)
+				{
+					// Upload wurde regulär beendet.
+					switch (cmbbxFinishAction.SelectedIndex)
+					{
+						case 1:
+							Close();
+							return;
+						case 2:
+							Process.Start("shutdown.exe", "-s -t 60");
+							Close();
+							return;
+						default:
+							break;
+					}
+				}
+
+				ended = false;
+				canceled = false;
+			}
 		}
 	}
 }

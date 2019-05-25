@@ -95,6 +95,11 @@ namespace STFU.Lib.Youtube.Automation
 
 		public AutomationUploader() { }
 
+		public AutomationUploader(IYoutubeUploader uploader)
+		{
+			Uploader = uploader;
+		}
+
 		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
 		{
 			Uploader = uploader;
@@ -111,6 +116,7 @@ namespace STFU.Lib.Youtube.Automation
 			if (State == RunningState.Running)
 			{
 				State = RunningState.CancelPending;
+				Uploader.StopAfterCompleting = true;
 				Searcher.Cancel();
 				DirectoryWatcher.Cancel();
 				Uploader.CancelAll();
@@ -153,6 +159,7 @@ namespace STFU.Lib.Youtube.Automation
 
 			Uploader.PropertyChanged += UploaderPropertyChanged;
 			Searcher.PropertyChanged += SearcherPropertyChanged;
+			Uploader.StopAfterCompleting = false;
 
 			Searcher.FileFound += FileToUploadOccured;
 			DirectoryWatcher.FileAdded += FileToUploadOccured;

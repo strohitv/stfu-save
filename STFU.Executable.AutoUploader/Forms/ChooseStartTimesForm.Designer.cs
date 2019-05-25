@@ -124,6 +124,7 @@
 			this.ClientSize = new System.Drawing.Size(958, 728);
 			this.Controls.Add(this.mainTlp);
 			this.Name = "ChooseStartTimesForm";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Veröffentlichungsstartzeiten wählen";
 			this.mainTlp.ResumeLayout(false);

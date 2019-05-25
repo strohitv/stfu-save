@@ -28,16 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tlpSettings = new System.Windows.Forms.TableLayoutPanel();
-			this.btnStart = new System.Windows.Forms.Button();
-			this.lvSelectedPaths = new System.Windows.Forms.ListView();
-			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lblCurrentLoggedIn = new System.Windows.Forms.Label();
 			this.lnklblCurrentLoggedIn = new System.Windows.Forms.LinkLabel();
 			this.mainMenu = new System.Windows.Forms.MenuStrip();
@@ -62,44 +55,59 @@
 			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.pathsTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.lvSelectedPaths = new System.Windows.Forms.ListView();
+			this.chPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chFilter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chTemplate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.uploaderTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.btnStart = new System.Windows.Forms.Button();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
+			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.pathsTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.uploaderTabPage.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tlpSettings
 			// 
 			this.tlpSettings.AutoSize = true;
 			this.tlpSettings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tlpSettings.ColumnCount = 15;
+			this.tlpSettings.ColumnCount = 5;
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
-			this.tlpSettings.Controls.Add(this.btnStart, 13, 4);
-			this.tlpSettings.Controls.Add(this.lvSelectedPaths, 1, 2);
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlpSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlpSettings.Controls.Add(this.lblCurrentLoggedIn, 1, 4);
 			this.tlpSettings.Controls.Add(this.lnklblCurrentLoggedIn, 3, 4);
 			this.tlpSettings.Controls.Add(this.mainMenu, 0, 0);
-			this.tlpSettings.Controls.Add(this.lblFinishAction, 5, 4);
-			this.tlpSettings.Controls.Add(this.cmbbxFinishAction, 7, 4);
-			this.tlpSettings.Controls.Add(this.chbChoseProcesses, 9, 4);
-			this.tlpSettings.Controls.Add(this.btnChoseProcs, 11, 4);
+			this.tlpSettings.Controls.Add(this.tabControl1, 1, 2);
 			this.tlpSettings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlpSettings.Enabled = false;
 			this.tlpSettings.Location = new System.Drawing.Point(0, 0);
@@ -112,81 +120,14 @@
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tlpSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlpSettings.Size = new System.Drawing.Size(979, 323);
+			this.tlpSettings.Size = new System.Drawing.Size(1158, 675);
 			this.tlpSettings.TabIndex = 0;
-			// 
-			// btnStart
-			// 
-			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStart.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(902, 286);
-			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
-			this.btnStart.Size = new System.Drawing.Size(64, 27);
-			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Start!";
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
-			// 
-			// lvSelectedPaths
-			// 
-			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chPath,
-            this.chFilter,
-            this.chTemplate,
-            this.chRecursive,
-            this.chHidden,
-            this.cbInactive});
-			this.tlpSettings.SetColumnSpan(this.lvSelectedPaths, 13);
-			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvSelectedPaths.FullRowSelect = true;
-			this.lvSelectedPaths.GridLines = true;
-			this.lvSelectedPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 34);
-			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
-			this.lvSelectedPaths.Name = "lvSelectedPaths";
-			this.lvSelectedPaths.ShowGroups = false;
-			this.lvSelectedPaths.Size = new System.Drawing.Size(956, 242);
-			this.lvSelectedPaths.TabIndex = 9;
-			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
-			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
-			// 
-			// chPath
-			// 
-			this.chPath.Text = "Pfad";
-			this.chPath.Width = 350;
-			// 
-			// chFilter
-			// 
-			this.chFilter.Text = "Filter";
-			this.chFilter.Width = 150;
-			// 
-			// chTemplate
-			// 
-			this.chTemplate.Text = "Template";
-			this.chTemplate.Width = 150;
-			// 
-			// chRecursive
-			// 
-			this.chRecursive.Text = "Unterverzeichnisse";
-			this.chRecursive.Width = 150;
-			// 
-			// chHidden
-			// 
-			this.chHidden.Text = "Versteckte";
-			this.chHidden.Width = 80;
-			// 
-			// cbInactive
-			// 
-			this.cbInactive.Text = "Inaktiv";
 			// 
 			// lblCurrentLoggedIn
 			// 
 			this.lblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblCurrentLoggedIn.AutoSize = true;
-			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(10, 293);
+			this.lblCurrentLoggedIn.Location = new System.Drawing.Point(10, 652);
 			this.lblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lblCurrentLoggedIn.Name = "lblCurrentLoggedIn";
 			this.lblCurrentLoggedIn.Size = new System.Drawing.Size(66, 13);
@@ -197,10 +138,10 @@
 			// lnklblCurrentLoggedIn
 			// 
 			this.lnklblCurrentLoggedIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(86, 293);
+			this.lnklblCurrentLoggedIn.Location = new System.Drawing.Point(86, 652);
 			this.lnklblCurrentLoggedIn.Margin = new System.Windows.Forms.Padding(0);
 			this.lnklblCurrentLoggedIn.Name = "lnklblCurrentLoggedIn";
-			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(271, 13);
+			this.lnklblCurrentLoggedIn.Size = new System.Drawing.Size(1062, 13);
 			this.lnklblCurrentLoggedIn.TabIndex = 11;
 			this.lnklblCurrentLoggedIn.TabStop = true;
 			this.lnklblCurrentLoggedIn.Text = "link";
@@ -210,7 +151,7 @@
 			// mainMenu
 			// 
 			this.mainMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tlpSettings.SetColumnSpan(this.mainMenu, 15);
+			this.tlpSettings.SetColumnSpan(this.mainMenu, 5);
 			this.mainMenu.Dock = System.Windows.Forms.DockStyle.None;
 			this.mainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -220,7 +161,7 @@
 			this.mainMenu.Location = new System.Drawing.Point(0, 0);
 			this.mainMenu.Name = "mainMenu";
 			this.mainMenu.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-			this.mainMenu.Size = new System.Drawing.Size(979, 24);
+			this.mainMenu.Size = new System.Drawing.Size(1158, 24);
 			this.mainMenu.TabIndex = 13;
 			this.mainMenu.Text = "menuStrip1";
 			// 
@@ -384,10 +325,161 @@
 			this.fehlerverzeichnisÖffnenToolStripMenuItem.Text = "Fehlerverzeichnis öffnen";
 			this.fehlerverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.fehlerverzeichnisÖffnenToolStripMenuItem_Click);
 			// 
+			// tabControl1
+			// 
+			this.tlpSettings.SetColumnSpan(this.tabControl1, 3);
+			this.tabControl1.Controls.Add(this.pathsTabPage);
+			this.tabControl1.Controls.Add(this.uploaderTabPage);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Location = new System.Drawing.Point(10, 34);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(1138, 608);
+			this.tabControl1.TabIndex = 18;
+			// 
+			// pathsTabPage
+			// 
+			this.pathsTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.pathsTabPage.Controls.Add(this.tableLayoutPanel1);
+			this.pathsTabPage.Location = new System.Drawing.Point(4, 22);
+			this.pathsTabPage.Name = "pathsTabPage";
+			this.pathsTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.pathsTabPage.Size = new System.Drawing.Size(1130, 582);
+			this.pathsTabPage.TabIndex = 0;
+			this.pathsTabPage.Text = "Zu überwachende Pfade";
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 3;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.Controls.Add(this.lvSelectedPaths, 1, 1);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 3;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1124, 576);
+			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// lvSelectedPaths
+			// 
+			this.lvSelectedPaths.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chPath,
+            this.chFilter,
+            this.chTemplate,
+            this.chRecursive,
+            this.chHidden,
+            this.cbInactive});
+			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvSelectedPaths.FullRowSelect = true;
+			this.lvSelectedPaths.GridLines = true;
+			this.lvSelectedPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.lvSelectedPaths.Location = new System.Drawing.Point(10, 10);
+			this.lvSelectedPaths.Margin = new System.Windows.Forms.Padding(0);
+			this.lvSelectedPaths.Name = "lvSelectedPaths";
+			this.lvSelectedPaths.ShowGroups = false;
+			this.lvSelectedPaths.Size = new System.Drawing.Size(1104, 556);
+			this.lvSelectedPaths.TabIndex = 9;
+			this.lvSelectedPaths.UseCompatibleStateImageBehavior = false;
+			this.lvSelectedPaths.View = System.Windows.Forms.View.Details;
+			// 
+			// chPath
+			// 
+			this.chPath.Text = "Pfad";
+			this.chPath.Width = 350;
+			// 
+			// chFilter
+			// 
+			this.chFilter.Text = "Filter";
+			this.chFilter.Width = 150;
+			// 
+			// chTemplate
+			// 
+			this.chTemplate.Text = "Template";
+			this.chTemplate.Width = 150;
+			// 
+			// chRecursive
+			// 
+			this.chRecursive.Text = "Unterverzeichnisse";
+			this.chRecursive.Width = 150;
+			// 
+			// chHidden
+			// 
+			this.chHidden.Text = "Versteckte";
+			this.chHidden.Width = 80;
+			// 
+			// cbInactive
+			// 
+			this.cbInactive.Text = "Inaktiv";
+			// 
+			// uploaderTabPage
+			// 
+			this.uploaderTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.uploaderTabPage.Controls.Add(this.tableLayoutPanel2);
+			this.uploaderTabPage.Location = new System.Drawing.Point(4, 22);
+			this.uploaderTabPage.Name = "uploaderTabPage";
+			this.uploaderTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.uploaderTabPage.Size = new System.Drawing.Size(1130, 582);
+			this.uploaderTabPage.TabIndex = 1;
+			this.uploaderTabPage.Text = "Uploader";
+			// 
+			// tableLayoutPanel2
+			// 
+			this.tableLayoutPanel2.ColumnCount = 11;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.Controls.Add(this.btnStart, 9, 3);
+			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 1, 3);
+			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 3, 3);
+			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 5, 3);
+			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 7, 3);
+			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 1, 1);
+			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 5;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(1124, 576);
+			this.tableLayoutPanel2.TabIndex = 0;
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStart.AutoSize = true;
+			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnStart.Enabled = false;
+			this.btnStart.Location = new System.Drawing.Point(1050, 539);
+			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
+			this.btnStart.Size = new System.Drawing.Size(64, 27);
+			this.btnStart.TabIndex = 7;
+			this.btnStart.Text = "Start!";
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
+			// 
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.Location = new System.Drawing.Point(367, 293);
+			this.lblFinishAction.Location = new System.Drawing.Point(10, 546);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
@@ -401,13 +493,12 @@
 			this.cmbbxFinishAction.FormattingEnabled = true;
 			this.cmbbxFinishAction.Items.AddRange(new object[] {
             "Nichts tun",
-            "Zurück zum Hauptmenü",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(425, 289);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(73, 542);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(271, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(761, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -415,7 +506,7 @@
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(701, 291);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(844, 544);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -429,7 +520,7 @@
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(856, 286);
+			this.btnChoseProcs.Location = new System.Drawing.Point(1004, 539);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -439,17 +530,35 @@
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
 			// 
+			// jobQueue
+			// 
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 9);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(10, 10);
+			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.jobQueue.Name = "jobQueue";
+			this.jobQueue.ShowActionsButtons = true;
+			this.jobQueue.Size = new System.Drawing.Size(1104, 519);
+			this.jobQueue.TabIndex = 18;
+			this.jobQueue.Uploader = null;
+			// 
 			// bgwCreateUploader
 			// 
 			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
 			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
+			// 
+			// watchingTimer
+			// 
+			this.watchingTimer.Enabled = true;
+			this.watchingTimer.Interval = 50;
+			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
 			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnStart;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(979, 323);
+			this.ClientSize = new System.Drawing.Size(1158, 675);
 			this.Controls.Add(this.tlpSettings);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.mainMenu;
@@ -463,6 +572,12 @@
 			this.tlpSettings.PerformLayout();
 			this.mainMenu.ResumeLayout(false);
 			this.mainMenu.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.pathsTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.uploaderTabPage.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -508,6 +623,13 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem fehlerverzeichnisÖffnenToolStripMenuItem;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage pathsTabPage;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TabPage uploaderTabPage;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private Lib.GUI.Controls.Queue.JobQueue jobQueue;
+		private System.Windows.Forms.Timer watchingTimer;
 	}
 }
 

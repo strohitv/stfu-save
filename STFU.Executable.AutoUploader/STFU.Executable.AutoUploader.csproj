@@ -121,12 +121,6 @@
     <Compile Include="Forms\TemplateForm.Designer.cs">
       <DependentUpon>TemplateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UploadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\UploadForm.Designer.cs">
-      <DependentUpon>UploadForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ReleaseNotesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,9 +167,6 @@
     </Compile>
     <EmbeddedResource Include="Forms\TemplateForm.resx">
       <DependentUpon>TemplateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UploadForm.resx">
-      <DependentUpon>UploadForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReleaseNotesForm.resx">
       <DependentUpon>ReleaseNotesForm.cs</DependentUpon>

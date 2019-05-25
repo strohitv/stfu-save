@@ -202,6 +202,7 @@ namespace STFU.Lib.Youtube
 			{
 				int position = JobQueue.IndexOf(job);
 				job.TriggerDeletion -= Job_TriggerDeletion;
+				job.PropertyChanged -= RunningJobPropertyChanged;
 				JobQueue.Remove(job);
 				OnJobDequeued(job, position);
 			}
@@ -256,7 +257,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (JobQueue.Where(j => j.State.IsStarted()).Count() == 0)
 				{
-					if (StopAfterCompleting)
+					if (StopAfterCompleting || State == UploaderState.NotRunning)
 					{
 						State = UploaderState.NotRunning;
 					}
@@ -281,11 +282,6 @@ namespace STFU.Lib.Youtube
 			var job = sender as IYoutubeJob;
 			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
-				if (job.State == UploadProgress.Canceled || job.State == UploadProgress.Successful || job.State.IsFailed())
-				{
-					job.PropertyChanged -= RunningJobPropertyChanged;
-				}
-
 				if (job.State.IsFailed() && job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
 				{
 					State = UploaderState.CancelPending;
@@ -303,7 +299,11 @@ namespace STFU.Lib.Youtube
 						RemoveFromQueue(job);
 					}
 
-					StartJobs();
+					if (State == UploaderState.Uploading 
+						|| State == UploaderState.Waiting)
+					{
+						StartJobs();
+					}
 				}
 			}
 			else if (e.PropertyName == nameof(IYoutubeJob.Progress))

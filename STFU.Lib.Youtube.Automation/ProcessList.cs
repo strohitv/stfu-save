@@ -10,7 +10,7 @@ namespace STFU.Lib.Youtube.Automation
 	{
 		public ProcessList() : base() { }
 
-		public bool AllProcessesCompleted => Count > 0 && this.All(p => p.HasExited);
+		public bool AllProcessesCompleted => Count == 0 || this.All(p => p.HasExited);
 
 		public event EventHandler ProcessesCompleted;
 
