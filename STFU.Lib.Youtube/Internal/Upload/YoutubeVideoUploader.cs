@@ -35,48 +35,56 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			long lastLastByte = -1;
 			int tries = 0;
 
-			while (!successful && tries < 10
-				&& State != UploadStepState.CancelPending
-				&& State != UploadStepState.Canceled
-				&& State != UploadStepState.PausePending
-				&& State != UploadStepState.Paused)
+			try
 			{
-				var lastbyte = CheckUploadStatus();
-
-				if (lastbyte == -1)
+				while (!successful && tries < 10
+					&& State != UploadStepState.CancelPending
+					&& State != UploadStepState.Canceled
+					&& State != UploadStepState.PausePending
+					&& State != UploadStepState.Paused)
 				{
-					request = HttpWebRequestCreator.CreateForNewUpload(Video.UploadUri, Video, Account);
-				}
-				else
-				{
-					request = HttpWebRequestCreator.CreateForResumeUpload(Video.UploadUri, Video, Account, lastbyte);
-				}
+					var lastbyte = CheckUploadStatus();
 
-				State = UploadStepState.Running;
-
-				successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte + 1);
-
-				if (lastLastByte == lastbyte)
-				{
-					tries++;
-				}
-				else
-				{
-					tries = 0;
-					lastLastByte = lastbyte;
-				}
-
-				if (!successful)
-				{
-					if (State != UploadStepState.CancelPending
-						&& State != UploadStepState.Canceled
-						&& State != UploadStepState.PausePending
-						&& State != UploadStepState.Paused)
+					if (lastbyte == -1)
 					{
-						State = UploadStepState.Broke;
-						Thread.Sleep(90000);
+						request = HttpWebRequestCreator.CreateForNewUpload(Video.UploadUri, Video, Account);
+					}
+					else
+					{
+						request = HttpWebRequestCreator.CreateForResumeUpload(Video.UploadUri, Video, Account, lastbyte);
+					}
+
+					State = UploadStepState.Running;
+
+					successful = fileUploader.UploadFile(Video.Path, request, (long)128 * 1000 * 1000 * 1000, lastbyte + 1);
+
+					if (lastLastByte == lastbyte)
+					{
+						tries++;
+					}
+					else
+					{
+						tries = 0;
+						lastLastByte = lastbyte;
+					}
+
+					if (!successful)
+					{
+						if (State != UploadStepState.CancelPending
+							&& State != UploadStepState.Canceled
+							&& State != UploadStepState.PausePending
+							&& State != UploadStepState.Paused)
+						{
+							State = UploadStepState.Broke;
+							Thread.Sleep(90000);
+						}
 					}
 				}
+			}
+			catch (Exception failed)
+			{
+				// Thats ok, I guess?
+				Console.WriteLine(failed);
 			}
 
 			if (successful)

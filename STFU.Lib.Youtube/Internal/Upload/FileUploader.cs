@@ -64,11 +64,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					}
 					catch (WebException)
 					{
-						if (RunningState != RunningState.CancelPending && RunningState != RunningState.Paused)
-						{
-							FailureReason = FailureReason.Unknown;
-						}
-						else if (RunningState == RunningState.CancelPending)
+						if (RunningState == RunningState.CancelPending)
 						{
 							RunningState = RunningState.Canceled;
 						}

@@ -166,7 +166,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					break;
 				case UploadProgress.Failed:
-					RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error.Message);
+					RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error?.Message);
 					RefreshBackColor(Color.FromArgb(255, 192, 192));
 
 					break;
@@ -191,7 +191,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					break;
 				case UploadProgress.Broke:
-					RefreshDetailLabel($"Upload wurde unterbrochen. Versuche es in 1:30 Minuten erneut.", string.Empty);
+					RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 1:30 Minuten und versuche es dann erneut...");
 					RefreshBackColor(Color.FromArgb(224, 224, 224));
 
 					break;

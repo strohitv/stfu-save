@@ -282,7 +282,7 @@ namespace STFU.Lib.Youtube
 			var job = sender as IYoutubeJob;
 			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
-				if (job.State.IsFailed() && job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
+				if (job.State.IsFailed() && job.Error?.FailReason == FailureReason.UserUploadLimitExceeded)
 				{
 					State = UploaderState.CancelPending;
 				}
@@ -299,7 +299,7 @@ namespace STFU.Lib.Youtube
 						RemoveFromQueue(job);
 					}
 
-					if (State == UploaderState.Uploading 
+					if (State == UploaderState.Uploading
 						|| State == UploaderState.Waiting)
 					{
 						StartJobs();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -198,7 +199,25 @@ namespace STFU.Lib.Youtube.Internal
 					{
 						RunningStep = Steps.Dequeue();
 						RunningStep.PropertyChanged += RunningStep_PropertyChanged;
-						await RunningStep.RunAsync();
+						try
+						{
+							await RunningStep.RunAsync();
+						}
+						catch (Exception ex)
+						{
+							// Just survive!
+							// TODO: Besser machen...
+							State = UploadProgress.Failed;
+
+							if (ex is WebException)
+							{
+								Error = FailReasonConverter.GetError(FailureReason.SendError);
+							}
+							else
+							{
+								Error = FailReasonConverter.GetError(FailureReason.Unknown);
+							}
+						}
 					}
 				}
 				else
@@ -206,11 +225,47 @@ namespace STFU.Lib.Youtube.Internal
 					if (RunningStep.State == UploadStepState.PausePending
 						|| RunningStep.State == UploadStepState.Paused)
 					{
-						RunningStep.Resume();
+						try
+						{
+							RunningStep.Resume();
+						}
+						catch (Exception ex)
+						{
+							// Just survive!
+							// TODO: Besser machen...
+							State = UploadProgress.Failed;
+
+							if (ex is WebException)
+							{
+								Error = FailReasonConverter.GetError(FailureReason.SendError);
+							}
+							else
+							{
+								Error = FailReasonConverter.GetError(FailureReason.Unknown);
+							}
+						}
 					}
 					else
 					{
-						await RunningStep.RunAsync();
+						try
+						{
+							await RunningStep.RunAsync();
+						}
+						catch (Exception ex)
+						{
+							// Just survive!
+							// TODO: Besser machen...
+							State = UploadProgress.Failed;
+
+							if (ex is WebException)
+							{
+								Error = FailReasonConverter.GetError(FailureReason.SendError);
+							}
+							else
+							{
+								Error = FailReasonConverter.GetError(FailureReason.Unknown);
+							}
+						}
 					}
 				}
 			}
