@@ -26,6 +26,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private string currentUploadObject = "nichts";
 
+		private DateTime nextUploadStart = DateTime.Now;
+
 		private IYoutubeJob job = null;
 		public IYoutubeJob Job
 		{
@@ -148,6 +150,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void RefreshControl()
 		{
+			Safe(() => refreshUploadBrokenTimer.Enabled = false);
+
 			switch (job.State)
 			{
 				case UploadProgress.NotRunning:
@@ -191,8 +195,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					break;
 				case UploadProgress.Broke:
-					RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 1:30 Minuten und versuche es dann erneut...");
+					RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 01:30 Minuten und versuche es dann erneut...");
 					RefreshBackColor(Color.FromArgb(224, 224, 224));
+					nextUploadStart = DateTime.Now.AddSeconds(90);
+					Safe(() => refreshUploadBrokenTimer.Enabled = true);
 
 					break;
 				default:
@@ -363,6 +369,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 
 			Job.FinishEdit();
+		}
+
+		private void refreshUploadBrokenTimer_Tick(object sender, EventArgs e)
+		{
+			RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", $"Warte {(nextUploadStart - DateTime.Now).ToString("mm\\:ss")} Minuten und versuche es dann erneut...");
+			RefreshBackColor(Color.FromArgb(224, 224, 224));
 		}
 	}
 }

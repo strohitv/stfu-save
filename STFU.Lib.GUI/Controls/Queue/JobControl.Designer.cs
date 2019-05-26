@@ -47,6 +47,7 @@
 			this.nachUntenSchiebenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.löschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.refreshUploadBrokenTimer = new System.Windows.Forms.Timer(this.components);
 			this.mainTableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnailBox)).BeginInit();
 			this.actionsContextMenuStrip.SuspendLayout();
@@ -163,12 +164,12 @@
             this.toolStripSeparator2,
             this.löschenToolStripMenuItem});
 			this.actionsContextMenuStrip.Name = "actionsContextMenuStrip";
-			this.actionsContextMenuStrip.Size = new System.Drawing.Size(187, 236);
+			this.actionsContextMenuStrip.Size = new System.Drawing.Size(196, 214);
 			// 
 			// startenToolStripMenuItem
 			// 
 			this.startenToolStripMenuItem.Name = "startenToolStripMenuItem";
-			this.startenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.startenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.startenToolStripMenuItem.Text = "Starten";
 			this.startenToolStripMenuItem.Click += new System.EventHandler(this.startenToolStripMenuItem_Click);
 			// 
@@ -176,7 +177,7 @@
 			// 
 			this.pausierenToolStripMenuItem.Enabled = false;
 			this.pausierenToolStripMenuItem.Name = "pausierenToolStripMenuItem";
-			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.pausierenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.pausierenToolStripMenuItem.Text = "Pausieren";
 			this.pausierenToolStripMenuItem.Click += new System.EventHandler(this.pausierenToolStripMenuItem_Click);
 			// 
@@ -184,7 +185,7 @@
 			// 
 			this.fortsetzenToolStripMenuItem.Enabled = false;
 			this.fortsetzenToolStripMenuItem.Name = "fortsetzenToolStripMenuItem";
-			this.fortsetzenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.fortsetzenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.fortsetzenToolStripMenuItem.Text = "Fortsetzen";
 			this.fortsetzenToolStripMenuItem.Click += new System.EventHandler(this.fortsetzenToolStripMenuItem_Click);
 			// 
@@ -192,7 +193,7 @@
 			// 
 			this.überspringenToolStripMenuItem.CheckOnClick = true;
 			this.überspringenToolStripMenuItem.Name = "überspringenToolStripMenuItem";
-			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.überspringenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.überspringenToolStripMenuItem.Text = "Überspringen";
 			this.überspringenToolStripMenuItem.CheckedChanged += new System.EventHandler(this.überspringenToolStripMenuItem_CheckedChanged);
 			// 
@@ -200,47 +201,52 @@
 			// 
 			this.abbrechenToolStripMenuItem.Enabled = false;
 			this.abbrechenToolStripMenuItem.Name = "abbrechenToolStripMenuItem";
-			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.abbrechenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.abbrechenToolStripMenuItem.Text = "Abbrechen";
 			this.abbrechenToolStripMenuItem.Click += new System.EventHandler(this.abbrechenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
 			// 
 			// detailsBearbeitenToolStripMenuItem
 			// 
 			this.detailsBearbeitenToolStripMenuItem.Name = "detailsBearbeitenToolStripMenuItem";
-			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.detailsBearbeitenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.detailsBearbeitenToolStripMenuItem.Text = "Details bearbeiten";
 			this.detailsBearbeitenToolStripMenuItem.Click += new System.EventHandler(this.detailsBearbeitenToolStripMenuItem_Click);
 			// 
 			// nachObenSchiebenToolStripMenuItem
 			// 
 			this.nachObenSchiebenToolStripMenuItem.Name = "nachObenSchiebenToolStripMenuItem";
-			this.nachObenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.nachObenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.nachObenSchiebenToolStripMenuItem.Text = "Nach oben schieben";
 			this.nachObenSchiebenToolStripMenuItem.Click += new System.EventHandler(this.nachObenSchiebenToolStripMenuItem_Click);
 			// 
 			// nachUntenSchiebenToolStripMenuItem
 			// 
 			this.nachUntenSchiebenToolStripMenuItem.Name = "nachUntenSchiebenToolStripMenuItem";
-			this.nachUntenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.nachUntenSchiebenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.nachUntenSchiebenToolStripMenuItem.Text = "Nach unten schieben";
 			this.nachUntenSchiebenToolStripMenuItem.Click += new System.EventHandler(this.nachUntenSchiebenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(183, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(192, 6);
 			// 
 			// löschenToolStripMenuItem
 			// 
 			this.löschenToolStripMenuItem.Name = "löschenToolStripMenuItem";
-			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.löschenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
 			this.löschenToolStripMenuItem.Text = "Aus der Liste entfernen";
 			this.löschenToolStripMenuItem.Click += new System.EventHandler(this.löschenToolStripMenuItem_Click);
+			// 
+			// refreshUploadBrokenTimer
+			// 
+			this.refreshUploadBrokenTimer.Interval = 500;
+			this.refreshUploadBrokenTimer.Tick += new System.EventHandler(this.refreshUploadBrokenTimer_Tick);
 			// 
 			// JobControl
 			// 
@@ -281,5 +287,6 @@
 		private System.Windows.Forms.ToolStripMenuItem nachUntenSchiebenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.PictureBox thumbnailBox;
+		private System.Windows.Forms.Timer refreshUploadBrokenTimer;
 	}
 }
