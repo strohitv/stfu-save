@@ -61,6 +61,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					State = UploadStepState.Error;
 				}
 			}
+			else
+			{
+				State = UploadStepState.Successful;
+			}
 		}
 
 		public override void Cancel()
