@@ -59,7 +59,7 @@ namespace STFU.Lib.MailSender.Generator
 	<div style=""padding: 1rem;"">
 		<p>Hallo {1},</p>
 		<p>Dein Video <strong>{0}</strong> konnte leider nicht erfolgreich hochgeladen werden...</p>
-		<p>Der Upload ist mit einem Fehler abgebrochen. Genauere Infos findest du in den Logdateien im Unterordner ""errors"". Solltest du Hilfe ben&ouml;tigen, kannst du dich gerne an mich wenden.</p>
+		<p>Der Upload wurde mit einem Fehler abgebrochen. Genauere Infos findest du im Unterordner ""errors"" in den Logdateien. Solltest du Hilfe ben&ouml;tigen, kannst du dich gerne an mich wenden.</p>
 		<p style=""padding-top: 3rem;"">Vielen Dank, dass du mein Tool benutzt!</p>
 		<p>strohi</p>
 	</div>
