@@ -39,6 +39,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountAcces.cs" />
     <Compile Include="ILanguageCategoryLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeAccountContainer.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="Model\Enums\UploadProgress.cs" />
     <Compile Include="Model\Enums\UploadProgressExtension.cs" />
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />
-    <Compile Include="Model\Enums\YoutubeScope.cs" />
+    <Compile Include="Model\Enums\GoogleScope.cs" />
     <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
     <Compile Include="Model\Enums\FailureReason.cs" />
     <Compile Include="Model\Handler\JobFinishedEventHandler.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Model\Handler\JobQueuedEventHandler.cs" />
     <Compile Include="Model\ICategory.cs" />
     <Compile Include="Model\ILanguage.cs" />
+    <Compile Include="Model\INotificationSettings.cs" />
     <Compile Include="Model\ITriggerDeletion.cs" />
     <Compile Include="Model\IYoutubeAccount.cs" />
     <Compile Include="Model\IYoutubeAccountAccess.cs" />

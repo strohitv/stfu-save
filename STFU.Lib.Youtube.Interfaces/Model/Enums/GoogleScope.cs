@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace STFU.Lib.Youtube.Interfaces.Enums
 {
-	public enum YoutubeScope
+	public enum GoogleScope
 	{
 		[JsonProperty(PropertyName = "https://www.googleapis.com/auth/youtube")]
 		[EnumMember(Value = "https://www.googleapis.com/auth/youtube")]
@@ -27,6 +27,10 @@ namespace STFU.Lib.Youtube.Interfaces.Enums
 
 		[JsonProperty(PropertyName = "https://www.googleapis.com/auth/youtubepartner-channel-audit")]
 		[EnumMember(Value = "https://www.googleapis.com/auth/youtubepartner-channel-audit")]
-		Audit = 32
+		Audit = 32,
+
+		[JsonProperty(PropertyName = "https://www.googleapis.com/auth/gmail.send")]
+		[EnumMember(Value = "https://www.googleapis.com/auth/gmail.send")]
+		SendMail = 64
 	}
 }

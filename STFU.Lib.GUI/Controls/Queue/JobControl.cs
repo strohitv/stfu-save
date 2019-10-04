@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
-using ImageProcessor;
+using STFU.Lib.Common;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -57,24 +56,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void RefreshThumbnail()
 		{
-			if (File.Exists(Job.Video.ThumbnailPath))
-			{
-				try
-				{
-					ImageFactory imageFactory = new ImageFactory().Load(Job.Video.ThumbnailPath);
-					thumbnailBox.BackgroundImage = imageFactory.Image;
-					thumbnailBox.BackgroundImageLayout = ImageLayout.Zoom;
-					thumbnailBox.Visible = true;
-				}
-				catch (Exception)
-				{
-					thumbnailBox.Visible = false;
-				}
-			}
-			else
-			{
-				thumbnailBox.Visible = false;
-			}
+			thumbnailBox.BackgroundImage = ThumbnailLoader.Load(Job.Video.ThumbnailPath);
+			thumbnailBox.BackgroundImageLayout = ImageLayout.Zoom;
+			thumbnailBox.Visible = true;
 		}
 
 		private bool actionsButtonVisible = true;

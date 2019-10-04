@@ -1,35 +1,36 @@
-﻿using Newtonsoft.Json;
-using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Newtonsoft.Json;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Model;
 
 namespace STFU.Lib.Youtube.Internal.Services
 {
-	internal static class YoutubeAccountService
+	public static class YoutubeAccountService
 	{
 		static YoutubeAccountService()
 		{ }
 
-		internal static string GetAccessToken(IYoutubeAccount account)
+		public static string GetAccessToken(IYoutubeAccount account)
 		{
 			return GetAccessToken(account.Access);
 		}
 
-		internal static string GetAccessToken(IList<IYoutubeAccountAccess> access)
+
+		public static string GetAccessToken(IList<IYoutubeAccountAccess> access, Func<IYoutubeAccountAccess, bool> condition)
 		{
 			string token = null;
 
 			if (access.Any(ac => !ac.Client?.LimitReached ?? false))
 			{
-				var firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+				var firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired && condition(ac));
 
 				while (firstUsefullAccess == null && RefreshAccess(access))
 				{
-					firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired);
+					firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired && condition(ac));
 				}
 
 				token = firstUsefullAccess?.AccessToken;
@@ -38,7 +39,13 @@ namespace STFU.Lib.Youtube.Internal.Services
 			return token;
 		}
 
-		internal static bool RefreshAccess(IList<IYoutubeAccountAccess> access)
+
+		public static string GetAccessToken(IList<IYoutubeAccountAccess> access)
+		{
+			return GetAccessToken(access, ac => true);
+		}
+
+		private static bool RefreshAccess(IList<IYoutubeAccountAccess> access)
 		{
 			var firstOutdatedAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && ac.IsExpired && ac.RefreshAllowed);
 
@@ -72,6 +79,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 						newAccess.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
 						newAccess.RefreshToken = firstOutdatedAccess.RefreshToken;
 						newAccess.ClientId = firstOutdatedAccess.ClientId;
+						newAccess.HasSendMailPrivilegue = firstOutdatedAccess.HasSendMailPrivilegue;
 
 						access.Remove(firstOutdatedAccess);
 						access.Add(newAccess);

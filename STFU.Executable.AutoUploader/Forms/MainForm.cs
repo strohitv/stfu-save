@@ -5,10 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using STFU.Lib.Common;
 using STFU.Lib.GUI.Forms;
+using STFU.Lib.MailSender;
+using STFU.Lib.MailSender.Generator;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -91,10 +95,94 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
 			RefillListView();
 			ActivateAccountLink();
+		}
+
+		private void UploaderNewUploadStarted(UploadStartedEventArgs args)
+		{
+			args.Job.PropertyChanged += Job_PropertyChanged;
+
+			if (args.Job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+			{
+				notifyIcon.ShowBalloonTip(
+					10000,
+					"Upload wurde gestartet",
+					$"Das Video '{args.Job.Video.Title}' wird nun hochgeladen.",
+					ToolTipIcon.Info
+				);
+			}
+
+			if (args.Job.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
+			{
+				MailSender.Send(
+					accountContainer.RegisteredAccounts.First(),
+					args.Job.Video.NotificationSettings.MailReceiver,
+							$"'{args.Job.Video.Title}' wird jetzt hochgeladen!",
+							new UploadStartedMailGenerator().Generate(args.Job));
+			}
+		}
+
+		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IYoutubeJob.State))
+			{
+				var job = (IYoutubeJob)sender;
+
+				if (job.State == UploadProgress.Successful)
+				{
+					if (job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+					{
+						notifyIcon.ShowBalloonTip(
+							10000,
+							"Upload abgeschlossen!",
+							$"Das Video '{job.Video.Title}' wurde erfolgreich hochgeladen.",
+							ToolTipIcon.Info
+						);
+					}
+
+					if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
+					{
+						MailSender.Send(
+							accountContainer.RegisteredAccounts.First(), 
+							job.Video.NotificationSettings.MailReceiver,
+							$"'{job.Video.Title}' wurde erfolgreich hochgeladen!",
+							new UploadFinishedMailGenerator().Generate(job));
+					}
+				}
+				else if (job.State == UploadProgress.Failed)
+				{
+					if (job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+					{
+						notifyIcon.ShowBalloonTip(
+							10000,
+							"Upload fehlgeschlagen.",
+							$"Das Video '{job.Video.Title}' konnte aufgrund eines Fehlers nicht hochgeladen werden.",
+							ToolTipIcon.Info
+						);
+					}
+
+					if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
+					{
+						MailSender.Send(
+							accountContainer.RegisteredAccounts.First(), 
+							job.Video.NotificationSettings.MailReceiver,
+							$"'{job.Video.Title}' konnte nicht hochgeladen werden",
+							new UploadFailedMailGenerator().Generate(job));
+					}
+				}
+
+				if (job.State == UploadProgress.NotRunning
+					|| job.State == UploadProgress.Canceled
+					|| job.State == UploadProgress.Failed 
+					|| job.State == UploadProgress.Successful)
+				{
+					job.PropertyChanged -= Job_PropertyChanged;
+				}
+			}
 		}
 
 		private void RefillListView()
@@ -118,8 +206,28 @@ namespace STFU.Executable.AutoUploader.Forms
 				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
 			}
 		}
-		private void AutoUploader_FileToUploadOccured(object sender, EventArgs e)
+		private void AutoUploader_FileToUploadOccured(object sender, JobEventArgs e)
 		{
+			if (e.Job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+			{
+				notifyIcon.ShowBalloonTip(
+					10000,
+					"Neues Video in der Warteschlange",
+					$"Das Video '{e.Job.Video.Title}' wurde in die Warteschlange aufgenommen.",
+					ToolTipIcon.Info
+				);
+			}
+
+			if (e.Job.Video.NotificationSettings.NotifyOnVideoFoundMail)
+			{
+				MailSender.Send(
+					accountContainer.RegisteredAccounts.First(), 
+					e.Job.Video.NotificationSettings.MailReceiver,
+					$"'{e.Job.Video.Title}' ist in der Warteschlange!",
+					new NewVideoFoundMailGenerator().Generate(e.Job));
+			}
+
+			// Aktualisiertes Hochladedatum im Template speichern
 			templatePersistor.Save();
 		}
 
@@ -142,13 +250,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.Manage).AbsoluteUri;
-			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage).AbsoluteUri;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
+			addForm.SendMailAuthUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage | GoogleScope.SendMail).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
 			if (result == DialogResult.OK
-				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code)) != null)
+				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Code)) != null)
 			{
 				accountContainer.RegisterAccount(account);
 
@@ -449,7 +557,10 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(templatePersistor, categoryContainer, languageContainer);
+			TemplateForm tf = new TemplateForm(templatePersistor,
+				categoryContainer,
+				languageContainer,
+				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
 
@@ -555,6 +666,12 @@ namespace STFU.Executable.AutoUploader.Forms
 				ended = false;
 				canceled = false;
 			}
+		}
+
+		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		{
+			var base64 = ThumbnailLoader.LoadAsBase64(@"C:\Users\marco\Pictures\gitlab_header_2_small.jpg44", 192, 108);
+			MessageBox.Show(this, base64);
 		}
 	}
 }

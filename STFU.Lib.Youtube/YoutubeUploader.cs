@@ -219,8 +219,10 @@ namespace STFU.Lib.Youtube
 
 		private void StartJobs()
 		{
+			HashSet<IYoutubeJob> startedJobs = new HashSet<IYoutubeJob>();
+
 			while (State != UploaderState.CancelPending
-				&& JobQueue.Where(j => j.State.IsStarted()).Count() < MaxSimultaneousUploads
+				&& JobQueue.Where(j => j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
 				var nextJob = Queue.FirstOrDefault(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped);
@@ -242,10 +244,12 @@ namespace STFU.Lib.Youtube
 						{ }
 					}
 
-					if (nextJob.Video.File.Exists)
+					if (!startedJobs.Contains(nextJob) && nextJob.Video.File.Exists)
 					{
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
 						nextJob.StartUpload();
+
+						startedJobs.Add(nextJob);
 					}
 				}
 			}

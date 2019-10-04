@@ -117,6 +117,26 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenameValueLabel = new System.Windows.Forms.Label();
 			this.fieldNameTxbx = new System.Windows.Forms.TextBox();
 			this.fieldValueTxbx = new System.Windows.Forms.TextBox();
+			this.sendMailTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.sendMailTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.mailRecipientTextbox = new System.Windows.Forms.TextBox();
+			this.notificationsGroupBox = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.newVideoDNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadStartedDNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadFinishedDNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadFailedDNCheckbox = new System.Windows.Forms.CheckBox();
+			this.newVideoMNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadStartedMNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadFinishedMNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadFailedMNCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailRecipientLabel = new System.Windows.Forms.Label();
+			this.connectMailNotificationLabel = new System.Windows.Forms.Label();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
 			this.csTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.csDescriptionLabel = new System.Windows.Forms.Label();
@@ -155,6 +175,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.planVideosTlp.SuspendLayout();
 			this.fillFieldsGroupbox.SuspendLayout();
 			this.fillFieldsTlp.SuspendLayout();
+			this.sendMailTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.sendMailTlp.SuspendLayout();
+			this.notificationsGroupBox.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.cSharpTabPage.SuspendLayout();
 			this.csTlp.SuspendLayout();
 			this.cSharpScriptingTabControl.SuspendLayout();
@@ -209,7 +234,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.templateOverviewTableLayouPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.templateOverviewTableLayouPanel.Size = new System.Drawing.Size(264, 770);
+			this.templateOverviewTableLayouPanel.Size = new System.Drawing.Size(295, 762);
 			this.templateOverviewTableLayouPanel.TabIndex = 0;
 			// 
 			// addTemplateButton
@@ -310,7 +335,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateListView.Name = "templateListView";
 			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 12);
 			this.templateListView.ShowGroups = false;
-			this.templateListView.Size = new System.Drawing.Size(189, 750);
+			this.templateListView.Size = new System.Drawing.Size(220, 742);
 			this.templateListView.TabIndex = 7;
 			this.templateListView.UseCompatibleStateImageBehavior = false;
 			this.templateListView.View = System.Windows.Forms.View.Details;
@@ -372,7 +397,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.editTemplateTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.editTemplateTableLayoutPanel.Size = new System.Drawing.Size(930, 770);
+			this.editTemplateTableLayoutPanel.Size = new System.Drawing.Size(1041, 762);
 			this.editTemplateTableLayoutPanel.TabIndex = 0;
 			// 
 			// templateNameLabel
@@ -394,7 +419,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateNameTextbox.Location = new System.Drawing.Point(61, 33);
 			this.templateNameTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateNameTextbox.Name = "templateNameTextbox";
-			this.templateNameTextbox.Size = new System.Drawing.Size(675, 26);
+			this.templateNameTextbox.Size = new System.Drawing.Size(786, 26);
 			this.templateNameTextbox.TabIndex = 1;
 			this.templateNameTextbox.TextChanged += new System.EventHandler(this.templateNameTextboxTextChanged);
 			// 
@@ -404,7 +429,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.saveTemplateButton.AutoSize = true;
 			this.saveTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.saveTemplateButton.Enabled = false;
-			this.saveTemplateButton.Location = new System.Drawing.Point(736, 733);
+			this.saveTemplateButton.Location = new System.Drawing.Point(847, 725);
 			this.saveTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.saveTemplateButton.Name = "saveTemplateButton";
 			this.saveTemplateButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -420,7 +445,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.resetTemplateButton.AutoSize = true;
 			this.resetTemplateButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.resetTemplateButton.Enabled = false;
-			this.resetTemplateButton.Location = new System.Drawing.Point(833, 733);
+			this.resetTemplateButton.Location = new System.Drawing.Point(944, 725);
 			this.resetTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.resetTemplateButton.Name = "resetTemplateButton";
 			this.resetTemplateButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -437,13 +462,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateValuesTabControl.Controls.Add(this.publishTabPage);
 			this.templateValuesTabControl.Controls.Add(this.otherTabPage);
 			this.templateValuesTabControl.Controls.Add(this.planVideosTabpage);
+			this.templateValuesTabControl.Controls.Add(this.sendMailTabPage);
 			this.templateValuesTabControl.Controls.Add(this.cSharpTabPage);
 			this.templateValuesTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateValuesTabControl.Location = new System.Drawing.Point(10, 69);
 			this.templateValuesTabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.templateValuesTabControl.Name = "templateValuesTabControl";
 			this.templateValuesTabControl.SelectedIndex = 0;
-			this.templateValuesTabControl.Size = new System.Drawing.Size(910, 654);
+			this.templateValuesTabControl.Size = new System.Drawing.Size(1021, 646);
 			this.templateValuesTabControl.TabIndex = 4;
 			// 
 			// commonTabPage
@@ -454,7 +480,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.commonTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.commonTabPage.Name = "commonTabPage";
 			this.commonTabPage.Padding = new System.Windows.Forms.Padding(2);
-			this.commonTabPage.Size = new System.Drawing.Size(902, 628);
+			this.commonTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.commonTabPage.TabIndex = 0;
 			this.commonTabPage.Text = "Allgemein";
 			// 
@@ -495,7 +521,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.templateCommonTableLayoutPannel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.templateCommonTableLayoutPannel.Size = new System.Drawing.Size(898, 624);
+			this.templateCommonTableLayoutPannel.Size = new System.Drawing.Size(1009, 616);
 			this.templateCommonTableLayoutPannel.TabIndex = 0;
 			// 
 			// templateTitleLabel
@@ -517,7 +543,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateDescriptionLabel.Location = new System.Drawing.Point(5, 61);
 			this.templateDescriptionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.templateDescriptionLabel.Name = "templateDescriptionLabel";
-			this.templateDescriptionLabel.Size = new System.Drawing.Size(888, 13);
+			this.templateDescriptionLabel.Size = new System.Drawing.Size(999, 13);
 			this.templateDescriptionLabel.TabIndex = 1;
 			this.templateDescriptionLabel.Text = "Beschreibung: ";
 			// 
@@ -526,10 +552,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.templateTagsLabel.AutoSize = true;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsLabel, 3);
-			this.templateTagsLabel.Location = new System.Drawing.Point(5, 447);
+			this.templateTagsLabel.Location = new System.Drawing.Point(5, 442);
 			this.templateTagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsLabel.Name = "templateTagsLabel";
-			this.templateTagsLabel.Size = new System.Drawing.Size(888, 13);
+			this.templateTagsLabel.Size = new System.Drawing.Size(999, 13);
 			this.templateTagsLabel.TabIndex = 2;
 			this.templateTagsLabel.Text = "Tags: ";
 			// 
@@ -565,7 +591,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTitleTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTitleTextbox.ServiceColors")));
 			this.templateTitleTextbox.ShowLineNumbers = false;
 			this.templateTitleTextbox.ShowScrollBars = false;
-			this.templateTitleTextbox.Size = new System.Drawing.Size(845, 26);
+			this.templateTitleTextbox.Size = new System.Drawing.Size(956, 26);
 			this.templateTitleTextbox.TabIndex = 3;
 			this.templateTitleTextbox.WordWrapIndent = 4;
 			this.templateTitleTextbox.Zoom = 100;
@@ -610,7 +636,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateDescriptionTextbox.RightBracket2 = '}';
 			this.templateDescriptionTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.templateDescriptionTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateDescriptionTextbox.ServiceColors")));
-			this.templateDescriptionTextbox.Size = new System.Drawing.Size(888, 345);
+			this.templateDescriptionTextbox.Size = new System.Drawing.Size(999, 340);
 			this.templateDescriptionTextbox.TabIndex = 4;
 			this.templateDescriptionTextbox.WordWrap = true;
 			this.templateDescriptionTextbox.WordWrapIndent = 6;
@@ -648,7 +674,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTagsTextbox.IsReplaceMode = false;
 			this.templateTagsTextbox.LeftBracket = '(';
 			this.templateTagsTextbox.LeftBracket2 = '{';
-			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 460);
+			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 455);
 			this.templateTagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.templateTagsTextbox.Name = "templateTagsTextbox";
 			this.templateTagsTextbox.Paddings = new System.Windows.Forms.Padding(0);
@@ -656,7 +682,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTagsTextbox.RightBracket2 = '}';
 			this.templateTagsTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.templateTagsTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTagsTextbox.ServiceColors")));
-			this.templateTagsTextbox.Size = new System.Drawing.Size(888, 138);
+			this.templateTagsTextbox.Size = new System.Drawing.Size(999, 136);
 			this.templateTagsTextbox.TabIndex = 5;
 			this.templateTagsTextbox.WordWrap = true;
 			this.templateTagsTextbox.WordWrapIndent = 6;
@@ -670,7 +696,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.maxTitleLengthLabel.Location = new System.Drawing.Point(48, 38);
 			this.maxTitleLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxTitleLengthLabel.Name = "maxTitleLengthLabel";
-			this.maxTitleLengthLabel.Size = new System.Drawing.Size(845, 13);
+			this.maxTitleLengthLabel.Size = new System.Drawing.Size(956, 13);
 			this.maxTitleLengthLabel.TabIndex = 6;
 			this.maxTitleLengthLabel.Text = "Länge Titel: 0 / 100 Zeichen";
 			// 
@@ -678,10 +704,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.maxDescriptionLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.maxDescriptionLengthLabel.AutoSize = true;
-			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(48, 424);
+			this.maxDescriptionLengthLabel.Location = new System.Drawing.Point(48, 419);
 			this.maxDescriptionLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxDescriptionLengthLabel.Name = "maxDescriptionLengthLabel";
-			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(845, 13);
+			this.maxDescriptionLengthLabel.Size = new System.Drawing.Size(956, 13);
 			this.maxDescriptionLengthLabel.TabIndex = 7;
 			this.maxDescriptionLengthLabel.Text = "Länge Beschreibung: 0 / 5000 Zeichen";
 			// 
@@ -689,10 +715,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.maxTagsLengthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.maxTagsLengthLabel.AutoSize = true;
-			this.maxTagsLengthLabel.Location = new System.Drawing.Point(48, 603);
+			this.maxTagsLengthLabel.Location = new System.Drawing.Point(48, 596);
 			this.maxTagsLengthLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.maxTagsLengthLabel.Name = "maxTagsLengthLabel";
-			this.maxTagsLengthLabel.Size = new System.Drawing.Size(845, 13);
+			this.maxTagsLengthLabel.Size = new System.Drawing.Size(956, 13);
 			this.maxTagsLengthLabel.TabIndex = 8;
 			this.maxTagsLengthLabel.Text = "Länge Tags: 0 / 500 Zeichen";
 			// 
@@ -704,7 +730,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.publishTabPage.Name = "publishTabPage";
 			this.publishTabPage.Padding = new System.Windows.Forms.Padding(2);
-			this.publishTabPage.Size = new System.Drawing.Size(902, 628);
+			this.publishTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.publishTabPage.TabIndex = 1;
 			this.publishTabPage.Text = "Veröffentlichung";
 			// 
@@ -740,7 +766,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.publishTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.publishTableLayoutPanel.Size = new System.Drawing.Size(898, 624);
+			this.publishTableLayoutPanel.Size = new System.Drawing.Size(1009, 616);
 			this.publishTableLayoutPanel.TabIndex = 0;
 			// 
 			// privacyLabel
@@ -763,7 +789,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishAtCheckbox.Location = new System.Drawing.Point(7, 45);
 			this.publishAtCheckbox.Margin = new System.Windows.Forms.Padding(2);
 			this.publishAtCheckbox.Name = "publishAtCheckbox";
-			this.publishAtCheckbox.Size = new System.Drawing.Size(884, 17);
+			this.publishAtCheckbox.Size = new System.Drawing.Size(995, 17);
 			this.publishAtCheckbox.TabIndex = 13;
 			this.publishAtCheckbox.Text = "Video geplant veröffentlichen";
 			this.publishAtCheckbox.UseVisualStyleBackColor = true;
@@ -782,7 +808,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.privacyComboBox.Location = new System.Drawing.Point(84, 7);
 			this.privacyComboBox.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyComboBox.Name = "privacyComboBox";
-			this.privacyComboBox.Size = new System.Drawing.Size(809, 26);
+			this.privacyComboBox.Size = new System.Drawing.Size(920, 26);
 			this.privacyComboBox.TabIndex = 12;
 			this.privacyComboBox.SelectedIndexChanged += new System.EventHandler(this.privacyComboBoxSelectedIndexChanged);
 			// 
@@ -799,7 +825,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishGroupbox.Name = "publishGroupbox";
 			this.publishGroupbox.Padding = new System.Windows.Forms.Padding(2);
 			this.publishTableLayoutPanel.SetRowSpan(this.publishGroupbox, 9);
-			this.publishGroupbox.Size = new System.Drawing.Size(888, 543);
+			this.publishGroupbox.Size = new System.Drawing.Size(999, 535);
 			this.publishGroupbox.TabIndex = 14;
 			this.publishGroupbox.TabStop = false;
 			this.publishGroupbox.Text = "Veröffentlichungszeiten";
@@ -862,7 +888,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.publishPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.publishPanel.Size = new System.Drawing.Size(884, 526);
+			this.publishPanel.Size = new System.Drawing.Size(995, 518);
 			this.publishPanel.TabIndex = 0;
 			// 
 			// timesListView
@@ -884,7 +910,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.timesListView.Name = "timesListView";
 			this.publishPanel.SetRowSpan(this.timesListView, 16);
 			this.timesListView.ShowGroups = false;
-			this.timesListView.Size = new System.Drawing.Size(826, 475);
+			this.timesListView.Size = new System.Drawing.Size(937, 467);
 			this.timesListView.TabIndex = 8;
 			this.timesListView.UseCompatibleStateImageBehavior = false;
 			this.timesListView.View = System.Windows.Forms.View.Details;
@@ -1062,7 +1088,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeLabel.AutoSize = true;
-			this.addTimeLabel.Location = new System.Drawing.Point(250, 499);
+			this.addTimeLabel.Location = new System.Drawing.Point(250, 491);
 			this.addTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeLabel.Name = "addTimeLabel";
 			this.addTimeLabel.Size = new System.Drawing.Size(31, 13);
@@ -1074,7 +1100,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeButton.AutoSize = true;
 			this.addTimeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTimeButton.Location = new System.Drawing.Point(375, 492);
+			this.addTimeButton.Location = new System.Drawing.Point(375, 484);
 			this.addTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeButton.Name = "addTimeButton";
 			this.addTimeButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -1099,7 +1125,7 @@ namespace STFU.Executable.AutoUploader.Forms
             "Freitag",
             "Samstag",
             "Sonntag"});
-			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 492);
+			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 484);
 			this.addWeekdayCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayCombobox.Name = "addWeekdayCombobox";
 			this.addWeekdayCombobox.Size = new System.Drawing.Size(108, 26);
@@ -1111,7 +1137,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeTimePicker.CustomFormat = "HH:mm";
 			this.addTimeTimePicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addTimeTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.addTimeTimePicker.Location = new System.Drawing.Point(291, 492);
+			this.addTimeTimePicker.Location = new System.Drawing.Point(291, 484);
 			this.addTimeTimePicker.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeTimePicker.Name = "addTimeTimePicker";
 			this.addTimeTimePicker.ShowUpDown = true;
@@ -1123,7 +1149,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addWeekdayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addWeekdayLabel.AutoSize = true;
-			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 499);
+			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 491);
 			this.addWeekdayLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayLabel.Name = "addWeekdayLabel";
 			this.addWeekdayLabel.Size = new System.Drawing.Size(69, 13);
@@ -1137,7 +1163,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTabPage.Location = new System.Drawing.Point(4, 22);
 			this.otherTabPage.Margin = new System.Windows.Forms.Padding(2);
 			this.otherTabPage.Name = "otherTabPage";
-			this.otherTabPage.Size = new System.Drawing.Size(902, 628);
+			this.otherTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.otherTabPage.TabIndex = 2;
 			this.otherTabPage.Text = "Sonstiges";
 			// 
@@ -1189,7 +1215,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.otherTlp.Size = new System.Drawing.Size(902, 628);
+			this.otherTlp.Size = new System.Drawing.Size(1013, 620);
 			this.otherTlp.TabIndex = 0;
 			// 
 			// categoryLabel
@@ -1233,7 +1259,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.isEmbeddableCheckbox.Location = new System.Drawing.Point(10, 118);
 			this.isEmbeddableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.isEmbeddableCheckbox.Name = "isEmbeddableCheckbox";
-			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(882, 17);
+			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(993, 17);
 			this.isEmbeddableCheckbox.TabIndex = 3;
 			this.isEmbeddableCheckbox.Text = "Einbetten zulassen";
 			this.isEmbeddableCheckbox.UseVisualStyleBackColor = true;
@@ -1247,7 +1273,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publicStatsViewableCheckbox.Location = new System.Drawing.Point(10, 145);
 			this.publicStatsViewableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.publicStatsViewableCheckbox.Name = "publicStatsViewableCheckbox";
-			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(882, 17);
+			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(993, 17);
 			this.publicStatsViewableCheckbox.TabIndex = 4;
 			this.publicStatsViewableCheckbox.Text = "Videostatistik auf der Wiedergabeseite öffentlich sichtbar machen";
 			this.publicStatsViewableCheckbox.UseVisualStyleBackColor = true;
@@ -1263,7 +1289,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(714, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(825, 26);
 			this.categoryCombobox.TabIndex = 5;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryComboboxSelectedIndexChanged);
 			// 
@@ -1277,7 +1303,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(714, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(825, 26);
 			this.defaultLanguageCombobox.TabIndex = 6;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageComboboxSelectedIndexChanged);
 			// 
@@ -1294,7 +1320,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(714, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(825, 26);
 			this.licenseCombobox.TabIndex = 7;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseComboboxSelectedIndexChanged);
 			// 
@@ -1341,7 +1367,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.thumbnailTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("thumbnailTextbox.ServiceColors")));
 			this.thumbnailTextbox.ShowLineNumbers = false;
 			this.thumbnailTextbox.ShowScrollBars = false;
-			this.thumbnailTextbox.Size = new System.Drawing.Size(683, 26);
+			this.thumbnailTextbox.Size = new System.Drawing.Size(794, 26);
 			this.thumbnailTextbox.TabIndex = 9;
 			this.thumbnailTextbox.Zoom = 100;
 			this.thumbnailTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.thumbnailTextboxTextChanged);
@@ -1353,7 +1379,7 @@ namespace STFU.Executable.AutoUploader.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.chooseThumbnailPathButton.AutoSize = true;
 			this.chooseThumbnailPathButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.chooseThumbnailPathButton.Location = new System.Drawing.Point(866, 172);
+			this.chooseThumbnailPathButton.Location = new System.Drawing.Point(977, 172);
 			this.chooseThumbnailPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.chooseThumbnailPathButton.Name = "chooseThumbnailPathButton";
 			this.chooseThumbnailPathButton.Size = new System.Drawing.Size(26, 26);
@@ -1370,7 +1396,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 208);
 			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
-			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(882, 17);
+			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(993, 17);
 			this.notifySubscribersCheckbox.TabIndex = 3;
 			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
 			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
@@ -1384,7 +1410,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 235);
 			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
-			this.autoLevelsCheckbox.Size = new System.Drawing.Size(882, 17);
+			this.autoLevelsCheckbox.Size = new System.Drawing.Size(993, 17);
 			this.autoLevelsCheckbox.TabIndex = 3;
 			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
 			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
@@ -1398,7 +1424,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.stabilizeCheckbox.Location = new System.Drawing.Point(10, 262);
 			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.stabilizeCheckbox.Name = "stabilizeCheckbox";
-			this.stabilizeCheckbox.Size = new System.Drawing.Size(882, 17);
+			this.stabilizeCheckbox.Size = new System.Drawing.Size(993, 17);
 			this.stabilizeCheckbox.TabIndex = 3;
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
@@ -1412,7 +1438,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.planVideosTabpage.Margin = new System.Windows.Forms.Padding(2);
 			this.planVideosTabpage.Name = "planVideosTabpage";
 			this.planVideosTabpage.Padding = new System.Windows.Forms.Padding(2);
-			this.planVideosTabpage.Size = new System.Drawing.Size(902, 628);
+			this.planVideosTabpage.Size = new System.Drawing.Size(1013, 620);
 			this.planVideosTabpage.TabIndex = 3;
 			this.planVideosTabpage.Text = "Videos planen";
 			this.planVideosTabpage.Enter += new System.EventHandler(this.planVideosTabpageEntered);
@@ -1448,7 +1474,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.63265F));
 			this.planVideosTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.planVideosTlp.Size = new System.Drawing.Size(898, 624);
+			this.planVideosTlp.Size = new System.Drawing.Size(1009, 616);
 			this.planVideosTlp.TabIndex = 0;
 			// 
 			// addFilenameButton
@@ -1517,7 +1543,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.filenamesListView.Name = "filenamesListView";
 			this.planVideosTlp.SetRowSpan(this.filenamesListView, 6);
 			this.filenamesListView.ShowGroups = false;
-			this.filenamesListView.Size = new System.Drawing.Size(827, 222);
+			this.filenamesListView.Size = new System.Drawing.Size(938, 221);
 			this.filenamesListView.TabIndex = 9;
 			this.filenamesListView.UseCompatibleStateImageBehavior = false;
 			this.filenamesListView.View = System.Windows.Forms.View.Details;
@@ -1540,7 +1566,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.planVideosTlp.SetColumnSpan(this.filenamesLabel, 3);
 			this.filenamesLabel.Location = new System.Drawing.Point(13, 10);
 			this.filenamesLabel.Name = "filenamesLabel";
-			this.filenamesLabel.Size = new System.Drawing.Size(872, 13);
+			this.filenamesLabel.Size = new System.Drawing.Size(983, 13);
 			this.filenamesLabel.TabIndex = 12;
 			this.filenamesLabel.Text = "Dateien:";
 			// 
@@ -1550,10 +1576,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsGroupbox.Controls.Add(this.fillFieldsTlp);
 			this.fillFieldsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fillFieldsGroupbox.Enabled = false;
-			this.fillFieldsGroupbox.Location = new System.Drawing.Point(10, 260);
+			this.fillFieldsGroupbox.Location = new System.Drawing.Point(10, 259);
 			this.fillFieldsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.fillFieldsGroupbox.Name = "fillFieldsGroupbox";
-			this.fillFieldsGroupbox.Size = new System.Drawing.Size(878, 353);
+			this.fillFieldsGroupbox.Size = new System.Drawing.Size(989, 346);
 			this.fillFieldsGroupbox.TabIndex = 13;
 			this.fillFieldsGroupbox.TabStop = false;
 			this.fillFieldsGroupbox.Text = "Platzhalter ausfüllen: ";
@@ -1582,7 +1608,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.fillFieldsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.fillFieldsTlp.Size = new System.Drawing.Size(872, 334);
+			this.fillFieldsTlp.Size = new System.Drawing.Size(983, 327);
 			this.fillFieldsTlp.TabIndex = 0;
 			// 
 			// fillFieldsListView
@@ -1602,7 +1628,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsListView.Margin = new System.Windows.Forms.Padding(0);
 			this.fillFieldsListView.Name = "fillFieldsListView";
 			this.fillFieldsListView.ShowGroups = false;
-			this.fillFieldsListView.Size = new System.Drawing.Size(862, 181);
+			this.fillFieldsListView.Size = new System.Drawing.Size(973, 181);
 			this.fillFieldsListView.TabIndex = 9;
 			this.fillFieldsListView.UseCompatibleStateImageBehavior = false;
 			this.fillFieldsListView.View = System.Windows.Forms.View.Details;
@@ -1650,7 +1676,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fieldNameTxbx.Margin = new System.Windows.Forms.Padding(0);
 			this.fieldNameTxbx.Name = "fieldNameTxbx";
 			this.fieldNameTxbx.ReadOnly = true;
-			this.fieldNameTxbx.Size = new System.Drawing.Size(747, 26);
+			this.fieldNameTxbx.Size = new System.Drawing.Size(858, 26);
 			this.fieldNameTxbx.TabIndex = 11;
 			// 
 			// fieldValueTxbx
@@ -1665,9 +1691,307 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fieldValueTxbx.Margin = new System.Windows.Forms.Padding(0);
 			this.fieldValueTxbx.Name = "fieldValueTxbx";
 			this.fieldValueTxbx.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.fieldValueTxbx.Size = new System.Drawing.Size(747, 26);
+			this.fieldValueTxbx.Size = new System.Drawing.Size(858, 26);
 			this.fieldValueTxbx.TabIndex = 11;
 			this.fieldValueTxbx.TextChanged += new System.EventHandler(this.fieldValueTxbxTextChanged);
+			// 
+			// sendMailTabPage
+			// 
+			this.sendMailTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.sendMailTabPage.Controls.Add(this.tableLayoutPanel1);
+			this.sendMailTabPage.Location = new System.Drawing.Point(4, 22);
+			this.sendMailTabPage.Name = "sendMailTabPage";
+			this.sendMailTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.sendMailTabPage.Size = new System.Drawing.Size(1013, 620);
+			this.sendMailTabPage.TabIndex = 5;
+			this.sendMailTabPage.Text = "Mails verschicken";
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 1;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Controls.Add(this.sendMailTlp, 0, 1);
+			this.tableLayoutPanel1.Controls.Add(this.connectMailNotificationLabel, 0, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 2;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1007, 614);
+			this.tableLayoutPanel1.TabIndex = 2;
+			// 
+			// sendMailTlp
+			// 
+			this.sendMailTlp.ColumnCount = 5;
+			this.sendMailTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.sendMailTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sendMailTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.Controls.Add(this.mailRecipientTextbox, 3, 2);
+			this.sendMailTlp.Controls.Add(this.notificationsGroupBox, 1, 4);
+			this.sendMailTlp.Controls.Add(this.mailRecipientLabel, 1, 2);
+			this.sendMailTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sendMailTlp.Location = new System.Drawing.Point(3, 53);
+			this.sendMailTlp.Name = "sendMailTlp";
+			this.sendMailTlp.RowCount = 6;
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.sendMailTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.sendMailTlp.Size = new System.Drawing.Size(1001, 558);
+			this.sendMailTlp.TabIndex = 0;
+			// 
+			// mailRecipientTextbox
+			// 
+			this.mailRecipientTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailRecipientTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.mailRecipientTextbox.Location = new System.Drawing.Point(208, 10);
+			this.mailRecipientTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.mailRecipientTextbox.Name = "mailRecipientTextbox";
+			this.mailRecipientTextbox.Size = new System.Drawing.Size(783, 26);
+			this.mailRecipientTextbox.TabIndex = 3;
+			this.mailRecipientTextbox.TextChanged += new System.EventHandler(this.mailRecipientTextbox_TextChanged);
+			// 
+			// notificationsGroupBox
+			// 
+			this.sendMailTlp.SetColumnSpan(this.notificationsGroupBox, 3);
+			this.notificationsGroupBox.Controls.Add(this.tableLayoutPanel2);
+			this.notificationsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.notificationsGroupBox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.notificationsGroupBox.Location = new System.Drawing.Point(10, 46);
+			this.notificationsGroupBox.Margin = new System.Windows.Forms.Padding(0);
+			this.notificationsGroupBox.Name = "notificationsGroupBox";
+			this.notificationsGroupBox.Size = new System.Drawing.Size(981, 502);
+			this.notificationsGroupBox.TabIndex = 4;
+			this.notificationsGroupBox.TabStop = false;
+			this.notificationsGroupBox.Text = "Benachrichtigungen verwalten: ";
+			// 
+			// tableLayoutPanel2
+			// 
+			this.tableLayoutPanel2.ColumnCount = 7;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
+			this.tableLayoutPanel2.Controls.Add(this.label1, 1, 1);
+			this.tableLayoutPanel2.Controls.Add(this.label2, 1, 3);
+			this.tableLayoutPanel2.Controls.Add(this.label3, 1, 5);
+			this.tableLayoutPanel2.Controls.Add(this.label4, 1, 7);
+			this.tableLayoutPanel2.Controls.Add(this.newVideoDNCheckbox, 3, 1);
+			this.tableLayoutPanel2.Controls.Add(this.uploadStartedDNCheckbox, 3, 3);
+			this.tableLayoutPanel2.Controls.Add(this.uploadFinishedDNCheckbox, 3, 5);
+			this.tableLayoutPanel2.Controls.Add(this.uploadFailedDNCheckbox, 3, 7);
+			this.tableLayoutPanel2.Controls.Add(this.newVideoMNCheckbox, 5, 1);
+			this.tableLayoutPanel2.Controls.Add(this.uploadStartedMNCheckbox, 5, 3);
+			this.tableLayoutPanel2.Controls.Add(this.uploadFinishedMNCheckbox, 5, 5);
+			this.tableLayoutPanel2.Controls.Add(this.uploadFailedMNCheckbox, 5, 7);
+			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 22);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 10;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(975, 477);
+			this.tableLayoutPanel2.TabIndex = 0;
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(10, 12);
+			this.label1.Margin = new System.Windows.Forms.Padding(0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(378, 18);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Neues Video gefunden: ";
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(10, 44);
+			this.label2.Margin = new System.Windows.Forms.Padding(0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(378, 18);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "Video-Upload begonnen: ";
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(10, 76);
+			this.label3.Margin = new System.Windows.Forms.Padding(0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(378, 18);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "Video erfolgreich hochgeladen: ";
+			// 
+			// label4
+			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(10, 108);
+			this.label4.Margin = new System.Windows.Forms.Padding(0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(378, 18);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "Video-Upload mit Fehler abgebrochen: ";
+			// 
+			// newVideoDNCheckbox
+			// 
+			this.newVideoDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.newVideoDNCheckbox.AutoSize = true;
+			this.newVideoDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.newVideoDNCheckbox.Location = new System.Drawing.Point(408, 10);
+			this.newVideoDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.newVideoDNCheckbox.Name = "newVideoDNCheckbox";
+			this.newVideoDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.newVideoDNCheckbox.TabIndex = 1;
+			this.newVideoDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.newVideoDNCheckbox.UseVisualStyleBackColor = true;
+			this.newVideoDNCheckbox.CheckedChanged += new System.EventHandler(this.newVideoDNCheckbox_CheckedChanged);
+			// 
+			// uploadStartedDNCheckbox
+			// 
+			this.uploadStartedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadStartedDNCheckbox.AutoSize = true;
+			this.uploadStartedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadStartedDNCheckbox.Location = new System.Drawing.Point(408, 42);
+			this.uploadStartedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadStartedDNCheckbox.Name = "uploadStartedDNCheckbox";
+			this.uploadStartedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadStartedDNCheckbox.TabIndex = 1;
+			this.uploadStartedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadStartedDNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadStartedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadStartedDNCheckbox_CheckedChanged);
+			// 
+			// uploadFinishedDNCheckbox
+			// 
+			this.uploadFinishedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadFinishedDNCheckbox.AutoSize = true;
+			this.uploadFinishedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadFinishedDNCheckbox.Location = new System.Drawing.Point(408, 74);
+			this.uploadFinishedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadFinishedDNCheckbox.Name = "uploadFinishedDNCheckbox";
+			this.uploadFinishedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFinishedDNCheckbox.TabIndex = 1;
+			this.uploadFinishedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadFinishedDNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadFinishedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFinishedDNCheckbox_CheckedChanged);
+			// 
+			// uploadFailedDNCheckbox
+			// 
+			this.uploadFailedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadFailedDNCheckbox.AutoSize = true;
+			this.uploadFailedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadFailedDNCheckbox.Location = new System.Drawing.Point(408, 106);
+			this.uploadFailedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadFailedDNCheckbox.Name = "uploadFailedDNCheckbox";
+			this.uploadFailedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFailedDNCheckbox.TabIndex = 1;
+			this.uploadFailedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadFailedDNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadFailedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFailedDNCheckbox_CheckedChanged);
+			// 
+			// newVideoMNCheckbox
+			// 
+			this.newVideoMNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.newVideoMNCheckbox.AutoSize = true;
+			this.newVideoMNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.newVideoMNCheckbox.Location = new System.Drawing.Point(696, 10);
+			this.newVideoMNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.newVideoMNCheckbox.Name = "newVideoMNCheckbox";
+			this.newVideoMNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.newVideoMNCheckbox.TabIndex = 1;
+			this.newVideoMNCheckbox.Text = "E-Mail-Benachrichtigung";
+			this.newVideoMNCheckbox.UseVisualStyleBackColor = true;
+			this.newVideoMNCheckbox.CheckedChanged += new System.EventHandler(this.newVideoMNCheckbox_CheckedChanged);
+			// 
+			// uploadStartedMNCheckbox
+			// 
+			this.uploadStartedMNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadStartedMNCheckbox.AutoSize = true;
+			this.uploadStartedMNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadStartedMNCheckbox.Location = new System.Drawing.Point(696, 42);
+			this.uploadStartedMNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadStartedMNCheckbox.Name = "uploadStartedMNCheckbox";
+			this.uploadStartedMNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadStartedMNCheckbox.TabIndex = 1;
+			this.uploadStartedMNCheckbox.Text = "E-Mail-Benachrichtigung";
+			this.uploadStartedMNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadStartedMNCheckbox.CheckedChanged += new System.EventHandler(this.uploadStartedMNCheckbox_CheckedChanged);
+			// 
+			// uploadFinishedMNCheckbox
+			// 
+			this.uploadFinishedMNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadFinishedMNCheckbox.AutoSize = true;
+			this.uploadFinishedMNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadFinishedMNCheckbox.Location = new System.Drawing.Point(696, 74);
+			this.uploadFinishedMNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadFinishedMNCheckbox.Name = "uploadFinishedMNCheckbox";
+			this.uploadFinishedMNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFinishedMNCheckbox.TabIndex = 1;
+			this.uploadFinishedMNCheckbox.Text = "E-Mail-Benachrichtigung";
+			this.uploadFinishedMNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadFinishedMNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFinishedMNCheckbox_CheckedChanged);
+			// 
+			// uploadFailedMNCheckbox
+			// 
+			this.uploadFailedMNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadFailedMNCheckbox.AutoSize = true;
+			this.uploadFailedMNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadFailedMNCheckbox.Location = new System.Drawing.Point(696, 106);
+			this.uploadFailedMNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadFailedMNCheckbox.Name = "uploadFailedMNCheckbox";
+			this.uploadFailedMNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFailedMNCheckbox.TabIndex = 1;
+			this.uploadFailedMNCheckbox.Text = "E-Mail-Benachrichtigung";
+			this.uploadFailedMNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadFailedMNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFailedMNCheckbox_CheckedChanged);
+			// 
+			// mailRecipientLabel
+			// 
+			this.mailRecipientLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailRecipientLabel.AutoSize = true;
+			this.mailRecipientLabel.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.mailRecipientLabel.Location = new System.Drawing.Point(10, 14);
+			this.mailRecipientLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.mailRecipientLabel.Name = "mailRecipientLabel";
+			this.mailRecipientLabel.Size = new System.Drawing.Size(188, 18);
+			this.mailRecipientLabel.TabIndex = 1;
+			this.mailRecipientLabel.Text = "E-Mail-Empfänger: ";
+			// 
+			// connectMailNotificationLabel
+			// 
+			this.connectMailNotificationLabel.AutoSize = true;
+			this.connectMailNotificationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.connectMailNotificationLabel.ForeColor = System.Drawing.Color.Red;
+			this.connectMailNotificationLabel.Location = new System.Drawing.Point(0, 0);
+			this.connectMailNotificationLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+			this.connectMailNotificationLabel.Name = "connectMailNotificationLabel";
+			this.connectMailNotificationLabel.Size = new System.Drawing.Size(984, 40);
+			this.connectMailNotificationLabel.TabIndex = 1;
+			this.connectMailNotificationLabel.Text = "Wenn du mit dem Uploader Mails verschicken möchtest, musst du den Account mit akt" +
+    "iviertem Haken für den Mailversand neu verknüpfen!";
+			this.connectMailNotificationLabel.Visible = false;
 			// 
 			// cSharpTabPage
 			// 
@@ -1676,7 +2000,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpTabPage.Location = new System.Drawing.Point(4, 22);
 			this.cSharpTabPage.Name = "cSharpTabPage";
 			this.cSharpTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.cSharpTabPage.Size = new System.Drawing.Size(902, 628);
+			this.cSharpTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.cSharpTabPage.TabIndex = 4;
 			this.cSharpTabPage.Text = "C#-Scripting (Expertenmodus)";
 			// 
@@ -1697,7 +2021,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.csTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.csTlp.Size = new System.Drawing.Size(896, 622);
+			this.csTlp.Size = new System.Drawing.Size(1007, 614);
 			this.csTlp.TabIndex = 0;
 			// 
 			// csDescriptionLabel
@@ -1708,11 +2032,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.csDescriptionLabel.Location = new System.Drawing.Point(10, 10);
 			this.csDescriptionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.csDescriptionLabel.Name = "csDescriptionLabel";
-			this.csDescriptionLabel.Size = new System.Drawing.Size(876, 162);
+			this.csDescriptionLabel.Size = new System.Drawing.Size(987, 144);
 			this.csDescriptionLabel.TabIndex = 12;
 			this.csDescriptionLabel.Text = resources.GetString("csDescriptionLabel.Text");
 			// 
-			// tabControl1
+			// cSharpScriptingTabControl
 			// 
 			this.cSharpScriptingTabControl.Controls.Add(this.systemFunctionsTabPage);
 			this.cSharpScriptingTabControl.Controls.Add(this.usableVariablesTabPage);
@@ -1720,10 +2044,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpScriptingTabControl.Controls.Add(this.preparationScriptTabPage);
 			this.cSharpScriptingTabControl.Controls.Add(this.cleanUpScriptTabPage);
 			this.cSharpScriptingTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cSharpScriptingTabControl.Location = new System.Drawing.Point(13, 185);
-			this.cSharpScriptingTabControl.Name = "tabControl1";
+			this.cSharpScriptingTabControl.Location = new System.Drawing.Point(13, 167);
+			this.cSharpScriptingTabControl.Name = "cSharpScriptingTabControl";
 			this.cSharpScriptingTabControl.SelectedIndex = 0;
-			this.cSharpScriptingTabControl.Size = new System.Drawing.Size(870, 424);
+			this.cSharpScriptingTabControl.Size = new System.Drawing.Size(981, 434);
 			this.cSharpScriptingTabControl.TabIndex = 16;
 			// 
 			// systemFunctionsTabPage
@@ -1733,7 +2057,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.systemFunctionsTabPage.Location = new System.Drawing.Point(4, 22);
 			this.systemFunctionsTabPage.Name = "systemFunctionsTabPage";
 			this.systemFunctionsTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.systemFunctionsTabPage.Size = new System.Drawing.Size(862, 398);
+			this.systemFunctionsTabPage.Size = new System.Drawing.Size(973, 408);
 			this.systemFunctionsTabPage.TabIndex = 0;
 			this.systemFunctionsTabPage.Text = "Systemfunktionen (read-only)";
 			// 
@@ -1777,7 +2101,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpSystemFunctionsFctb.RightBracket2 = '}';
 			this.cSharpSystemFunctionsFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.cSharpSystemFunctionsFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpSystemFunctionsFctb.ServiceColors")));
-			this.cSharpSystemFunctionsFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpSystemFunctionsFctb.Size = new System.Drawing.Size(967, 402);
 			this.cSharpSystemFunctionsFctb.TabIndex = 14;
 			this.cSharpSystemFunctionsFctb.WordWrap = true;
 			this.cSharpSystemFunctionsFctb.WordWrapIndent = 6;
@@ -1788,7 +2112,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.usableVariablesTabPage.Controls.Add(this.globalVarsFctb);
 			this.usableVariablesTabPage.Location = new System.Drawing.Point(4, 22);
 			this.usableVariablesTabPage.Name = "usableVariablesTabPage";
-			this.usableVariablesTabPage.Size = new System.Drawing.Size(862, 398);
+			this.usableVariablesTabPage.Size = new System.Drawing.Size(973, 408);
 			this.usableVariablesTabPage.TabIndex = 4;
 			this.usableVariablesTabPage.Text = "Verwendbare Variablen (read-only)";
 			this.usableVariablesTabPage.UseVisualStyleBackColor = true;
@@ -1809,7 +2133,7 @@ namespace STFU.Executable.AutoUploader.Forms
         '\''};
 			this.globalVarsFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
     "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.globalVarsFctb.AutoScrollMinSize = new System.Drawing.Size(0, 396);
+			this.globalVarsFctb.AutoScrollMinSize = new System.Drawing.Size(0, 342);
 			this.globalVarsFctb.BackBrush = null;
 			this.globalVarsFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.globalVarsFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
@@ -1833,7 +2157,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.globalVarsFctb.RightBracket2 = '}';
 			this.globalVarsFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.globalVarsFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("globalVarsFctb.ServiceColors")));
-			this.globalVarsFctb.Size = new System.Drawing.Size(862, 398);
+			this.globalVarsFctb.Size = new System.Drawing.Size(973, 408);
 			this.globalVarsFctb.TabIndex = 15;
 			this.globalVarsFctb.Text = resources.GetString("globalVarsFctb.Text");
 			this.globalVarsFctb.WordWrap = true;
@@ -1846,7 +2170,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.referencedAssembliesTabPage.Controls.Add(this.assemblyReferencesFctb);
 			this.referencedAssembliesTabPage.Location = new System.Drawing.Point(4, 22);
 			this.referencedAssembliesTabPage.Name = "referencedAssembliesTabPage";
-			this.referencedAssembliesTabPage.Size = new System.Drawing.Size(862, 398);
+			this.referencedAssembliesTabPage.Size = new System.Drawing.Size(973, 408);
 			this.referencedAssembliesTabPage.TabIndex = 5;
 			this.referencedAssembliesTabPage.Text = "Referenzierte Assemblies";
 			// 
@@ -1866,7 +2190,7 @@ namespace STFU.Executable.AutoUploader.Forms
         '\''};
 			this.assemblyReferencesFctb.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
     "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.assemblyReferencesFctb.AutoScrollMinSize = new System.Drawing.Size(0, 396);
+			this.assemblyReferencesFctb.AutoScrollMinSize = new System.Drawing.Size(0, 342);
 			this.assemblyReferencesFctb.BackBrush = null;
 			this.assemblyReferencesFctb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.assemblyReferencesFctb.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
@@ -1889,7 +2213,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.assemblyReferencesFctb.RightBracket2 = '}';
 			this.assemblyReferencesFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.assemblyReferencesFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("assemblyReferencesFctb.ServiceColors")));
-			this.assemblyReferencesFctb.Size = new System.Drawing.Size(862, 398);
+			this.assemblyReferencesFctb.Size = new System.Drawing.Size(973, 408);
 			this.assemblyReferencesFctb.TabIndex = 16;
 			this.assemblyReferencesFctb.Text = resources.GetString("assemblyReferencesFctb.Text");
 			this.assemblyReferencesFctb.WordWrap = true;
@@ -1904,7 +2228,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.preparationScriptTabPage.Location = new System.Drawing.Point(4, 22);
 			this.preparationScriptTabPage.Name = "preparationScriptTabPage";
 			this.preparationScriptTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.preparationScriptTabPage.Size = new System.Drawing.Size(862, 398);
+			this.preparationScriptTabPage.Size = new System.Drawing.Size(973, 408);
 			this.preparationScriptTabPage.TabIndex = 2;
 			this.preparationScriptTabPage.Text = "Upload-Vorbereitungsskript";
 			// 
@@ -1947,7 +2271,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpPrepareFctb.RightBracket2 = '}';
 			this.cSharpPrepareFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.cSharpPrepareFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpPrepareFctb.ServiceColors")));
-			this.cSharpPrepareFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpPrepareFctb.Size = new System.Drawing.Size(967, 402);
 			this.cSharpPrepareFctb.TabIndex = 14;
 			this.cSharpPrepareFctb.WordWrap = true;
 			this.cSharpPrepareFctb.WordWrapIndent = 6;
@@ -1961,7 +2285,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cleanUpScriptTabPage.Location = new System.Drawing.Point(4, 22);
 			this.cleanUpScriptTabPage.Name = "cleanUpScriptTabPage";
 			this.cleanUpScriptTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.cleanUpScriptTabPage.Size = new System.Drawing.Size(862, 398);
+			this.cleanUpScriptTabPage.Size = new System.Drawing.Size(973, 408);
 			this.cleanUpScriptTabPage.TabIndex = 3;
 			this.cleanUpScriptTabPage.Text = "Upload-Nachbereitungsskript";
 			// 
@@ -2004,7 +2328,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.cSharpCleanupFctb.RightBracket2 = '}';
 			this.cSharpCleanupFctb.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
 			this.cSharpCleanupFctb.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("cSharpCleanupFctb.ServiceColors")));
-			this.cSharpCleanupFctb.Size = new System.Drawing.Size(856, 392);
+			this.cSharpCleanupFctb.Size = new System.Drawing.Size(967, 402);
 			this.cSharpCleanupFctb.TabIndex = 15;
 			this.cSharpCleanupFctb.WordWrap = true;
 			this.cSharpCleanupFctb.WordWrapIndent = 6;
@@ -2020,7 +2344,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.editTemplateLabel.Location = new System.Drawing.Point(10, 10);
 			this.editTemplateLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.editTemplateLabel.Name = "editTemplateLabel";
-			this.editTemplateLabel.Size = new System.Drawing.Size(910, 13);
+			this.editTemplateLabel.Size = new System.Drawing.Size(1021, 13);
 			this.editTemplateLabel.TabIndex = 0;
 			this.editTemplateLabel.Text = "Template bearbeiten: ";
 			// 
@@ -2029,7 +2353,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.useExpertmodeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.useExpertmodeCheckbox.AutoSize = true;
 			this.editTemplateTableLayoutPanel.SetColumnSpan(this.useExpertmodeCheckbox, 3);
-			this.useExpertmodeCheckbox.Location = new System.Drawing.Point(746, 37);
+			this.useExpertmodeCheckbox.Location = new System.Drawing.Point(857, 37);
 			this.useExpertmodeCheckbox.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
 			this.useExpertmodeCheckbox.Name = "useExpertmodeCheckbox";
 			this.useExpertmodeCheckbox.Size = new System.Drawing.Size(174, 17);
@@ -2053,8 +2377,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			// splitContainer.Panel2
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.editTemplateTableLayoutPanel);
-			this.splitContainer.Size = new System.Drawing.Size(1205, 770);
-			this.splitContainer.SplitterDistance = 264;
+			this.splitContainer.Size = new System.Drawing.Size(1347, 762);
+			this.splitContainer.SplitterDistance = 295;
 			this.splitContainer.SplitterWidth = 11;
 			this.splitContainer.TabIndex = 1;
 			this.splitContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainerPaint);
@@ -2072,7 +2396,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.AcceptButton = this.saveTemplateButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1205, 770);
+			this.ClientSize = new System.Drawing.Size(1347, 762);
 			this.Controls.Add(this.splitContainer);
 			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "TemplateForm";
@@ -2110,6 +2434,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.fillFieldsGroupbox.ResumeLayout(false);
 			this.fillFieldsTlp.ResumeLayout(false);
 			this.fillFieldsTlp.PerformLayout();
+			this.sendMailTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			this.sendMailTlp.ResumeLayout(false);
+			this.sendMailTlp.PerformLayout();
+			this.notificationsGroupBox.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
 			this.cSharpTabPage.ResumeLayout(false);
 			this.csTlp.ResumeLayout(false);
 			this.csTlp.PerformLayout();
@@ -2237,5 +2569,25 @@ namespace STFU.Executable.AutoUploader.Forms
 		private CheckBox useExpertmodeCheckbox;
 		private TabPage referencedAssembliesTabPage;
 		private FastColoredTextBox assemblyReferencesFctb;
+		private TabPage sendMailTabPage;
+		private TableLayoutPanel sendMailTlp;
+		private Label connectMailNotificationLabel;
+		private TextBox mailRecipientTextbox;
+		private GroupBox notificationsGroupBox;
+		private Label mailRecipientLabel;
+		private TableLayoutPanel tableLayoutPanel2;
+		private Label label1;
+		private Label label2;
+		private Label label3;
+		private Label label4;
+		private CheckBox newVideoDNCheckbox;
+		private CheckBox uploadStartedDNCheckbox;
+		private CheckBox uploadFinishedDNCheckbox;
+		private CheckBox uploadFailedDNCheckbox;
+		private CheckBox newVideoMNCheckbox;
+		private CheckBox uploadStartedMNCheckbox;
+		private CheckBox uploadFinishedMNCheckbox;
+		private CheckBox uploadFailedMNCheckbox;
+		private TableLayoutPanel tableLayoutPanel1;
 	}
 }

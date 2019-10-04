@@ -46,6 +46,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		string ClientId { get; set; }
 
 		/// <summary>
+		/// Determines if the uploader may send mails for this account
+		/// </summary>
+		bool HasSendMailPrivilegue { get; set; }
+
+		/// <summary>
 		/// The youtube client the account is connected to
 		/// </summary>
 		[JsonIgnore]

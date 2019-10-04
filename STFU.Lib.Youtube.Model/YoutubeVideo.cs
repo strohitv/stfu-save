@@ -159,6 +159,7 @@ namespace STFU.Lib.Youtube.Model
 		public Uri UploadUri { get; set; }
 
 		public string Id { get; set; }
+		public INotificationSettings NotificationSettings { get; set; }
 
 		public override string ToString()
 		{

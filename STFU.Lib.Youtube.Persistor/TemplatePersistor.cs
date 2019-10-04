@@ -130,7 +130,21 @@ namespace STFU.Lib.Youtube.Persistor
 					Stabilize = template.Stabilize,
 					Tags = template.Tags,
 					ThumbnailPath = template.ThumbnailPath,
-					Title = template.Title
+					Title = template.Title,
+					CSharpCleanUpScript = template.CSharpCleanUpScript,
+					CSharpPreparationScript = template.CSharpPreparationScript,
+					EnableExpertMode = template.EnableExpertMode,
+					MailTo = template.MailTo,
+					NewVideoDesktopNotification = template.NewVideoDesktopNotification,
+					NewVideoMailNotification = template.NewVideoMailNotification,
+					NextUploadSuggestion = template.NextUploadSuggestion,
+					ReferencedAssembliesText = template.ReferencedAssembliesText,
+					UploadFailedDesktopNotification = template.UploadFailedDesktopNotification,
+					UploadFailedMailNotification = template.UploadFailedMailNotification,
+					UploadFinishedDesktopNotification = template.UploadFinishedDesktopNotification,
+					UploadFinishedMailNotification = template.UploadFinishedMailNotification,
+					UploadStartedDesktopNotification = template.UploadStartedDesktopNotification,
+					UploadStartedMailNotification = template.UploadStartedMailNotification
 				};
 
 				Saved.RegisterTemplate(newTemplate);

@@ -20,7 +20,7 @@ namespace STFU.Lib.Youtube
 	{
 		public YoutubeAccountCommunicator() { }
 
-		public Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, YoutubeScope scope)
+		public Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, GoogleScope scope)
 		{
 			string scopeString = JoinScopes(scope);
 			string redirectUriString = redirectUri.GetAttribute<EnumMemberAttribute>().Value;
@@ -29,7 +29,12 @@ namespace STFU.Lib.Youtube
 			return new Uri(authRequestString);
 		}
 
-		public IYoutubeAccount ConnectToAccount(string code, IYoutubeClient client, YoutubeRedirectUri redirectUri)
+		public string GetAdditionalScope(GoogleScope scope)
+		{
+			return $"+{JoinScopes(scope)}";
+		}
+
+		public IYoutubeAccount ConnectToAccount(string code, bool mailsAllowed, IYoutubeClient client, YoutubeRedirectUri redirectUri)
 		{
 			var uri = redirectUri.GetAttribute<EnumMemberAttribute>().Value;
 			string content = $"code={code}&client_id={client.Id}&client_secret={client.Secret}&redirect_uri={uri}&grant_type=authorization_code";
@@ -47,6 +52,7 @@ namespace STFU.Lib.Youtube
 
 			IYoutubeAccountAccess access = new YoutubeAccountAccess();
 			access.Client = client;
+			access.HasSendMailPrivilegue = mailsAllowed;
 
 			if (authResponse != null && !string.IsNullOrWhiteSpace(authResponse.access_token))
 			{
@@ -96,11 +102,11 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
-		private string JoinScopes(YoutubeScope scope)
+		private string JoinScopes(GoogleScope scope)
 		{
 			string result = string.Empty;
 			bool needsPlus = false;
-			foreach (YoutubeScope value in typeof(YoutubeScope).GetEnumValues())
+			foreach (GoogleScope value in typeof(GoogleScope).GetEnumValues())
 			{
 				if (scope.HasFlag(value))
 				{

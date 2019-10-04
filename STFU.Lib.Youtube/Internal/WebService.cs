@@ -3,9 +3,9 @@ using System.Net;
 
 namespace STFU.Lib.Youtube.Internal
 {
-	internal static class WebService
+	public static class WebService
 	{
-		internal static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
+		public static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
 		{
 			if (bytes != null && bytes.Length != 0)
 			{

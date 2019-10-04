@@ -33,6 +33,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="NotificationSettings.cs" />
     <Compile Include="Serializable\YoutubeErrorResponse.cs" />
     <Compile Include="YoutubeCategory.cs" />
     <Compile Include="Helpers\EnumConverter.cs" />

@@ -33,6 +33,16 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		string CSharpCleanUpScript { get; set; }
 		string ReferencedAssembliesText { get; set; }
 
+		string MailTo { get; set; }
+		bool NewVideoDesktopNotification { get; set; }
+		bool NewVideoMailNotification { get; set; }
+		bool UploadStartedDesktopNotification { get; set; }
+		bool UploadStartedMailNotification { get; set; }
+		bool UploadFinishedDesktopNotification { get; set; }
+		bool UploadFinishedMailNotification { get; set; }
+		bool UploadFailedDesktopNotification { get; set; }
+		bool UploadFailedMailNotification { get; set; }
+
 		string ToString();
 	}
 }

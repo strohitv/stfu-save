@@ -69,13 +69,13 @@ namespace STFU.Executable.StandardUploader.Forms
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.Manage).AbsoluteUri;
-			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage).AbsoluteUri;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
+			//addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, GoogleScope.Manage).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
 			if (result == DialogResult.OK
-				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code)) != null)
+				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, false, client, YoutubeRedirectUri.Code)) != null)
 			{
 				accountContainer.RegisterAccount(account);
 

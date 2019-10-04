@@ -19,6 +19,8 @@ namespace STFU.Lib.Youtube.Model
 
 		public string TokenType { get; set; }
 
+		public bool HasSendMailPrivilegue { get; set; } = false;
+
 		public string ClientId { get; set; }
 
 		public IYoutubeClient Client { get; set; }

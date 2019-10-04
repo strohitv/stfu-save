@@ -5,9 +5,9 @@ using System;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {
-	internal static class HttpWebRequestCreator
+	public static class HttpWebRequestCreator
 	{
-		internal static HttpWebRequest Create(string address, string method)
+		public static HttpWebRequest Create(string address, string method)
 		{
 			var request = (HttpWebRequest)WebRequest.Create(address);
 			request.Method = method;
@@ -19,7 +19,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return request;
 		}
 
-		internal static HttpWebRequest CreateWithAuthHeader(string address, string method, string token)
+		public static HttpWebRequest CreateWithAuthHeader(string address, string method, string token)
 		{
 			var request = Create(address, method);
 			request.Headers.Add($"Authorization: Bearer {token}");

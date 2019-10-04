@@ -25,6 +25,20 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			var template = publishCalculator.Template;
 
+			//TODO: Video muss die Mailversandsinformationen gespeicher bekommen, am besten via einer eigenen Klasse!
+			video.NotificationSettings = new NotificationSettings()
+			{
+				MailReceiver = template.MailTo,
+				NotifyOnVideoFoundDesktop = template.NewVideoDesktopNotification,
+				NotifyOnVideoFoundMail = template.NewVideoMailNotification,
+				NotifyOnVideoUploadStartedDesktop = template.UploadStartedDesktopNotification,
+				NotifyOnVideoUploadStartedMail = template.UploadStartedMailNotification,
+				NotifyOnVideoUploadFinishedDesktop = template.UploadFinishedDesktopNotification,
+				NotifyOnVideoUploadFinishedMail = template.UploadFinishedMailNotification,
+				NotifyOnVideoUploadFailedDesktop = template.UploadFailedDesktopNotification,
+				NotifyOnVideoUploadFailedMail = template.UploadFailedMailNotification
+			};
+
 			ExpressionEvaluator evaluator = new ExpressionEvaluator(path, template.Name, template.PlannedVideos, template.CSharpPreparationScript, template.CSharpCleanUpScript, template.ReferencedAssembliesText);
 
 			// Werte füllen

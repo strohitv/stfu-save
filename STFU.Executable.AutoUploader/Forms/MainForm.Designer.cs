@@ -72,10 +72,11 @@
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
-			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
+			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
-			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -135,6 +136,7 @@
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
+			this.lblCurrentLoggedIn.Click += new System.EventHandler(this.lblCurrentLoggedIn_Click);
 			// 
 			// lnklblCurrentLoggedIn
 			// 
@@ -534,17 +536,16 @@
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
 			// 
-			// jobQueue
+			// autoUploaderStateLabel
 			// 
-			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 11);
-			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(10, 10);
-			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
-			this.jobQueue.Name = "jobQueue";
-			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1104, 519);
-			this.jobQueue.TabIndex = 18;
-			this.jobQueue.Uploader = null;
+			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.autoUploaderStateLabel.AutoSize = true;
+			this.autoUploaderStateLabel.Location = new System.Drawing.Point(891, 546);
+			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
+			this.autoUploaderStateLabel.Size = new System.Drawing.Size(149, 13);
+			this.autoUploaderStateLabel.TabIndex = 19;
+			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
 			// 
 			// bgwCreateUploader
 			// 
@@ -557,16 +558,23 @@
 			this.watchingTimer.Interval = 50;
 			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
 			// 
-			// autoUploaderStateLabel
+			// notifyIcon
 			// 
-			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.autoUploaderStateLabel.AutoSize = true;
-			this.autoUploaderStateLabel.Location = new System.Drawing.Point(891, 546);
-			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
-			this.autoUploaderStateLabel.Size = new System.Drawing.Size(149, 13);
-			this.autoUploaderStateLabel.TabIndex = 19;
-			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
+			this.notifyIcon.Visible = true;
+			// 
+			// jobQueue
+			// 
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 11);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(10, 10);
+			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.jobQueue.Name = "jobQueue";
+			this.jobQueue.ShowActionsButtons = true;
+			this.jobQueue.Size = new System.Drawing.Size(1104, 519);
+			this.jobQueue.TabIndex = 18;
+			this.jobQueue.Uploader = null;
 			// 
 			// MainForm
 			// 
@@ -646,6 +654,7 @@
 		private Lib.GUI.Controls.Queue.JobQueue jobQueue;
 		private System.Windows.Forms.Timer watchingTimer;
 		private System.Windows.Forms.Label autoUploaderStateLabel;
+		private System.Windows.Forms.NotifyIcon notifyIcon;
 	}
 }
 

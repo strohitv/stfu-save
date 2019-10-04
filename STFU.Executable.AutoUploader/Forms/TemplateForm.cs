@@ -43,7 +43,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		public TemplateForm(TemplatePersistor persistor, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
+		public TemplateForm(TemplatePersistor persistor, 
+			IYoutubeCategoryContainer categoryContainer,
+			IYoutubeLanguageContainer languageContainer,
+			bool accountHasMailEnabled)
 		{
 			InitializeComponent();
 
@@ -57,6 +60,29 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
 			{
 				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
+			if (accountHasMailEnabled)
+			{
+				connectMailNotificationLabel.Visible = false;
+
+				newVideoMNCheckbox.Enabled = true;
+				uploadStartedMNCheckbox.Enabled = true;
+				uploadFinishedMNCheckbox.Enabled = true;
+				uploadFailedMNCheckbox.Enabled = true;
+
+				mailRecipientTextbox.Enabled = true;
+			}
+			else
+			{
+				connectMailNotificationLabel.Visible = true;
+
+				newVideoMNCheckbox.Enabled = false;
+				uploadStartedMNCheckbox.Enabled = false;
+				uploadFinishedMNCheckbox.Enabled = false;
+				uploadFailedMNCheckbox.Enabled = false;
+
+				mailRecipientTextbox.Enabled = false;
 			}
 		}
 
@@ -253,6 +279,17 @@ namespace STFU.Executable.AutoUploader.Forms
 				timesListView.SelectedIndices.Clear();
 				timesListView.SelectedIndices.Add(0);
 			}
+
+			mailRecipientTextbox.Text = template.MailTo;
+
+			newVideoDNCheckbox.Checked = template.NewVideoDesktopNotification;
+			newVideoMNCheckbox.Checked = template.NewVideoMailNotification;
+			uploadStartedDNCheckbox.Checked = template.UploadStartedDesktopNotification;
+			uploadStartedMNCheckbox.Checked = template.UploadStartedMailNotification;
+			uploadFinishedDNCheckbox.Checked = template.UploadFinishedDesktopNotification;
+			uploadFinishedMNCheckbox.Checked = template.UploadFinishedMailNotification;
+			uploadFailedDNCheckbox.Checked = template.UploadFailedDesktopNotification;
+			uploadFailedMNCheckbox.Checked = template.UploadFailedMailNotification;
 
 			skipDirtyManipulation = false;
 		}
@@ -970,6 +1007,87 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null)
 			{
 				current.ReferencedAssembliesText = assemblyReferencesFctb.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void mailRecipientTextbox_TextChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.MailTo = mailRecipientTextbox.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void newVideoDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NewVideoDesktopNotification = newVideoDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void newVideoMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NewVideoMailNotification =  newVideoMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadStartedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadStartedDesktopNotification = uploadStartedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadStartedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadStartedMailNotification = uploadStartedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFinishedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFinishedDesktopNotification = uploadFinishedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFinishedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFinishedMailNotification = uploadFinishedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFailedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFailedDesktopNotification = uploadFailedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFailedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFailedMailNotification = uploadFailedMNCheckbox.Checked;
 				IsDirty = true;
 			}
 		}

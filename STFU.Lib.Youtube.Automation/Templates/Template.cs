@@ -158,6 +158,24 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			}
 		}
 
+		public string MailTo { get; set; } = string.Empty;
+
+		public bool NewVideoDesktopNotification { get; set; } = false;
+
+		public bool NewVideoMailNotification { get; set; } = false;
+
+		public bool UploadStartedDesktopNotification { get; set; } = false;
+
+		public bool UploadStartedMailNotification { get; set; } = false;
+
+		public bool UploadFinishedDesktopNotification { get; set; } = true;
+
+		public bool UploadFinishedMailNotification { get; set; } = false;
+
+		public bool UploadFailedDesktopNotification { get; set; } = true;
+
+		public bool UploadFailedMailNotification { get; set; } = false;
+
 		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, IList<IPlannedVideo> plannedVideos)
 			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), plannedVideos.Select(pv => (PlannedVideo)pv).ToList())
 		{ }
@@ -238,7 +256,20 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				EnableExpertMode = template.EnableExpertMode,
 				CSharpPreparationScript = template.CSharpPreparationScript,
 				CSharpCleanUpScript = template.CSharpCleanUpScript,
-				ReferencedAssembliesText = template.ReferencedAssembliesText
+				ReferencedAssembliesText = template.ReferencedAssembliesText,
+
+				NextUploadSuggestion = template.NextUploadSuggestion,
+
+				MailTo = template.MailTo,
+
+				NewVideoDesktopNotification = template.NewVideoDesktopNotification,
+				NewVideoMailNotification = template.NewVideoMailNotification,
+				UploadStartedDesktopNotification = template.UploadStartedDesktopNotification,
+				UploadStartedMailNotification = template.UploadStartedMailNotification,
+				UploadFinishedDesktopNotification = template.UploadFinishedDesktopNotification,
+				UploadFinishedMailNotification = template.UploadFinishedMailNotification,
+				UploadFailedDesktopNotification = template.UploadFailedDesktopNotification,
+				UploadFailedMailNotification = template.UploadFailedMailNotification,
 			};
 		}
 	}

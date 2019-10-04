@@ -123,6 +123,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		string Id { get; set; }
 
 		/// <summary>
+		/// Gets or sets notification settings
+		/// </summary>
+		INotificationSettings NotificationSettings { get; set; }
+
+		/// <summary>
 		/// Creates a copy of itself
 		/// </summary>
 		/// <returns>a copy of itself</returns>

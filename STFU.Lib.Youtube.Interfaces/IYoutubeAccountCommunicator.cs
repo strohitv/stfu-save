@@ -7,9 +7,11 @@ namespace STFU.Lib.Youtube.Interfaces
 {
 	public interface IYoutubeAccountCommunicator
 	{
-		Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, YoutubeScope scope);
+		Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, GoogleScope scope);
 
-		IYoutubeAccount ConnectToAccount(string code, IYoutubeClient client, YoutubeRedirectUri redirectUri);
+		string GetAdditionalScope(GoogleScope scope);
+
+		IYoutubeAccount ConnectToAccount(string code, bool allowMails, IYoutubeClient client, YoutubeRedirectUri redirectUri);
 
 		void RevokeAccount(IYoutubeAccountContainer container, IYoutubeAccount account);
 

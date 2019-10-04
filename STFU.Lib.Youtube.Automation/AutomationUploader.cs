@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Automation.Interfaces.Model.Events;
 using STFU.Lib.Youtube.Automation.Internal;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
@@ -271,10 +271,10 @@ namespace STFU.Lib.Youtube.Automation
 						|| job.State == UploadProgress.Canceled))
 			{
 				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
-				FileToUploadOccured?.Invoke(this, new EventArgs());
 				var video = videoAndEvaluator.Item1;
 				var evaluator = videoAndEvaluator.Item2;
 				var job = Uploader.QueueUpload(video, Account);
+				FileToUploadOccured?.Invoke(this, new JobEventArgs(job));
 
 				job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
 				job.UploadCompletedAction += (args) => RenameVideo(args.Job);

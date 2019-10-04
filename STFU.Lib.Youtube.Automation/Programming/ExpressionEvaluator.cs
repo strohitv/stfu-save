@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using STFU.Lib.Common;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Programming
@@ -83,9 +84,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 							}
 							catch (Exception ex3)
 							{
-								LogException(ex1, $"Die Referenz {trimmed} sollte geladen werden.");
-								LogException(ex2, $"Die Referenz {trimmed} sollte geladen werden.");
-								LogException(ex3, $"Die Referenz {trimmed} sollte geladen werden.");
+								ErrorLogger.LogException(ex1, $"Die Referenz {trimmed} sollte geladen werden.");
+								ErrorLogger.LogException(ex2, $"Die Referenz {trimmed} sollte geladen werden.");
+								ErrorLogger.LogException(ex3, $"Die Referenz {trimmed} sollte geladen werden.");
 							}
 						}
 					}
@@ -117,32 +118,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			catch (CompilationErrorException ex)
 			{
 				CsScript = await CSharpScript.RunAsync("using System;");
-				LogException(ex, CSharpPreparationScript);
-			}
-		}
-
-		private void LogException(Exception ex, string script)
-		{
-			if (!Directory.Exists("errors"))
-			{
-				Directory.CreateDirectory("errors");
-			}
-
-			if (!Directory.Exists(@"errors\csharp"))
-			{
-				Directory.CreateDirectory(@"errors\csharp");
-			}
-
-			using (StreamWriter writer = new StreamWriter($@"errors\csharp\{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-			{
-				writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-				writer.WriteLine();
-				WriteException(ex, writer, script);
-
-				writer.WriteLine();
-				writer.WriteLine("=======================");
-				writer.WriteLine();
-				writer.WriteLine();
+				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpPreparationScript}");
 			}
 		}
 
@@ -154,7 +130,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 			catch (CompilationErrorException ex)
 			{
-				LogException(ex, CSharpCleanupScript);
+				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpCleanupScript}");
 			}
 
 			CsScript = null;
@@ -263,7 +239,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						}
 						catch (CompilationErrorException ex)
 						{
-							LogException(ex, script);
+							ErrorLogger.LogException(ex, $"Auszuführendes Script: {script}");
 						}
 
 						string before = text.Substring(0, currentPos);
@@ -276,30 +252,6 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 
 			return text;
-		}
-
-		private void WriteException(Exception ex, StreamWriter writer, string script)
-		{
-			WriteException(ex, writer, script, "");
-		}
-
-		private void WriteException(Exception ex, StreamWriter writer, string script, string prefix)
-		{
-			writer.WriteLine($"{prefix}Fehlermeldung: {ex.Message}");
-			writer.WriteLine($"{prefix}Source: {ex.Source}");
-			writer.WriteLine($"{prefix}Stacktrace: {ex.StackTrace}");
-			writer.WriteLine($"{prefix}TargetSite: {ex.TargetSite}");
-			writer.WriteLine($"{prefix}Hilfelink: {ex.HelpLink}");
-
-			if (script != null)
-			{
-				writer.WriteLine($"{prefix}Auszuführendes Script: {script}");
-			}
-
-			if (ex.InnerException != null)
-			{
-				WriteException(ex.InnerException, writer, null, "        ");
-			}
 		}
 
 		private static ScriptType FindScriptType(string text, int currentPos)
