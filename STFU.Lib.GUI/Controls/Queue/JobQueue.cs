@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
 
 namespace STFU.Lib.GUI.Controls.Queue
@@ -37,6 +38,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 					Uploader.JobQueued += Uploader_JobQueued;
 					Uploader.JobDequeued += Uploader_JobDequeued;
 					Uploader.JobPositionChanged += Uploader_JobPositionChanged;
+					Uploader.NewUploadStarted += Uploader_NewUploadStarted;
 
 					ClearItems();
 
@@ -49,6 +51,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 					}
 				}
 			}
+		}
+
+		private void Uploader_NewUploadStarted(UploadStartedEventArgs args)
+		{
+			Invoke((Action)delegate
+			{
+				var control = jobControls.First(jc => jc.Job == args.Job);
+				mainTlp.ScrollControlIntoView(control);
+			});
 		}
 
 		private bool showActionButtons = true;
@@ -212,6 +223,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			mainTlp.RowStyles.Insert(position, new RowStyle(SizeType.AutoSize));
 			mainTlp.Controls.Add(control, 0, position);
+			mainTlp.ScrollControlIntoView(control);
 		}
 
 		private void ClearItems()
