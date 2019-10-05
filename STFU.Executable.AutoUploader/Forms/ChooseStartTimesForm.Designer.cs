@@ -127,7 +127,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Veröffentlichungsstartzeiten wählen";
-			this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.mainTlp.ResumeLayout(false);
 			this.mainTlp.PerformLayout();
 			this.ResumeLayout(false);
