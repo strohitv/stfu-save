@@ -77,6 +77,8 @@
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
+			this.queueStatusButton = new System.Windows.Forms.Button();
+			this.queueStatusLabel = new System.Windows.Forms.Label();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -136,7 +138,6 @@
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
-			this.lblCurrentLoggedIn.Click += new System.EventHandler(this.lblCurrentLoggedIn_Click);
 			// 
 			// lnklblCurrentLoggedIn
 			// 
@@ -331,8 +332,8 @@
 			// tabControl1
 			// 
 			this.tlpSettings.SetColumnSpan(this.tabControl1, 3);
-			this.tabControl1.Controls.Add(this.pathsTabPage);
 			this.tabControl1.Controls.Add(this.uploaderTabPage);
+			this.tabControl1.Controls.Add(this.pathsTabPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(10, 34);
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
@@ -429,7 +430,7 @@
 			this.uploaderTabPage.Padding = new System.Windows.Forms.Padding(3);
 			this.uploaderTabPage.Size = new System.Drawing.Size(1130, 582);
 			this.uploaderTabPage.TabIndex = 1;
-			this.uploaderTabPage.Text = "Uploader";
+			this.uploaderTabPage.Text = "Warteschlange";
 			// 
 			// tableLayoutPanel2
 			// 
@@ -454,12 +455,16 @@
 			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 7, 3);
 			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 1, 1);
 			this.tableLayoutPanel2.Controls.Add(this.autoUploaderStateLabel, 9, 3);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 11, 5);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 9, 5);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 5;
+			this.tableLayoutPanel2.RowCount = 7;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -472,7 +477,7 @@
 			this.btnStart.AutoSize = true;
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(1050, 539);
+			this.btnStart.Location = new System.Drawing.Point(1050, 502);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -485,7 +490,7 @@
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.Location = new System.Drawing.Point(10, 546);
+			this.lblFinishAction.Location = new System.Drawing.Point(10, 509);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
@@ -501,10 +506,10 @@
             "Nichts tun",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(73, 542);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(73, 505);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(602, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(596, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -512,7 +517,7 @@
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(685, 544);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(679, 507);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -526,7 +531,7 @@
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(845, 539);
+			this.btnChoseProcs.Location = new System.Drawing.Point(839, 502);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -540,10 +545,10 @@
 			// 
 			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.autoUploaderStateLabel.AutoSize = true;
-			this.autoUploaderStateLabel.Location = new System.Drawing.Point(891, 546);
+			this.autoUploaderStateLabel.Location = new System.Drawing.Point(885, 509);
 			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
-			this.autoUploaderStateLabel.Size = new System.Drawing.Size(149, 13);
+			this.autoUploaderStateLabel.Size = new System.Drawing.Size(155, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
 			// 
@@ -572,9 +577,36 @@
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
 			this.jobQueue.Name = "jobQueue";
 			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1104, 519);
+			this.jobQueue.Size = new System.Drawing.Size(1104, 482);
 			this.jobQueue.TabIndex = 18;
 			this.jobQueue.Uploader = null;
+			// 
+			// queueStatusButton
+			// 
+			this.queueStatusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.queueStatusButton.AutoSize = true;
+			this.queueStatusButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.queueStatusButton.Enabled = false;
+			this.queueStatusButton.Location = new System.Drawing.Point(1050, 539);
+			this.queueStatusButton.Margin = new System.Windows.Forms.Padding(0);
+			this.queueStatusButton.Name = "queueStatusButton";
+			this.queueStatusButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
+			this.queueStatusButton.Size = new System.Drawing.Size(64, 27);
+			this.queueStatusButton.TabIndex = 7;
+			this.queueStatusButton.Text = "Start!";
+			this.queueStatusButton.UseVisualStyleBackColor = true;
+			this.queueStatusButton.Click += new System.EventHandler(this.queueStatusButton_Click);
+			// 
+			// queueStatusLabel
+			// 
+			this.queueStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.queueStatusLabel.AutoSize = true;
+			this.queueStatusLabel.Location = new System.Drawing.Point(885, 546);
+			this.queueStatusLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.queueStatusLabel.Name = "queueStatusLabel";
+			this.queueStatusLabel.Size = new System.Drawing.Size(155, 13);
+			this.queueStatusLabel.TabIndex = 19;
+			this.queueStatusLabel.Text = "Die Warteschlange ist gestoppt";
 			// 
 			// MainForm
 			// 
@@ -655,6 +687,8 @@
 		private System.Windows.Forms.Timer watchingTimer;
 		private System.Windows.Forms.Label autoUploaderStateLabel;
 		private System.Windows.Forms.NotifyIcon notifyIcon;
+		private System.Windows.Forms.Button queueStatusButton;
+		private System.Windows.Forms.Label queueStatusLabel;
 	}
 }
 

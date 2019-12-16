@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
-using STFU.Lib.Common;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.MailSender;
 using STFU.Lib.MailSender.Generator;
@@ -147,7 +146,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
 					{
 						MailSender.Send(
-							accountContainer.RegisteredAccounts.First(), 
+							accountContainer.RegisteredAccounts.First(),
 							job.Video.NotificationSettings.MailReceiver,
 							$"'{job.Video.Title}' wurde erfolgreich hochgeladen!",
 							new UploadFinishedMailGenerator().Generate(job));
@@ -168,7 +167,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
 					{
 						MailSender.Send(
-							accountContainer.RegisteredAccounts.First(), 
+							accountContainer.RegisteredAccounts.First(),
 							job.Video.NotificationSettings.MailReceiver,
 							$"'{job.Video.Title}' konnte nicht hochgeladen werden",
 							new UploadFailedMailGenerator().Generate(job));
@@ -177,7 +176,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (job.State == UploadProgress.NotRunning
 					|| job.State == UploadProgress.Canceled
-					|| job.State == UploadProgress.Failed 
+					|| job.State == UploadProgress.Failed
 					|| job.State == UploadProgress.Successful)
 				{
 					job.PropertyChanged -= Job_PropertyChanged;
@@ -221,7 +220,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (e.Job.Video.NotificationSettings.NotifyOnVideoFoundMail)
 			{
 				MailSender.Send(
-					accountContainer.RegisteredAccounts.First(), 
+					accountContainer.RegisteredAccounts.First(),
 					e.Job.Video.NotificationSettings.MailReceiver,
 					$"'{e.Job.Video.Title}' ist in der Warteschlange!",
 					new NewVideoFoundMailGenerator().Generate(e.Job));
@@ -296,12 +295,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			RefreshToolstripButtonsEnabled();
 			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			btnStart.Enabled = true;
+			queueStatusButton.Enabled = true;
 		}
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
 			if (autoUploader.State == RunningState.NotRunning
-				&& autoUploader.Uploader.State == UploaderState.NotRunning)
+				//&& autoUploader.Uploader.State == UploaderState.NotRunning
+				)
 			{
 				if (accountContainer.RegisteredAccounts.Count == 0)
 				{
@@ -358,6 +359,16 @@ namespace STFU.Executable.AutoUploader.Forms
 					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 				}
 
+				if (autoUploader.Uploader.State == UploaderState.NotRunning)
+				{
+					ended = true;
+					Invoke(new action(() => queueStatusLabel.Text = "Die Warteschlange ist gestoppt"));
+				}
+				else
+				{
+					Invoke(new action(() => queueStatusLabel.Text = "Die Warteschlange wird abgearbeitet"));
+				}
+
 				RenameStartButton();
 			}
 			else if (e.PropertyName == nameof(IYoutubeUploader.Progress))
@@ -376,14 +387,22 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RenameStartButton()
 		{
-			if (autoUploader.State == RunningState.NotRunning
-				&& autoUploader.Uploader.State == UploaderState.NotRunning)
+			if (autoUploader.State == RunningState.NotRunning)
 			{
 				Invoke(new action(() => btnStart.Text = "Start!"));
 			}
 			else
 			{
 				Invoke(new action(() => btnStart.Text = "Abbrechen!"));
+			}
+
+			if (autoUploader.Uploader.State == UploaderState.NotRunning)
+			{
+				Invoke(new action(() => queueStatusButton.Text = "Start!"));
+			}
+			else
+			{
+				Invoke(new action(() => queueStatusButton.Text = "Abbrechen!"));
 			}
 		}
 
@@ -430,6 +449,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			btnStart.Enabled = false;
+			queueStatusButton.Enabled = false;
 
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
@@ -486,7 +506,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			tlpSettings.Enabled = true;
 
-			btnStart.Enabled = accountContainer.RegisteredAccounts.Count > 0;
+			btnStart.Enabled = queueStatusButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 
 			RefillListView();
 		}
@@ -668,10 +688,30 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		private void queueStatusButton_Click(object sender, EventArgs e)
 		{
-			var base64 = ThumbnailLoader.LoadAsBase64(@"C:\Users\marco\Pictures\gitlab_header_2_small.jpg44", 192, 108);
-			MessageBox.Show(this, base64);
+			var uploader = autoUploader.Uploader;
+
+			if (uploader.State == UploaderState.NotRunning)
+			{
+				if (accountContainer.RegisteredAccounts.Count == 0)
+				{
+					MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				jobQueue.Fill(categoryContainer, languageContainer);
+
+				jobQueue.ShowActionsButtons = true;
+				jobQueue.Uploader = autoUploader.Uploader;
+
+				uploader.StartUploader();
+			}
+			else
+			{
+				canceled = true;
+				autoUploader.Uploader.CancelAll();
+			}
 		}
 	}
 }
