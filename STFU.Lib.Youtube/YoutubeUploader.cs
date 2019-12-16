@@ -213,6 +213,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (State == UploaderState.NotRunning)
 			{
+				State = UploaderState.Waiting;
 				StartJobs();
 			}
 		}

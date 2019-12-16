@@ -84,6 +84,12 @@
     <Compile Include="Controls\ChooseSingleStartTimeControl.Designer.cs">
       <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UploaderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UploaderControl.Designer.cs">
+      <DependentUpon>UploaderControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddPlannedVideoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ChooseSingleStartTimeControl.resx">
       <DependentUpon>ChooseSingleStartTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UploaderControl.resx">
+      <DependentUpon>UploaderControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPlannedVideoForm.resx">
       <DependentUpon>AddPlannedVideoForm.cs</DependentUpon>

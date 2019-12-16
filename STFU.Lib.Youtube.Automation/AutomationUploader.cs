@@ -94,8 +94,28 @@ namespace STFU.Lib.Youtube.Automation
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
 		private TemplateVideoCreator VideoCreator { get; set; }
-
-		public AutomationUploader() { }
+		public ITemplateContainer Templates
+		{
+			get
+			{
+				throw new System.NotImplementedException();
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+		public IPathContainer Paths
+		{
+			get
+			{
+				throw new System.NotImplementedException();
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
 
 		public AutomationUploader(IYoutubeUploader uploader)
 		{

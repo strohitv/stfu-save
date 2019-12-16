@@ -13,6 +13,10 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		IYoutubeUploader Uploader { get; set; }
 
 		IYoutubeAccount Account { get; set; }
+
+		ITemplateContainer Templates { get; set; }
+
+		IPathContainer Paths { get; set; }
 		
 		IList<IObservationConfiguration> Configuration { get; }
 

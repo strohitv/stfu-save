@@ -41,6 +41,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				State = RunningState.Running;
 
+				// Wenn alle Watcher einen anderen Pfad haben, dann passt es.
 				if (Watchers.All(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
 				{
 					var filters = filter.Split(';');
