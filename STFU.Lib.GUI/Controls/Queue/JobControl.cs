@@ -104,9 +104,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 			{
 				RefreshControl();
 			}
-			else if (e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
+			else if (e.PropertyName == nameof(Job.CurrentSpeed) || e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
 			{
-				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}");
+				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}, Geschwindigkeit: {Job.CurrentSpeed}");
 			}
 			else if (e.PropertyName == nameof(Job.Error))
 			{

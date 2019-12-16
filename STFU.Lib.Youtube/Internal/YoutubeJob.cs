@@ -25,6 +25,7 @@ namespace STFU.Lib.Youtube.Internal
 
 		public event JobFinishedEventHandler UploadCompletedAction;
 
+		private String currentSpeed = String.Empty;
 		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
 		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
 
@@ -92,6 +93,22 @@ namespace STFU.Lib.Youtube.Internal
 				if (value != currentObject)
 				{
 					currentObject = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public String CurrentSpeed
+		{
+			get
+			{
+				return currentSpeed;
+			}
+			set
+			{
+				if (currentSpeed != value)
+				{
+					currentSpeed = value;
 					OnPropertyChanged();
 				}
 			}
@@ -379,6 +396,10 @@ namespace STFU.Lib.Youtube.Internal
 			else if (e.PropertyName == nameof(RunningStep.Progress))
 			{
 				Progress = RunningStep.Progress;
+			}
+			else if (e.PropertyName == nameof(RunningStep.CurrentSpeed))
+			{
+				CurrentSpeed = RunningStep.CurrentSpeed;
 			}
 			else if (e.PropertyName == nameof(RunningStep.RemainingDuration))
 			{
