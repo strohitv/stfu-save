@@ -53,9 +53,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateTitleLabel = new System.Windows.Forms.Label();
 			this.templateDescriptionLabel = new System.Windows.Forms.Label();
 			this.templateTagsLabel = new System.Windows.Forms.Label();
-			this.templateTitleTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.templateDescriptionTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
-			this.templateTagsTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.templateTitleTextbox = new System.Windows.Forms.TextBox();
+			this.templateDescriptionTextbox = new System.Windows.Forms.TextBox();
+			this.templateTagsTextbox = new System.Windows.Forms.TextBox();
 			this.maxTitleLengthLabel = new System.Windows.Forms.Label();
 			this.maxDescriptionLengthLabel = new System.Windows.Forms.Label();
 			this.maxTagsLengthLabel = new System.Windows.Forms.Label();
@@ -94,7 +94,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageCombobox = new System.Windows.Forms.ComboBox();
 			this.licenseCombobox = new System.Windows.Forms.ComboBox();
 			this.thumbnailLabel = new System.Windows.Forms.Label();
-			this.thumbnailTextbox = new FastColoredTextBoxNS.FastColoredTextBox();
+			this.thumbnailTextbox = new System.Windows.Forms.TextBox();
 			this.chooseThumbnailPathButton = new System.Windows.Forms.Button();
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
@@ -161,16 +161,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateValuesTabControl.SuspendLayout();
 			this.commonTabPage.SuspendLayout();
 			this.templateCommonTableLayoutPannel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.templateTitleTextbox)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.templateDescriptionTextbox)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.templateTagsTextbox)).BeginInit();
 			this.publishTabPage.SuspendLayout();
 			this.publishTableLayoutPanel.SuspendLayout();
 			this.publishGroupbox.SuspendLayout();
 			this.publishPanel.SuspendLayout();
 			this.otherTabPage.SuspendLayout();
 			this.otherTlp.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).BeginInit();
 			this.planVideosTabpage.SuspendLayout();
 			this.planVideosTlp.SuspendLayout();
 			this.fillFieldsGroupbox.SuspendLayout();
@@ -247,7 +243,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTemplateButton.Location = new System.Drawing.Point(10, 10);
 			this.addTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTemplateButton.Name = "addTemplateButton";
-			this.addTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.addTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.addTemplateButton.TabIndex = 2;
 			this.addTemplateButton.Text = "+";
 			this.tooltip.SetToolTip(this.addTemplateButton, "Neues Template hinzufügen");
@@ -263,7 +259,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTemplateUpButton.Location = new System.Drawing.Point(10, 112);
 			this.moveTemplateUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTemplateUpButton.Name = "moveTemplateUpButton";
-			this.moveTemplateUpButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateUpButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTemplateUpButton.TabIndex = 3;
 			this.moveTemplateUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTemplateUpButton, "Markiertes Template um eine Position nach oben verschieben");
@@ -279,7 +275,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTemplateDownButton.Location = new System.Drawing.Point(10, 163);
 			this.moveTemplateDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTemplateDownButton.Name = "moveTemplateDownButton";
-			this.moveTemplateDownButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateDownButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTemplateDownButton.TabIndex = 4;
 			this.moveTemplateDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTemplateDownButton, "Markiertes Template um eine Position nach unten verschieben");
@@ -296,7 +292,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.deleteTemplateButton.Location = new System.Drawing.Point(10, 214);
 			this.deleteTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTemplateButton.Name = "deleteTemplateButton";
-			this.deleteTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.deleteTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.deleteTemplateButton.TabIndex = 5;
 			this.deleteTemplateButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTemplateButton, "Markiertes Template löschen");
@@ -313,7 +309,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearTemplatesButton.Location = new System.Drawing.Point(10, 265);
 			this.clearTemplatesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTemplatesButton.Name = "clearTemplatesButton";
-			this.clearTemplatesButton.Size = new System.Drawing.Size(45, 41);
+			this.clearTemplatesButton.Size = new System.Drawing.Size(52, 41);
 			this.clearTemplatesButton.TabIndex = 6;
 			this.clearTemplatesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTemplatesButton, "Alle Templates löschen");
@@ -328,14 +324,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateListView.FullRowSelect = true;
 			this.templateListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.templateListView.HideSelection = false;
-			this.templateListView.Location = new System.Drawing.Point(65, 10);
+			this.templateListView.Location = new System.Drawing.Point(72, 10);
 			this.templateListView.Margin = new System.Windows.Forms.Padding(0);
 			this.templateListView.MinimumSize = new System.Drawing.Size(188, 4);
 			this.templateListView.MultiSelect = false;
 			this.templateListView.Name = "templateListView";
 			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 12);
 			this.templateListView.ShowGroups = false;
-			this.templateListView.Size = new System.Drawing.Size(220, 742);
+			this.templateListView.Size = new System.Drawing.Size(213, 742);
 			this.templateListView.TabIndex = 7;
 			this.templateListView.UseCompatibleStateImageBehavior = false;
 			this.templateListView.View = System.Windows.Forms.View.Details;
@@ -356,7 +352,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.duplicateTemplateButton.Location = new System.Drawing.Point(10, 61);
 			this.duplicateTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.duplicateTemplateButton.Name = "duplicateTemplateButton";
-			this.duplicateTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.duplicateTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.duplicateTemplateButton.TabIndex = 2;
 			this.duplicateTemplateButton.Text = "⁂";
 			this.tooltip.SetToolTip(this.duplicateTemplateButton, "Erstellt eine Kopie des ausgewählten Templates");
@@ -562,132 +558,45 @@ namespace STFU.Executable.AutoUploader.Forms
 			// templateTitleTextbox
 			// 
 			this.templateTitleTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.templateTitleTextbox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.templateTitleTextbox.AutoScrollMinSize = new System.Drawing.Size(2, 18);
-			this.templateTitleTextbox.BackBrush = null;
 			this.templateTitleTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.templateTitleTextbox.CharHeight = 18;
-			this.templateTitleTextbox.CharWidth = 10;
 			this.templateTitleTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.templateTitleTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.templateTitleTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.templateTitleTextbox.IsReplaceMode = false;
 			this.templateTitleTextbox.Location = new System.Drawing.Point(48, 7);
 			this.templateTitleTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.templateTitleTextbox.Multiline = false;
 			this.templateTitleTextbox.Name = "templateTitleTextbox";
-			this.templateTitleTextbox.Paddings = new System.Windows.Forms.Padding(0);
-			this.templateTitleTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.templateTitleTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTitleTextbox.ServiceColors")));
-			this.templateTitleTextbox.ShowLineNumbers = false;
-			this.templateTitleTextbox.ShowScrollBars = false;
 			this.templateTitleTextbox.Size = new System.Drawing.Size(956, 26);
 			this.templateTitleTextbox.TabIndex = 3;
-			this.templateTitleTextbox.WordWrapIndent = 4;
-			this.templateTitleTextbox.Zoom = 100;
-			this.templateTitleTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateTitleTextboxTextChanged);
+			this.templateTitleTextbox.TextChanged += new System.EventHandler(this.templateTitleTextboxTextChanged);
 			// 
 			// templateDescriptionTextbox
 			// 
-			this.templateDescriptionTextbox.AutoCompleteBrackets = true;
-			this.templateDescriptionTextbox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.templateDescriptionTextbox.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
-    "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.templateDescriptionTextbox.AutoScrollMinSize = new System.Drawing.Size(0, 18);
-			this.templateDescriptionTextbox.BackBrush = null;
 			this.templateDescriptionTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.templateDescriptionTextbox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-			this.templateDescriptionTextbox.CharHeight = 18;
-			this.templateDescriptionTextbox.CharWidth = 10;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateDescriptionTextbox, 3);
-			this.templateDescriptionTextbox.CurrentLineColor = System.Drawing.Color.LightGray;
 			this.templateDescriptionTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.templateDescriptionTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.templateDescriptionTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateDescriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.templateDescriptionTextbox.IsReplaceMode = false;
-			this.templateDescriptionTextbox.LeftBracket = '(';
-			this.templateDescriptionTextbox.LeftBracket2 = '{';
 			this.templateDescriptionTextbox.Location = new System.Drawing.Point(5, 74);
 			this.templateDescriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.templateDescriptionTextbox.Multiline = true;
 			this.templateDescriptionTextbox.Name = "templateDescriptionTextbox";
-			this.templateDescriptionTextbox.Paddings = new System.Windows.Forms.Padding(0);
-			this.templateDescriptionTextbox.RightBracket = ')';
-			this.templateDescriptionTextbox.RightBracket2 = '}';
-			this.templateDescriptionTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.templateDescriptionTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateDescriptionTextbox.ServiceColors")));
 			this.templateDescriptionTextbox.Size = new System.Drawing.Size(999, 340);
 			this.templateDescriptionTextbox.TabIndex = 4;
-			this.templateDescriptionTextbox.WordWrap = true;
-			this.templateDescriptionTextbox.WordWrapIndent = 6;
-			this.templateDescriptionTextbox.Zoom = 100;
-			this.templateDescriptionTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateDescriptionTextboxTextChanged);
+			this.templateDescriptionTextbox.TextChanged += new System.EventHandler(this.templateDescriptionTextboxTextChanged);
 			// 
 			// templateTagsTextbox
 			// 
-			this.templateTagsTextbox.AutoCompleteBrackets = true;
-			this.templateTagsTextbox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.templateTagsTextbox.AutoIndentCharsPatterns = "\n^\\s*[\\w\\.]+(\\s\\w+)?\\s*(?<range>=)\\s*(?<range>[^;]+);\n^\\s*(case|default)\\s*[^:]*(" +
-    "?<range>:)\\s*(?<range>[^;]+);\n";
-			this.templateTagsTextbox.AutoScrollMinSize = new System.Drawing.Size(0, 18);
-			this.templateTagsTextbox.BackBrush = null;
 			this.templateTagsTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.templateTagsTextbox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
-			this.templateTagsTextbox.CharHeight = 18;
-			this.templateTagsTextbox.CharWidth = 10;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateTagsTextbox, 3);
-			this.templateTagsTextbox.CurrentLineColor = System.Drawing.Color.LightGray;
 			this.templateTagsTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.templateTagsTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.templateTagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.templateTagsTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.templateTagsTextbox.IsReplaceMode = false;
-			this.templateTagsTextbox.LeftBracket = '(';
-			this.templateTagsTextbox.LeftBracket2 = '{';
 			this.templateTagsTextbox.Location = new System.Drawing.Point(5, 455);
 			this.templateTagsTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.templateTagsTextbox.Multiline = true;
 			this.templateTagsTextbox.Name = "templateTagsTextbox";
-			this.templateTagsTextbox.Paddings = new System.Windows.Forms.Padding(0);
-			this.templateTagsTextbox.RightBracket = ')';
-			this.templateTagsTextbox.RightBracket2 = '}';
-			this.templateTagsTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.templateTagsTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("templateTagsTextbox.ServiceColors")));
 			this.templateTagsTextbox.Size = new System.Drawing.Size(999, 136);
 			this.templateTagsTextbox.TabIndex = 5;
-			this.templateTagsTextbox.WordWrap = true;
-			this.templateTagsTextbox.WordWrapIndent = 6;
-			this.templateTagsTextbox.Zoom = 100;
-			this.templateTagsTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.templateTagsTextboxTextChanged);
+			this.templateTagsTextbox.TextChanged += new System.EventHandler(this.templateTagsTextboxTextChanged);
 			// 
 			// maxTitleLengthLabel
 			// 
@@ -905,12 +814,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.timesListView.FullRowSelect = true;
 			this.timesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.timesListView.HideSelection = false;
-			this.timesListView.Location = new System.Drawing.Point(53, 7);
+			this.timesListView.Location = new System.Drawing.Point(62, 7);
 			this.timesListView.Margin = new System.Windows.Forms.Padding(0);
 			this.timesListView.Name = "timesListView";
 			this.publishPanel.SetRowSpan(this.timesListView, 16);
 			this.timesListView.ShowGroups = false;
-			this.timesListView.Size = new System.Drawing.Size(937, 467);
+			this.timesListView.Size = new System.Drawing.Size(928, 467);
 			this.timesListView.TabIndex = 8;
 			this.timesListView.UseCompatibleStateImageBehavior = false;
 			this.timesListView.View = System.Windows.Forms.View.Details;
@@ -941,7 +850,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTimeUpButton.Location = new System.Drawing.Point(5, 7);
 			this.moveTimeUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeUpButton.Name = "moveTimeUpButton";
-			this.moveTimeUpButton.Size = new System.Drawing.Size(43, 41);
+			this.moveTimeUpButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTimeUpButton.TabIndex = 3;
 			this.moveTimeUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTimeUpButton, "Markierte Zeiten um eine Position nach oben verschieben");
@@ -959,7 +868,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTimeDownButton.Location = new System.Drawing.Point(5, 58);
 			this.moveTimeDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeDownButton.Name = "moveTimeDownButton";
-			this.moveTimeDownButton.Size = new System.Drawing.Size(43, 41);
+			this.moveTimeDownButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTimeDownButton.TabIndex = 4;
 			this.moveTimeDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTimeDownButton, "Markierte Zeiten um eine Position nach unten verschieben");
@@ -978,7 +887,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneDayButton.Name = "addOneDayButton";
 			this.addOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneDayButton.Size = new System.Drawing.Size(43, 42);
+			this.addOneDayButton.Size = new System.Drawing.Size(52, 42);
 			this.addOneDayButton.TabIndex = 3;
 			this.addOneDayButton.Text = "+1";
 			this.tooltip.SetToolTip(this.addOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
@@ -998,7 +907,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.substractOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneDayButton.Name = "substractOneDayButton";
 			this.substractOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneDayButton.Size = new System.Drawing.Size(43, 42);
+			this.substractOneDayButton.Size = new System.Drawing.Size(52, 42);
 			this.substractOneDayButton.TabIndex = 4;
 			this.substractOneDayButton.Text = "-1";
 			this.tooltip.SetToolTip(this.substractOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
@@ -1018,7 +927,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearTimesButton.Location = new System.Drawing.Point(5, 368);
 			this.clearTimesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTimesButton.Name = "clearTimesButton";
-			this.clearTimesButton.Size = new System.Drawing.Size(43, 41);
+			this.clearTimesButton.Size = new System.Drawing.Size(52, 41);
 			this.clearTimesButton.TabIndex = 6;
 			this.clearTimesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTimesButton, "Alle Zeiten löschen");
@@ -1037,7 +946,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.deleteTimeButton.Location = new System.Drawing.Point(5, 317);
 			this.deleteTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTimeButton.Name = "deleteTimeButton";
-			this.deleteTimeButton.Size = new System.Drawing.Size(43, 41);
+			this.deleteTimeButton.Size = new System.Drawing.Size(52, 41);
 			this.deleteTimeButton.TabIndex = 5;
 			this.deleteTimeButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTimeButton, "Markierte Zeiten löschen");
@@ -1056,7 +965,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneWeekButton.Name = "addOneWeekButton";
 			this.addOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneWeekButton.Size = new System.Drawing.Size(43, 42);
+			this.addOneWeekButton.Size = new System.Drawing.Size(52, 42);
 			this.addOneWeekButton.TabIndex = 3;
 			this.addOneWeekButton.Text = "+7";
 			this.tooltip.SetToolTip(this.addOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
@@ -1076,7 +985,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.substractOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneWeekButton.Name = "substractOneWeekButton";
 			this.substractOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneWeekButton.Size = new System.Drawing.Size(43, 42);
+			this.substractOneWeekButton.Size = new System.Drawing.Size(52, 42);
 			this.substractOneWeekButton.TabIndex = 4;
 			this.substractOneWeekButton.Text = "-7";
 			this.tooltip.SetToolTip(this.substractOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
@@ -1088,7 +997,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeLabel.AutoSize = true;
-			this.addTimeLabel.Location = new System.Drawing.Point(250, 491);
+			this.addTimeLabel.Location = new System.Drawing.Point(259, 491);
 			this.addTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeLabel.Name = "addTimeLabel";
 			this.addTimeLabel.Size = new System.Drawing.Size(31, 13);
@@ -1100,7 +1009,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeButton.AutoSize = true;
 			this.addTimeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTimeButton.Location = new System.Drawing.Point(375, 484);
+			this.addTimeButton.Location = new System.Drawing.Point(384, 484);
 			this.addTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeButton.Name = "addTimeButton";
 			this.addTimeButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -1125,7 +1034,7 @@ namespace STFU.Executable.AutoUploader.Forms
             "Freitag",
             "Samstag",
             "Sonntag"});
-			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 484);
+			this.addWeekdayCombobox.Location = new System.Drawing.Point(141, 484);
 			this.addWeekdayCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayCombobox.Name = "addWeekdayCombobox";
 			this.addWeekdayCombobox.Size = new System.Drawing.Size(108, 26);
@@ -1137,7 +1046,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeTimePicker.CustomFormat = "HH:mm";
 			this.addTimeTimePicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addTimeTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.addTimeTimePicker.Location = new System.Drawing.Point(291, 484);
+			this.addTimeTimePicker.Location = new System.Drawing.Point(300, 484);
 			this.addTimeTimePicker.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeTimePicker.Name = "addTimeTimePicker";
 			this.addTimeTimePicker.ShowUpDown = true;
@@ -1149,7 +1058,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addWeekdayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addWeekdayLabel.AutoSize = true;
-			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 491);
+			this.addWeekdayLabel.Location = new System.Drawing.Point(62, 491);
 			this.addWeekdayLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayLabel.Name = "addWeekdayLabel";
 			this.addWeekdayLabel.Size = new System.Drawing.Size(69, 13);
@@ -1338,39 +1247,15 @@ namespace STFU.Executable.AutoUploader.Forms
 			// thumbnailTextbox
 			// 
 			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.thumbnailTextbox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
-			this.thumbnailTextbox.AutoScrollMinSize = new System.Drawing.Size(2, 18);
-			this.thumbnailTextbox.BackBrush = null;
 			this.thumbnailTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.thumbnailTextbox.CharHeight = 18;
-			this.thumbnailTextbox.CharWidth = 10;
 			this.thumbnailTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.thumbnailTextbox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.thumbnailTextbox.IsReplaceMode = false;
 			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.thumbnailTextbox.Multiline = false;
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
-			this.thumbnailTextbox.Paddings = new System.Windows.Forms.Padding(0);
-			this.thumbnailTextbox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			this.thumbnailTextbox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("thumbnailTextbox.ServiceColors")));
-			this.thumbnailTextbox.ShowLineNumbers = false;
-			this.thumbnailTextbox.ShowScrollBars = false;
 			this.thumbnailTextbox.Size = new System.Drawing.Size(794, 26);
 			this.thumbnailTextbox.TabIndex = 9;
-			this.thumbnailTextbox.Zoom = 100;
-			this.thumbnailTextbox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.thumbnailTextboxTextChanged);
+			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextboxTextChanged);
 			// 
 			// chooseThumbnailPathButton
 			// 
@@ -1704,7 +1589,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.sendMailTabPage.Padding = new System.Windows.Forms.Padding(3);
 			this.sendMailTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.sendMailTabPage.TabIndex = 5;
-			this.sendMailTabPage.Text = "Mails verschicken";
+			this.sendMailTabPage.Text = "Benachrichtigungen";
 			// 
 			// tableLayoutPanel1
 			// 
@@ -2414,9 +2299,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.commonTabPage.ResumeLayout(false);
 			this.templateCommonTableLayoutPannel.ResumeLayout(false);
 			this.templateCommonTableLayoutPannel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.templateTitleTextbox)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.templateDescriptionTextbox)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.templateTagsTextbox)).EndInit();
 			this.publishTabPage.ResumeLayout(false);
 			this.publishTableLayoutPanel.ResumeLayout(false);
 			this.publishTableLayoutPanel.PerformLayout();
@@ -2427,7 +2309,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTabPage.ResumeLayout(false);
 			this.otherTlp.ResumeLayout(false);
 			this.otherTlp.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnailTextbox)).EndInit();
 			this.planVideosTabpage.ResumeLayout(false);
 			this.planVideosTlp.ResumeLayout(false);
 			this.planVideosTlp.PerformLayout();
@@ -2489,9 +2370,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.Label templateTitleLabel;
 		private System.Windows.Forms.Label templateDescriptionLabel;
 		private System.Windows.Forms.Label templateTagsLabel;
-		private FastColoredTextBoxNS.FastColoredTextBox templateTitleTextbox;
-		private FastColoredTextBox templateDescriptionTextbox;
-		private FastColoredTextBoxNS.FastColoredTextBox templateTagsTextbox;
+		private System.Windows.Forms.TextBox templateTitleTextbox;
+		private System.Windows.Forms.TextBox templateDescriptionTextbox;
+		private System.Windows.Forms.TextBox templateTagsTextbox;
 		private System.Windows.Forms.TableLayoutPanel publishTableLayoutPanel;
 		private System.Windows.Forms.ListView timesListView;
 		private System.Windows.Forms.ColumnHeader weekdayColumnHeader;
@@ -2529,7 +2410,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ComboBox defaultLanguageCombobox;
 		private System.Windows.Forms.ComboBox licenseCombobox;
 		private System.Windows.Forms.Label thumbnailLabel;
-		private FastColoredTextBoxNS.FastColoredTextBox thumbnailTextbox;
+		private System.Windows.Forms.TextBox thumbnailTextbox;
 		private System.Windows.Forms.Button chooseThumbnailPathButton;
 		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
 		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
