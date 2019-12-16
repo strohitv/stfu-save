@@ -121,6 +121,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					requestStream.Write(buffer, 0, bytesRead);
 					var sendTime = DateTime.Now - sendStart;
 
+					CurrentSpeed = CalculateAverageSpeed(sendTime, buffer);
+
 					if (sendTime < MinimalReferenceTime)
 					{
 						buffer = new byte[(int)(buffer.Length * multiplier)];
@@ -142,6 +144,27 @@ namespace STFU.Lib.Youtube.Internal.Upload
 					RunningState = RunningState.Paused;
 				}
 			}
+		}
+
+		String[] dataUnits = new[] { "B/s", "kB/s", "MB/s", "GB/s", "TB/s" };
+		private string CalculateAverageSpeed(TimeSpan sendTime, byte[] buffer)
+		{
+			String result = "0 kb/s";
+
+			if (sendTime.TotalSeconds != 0)
+			{
+				var speed = buffer.Length / sendTime.TotalSeconds;
+				int unitIndex = 0;
+				while (speed > 1000)
+				{
+					speed /= 1000;
+					unitIndex++;
+				}
+
+				result = $"{speed:0.00} {dataUnits[unitIndex]}";
+			}
+
+			return result;
 		}
 
 		internal void Cancel()

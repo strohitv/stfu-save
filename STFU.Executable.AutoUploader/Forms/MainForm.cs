@@ -105,7 +105,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			args.Job.PropertyChanged += Job_PropertyChanged;
 
-			if (args.Job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+			if (args.Job.Video.NotificationSettings.NotifyOnVideoUploadStartedDesktop)
 			{
 				notifyIcon.ShowBalloonTip(
 					10000,
@@ -133,7 +133,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (job.State == UploadProgress.Successful)
 				{
-					if (job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+					if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedDesktop)
 					{
 						notifyIcon.ShowBalloonTip(
 							10000,
@@ -154,7 +154,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 				else if (job.State == UploadProgress.Failed)
 				{
-					if (job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+					if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedDesktop)
 					{
 						notifyIcon.ShowBalloonTip(
 							10000,

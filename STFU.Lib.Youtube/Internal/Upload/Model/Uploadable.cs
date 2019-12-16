@@ -26,6 +26,7 @@ namespace STFU.Lib.Youtube.Internal.Upload.Model
 		}
 
 		private DateTime started;
+		private String currentSpeed = String.Empty;
 		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
 		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
 
@@ -40,6 +41,22 @@ namespace STFU.Lib.Youtube.Internal.Upload.Model
 				if (started != value)
 				{
 					started = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public String CurrentSpeed
+		{
+			get
+			{
+				return currentSpeed;
+			}
+			protected set
+			{
+				if (currentSpeed != value)
+				{
+					currentSpeed = value;
 					OnPropertyChanged();
 				}
 			}

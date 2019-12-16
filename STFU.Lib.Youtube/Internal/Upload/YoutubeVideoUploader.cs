@@ -111,6 +111,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			{
 				Progress = fileUploader.Progress;
 			}
+			else if (e.PropertyName == nameof(fileUploader.CurrentSpeed))
+			{
+				CurrentSpeed = fileUploader.CurrentSpeed;
+			}
 			else if (e.PropertyName == nameof(fileUploader.RemainingDuration))
 			{
 				RemainingDuration = fileUploader.RemainingDuration;

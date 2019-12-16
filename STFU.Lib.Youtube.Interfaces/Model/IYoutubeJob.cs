@@ -40,6 +40,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// Time the Job has being uploaded
 		/// </summary>
+		String CurrentSpeed { get; }
+
+		/// <summary>
+		/// Time the Job has being uploaded
+		/// </summary>
 		TimeSpan UploadedDuration { get; }
 
 		/// <summary>
