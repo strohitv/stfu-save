@@ -41,7 +41,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				State = RunningState.Running;
 
-				if (!Watchers.Any(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
+				if (Watchers.All(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
 				{
 					var filters = filter.Split(';');
 					foreach (var f in filters)
