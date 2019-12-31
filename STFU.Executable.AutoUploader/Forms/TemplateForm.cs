@@ -280,6 +280,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				timesListView.SelectedIndices.Add(0);
 			}
 
+			nextPublishTimeDtp.Value = template.NextUploadSuggestion;
+
 			mailRecipientTextbox.Text = template.MailTo;
 
 			newVideoDNCheckbox.Checked = template.NewVideoDesktopNotification;
@@ -1088,6 +1090,15 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (current != null && !skipDirtyManipulation)
 			{
 				current.UploadFailedMailNotification = uploadFailedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void nextPublishTimeDtp_ValueChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NextUploadSuggestion = nextPublishTimeDtp.Value;
 				IsDirty = true;
 			}
 		}
