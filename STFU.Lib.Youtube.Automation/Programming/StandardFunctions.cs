@@ -73,6 +73,11 @@ string FindNumber(string input, int numberToFind = 1)
 		}
 	}
 
+	if (currentNumber.Length > 0)
+	{
+		numbers.Add(currentNumber.ToString());
+	}
+
 	string result = string.Empty;
 	if (numbers.Count > numberToFind)
 	{
