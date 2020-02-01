@@ -311,6 +311,23 @@ namespace STFU.Lib.Youtube
 					State = UploaderState.CancelPending;
 				}
 
+				if (job.State == UploadProgress.Successful && job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
+				{
+					MailSender.MailSender.Send(
+						job.Account,
+						job.Video.NotificationSettings.MailReceiver,
+						$"Erfolg: '{job.Video.Title}' wurde erfolgreich hochgeladen!",
+						new UploadFinishedMailGenerator().Generate(job));
+				}
+				else if (job.State.IsFailed() && job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
+				{
+					MailSender.MailSender.Send(
+						job.Account,
+						job.Video.NotificationSettings.MailReceiver,
+						$"Fehler: '{job.Video.Title}' konnte nicht hochgeladen werden",
+						new UploadFailedMailGenerator().Generate(job));
+				}
+
 				RefreshUploaderState();
 
 				if (State != UploaderState.CancelPending && State != UploaderState.NotRunning
@@ -318,33 +335,9 @@ namespace STFU.Lib.Youtube
 					|| job.State.IsFailed()
 					|| job.State.IsCanceled()))
 				{
-					if (!job.State.IsCanceled() && !job.State.IsFailed())
+					if (!job.State.IsCanceled() && !job.State.IsFailed() && RemoveCompletedJobs)
 					{
-						if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
-						{
-							MailSender.MailSender.Send(
-								job.Account,
-								job.Video.NotificationSettings.MailReceiver,
-								$"Erfolg: '{job.Video.Title}' wurde erfolgreich hochgeladen!",
-								new UploadFinishedMailGenerator().Generate(job));
-						}
-
-						if (RemoveCompletedJobs)
-						{
-							RemoveFromQueue(job);
-						}
-					}
-
-					if (job.State.IsFailed())
-					{
-						if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
-						{
-							MailSender.MailSender.Send(
-								job.Account,
-								job.Video.NotificationSettings.MailReceiver,
-								$"Fehler: '{job.Video.Title}' konnte nicht hochgeladen werden",
-								new UploadFailedMailGenerator().Generate(job));
-						}
+						RemoveFromQueue(job);
 					}
 
 					if (State == UploaderState.Uploading
