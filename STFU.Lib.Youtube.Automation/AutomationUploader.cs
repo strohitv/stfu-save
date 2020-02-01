@@ -256,6 +256,7 @@ namespace STFU.Lib.Youtube.Automation
 			if (EndAfterUpload
 				&& WatchedProcesses.AllProcessesCompleted
 				&& Uploader.State != UploaderState.Uploading
+				&& (Uploader.State != UploaderState.Waiting || !Uploader.Queue.Any(u => u.State == UploadProgress.NotRunning && !u.ShouldBeSkipped))
 				&& Searcher.State != RunningState.Running)
 			{
 				Uploader.CancelAll();
