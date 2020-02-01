@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Queue\JobControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

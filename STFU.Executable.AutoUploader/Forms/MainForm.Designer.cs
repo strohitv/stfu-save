@@ -1,4 +1,6 @@
-﻿namespace STFU.Executable.AutoUploader.Forms
+﻿using STFU.Lib.GUI.Controls;
+
+namespace STFU.Executable.AutoUploader.Forms
 {
 	partial class MainForm
 	{
@@ -57,14 +59,18 @@
 			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.uploaderTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.btnStart = new System.Windows.Forms.Button();
+			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.queueStatusButton = new System.Windows.Forms.Button();
 			this.queueStatusLabel = new System.Windows.Forms.Label();
 			this.pathsTabPage = new System.Windows.Forms.TabPage();
@@ -79,21 +85,21 @@
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+			this.startExtendedOptionsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.uploaderTabPage.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			this.pathsTabPage.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tableLayoutPanel4.SuspendLayout();
+			this.pathsTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.startExtendedOptionsContextMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tlpSettings
@@ -361,6 +367,37 @@
 			this.uploaderTabPage.TabIndex = 1;
 			this.uploaderTabPage.Text = "Warteschlange";
 			// 
+			// tableLayoutPanel3
+			// 
+			this.tableLayoutPanel3.ColumnCount = 3;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Controls.Add(this.groupBox1, 1, 3);
+			this.tableLayoutPanel3.Controls.Add(this.groupBox2, 1, 1);
+			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+			this.tableLayoutPanel3.RowCount = 5;
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(1124, 576);
+			this.tableLayoutPanel3.TabIndex = 1;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.tableLayoutPanel2);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBox1.Location = new System.Drawing.Point(13, 89);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(1098, 474);
+			this.groupBox1.TabIndex = 1;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Warteschlange";
+			// 
 			// tableLayoutPanel2
 			// 
 			this.tableLayoutPanel2.ColumnCount = 13;
@@ -377,13 +414,13 @@
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel2.Controls.Add(this.btnStart, 11, 3);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 9, 3);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 11, 3);
 			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 1, 3);
 			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 3, 3);
 			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 5, 3);
 			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 7, 3);
 			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 1, 1);
-			this.tableLayoutPanel2.Controls.Add(this.autoUploaderStateLabel, 9, 3);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -404,13 +441,14 @@
 			this.btnStart.AutoSize = true;
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(1023, 421);
+			this.btnStart.Location = new System.Drawing.Point(982, 7);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
-			this.btnStart.Size = new System.Drawing.Size(64, 27);
+			this.btnStart.Size = new System.Drawing.Size(105, 27);
 			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Start!";
+			this.btnStart.Text = "Sofort starten!";
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
@@ -436,7 +474,7 @@
 			this.cmbbxFinishAction.Location = new System.Drawing.Point(68, 424);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(580, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(574, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
@@ -444,7 +482,7 @@
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(658, 426);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(652, 426);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -458,7 +496,7 @@
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(818, 421);
+			this.btnChoseProcs.Location = new System.Drawing.Point(812, 421);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -484,12 +522,45 @@
 			// 
 			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.autoUploaderStateLabel.AutoSize = true;
-			this.autoUploaderStateLabel.Location = new System.Drawing.Point(864, 428);
+			this.autoUploaderStateLabel.Location = new System.Drawing.Point(5, 14);
 			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
-			this.autoUploaderStateLabel.Size = new System.Drawing.Size(149, 13);
+			this.autoUploaderStateLabel.Size = new System.Drawing.Size(967, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.AutoSize = true;
+			this.groupBox2.Controls.Add(this.tableLayoutPanel4);
+			this.groupBox2.Location = new System.Drawing.Point(13, 13);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(1098, 60);
+			this.groupBox2.TabIndex = 2;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Automatischer Videoupload";
+			// 
+			// tableLayoutPanel4
+			// 
+			this.tableLayoutPanel4.AutoSize = true;
+			this.tableLayoutPanel4.ColumnCount = 5;
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tableLayoutPanel4.Controls.Add(this.autoUploaderStateLabel, 1, 1);
+			this.tableLayoutPanel4.Controls.Add(this.btnStart, 3, 1);
+			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
+			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+			this.tableLayoutPanel4.RowCount = 3;
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(1092, 41);
+			this.tableLayoutPanel4.TabIndex = 0;
 			// 
 			// queueStatusButton
 			// 
@@ -497,7 +568,7 @@
 			this.queueStatusButton.AutoSize = true;
 			this.queueStatusButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.queueStatusButton.Enabled = false;
-			this.queueStatusButton.Location = new System.Drawing.Point(1023, 7);
+			this.queueStatusButton.Location = new System.Drawing.Point(1023, 421);
 			this.queueStatusButton.Margin = new System.Windows.Forms.Padding(0);
 			this.queueStatusButton.Name = "queueStatusButton";
 			this.queueStatusButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -511,10 +582,10 @@
 			// 
 			this.queueStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.queueStatusLabel.AutoSize = true;
-			this.queueStatusLabel.Location = new System.Drawing.Point(5, 14);
+			this.queueStatusLabel.Location = new System.Drawing.Point(858, 428);
 			this.queueStatusLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.queueStatusLabel.Name = "queueStatusLabel";
-			this.queueStatusLabel.Size = new System.Drawing.Size(1008, 13);
+			this.queueStatusLabel.Size = new System.Drawing.Size(155, 13);
 			this.queueStatusLabel.TabIndex = 19;
 			this.queueStatusLabel.Text = "Die Warteschlange ist gestoppt";
 			// 
@@ -614,69 +685,25 @@
 			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
 			this.notifyIcon.Visible = true;
 			// 
-			// tableLayoutPanel3
+			// startExtendedOptionsContextMenu
 			// 
-			this.tableLayoutPanel3.ColumnCount = 3;
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.Controls.Add(this.groupBox1, 1, 3);
-			this.tableLayoutPanel3.Controls.Add(this.groupBox2, 1, 1);
-			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-			this.tableLayoutPanel3.RowCount = 5;
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(1124, 576);
-			this.tableLayoutPanel3.TabIndex = 1;
+			this.startExtendedOptionsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem,
+            this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem});
+			this.startExtendedOptionsContextMenu.Name = "startExtendedOptionsContextMenu";
+			this.startExtendedOptionsContextMenu.Size = new System.Drawing.Size(374, 48);
 			// 
-			// groupBox1
+			// autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem
 			// 
-			this.groupBox1.Controls.Add(this.tableLayoutPanel2);
-			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox1.Location = new System.Drawing.Point(13, 89);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(1098, 474);
-			this.groupBox1.TabIndex = 1;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Warteschlange";
+			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Name = "autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem";
+			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
+			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Text = "Autouploader starten, ohne die Warteschlange zu starten";
 			// 
-			// groupBox2
+			// zeitenFestlegenUndAutouploaderStartenToolStripMenuItem
 			// 
-			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.AutoSize = true;
-			this.groupBox2.Controls.Add(this.tableLayoutPanel4);
-			this.groupBox2.Location = new System.Drawing.Point(13, 13);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(1098, 60);
-			this.groupBox2.TabIndex = 2;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Automatischer Videoupload";
-			// 
-			// tableLayoutPanel4
-			// 
-			this.tableLayoutPanel4.AutoSize = true;
-			this.tableLayoutPanel4.ColumnCount = 5;
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel4.Controls.Add(this.queueStatusButton, 3, 1);
-			this.tableLayoutPanel4.Controls.Add(this.queueStatusLabel, 1, 1);
-			this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 16);
-			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-			this.tableLayoutPanel4.RowCount = 3;
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(1092, 41);
-			this.tableLayoutPanel4.TabIndex = 0;
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Name = "zeitenFestlegenUndAutouploaderStartenToolStripMenuItem";
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Text = "Zeiten festlegen und Autouploader starten";
 			// 
 			// MainForm
 			// 
@@ -700,17 +727,18 @@
 			this.mainMenu.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.uploaderTabPage.ResumeLayout(false);
-			this.tableLayoutPanel2.ResumeLayout(false);
-			this.tableLayoutPanel2.PerformLayout();
-			this.pathsTabPage.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel3.ResumeLayout(false);
 			this.tableLayoutPanel3.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.tableLayoutPanel4.ResumeLayout(false);
 			this.tableLayoutPanel4.PerformLayout();
+			this.pathsTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.startExtendedOptionsContextMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -719,7 +747,7 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tlpSettings;
-		private System.Windows.Forms.Button btnStart;
+		private MenuButton btnStart;
 		private System.Windows.Forms.ListView lvSelectedPaths;
 		private System.Windows.Forms.ColumnHeader chPath;
 		private System.Windows.Forms.ColumnHeader chFilter;
@@ -771,6 +799,9 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+		private System.Windows.Forms.ContextMenuStrip startExtendedOptionsContextMenu;
+		private System.Windows.Forms.ToolStripMenuItem autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem zeitenFestlegenUndAutouploaderStartenToolStripMenuItem;
 	}
 }
 
