@@ -198,7 +198,7 @@ namespace STFU.Lib.Youtube.Automation
 			Searcher.FileFound += OnFileToUploadOccured;
 			DirectoryWatcher.FileAdded += OnFileToUploadOccured;
 
-			foreach (var path in Configuration.Where(c => !c.IgnorePath))
+			foreach (var path in Configuration.Where(c => !c.IgnorePath && Directory.Exists(c.PathInfo.Fullname)))
 			{
 				var pi = path.PathInfo;
 				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
