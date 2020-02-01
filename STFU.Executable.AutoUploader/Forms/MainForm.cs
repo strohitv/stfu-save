@@ -9,7 +9,9 @@ using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
+using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -263,44 +265,35 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
-			if (autoUploader.State == RunningState.NotRunning
-				//&& autoUploader.Uploader.State == UploaderState.NotRunning
-				)
+			if (autoUploader.State == RunningState.NotRunning && ConditionsForStartAreFullfilled())
 			{
-				if (accountContainer.RegisteredAccounts.Count == 0)
-				{
-					MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
+				var publishSettings = pathContainer.ActivePaths
+					.Select(path => new ObservationConfiguration(path, templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == path.SelectedTemplateId)))
+					.ToArray();
 
-				if (pathContainer.ActivePaths.Count == 0)
-				{
-					MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
+				SetUpAutoUploaderAndQueue(publishSettings);
 
+				autoUploader.StartAsync();
+			}
+			else
+			{
+				canceled = true;
+				autoUploader.Cancel();
+				autoUploader.Uploader.CancelAll();
+			}
+		}
+
+		private void zeitenFestlegenUndAutouploaderStartenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (autoUploader.State == RunningState.NotRunning && ConditionsForStartAreFullfilled())
+			{
 				ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
 				var shouldStartUpload = cstForm.ShowDialog(this);
 
 				if (shouldStartUpload == DialogResult.OK)
 				{
-					var publishSettings = cstForm.GetPublishSettingsArray();
-					var account = accountContainer.RegisteredAccounts.First();
-
-					autoUploader.Configuration.Clear();
-					autoUploader.Account = account;
-
-					foreach (var setting in publishSettings)
-					{
-						autoUploader.Configuration.Add(setting);
-					}
-
-					jobQueue.Fill(categoryContainer, languageContainer);
-
-					jobQueue.ShowActionsButtons = true;
-					jobQueue.Uploader = autoUploader.Uploader;
-
-					autoUploader.StartAsync();
+					SetUpAutoUploaderAndQueue(cstForm.GetPublishSettingsArray());
+					autoUploader.StartWithExtraConfigAsync();
 				}
 			}
 			else
@@ -309,6 +302,39 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader.Cancel();
 				autoUploader.Uploader.CancelAll();
 			}
+		}
+
+		private void SetUpAutoUploaderAndQueue(IObservationConfiguration[] publishSettings)
+		{
+			autoUploader.Account = accountContainer.RegisteredAccounts.First();
+
+			autoUploader.Configuration.Clear();
+			foreach (var setting in publishSettings)
+			{
+				autoUploader.Configuration.Add(setting);
+			}
+
+			jobQueue.Fill(categoryContainer, languageContainer);
+
+			jobQueue.ShowActionsButtons = true;
+			jobQueue.Uploader = autoUploader.Uploader;
+		}
+
+		private bool ConditionsForStartAreFullfilled()
+		{
+			if (accountContainer.RegisteredAccounts.Count == 0)
+			{
+				MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+
+			if (pathContainer.ActivePaths.Count == 0)
+			{
+				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
+			}
+
+			return true;
 		}
 
 		delegate void action();
@@ -352,11 +378,13 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (autoUploader.State == RunningState.NotRunning)
 			{
-				Invoke(new action(() => btnStart.Text = "Start!"));
+				Invoke(new action(() => btnStart.Text = "Sofort starten!"));
+				Invoke(new action(() => zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Enabled = true));
 			}
 			else
 			{
 				Invoke(new action(() => btnStart.Text = "Abbrechen!"));
+				Invoke(new action(() => zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Enabled = false));
 			}
 
 			if (autoUploader.Uploader.State == UploaderState.NotRunning)

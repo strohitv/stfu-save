@@ -12,7 +12,7 @@ namespace STFU.Lib.GUI.Controls
 		[DefaultValue(false)]
 		public bool ShowMenuUnderCursor { get; set; }
 
-		private int BorderX => ClientRectangle.Width - 18;
+		private int BorderX => ClientRectangle.Width - 20;
 
 		protected override void OnMouseDown(MouseEventArgs mevent)
 		{

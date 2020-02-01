@@ -74,7 +74,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
 			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.startExtendedOptionsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pathsTabPage = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -391,9 +390,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.groupBox1.Controls.Add(this.tableLayoutPanel2);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox1.Location = new System.Drawing.Point(13, 89);
+			this.groupBox1.Location = new System.Drawing.Point(13, 91);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(1098, 474);
+			this.groupBox1.Size = new System.Drawing.Size(1098, 472);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Warteschlange";
@@ -432,14 +431,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(1092, 455);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(1092, 453);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// queueStatusLabel
 			// 
 			this.queueStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.queueStatusLabel.AutoSize = true;
-			this.queueStatusLabel.Location = new System.Drawing.Point(858, 428);
+			this.queueStatusLabel.Location = new System.Drawing.Point(858, 426);
 			this.queueStatusLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.queueStatusLabel.Name = "queueStatusLabel";
 			this.queueStatusLabel.Size = new System.Drawing.Size(155, 13);
@@ -452,7 +451,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.queueStatusButton.AutoSize = true;
 			this.queueStatusButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.queueStatusButton.Enabled = false;
-			this.queueStatusButton.Location = new System.Drawing.Point(1023, 421);
+			this.queueStatusButton.Location = new System.Drawing.Point(1023, 419);
 			this.queueStatusButton.Margin = new System.Windows.Forms.Padding(0);
 			this.queueStatusButton.Name = "queueStatusButton";
 			this.queueStatusButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -465,7 +464,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.Location = new System.Drawing.Point(5, 428);
+			this.lblFinishAction.Location = new System.Drawing.Point(5, 426);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
@@ -481,7 +480,7 @@ namespace STFU.Executable.AutoUploader.Forms
             "Nichts tun",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(68, 424);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(68, 422);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
 			this.cmbbxFinishAction.Size = new System.Drawing.Size(574, 21);
@@ -492,7 +491,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.chbChoseProcesses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chbChoseProcesses.Enabled = false;
-			this.chbChoseProcesses.Location = new System.Drawing.Point(652, 426);
+			this.chbChoseProcesses.Location = new System.Drawing.Point(652, 424);
 			this.chbChoseProcesses.Margin = new System.Windows.Forms.Padding(0);
 			this.chbChoseProcesses.Name = "chbChoseProcesses";
 			this.chbChoseProcesses.Size = new System.Drawing.Size(150, 17);
@@ -506,7 +505,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnChoseProcs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnChoseProcs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnChoseProcs.Enabled = false;
-			this.btnChoseProcs.Location = new System.Drawing.Point(812, 421);
+			this.btnChoseProcs.Location = new System.Drawing.Point(812, 419);
 			this.btnChoseProcs.Margin = new System.Windows.Forms.Padding(0);
 			this.btnChoseProcs.Name = "btnChoseProcs";
 			this.btnChoseProcs.Padding = new System.Windows.Forms.Padding(2);
@@ -524,7 +523,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
 			this.jobQueue.Name = "jobQueue";
 			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1082, 404);
+			this.jobQueue.Size = new System.Drawing.Size(1082, 402);
 			this.jobQueue.TabIndex = 18;
 			this.jobQueue.Uploader = null;
 			// 
@@ -535,7 +534,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.groupBox2.Controls.Add(this.tableLayoutPanel4);
 			this.groupBox2.Location = new System.Drawing.Point(13, 13);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(1098, 60);
+			this.groupBox2.Size = new System.Drawing.Size(1098, 62);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Automatischer Videoupload";
@@ -558,17 +557,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(1092, 41);
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(1092, 43);
 			this.tableLayoutPanel4.TabIndex = 0;
 			// 
 			// autoUploaderStateLabel
 			// 
 			this.autoUploaderStateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.autoUploaderStateLabel.AutoSize = true;
-			this.autoUploaderStateLabel.Location = new System.Drawing.Point(5, 14);
+			this.autoUploaderStateLabel.Location = new System.Drawing.Point(5, 15);
 			this.autoUploaderStateLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.autoUploaderStateLabel.Name = "autoUploaderStateLabel";
-			this.autoUploaderStateLabel.Size = new System.Drawing.Size(967, 13);
+			this.autoUploaderStateLabel.Size = new System.Drawing.Size(949, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
 			// 
@@ -578,12 +577,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnStart.AutoSize = true;
 			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(982, 7);
+			this.btnStart.Location = new System.Drawing.Point(964, 7);
 			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
 			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
-			this.btnStart.Size = new System.Drawing.Size(105, 27);
+			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
+			this.btnStart.Size = new System.Drawing.Size(123, 29);
 			this.btnStart.TabIndex = 7;
 			this.btnStart.Text = "Sofort starten!";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -592,22 +591,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			// startExtendedOptionsContextMenu
 			// 
 			this.startExtendedOptionsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem,
             this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem});
 			this.startExtendedOptionsContextMenu.Name = "startExtendedOptionsContextMenu";
-			this.startExtendedOptionsContextMenu.Size = new System.Drawing.Size(374, 48);
-			// 
-			// autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem
-			// 
-			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Name = "autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem";
-			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
-			this.autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem.Text = "Autouploader starten, ohne die Warteschlange zu starten";
+			this.startExtendedOptionsContextMenu.Size = new System.Drawing.Size(298, 26);
 			// 
 			// zeitenFestlegenUndAutouploaderStartenToolStripMenuItem
 			// 
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Name = "zeitenFestlegenUndAutouploaderStartenToolStripMenuItem";
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Text = "Zeiten festlegen und Autouploader starten";
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Click += new System.EventHandler(this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem_Click);
 			// 
 			// pathsTabPage
 			// 
@@ -800,7 +793,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
 		private System.Windows.Forms.ContextMenuStrip startExtendedOptionsContextMenu;
-		private System.Windows.Forms.ToolStripMenuItem autouploaderStartenOhneDieWarteschlangeZuStartenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem zeitenFestlegenUndAutouploaderStartenToolStripMenuItem;
 	}
 }

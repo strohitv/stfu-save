@@ -35,6 +35,8 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 
 		void StartAsync();
 
+		void StartWithExtraConfigAsync();
+
 		void Cancel();
 	}
 }

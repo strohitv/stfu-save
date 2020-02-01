@@ -142,7 +142,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 		{
 			get
 			{
-				if (nextUploadSuggestion == null || nextUploadSuggestion.Value < DateTime.Now)
+				if (nextUploadSuggestion == null)
 				{
 					nextUploadSuggestion = DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
 				}

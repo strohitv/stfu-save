@@ -53,10 +53,10 @@
     <Compile Include="ThumbnailLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="Kein-Thumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Kein-Thumbnail.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

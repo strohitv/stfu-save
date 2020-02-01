@@ -153,11 +153,32 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (State == RunningState.NotRunning)
 			{
-				await Task.Run(() => Start());
+				await Task.Run(() => Start(Configuration
+				.Where(c => !c.IgnorePath)
+				.Select(pto => new PublishTimeCalculator(pto.PathInfo, pto.Template))
+				.ToList()));
 			}
 		}
 
-		private void Start()
+		public async void StartWithExtraConfigAsync()
+		{
+			if (State == RunningState.NotRunning)
+			{
+				await Task.Run(() => Start(Configuration
+				.Where(c => !c.IgnorePath)
+				.Select(pto => new PublishTimeCalculator(
+					pto.PathInfo,
+					pto.StartDate,
+					pto.Template,
+					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null)
+				{
+					UploadPrivate = pto.UploadPrivate
+				})
+				.ToList()));
+			}
+		}
+
+		private void Start(IList<PublishTimeCalculator> infos)
 		{
 			if (Account == null || Uploader == null)
 			{
@@ -168,17 +189,6 @@ namespace STFU.Lib.Youtube.Automation
 
 			WatchedProcesses.ProcessesCompleted += OnProcessesCompleted;
 
-			var infos = Configuration
-				.Where(c => !c.IgnorePath)
-				.Select(pto => new PublishTimeCalculator(
-					pto.PathInfo,
-					pto.StartDate,
-					pto.Template,
-					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null)
-				{
-					UploadPrivate = pto.UploadPrivate
-				})
-				.ToList();
 			VideoCreator = new TemplateVideoCreator(infos);
 
 			Uploader.PropertyChanged += UploaderPropertyChanged;

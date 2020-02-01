@@ -13,6 +13,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		bool first = true;
 
+		internal PublishTimeCalculator(IPath pathInfo, ITemplate template)
+			: this(pathInfo, template.NextUploadSuggestion, template, null)
+		{ }
+
 		internal PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
 			PathInfo = pathInfo;
@@ -50,40 +54,45 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		internal DateTime GetNextPublishTime(bool preview = false)
 		{
-			int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
+			var publishDate = new DateTime(2000, 1, 1);
 
-			if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
+			while (publishDate < DateTime.Now)
 			{
-				daysUntilNextTimesWeekday = 7;
-			}
+				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
 
-			var publishDate = LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
-
-			if (!preview)
-			{
-				first = false;
-
-				// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
-				LastVideoPublishTime = publishDate.AddDays(Template.PublishTimes[PublishTimePosition].SkipDays);
-				var position = PublishTimePosition;
-				var date = publishDate;
-				while (true)
+				if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
 				{
-					position = (position + 1) % Template.PublishTimes.Count;
+					daysUntilNextTimesWeekday = 7;
+				}
 
-					int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
+				publishDate = LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
 
-					if (days == 0 && Template.PublishTimes[position].Time <= date.TimeOfDay)
+				if (!preview)
+				{
+					first = false;
+
+					// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
+					LastVideoPublishTime = publishDate.AddDays(Template.PublishTimes[PublishTimePosition].SkipDays);
+					var position = PublishTimePosition;
+					var date = publishDate;
+					while (true)
 					{
-						days = 7;
-					}
+						position = (position + 1) % Template.PublishTimes.Count;
 
-					date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
+						int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
 
-					if (date > LastVideoPublishTime)
-					{
-						PublishTimePosition = position;
-						break;
+						if (days == 0 && Template.PublishTimes[position].Time <= date.TimeOfDay)
+						{
+							days = 7;
+						}
+
+						date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
+
+						if (date > LastVideoPublishTime)
+						{
+							PublishTimePosition = position;
+							break;
+						}
 					}
 				}
 			}
