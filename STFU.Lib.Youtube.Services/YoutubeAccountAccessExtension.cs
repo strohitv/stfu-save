@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Internal.Services;
 
-namespace STFU.Lib.Youtube
+namespace STFU.Lib.Youtube.Services
 {
 	public static class YoutubeAccountAccessExtension
 	{

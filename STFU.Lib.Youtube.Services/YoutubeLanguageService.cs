@@ -8,14 +8,14 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Model.Serializable;
 
-namespace STFU.Lib.Youtube.Internal.Services
+namespace STFU.Lib.Youtube.Services
 {
-	internal static class YoutubeLanguageService
+	public static class YoutubeLanguageService
 	{
 		private static bool loaded = false;
 		private static List<ILanguage> languages = new List<ILanguage>();
 
-		internal static IReadOnlyList<ILanguage> LoadLanguages(IYoutubeAccountContainer container)
+		public static IReadOnlyList<ILanguage> LoadLanguages(IYoutubeAccountContainer container)
 		{
 			if (!loaded)
 			{
@@ -40,7 +40,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 			return languages.AsReadOnly();
 		}
 
-		internal static ILanguage[] GetLanguages(string accessToken)
+		public static ILanguage[] GetLanguages(string accessToken)
 		{
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;

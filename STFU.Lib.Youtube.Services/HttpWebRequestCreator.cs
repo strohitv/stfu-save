@@ -3,7 +3,7 @@ using System.Web;
 using STFU.Lib.Youtube.Interfaces.Model;
 using System;
 
-namespace STFU.Lib.Youtube.Internal.Upload
+namespace STFU.Lib.Youtube.Services
 {
 	public static class HttpWebRequestCreator
 	{
@@ -26,8 +26,8 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 			return request;
 		}
-		
-		internal static HttpWebRequest CreateForNewUpload(Uri uri,  IYoutubeVideo video, IYoutubeAccount account)
+
+		public static HttpWebRequest CreateForNewUpload(Uri uri,  IYoutubeVideo video, IYoutubeAccount account)
 		{
 			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", account.GetActiveToken());
 			request.ContentLength = video.File.Length;
@@ -41,7 +41,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			return request;
 		}
 
-		internal static HttpWebRequest CreateForResumeUpload(Uri uri, IYoutubeVideo video, IYoutubeAccount account, long lastbyte)
+		public static HttpWebRequest CreateForResumeUpload(Uri uri, IYoutubeVideo video, IYoutubeAccount account, long lastbyte)
 		{
 			var request = CreateWithAuthHeader(uri.AbsoluteUri, "PUT", account.GetActiveToken());
 			request.Headers.Add($"Content-Range: bytes {lastbyte + 1}-{video.File.Length - 1}/{video.File.Length}");

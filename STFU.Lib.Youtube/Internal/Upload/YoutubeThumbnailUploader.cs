@@ -6,6 +6,7 @@ using System.Web;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Internal.Upload.Model;
+using STFU.Lib.Youtube.Services;
 
 namespace STFU.Lib.Youtube.Internal.Upload
 {

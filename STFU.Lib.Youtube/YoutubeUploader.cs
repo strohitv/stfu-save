@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using STFU.Lib.MailSender.Generator;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
@@ -135,6 +136,15 @@ namespace STFU.Lib.Youtube
 			newJob.TriggerDeletion += Job_TriggerDeletion;
 			newJob.PropertyChanged += RunningJobPropertyChanged;
 
+			if (newJob.Video.NotificationSettings.NotifyOnVideoFoundMail)
+			{
+				MailSender.MailSender.Send(
+					newJob.Account,
+					newJob.Video.NotificationSettings.MailReceiver,
+					$"Wartet: '{newJob.Video.Title}' ist in der Warteschlange!",
+					new NewVideoFoundMailGenerator().Generate(newJob));
+			}
+
 			JobQueue.Add(newJob);
 
 			OnJobQueued(newJob, JobQueue.IndexOf(newJob));
@@ -250,6 +260,15 @@ namespace STFU.Lib.Youtube
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
 						nextJob.StartUpload();
 
+						if (nextJob.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
+						{
+							MailSender.MailSender.Send(
+								nextJob.Account,
+								nextJob.Video.NotificationSettings.MailReceiver,
+										$"Start: '{nextJob.Video.Title}' wird jetzt hochgeladen!",
+										new UploadStartedMailGenerator().Generate(nextJob));
+						}
+
 						startedJobs.Add(nextJob);
 					}
 				}
@@ -299,9 +318,33 @@ namespace STFU.Lib.Youtube
 					|| job.State.IsFailed()
 					|| job.State.IsCanceled()))
 				{
-					if (RemoveCompletedJobs && !job.State.IsCanceled() && !job.State.IsFailed())
+					if (!job.State.IsCanceled() && !job.State.IsFailed())
 					{
-						RemoveFromQueue(job);
+						if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
+						{
+							MailSender.MailSender.Send(
+								job.Account,
+								job.Video.NotificationSettings.MailReceiver,
+								$"Erfolg: '{job.Video.Title}' wurde erfolgreich hochgeladen!",
+								new UploadFinishedMailGenerator().Generate(job));
+						}
+
+						if (RemoveCompletedJobs)
+						{
+							RemoveFromQueue(job);
+						}
+					}
+
+					if (job.State.IsFailed())
+					{
+						if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
+						{
+							MailSender.MailSender.Send(
+								job.Account,
+								job.Video.NotificationSettings.MailReceiver,
+								$"Fehler: '{job.Video.Title}' konnte nicht hochgeladen werden",
+								new UploadFailedMailGenerator().Generate(job));
+						}
 					}
 
 					if (State == UploaderState.Uploading

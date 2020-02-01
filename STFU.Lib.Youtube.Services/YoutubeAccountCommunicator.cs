@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.Serialization;
-using STFU.Lib.Youtube.Internal.Services;
 using STFU.Lib.Youtube.Model.Helpers;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
@@ -9,12 +8,11 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
-using STFU.Lib.Youtube.Internal;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Model.Serializable;
 using STFU.Lib.Youtube.Model;
 
-namespace STFU.Lib.Youtube
+namespace STFU.Lib.Youtube.Services
 {
 	public class YoutubeAccountCommunicator : IYoutubeAccountCommunicator
 	{

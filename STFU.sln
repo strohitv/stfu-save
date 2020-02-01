@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.MailSender", "STFU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Common", "STFU.Lib.Common\STFU.Lib.Common.csproj", "{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STFU.Lib.Youtube.Services", "STFU.Lib.Youtube.Services\STFU.Lib.Youtube.Services.csproj", "{28B6561B-2090-4D83-95BA-345BF70CA022}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +183,18 @@ Global
 		{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}.Release|x64.Build.0 = Release|Any CPU
 		{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}.Release|x86.ActiveCfg = Release|Any CPU
 		{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}.Release|x86.Build.0 = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|x64.Build.0 = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Debug|x86.Build.0 = Debug|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|x64.ActiveCfg = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|x64.Build.0 = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|x86.ActiveCfg = Release|Any CPU
+		{28B6561B-2090-4D83-95BA-345BF70CA022}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

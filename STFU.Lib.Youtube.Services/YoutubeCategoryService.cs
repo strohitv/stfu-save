@@ -8,14 +8,14 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Model.Serializable;
 
-namespace STFU.Lib.Youtube.Internal.Services
+namespace STFU.Lib.Youtube.Services
 {
-	internal static class YoutubeCategoryService
+	public static class YoutubeCategoryService
 	{
 		private static bool loaded = false;
 		private static List<ICategory> categories = new List<ICategory>();
 
-		internal static IReadOnlyList<ICategory> LoadCategories(IYoutubeAccountContainer container)
+		public static IReadOnlyList<ICategory> LoadCategories(IYoutubeAccountContainer container)
 		{
 			if (!loaded)
 			{
@@ -47,7 +47,7 @@ namespace STFU.Lib.Youtube.Internal.Services
 			return categories.AsReadOnly();
 		}
 
-		internal static ICategory[] GetVideoCategories(string regionCode, string accessToken)
+		public static ICategory[] GetVideoCategories(string regionCode, string accessToken)
 		{
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;

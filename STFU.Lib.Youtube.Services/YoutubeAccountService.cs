@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
 
-namespace STFU.Lib.Youtube.Internal.Services
+namespace STFU.Lib.Youtube.Services
 {
 	public static class YoutubeAccountService
 	{

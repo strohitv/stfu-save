@@ -7,9 +7,7 @@ using MimeKit;
 using Newtonsoft.Json;
 using STFU.Lib.Common;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Internal;
-using STFU.Lib.Youtube.Internal.Services;
-using STFU.Lib.Youtube.Internal.Upload;
+using STFU.Lib.Youtube.Services;
 
 namespace STFU.Lib.MailSender
 {

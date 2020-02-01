@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Internal.Services;
+using STFU.Lib.Youtube.Services;
 
 namespace STFU.Lib.Youtube
 {

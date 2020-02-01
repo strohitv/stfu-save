@@ -1,4 +1,4 @@
-﻿namespace STFU.Lib.Youtube.Internal.Services
+﻿namespace STFU.Lib.Youtube.Services
 {
 	//internal static class YoutubeClientService
 	//{

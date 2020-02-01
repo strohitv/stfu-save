@@ -6,8 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
-using STFU.Lib.MailSender;
-using STFU.Lib.MailSender.Generator;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
@@ -19,6 +17,7 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
 using STFU.Lib.Youtube.Persistor.Model;
+using STFU.Lib.Youtube.Services;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -114,15 +113,6 @@ namespace STFU.Executable.AutoUploader.Forms
 					ToolTipIcon.Info
 				);
 			}
-
-			if (args.Job.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
-			{
-				MailSender.Send(
-					accountContainer.RegisteredAccounts.First(),
-					args.Job.Video.NotificationSettings.MailReceiver,
-							$"'{args.Job.Video.Title}' wird jetzt hochgeladen!",
-							new UploadStartedMailGenerator().Generate(args.Job));
-			}
 		}
 
 		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -142,15 +132,6 @@ namespace STFU.Executable.AutoUploader.Forms
 							ToolTipIcon.Info
 						);
 					}
-
-					if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
-					{
-						MailSender.Send(
-							accountContainer.RegisteredAccounts.First(),
-							job.Video.NotificationSettings.MailReceiver,
-							$"'{job.Video.Title}' wurde erfolgreich hochgeladen!",
-							new UploadFinishedMailGenerator().Generate(job));
-					}
 				}
 				else if (job.State == UploadProgress.Failed)
 				{
@@ -162,15 +143,6 @@ namespace STFU.Executable.AutoUploader.Forms
 							$"Das Video '{job.Video.Title}' konnte aufgrund eines Fehlers nicht hochgeladen werden.",
 							ToolTipIcon.Info
 						);
-					}
-
-					if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
-					{
-						MailSender.Send(
-							accountContainer.RegisteredAccounts.First(),
-							job.Video.NotificationSettings.MailReceiver,
-							$"'{job.Video.Title}' konnte nicht hochgeladen werden",
-							new UploadFailedMailGenerator().Generate(job));
 					}
 				}
 
@@ -215,15 +187,6 @@ namespace STFU.Executable.AutoUploader.Forms
 					$"Das Video '{e.Job.Video.Title}' wurde in die Warteschlange aufgenommen.",
 					ToolTipIcon.Info
 				);
-			}
-
-			if (e.Job.Video.NotificationSettings.NotifyOnVideoFoundMail)
-			{
-				MailSender.Send(
-					accountContainer.RegisteredAccounts.First(),
-					e.Job.Video.NotificationSettings.MailReceiver,
-					$"'{e.Job.Video.Title}' ist in der Warteschlange!",
-					new NewVideoFoundMailGenerator().Generate(e.Job));
 			}
 
 			// Aktualisiertes Hochladedatum im Template speichern
