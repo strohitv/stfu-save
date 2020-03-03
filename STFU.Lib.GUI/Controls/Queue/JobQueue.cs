@@ -221,6 +221,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void AddItemToMainTlp(int position, JobControl control)
 		{
+			if (position < 0)
+			{
+				position = 0;
+			}
+			else if (position > mainTlp.RowStyles.Count)
+			{
+				position = mainTlp.RowStyles.Count;
+			}
+
 			mainTlp.RowStyles.Insert(position, new RowStyle(SizeType.AutoSize));
 			mainTlp.Controls.Add(control, 0, position);
 			mainTlp.ScrollControlIntoView(control);
