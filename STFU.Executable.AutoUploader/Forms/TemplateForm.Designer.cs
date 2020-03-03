@@ -245,7 +245,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTemplateButton.Location = new System.Drawing.Point(10, 10);
 			this.addTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTemplateButton.Name = "addTemplateButton";
-			this.addTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.addTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.addTemplateButton.TabIndex = 2;
 			this.addTemplateButton.Text = "+";
 			this.tooltip.SetToolTip(this.addTemplateButton, "Neues Template hinzufügen");
@@ -261,7 +261,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTemplateUpButton.Location = new System.Drawing.Point(10, 112);
 			this.moveTemplateUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTemplateUpButton.Name = "moveTemplateUpButton";
-			this.moveTemplateUpButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateUpButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTemplateUpButton.TabIndex = 3;
 			this.moveTemplateUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTemplateUpButton, "Markiertes Template um eine Position nach oben verschieben");
@@ -277,7 +277,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTemplateDownButton.Location = new System.Drawing.Point(10, 163);
 			this.moveTemplateDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTemplateDownButton.Name = "moveTemplateDownButton";
-			this.moveTemplateDownButton.Size = new System.Drawing.Size(45, 41);
+			this.moveTemplateDownButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTemplateDownButton.TabIndex = 4;
 			this.moveTemplateDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTemplateDownButton, "Markiertes Template um eine Position nach unten verschieben");
@@ -294,7 +294,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.deleteTemplateButton.Location = new System.Drawing.Point(10, 214);
 			this.deleteTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTemplateButton.Name = "deleteTemplateButton";
-			this.deleteTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.deleteTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.deleteTemplateButton.TabIndex = 5;
 			this.deleteTemplateButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTemplateButton, "Markiertes Template löschen");
@@ -311,7 +311,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearTemplatesButton.Location = new System.Drawing.Point(10, 265);
 			this.clearTemplatesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTemplatesButton.Name = "clearTemplatesButton";
-			this.clearTemplatesButton.Size = new System.Drawing.Size(45, 41);
+			this.clearTemplatesButton.Size = new System.Drawing.Size(52, 41);
 			this.clearTemplatesButton.TabIndex = 6;
 			this.clearTemplatesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTemplatesButton, "Alle Templates löschen");
@@ -326,14 +326,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateListView.FullRowSelect = true;
 			this.templateListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.templateListView.HideSelection = false;
-			this.templateListView.Location = new System.Drawing.Point(65, 10);
+			this.templateListView.Location = new System.Drawing.Point(72, 10);
 			this.templateListView.Margin = new System.Windows.Forms.Padding(0);
 			this.templateListView.MinimumSize = new System.Drawing.Size(188, 4);
 			this.templateListView.MultiSelect = false;
 			this.templateListView.Name = "templateListView";
 			this.templateOverviewTableLayouPanel.SetRowSpan(this.templateListView, 12);
 			this.templateListView.ShowGroups = false;
-			this.templateListView.Size = new System.Drawing.Size(220, 742);
+			this.templateListView.Size = new System.Drawing.Size(213, 742);
 			this.templateListView.TabIndex = 7;
 			this.templateListView.UseCompatibleStateImageBehavior = false;
 			this.templateListView.View = System.Windows.Forms.View.Details;
@@ -354,7 +354,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.duplicateTemplateButton.Location = new System.Drawing.Point(10, 61);
 			this.duplicateTemplateButton.Margin = new System.Windows.Forms.Padding(0);
 			this.duplicateTemplateButton.Name = "duplicateTemplateButton";
-			this.duplicateTemplateButton.Size = new System.Drawing.Size(45, 41);
+			this.duplicateTemplateButton.Size = new System.Drawing.Size(52, 41);
 			this.duplicateTemplateButton.TabIndex = 2;
 			this.duplicateTemplateButton.Text = "⁂";
 			this.tooltip.SetToolTip(this.duplicateTemplateButton, "Erstellt eine Kopie des ausgewählten Templates");
@@ -572,6 +572,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// templateDescriptionTextbox
 			// 
+			this.templateDescriptionTextbox.AcceptsReturn = true;
+			this.templateDescriptionTextbox.AcceptsTab = true;
 			this.templateDescriptionTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.templateCommonTableLayoutPannel.SetColumnSpan(this.templateDescriptionTextbox, 3);
 			this.templateDescriptionTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -820,12 +822,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.timesListView.FullRowSelect = true;
 			this.timesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.timesListView.HideSelection = false;
-			this.timesListView.Location = new System.Drawing.Point(53, 7);
+			this.timesListView.Location = new System.Drawing.Point(62, 7);
 			this.timesListView.Margin = new System.Windows.Forms.Padding(0);
 			this.timesListView.Name = "timesListView";
 			this.publishPanel.SetRowSpan(this.timesListView, 16);
 			this.timesListView.ShowGroups = false;
-			this.timesListView.Size = new System.Drawing.Size(937, 431);
+			this.timesListView.Size = new System.Drawing.Size(928, 431);
 			this.timesListView.TabIndex = 8;
 			this.timesListView.UseCompatibleStateImageBehavior = false;
 			this.timesListView.View = System.Windows.Forms.View.Details;
@@ -856,7 +858,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTimeUpButton.Location = new System.Drawing.Point(5, 7);
 			this.moveTimeUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeUpButton.Name = "moveTimeUpButton";
-			this.moveTimeUpButton.Size = new System.Drawing.Size(43, 41);
+			this.moveTimeUpButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTimeUpButton.TabIndex = 3;
 			this.moveTimeUpButton.Text = "↑";
 			this.tooltip.SetToolTip(this.moveTimeUpButton, "Markierte Zeiten um eine Position nach oben verschieben");
@@ -874,7 +876,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveTimeDownButton.Location = new System.Drawing.Point(5, 58);
 			this.moveTimeDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveTimeDownButton.Name = "moveTimeDownButton";
-			this.moveTimeDownButton.Size = new System.Drawing.Size(43, 41);
+			this.moveTimeDownButton.Size = new System.Drawing.Size(52, 41);
 			this.moveTimeDownButton.TabIndex = 4;
 			this.moveTimeDownButton.Text = "↓";
 			this.tooltip.SetToolTip(this.moveTimeDownButton, "Markierte Zeiten um eine Position nach unten verschieben");
@@ -893,7 +895,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneDayButton.Name = "addOneDayButton";
 			this.addOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneDayButton.Size = new System.Drawing.Size(43, 42);
+			this.addOneDayButton.Size = new System.Drawing.Size(52, 42);
 			this.addOneDayButton.TabIndex = 3;
 			this.addOneDayButton.Text = "+1";
 			this.tooltip.SetToolTip(this.addOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag mehr vor der nächsen Veröffe" +
@@ -913,7 +915,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.substractOneDayButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneDayButton.Name = "substractOneDayButton";
 			this.substractOneDayButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneDayButton.Size = new System.Drawing.Size(43, 42);
+			this.substractOneDayButton.Size = new System.Drawing.Size(52, 42);
 			this.substractOneDayButton.TabIndex = 4;
 			this.substractOneDayButton.Text = "-1";
 			this.tooltip.SetToolTip(this.substractOneDayButton, "Nach Veröffentlichung zu markierten Zeiten einen Tag weniger vor der nächsen Verö" +
@@ -933,7 +935,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearTimesButton.Location = new System.Drawing.Point(5, 368);
 			this.clearTimesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearTimesButton.Name = "clearTimesButton";
-			this.clearTimesButton.Size = new System.Drawing.Size(43, 41);
+			this.clearTimesButton.Size = new System.Drawing.Size(52, 41);
 			this.clearTimesButton.TabIndex = 6;
 			this.clearTimesButton.Text = "x";
 			this.tooltip.SetToolTip(this.clearTimesButton, "Alle Zeiten löschen");
@@ -952,7 +954,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.deleteTimeButton.Location = new System.Drawing.Point(5, 317);
 			this.deleteTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deleteTimeButton.Name = "deleteTimeButton";
-			this.deleteTimeButton.Size = new System.Drawing.Size(43, 41);
+			this.deleteTimeButton.Size = new System.Drawing.Size(52, 41);
 			this.deleteTimeButton.TabIndex = 5;
 			this.deleteTimeButton.Text = "-";
 			this.tooltip.SetToolTip(this.deleteTimeButton, "Markierte Zeiten löschen");
@@ -971,7 +973,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addOneWeekButton.Name = "addOneWeekButton";
 			this.addOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.addOneWeekButton.Size = new System.Drawing.Size(43, 42);
+			this.addOneWeekButton.Size = new System.Drawing.Size(52, 42);
 			this.addOneWeekButton.TabIndex = 3;
 			this.addOneWeekButton.Text = "+7";
 			this.tooltip.SetToolTip(this.addOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche mehr vor der nächsen Veröff" +
@@ -991,7 +993,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.substractOneWeekButton.Margin = new System.Windows.Forms.Padding(0);
 			this.substractOneWeekButton.Name = "substractOneWeekButton";
 			this.substractOneWeekButton.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
-			this.substractOneWeekButton.Size = new System.Drawing.Size(43, 42);
+			this.substractOneWeekButton.Size = new System.Drawing.Size(52, 42);
 			this.substractOneWeekButton.TabIndex = 4;
 			this.substractOneWeekButton.Text = "-7";
 			this.tooltip.SetToolTip(this.substractOneWeekButton, "Nach Veröffentlichung zu markierten Zeiten eine Woche weniger vor der nächsen Ver" +
@@ -1003,7 +1005,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeLabel.AutoSize = true;
-			this.addTimeLabel.Location = new System.Drawing.Point(260, 455);
+			this.addTimeLabel.Location = new System.Drawing.Point(269, 455);
 			this.addTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeLabel.Name = "addTimeLabel";
 			this.addTimeLabel.Size = new System.Drawing.Size(31, 13);
@@ -1015,7 +1017,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addTimeButton.AutoSize = true;
 			this.addTimeButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTimeButton.Location = new System.Drawing.Point(385, 448);
+			this.addTimeButton.Location = new System.Drawing.Point(394, 448);
 			this.addTimeButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeButton.Name = "addTimeButton";
 			this.addTimeButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
@@ -1040,7 +1042,7 @@ namespace STFU.Executable.AutoUploader.Forms
             "Freitag",
             "Samstag",
             "Sonntag"});
-			this.addWeekdayCombobox.Location = new System.Drawing.Point(132, 448);
+			this.addWeekdayCombobox.Location = new System.Drawing.Point(141, 448);
 			this.addWeekdayCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayCombobox.Name = "addWeekdayCombobox";
 			this.addWeekdayCombobox.Size = new System.Drawing.Size(118, 26);
@@ -1052,7 +1054,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addTimeTimePicker.CustomFormat = "HH:mm";
 			this.addTimeTimePicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addTimeTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.addTimeTimePicker.Location = new System.Drawing.Point(301, 448);
+			this.addTimeTimePicker.Location = new System.Drawing.Point(310, 448);
 			this.addTimeTimePicker.Margin = new System.Windows.Forms.Padding(0);
 			this.addTimeTimePicker.Name = "addTimeTimePicker";
 			this.addTimeTimePicker.ShowUpDown = true;
@@ -1064,7 +1066,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.addWeekdayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addWeekdayLabel.AutoSize = true;
-			this.addWeekdayLabel.Location = new System.Drawing.Point(53, 455);
+			this.addWeekdayLabel.Location = new System.Drawing.Point(62, 455);
 			this.addWeekdayLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.addWeekdayLabel.Name = "addWeekdayLabel";
 			this.addWeekdayLabel.Size = new System.Drawing.Size(69, 13);
@@ -1076,7 +1078,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.nextPublishTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.nextPublishTimeLabel.AutoSize = true;
 			this.publishPanel.SetColumnSpan(this.nextPublishTimeLabel, 3);
-			this.nextPublishTimeLabel.Location = new System.Drawing.Point(53, 491);
+			this.nextPublishTimeLabel.Location = new System.Drawing.Point(62, 491);
 			this.nextPublishTimeLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.nextPublishTimeLabel.Name = "nextPublishTimeLabel";
 			this.nextPublishTimeLabel.Size = new System.Drawing.Size(197, 13);
@@ -1090,7 +1092,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.nextPublishTimeDtp.CustomFormat = "dd.MM.yyyy HH:mm";
 			this.nextPublishTimeDtp.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.nextPublishTimeDtp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.nextPublishTimeDtp.Location = new System.Drawing.Point(260, 485);
+			this.nextPublishTimeDtp.Location = new System.Drawing.Point(269, 485);
 			this.nextPublishTimeDtp.Margin = new System.Windows.Forms.Padding(0);
 			this.nextPublishTimeDtp.Name = "nextPublishTimeDtp";
 			this.nextPublishTimeDtp.Size = new System.Drawing.Size(218, 26);
