@@ -48,7 +48,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,6 +86,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.videotutorialPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -258,10 +258,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.neueFunktionenToolStripMenuItem,
             this.toolStripSeparator2,
-            this.tutorialVideoToolStripMenuItem,
-            this.discordServerToolStripMenuItem,
+            this.videotutorialPlaylistToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
             this.threadImYTFToolStripMenuItem,
+            this.discordServerToolStripMenuItem,
             this.strohiAufTwitterToolStripMenuItem,
             this.toolStripSeparator1,
             this.downloadSeiteToolStripMenuItem,
@@ -282,13 +282,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
-			// 
-			// tutorialVideoToolStripMenuItem
-			// 
-			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
-			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
-			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
@@ -598,7 +591,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// zeitenFestlegenUndAutouploaderStartenToolStripMenuItem
 			// 
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Name = "zeitenFestlegenUndAutouploaderStartenToolStripMenuItem";
-			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Text = "Zeiten festlegen und Autouploader starten";
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Click += new System.EventHandler(this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem_Click);
 			// 
@@ -698,6 +691,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
 			this.notifyIcon.Visible = true;
 			// 
+			// videotutorialPlaylistToolStripMenuItem
+			// 
+			this.videotutorialPlaylistToolStripMenuItem.Name = "videotutorialPlaylistToolStripMenuItem";
+			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.videotutorialPlaylistToolStripMenuItem.Text = "Videotutorial-Playlist";
+			this.videotutorialPlaylistToolStripMenuItem.Click += new System.EventHandler(this.videotutorialPlaylistToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnStart;
@@ -768,7 +768,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImLPFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem strohiAufTwitterToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tutorialVideoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
@@ -794,6 +793,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
 		private System.Windows.Forms.ContextMenuStrip startExtendedOptionsContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem zeitenFestlegenUndAutouploaderStartenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem videotutorialPlaylistToolStripMenuItem;
 	}
 }
 
