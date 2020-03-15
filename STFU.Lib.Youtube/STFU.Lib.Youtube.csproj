@@ -49,10 +49,11 @@
     <Compile Include="Internal\Upload\YoutubeVideoInformationChanger.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
     <Compile Include="Internal\YoutubeError.cs" />
-    <Compile Include="Internal\YoutubeJob.cs" />
+    <Compile Include="YoutubeJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LanguageCategoryLoader.cs" />
     <Compile Include="YoutubeAccountContainer.cs" />
+    <Compile Include="YoutubeJobContainer.cs" />
     <Compile Include="YoutubeCategoryContainer.cs" />
     <Compile Include="YoutubeClientContainer.cs" />
     <Compile Include="YoutubeLanguageContainer.cs" />

@@ -15,7 +15,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// <summary>
 		/// the channel the video is being uploaded to
 		/// </summary>
-		IYoutubeAccount Account { get; }
+		IYoutubeAccount Account { get; set; }
 
 		/// <summary>
 		/// current state of the job
@@ -111,5 +111,15 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// Finishes the Jobs edit mode.
 		/// </summary>
 		void FinishEdit();
+
+		/// <summary>
+		/// forcefully sets the jobs state paused. this should only be used for saving purposes on program exit.
+		/// </summary>
+		void SetPaused();
+
+		/// <summary>
+		/// forcefully resets the jobs state. this should only be used for saving purposes on program exit.
+		/// </summary>
+		void Reset();
 	}
 }

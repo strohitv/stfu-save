@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="AccountPersistor.cs" />
     <Compile Include="AutoUploaderSettingsPersistor.cs" />
+    <Compile Include="JobPersistor.cs" />
     <Compile Include="CategoryPersistor.cs" />
     <Compile Include="LanguagePersistor.cs" />
     <Compile Include="Model\AutoUploaderSettings.cs" />

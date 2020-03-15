@@ -42,6 +42,7 @@
     <Compile Include="ILanguageCategoryLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeAccountContainer.cs" />
+    <Compile Include="IYoutubeJobContainer.cs" />
     <Compile Include="IYoutubeCategoryContainer.cs" />
     <Compile Include="IYoutubeClientContainer.cs" />
     <Compile Include="IYoutubeLanguageContainer.cs" />

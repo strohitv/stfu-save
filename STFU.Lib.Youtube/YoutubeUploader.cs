@@ -11,7 +11,6 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
-using STFU.Lib.Youtube.Internal;
 
 namespace STFU.Lib.Youtube
 {
@@ -41,26 +40,11 @@ namespace STFU.Lib.Youtube
 				}
 			}
 		}
-
-		private IList<IYoutubeJob> JobQueue
-		{
-			get
-			{
-				return jobQueue;
-			}
-
-			set
-			{
-				if (jobQueue != value)
-				{
-					jobQueue = value;
-					OnPropertyChanged();
-				}
-			}
-		}
+		
+		private IYoutubeJobContainer JobQueue { get; set; } = new YoutubeJobContainer();
 
 		/// <see cref="IYoutubeUploader.Queue"/>
-		public IReadOnlyCollection<IYoutubeJob> Queue => new ReadOnlyCollection<IYoutubeJob>(JobQueue);
+		public IReadOnlyCollection<IYoutubeJob> Queue => new ReadOnlyCollection<IYoutubeJob>(JobQueue.RegisteredJobs.ToList());
 
 		/// <see cref="IYoutubeUploader.State"/>
 		public UploaderState State
@@ -122,6 +106,20 @@ namespace STFU.Lib.Youtube
 			ServicePointManager.DefaultConnectionLimit = 100;
 		}
 
+		public YoutubeUploader(IYoutubeJobContainer queue)
+			: this()
+		{
+			JobQueue = queue;
+
+			for (int i = 0; i < JobQueue.RegisteredJobs.Count; i++)
+			{
+				YoutubeJob job = JobQueue.RegisteredJobs.ElementAt(i) as YoutubeJob;
+				job.TriggerDeletion += Job_TriggerDeletion;
+				job.PropertyChanged += RunningJobPropertyChanged;
+				OnJobQueued(job, i);
+			}
+		}
+
 		public event UploadStarted NewUploadStarted;
 
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
@@ -145,9 +143,9 @@ namespace STFU.Lib.Youtube
 					new NewVideoFoundMailGenerator().Generate(newJob));
 			}
 
-			JobQueue.Add(newJob);
+			JobQueue.RegisterJob(newJob);
 
-			OnJobQueued(newJob, JobQueue.IndexOf(newJob));
+			OnJobQueued(newJob, JobQueue.RegisteredJobs.ToList().IndexOf(newJob));
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
@@ -165,7 +163,7 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.CancelAll"/>
 		public void CancelAll()
 		{
-			var runningJobs = JobQueue.Where(j => j.State.IsStarted()).ToArray();
+			var runningJobs = JobQueue.RegisteredJobs.Where(j => j.State.IsStarted()).ToArray();
 			if (runningJobs.Length > 0
 				&& (State == UploaderState.Uploading || State == UploaderState.Waiting))
 			{
@@ -187,20 +185,20 @@ namespace STFU.Lib.Youtube
 		{
 			if (Queue.Contains(job))
 			{
-				int oldPosition = JobQueue.IndexOf(job);
+				int oldPosition = JobQueue.RegisteredJobs.ToList().IndexOf(job);
 
-				JobQueue.RemoveAt(oldPosition);
+				JobQueue.UnregisterJobAt(oldPosition);
 
-				if (JobQueue.Count < newPosition)
+				if (JobQueue.RegisteredJobs.Count < newPosition)
 				{
-					newPosition = JobQueue.Count;
+					newPosition = JobQueue.RegisteredJobs.Count;
 				}
 				else if (newPosition < 0)
 				{
 					newPosition = 0;
 				}
 
-				JobQueue.Insert(newPosition, job);
+				JobQueue.RegisterJob(newPosition, job);
 				OnJobPositionChanged(job, oldPosition, newPosition);
 			}
 		}
@@ -210,10 +208,10 @@ namespace STFU.Lib.Youtube
 		{
 			if (Queue.Contains(job))
 			{
-				int position = JobQueue.IndexOf(job);
+				int position = JobQueue.RegisteredJobs.ToList().IndexOf(job);
 				job.TriggerDeletion -= Job_TriggerDeletion;
 				job.PropertyChanged -= RunningJobPropertyChanged;
-				JobQueue.Remove(job);
+				JobQueue.UnregisterJob(job);
 				OnJobDequeued(job, position);
 			}
 		}
@@ -233,7 +231,7 @@ namespace STFU.Lib.Youtube
 			HashSet<IYoutubeJob> startedJobs = new HashSet<IYoutubeJob>();
 
 			while (State != UploaderState.CancelPending
-				&& JobQueue.Where(j => j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
+				&& JobQueue.RegisteredJobs.Where(j => j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
 				var nextJob = Queue.FirstOrDefault(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped);
@@ -279,7 +277,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (State != UploaderState.CancelPending)
 			{
-				if (JobQueue.Where(j => j.State.IsStarted()).Count() == 0)
+				if (JobQueue.RegisteredJobs.ToList().Where(j => j.State.IsStarted()).Count() == 0)
 				{
 					if (StopAfterCompleting || State == UploaderState.NotRunning)
 					{
@@ -355,7 +353,7 @@ namespace STFU.Lib.Youtube
 
 		private void RecalculateProgress()
 		{
-			var runningJobs = JobQueue.Where(j => j.State.IsStarted()).ToArray();
+			var runningJobs = JobQueue.RegisteredJobs.ToList().Where(j => j.State.IsStarted()).ToArray();
 
 			if (runningJobs.Length > 0)
 			{

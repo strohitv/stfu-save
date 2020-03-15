@@ -5,16 +5,18 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
 using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Internal.Upload.Model;
+using STFU.Lib.Youtube.Model;
 
-namespace STFU.Lib.Youtube.Internal
+namespace STFU.Lib.Youtube
 {
-	internal class YoutubeJob : IYoutubeJob
+	public class YoutubeJob : IYoutubeJob
 	{
 		private IYoutubeError error = null;
 		private double progress = 0.0;
@@ -29,7 +31,7 @@ namespace STFU.Lib.Youtube.Internal
 		private TimeSpan uploadedDuration = new TimeSpan(0, 0, 0);
 		private TimeSpan remainingDuration = new TimeSpan(0, 0, 0);
 
-		public IYoutubeAccount Account { get; }
+		public IYoutubeAccount Account { get; set; }
 
 		public IYoutubeError Error
 		{
@@ -169,12 +171,18 @@ namespace STFU.Lib.Youtube.Internal
 
 		private IUploadStep RunningStep { get; set; }
 
-		public bool IsInEditMode { get; private set; }
+		public bool IsInEditMode { get; private set; } = false;
 
-		internal YoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
+		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
 		{
 			Account = account;
 			Video = video;
+		}
+
+		[JsonConstructor]
+		public YoutubeJob(YoutubeVideo video, YoutubeAccount account)
+			: this ((IYoutubeVideo)video, account)
+		{
 		}
 
 		public void StartUpload()
@@ -348,6 +356,10 @@ namespace STFU.Lib.Youtube.Internal
 			{
 				await Task.Run(() => RunningStep.Resume());
 			}
+			else
+			{
+				ForceUploadAsync();
+			}
 		}
 
 		public async void DeleteAsync()
@@ -514,6 +526,16 @@ namespace STFU.Lib.Youtube.Internal
 
 				StartFirstStepAsync();
 			}
+		}
+
+		public void SetPaused()
+		{
+			State = UploadProgress.Paused;
+		}
+
+		public void Reset()
+		{
+			State = UploadProgress.NotRunning;
 		}
 	}
 }

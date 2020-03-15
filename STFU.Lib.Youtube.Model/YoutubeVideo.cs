@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
@@ -10,9 +11,6 @@ namespace STFU.Lib.Youtube.Model
 {
 	public class YoutubeVideo : IYoutubeVideo
 	{
-		public YoutubeVideo()
-		{ }
-
 		public YoutubeVideo(string path)
 		{
 			Path = path;
@@ -20,8 +18,10 @@ namespace STFU.Lib.Youtube.Model
 
 		public bool AutoLevels { get; set; }
 
+		[JsonConverter(typeof(ConcreteTypeConverter<YoutubeCategory>))]
 		public ICategory Category { get; set; }
 
+		[JsonConverter(typeof(ConcreteTypeConverter<YoutubeLanguage>))]
 		public ILanguage DefaultLanguage { get; set; }
 
 		private string description = string.Empty;
@@ -47,14 +47,17 @@ namespace STFU.Lib.Youtube.Model
 			}
 		}
 
-		public FileInfo File => new FileInfo(Path);
+		[JsonIgnore]
+		public FileInfo File => !string.IsNullOrWhiteSpace(Path) ? new FileInfo(Path) : null;
 
 		public bool IsEmbeddable { get; set; }
 
 		public License License { get; set; }
 
+		[JsonIgnore]
 		public string MediaType => MimeMapping.GetMimeMapping(Path);
 
+		[JsonIgnore]
 		public bool MediaTypeOk
 			=> MediaType.ToLower().StartsWith("video/") || MediaType.ToLower().StartsWith("application/");
 
@@ -68,6 +71,7 @@ namespace STFU.Lib.Youtube.Model
 
 		public DateTime? PublishAt { get; set; }
 
+		[JsonIgnore]
 		public bool SizeOk => File.Length < (long)128 * 1000 * 1000 * 1000;
 
 		public bool Stabilize { get; set; }
@@ -159,6 +163,8 @@ namespace STFU.Lib.Youtube.Model
 		public Uri UploadUri { get; set; }
 
 		public string Id { get; set; }
+
+		[JsonConverter(typeof(ConcreteTypeConverter<NotificationSettings>))]
 		public INotificationSettings NotificationSettings { get; set; }
 
 		public override string ToString()

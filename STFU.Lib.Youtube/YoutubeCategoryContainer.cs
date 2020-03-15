@@ -12,11 +12,11 @@ namespace STFU.Lib.Youtube
 
 		public IReadOnlyCollection<ICategory> RegisteredCategories => new ReadOnlyCollection<ICategory>(Categories);
 
-		public void RegisterCategory(ICategory client)
+		public void RegisterCategory(ICategory category)
 		{
-			if (!RegisteredCategories.Any(c => c.Id == client.Id))
+			if (!RegisteredCategories.Any(c => c.Id == category.Id))
 			{
-				Categories.Add(client);
+				Categories.Add(category);
 			}
 		}
 
@@ -25,11 +25,11 @@ namespace STFU.Lib.Youtube
 			Categories.Clear();
 		}
 
-		public void UnregisterCategory(ICategory client)
+		public void UnregisterCategory(ICategory category)
 		{
-			if (Categories.Contains(client))
+			if (Categories.Contains(category))
 			{
-				Categories.Remove(client);
+				Categories.Remove(category);
 			}
 		}
 

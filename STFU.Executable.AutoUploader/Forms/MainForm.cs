@@ -31,8 +31,13 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeAccountContainer accountContainer = new YoutubeAccountContainer();
 		IYoutubeCategoryContainer categoryContainer = new YoutubeCategoryContainer();
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
+		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
+		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
+
 		IAutomationUploader autoUploader;
+
 		ProcessList processes = new ProcessList();
 
 		AutoUploaderSettings autoUploaderSettings = new AutoUploaderSettings();
@@ -43,6 +48,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		CategoryPersistor categoryPersistor = null;
 		LanguagePersistor languagePersistor = null;
 		AutoUploaderSettingsPersistor settingsPersistor = null;
+		JobPersistor queuePersistor = null;
+		JobPersistor archivePersistor = null;
 
 		private bool showReleaseNotes = false;
 		bool ended = false;
@@ -86,11 +93,27 @@ namespace STFU.Executable.AutoUploader.Forms
 			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
 			settingsPersistor.Load();
 
-			var uploader = new YoutubeUploader();
+			queuePersistor = new JobPersistor(queueContainer, "./settings/queue.json");
+			queuePersistor.Load();
+
+			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
+			archivePersistor.Load();
+
+			foreach (var item in queueContainer.RegisteredJobs)
+			{
+				item.Account = accountContainer.RegisteredAccounts.FirstOrDefault(a => a.Id == item.Account.Id);
+
+				if (item.Account == null)
+				{
+					item.Account = accountContainer.RegisteredAccounts.FirstOrDefault();
+				}
+			}
+
+			var uploader = new YoutubeUploader(queueContainer);
 			uploader.StopAfterCompleting = false;
 			uploader.RemoveCompletedJobs = false;
 
-			autoUploader = new AutomationUploader(uploader);
+			autoUploader = new AutomationUploader(uploader, archiveContainer);
 			autoUploader.WatchedProcesses = processes;
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
@@ -99,7 +122,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
 			RefillListView();
+			RefillArchiveView();
 			ActivateAccountLink();
+		}
+
+		private void RefillArchiveView()
+		{
+			foreach (var job in archiveContainer.RegisteredJobs)
+			{
+				archiveListView.Items.Add(job.Video.Title);
+			}
 		}
 
 		private void UploaderNewUploadStarted(UploadStartedEventArgs args)
@@ -417,6 +449,9 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
+			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Uploader = autoUploader.Uploader;
+
 			cmbbxFinishAction.SelectedIndex = 0;
 			bgwCreateUploader.RunWorkerAsync();
 		}
@@ -429,6 +464,29 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader?.Cancel();
 			pathPersistor.Save();
 			templatePersistor.Save();
+
+			for (int i = 0; i < queueContainer.RegisteredJobs.Count; i++)
+			{
+				var job = queueContainer.RegisteredJobs.ElementAt(i);
+				if (job.State == UploadProgress.Successful)
+				{
+					queueContainer.UnregisterJobAt(i);
+					archiveContainer.RegisterJob(job);
+					i--;
+				}
+				else if (job.State == UploadProgress.CancelPending || job.State == UploadProgress.Running)
+				{
+					job.Reset();
+				}
+				else if (job.State == UploadProgress.PausePending)
+				{
+					//job.SetPaused(); - noch nicht möglich, weil ich noch nicht weiß, wie ich dann fortsetzen kann.
+					job.Reset();
+				}
+			}
+
+			queuePersistor.Save();
+			archivePersistor.Save();
 		}
 
 		private void RevokeAccess()
@@ -703,6 +761,21 @@ namespace STFU.Executable.AutoUploader.Forms
 				canceled = true;
 				autoUploader.Uploader.CancelAll();
 			}
+		}
+
+		private void archiveRemoveJobButton_Click(object sender, EventArgs e)
+		{
+			for (int i = archiveListView.Items.Count - 1; i >= 0; i--)
+			{
+				bool isChecked = archiveListView.Items[i].Checked;
+				if (isChecked)
+				{
+					archiveContainer.UnregisterJobAt(i);
+					archiveListView.Items.RemoveAt(i);
+				}
+			}
+
+			archivePersistor.Save();
 		}
 	}
 }

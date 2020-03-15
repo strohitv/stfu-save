@@ -117,14 +117,17 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public AutomationUploader(IYoutubeUploader uploader)
+		private IYoutubeJobContainer archive;
+
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer)
 		{
 			Uploader = uploader;
+			archive = archiveContainer;
 		}
 
-		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
+			: this(uploader, archiveContainer)
 		{
-			Uploader = uploader;
 			Account = account;
 
 			foreach (var config in configurationsToAdd)
@@ -204,6 +207,8 @@ namespace STFU.Lib.Youtube.Automation
 				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
 				DirectoryWatcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
 			}
+
+			Uploader.StartUploader();
 		}
 
 		private void OnProcessesCompleted(object sender, System.EventArgs e)
@@ -299,7 +304,8 @@ namespace STFU.Lib.Youtube.Automation
 					.All(job
 						=> job.State == UploadProgress.Successful
 						|| job.State == UploadProgress.Failed
-						|| job.State == UploadProgress.Canceled))
+						|| job.State == UploadProgress.Canceled)
+				&& archive.RegisteredJobs.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower()))
 			{
 				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
 				var video = videoAndEvaluator.Item1;
@@ -318,19 +324,19 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (File.Exists(job.Video.Path))
 			{
-				var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
-					   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
-					   + Path.GetExtension(job.Video.File.FullName);
+				//var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
+				//	   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
+				//	   + Path.GetExtension(job.Video.File.FullName);
 
-				int number = 1;
-				while (File.Exists(movedPath))
-				{
-					movedPath = Path.GetDirectoryName(movedPath)
-						+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
-						+ Path.GetExtension(movedPath);
-				}
+				//int number = 1;
+				//while (File.Exists(movedPath))
+				//{
+				//	movedPath = Path.GetDirectoryName(movedPath)
+				//		+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
+				//		+ Path.GetExtension(movedPath);
+				//}
 
-				File.Move(job.Video.File.FullName, movedPath);
+				//File.Move(job.Video.File.FullName, movedPath);
 			}
 		}
 

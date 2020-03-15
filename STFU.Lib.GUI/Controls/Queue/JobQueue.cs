@@ -40,6 +40,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 					Uploader.JobPositionChanged += Uploader_JobPositionChanged;
 					Uploader.NewUploadStarted += Uploader_NewUploadStarted;
 
+					SuspendLayout();
 					ClearItems();
 
 					foreach (var entry in uploader.Queue)
@@ -47,8 +48,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 						var control = new JobControl() { Job = entry, ActionsButtonsVisible = ShowActionsButtons };
 						control.Fill(categoryContainer, languageContainer);
 
-						AddItem(control);
+						AddItem(control, false);
 					}
+					RefreshMoveButtonsEnabled();
+					ResumeLayout();
 				}
 			}
 		}
@@ -162,12 +165,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 			mainTlp.RowStyles.RemoveAt(position);
 		}
 
-		private void AddItem(JobControl control)
+		private void AddItem(JobControl control, bool refreshButtons = true)
 		{
-			AddItem(control, int.MaxValue);
+			AddItem(control, int.MaxValue, refreshButtons);
 		}
 
-		private void AddItem(JobControl control, int position)
+		private void AddItem(JobControl control, int position, bool refreshButtons = true)
 		{
 			if (position < 0)
 			{
@@ -180,7 +183,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 			jobControls.Insert(position, control);
 
-			RefreshMoveButtonsEnabled();
+			if (refreshButtons)
+			{
+				RefreshMoveButtonsEnabled();
+			}
 
 			control.MoveUpRequested += Control_MoveUpRequested;
 			control.MoveDownRequested += Control_MoveDownRequested;
@@ -213,8 +219,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 						jobControls[i].CanBeMovedDown = true;
 					}
 
-					jobControls.Single(jc => jc.Job == uploader.Queue.First()).CanBeMovedUp = false;
-					jobControls.Single(jc => jc.Job == uploader.Queue.Last()).CanBeMovedDown = false;
+					jobControls.SingleOrDefault(jc => jc.Job == uploader.Queue.First()).CanBeMovedUp = false;
+					jobControls.SingleOrDefault(jc => jc.Job == uploader.Queue.Last()).CanBeMovedDown = false;
 				}
 			});
 		}

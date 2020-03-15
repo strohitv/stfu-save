@@ -48,6 +48,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					RefreshTitleLabel();
 					RefreshThumbnail();
+					RefreshControl();
+					RefreshTitleLabel();
+					RefreshContextMenuEnabled();
 
 					job.PropertyChanged += JobPropertyChanged;
 				}

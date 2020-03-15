@@ -87,6 +87,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.archiveTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+			this.archiveLabel = new System.Windows.Forms.Label();
+			this.archiveListView = new System.Windows.Forms.ListView();
+			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
+			this.archiveVideoName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -99,6 +105,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.startExtendedOptionsContextMenu.SuspendLayout();
 			this.pathsTabPage.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
+			this.archiveTabPage.SuspendLayout();
+			this.tableLayoutPanel5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tlpSettings
@@ -347,6 +355,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tlpSettings.SetColumnSpan(this.tabControl1, 3);
 			this.tabControl1.Controls.Add(this.uploaderTabPage);
 			this.tabControl1.Controls.Add(this.pathsTabPage);
+			this.tabControl1.Controls.Add(this.archiveTabPage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(10, 34);
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
@@ -598,7 +607,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// zeitenFestlegenUndAutouploaderStartenToolStripMenuItem
 			// 
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Name = "zeitenFestlegenUndAutouploaderStartenToolStripMenuItem";
-			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(373, 22);
+			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Text = "Zeiten festlegen und Autouploader starten";
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Click += new System.EventHandler(this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem_Click);
 			// 
@@ -698,6 +707,93 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
 			this.notifyIcon.Visible = true;
 			// 
+			// archiveTabPage
+			// 
+			this.archiveTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.archiveTabPage.Controls.Add(this.tableLayoutPanel5);
+			this.archiveTabPage.Location = new System.Drawing.Point(4, 22);
+			this.archiveTabPage.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveTabPage.Name = "archiveTabPage";
+			this.archiveTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.archiveTabPage.Size = new System.Drawing.Size(1130, 582);
+			this.archiveTabPage.TabIndex = 2;
+			this.archiveTabPage.Text = "Bisher hochgeladene Videos";
+			// 
+			// tableLayoutPanel5
+			// 
+			this.tableLayoutPanel5.ColumnCount = 5;
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.Controls.Add(this.archiveLabel, 1, 1);
+			this.tableLayoutPanel5.Controls.Add(this.archiveListView, 1, 3);
+			this.tableLayoutPanel5.Controls.Add(this.archiveRemoveJobButton, 3, 5);
+			this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+			this.tableLayoutPanel5.RowCount = 7;
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.Size = new System.Drawing.Size(1124, 576);
+			this.tableLayoutPanel5.TabIndex = 0;
+			// 
+			// archiveLabel
+			// 
+			this.archiveLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.archiveLabel.AutoSize = true;
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveLabel, 3);
+			this.archiveLabel.Location = new System.Drawing.Point(10, 10);
+			this.archiveLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveLabel.Name = "archiveLabel";
+			this.archiveLabel.Size = new System.Drawing.Size(1104, 52);
+			this.archiveLabel.TabIndex = 0;
+			this.archiveLabel.Text = resources.GetString("archiveLabel.Text");
+			// 
+			// archiveListView
+			// 
+			this.archiveListView.CheckBoxes = true;
+			this.archiveListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.archiveVideoName});
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 3);
+			this.archiveListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.archiveListView.FullRowSelect = true;
+			this.archiveListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.archiveListView.LabelWrap = false;
+			this.archiveListView.Location = new System.Drawing.Point(10, 72);
+			this.archiveListView.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveListView.Name = "archiveListView";
+			this.archiveListView.Size = new System.Drawing.Size(1104, 455);
+			this.archiveListView.TabIndex = 1;
+			this.archiveListView.UseCompatibleStateImageBehavior = false;
+			this.archiveListView.View = System.Windows.Forms.View.Details;
+			// 
+			// archiveRemoveJobButton
+			// 
+			this.archiveRemoveJobButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.archiveRemoveJobButton.AutoSize = true;
+			this.archiveRemoveJobButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.archiveRemoveJobButton.Location = new System.Drawing.Point(976, 537);
+			this.archiveRemoveJobButton.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveRemoveJobButton.Name = "archiveRemoveJobButton";
+			this.archiveRemoveJobButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.archiveRemoveJobButton.Size = new System.Drawing.Size(138, 29);
+			this.archiveRemoveJobButton.TabIndex = 2;
+			this.archiveRemoveJobButton.Text = "Aus Archiv löschen";
+			this.archiveRemoveJobButton.UseVisualStyleBackColor = true;
+			this.archiveRemoveJobButton.Click += new System.EventHandler(this.archiveRemoveJobButton_Click);
+			// 
+			// archiveVideoName
+			// 
+			this.archiveVideoName.Text = "Video";
+			this.archiveVideoName.Width = 1000;
+			// 
 			// MainForm
 			// 
 			this.AcceptButton = this.btnStart;
@@ -732,6 +828,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.startExtendedOptionsContextMenu.ResumeLayout(false);
 			this.pathsTabPage.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
+			this.archiveTabPage.ResumeLayout(false);
+			this.tableLayoutPanel5.ResumeLayout(false);
+			this.tableLayoutPanel5.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -794,6 +893,12 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
 		private System.Windows.Forms.ContextMenuStrip startExtendedOptionsContextMenu;
 		private System.Windows.Forms.ToolStripMenuItem zeitenFestlegenUndAutouploaderStartenToolStripMenuItem;
+		private System.Windows.Forms.TabPage archiveTabPage;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+		private System.Windows.Forms.Label archiveLabel;
+		private System.Windows.Forms.ListView archiveListView;
+		private System.Windows.Forms.ColumnHeader archiveVideoName;
+		private System.Windows.Forms.Button archiveRemoveJobButton;
 	}
 }
 
