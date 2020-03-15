@@ -48,7 +48,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.tutorialVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +92,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveListView = new System.Windows.Forms.ListView();
 			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
 			this.archiveVideoName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.videotutorialPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -266,10 +266,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.neueFunktionenToolStripMenuItem,
             this.toolStripSeparator2,
-            this.tutorialVideoToolStripMenuItem,
-            this.discordServerToolStripMenuItem,
+            this.videotutorialPlaylistToolStripMenuItem,
             this.threadImLPFToolStripMenuItem,
             this.threadImYTFToolStripMenuItem,
+            this.discordServerToolStripMenuItem,
             this.strohiAufTwitterToolStripMenuItem,
             this.toolStripSeparator1,
             this.downloadSeiteToolStripMenuItem,
@@ -290,13 +290,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
-			// 
-			// tutorialVideoToolStripMenuItem
-			// 
-			this.tutorialVideoToolStripMenuItem.Name = "tutorialVideoToolStripMenuItem";
-			this.tutorialVideoToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.tutorialVideoToolStripMenuItem.Text = "Tutorial-Video";
-			this.tutorialVideoToolStripMenuItem.Click += new System.EventHandler(this.tutorialVideoToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
@@ -793,6 +786,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.archiveVideoName.Text = "Video";
 			this.archiveVideoName.Width = 1000;
+			// videotutorialPlaylistToolStripMenuItem
+			// 
+			this.videotutorialPlaylistToolStripMenuItem.Name = "videotutorialPlaylistToolStripMenuItem";
+			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.videotutorialPlaylistToolStripMenuItem.Text = "Videotutorial-Playlist";
+			this.videotutorialPlaylistToolStripMenuItem.Click += new System.EventHandler(this.videotutorialPlaylistToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -867,7 +866,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImLPFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem strohiAufTwitterToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tutorialVideoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem threadImYTFToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem discordServerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem downloadSeiteToolStripMenuItem;
@@ -899,6 +897,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ListView archiveListView;
 		private System.Windows.Forms.ColumnHeader archiveVideoName;
 		private System.Windows.Forms.Button archiveRemoveJobButton;
+		private System.Windows.Forms.ToolStripMenuItem videotutorialPlaylistToolStripMenuItem;
 	}
 }
 

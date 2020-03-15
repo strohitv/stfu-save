@@ -13,6 +13,8 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class TemplatePersistor
 	{
+		private object lockobject = new object();
+
 		public string Path { get; private set; } = null;
 		public ITemplateContainer Container { get; private set; } = null;
 		public ITemplateContainer Saved { get; private set; } = null;
@@ -82,32 +84,35 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
-			ITemplate[] templates = Container.RegisteredTemplates.ToArray();
-
-			var json = JsonConvert.SerializeObject(templates);
-
-			var worked = true;
-			try
+			lock (lockobject)
 			{
-				using (StreamWriter writer = new StreamWriter(Path, false))
+				ITemplate[] templates = Container.RegisteredTemplates.ToArray();
+
+				var json = JsonConvert.SerializeObject(templates);
+
+				var worked = true;
+				try
 				{
-					writer.Write(json);
+					using (StreamWriter writer = new StreamWriter(Path, false))
+					{
+						writer.Write(json);
+					}
+
+					RecreateSaved();
+				}
+				catch (Exception e)
+				when (e is UnauthorizedAccessException
+				|| e is ArgumentException
+				|| e is ArgumentNullException
+				|| e is DirectoryNotFoundException
+				|| e is PathTooLongException
+				|| e is IOException)
+				{
+					worked = false;
 				}
 
-				RecreateSaved();
+				return worked;
 			}
-			catch (Exception e)
-			when (e is UnauthorizedAccessException
-			|| e is ArgumentException
-			|| e is ArgumentNullException
-			|| e is DirectoryNotFoundException
-			|| e is PathTooLongException
-			|| e is IOException)
-			{
-				worked = false;
-			}
-
-			return worked;
 		}
 
 		private void RecreateSaved()

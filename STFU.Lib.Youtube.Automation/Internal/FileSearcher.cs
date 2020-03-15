@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using STFU.Lib.Common;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation.Internal
@@ -71,7 +72,7 @@ namespace STFU.Lib.Youtube.Automation.Internal
 					var files = Directory.GetFiles(path, filter)
 						.ToArray();
 
-					foreach (var file in files.Where(f => !Path.GetFileName(f).StartsWith("_")))
+					foreach (var file in files.Where(f => !Path.GetFileName(f).StartsWith("_") && IsVideoAnalyzer.IsVideo(f)))
 					{
 						var fileInfo = new FileInfo(file);
 						FileFound?.Invoke(new FileSystemEventArgs(WatcherChangeTypes.All, fileInfo.DirectoryName, fileInfo.Name));

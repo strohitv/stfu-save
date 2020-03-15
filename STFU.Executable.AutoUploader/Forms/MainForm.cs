@@ -683,11 +683,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			Process.Start("https://drive.google.com/drive/folders/1kCRPLg-95PjbQKjEpj-HW7tjvzmZ87RI");
 		}
 
-		private void tutorialVideoToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("https://www.youtube.com/watch?v=XjYvy36BrNo");
-		}
-
 		private void threadImYTFToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://ytforum.de/index.php/Thread/19543-BETA-Strohis-Toolset-Für-Uploads-v0-1-1-Videos-automatisch-hochladen/");
@@ -776,6 +771,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			archivePersistor.Save();
+		}
+		
+		private void videotutorialPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://www.youtube.com/playlist?list=PLm5B9FzOsaWfrn-MeuU_zf7pwooPdPCts");
 		}
 	}
 }

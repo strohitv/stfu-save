@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Common;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 {
@@ -87,7 +88,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 		private void ReactOnFileChanges(object sender, FileSystemEventArgs e)
 		{
-			FileAdded?.Invoke(e);
+			if (IsVideoAnalyzer.IsVideo(e.Name))
+			{
+				FileAdded?.Invoke(e);
+			}
 		}
 
 		#region PropertyChanged

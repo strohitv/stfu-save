@@ -9,7 +9,17 @@ namespace STFU.Lib.MailSender.Generator
 	{
 		public string Generate(IYoutubeJob job)
 		{
-			var tags = job.Video.Tags.Aggregate((a, b) => $"{a.Trim()},{b.Trim()}");
+			var tags = "";
+
+			if (job.Video.Tags.Count > 0)
+			{
+				tags = job.Video.Tags.First();
+			}
+
+			for (int i = 1; i < job.Video.Tags.Count; i++)
+			{
+				tags = $"{tags},{job.Video.Tags.ElementAt(i)}";
+			}
 
 			var privacy = string.Empty;
 			switch (job.Video.Privacy)
