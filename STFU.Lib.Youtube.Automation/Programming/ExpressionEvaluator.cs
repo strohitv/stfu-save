@@ -136,6 +136,50 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 		}
 
+		public static bool IsValid(string expression)
+		{
+			var valid = true;
+
+			if (expression == null)
+			{
+				expression = string.Empty;
+			}
+
+			for (int currentPos = 0; currentPos < expression.Length; currentPos++)
+			{
+				if (expression[currentPos] == '<')
+				{
+					ScriptType scriptType = FindScriptType(expression, currentPos);
+
+					// Get if it is a simple script
+					if (scriptType == ScriptType.Simple)
+					{
+						int closingPos = FindClosingPosition(expression, currentPos);
+						if (closingPos < 0)
+						{
+							valid = false;
+							break;
+						}
+						else
+						{
+							currentPos = closingPos + 1;
+						}
+					}
+					else
+					{
+						currentPos = FindComplexClosingPosition(expression, currentPos);
+						if (currentPos < 0)
+						{
+							valid = false;
+							break;
+						}
+					}
+				}
+			}
+
+			return valid;
+		}
+
 		public static bool IsFieldOnlyInDescription(string fieldname, ITemplate template)
 		{
 			var field = fieldname.ToLower();

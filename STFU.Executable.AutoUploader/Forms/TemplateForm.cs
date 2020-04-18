@@ -43,7 +43,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		public TemplateForm(TemplatePersistor persistor, 
+		public TemplateForm(TemplatePersistor persistor,
 			IYoutubeCategoryContainer categoryContainer,
 			IYoutubeLanguageContainer languageContainer,
 			bool accountHasMailEnabled)
@@ -462,18 +462,59 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (saveTemplateButton.Enabled && templateListView.SelectedIndices.Count == 1)
 			{
-				reordering = true;
-				templateContainer.UpdateTemplate(current);
-				templatePersistor.Save();
+				if (ScriptsAreValid())
+				{
+					reordering = true;
+					templateContainer.UpdateTemplate(current);
+					templatePersistor.Save();
 
-				IsDirty = false;
+					IsDirty = false;
 
-				templateListView.Items[templateListView.SelectedIndices[0]].Text
-					= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
-				reordering = false;
+					templateListView.Items[templateListView.SelectedIndices[0]].Text
+						= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
+					reordering = false;
 
-				templateListViewSelectedIndexChanged(sender, e);
+					templateListViewSelectedIndexChanged(sender, e);
+				}
+				else
+				{
+					MessageBox.Show(this, $"Änderungen konnten nicht gespeichert werden.{Environment.NewLine}Bitte überprüfe folgende Felder: {invalidFields.Aggregate((a, b) => $"{a}, {b}")}.{Environment.NewLine}{Environment.NewLine}Darin ist ein Script nicht mit > oder >>> korrekt geschlossen, sodass ein Feld fehlerhaft ist.", "Scripts nicht korrekt abgeschlossen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
+		}
+
+		private IList<string> invalidFields = new List<string>();
+
+		private bool ScriptsAreValid()
+		{
+			var titleValid = ExpressionEvaluator.IsValid(current.Title);
+			var descriptionValid = ExpressionEvaluator.IsValid(current.Description);
+			var tagsValid = ExpressionEvaluator.IsValid(current.Tags);
+			var thumbnailPathValid = ExpressionEvaluator.IsValid(current.ThumbnailPath);
+
+			invalidFields.Clear();
+
+			if (!titleValid)
+			{
+				invalidFields.Add("Titel");
+			}
+
+			if (!descriptionValid)
+			{
+				invalidFields.Add("Beschreibung");
+			}
+
+			if (!tagsValid)
+			{
+				invalidFields.Add("Tags");
+			}
+
+			if (!thumbnailPathValid)
+			{
+				invalidFields.Add("Thumbnailpfad");
+			}
+
+			return titleValid && descriptionValid && tagsValid && thumbnailPathValid;
 		}
 
 		private void templateNameTextboxTextChanged(object sender, EventArgs e)
@@ -1035,7 +1076,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
-				current.NewVideoMailNotification =  newVideoMNCheckbox.Checked;
+				current.NewVideoMailNotification = newVideoMNCheckbox.Checked;
 				IsDirty = true;
 			}
 		}
