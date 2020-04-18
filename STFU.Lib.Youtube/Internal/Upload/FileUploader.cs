@@ -17,6 +17,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		internal FileUploader() { }
 
+		internal FileUploader(TimeSpan currentDuration)
+		{
+			UploadedDuration = currentDuration;
+		}
+
 		internal bool UploadFile(string path, HttpWebRequest request)
 		{
 			return UploadFile(path, request, (long)128 * 1000 * 1000 * 1000, 0);
@@ -50,6 +55,11 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 					try
 					{
+						var uri = request.RequestUri;
+						ServicePointManager.FindServicePoint(uri).UseNagleAlgorithm = false;
+						request.Proxy = new WebProxy();
+						request.AllowWriteStreamBuffering = false;
+
 						// Upload initiieren
 						using (Stream requestStream = request.GetRequestStream())
 						{

@@ -196,7 +196,7 @@ namespace STFU.Lib.Youtube
 				if (Steps.Count == 0)
 				{
 					Steps.Enqueue(new YoutubeVideoUploadInitializer(Video, Account));
-					Steps.Enqueue(new YoutubeVideoUploader(Video, Account));
+					Steps.Enqueue(new YoutubeVideoUploader(Video, Account, UploadedDuration));
 
 					if (!string.IsNullOrWhiteSpace(Video.ThumbnailPath))
 					{

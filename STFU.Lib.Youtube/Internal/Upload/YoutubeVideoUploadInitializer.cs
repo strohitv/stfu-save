@@ -26,29 +26,36 @@ namespace STFU.Lib.Youtube.Internal.Upload
 		{
 			State = UploadStepState.Initializing;
 
-			string result = InitializeUploadOnYoutube();
-
-			Uri uri = null;
-			if (Uri.TryCreate(result, UriKind.Absolute, out uri))
+			if (Video.UploadUri == null)
 			{
-				Video.UploadUri = uri;
+				string result = InitializeUploadOnYoutube();
 
-				if (State == UploadStepState.PausePending)
+				Uri uri = null;
+				if (Uri.TryCreate(result, UriKind.Absolute, out uri))
 				{
-					State = UploadStepState.Paused;
-				}
-				else if (State == UploadStepState.CancelPending)
-				{
-					State = UploadStepState.Canceled;
+					Video.UploadUri = uri;
+
+					if (State == UploadStepState.PausePending)
+					{
+						State = UploadStepState.Paused;
+					}
+					else if (State == UploadStepState.CancelPending)
+					{
+						State = UploadStepState.Canceled;
+					}
+					else
+					{
+						State = UploadStepState.Successful;
+					}
 				}
 				else
 				{
-					State = UploadStepState.Successful;
+					SetError(result);
 				}
 			}
 			else
 			{
-				SetError(result);
+				State = UploadStepState.Successful;
 			}
 		}
 

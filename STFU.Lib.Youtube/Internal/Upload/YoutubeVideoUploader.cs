@@ -14,12 +14,20 @@ namespace STFU.Lib.Youtube.Internal.Upload
 {
 	internal class YoutubeVideoUploader : UploadStep
 	{
-		FileUploader fileUploader = new FileUploader();
+		FileUploader fileUploader;
 
 		internal YoutubeVideoUploader(IYoutubeVideo video, IYoutubeAccount account)
 			: base(video, account)
 		{
 			fileUploader.PropertyChanged += OnUploadProgressChanged;
+		}
+
+		internal YoutubeVideoUploader(IYoutubeVideo video, IYoutubeAccount account, TimeSpan currentDuration)
+			: base(video, account)
+		{
+			fileUploader = new FileUploader(currentDuration);
+			fileUploader.PropertyChanged += OnUploadProgressChanged;
+			CurrentDuration = currentDuration;
 		}
 
 		public override async Task RunAsync()

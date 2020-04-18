@@ -83,6 +83,22 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void JobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			if (currentUploadObject == "nichts")
+			{
+				switch (Job.CurrentObject)
+				{
+					case UploadObject.Video:
+						currentUploadObject = "Video";
+						break;
+					case UploadObject.Thumbnail:
+						currentUploadObject = "Thumbnail";
+						break;
+					default:
+						currentUploadObject = "nichts";
+						break;
+				}
+			}
+
 			if (e.PropertyName == nameof(Job.Progress))
 			{
 				RefreshProgressBar((int)(Job.Progress * 100));
