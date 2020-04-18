@@ -120,15 +120,16 @@
   <metadata name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>525, 17</value>
   </metadata>
+  <metadata name="startExtendedOptionsContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>873, 17</value>
+  </metadata>
   <data name="archiveLabel.Text" xml:space="preserve">
-    <value>In dieser Liste findest du alle Videos, die in einem vorigen Programmstart erfolgreich hochgeladen wurden.
+    <value>In dieser Liste findest du alle Videos, die vom Uploader nicht hochgeladen werden sollen.
+Videos, die erfolgreich hochgeladen wurden, werden automatisch in diese Liste aufgenommen.
 Wenn du ein Video erneut hochladen möchtest, hake es an und klicke unten auf "Löschen".
 
 Der Uploader vergisst das Video dann und wird es beim nächsten Start erneut zum Hochladen finden.</value>
   </data>
-  <metadata name="startExtendedOptionsContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>873, 17</value>
-  </metadata>
   <metadata name="bgwCreateUploader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>332, 17</value>
   </metadata>
@@ -5340,6 +5341,9 @@ Der Uploader vergisst das Video dann und wird es beim nächsten Start erneut zum
         8AcA/xeC2kxyGPhjhwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1116, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAAAAAAAEAGADTwQQAFgAAAIlQTkcNChoKAAAADUlIRFIAAAIAAAACAAgGAAAA9HjU+gAAIABJ

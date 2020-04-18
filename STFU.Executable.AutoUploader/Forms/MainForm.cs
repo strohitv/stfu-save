@@ -772,10 +772,26 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			archivePersistor.Save();
 		}
-		
+
 		private void videotutorialPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://www.youtube.com/playlist?list=PLm5B9FzOsaWfrn-MeuU_zf7pwooPdPCts");
+		}
+
+		private void archiveAddButton_Click(object sender, EventArgs e)
+		{
+			var result = openFileDialog.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				var files = openFileDialog.FileNames;
+				foreach (var file in files)
+				{
+					archiveContainer.RegisterJob(new YoutubeJob(new YoutubeVideo(file) { Title = file }, accountContainer.RegisteredAccounts.FirstOrDefault()));
+					archiveListView.Items.Add(file);
+				}
+			}
+
+			archivePersistor.Save();
 		}
 	}
 }

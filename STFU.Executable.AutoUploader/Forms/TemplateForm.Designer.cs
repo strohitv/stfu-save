@@ -1706,13 +1706,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel2.Controls.Add(this.label3, 1, 5);
 			this.tableLayoutPanel2.Controls.Add(this.label4, 1, 7);
 			this.tableLayoutPanel2.Controls.Add(this.newVideoDNCheckbox, 3, 1);
-			this.tableLayoutPanel2.Controls.Add(this.uploadStartedDNCheckbox, 3, 3);
-			this.tableLayoutPanel2.Controls.Add(this.uploadFinishedDNCheckbox, 3, 5);
 			this.tableLayoutPanel2.Controls.Add(this.uploadFailedDNCheckbox, 3, 7);
 			this.tableLayoutPanel2.Controls.Add(this.newVideoMNCheckbox, 5, 1);
 			this.tableLayoutPanel2.Controls.Add(this.uploadStartedMNCheckbox, 5, 3);
 			this.tableLayoutPanel2.Controls.Add(this.uploadFinishedMNCheckbox, 5, 5);
 			this.tableLayoutPanel2.Controls.Add(this.uploadFailedMNCheckbox, 5, 7);
+			this.tableLayoutPanel2.Controls.Add(this.uploadStartedDNCheckbox, 3, 3);
+			this.tableLayoutPanel2.Controls.Add(this.uploadFinishedDNCheckbox, 3, 5);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 22);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -1779,12 +1779,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.newVideoDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.newVideoDNCheckbox.AutoSize = true;
 			this.newVideoDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.newVideoDNCheckbox.Location = new System.Drawing.Point(408, 10);
+			this.newVideoDNCheckbox.Location = new System.Drawing.Point(403, 10);
 			this.newVideoDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.newVideoDNCheckbox.Name = "newVideoDNCheckbox";
-			this.newVideoDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.newVideoDNCheckbox.Size = new System.Drawing.Size(267, 22);
 			this.newVideoDNCheckbox.TabIndex = 1;
-			this.newVideoDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.newVideoDNCheckbox.Text = "Desktop-Benachrichtigung";
 			this.newVideoDNCheckbox.UseVisualStyleBackColor = true;
 			this.newVideoDNCheckbox.CheckedChanged += new System.EventHandler(this.newVideoDNCheckbox_CheckedChanged);
 			// 
@@ -1793,12 +1793,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.uploadStartedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.uploadStartedDNCheckbox.AutoSize = true;
 			this.uploadStartedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadStartedDNCheckbox.Location = new System.Drawing.Point(408, 42);
+			this.uploadStartedDNCheckbox.Location = new System.Drawing.Point(403, 42);
 			this.uploadStartedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.uploadStartedDNCheckbox.Name = "uploadStartedDNCheckbox";
-			this.uploadStartedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadStartedDNCheckbox.Size = new System.Drawing.Size(267, 22);
 			this.uploadStartedDNCheckbox.TabIndex = 1;
-			this.uploadStartedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadStartedDNCheckbox.Text = "Desktop-Benachrichtigung";
 			this.uploadStartedDNCheckbox.UseVisualStyleBackColor = true;
 			this.uploadStartedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadStartedDNCheckbox_CheckedChanged);
 			// 
@@ -1807,12 +1807,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.uploadFinishedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.uploadFinishedDNCheckbox.AutoSize = true;
 			this.uploadFinishedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadFinishedDNCheckbox.Location = new System.Drawing.Point(408, 74);
+			this.uploadFinishedDNCheckbox.Location = new System.Drawing.Point(403, 74);
 			this.uploadFinishedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.uploadFinishedDNCheckbox.Name = "uploadFinishedDNCheckbox";
-			this.uploadFinishedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFinishedDNCheckbox.Size = new System.Drawing.Size(267, 22);
 			this.uploadFinishedDNCheckbox.TabIndex = 1;
-			this.uploadFinishedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadFinishedDNCheckbox.Text = "Desktop-Benachrichtigung";
 			this.uploadFinishedDNCheckbox.UseVisualStyleBackColor = true;
 			this.uploadFinishedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFinishedDNCheckbox_CheckedChanged);
 			// 
@@ -1821,12 +1821,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.uploadFailedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.uploadFailedDNCheckbox.AutoSize = true;
 			this.uploadFailedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadFailedDNCheckbox.Location = new System.Drawing.Point(408, 106);
+			this.uploadFailedDNCheckbox.Location = new System.Drawing.Point(403, 106);
 			this.uploadFailedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.uploadFailedDNCheckbox.Name = "uploadFailedDNCheckbox";
-			this.uploadFailedDNCheckbox.Size = new System.Drawing.Size(257, 22);
+			this.uploadFailedDNCheckbox.Size = new System.Drawing.Size(267, 22);
 			this.uploadFailedDNCheckbox.TabIndex = 1;
-			this.uploadFailedDNCheckbox.Text = "Dektop-Benachrichtigung";
+			this.uploadFailedDNCheckbox.Text = "Desktop-Benachrichtigung";
 			this.uploadFailedDNCheckbox.UseVisualStyleBackColor = true;
 			this.uploadFailedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFailedDNCheckbox_CheckedChanged);
 			// 

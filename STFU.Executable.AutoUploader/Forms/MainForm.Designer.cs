@@ -48,9 +48,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.videotutorialPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImLPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threadImYTFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.discordServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.strohiAufTwitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,16 +84,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.chRecursive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.chHidden = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.cbInactive = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
-			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
-			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.archiveTabPage = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
 			this.archiveLabel = new System.Windows.Forms.Label();
 			this.archiveListView = new System.Windows.Forms.ListView();
-			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
 			this.archiveVideoName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.videotutorialPlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
+			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
+			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.archiveAddButton = new System.Windows.Forms.Button();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -291,12 +293,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
 			// 
-			// discordServerToolStripMenuItem
+			// videotutorialPlaylistToolStripMenuItem
 			// 
-			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
-			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.discordServerToolStripMenuItem.Text = "Discord-Server";
-			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
+			this.videotutorialPlaylistToolStripMenuItem.Name = "videotutorialPlaylistToolStripMenuItem";
+			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.videotutorialPlaylistToolStripMenuItem.Text = "Videotutorial-Playlist";
+			this.videotutorialPlaylistToolStripMenuItem.Click += new System.EventHandler(this.videotutorialPlaylistToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
@@ -311,6 +313,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
 			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
 			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
+			// 
+			// discordServerToolStripMenuItem
+			// 
+			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.discordServerToolStripMenuItem.Text = "Discord-Server";
+			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
@@ -683,23 +692,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.cbInactive.Text = "Inaktiv";
 			// 
-			// bgwCreateUploader
-			// 
-			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
-			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
-			// 
-			// watchingTimer
-			// 
-			this.watchingTimer.Enabled = true;
-			this.watchingTimer.Interval = 3000;
-			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
-			// 
-			// notifyIcon
-			// 
-			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
-			this.notifyIcon.Visible = true;
-			// 
 			// archiveTabPage
 			// 
 			this.archiveTabPage.BackColor = System.Drawing.SystemColors.Control;
@@ -710,19 +702,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveTabPage.Padding = new System.Windows.Forms.Padding(3);
 			this.archiveTabPage.Size = new System.Drawing.Size(1130, 582);
 			this.archiveTabPage.TabIndex = 2;
-			this.archiveTabPage.Text = "Bisher hochgeladene Videos";
+			this.archiveTabPage.Text = "Videos, die nicht hochgeladen werden sollen";
 			// 
 			// tableLayoutPanel5
 			// 
-			this.tableLayoutPanel5.ColumnCount = 5;
+			this.tableLayoutPanel5.ColumnCount = 7;
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.Controls.Add(this.archiveLabel, 1, 1);
 			this.tableLayoutPanel5.Controls.Add(this.archiveListView, 1, 3);
-			this.tableLayoutPanel5.Controls.Add(this.archiveRemoveJobButton, 3, 5);
+			this.tableLayoutPanel5.Controls.Add(this.archiveRemoveJobButton, 5, 5);
+			this.tableLayoutPanel5.Controls.Add(this.archiveAddButton, 3, 5);
 			this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -741,11 +736,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.archiveLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.archiveLabel.AutoSize = true;
-			this.tableLayoutPanel5.SetColumnSpan(this.archiveLabel, 3);
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveLabel, 5);
 			this.archiveLabel.Location = new System.Drawing.Point(10, 10);
 			this.archiveLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.archiveLabel.Name = "archiveLabel";
-			this.archiveLabel.Size = new System.Drawing.Size(1104, 52);
+			this.archiveLabel.Size = new System.Drawing.Size(1104, 65);
 			this.archiveLabel.TabIndex = 0;
 			this.archiveLabel.Text = resources.GetString("archiveLabel.Text");
 			// 
@@ -754,18 +749,23 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveListView.CheckBoxes = true;
 			this.archiveListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.archiveVideoName});
-			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 3);
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 5);
 			this.archiveListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.archiveListView.FullRowSelect = true;
 			this.archiveListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.archiveListView.LabelWrap = false;
-			this.archiveListView.Location = new System.Drawing.Point(10, 72);
+			this.archiveListView.Location = new System.Drawing.Point(10, 85);
 			this.archiveListView.Margin = new System.Windows.Forms.Padding(0);
 			this.archiveListView.Name = "archiveListView";
-			this.archiveListView.Size = new System.Drawing.Size(1104, 455);
+			this.archiveListView.Size = new System.Drawing.Size(1104, 442);
 			this.archiveListView.TabIndex = 1;
 			this.archiveListView.UseCompatibleStateImageBehavior = false;
 			this.archiveListView.View = System.Windows.Forms.View.Details;
+			// 
+			// archiveVideoName
+			// 
+			this.archiveVideoName.Text = "Video";
+			this.archiveVideoName.Width = 1000;
 			// 
 			// archiveRemoveJobButton
 			// 
@@ -782,16 +782,43 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveRemoveJobButton.UseVisualStyleBackColor = true;
 			this.archiveRemoveJobButton.Click += new System.EventHandler(this.archiveRemoveJobButton_Click);
 			// 
-			// archiveVideoName
+			// bgwCreateUploader
 			// 
-			this.archiveVideoName.Text = "Video";
-			this.archiveVideoName.Width = 1000;
-			// videotutorialPlaylistToolStripMenuItem
+			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
+			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
-			this.videotutorialPlaylistToolStripMenuItem.Name = "videotutorialPlaylistToolStripMenuItem";
-			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.videotutorialPlaylistToolStripMenuItem.Text = "Videotutorial-Playlist";
-			this.videotutorialPlaylistToolStripMenuItem.Click += new System.EventHandler(this.videotutorialPlaylistToolStripMenuItem_Click);
+			// watchingTimer
+			// 
+			this.watchingTimer.Enabled = true;
+			this.watchingTimer.Interval = 3000;
+			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
+			// 
+			// notifyIcon
+			// 
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
+			this.notifyIcon.Visible = true;
+			// 
+			// archiveAddButton
+			// 
+			this.archiveAddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.archiveAddButton.AutoSize = true;
+			this.archiveAddButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.archiveAddButton.Location = new System.Drawing.Point(837, 537);
+			this.archiveAddButton.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveAddButton.Name = "archiveAddButton";
+			this.archiveAddButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.archiveAddButton.Size = new System.Drawing.Size(129, 29);
+			this.archiveAddButton.TabIndex = 2;
+			this.archiveAddButton.Text = "Video hinzufügen";
+			this.archiveAddButton.UseVisualStyleBackColor = true;
+			this.archiveAddButton.Click += new System.EventHandler(this.archiveAddButton_Click);
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.Filter = "Alle Dateien|*.*";
+			this.openFileDialog.Multiselect = true;
+			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
 			// MainForm
 			// 
@@ -898,6 +925,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ColumnHeader archiveVideoName;
 		private System.Windows.Forms.Button archiveRemoveJobButton;
 		private System.Windows.Forms.ToolStripMenuItem videotutorialPlaylistToolStripMenuItem;
+		private System.Windows.Forms.Button archiveAddButton;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
 	}
 }
 

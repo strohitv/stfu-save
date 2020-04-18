@@ -10,6 +10,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
+using STFU.Lib.Youtube.Internal;
 using STFU.Lib.Youtube.Internal.Upload;
 using STFU.Lib.Youtube.Internal.Upload.Model;
 using STFU.Lib.Youtube.Model;
@@ -180,9 +181,10 @@ namespace STFU.Lib.Youtube
 		}
 
 		[JsonConstructor]
-		public YoutubeJob(YoutubeVideo video, YoutubeAccount account)
-			: this ((IYoutubeVideo)video, account)
+		public YoutubeJob(YoutubeVideo video, YoutubeAccount account, YoutubeError error)
+			: this (video, account)
 		{
+			Error = error;
 		}
 
 		public void StartUpload()

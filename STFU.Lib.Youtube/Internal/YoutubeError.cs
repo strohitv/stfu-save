@@ -2,7 +2,7 @@
 
 namespace STFU.Lib.Youtube.Internal
 {
-	internal class YoutubeError : IYoutubeError
+	public class YoutubeError : IYoutubeError
 	{
 		public FailureReason FailReason { get; set; }
 
@@ -11,6 +11,8 @@ namespace STFU.Lib.Youtube.Internal
 		public string Json { get; set; }
 
 		public string Message { get; set; }
+
+		public YoutubeError() { }
 
 		public YoutubeError(FailureReason failreason, string message) : this(failreason, -1, message, string.Empty) { }
 
