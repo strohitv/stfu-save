@@ -344,7 +344,20 @@ namespace STFU.Lib.Youtube.Automation
 				{
 					try
 					{
-						var movedFullName = Path.Combine(moveDirectory, Path.GetFileName(job.Video.Path));
+						string filename = Path.GetFileNameWithoutExtension(job.Video.Path);
+						string extension = Path.GetExtension(job.Video.Path);
+
+						string fullFileName = filename + extension;
+						var movedFullName = Path.Combine(moveDirectory, fullFileName);
+
+						int i = 2;
+						while (File.Exists(movedFullName))
+						{
+							fullFileName = $"{filename} ({i}){extension}";
+							i++;
+							movedFullName = Path.Combine(moveDirectory, fullFileName);
+						}
+
 						File.Move(job.Video.Path, movedFullName);
 						job.Video.Path = movedFullName;
 					}
