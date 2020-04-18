@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -75,6 +76,12 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			}
 
 			return new Tuple<IYoutubeVideo, ExpressionEvaluator>(video, evaluator);
+		}
+
+		public IPath FindNearestPath(string path)
+		{
+			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
+			return publishCalculator?.PathInfo;
 		}
 
 		private string CutOff(string value, int maxlength)

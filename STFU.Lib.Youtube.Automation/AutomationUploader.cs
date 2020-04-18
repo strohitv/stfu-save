@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -311,32 +312,44 @@ namespace STFU.Lib.Youtube.Automation
 				var video = videoAndEvaluator.Item1;
 				var evaluator = videoAndEvaluator.Item2;
 				var job = Uploader.QueueUpload(video, Account);
+				var moveDirectory = VideoCreator.FindNearestPath(e.FullPath).MoveDirectoryPath;
+
 				FileToUploadOccured?.Invoke(this, new JobEventArgs(job));
 
 				job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
-				job.UploadCompletedAction += (args) => RenameVideo(args.Job);
+				job.UploadCompletedAction += (args) => MoveVideo(args.Job, moveDirectory);
 
 				Uploader.StartUploader();
 			}
 		}
 
-		private void RenameVideo(IYoutubeJob job)
+		private void MoveVideo(IYoutubeJob job, string moveDirectory)
 		{
 			if (File.Exists(job.Video.Path))
 			{
-				//var movedPath = Path.GetDirectoryName(job.Video.File.FullName)
-				//	   + "\\_" + Path.GetFileNameWithoutExtension(job.Video.File.FullName).Remove(0, 1)
-				//	   + Path.GetExtension(job.Video.File.FullName);
+				var canMove = true;
+				if (!Directory.Exists(moveDirectory))
+				{
+					try
+					{
+						Directory.CreateDirectory(moveDirectory);
+					}
+					catch (Exception)
+					{
+						canMove = false;
+					}
+				}
 
-				//int number = 1;
-				//while (File.Exists(movedPath))
-				//{
-				//	movedPath = Path.GetDirectoryName(movedPath)
-				//		+ "\\" + Path.GetFileNameWithoutExtension(movedPath) + number
-				//		+ Path.GetExtension(movedPath);
-				//}
-
-				//File.Move(job.Video.File.FullName, movedPath);
+				if (canMove)
+				{
+					try
+					{
+						var movedFullName = Path.Combine(moveDirectory, Path.GetFileName(job.Video.Path));
+						File.Move(job.Video.Path, movedFullName);
+						job.Video.Path = movedFullName;
+					}
+					catch (Exception) { }
+				}
 			}
 		}
 
