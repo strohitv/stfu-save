@@ -73,7 +73,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			chbHidden.Enabled = chbRecursive.Checked;
 			deactivateCheckbox.Checked = selectedItem.Inactive;
 			moveAfterUploadCheckbox.Checked = selectedItem.MoveAfterUpload;
-			moveAfterUploadTextbox.Text = selectedItem.MovePath;
+			moveAfterUploadTextbox.Text = selectedItem.MoveDirectoryPath;
 
 			if (templateContainer.RegisteredTemplates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
@@ -167,7 +167,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			selectedItem.SelectedTemplateId = templateContainer.RegisteredTemplates.ElementAt(cobSelectedTemplate.SelectedIndex)?.Id ?? 0;
 			selectedItem.Inactive = deactivateCheckbox.Checked;
 			selectedItem.MoveAfterUpload = moveAfterUploadCheckbox.Checked;
-			selectedItem.MovePath = moveAfterUploadTextbox.Text;
+			selectedItem.MoveDirectoryPath = moveAfterUploadTextbox.Text;
 
 			ClearEditBox();
 			RefillListView();

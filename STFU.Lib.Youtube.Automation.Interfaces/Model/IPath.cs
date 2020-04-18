@@ -9,7 +9,7 @@
 		bool SearchRecursively { get; set; }
 		int SelectedTemplateId { get; set; }
 		bool MoveAfterUpload { get; set; }
-		string MovePath { get; set; }
+		string MoveDirectoryPath { get; set; }
 
 		int? GetDifference(string pathToCheck);
 	}

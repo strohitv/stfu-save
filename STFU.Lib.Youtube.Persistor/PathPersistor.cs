@@ -103,7 +103,7 @@ namespace STFU.Lib.Youtube.Persistor
 					SearchRecursively = path.SearchRecursively,
 					SelectedTemplateId = path.SelectedTemplateId,
 					MoveAfterUpload = path.MoveAfterUpload,
-					MovePath = path.MovePath
+					MoveDirectoryPath = path.MoveDirectoryPath
 				};
 
 				Saved.RegisterPath(newPath);

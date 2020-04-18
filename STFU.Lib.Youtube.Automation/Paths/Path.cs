@@ -53,7 +53,7 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 		public bool MoveAfterUpload { get; set; } = false;
 
-		public string MovePath { get; set; } = string.Empty;
+		public string MoveDirectoryPath { get; set; } = string.Empty;
 
 		public int? GetDifference(string pathToCheck)
 		{
