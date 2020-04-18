@@ -264,38 +264,40 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					else
 					{
 						int closingPos = FindComplexClosingPosition(text, currentPos);
-
-						string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
-						string script = wholeText.Substring(3, closingPos - currentPos - 3);
-
-						string result = string.Empty;
-
-						try
+						if (closingPos > currentPos)
 						{
-							var state = CsScript.ContinueWithAsync(script);
+							string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
+							string script = wholeText.Substring(3, closingPos - currentPos - 3);
 
-							if (state.Status != TaskStatus.Faulted)
+							string result = string.Empty;
+
+							try
 							{
-								state.Wait();
+								var state = CsScript.ContinueWithAsync(script);
 
-								result = state.Result.ReturnValue?.ToString() ?? string.Empty;
+								if (state.Status != TaskStatus.Faulted)
+								{
+									state.Wait();
+
+									result = state.Result.ReturnValue?.ToString() ?? string.Empty;
+								}
 							}
-						}
-						catch (CompilationErrorException ex)
-						{
-							ErrorLogger.LogException(ex, $"Auszuführendes Script: {script}");
-						}
+							catch (CompilationErrorException ex)
+							{
+								ErrorLogger.LogException(ex, $"Auszuführendes Script: {script}");
+							}
 
-						string before = text.Substring(0, currentPos);
-						string after = text.Substring(closingPos + 3);
+							string before = text.Substring(0, currentPos);
+							string after = text.Substring(closingPos + 3);
 
-						text = $"{before}{result}{after}";
+							text = $"{before}{result}{after}";
+						}
 					}
 
 				}
 			}
 
-			return text;
+			return text.Replace("<", "").Replace(">", "");
 		}
 
 		private static ScriptType FindScriptType(string text, int currentPos)
