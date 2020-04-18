@@ -95,6 +95,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.archiveAddButton = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.archiveVideoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -746,9 +747,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// archiveListView
 			// 
-			this.archiveListView.CheckBoxes = true;
 			this.archiveListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.archiveVideoName});
+            this.archiveVideoName,
+            this.archiveVideoPath});
 			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 5);
 			this.archiveListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.archiveListView.FullRowSelect = true;
@@ -819,6 +820,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Filter = "Alle Dateien|*.*";
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
+			// 
+			// archiveVideoPath
+			// 
+			this.archiveVideoPath.Text = "Pfad";
+			this.archiveVideoPath.Width = 500;
 			// 
 			// MainForm
 			// 
@@ -927,6 +933,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem videotutorialPlaylistToolStripMenuItem;
 		private System.Windows.Forms.Button archiveAddButton;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		private System.Windows.Forms.ColumnHeader archiveVideoPath;
 	}
 }
 

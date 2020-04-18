@@ -130,7 +130,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			foreach (var job in archiveContainer.RegisteredJobs)
 			{
-				archiveListView.Items.Add(job.Video.Title);
+				ListViewItem item = new ListViewItem(job.Video.Title);
+				item.SubItems.Add(job.Video.Path);
+				archiveListView.Items.Add(item);
 			}
 		}
 
@@ -762,8 +764,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			for (int i = archiveListView.Items.Count - 1; i >= 0; i--)
 			{
-				bool isChecked = archiveListView.Items[i].Checked;
-				if (isChecked)
+				bool isSelected = archiveListView.SelectedIndices.Contains(i);
+				if (isSelected)
 				{
 					archiveContainer.UnregisterJobAt(i);
 					archiveListView.Items.RemoveAt(i);
