@@ -72,6 +72,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			chbRecursive.Checked = selectedItem.SearchRecursively;
 			chbHidden.Enabled = chbRecursive.Checked;
 			deactivateCheckbox.Checked = selectedItem.Inactive;
+			moveAfterUploadCheckbox.Checked = selectedItem.MoveAfterUpload;
+			moveAfterUploadTextbox.Text = selectedItem.MovePath;
 
 			if (templateContainer.RegisteredTemplates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
@@ -92,6 +94,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			chbHidden.Checked = false;
 			chbHidden.Enabled = false;
 			deactivateCheckbox.Checked = false;
+			moveAfterUploadCheckbox.Checked = false;
+			moveAfterUploadTextbox.Text = "";
 		}
 
 		private void PathFormLoad(object sender, EventArgs e)
@@ -162,6 +166,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			selectedItem.SearchRecursively = chbRecursive.Checked;
 			selectedItem.SelectedTemplateId = templateContainer.RegisteredTemplates.ElementAt(cobSelectedTemplate.SelectedIndex)?.Id ?? 0;
 			selectedItem.Inactive = deactivateCheckbox.Checked;
+			selectedItem.MoveAfterUpload = moveAfterUploadCheckbox.Checked;
+			selectedItem.MovePath = moveAfterUploadTextbox.Text;
 
 			ClearEditBox();
 			RefillListView();
@@ -266,6 +272,26 @@ video*.mp4 findet auch video.mp4, da der * auch für 'kein Zeichen' stehen kann.
 			pathContainer.MarkAllFilesAsRead(pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]));
 			MessageBox.Show(this, "Die Videos, die durch diesen Pfad gefunden werden können, wurden erfolgreich als bereits hochgeladen markiert. Der Uploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder umbenennen, sodass sie nicht mehr mit einem Unterstrich _ startet.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			chosePathTlp.Enabled = true;
+		}
+
+		private void moveAfterUploadCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			moveAfterUploadTextbox.Enabled = moveAfterUploadButton.Enabled = moveAfterUploadCheckbox.Checked;
+		}
+
+		private void moveAfterUploadButton_Click(object sender, EventArgs e)
+		{
+			var path = txtbxAddPath.Text;
+			if (Directory.Exists(path))
+			{
+				selectMovePathDialog.SelectedPath = path;
+			}
+
+			var result = selectMovePathDialog.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				moveAfterUploadTextbox.Text = selectMovePathDialog.SelectedPath;
+			}
 		}
 	}
 }
