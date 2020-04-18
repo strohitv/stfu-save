@@ -40,7 +40,7 @@ namespace STFU.Lib.Youtube
 				}
 			}
 		}
-		
+
 		private IYoutubeJobContainer JobQueue { get; set; } = new YoutubeJobContainer();
 
 		/// <see cref="IYoutubeUploader.Queue"/>
@@ -122,37 +122,55 @@ namespace STFU.Lib.Youtube
 
 		public event UploadStarted NewUploadStarted;
 
-		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
+		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeVideo, IYoutubeAccount)"/>
 		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account)
 		{
-			if (Queue.Any(job => job.Video == video && job.Account == account))
+			if (Queue.Any(existing => existing.Video == video && existing.Account == account))
 			{
-				return Queue.Single(job => job.Video == video && job.Account == account);
+				return Queue.Single(existing => existing.Video == video && existing.Account == account);
 			}
 
-			var newJob = new YoutubeJob(video, account);
-			newJob.TriggerDeletion += Job_TriggerDeletion;
-			newJob.PropertyChanged += RunningJobPropertyChanged;
+			var job = new YoutubeJob(video, account);
+			RegisterJob(job);
 
-			if (newJob.Video.NotificationSettings.NotifyOnVideoFoundMail)
+			return job;
+		}
+
+		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
+		public IYoutubeJob QueueUpload(IYoutubeJob job)
+		{
+			if (Queue.Any(existing => existing == job))
+			{
+				return Queue.Single(existing => existing == job);
+			}
+
+			RegisterJob(job);
+
+			return job;
+		}
+
+		private void RegisterJob(IYoutubeJob job)
+		{
+			job.TriggerDeletion += Job_TriggerDeletion;
+			job.PropertyChanged += RunningJobPropertyChanged;
+
+			if (job.Video.NotificationSettings.NotifyOnVideoFoundMail)
 			{
 				MailSender.MailSender.Send(
-					newJob.Account,
-					newJob.Video.NotificationSettings.MailReceiver,
-					$"Wartet: '{newJob.Video.Title}' ist in der Warteschlange!",
-					new NewVideoFoundMailGenerator().Generate(newJob));
+					job.Account,
+					job.Video.NotificationSettings.MailReceiver,
+					$"Wartet: '{job.Video.Title}' ist in der Warteschlange!",
+					new NewVideoFoundMailGenerator().Generate(job));
 			}
 
-			JobQueue.RegisterJob(newJob);
+			JobQueue.RegisterJob(job);
 
-			OnJobQueued(newJob, JobQueue.RegisteredJobs.ToList().IndexOf(newJob));
+			OnJobQueued(job, JobQueue.RegisteredJobs.ToList().IndexOf(job));
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
 				StartJobs();
 			}
-
-			return newJob;
 		}
 
 		private void Job_TriggerDeletion(object sender, System.EventArgs args)

@@ -96,6 +96,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveAddButton = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.archiveVideoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.moveBackToQueueButton = new System.Windows.Forms.Button();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -707,7 +708,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// tableLayoutPanel5
 			// 
-			this.tableLayoutPanel5.ColumnCount = 7;
+			this.tableLayoutPanel5.ColumnCount = 9;
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -715,10 +716,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.Controls.Add(this.archiveLabel, 1, 1);
 			this.tableLayoutPanel5.Controls.Add(this.archiveListView, 1, 3);
-			this.tableLayoutPanel5.Controls.Add(this.archiveRemoveJobButton, 5, 5);
+			this.tableLayoutPanel5.Controls.Add(this.archiveRemoveJobButton, 7, 5);
 			this.tableLayoutPanel5.Controls.Add(this.archiveAddButton, 3, 5);
+			this.tableLayoutPanel5.Controls.Add(this.moveBackToQueueButton, 5, 5);
 			this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -737,7 +741,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.archiveLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.archiveLabel.AutoSize = true;
-			this.tableLayoutPanel5.SetColumnSpan(this.archiveLabel, 5);
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveLabel, 7);
 			this.archiveLabel.Location = new System.Drawing.Point(10, 10);
 			this.archiveLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.archiveLabel.Name = "archiveLabel";
@@ -750,7 +754,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.archiveVideoName,
             this.archiveVideoPath});
-			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 5);
+			this.tableLayoutPanel5.SetColumnSpan(this.archiveListView, 7);
 			this.archiveListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.archiveListView.FullRowSelect = true;
 			this.archiveListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -762,6 +766,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveListView.TabIndex = 1;
 			this.archiveListView.UseCompatibleStateImageBehavior = false;
 			this.archiveListView.View = System.Windows.Forms.View.Details;
+			this.archiveListView.SelectedIndexChanged += new System.EventHandler(this.archiveListView_SelectedIndexChanged);
 			// 
 			// archiveVideoName
 			// 
@@ -773,6 +778,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveRemoveJobButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.archiveRemoveJobButton.AutoSize = true;
 			this.archiveRemoveJobButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.archiveRemoveJobButton.Enabled = false;
 			this.archiveRemoveJobButton.Location = new System.Drawing.Point(976, 537);
 			this.archiveRemoveJobButton.Margin = new System.Windows.Forms.Padding(0);
 			this.archiveRemoveJobButton.Name = "archiveRemoveJobButton";
@@ -805,7 +811,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveAddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.archiveAddButton.AutoSize = true;
 			this.archiveAddButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.archiveAddButton.Location = new System.Drawing.Point(837, 537);
+			this.archiveAddButton.Location = new System.Drawing.Point(635, 537);
 			this.archiveAddButton.Margin = new System.Windows.Forms.Padding(0);
 			this.archiveAddButton.Name = "archiveAddButton";
 			this.archiveAddButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -825,6 +831,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.archiveVideoPath.Text = "Pfad";
 			this.archiveVideoPath.Width = 500;
+			// 
+			// moveBackToQueueButton
+			// 
+			this.moveBackToQueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.moveBackToQueueButton.AutoSize = true;
+			this.moveBackToQueueButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveBackToQueueButton.Enabled = false;
+			this.moveBackToQueueButton.Location = new System.Drawing.Point(774, 537);
+			this.moveBackToQueueButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveBackToQueueButton.Name = "moveBackToQueueButton";
+			this.moveBackToQueueButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.moveBackToQueueButton.Size = new System.Drawing.Size(192, 29);
+			this.moveBackToQueueButton.TabIndex = 2;
+			this.moveBackToQueueButton.Text = "In Warteschlange verschieben";
+			this.moveBackToQueueButton.UseVisualStyleBackColor = true;
+			this.moveBackToQueueButton.Click += new System.EventHandler(this.moveBackToQueueButton_Click);
 			// 
 			// MainForm
 			// 
@@ -934,6 +956,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.Button archiveAddButton;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.ColumnHeader archiveVideoPath;
+		private System.Windows.Forms.Button moveBackToQueueButton;
 	}
 }
 

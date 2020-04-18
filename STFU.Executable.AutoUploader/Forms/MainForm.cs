@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -762,6 +763,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void archiveRemoveJobButton_Click(object sender, EventArgs e)
 		{
+			RemoveSelectedArchiveJobs();
+		}
+
+		private void RemoveSelectedArchiveJobs()
+		{
 			for (int i = archiveListView.Items.Count - 1; i >= 0; i--)
 			{
 				bool isSelected = archiveListView.SelectedIndices.Contains(i);
@@ -794,6 +800,24 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			archivePersistor.Save();
+		}
+
+		private void archiveListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			moveBackToQueueButton.Enabled = archiveRemoveJobButton.Enabled = archiveListView.SelectedIndices.Count > 0;
+		}
+
+		private void moveBackToQueueButton_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < archiveListView.SelectedIndices.Count; i++)
+			{
+				var job = archiveContainer.RegisteredJobs.ElementAt(archiveListView.SelectedIndices[i]);
+				job.Reset();
+				job.Account = accountContainer.RegisteredAccounts.First();
+				autoUploader.Uploader.QueueUpload(job);
+			}
+
+			RemoveSelectedArchiveJobs();
 		}
 	}
 }
