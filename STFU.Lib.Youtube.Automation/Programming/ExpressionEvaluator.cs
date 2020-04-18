@@ -93,6 +93,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				}
 			}
 
+			CsScript = null;
+
 			foreach (var func in StandardFunctions.GlobalFunctions)
 			{
 				if (CsScript == null)
@@ -132,8 +134,6 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			{
 				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpCleanupScript}");
 			}
-
-			CsScript = null;
 		}
 
 		public static bool IsFieldOnlyInDescription(string fieldname, ITemplate template)

@@ -168,6 +168,8 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
+		public bool CleanUpSucceeded { get; private set; }
+
 		private Queue<IUploadStep> Steps { get; } = new Queue<IUploadStep>();
 
 		private IUploadStep RunningStep { get; set; }
@@ -323,6 +325,8 @@ namespace STFU.Lib.Youtube
 				Steps.Enqueue(new YoutubeThumbnailUploader(Video, Account));
 			}
 
+			CleanUpSucceeded = false;
+
 			try
 			{
 				StartFirstStepAsync();
@@ -455,7 +459,11 @@ namespace STFU.Lib.Youtube
 				case UploadStepState.Successful:
 					if (!Steps.Any())
 					{
-						UploadCompletedAction?.Invoke(new JobFinishedEventArgs(this));
+						if (!CleanUpSucceeded)
+						{
+							UploadCompletedAction?.Invoke(new JobFinishedEventArgs(this));
+							CleanUpSucceeded = true;
+						}
 
 						State = UploadProgress.Successful;
 						CurrentObject = UploadObject.Nothing;
@@ -538,6 +546,7 @@ namespace STFU.Lib.Youtube
 		public void Reset()
 		{
 			State = UploadProgress.NotRunning;
+			CleanUpSucceeded = false;
 		}
 	}
 }
