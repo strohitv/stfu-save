@@ -89,14 +89,15 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveLabel = new System.Windows.Forms.Label();
 			this.archiveListView = new System.Windows.Forms.ListView();
 			this.archiveVideoName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.archiveVideoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
+			this.archiveAddButton = new System.Windows.Forms.Button();
+			this.moveBackToQueueButton = new System.Windows.Forms.Button();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.archiveAddButton = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.archiveVideoPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.moveBackToQueueButton = new System.Windows.Forms.Button();
+			this.cbMoveAfterUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -651,7 +652,8 @@ namespace STFU.Executable.AutoUploader.Forms
             this.chTemplate,
             this.chRecursive,
             this.chHidden,
-            this.cbInactive});
+            this.cbInactive,
+            this.cbMoveAfterUpload});
 			this.lvSelectedPaths.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvSelectedPaths.FullRowSelect = true;
 			this.lvSelectedPaths.GridLines = true;
@@ -773,6 +775,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveVideoName.Text = "Video";
 			this.archiveVideoName.Width = 1000;
 			// 
+			// archiveVideoPath
+			// 
+			this.archiveVideoPath.Text = "Pfad";
+			this.archiveVideoPath.Width = 500;
+			// 
 			// archiveRemoveJobButton
 			// 
 			this.archiveRemoveJobButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -788,6 +795,37 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveRemoveJobButton.Text = "Aus Archiv löschen";
 			this.archiveRemoveJobButton.UseVisualStyleBackColor = true;
 			this.archiveRemoveJobButton.Click += new System.EventHandler(this.archiveRemoveJobButton_Click);
+			// 
+			// archiveAddButton
+			// 
+			this.archiveAddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.archiveAddButton.AutoSize = true;
+			this.archiveAddButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.archiveAddButton.Location = new System.Drawing.Point(635, 537);
+			this.archiveAddButton.Margin = new System.Windows.Forms.Padding(0);
+			this.archiveAddButton.Name = "archiveAddButton";
+			this.archiveAddButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.archiveAddButton.Size = new System.Drawing.Size(129, 29);
+			this.archiveAddButton.TabIndex = 2;
+			this.archiveAddButton.Text = "Video hinzufügen";
+			this.archiveAddButton.UseVisualStyleBackColor = true;
+			this.archiveAddButton.Click += new System.EventHandler(this.archiveAddButton_Click);
+			// 
+			// moveBackToQueueButton
+			// 
+			this.moveBackToQueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.moveBackToQueueButton.AutoSize = true;
+			this.moveBackToQueueButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.moveBackToQueueButton.Enabled = false;
+			this.moveBackToQueueButton.Location = new System.Drawing.Point(774, 537);
+			this.moveBackToQueueButton.Margin = new System.Windows.Forms.Padding(0);
+			this.moveBackToQueueButton.Name = "moveBackToQueueButton";
+			this.moveBackToQueueButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.moveBackToQueueButton.Size = new System.Drawing.Size(192, 29);
+			this.moveBackToQueueButton.TabIndex = 2;
+			this.moveBackToQueueButton.Text = "In Warteschlange verschieben";
+			this.moveBackToQueueButton.UseVisualStyleBackColor = true;
+			this.moveBackToQueueButton.Click += new System.EventHandler(this.moveBackToQueueButton_Click);
 			// 
 			// bgwCreateUploader
 			// 
@@ -806,47 +844,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
 			this.notifyIcon.Visible = true;
 			// 
-			// archiveAddButton
-			// 
-			this.archiveAddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.archiveAddButton.AutoSize = true;
-			this.archiveAddButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.archiveAddButton.Location = new System.Drawing.Point(635, 537);
-			this.archiveAddButton.Margin = new System.Windows.Forms.Padding(0);
-			this.archiveAddButton.Name = "archiveAddButton";
-			this.archiveAddButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.archiveAddButton.Size = new System.Drawing.Size(129, 29);
-			this.archiveAddButton.TabIndex = 2;
-			this.archiveAddButton.Text = "Video hinzufügen";
-			this.archiveAddButton.UseVisualStyleBackColor = true;
-			this.archiveAddButton.Click += new System.EventHandler(this.archiveAddButton_Click);
-			// 
 			// openFileDialog
 			// 
 			this.openFileDialog.Filter = "Alle Dateien|*.*";
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
-			// archiveVideoPath
+			// cbMoveAfterUpload
 			// 
-			this.archiveVideoPath.Text = "Pfad";
-			this.archiveVideoPath.Width = 500;
-			// 
-			// moveBackToQueueButton
-			// 
-			this.moveBackToQueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.moveBackToQueueButton.AutoSize = true;
-			this.moveBackToQueueButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.moveBackToQueueButton.Enabled = false;
-			this.moveBackToQueueButton.Location = new System.Drawing.Point(774, 537);
-			this.moveBackToQueueButton.Margin = new System.Windows.Forms.Padding(0);
-			this.moveBackToQueueButton.Name = "moveBackToQueueButton";
-			this.moveBackToQueueButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.moveBackToQueueButton.Size = new System.Drawing.Size(192, 29);
-			this.moveBackToQueueButton.TabIndex = 2;
-			this.moveBackToQueueButton.Text = "In Warteschlange verschieben";
-			this.moveBackToQueueButton.UseVisualStyleBackColor = true;
-			this.moveBackToQueueButton.Click += new System.EventHandler(this.moveBackToQueueButton_Click);
+			this.cbMoveAfterUpload.Text = "Verschieben";
+			this.cbMoveAfterUpload.Width = 80;
 			// 
 			// MainForm
 			// 
@@ -957,6 +964,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.ColumnHeader archiveVideoPath;
 		private System.Windows.Forms.Button moveBackToQueueButton;
+		private System.Windows.Forms.ColumnHeader cbMoveAfterUpload;
 	}
 }
 

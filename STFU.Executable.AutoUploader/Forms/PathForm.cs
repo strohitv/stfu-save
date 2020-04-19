@@ -48,6 +48,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.MoveAfterUpload ? "Ja" : "Nein");
 			}
 
 			lvPaths.SelectedIndices.Clear();
