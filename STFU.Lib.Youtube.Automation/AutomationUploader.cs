@@ -312,12 +312,17 @@ namespace STFU.Lib.Youtube.Automation
 				var video = videoAndEvaluator.Item1;
 				var evaluator = videoAndEvaluator.Item2;
 				var job = Uploader.QueueUpload(video, Account);
-				var moveDirectory = VideoCreator.FindNearestPath(e.FullPath).MoveDirectoryPath;
+				var path = VideoCreator.FindNearestPath(e.FullPath);
+				var moveDirectory = path.MoveDirectoryPath;
 
 				FileToUploadOccured?.Invoke(this, new JobEventArgs(job));
 
 				job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
-				job.UploadCompletedAction += (args) => MoveVideo(args.Job, moveDirectory);
+
+				if (path.MoveAfterUpload)
+				{
+					job.UploadCompletedAction += (args) => MoveVideo(args.Job, moveDirectory);
+				}
 
 				Uploader.StartUploader();
 			}
