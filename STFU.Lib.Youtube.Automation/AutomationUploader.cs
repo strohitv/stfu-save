@@ -299,13 +299,7 @@ namespace STFU.Lib.Youtube.Automation
 		private void OnFileToUploadOccured(FileSystemEventArgs e)
 		{
 			if (!e.Name.StartsWith("_")
-				&& Uploader.Queue
-					.Where(job
-						=> job.Video.File.FullName.ToLower() == e.FullPath.ToLower())
-					.All(job
-						=> job.State == UploadProgress.Successful
-						|| job.State == UploadProgress.Failed
-						|| job.State == UploadProgress.Canceled)
+				&& Uploader.Queue.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower())
 				&& archive.RegisteredJobs.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower()))
 			{
 				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
