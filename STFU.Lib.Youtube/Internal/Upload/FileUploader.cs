@@ -156,10 +156,10 @@ namespace STFU.Lib.Youtube.Internal.Upload
 			}
 		}
 
-		String[] dataUnits = new[] { "B/s", "kB/s", "MB/s", "GB/s", "TB/s" };
+		string[] dataUnits = new[] { "B/s", "kB/s", "MB/s", "GB/s", "TB/s" };
 		private string CalculateAverageSpeed(TimeSpan sendTime, byte[] buffer)
 		{
-			String result = "0 kb/s";
+			string result = "0 kb/s";
 
 			if (sendTime.TotalSeconds != 0)
 			{

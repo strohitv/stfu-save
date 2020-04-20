@@ -20,7 +20,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			string finalName = name;
 			AssemblyInfo aInfo = new AssemblyInfo();
 			aInfo.cchBuf = 1024; // should be fine...
-			aInfo.currentAssemblyPath = new String('\0', aInfo.cchBuf);
+			aInfo.currentAssemblyPath = new string('\0', aInfo.cchBuf);
 
 			IAssemblyCache ac;
 			int hr = CreateAssemblyCache(out ac, 0);

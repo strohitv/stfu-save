@@ -16,7 +16,7 @@ namespace STFU.Lib.Youtube.Internal.Upload
 
 		DateTime Started { get; }
 
-		String CurrentSpeed { get; }
+		string CurrentSpeed { get; }
 
 		TimeSpan CurrentDuration { get; }
 
