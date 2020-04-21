@@ -12,6 +12,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			// Thread-Struktur überdenken!
 			// Stream.CopyToAsync unterstützt das CancellationToken, also ist ein Abbruch evtl. möglich!
+			// Siehe hier: https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=netframework-4.8
 			throw new NotImplementedException();
 		}
 	}
