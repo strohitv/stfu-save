@@ -77,7 +77,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		public new void RemoveAll(Predicate<Process> match)
 		{
-			foreach (var item in this.FindAll(match))
+			foreach (var item in FindAll(match))
 			{
 				item.Exited -= ProcessExited;
 			}

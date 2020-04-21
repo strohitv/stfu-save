@@ -44,11 +44,17 @@
     <Compile Include="Internal\Upload\IUploadStep.cs" />
     <Compile Include="Internal\Upload\Model\Uploadable.cs" />
     <Compile Include="Internal\Upload\Model\UploadStepState.cs" />
+    <Compile Include="Internal\Upload\ThrottledStream.cs" />
     <Compile Include="Internal\Upload\UploadStep.cs" />
     <Compile Include="Internal\Upload\YoutubeThumbnailUploader.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoInformationChanger.cs" />
     <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
     <Compile Include="Internal\YoutubeError.cs" />
+    <Compile Include="Upload\JobUploader.cs" />
+    <Compile Include="Upload\Steps\IUploadStep.cs" />
+    <Compile Include="Upload\Steps\UploadStep.cs" />
+    <Compile Include="Upload\UploadStatus.cs" />
+    <Compile Include="Upload\YoutubeJob.cs" />
     <Compile Include="YoutubeJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LanguageCategoryLoader.cs" />
