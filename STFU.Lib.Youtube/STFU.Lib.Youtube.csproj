@@ -51,8 +51,12 @@
     <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
     <Compile Include="Internal\YoutubeError.cs" />
     <Compile Include="Upload\JobUploader.cs" />
+    <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
     <Compile Include="Upload\Steps\IUploadStep.cs" />
-    <Compile Include="Upload\Steps\UploadStep.cs" />
+    <Compile Include="Upload\Steps\StepFinishedEventHandler.cs" />
+    <Compile Include="Upload\Steps\ThumbnailUploadStep.cs" />
+    <Compile Include="Upload\Steps\AbstractUploadStep.cs" />
+    <Compile Include="Upload\Steps\VideoUploadStep.cs" />
     <Compile Include="Upload\UploadStatus.cs" />
     <Compile Include="Upload\YoutubeJob.cs" />
     <Compile Include="YoutubeJob.cs" />

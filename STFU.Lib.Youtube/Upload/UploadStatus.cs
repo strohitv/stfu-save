@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Upload.Steps;
 
 namespace STFU.Lib.Youtube.Upload
@@ -15,6 +16,7 @@ namespace STFU.Lib.Youtube.Upload
 		private TimeSpan remainingDuration = default(TimeSpan);
 
 		private string uploadAddress = string.Empty;
+		private int lastByte = 0;
 
 		private IUploadStep currentStep = default(IUploadStep);
 		private Type currentStepType = typeof(IUploadStep);
@@ -89,6 +91,17 @@ namespace STFU.Lib.Youtube.Upload
 			}
 		}
 
+		public int LastByte
+		{
+			get { return lastByte; }
+			set
+			{
+				lastByte = value;
+				OnPropertyChanged();
+			}
+		}
+
+		[JsonIgnore]
 		public IUploadStep CurrentStep
 		{
 			get { return currentStep; }
@@ -100,6 +113,7 @@ namespace STFU.Lib.Youtube.Upload
 			}
 		}
 
+		[JsonIgnore]
 		public Type CurrentStepType
 		{
 			get { return currentStepType; }

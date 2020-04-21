@@ -351,7 +351,7 @@ namespace STFU.Lib.Youtube.Model
 		// obsolete
 		public bool IsThumbnailDirty { get; set; }
 
-		// obsolete
+		// gehört in den UploadStatus des Jobs => obsolete
 		public Uri UploadUri { get; set; }
 
 		private string id;
