@@ -5,7 +5,7 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {
-	public interface IYoutubeVideo
+	public interface IYoutubeVideo : System.ComponentModel.INotifyPropertyChanged
 	{
 		/// <summary>
 		/// The file that is being uploaded
