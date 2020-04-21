@@ -10,6 +10,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		internal override void Run()
 		{
+			// Thread-Struktur überdenken!
+			// Stream.CopyToAsync unterstützt das CancellationToken, also ist ein Abbruch evtl. möglich!
 			throw new NotImplementedException();
 		}
 	}
