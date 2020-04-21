@@ -53,7 +53,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			addWeekdayCombobox.SelectedIndex = 0;
 
 			templatePersistor = persistor;
-			this.templateContainer = persistor.Container;
+			templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
 
