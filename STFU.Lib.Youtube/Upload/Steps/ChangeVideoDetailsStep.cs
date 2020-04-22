@@ -9,7 +9,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 		}
 
-		internal override void Run()
+		protected override void Run()
 		{
 			throw new NotImplementedException();
 		}

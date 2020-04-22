@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public abstract class AbstractUploadStep : IUploadStep
 	{
-		private Thread RunningThread { get; set; }
+		protected Task RunningTask { get; set; }
 
-		private IYoutubeVideo Video { get; }
+		protected CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
 
-		private IYoutubeAccount Account { get; }
+		protected IYoutubeVideo Video { get; }
 
-		private UploadStatus Status { get; }
+		protected IYoutubeAccount Account { get; }
 
-		public bool IsRunning => RunningThread != null && RunningThread.IsAlive;
+		protected UploadStatus Status { get; }
+
+		public bool IsRunning => RunningTask != null && RunningTask.Status == TaskStatus.Running;
 
 		public AbstractUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 		{
@@ -25,23 +28,20 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public void Cancel()
 		{
-			if (RunningThread != null && RunningThread.IsAlive)
+			if (RunningTask != null && RunningTask.Status == TaskStatus.Running)
 			{
-				RunningThread.Abort();
+				CancellationTokenSource.Cancel();
 			}
 		}
 
-		public void StartThread()
+		public async void RunAsync()
 		{
-			if (RunningThread != null || !RunningThread.IsAlive)
-			{
-				RunningThread = new Thread(() => Run());
-				RunningThread.Start();
-			}
+			RunningTask = Task.Run(() => Run());
+			await RunningTask;
 		}
 
-		internal abstract void Run();
-		
+		protected abstract void Run();
+
 		public event StepFinishedEventHandler StepFinished;
 
 		protected void OnStepFinished()

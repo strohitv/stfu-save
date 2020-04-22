@@ -274,16 +274,20 @@ namespace STFU.Lib.Youtube
 					if (!startedJobs.Contains(nextJob) && nextJob.Video.File.Exists)
 					{
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
-						nextJob.StartUpload();
 
-						if (nextJob.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
-						{
-							MailSender.MailSender.Send(
-								nextJob.Account,
-								nextJob.Video.NotificationSettings.MailReceiver,
-										$"Start: '{nextJob.Video.Title}' wird jetzt hochgeladen!",
-										new UploadStartedMailGenerator().Generate(nextJob));
-						}
+						var specialJob = new Upload.YoutubeJob(nextJob.Video, nextJob.Account);
+						specialJob.Run();
+
+						//nextJob.StartUpload();
+
+						//if (nextJob.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
+						//{
+						//	MailSender.MailSender.Send(
+						//		nextJob.Account,
+						//		nextJob.Video.NotificationSettings.MailReceiver,
+						//				$"Start: '{nextJob.Video.Title}' wird jetzt hochgeladen!",
+						//				new UploadStartedMailGenerator().Generate(nextJob));
+						//}
 
 						startedJobs.Add(nextJob);
 					}

@@ -63,7 +63,7 @@ namespace STFU.Lib.Youtube.Upload
 				Job.UploadStatus.CurrentStep.StepFinished += RunningStepFinished;
 			}
 
-			Job.UploadStatus.CurrentStep.StartThread();
+			Job.UploadStatus.CurrentStep.RunAsync();
 		}
 
 		private void VideoPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -94,7 +94,7 @@ namespace STFU.Lib.Youtube.Upload
 				Job.UploadStatus.CurrentStep = Steps.Dequeue();
 				Job.UploadStatus.CurrentStep.StepFinished += RunningStepFinished;
 
-				Job.UploadStatus.CurrentStep.StartThread();
+				Job.UploadStatus.CurrentStep.RunAsync();
 			}
 		}
 

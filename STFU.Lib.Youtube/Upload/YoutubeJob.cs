@@ -34,7 +34,7 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Resume()
 		{
-			UploadStatus.CurrentStep.StartThread();
+			UploadStatus.CurrentStep.RunAsync();
 		}
 
 		public void Cancel()
