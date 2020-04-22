@@ -8,7 +8,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public ThumbnailUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 			: base(video, account, status) { }
 
-		protected override void Run()
+		internal override void Run()
 		{
 			throw new NotImplementedException();
 		}

@@ -53,6 +53,7 @@
     <Compile Include="Upload\JobUploader.cs" />
     <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
     <Compile Include="Upload\Steps\IUploadStep.cs" />
+    <Compile Include="Upload\Steps\RetryingUploadStep.cs" />
     <Compile Include="Upload\Steps\StepFinishedEventHandler.cs" />
     <Compile Include="Upload\Steps\ThumbnailUploadStep.cs" />
     <Compile Include="Upload\Steps\AbstractUploadStep.cs" />

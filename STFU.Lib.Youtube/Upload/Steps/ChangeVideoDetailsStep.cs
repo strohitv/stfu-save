@@ -5,11 +5,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ChangeVideoDetailsStep : AbstractUploadStep
 	{
-		public ChangeVideoDetailsStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status) : base(video, account, status)
-		{
-		}
+		public ChangeVideoDetailsStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
+			: base(video, account, status) { }
 
-		protected override void Run()
+		internal override void Run()
 		{
 			throw new NotImplementedException();
 		}

@@ -6,6 +6,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 	{
 		event StepFinishedEventHandler StepFinished;
 
+		bool FinishedSuccessful { get; }
+
 		bool IsRunning { get; }
 
 		void RunAsync();

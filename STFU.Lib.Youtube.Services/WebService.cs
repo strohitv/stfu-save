@@ -5,8 +5,10 @@ namespace STFU.Lib.Youtube.Services
 {
 	public static class WebService
 	{
-		public static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
+		public static string Communicate(WebRequest request, out WebException exception, byte[] bytes = null, string headerName = null)
 		{
+			exception = null;
+
 			if (bytes != null && bytes.Length != 0)
 			{
 				// Senden
@@ -35,6 +37,19 @@ namespace STFU.Lib.Youtube.Services
 			}
 			catch (WebException ex)
 			{
+				exception = ex;
+				return null;
+			}
+		}
+
+		public static string Communicate(WebRequest request, byte[] bytes = null, string headerName = null)
+		{
+			WebException ex = null;
+
+			string result = Communicate(request, out ex, bytes, headerName);
+
+			if (ex != null)
+			{
 				if (ex.Status == WebExceptionStatus.ProtocolError)
 				{
 					var response = ex.Response as HttpWebResponse;
@@ -57,6 +72,8 @@ namespace STFU.Lib.Youtube.Services
 				}
 				return null;
 			}
+
+			return result;
 		}
 	}
 }

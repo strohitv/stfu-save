@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -17,58 +16,56 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public VideoUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 			: base(video, account, status) { }
 
-		protected override void Run()
+		internal override void Run()
 		{
-			while (true)
+			// Initialisieren
+			GenerateInitUri();
+			var request = CreateRequest();
+
+			if (request == null)
 			{
-				// Initialisieren
+				// evtl. vorhandene UploadUri hat nicht geklappt => Upload von vorne beginnen.
+				Status.UploadAddress = null;
 				GenerateInitUri();
-				var request = CreateRequest();
+				request = CreateRequest();
+			}
 
-				// Hochladen
-				if (File.Exists(Video.Path))
+			// Hochladen
+			if (request != null && File.Exists(Video.Path))
+			{
+				try
 				{
-					bool success = false;
-
-					try
+					using (FileStream filestream = new FileStream(Video.Path, FileMode.Open))
+					using (var requestStream = request.GetRequestStream())
 					{
-						using (FileStream filestream = new FileStream(Video.Path, FileMode.Open))
-						using (var requestStream = request.GetRequestStream())
-						{
-							CancellationTokenSource = new CancellationTokenSource();
-							CancellationTokenSource.CancelAfter(25000);
-							filestream.Position = Status.LastByte + 1;
+						CancellationTokenSource = new CancellationTokenSource();
+						filestream.Position = Status.LastByte + 1;
 
-							try
-							{
-								filestream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
-								success = true;
-							}
-							catch (AggregateException ex)
-							{
-								// Upload wurde abgebrochen
-								Console.WriteLine(ex);
-							}
+						try
+						{
+							filestream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
+							FinishedSuccessful = true;
 						}
-					}
-					catch (Exception)
-					{
-						// im Falle eines Abbruchs fliegt da noch ne Webexception. Ups. :D 
-					}
-
-					if (success && !CancellationTokenSource.IsCancellationRequested)
-					{
-						using (var response = request.GetResponse())
+						catch (AggregateException ex)
 						{
-							Console.WriteLine(response);
+							// Upload wurde abgebrochen
+							Console.WriteLine(ex);
 						}
 					}
 				}
-			}
+				catch (Exception)
+				{
+					// im Falle eines Abbruchs fliegt da noch ne Webexception, da der RequestStream abgebrochen wurde.
+				}
 
-			// Thread-Struktur überdenken!
-			// Stream.CopyToAsync unterstützt das CancellationToken, also ist ein Abbruch evtl. möglich!
-			// Siehe hier: https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=netframework-4.8
+				if (FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
+				{
+					using (var response = request.GetResponse())
+					{
+						Console.WriteLine(response);
+					}
+				}
+			}
 		}
 
 		private void GenerateInitUri()
@@ -117,9 +114,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			{
 				request = HttpWebRequestCreator.CreateForNewUpload(Status.UploadAddress, Video, Account);
 			}
-			else
+			else if (Status.LastByte >= 0)
 			{
 				request = HttpWebRequestCreator.CreateForResumeUpload(Status.UploadAddress, Video, Account, Status.LastByte);
+			}
+			else
+			{
+				// Todo: 
+				request = null;
 			}
 
 			return request;
@@ -131,9 +133,19 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			request.ContentLength = 0;
 			request.Headers.Add($"content-range: bytes */{Video.File.Length}");
 
-			var answer = WebService.Communicate(request);
+			WebException ex = null;
+			var answer = WebService.Communicate(request, out ex);
 			if (answer == null)
 			{
+				// Check ob Link ungültig oder wirklich -1 gewünscht ist.
+				// Dazu ex benutzen.
+				// Wenn Link abgelaufen => -2
+
+				// TestUrl: https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&autoLevels=False&notifySubscribers=True&stabilize=False&part=snippet,status,contentDetails&upload_id=AAANsUnuyqK-CVQ3_EIehJI86MjDX8_Kg7_usm7WTQKldFA-gN2IRVxj8oNKWHPRngiyhfZBNywhy4KOvudTMbpGMoZ83KQITA
+				// 22.04.2020 07:52 Uhr
+
+				// Außerdem: Hier im Fehlerfall einer absolut unerwarteten Exception (z. B. Internet weg) schmeißen
+
 				return -1;
 			}
 

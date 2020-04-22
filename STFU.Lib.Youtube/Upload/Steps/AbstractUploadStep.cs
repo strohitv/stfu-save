@@ -19,6 +19,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public bool IsRunning => RunningTask != null && RunningTask.Status == TaskStatus.Running;
 
+		public bool FinishedSuccessful { get; protected set; } = false;
+
 		public AbstractUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 		{
 			Video = video;
@@ -40,7 +42,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			await RunningTask;
 		}
 
-		protected abstract void Run();
+		internal abstract void Run();
 
 		public event StepFinishedEventHandler StepFinished;
 
