@@ -22,6 +22,8 @@ namespace STFU.Lib.Youtube.Upload
 		private IUploadStep currentStep = default(IUploadStep);
 		private Type currentStepType = typeof(IUploadStep);
 
+		private UploadState state = UploadState.NotStarted;
+
 		public double Progress
 		{
 			get { return progress; }
@@ -121,6 +123,16 @@ namespace STFU.Lib.Youtube.Upload
 			private set
 			{
 				currentStepType = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public UploadState State
+		{
+			get { return state; }
+			private set
+			{
+				state = value;
 				OnPropertyChanged();
 			}
 		}

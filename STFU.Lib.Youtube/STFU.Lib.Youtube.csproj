@@ -58,6 +58,7 @@
     <Compile Include="Upload\Steps\ThumbnailUploadStep.cs" />
     <Compile Include="Upload\Steps\AbstractUploadStep.cs" />
     <Compile Include="Upload\Steps\VideoUploadStep.cs" />
+    <Compile Include="Upload\UploadState.cs" />
     <Compile Include="Upload\UploadStatus.cs" />
     <Compile Include="Upload\YoutubeJob.cs" />
     <Compile Include="YoutubeJob.cs" />
