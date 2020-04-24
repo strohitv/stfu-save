@@ -18,10 +18,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		}
 
 		// TODO: Status setzen!
-		// TODO: Tries müssen zurückgesetzt werden, sobald der Step erfolgreich gestartet werden konnte!
 		internal override void Run()
 		{
 			int tries = 0;
+			var lastProgress = Status.Progress;
 
 			while (tries < 10 && !Step.FinishedSuccessful)
 			{
@@ -39,6 +39,12 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				catch (Exception)
 				{
 					Thread.Sleep(WaitInterval);
+				}
+
+				if (lastProgress < Status.Progress)
+				{
+					lastProgress = Status.Progress;
+					tries = 0;
 				}
 			}
 		}
