@@ -24,7 +24,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 			if (request == null)
 			{
-				// evtl. vorhandene UploadUri hat nicht geklappt => Upload von vorne beginnen.
+				// evtl. vorhandene UploadUri hat nicht geklappt => Versuch, den Upload von vorne zu beginnen.
 				Status.UploadAddress = null;
 				GenerateInitUri();
 				request = CreateRequest();
@@ -45,11 +45,11 @@ namespace STFU.Lib.Youtube.Upload.Steps
 						{
 							filestream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
 							FinishedSuccessful = true;
+							Status.Progress = 100;
 						}
-						catch (AggregateException ex)
+						catch (AggregateException)
 						{
 							// Upload wurde abgebrochen
-							Console.WriteLine(ex);
 						}
 					}
 				}
@@ -58,14 +58,16 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					// im Falle eines Abbruchs fliegt da noch ne Webexception, da der RequestStream abgebrochen wurde.
 				}
 
-				if (FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
+				if (FinishedSuccessful)
 				{
-					using (var response = request.GetResponse())
-					{
-						Console.WriteLine(response);
-					}
+					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
+					string result = WebService.Communicate(request);
+
+					Video.Id = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
 				}
 			}
+
+			OnStepFinished();
 		}
 
 		private void GenerateInitUri()
@@ -106,22 +108,20 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		private HttpWebRequest CreateRequest()
 		{
-			HttpWebRequest request;
+			// Default: Upload klappt nicht
+			HttpWebRequest request = null;
 
 			Status.LastByte = CheckUploadStatus();
 
 			if (Status.LastByte == -1)
 			{
+				// Komplette Datei hochladen
 				request = HttpWebRequestCreator.CreateForNewUpload(Status.UploadAddress, Video, Account);
 			}
 			else if (Status.LastByte >= 0)
 			{
+				// Nur einen Teil der Datei hochladen
 				request = HttpWebRequestCreator.CreateForResumeUpload(Status.UploadAddress, Video, Account, Status.LastByte);
-			}
-			else
-			{
-				// Todo: 
-				request = null;
 			}
 
 			return request;

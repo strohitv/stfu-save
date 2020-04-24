@@ -47,6 +47,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					tries = 0;
 				}
 			}
+
+			OnStepFinished();
 		}
 	}
 }
