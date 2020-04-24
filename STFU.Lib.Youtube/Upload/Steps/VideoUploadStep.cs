@@ -137,14 +137,18 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			var answer = WebService.Communicate(request, out ex);
 			if (answer == null)
 			{
-				// Check ob Link ungültig oder wirklich -1 gewünscht ist.
-				// Dazu ex benutzen.
-				// Wenn Link abgelaufen => -2
-
-				// TestUrl: https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&autoLevels=False&notifySubscribers=True&stabilize=False&part=snippet,status,contentDetails&upload_id=AAANsUnuyqK-CVQ3_EIehJI86MjDX8_Kg7_usm7WTQKldFA-gN2IRVxj8oNKWHPRngiyhfZBNywhy4KOvudTMbpGMoZ83KQITA
-				// 22.04.2020 07:52 Uhr
-
-				// Außerdem: Hier im Fehlerfall einer absolut unerwarteten Exception (z. B. Internet weg) schmeißen
+				if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
+				{
+					// Upload kann nicht fortgesetzt werden, da Verarbeitung mittlerweile abgebrochen wurde.
+					// Workaround: Upload neu starten
+					return -2;
+				}
+				else if (ex.Response != null && (int)((HttpWebResponse)ex.Response).StatusCode != 308)
+				{
+					// Es gab einen anderen unerwarteten Fehler.
+					// Auch hier ist der Workaround ein Neustart.
+					return -3;
+				}
 
 				return -1;
 			}
