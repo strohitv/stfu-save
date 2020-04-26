@@ -1,7 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Args;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
@@ -11,11 +13,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		protected CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
 
-		protected IYoutubeVideo Video { get; }
+		public IYoutubeVideo Video { get; }
 
-		protected IYoutubeAccount Account { get; }
+		public IYoutubeAccount Account { get; set; } = null;
 
-		protected UploadStatus Status { get; }
+		public UploadStatus Status { get; }
+
+		public abstract double Progress { get; }
 
 		public bool IsRunning => RunningTask != null && RunningTask.Status == TaskStatus.Running;
 
@@ -28,13 +32,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			Status = status;
 		}
 
-		public void Cancel()
-		{
-			if (RunningTask != null && RunningTask.Status == TaskStatus.Running)
-			{
-				CancellationTokenSource.Cancel();
-			}
-		}
+		public abstract void Cancel();
 
 		public async void RunAsync()
 		{
@@ -44,11 +42,18 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		internal abstract void Run();
 
-		public event StepFinishedEventHandler StepFinished;
+		public event UploadStepStateChangedEventHandler StepStateChanged;
 
 		protected void OnStepFinished()
 		{
-			StepFinished?.Invoke(this, new EventArgs());
+			StepStateChanged?.Invoke(this, new UploadStepStateChangedEventArgs(UploadStepState.Running, UploadStepState.Successful));
 		}
+
+		protected void OnStepStateChanged(UploadStepState oldState, UploadStepState newState)
+		{
+			StepStateChanged?.Invoke(this, new UploadStepStateChangedEventArgs(oldState, newState));
+		}
+
+		public abstract void RefreshDurationAndSpeed();
 	}
 }

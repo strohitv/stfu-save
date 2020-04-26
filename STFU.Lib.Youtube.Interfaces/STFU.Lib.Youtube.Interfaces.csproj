@@ -50,12 +50,14 @@
     <Compile Include="Model\Args\JobFinishedEventArgs.cs" />
     <Compile Include="Model\Args\JobPositionChangedEventArgs.cs" />
     <Compile Include="Model\Args\JobDequeuedEventArgs.cs" />
+    <Compile Include="Model\Args\UploadStepStateChangedEventArgs.cs" />
     <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />
     <Compile Include="Model\Enums\PrivacyStatus.cs" />
     <Compile Include="Model\Enums\UploadObject.cs" />
     <Compile Include="Model\Enums\UploadProgress.cs" />
-    <Compile Include="Model\Enums\UploadProgressExtension.cs" />
+    <Compile Include="Model\Enums\JobStateExtension.cs" />
+    <Compile Include="Model\Enums\UploadStepState.cs" />
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />
     <Compile Include="Model\Enums\GoogleScope.cs" />
     <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
@@ -63,12 +65,15 @@
     <Compile Include="Model\Handler\JobFinishedEventHandler.cs" />
     <Compile Include="Model\Handler\JobPositionChangedEventHandler.cs" />
     <Compile Include="Model\Handler\JobDequeuedEventHandler.cs" />
+    <Compile Include="Model\Handler\UploadStepStateChangedEventHandler.cs" />
     <Compile Include="Model\Handler\TriggerDeletionEventHandler.cs" />
     <Compile Include="Model\Handler\JobQueuedEventHandler.cs" />
     <Compile Include="Model\ICategory.cs" />
     <Compile Include="Model\ILanguage.cs" />
     <Compile Include="Model\INotificationSettings.cs" />
     <Compile Include="Model\ITriggerDeletion.cs" />
+    <Compile Include="Model\IUploadCompleted.cs" />
+    <Compile Include="Model\IUploadStep.cs" />
     <Compile Include="Model\IYoutubeAccount.cs" />
     <Compile Include="Model\IYoutubeAccountAccess.cs" />
     <Compile Include="Model\IYoutubeClient.cs" />
@@ -77,7 +82,9 @@
     <Compile Include="Model\IYoutubeError.cs" />
     <Compile Include="Model\IYoutubeVideo.cs" />
     <Compile Include="Model\Enums\UploaderState.cs" />
+    <Compile Include="Model\JobState.cs" />
     <Compile Include="Model\UploadStartedEventArgs.cs" />
+    <Compile Include="Model\UploadStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,8 @@ namespace STFU.Lib.Youtube.Model
 
 		public string ClientId { get; set; }
 
-		public IYoutubeClient Client { get; set; }
+		public IYoutubeClient Client { get; set; } = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
+				"cKUCRQz0sE4UUmvUHW6qckbP",
+				"Strohis Toolset Für Uploads", false);
 	}
 }

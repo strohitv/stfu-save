@@ -37,6 +37,6 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 
 		void StartWithExtraConfigAsync();
 
-		void Cancel();
+		void Cancel(bool cancelYoutubeUploader);
 	}
 }

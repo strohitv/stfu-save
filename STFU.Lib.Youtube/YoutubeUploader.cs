@@ -11,6 +11,7 @@ using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
+using STFU.Lib.Youtube.Upload;
 
 namespace STFU.Lib.Youtube
 {
@@ -116,6 +117,7 @@ namespace STFU.Lib.Youtube
 				YoutubeJob job = JobQueue.RegisteredJobs.ElementAt(i) as YoutubeJob;
 				job.TriggerDeletion += Job_TriggerDeletion;
 				job.PropertyChanged += RunningJobPropertyChanged;
+				job.UploadStatus.PropertyChanged += UploadStatusPropertyChanged;
 				OnJobQueued(job, i);
 			}
 		}
@@ -123,14 +125,17 @@ namespace STFU.Lib.Youtube
 		public event UploadStarted NewUploadStarted;
 
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeVideo, IYoutubeAccount)"/>
-		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account)
+		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account, INotificationSettings notificationSettings)
 		{
 			if (Queue.Any(existing => existing.Video == video && existing.Account == account))
 			{
 				return Queue.Single(existing => existing.Video == video && existing.Account == account);
 			}
 
-			var job = new YoutubeJob(video, account);
+			var job = new YoutubeJob(video, account)
+			{
+				NotificationSettings = notificationSettings
+			};
 			RegisterJob(job);
 
 			return job;
@@ -153,12 +158,13 @@ namespace STFU.Lib.Youtube
 		{
 			job.TriggerDeletion += Job_TriggerDeletion;
 			job.PropertyChanged += RunningJobPropertyChanged;
+			job.UploadStatus.PropertyChanged += UploadStatusPropertyChanged;
 
-			if (job.Video.NotificationSettings.NotifyOnVideoFoundMail)
+			if (job.NotificationSettings.NotifyOnVideoFoundMail)
 			{
 				MailSender.MailSender.Send(
 					job.Account,
-					job.Video.NotificationSettings.MailReceiver,
+					job.NotificationSettings.MailReceiver,
 					$"Wartet: '{job.Video.Title}' ist in der Warteschlange!",
 					new NewVideoFoundMailGenerator().Generate(job));
 			}
@@ -189,7 +195,7 @@ namespace STFU.Lib.Youtube
 
 				foreach (var runningJob in runningJobs)
 				{
-					runningJob.CancelUploadAsync();
+					runningJob.Cancel();
 				}
 			}
 			else
@@ -229,8 +235,17 @@ namespace STFU.Lib.Youtube
 				int position = JobQueue.RegisteredJobs.ToList().IndexOf(job);
 				job.TriggerDeletion -= Job_TriggerDeletion;
 				job.PropertyChanged -= RunningJobPropertyChanged;
+				job.UploadStatus.PropertyChanged -= UploadStatusPropertyChanged;
 				JobQueue.UnregisterJob(job);
 				OnJobDequeued(job, position);
+			}
+		}
+
+		private void UploadStatusPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(UploadStatus.Progress))
+			{
+				RecalculateProgress();
 			}
 		}
 
@@ -250,9 +265,9 @@ namespace STFU.Lib.Youtube
 
 			while (State != UploaderState.CancelPending
 				&& JobQueue.RegisteredJobs.Where(j => j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
-				&& Queue.Any(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped))
+				&& Queue.Any(job => job.State == JobState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
-				var nextJob = Queue.FirstOrDefault(job => job.State == UploadProgress.NotRunning && job.Video.File.Exists && !job.ShouldBeSkipped);
+				var nextJob = Queue.FirstOrDefault(job => job.State == JobState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
 
 				if (nextJob != null)
 				{
@@ -275,19 +290,16 @@ namespace STFU.Lib.Youtube
 					{
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
 
-						var specialJob = new Upload.YoutubeJob(nextJob.Video, nextJob.Account);
-						specialJob.Run();
+						nextJob.Run();
 
-						//nextJob.StartUpload();
-
-						//if (nextJob.Video.NotificationSettings.NotifyOnVideoUploadStartedMail)
-						//{
-						//	MailSender.MailSender.Send(
-						//		nextJob.Account,
-						//		nextJob.Video.NotificationSettings.MailReceiver,
-						//				$"Start: '{nextJob.Video.Title}' wird jetzt hochgeladen!",
-						//				new UploadStartedMailGenerator().Generate(nextJob));
-						//}
+						if (nextJob.NotificationSettings.NotifyOnVideoUploadStartedMail)
+						{
+							MailSender.MailSender.Send(
+								nextJob.Account,
+								nextJob.NotificationSettings.MailReceiver,
+										$"Start: '{nextJob.Video.Title}' wird jetzt hochgeladen!",
+										new UploadStartedMailGenerator().Generate(nextJob));
+						}
 
 						startedJobs.Add(nextJob);
 					}
@@ -331,19 +343,19 @@ namespace STFU.Lib.Youtube
 					State = UploaderState.CancelPending;
 				}
 
-				if (job.State == UploadProgress.Successful && job.Video.NotificationSettings.NotifyOnVideoUploadFinishedMail)
+				if (job.State == JobState.Successful && job.NotificationSettings.NotifyOnVideoUploadFinishedMail)
 				{
 					MailSender.MailSender.Send(
 						job.Account,
-						job.Video.NotificationSettings.MailReceiver,
+						job.NotificationSettings.MailReceiver,
 						$"Erfolg: '{job.Video.Title}' wurde erfolgreich hochgeladen!",
 						new UploadFinishedMailGenerator().Generate(job));
 				}
-				else if (job.State.IsFailed() && job.Video.NotificationSettings.NotifyOnVideoUploadFailedMail)
+				else if (job.State.IsFailed() && job.NotificationSettings.NotifyOnVideoUploadFailedMail)
 				{
 					MailSender.MailSender.Send(
 						job.Account,
-						job.Video.NotificationSettings.MailReceiver,
+						job.NotificationSettings.MailReceiver,
 						$"Fehler: '{job.Video.Title}' konnte nicht hochgeladen werden",
 						new UploadFailedMailGenerator().Generate(job));
 				}
@@ -351,7 +363,7 @@ namespace STFU.Lib.Youtube
 				RefreshUploaderState();
 
 				if (State != UploaderState.CancelPending && State != UploaderState.NotRunning
-					&& (job.State == UploadProgress.Successful
+					&& (job.State == JobState.Successful
 					|| job.State.IsFailed()
 					|| job.State.IsCanceled()))
 				{
@@ -367,10 +379,6 @@ namespace STFU.Lib.Youtube
 					}
 				}
 			}
-			else if (e.PropertyName == nameof(IYoutubeJob.Progress))
-			{
-				RecalculateProgress();
-			}
 		}
 
 		private void RecalculateProgress()
@@ -379,7 +387,7 @@ namespace STFU.Lib.Youtube
 
 			if (runningJobs.Length > 0)
 			{
-				Progress = runningJobs.Sum(j => (int)(j.Progress * 100)) / runningJobs.Length;
+				Progress = runningJobs.Sum(j => (int)(j.UploadStatus.Progress * 100)) / runningJobs.Length;
 			}
 			else
 			{

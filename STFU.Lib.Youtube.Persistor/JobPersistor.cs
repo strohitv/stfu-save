@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Upload;
 
 namespace STFU.Lib.Youtube.Persistor
 {
@@ -95,14 +96,8 @@ namespace STFU.Lib.Youtube.Persistor
 			{
 				var newJob = new YoutubeJob(job.Video.CreateCopy(), job.Account)
 				{
-					CurrentObject = job.CurrentObject,
-					CurrentSpeed = job.CurrentSpeed,
-					Error = job.Error,
-					Progress = job.Progress,
-					RemainingDuration = job.RemainingDuration,
-					ShouldBeSkipped = job.ShouldBeSkipped,
 					State = job.State,
-					UploadedDuration = job.UploadedDuration
+					UploadStatus = job.UploadStatus
 				};
 
 				Saved.RegisterJob(newJob);

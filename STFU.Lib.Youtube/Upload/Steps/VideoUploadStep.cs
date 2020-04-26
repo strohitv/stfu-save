@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -13,8 +15,23 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class VideoUploadStep : AbstractUploadStep
 	{
+		public override double Progress
+		{
+			get
+			{
+				if (stream != null)
+				{
+					return ((double)stream.Position) * 100 / stream.Length;
+				}
+
+				return 0;
+			}
+		}
+
 		public VideoUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 			: base(video, account, status) { }
+
+		private FileStream stream = null;
 
 		internal override void Run()
 		{
@@ -35,14 +52,21 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			{
 				try
 				{
+					ServicePointManager.FindServicePoint(Status.UploadAddress).UseNagleAlgorithm = false;
+					request.Proxy = new WebProxy();
+					request.AllowWriteStreamBuffering = false;
+
 					using (FileStream filestream = new FileStream(Video.Path, FileMode.Open))
 					using (var requestStream = request.GetRequestStream())
 					{
 						CancellationTokenSource = new CancellationTokenSource();
 						filestream.Position = Status.LastByte + 1;
+						stream = filestream;
 
 						try
 						{
+							lastRead = DateTime.Now;
+							lastPosition = filestream.Position;
 							filestream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
 							FinishedSuccessful = true;
 							Status.Progress = 100;
@@ -51,10 +75,15 @@ namespace STFU.Lib.Youtube.Upload.Steps
 						{
 							// Upload wurde abgebrochen
 						}
+						finally
+						{
+							stream = null;
+						}
 					}
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
+					Console.WriteLine(ex);
 					// im Falle eines Abbruchs fliegt da noch ne Webexception, da der RequestStream abgebrochen wurde.
 				}
 
@@ -166,6 +195,57 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			}
 
 			return lastbyte;
+		}
+
+		private List<Tuple<TimeSpan, long>> speeds = new List<Tuple<TimeSpan, long>>();
+		private DateTime lastRead = default(DateTime);
+		private long lastPosition = 0;
+
+		public override void RefreshDurationAndSpeed()
+		{
+			if (stream != null && lastRead != default(DateTime))
+			{
+				while (speeds.Count >= 30)
+				{
+					speeds.RemoveAt(0);
+				}
+
+				var now = DateTime.Now;
+				TimeSpan span = now.Subtract(lastRead);
+				long difference = stream.Position - lastPosition;
+
+				lastRead = now;
+				lastPosition = stream.Position;
+
+				speeds.Add(new Tuple<TimeSpan, long>(span, difference));
+
+				var progress = Progress;
+
+				Status.UploadedDuration += span;
+				Status.RemainingDuration = new TimeSpan(0, 0, 0, 0, (int)(Status.UploadedDuration.TotalSeconds * 1000 / progress * (100 - progress)));
+
+				long lastSecondSize = 0;
+				TimeSpan lastSecondSpan = new TimeSpan();
+
+				for (int i = speeds.Count - 1; i >= 0; i--)
+				{
+					lastSecondSpan += speeds[i].Item1;
+					lastSecondSize += speeds[i].Item2;
+
+					if (lastSecondSpan > new TimeSpan(0, 0, 1))
+					{
+						break;
+					}
+				}
+
+				var factor = 1000 / (double)(long)lastSecondSpan.TotalMilliseconds;
+				Status.CurrentSpeed = (long)(lastSecondSize * factor);
+			}
+		}
+
+		public override void Cancel()
+		{
+			CancellationTokenSource.Cancel();
 		}
 	}
 }

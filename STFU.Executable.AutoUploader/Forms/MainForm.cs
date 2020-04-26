@@ -20,6 +20,7 @@ using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
 using STFU.Lib.Youtube.Persistor.Model;
 using STFU.Lib.Youtube.Services;
+using STFU.Lib.Youtube.Upload;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -84,6 +85,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
 			accountPersistor.Load();
 
+			//foreach (var account in accountContainer.RegisteredAccounts)
+			//{
+			//	foreach (var access in account.Access)
+			//	{
+			//		access.Client = client;
+			//	}
+			//}
+
 			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
 			categoryPersistor.Load();
 
@@ -140,7 +149,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			args.Job.PropertyChanged += Job_PropertyChanged;
 
-			if (args.Job.Video.NotificationSettings.NotifyOnVideoUploadStartedDesktop)
+			if (args.Job.NotificationSettings.NotifyOnVideoUploadStartedDesktop)
 			{
 				notifyIcon.ShowBalloonTip(
 					10000,
@@ -157,9 +166,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				var job = (IYoutubeJob)sender;
 
-				if (job.State == UploadProgress.Successful)
+				if (job.State == JobState.Successful)
 				{
-					if (job.Video.NotificationSettings.NotifyOnVideoUploadFinishedDesktop)
+					if (job.NotificationSettings.NotifyOnVideoUploadFinishedDesktop)
 					{
 						notifyIcon.ShowBalloonTip(
 							10000,
@@ -169,9 +178,9 @@ namespace STFU.Executable.AutoUploader.Forms
 						);
 					}
 				}
-				else if (job.State == UploadProgress.Failed)
+				else if (job.State == JobState.Error)
 				{
-					if (job.Video.NotificationSettings.NotifyOnVideoUploadFailedDesktop)
+					if (job.NotificationSettings.NotifyOnVideoUploadFailedDesktop)
 					{
 						notifyIcon.ShowBalloonTip(
 							10000,
@@ -182,10 +191,10 @@ namespace STFU.Executable.AutoUploader.Forms
 					}
 				}
 
-				if (job.State == UploadProgress.NotRunning
-					|| job.State == UploadProgress.Canceled
-					|| job.State == UploadProgress.Failed
-					|| job.State == UploadProgress.Successful)
+				if (job.State == JobState.NotStarted
+					|| job.State == JobState.Canceled
+					|| job.State == JobState.Error
+					|| job.State == JobState.Successful)
 				{
 					job.PropertyChanged -= Job_PropertyChanged;
 				}
@@ -216,7 +225,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		}
 		private void AutoUploader_FileToUploadOccured(object sender, JobEventArgs e)
 		{
-			if (e.Job.Video.NotificationSettings.NotifyOnVideoFoundDesktop)
+			if (e.Job.NotificationSettings.NotifyOnVideoFoundDesktop)
 			{
 				notifyIcon.ShowBalloonTip(
 					10000,
@@ -313,7 +322,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			else
 			{
 				canceled = true;
-				autoUploader.Cancel();
+				autoUploader.Cancel(true);
 				autoUploader.Uploader.CancelAll();
 			}
 		}
@@ -334,7 +343,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			else
 			{
 				canceled = true;
-				autoUploader.Cancel();
+				autoUploader.Cancel(true);
 				autoUploader.Uploader.CancelAll();
 			}
 		}
@@ -464,28 +473,28 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
 
-			autoUploader?.Cancel();
+			autoUploader?.Cancel(false);
 			pathPersistor.Save();
 			templatePersistor.Save();
 
 			for (int i = 0; i < queueContainer.RegisteredJobs.Count; i++)
 			{
 				var job = queueContainer.RegisteredJobs.ElementAt(i);
-				if (job.State == UploadProgress.Successful)
+				if (job.State == JobState.Successful)
 				{
 					queueContainer.UnregisterJobAt(i);
 					archiveContainer.RegisterJob(job);
 					i--;
 				}
-				else if (job.State == UploadProgress.CancelPending || job.State == UploadProgress.Running)
+				else if (job.State == JobState.Running)
 				{
 					job.Reset();
 				}
-				else if (job.State == UploadProgress.PausePending)
-				{
-					//job.SetPaused(); - noch nicht möglich, weil ich noch nicht weiß, wie ich dann fortsetzen kann.
-					job.Reset();
-				}
+				//else if (job.State == JobState.PausePending)
+				//{
+				//	//job.SetPaused(); - noch nicht möglich, weil ich noch nicht weiß, wie ich dann fortsetzen kann.
+				//	job.Reset();
+				//}
 			}
 
 			queuePersistor.Save();

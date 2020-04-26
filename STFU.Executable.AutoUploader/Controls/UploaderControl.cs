@@ -131,7 +131,7 @@ namespace STFU.Executable.AutoUploader.Controls
 			}
 			else
 			{
-				QueueFiller.Cancel();
+				QueueFiller.Cancel(true);
 			}
 		}
 	}

@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Args;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Upload.Steps;
 
 namespace STFU.Lib.Youtube.Upload
 {
 	public class JobUploader
 	{
+		public event UploaderStateChangedEventHandler StateChanged;
+
 		readonly string[] videoPropertyNames;
 
 		public YoutubeJob Job { get; }
@@ -43,6 +48,14 @@ namespace STFU.Lib.Youtube.Upload
 			Job.Video.PropertyChanged -= VideoPropertyChanged;
 		}
 
+		public void RefreshAccount(IYoutubeAccount account)
+		{
+			foreach (var step in Steps)
+			{
+				step.Account = account;
+			}
+		}
+
 		public void Run()
 		{
 			if (Steps.Count == 0)
@@ -56,14 +69,15 @@ namespace STFU.Lib.Youtube.Upload
 			{
 				if (Job.UploadStatus.CurrentStep != null)
 				{
-					Job.UploadStatus.CurrentStep.StepFinished -= RunningStepFinished;
+					Job.UploadStatus.CurrentStep.StepStateChanged -= RunningStepStateChanged;
 				}
 
 				Job.UploadStatus.CurrentStep = Steps.Dequeue();
-				Job.UploadStatus.CurrentStep.StepFinished += RunningStepFinished;
+				Job.UploadStatus.CurrentStep.StepStateChanged += RunningStepStateChanged;
 			}
 
 			Job.UploadStatus.CurrentStep.RunAsync();
+			StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Running));
 		}
 
 		private void VideoPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -82,19 +96,38 @@ namespace STFU.Lib.Youtube.Upload
 			}
 		}
 
-		private void RunningStepFinished(object sender, System.EventArgs e)
+		private void RunningStepStateChanged(object sender, UploadStepStateChangedEventArgs e)
 		{
-			if (Steps.Count > 0)
+			if (e.NewState == UploadStepState.Successful)
 			{
-				if (Job.UploadStatus.CurrentStep != null)
+				if (Steps.Count > 0)
 				{
-					Job.UploadStatus.CurrentStep.StepFinished -= RunningStepFinished;
+					if (Job.UploadStatus.CurrentStep != null)
+					{
+						Job.UploadStatus.CurrentStep.StepStateChanged -= RunningStepStateChanged;
+					}
+
+					Job.UploadStatus.CurrentStep = Steps.Dequeue();
+					Job.UploadStatus.CurrentStep.StepStateChanged += RunningStepStateChanged;
+
+					Job.UploadStatus.CurrentStep.RunAsync();
 				}
-
-				Job.UploadStatus.CurrentStep = Steps.Dequeue();
-				Job.UploadStatus.CurrentStep.StepFinished += RunningStepFinished;
-
-				Job.UploadStatus.CurrentStep.RunAsync();
+				else
+				{
+					StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Successful));
+				}
+			}
+			else if (e.NewState == UploadStepState.Error)
+			{
+				StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Error));
+			}
+			else if (e.NewState == UploadStepState.Broke)
+			{
+				StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Broke));
+			}
+			else if (e.NewState == UploadStepState.Running)
+			{
+				StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Running));
 			}
 		}
 
@@ -104,10 +137,12 @@ namespace STFU.Lib.Youtube.Upload
 
 			if (Job.UploadStatus.CurrentStep != null)
 			{
-				Job.UploadStatus.CurrentStep.StepFinished -= RunningStepFinished;
+				Job.UploadStatus.CurrentStep.StepStateChanged -= RunningStepStateChanged;
 				Job.UploadStatus.CurrentStep.Cancel();
 				Job.UploadStatus.CurrentStep = null;
 			}
+
+			StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.NotStarted));
 		}
 	}
 }

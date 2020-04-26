@@ -62,7 +62,7 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// </summary>
 		/// <param name="video"></param>
 		/// <param name="account"></param>
-		IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account);
+		IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account, INotificationSettings notificationSettings);
 
 		/// <summary>
 		/// Adds a job to queue.

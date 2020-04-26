@@ -7,6 +7,7 @@ using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Upload.Steps;
 
 namespace STFU.Lib.GUI.Controls.Queue
 {
@@ -53,7 +54,31 @@ namespace STFU.Lib.GUI.Controls.Queue
 					RefreshContextMenuEnabled();
 
 					job.PropertyChanged += JobPropertyChanged;
+					job.UploadStatus.PropertyChanged += UploadStatusPropertyChanged;
 				}
+			}
+		}
+
+		private void UploadStatusPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(UploadStatus.CurrentStep))
+			{
+				if (Job.UploadStatus.CurrentStep is RetryingUploadStep<VideoUploadStep>)
+				{
+					currentUploadObject = "Video";
+				}
+				else if (Job.UploadStatus.CurrentStep is RetryingUploadStep<ThumbnailUploadStep>)
+				{
+					currentUploadObject = "Thumbnail";
+				}
+				else
+				{
+					currentUploadObject = "nichts";
+				}
+			}
+			else if (true)
+			{
+
 			}
 		}
 
@@ -85,47 +110,23 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			if (currentUploadObject == "nichts")
 			{
-				switch (Job.CurrentObject)
+				if (Job.UploadStatus.CurrentStep is RetryingUploadStep<VideoUploadStep>)
 				{
-					case UploadObject.Video:
-						currentUploadObject = "Video";
-						break;
-					case UploadObject.Thumbnail:
-						currentUploadObject = "Thumbnail";
-						break;
-					default:
-						currentUploadObject = "nichts";
-						break;
+					currentUploadObject = "Video";
+				}
+				else if (Job.UploadStatus.CurrentStep is RetryingUploadStep<ThumbnailUploadStep>)
+				{
+					currentUploadObject = "Thumbnail";
+				}
+				else
+				{
+					currentUploadObject = "nichts";
 				}
 			}
 
-			if (e.PropertyName == nameof(Job.Progress))
-			{
-				RefreshProgressBar((int)(Job.Progress * 100));
-				RefreshDetailFirstLineLabel($"Lade {currentUploadObject} hoch: {Job.Progress:0.00} %");
-			}
-			else if (e.PropertyName == nameof(Job.CurrentObject))
-			{
-				switch (Job.CurrentObject)
-				{
-					case UploadObject.Video:
-						currentUploadObject = "Video";
-						break;
-					case UploadObject.Thumbnail:
-						currentUploadObject = "Thumbnail";
-						break;
-					default:
-						currentUploadObject = "nichts";
-						break;
-				}
-			}
-			else if (e.PropertyName == nameof(Job.State))
+			if (e.PropertyName == nameof(Job.State))
 			{
 				RefreshControl();
-			}
-			else if (e.PropertyName == nameof(Job.CurrentSpeed) || e.PropertyName == nameof(Job.RemainingDuration) || e.PropertyName == nameof(Job.UploadedDuration))
-			{
-				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.RemainingDuration.ToString("hh\\:mm\\:ss")}, Geschwindigkeit: {Job.CurrentSpeed}");
 			}
 			else if (e.PropertyName == nameof(Job.Error))
 			{
@@ -157,47 +158,37 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 			switch (job.State)
 			{
-				case UploadProgress.NotRunning:
+				case JobState.NotStarted:
 					RefreshDetailLabel(string.Empty, string.Empty);
 					RefreshBackColor(Color.Transparent);
 
 					break;
-				case UploadProgress.Running:
+				case JobState.Running:
 					RefreshDetailLabel($"Upload wird gestartet...", string.Empty);
 					RefreshBackColor(Color.FromArgb(192, 255, 255));
 
 					break;
-				case UploadProgress.CancelPending:
-					RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
-					RefreshBackColor(Color.FromArgb(255, 255, 192));
-
-					break;
-				case UploadProgress.Failed:
+				case JobState.Error:
 					RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error?.Message);
 					RefreshBackColor(Color.FromArgb(255, 192, 192));
 
 					break;
-				case UploadProgress.Canceled:
+				case JobState.Canceled:
 					RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
 					RefreshBackColor(Color.FromArgb(255, 192, 192));
 
 					break;
-				case UploadProgress.PausePending:
-					RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
-					RefreshBackColor(Color.FromArgb(224, 224, 224));
-
-					break;
-				case UploadProgress.Paused:
+				case JobState.Paused:
 					RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
 					RefreshBackColor(Color.FromArgb(224, 224, 224));
 
 					break;
-				case UploadProgress.Successful:
+				case JobState.Successful:
 					RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
 					RefreshBackColor(Color.FromArgb(192, 255, 192));
 
 					break;
-				case UploadProgress.Broke:
+				case JobState.Broke:
 					RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 01:30 Minuten und versuche es dann erneut...");
 					RefreshBackColor(Color.FromArgb(224, 224, 224));
 					nextUploadStart = DateTime.Now.AddSeconds(90);
@@ -274,7 +265,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private void RefreshContextMenuEnabled()
 		{
 			Safe(() => startenToolStripMenuItem.Enabled = !Job.State.IsStarted() || Job.State.IsFailed() || Job.State.IsCanceled());
-			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == UploadProgress.Paused);
+			Safe(() => fortsetzenToolStripMenuItem.Enabled = Job.State == JobState.Paused);
 			Safe(() => pausierenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsPausingOrPaused());
 			Safe(() => abbrechenToolStripMenuItem.Enabled = Job.State.IsStarted() && !Job.State.IsFailed() && !Job.State.IsCanceled());
 			Safe(() => überspringenToolStripMenuItem.Enabled = !Job.State.IsStarted());
@@ -292,22 +283,32 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void startenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Safe(() => Job.ForceUploadAsync());
+			Safe(() =>
+			{
+				Job.Reset();
+				Job.Run();
+			});
 		}
 
 		private void pausierenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Safe(() => Job.PauseUploadAsync());
+			RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
+			RefreshBackColor(Color.FromArgb(224, 224, 224));
+
+			Safe(() => Job.Pause());
 		}
 
 		private void fortsetzenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Safe(() => Job.ResumeUploadAsync());
+			Safe(() => Job.Resume());
 		}
 
 		private void abbrechenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Safe(() => Job.CancelUploadAsync());
+			RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
+			RefreshBackColor(Color.FromArgb(255, 255, 192));
+
+			Safe(() => Job.Cancel());
 		}
 
 		private void überspringenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -317,7 +318,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void löschenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Safe(() => Job.DeleteAsync());
+			Safe(() => Job.Delete());
 		}
 
 		private void Safe(Action action)
@@ -359,8 +360,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void detailsBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Job.BeginEdit();
-
 			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), categoryContainer, languageContainer);
 
 			if (form.ShowDialog(this) == DialogResult.OK)
@@ -370,14 +369,39 @@ namespace STFU.Lib.GUI.Controls.Queue
 				RefreshTitleLabel();
 				RefreshThumbnail();
 			}
-
-			Job.FinishEdit();
 		}
 
 		private void refreshUploadBrokenTimer_Tick(object sender, EventArgs e)
 		{
 			RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", $"Warte {(nextUploadStart - DateTime.Now).ToString("mm\\:ss")} Minuten und versuche es dann erneut...");
 			RefreshBackColor(Color.FromArgb(224, 224, 224));
+		}
+
+		public void RefreshJobControl()
+		{
+			if (Job.State == JobState.Running)
+			{
+				Job.RefreshDurationAndSpeed();
+
+				RefreshProgressBar((int)(Job.UploadStatus.Progress * 100));
+				RefreshDetailFirstLineLabel($"Lade {currentUploadObject} hoch: {Job.UploadStatus.Progress:0.00} %");
+				RefreshDetailSecondLineLabel($"Bisher benötigt: {Job.UploadStatus.UploadedDuration.ToString("hh\\:mm\\:ss")}, verbleibende Zeit: {Job.UploadStatus.RemainingDuration.ToString("hh\\:mm\\:ss")}, Geschwindigkeit: {CalculateAverageSpeed(Job.UploadStatus.CurrentSpeed)}");
+			}
+		}
+
+		string[] dataUnits = new[] { "B/s", "kB/s", "MB/s", "GB/s", "TB/s" };
+		private string CalculateAverageSpeed(double size)
+		{
+			int unitIndex = 0;
+			while (size > 1000)
+			{
+				size /= 1000;
+				unitIndex++;
+			}
+
+			string result = $"{size:0.00} {dataUnits[unitIndex]}";
+
+			return result;
 		}
 	}
 }

@@ -99,22 +99,22 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 		public IPathContainer Paths
 		{
 			get
 			{
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 			set
 			{
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace STFU.Lib.Youtube.Automation
 
 		public event FileToUploadPlannedEventHandler FileToUploadOccured;
 
-		public void Cancel()
+		public void Cancel(bool cancelYoutubeUploader)
 		{
 			if (State == RunningState.Running)
 			{
@@ -147,7 +147,11 @@ namespace STFU.Lib.Youtube.Automation
 				Uploader.StopAfterCompleting = true;
 				Searcher.Cancel();
 				DirectoryWatcher.Cancel();
-				Uploader.CancelAll();
+
+				if (cancelYoutubeUploader)
+				{
+					Uploader.CancelAll();
+				}
 
 				RefreshState();
 			}
@@ -272,7 +276,7 @@ namespace STFU.Lib.Youtube.Automation
 			if (EndAfterUpload
 				&& WatchedProcesses.AllProcessesCompleted
 				&& Uploader.State != UploaderState.Uploading
-				&& (Uploader.State != UploaderState.Waiting || !Uploader.Queue.Any(u => u.State == UploadProgress.NotRunning && !u.ShouldBeSkipped))
+				&& (Uploader.State != UploaderState.Waiting || !Uploader.Queue.Any(u => u.State == JobState.NotStarted && !u.ShouldBeSkipped))
 				&& Searcher.State != RunningState.Running)
 			{
 				Uploader.CancelAll();
@@ -303,9 +307,11 @@ namespace STFU.Lib.Youtube.Automation
 				&& archive.RegisteredJobs.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower()))
 			{
 				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
-				var video = videoAndEvaluator.Item1;
-				var evaluator = videoAndEvaluator.Item2;
-				var job = Uploader.QueueUpload(video, Account);
+				var video = videoAndEvaluator.Video;
+				var evaluator = videoAndEvaluator.Evaluator;
+				var notificationSettings = videoAndEvaluator.NotificationSettings;
+
+				var job = Uploader.QueueUpload(video, Account, notificationSettings);
 				var path = VideoCreator.FindNearestPath(e.FullPath);
 				var moveDirectory = path.MoveDirectoryPath;
 

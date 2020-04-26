@@ -39,27 +39,15 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\Upload\FailReasonConverter.cs" />
-    <Compile Include="Internal\Upload\FileUploader.cs" />
-    <Compile Include="Internal\Upload\IUploadStep.cs" />
-    <Compile Include="Internal\Upload\Model\Uploadable.cs" />
-    <Compile Include="Internal\Upload\Model\UploadStepState.cs" />
-    <Compile Include="Internal\Upload\ThrottledStream.cs" />
-    <Compile Include="Internal\Upload\UploadStep.cs" />
-    <Compile Include="Internal\Upload\YoutubeThumbnailUploader.cs" />
-    <Compile Include="Internal\Upload\YoutubeVideoInformationChanger.cs" />
-    <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
-    <Compile Include="Internal\YoutubeError.cs" />
     <Compile Include="Upload\JobUploader.cs" />
     <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
-    <Compile Include="Upload\Steps\IUploadStep.cs" />
     <Compile Include="Upload\Steps\RetryingUploadStep.cs" />
-    <Compile Include="Upload\Steps\StepFinishedEventHandler.cs" />
     <Compile Include="Upload\Steps\ThumbnailUploadStep.cs" />
     <Compile Include="Upload\Steps\AbstractUploadStep.cs" />
+    <Compile Include="Upload\Steps\UploaderStateChangedEventArgs.cs" />
+    <Compile Include="Upload\Steps\UploaderStateChangedEventHandler.cs" />
     <Compile Include="Upload\Steps\VideoUploadStep.cs" />
-    <Compile Include="Upload\UploadState.cs" />
-    <Compile Include="Upload\UploadStatus.cs" />
+    <Compile Include="Upload\YoutubeError.cs" />
     <Compile Include="Upload\YoutubeJob.cs" />
     <Compile Include="YoutubeJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,7 +58,6 @@
     <Compile Include="YoutubeClientContainer.cs" />
     <Compile Include="YoutubeLanguageContainer.cs" />
     <Compile Include="YoutubeUploader.cs" />
-    <Compile Include="Internal\Upload\YoutubeVideoUploader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.MailSender\STFU.Lib.MailSender.csproj">

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
@@ -10,6 +12,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		private int WaitInterval { get; set; }
 
+		public override double Progress => Step != null ? Step.Progress : 0;
+
+		public new bool FinishedSuccessful => Step != null ? Step.FinishedSuccessful : false;
+
 		public RetryingUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status, int waitInterval = 90000)
 			: base(video, account, status)
 		{
@@ -17,13 +23,15 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			WaitInterval = waitInterval;
 		}
 
-		// TODO: Status setzen!
 		internal override void Run()
 		{
 			int tries = 0;
-			var lastProgress = Status.Progress;
+			var lastProgress = Status.Progress = 0.0;
 
-			while (tries < 10 && !Step.FinishedSuccessful)
+			OnStepStateChanged(UploadStepState.NotStarted, UploadStepState.Running);
+			CancellationTokenSource = new CancellationTokenSource();
+
+			while (tries < 10 && !Step.FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
 			{
 				tries++;
 
@@ -31,14 +39,15 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				{
 					Step.Run();
 
-					if (!Step.FinishedSuccessful)
+					if (!Step.FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
 					{
-						Thread.Sleep(WaitInterval);
+						WaitBeforeRetry();
 					}
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					Thread.Sleep(WaitInterval);
+					Console.WriteLine(ex);
+					WaitBeforeRetry();
 				}
 
 				if (lastProgress < Status.Progress)
@@ -48,7 +57,35 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				}
 			}
 
-			OnStepFinished();
+			if (Step.FinishedSuccessful)
+			{
+				OnStepFinished();
+			}
+			else if (!CancellationTokenSource.IsCancellationRequested)
+			{
+				OnStepStateChanged(UploadStepState.Running, UploadStepState.Error);
+			}
+		}
+
+		private void WaitBeforeRetry()
+		{
+			OnStepStateChanged(UploadStepState.Running, UploadStepState.Broke);
+			Thread.Sleep(WaitInterval);
+			OnStepStateChanged(UploadStepState.Broke, UploadStepState.Running);
+		}
+
+		public override void RefreshDurationAndSpeed()
+		{
+			Step.RefreshDurationAndSpeed();
+		}
+
+		public override void Cancel()
+		{
+			if (RunningTask != null && RunningTask.Status == TaskStatus.Running)
+			{
+				CancellationTokenSource.Cancel();
+				Step?.Cancel();
+			}
 		}
 	}
 }

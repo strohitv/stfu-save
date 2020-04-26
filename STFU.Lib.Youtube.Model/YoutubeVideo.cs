@@ -371,10 +371,6 @@ namespace STFU.Lib.Youtube.Model
 			}
 		}
 
-		// Das gehört eigentlich zum Job
-		[JsonConverter(typeof(ConcreteTypeConverter<NotificationSettings>))]
-		public INotificationSettings NotificationSettings { get; set; }
-
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
 		protected void OnPropertyChanged([CallerMemberName] string caller = null)

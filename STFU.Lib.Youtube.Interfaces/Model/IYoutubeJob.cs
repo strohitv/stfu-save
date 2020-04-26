@@ -1,125 +1,37 @@
-﻿using System;
-using System.ComponentModel;
-using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.Lib.Youtube.Interfaces.Model.Handler;
+﻿using System.ComponentModel;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {
-	public interface IYoutubeJob : ITriggerDeletion, INotifyPropertyChanged
+	public interface IYoutubeJob : ITriggerDeletion, IUploadCompleted, INotifyPropertyChanged
 	{
-		/// <summary>
-		/// the video that is being uploaded
-		/// </summary>
-		IYoutubeVideo Video { get; }
+		IYoutubeVideo Video { get; set; }
 
-		/// <summary>
-		/// the channel the video is being uploaded to
-		/// </summary>
 		IYoutubeAccount Account { get; set; }
 
-		/// <summary>
-		/// current state of the job
-		/// </summary>
-		UploadObject CurrentObject { get; }
+		JobState State { get; set; }
 
-		/// <summary>
-		/// current state of the job
-		/// </summary>
-		UploadProgress State { get; }
+		IYoutubeError Error { get; set; }
 
-		/// <summary>
-		/// current progress of the job
-		/// </summary>
-		double Progress { get; }
+		// TODO: Step-Gedöns muss vermutlich vom UploadStatus weg, da der JobUploader eig. die Stepverwaltung ist (?)
+		// Frage: Wie benachrichtige ich die GUI dann über den aktuellen Schritt? Enum?
+		UploadStatus UploadStatus { get; }
 
-		/// <summary>
-		/// Contains information about the error if something fails
-		/// </summary>
-		IYoutubeError Error { get; }
+		INotificationSettings NotificationSettings { get; set; }
 
-		/// <summary>
-		/// Time the Job has being uploaded
-		/// </summary>
-		string CurrentSpeed { get; }
-
-		/// <summary>
-		/// Time the Job has being uploaded
-		/// </summary>
-		TimeSpan UploadedDuration { get; }
-
-		/// <summary>
-		/// Remaining Time the Job will probably need to finish uploading
-		/// </summary>
-		TimeSpan RemainingDuration { get; }
-
-		/// <summary>
-		/// Determines if the jobs upload should be skipped if <see cref="IYoutubeUploader"/> searches for a new job to upload.
-		/// Setting this property does not have any effect if the upload has already been started.
-		/// Starting the job using <see cref="StartUpload"/> will not work if this property is true.
-		/// Starting the job using <see cref="ForceUploadAsync"/> will ignore this property and start the job immediately.
-		/// </summary>
 		bool ShouldBeSkipped { get; set; }
 
-		/// <summary>
-		/// The Action to be executed as soon as the Upload ist completed
-		/// </summary>
-		event JobFinishedEventHandler UploadCompletedAction;
+		void Run();
 
-		/// <summary>
-		/// Starts the jobs upload only if <see cref="ShouldBeSkipped"/> is false
-		/// </summary>
-		void StartUpload();
+		void Pause();
 
-		/// <summary>
-		/// Starts the jobs upload even if <see cref="ShouldBeSkipped"/> is true
-		/// </summary>
-		void ForceUploadAsync();
+		void Resume();
 
-		/// <summary>
-		/// Cancels the Jobs Upload
-		/// </summary>
-		void CancelUploadAsync();
+		void Cancel();
 
-		/// <summary>
-		/// Pauses the Jobs Upload
-		/// </summary>
-		void PauseUploadAsync();
+		void Delete();
 
-		/// <summary>
-		/// Resumes a paused jobs upload
-		/// </summary>
-		void ResumeUploadAsync();
-
-		/// <summary>
-		/// Will first call <see cref="CancelUploadAsync"/> to cancel the upload if running.
-		/// Triggers the deletion of this Job via <see cref="ITriggerDeletion"/> interface event.
-		/// This will notify parents that the job should be removed from queues or similar.
-		/// </summary>
-		void DeleteAsync();
-
-		/// <summary>
-		/// Determines if the Jobs underlying video is being edited at the moment
-		/// </summary>
-		bool IsInEditMode { get; }
-
-		/// <summary>
-		/// Sets the Job into edit mode which causes a running job not to success until FinishEdit() is being called.
-		/// </summary>
-		void BeginEdit();
-
-		/// <summary>
-		/// Finishes the Jobs edit mode.
-		/// </summary>
-		void FinishEdit();
-
-		/// <summary>
-		/// forcefully sets the jobs state paused. this should only be used for saving purposes on program exit.
-		/// </summary>
-		void SetPaused();
-
-		/// <summary>
-		/// forcefully resets the jobs state. this should only be used for saving purposes on program exit.
-		/// </summary>
 		void Reset();
+
+		void RefreshDurationAndSpeed();
 	}
 }

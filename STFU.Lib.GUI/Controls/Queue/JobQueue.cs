@@ -254,5 +254,13 @@ namespace STFU.Lib.GUI.Controls.Queue
 				});
 			}
 		}
+
+		private void refreshControlsTimerTick(object sender, EventArgs e)
+		{
+			foreach (var control in jobControls)
+			{
+				control.RefreshJobControl();
+			}
+		}
 	}
 }

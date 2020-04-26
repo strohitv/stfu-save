@@ -122,6 +122,7 @@
     <Compile Include="AutomationUploader.cs" />
     <Compile Include="Events\FileToUploadPlannedEventHandler.cs" />
     <Compile Include="Internal\FileSearcher.cs" />
+    <Compile Include="Internal\Templates\VideoInformation.cs" />
     <Compile Include="Internal\Watcher\DirectoryWatcher.cs" />
     <Compile Include="PathContainer.cs" />
     <Compile Include="Paths\Path.cs" />

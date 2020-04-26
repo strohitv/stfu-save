@@ -18,7 +18,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			PublishInfos = publishInfo;
 		}
 
-		internal Tuple<IYoutubeVideo, ExpressionEvaluator> CreateVideo(string path)
+		internal VideoInformation CreateVideo(string path)
 		{
 			IYoutubeVideo video = new YoutubeVideo(path);
 
@@ -27,7 +27,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			var template = publishCalculator.Template;
 
 			//TODO: Video muss die Mailversandsinformationen gespeicher bekommen, am besten via einer eigenen Klasse!
-			video.NotificationSettings = new NotificationSettings()
+			var notificationSettings = new NotificationSettings()
 			{
 				MailReceiver = template.MailTo,
 				NotifyOnVideoFoundDesktop = template.NewVideoDesktopNotification,
@@ -75,7 +75,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				video.Tags.Add(tag);
 			}
 
-			return new Tuple<IYoutubeVideo, ExpressionEvaluator>(video, evaluator);
+			return new VideoInformation(video, evaluator, notificationSettings);
 		}
 
 		public IPath FindNearestPath(string path)

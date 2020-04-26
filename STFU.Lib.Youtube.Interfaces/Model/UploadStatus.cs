@@ -2,14 +2,13 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using STFU.Lib.Youtube.Upload.Steps;
 
-namespace STFU.Lib.Youtube.Upload
+namespace STFU.Lib.Youtube.Interfaces.Model
 {
 	public class UploadStatus : INotifyPropertyChanged
 	{
 		private double progress = 0.0;
-		private double currentSpeed = 0.0;
+		private long currentSpeed = 0;
 
 		private DateTime started = default(DateTime);
 		private DateTime finished = default(DateTime);
@@ -22,11 +21,18 @@ namespace STFU.Lib.Youtube.Upload
 		private IUploadStep currentStep = default(IUploadStep);
 		private Type currentStepType = typeof(IUploadStep);
 
-		private UploadState state = UploadState.NotStarted;
+		private JobState state = JobState.NotStarted;
 
 		public double Progress
 		{
-			get { return progress; }
+			get
+			{
+				if (CurrentStep != null)
+				{
+					progress = CurrentStep.Progress;
+				}
+				return progress;
+			}
 			set
 			{
 				progress = value;
@@ -34,7 +40,7 @@ namespace STFU.Lib.Youtube.Upload
 			}
 		}
 
-		public double CurrentSpeed
+		public long CurrentSpeed
 		{
 			get { return currentSpeed; }
 			set
@@ -112,7 +118,7 @@ namespace STFU.Lib.Youtube.Upload
 			{
 				currentStep = value;
 				OnPropertyChanged();
-				CurrentStepType = currentStep.GetType();
+				CurrentStepType = currentStep?.GetType() ?? null;
 			}
 		}
 
@@ -127,7 +133,7 @@ namespace STFU.Lib.Youtube.Upload
 			}
 		}
 
-		public UploadState State
+		public JobState State
 		{
 			get { return state; }
 			private set

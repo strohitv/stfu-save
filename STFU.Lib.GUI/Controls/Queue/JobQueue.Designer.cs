@@ -28,8 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.borderPanel = new System.Windows.Forms.Panel();
 			this.mainTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.refreshControlsTimer = new System.Windows.Forms.Timer(this.components);
 			this.borderPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,6 +63,12 @@
 			this.mainTlp.Size = new System.Drawing.Size(230, 0);
 			this.mainTlp.TabIndex = 2;
 			// 
+			// refreshControlsTimer
+			// 
+			this.refreshControlsTimer.Enabled = true;
+			this.refreshControlsTimer.Interval = 250;
+			this.refreshControlsTimer.Tick += new System.EventHandler(this.refreshControlsTimerTick);
+			// 
 			// JobQueue
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -79,5 +87,6 @@
 
 		private System.Windows.Forms.Panel borderPanel;
 		private System.Windows.Forms.TableLayoutPanel mainTlp;
+		private System.Windows.Forms.Timer refreshControlsTimer;
 	}
 }
