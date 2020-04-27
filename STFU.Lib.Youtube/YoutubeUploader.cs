@@ -132,7 +132,7 @@ namespace STFU.Lib.Youtube
 				return Queue.Single(existing => existing.Video == video && existing.Account == account);
 			}
 
-			var job = new YoutubeJob(video, account)
+			var job = new YoutubeJob(video, account, new UploadStatus())
 			{
 				NotificationSettings = notificationSettings
 			};

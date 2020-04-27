@@ -87,18 +87,19 @@ namespace STFU.Lib.Youtube.Upload
 
 		private JobUploader JobUploader { get; }
 
-		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account)
+		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account, UploadStatus uploadStatus)
 		{
 			Video = video;
 			Account = account;
+			UploadStatus = uploadStatus;
 
 			JobUploader = new JobUploader(this);
 			JobUploader.StateChanged += JobUploaderStateChanged;
 		}
 
 		[JsonConstructor]
-		public YoutubeJob(YoutubeVideo video, YoutubeAccount account, YoutubeError error)
-			: this(video, account)
+		public YoutubeJob(YoutubeVideo video, YoutubeAccount account, YoutubeError error, UploadStatus uploadStatus)
+			: this(video, account, uploadStatus)
 		{
 			Error = error;
 		}

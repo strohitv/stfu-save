@@ -94,10 +94,9 @@ namespace STFU.Lib.Youtube.Persistor
 			Saved = new YoutubeJobContainer();
 			foreach (var job in Container.RegisteredJobs)
 			{
-				var newJob = new YoutubeJob(job.Video.CreateCopy(), job.Account)
+				var newJob = new YoutubeJob(job.Video.CreateCopy(), job.Account, job.UploadStatus)
 				{
-					State = job.State,
-					UploadStatus = job.UploadStatus
+					State = job.State
 				};
 
 				Saved.RegisterJob(newJob);

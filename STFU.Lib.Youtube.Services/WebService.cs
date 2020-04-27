@@ -38,6 +38,17 @@ namespace STFU.Lib.Youtube.Services
 			catch (WebException ex)
 			{
 				exception = ex;
+
+				if (ex.Status == WebExceptionStatus.ProtocolError)
+				{
+					var response = ex.Response as HttpWebResponse;
+					if ((int)response.StatusCode == 308)
+					{
+						var range = response.Headers.Get("range");
+						return range;
+					}
+				}
+
 				return null;
 			}
 		}
@@ -50,16 +61,6 @@ namespace STFU.Lib.Youtube.Services
 
 			if (ex != null)
 			{
-				if (ex.Status == WebExceptionStatus.ProtocolError)
-				{
-					var response = ex.Response as HttpWebResponse;
-					if ((int)response.StatusCode == 308)
-					{
-						var range = response.Headers.Get("range");
-						return range;
-					}
-				}
-
 				if (ex.Response != null)
 				{
 					using (var stream = ex.Response.GetResponseStream())

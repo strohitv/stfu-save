@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -19,9 +18,9 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			get
 			{
-				if (stream != null)
+				if (fileStream != null)
 				{
-					return ((double)stream.Position) * 100 / stream.Length;
+					return ((double)fileStream.Position) * 100 / fileStream.Length;
 				}
 
 				return 0;
@@ -31,7 +30,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public VideoUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
 			: base(video, account, status) { }
 
-		private FileStream stream = null;
+		private FileStream fileStream = null;
+		private Stream requestStream = null;
 
 		internal override void Run()
 		{
@@ -56,18 +56,17 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					request.Proxy = new WebProxy();
 					request.AllowWriteStreamBuffering = false;
 
-					using (FileStream filestream = new FileStream(Video.Path, FileMode.Open))
-					using (var requestStream = request.GetRequestStream())
+					using (fileStream = new FileStream(Video.Path, FileMode.Open))
+					using (requestStream = request.GetRequestStream())
 					{
 						CancellationTokenSource = new CancellationTokenSource();
-						filestream.Position = Status.LastByte + 1;
-						stream = filestream;
+						fileStream.Position = Status.LastByte + 1;
 
 						try
 						{
 							lastRead = DateTime.Now;
-							lastPosition = filestream.Position;
-							filestream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
+							lastPosition = fileStream.Position;
+							fileStream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
 							FinishedSuccessful = true;
 							Status.Progress = 100;
 						}
@@ -77,7 +76,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 						}
 						finally
 						{
-							stream = null;
+							fileStream = null;
+							requestStream = null;
 						}
 					}
 				}
@@ -164,6 +164,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 			WebException ex = null;
 			var answer = WebService.Communicate(request, out ex);
+
 			if (answer == null)
 			{
 				if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
@@ -203,7 +204,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public override void RefreshDurationAndSpeed()
 		{
-			if (stream != null && lastRead != default(DateTime))
+			if (fileStream != null && lastRead != default(DateTime))
 			{
 				while (speeds.Count >= 30)
 				{
@@ -212,10 +213,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 				var now = DateTime.Now;
 				TimeSpan span = now.Subtract(lastRead);
-				long difference = stream.Position - lastPosition;
+				long difference = fileStream.Position - lastPosition;
 
 				lastRead = now;
-				lastPosition = stream.Position;
+				lastPosition = fileStream.Position;
 
 				speeds.Add(new Tuple<TimeSpan, long>(span, difference));
 

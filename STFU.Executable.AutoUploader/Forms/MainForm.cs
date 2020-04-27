@@ -803,7 +803,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				var files = openFileDialog.FileNames;
 				foreach (var file in files)
 				{
-					archiveContainer.RegisterJob(new YoutubeJob(new YoutubeVideo(file) { Title = file }, accountContainer.RegisteredAccounts.FirstOrDefault()));
+					archiveContainer.RegisterJob(new YoutubeJob(new YoutubeVideo(file) { Title = file }, accountContainer.RegisteredAccounts.FirstOrDefault(), new UploadStatus()));
 					archiveListView.Items.Add(file);
 				}
 			}
