@@ -208,7 +208,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			if (fileStream != null && lastRead != default(DateTime))
 			{
-				while (speeds.Count >= 30)
+				while (speeds.Count >= 32)
 				{
 					speeds.RemoveAt(0);
 				}

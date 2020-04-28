@@ -100,7 +100,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public override void RefreshDurationAndSpeed()
 		{
-			while (speeds.Count >= 30)
+			while (speeds.Count >= 32)
 			{
 				speeds.RemoveAt(0);
 			}

@@ -8,21 +8,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ThrottledReadStream : Stream
 	{
-		static bool ShouldThrottle { get; set; }
-		static int throttleByteperSeconds = 0;
-		static int kByteModifier = 1000;
+		public static bool ShouldThrottle { get; set; } = false;
+		public static long ThrottleByteperSeconds { get; set; } = 1_000_000;
+
+		private static int KByteModifier { get; set; } = 1000;
 
 		Stream baseStream = null;
 		Stopwatch watch = Stopwatch.StartNew();
 		long totalBytesRead = 0;
-
-		public static void SetLimit(int kByteLimit)
-		{
-			if (kByteLimit > 0)
-			{
-				throttleByteperSeconds = kByteLimit * kByteModifier;
-			}
-		}
 
 		public ThrottledReadStream(Stream incommingStream)
 		{
@@ -100,18 +93,18 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		async Task<int> GetBytesToReturnAsync(int count)
 		{
-			if (throttleByteperSeconds <= 0)
+			if (ThrottleByteperSeconds <= 0)
 			{
 				return count;
 			}
 
-			long canSend = (long)(watch.ElapsedMilliseconds * (throttleByteperSeconds / 1000.0));
+			long canSend = (long)(watch.ElapsedMilliseconds * (ThrottleByteperSeconds / 1000.0));
 
 			int diff = (int)(canSend - totalBytesRead);
 
 			if (diff <= 0)
 			{
-				var waitInSec = ((diff * -1.0) / (throttleByteperSeconds));
+				var waitInSec = ((diff * -1.0) / (ThrottleByteperSeconds));
 
 				await Task.Delay((int)(waitInSec * 1000)).ConfigureAwait(false);
 			}
@@ -121,7 +114,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				return count;
 			}
 
-			return diff > 0 ? diff : Math.Min(kByteModifier, count);
+			return diff > 0 ? diff : Math.Min(KByteModifier, count);
 		}
 	}
 }

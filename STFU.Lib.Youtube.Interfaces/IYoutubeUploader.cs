@@ -31,6 +31,16 @@ namespace STFU.Lib.Youtube.Interfaces
 		int Progress { get; }
 
 		/// <summary>
+		/// Gets or sets if the Uploader should limit its jobs upload speed
+		/// </summary>
+		bool LimitUploadSpeed { get; set; }
+
+		/// <summary>
+		/// Gets or sets the speed each job is allowed to upload
+		/// </summary>
+		long UploadLimitKByte { get; set; }
+
+		/// <summary>
 		/// Current State of the uploader
 		/// </summary>
 		UploaderState State { get; }

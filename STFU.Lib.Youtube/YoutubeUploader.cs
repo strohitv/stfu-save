@@ -12,6 +12,7 @@ using STFU.Lib.Youtube.Interfaces.Model.Args;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Interfaces.Model.Handler;
 using STFU.Lib.Youtube.Upload;
+using STFU.Lib.Youtube.Upload.Steps;
 
 namespace STFU.Lib.Youtube
 {
@@ -101,6 +102,10 @@ namespace STFU.Lib.Youtube
 				}
 			}
 		}
+
+		public bool LimitUploadSpeed { get => ThrottledReadStream.ShouldThrottle; set => ThrottledReadStream.ShouldThrottle = value; }
+
+		public long UploadLimitKByte { get => ThrottledReadStream.ThrottleByteperSeconds; set => ThrottledReadStream.ThrottleByteperSeconds = value; }
 
 		public YoutubeUploader()
 		{

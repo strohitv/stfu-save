@@ -130,6 +130,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
+			limitUploadSpeedCombobox.SelectedIndex = 1;
+
 			RefillListView();
 			RefillArchiveView();
 			ActivateAccountLink();
@@ -827,6 +829,29 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 
 			RemoveSelectedArchiveJobs();
+		}
+
+		private void limitUploadSpeedCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			limitUploadSpeedNud.Enabled = limitUploadSpeedCombobox.Enabled = limitUploadSpeedCheckbox.Checked;
+		}
+
+		private void limitUploadSpeedNud_ValueChanged(object sender, EventArgs e)
+		{
+			SetNewUploadSpeedLimit();
+		}
+
+		private void limitUploadSpeedCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SetNewUploadSpeedLimit();
+		}
+
+		private void SetNewUploadSpeedLimit()
+		{
+			long value = (long)limitUploadSpeedNud.Value;
+			long factor = (long)Math.Pow(1000, limitUploadSpeedCombobox.SelectedIndex + 1);
+
+			autoUploader.Uploader.UploadLimitKByte = value * factor;
 		}
 	}
 }
