@@ -31,6 +31,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			: base(job) { }
 
 		private FileStream fileStream = null;
+		private Stream throttledStream = null;
 		private Stream requestStream = null;
 
 		internal override void Run()
@@ -57,6 +58,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					request.AllowWriteStreamBuffering = false;
 
 					using (fileStream = new FileStream(Video.Path, FileMode.Open))
+					using (throttledStream = new ThrottledStream(fileStream, 1024))
 					using (requestStream = request.GetRequestStream())
 					{
 						CancellationTokenSource = new CancellationTokenSource();
@@ -66,7 +68,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 						{
 							lastRead = DateTime.Now;
 							lastPosition = fileStream.Position;
-							fileStream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
+							throttledStream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
 							FinishedSuccessful = true;
 							Status.Progress = 100;
 						}
