@@ -118,13 +118,22 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Resume()
 		{
-			UploadStatus.CurrentStep.RunAsync();
+			if (UploadStatus.CurrentStep != null)
+			{
+				UploadStatus.CurrentStep.RunAsync();
+			}
+			else
+			{
+				JobUploader.Run();
+			}
+
 			State = JobState.Running;
 		}
 
 		public void Cancel()
 		{
 			JobUploader.Reset();
+			UploadStatus = new UploadStatus();
 			State = JobState.Canceled;
 		}
 

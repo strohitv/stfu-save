@@ -45,7 +45,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 					}
 
 					job = value;
-					RefreshContextMenuEnabled();
 
 					RefreshTitleLabel();
 					RefreshThumbnail();
@@ -156,47 +155,57 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			Safe(() => refreshUploadBrokenTimer.Enabled = false);
 
-			switch (job.State)
+			if (!job.ShouldBeSkipped)
 			{
-				case JobState.NotStarted:
-					RefreshDetailLabel(string.Empty, string.Empty);
-					RefreshBackColor(Color.Transparent);
+				switch (job.State)
+				{
+					case JobState.NotStarted:
+						RefreshDetailLabel(string.Empty, string.Empty);
+						RefreshBackColor(Color.Transparent);
 
-					break;
-				case JobState.Running:
-					RefreshDetailLabel($"Upload wird gestartet...", string.Empty);
-					RefreshBackColor(Color.FromArgb(192, 255, 255));
+						break;
+					case JobState.Running:
+						RefreshDetailLabel($"Upload wird gestartet...", string.Empty);
+						RefreshBackColor(Color.FromArgb(192, 255, 255));
 
-					break;
-				case JobState.Error:
-					RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error?.Message);
-					RefreshBackColor(Color.FromArgb(255, 192, 192));
+						break;
+					case JobState.Error:
+						RefreshDetailLabel($"Es gab einen Fehler beim Upload.", Job.Error?.Message);
+						RefreshBackColor(Color.FromArgb(255, 192, 192));
 
-					break;
-				case JobState.Canceled:
-					RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
-					RefreshBackColor(Color.FromArgb(255, 192, 192));
+						break;
+					case JobState.Canceled:
+						RefreshDetailLabel($"Upload wurde abgebrochen.", string.Empty);
+						RefreshBackColor(Color.FromArgb(255, 192, 192));
 
-					break;
-				case JobState.Paused:
-					RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
-					RefreshBackColor(Color.FromArgb(224, 224, 224));
+						break;
+					case JobState.Paused:
+						RefreshDetailLabel($"Upload ist pausiert...", string.Empty);
+						RefreshBackColor(Color.FromArgb(224, 224, 224));
 
-					break;
-				case JobState.Successful:
-					RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
-					RefreshBackColor(Color.FromArgb(192, 255, 192));
+						break;
+					case JobState.Successful:
+						RefreshDetailLabel($"Upload wurde erfolgreich abgeschlossen.", string.Empty);
+						RefreshBackColor(Color.FromArgb(192, 255, 192));
 
-					break;
-				case JobState.Broke:
-					RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 01:30 Minuten und versuche es dann erneut...");
-					RefreshBackColor(Color.FromArgb(224, 224, 224));
-					nextUploadStart = DateTime.Now.AddSeconds(90);
-					Safe(() => refreshUploadBrokenTimer.Enabled = true);
+						break;
+					case JobState.Broke:
+						RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", "Warte 01:30 Minuten und versuche es dann erneut...");
+						RefreshBackColor(Color.FromArgb(224, 224, 224));
+						nextUploadStart = DateTime.Now.AddSeconds(90);
+						Safe(() => refreshUploadBrokenTimer.Enabled = true);
 
-					break;
-				default:
-					throw new ArgumentException("Dieser Status wird nicht unterstützt.");
+						break;
+					default:
+						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
+				}
+			}
+			else
+			{
+				RefreshDetailLabel($"Upload wird übersprungen...", string.Empty);
+				Safe(() => uploadTitle.Text = $"{Job.Video.Title} (wird übersprungen)");
+				Safe(() => überspringenToolStripMenuItem.Checked = true);
+				RefreshBackColor(Color.FromArgb(180, 180, 180));
 			}
 
 			RefreshShowUploadState(Job.State.IsStarted() || Job.State.IsCanceled());
