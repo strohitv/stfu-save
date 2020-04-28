@@ -58,6 +58,9 @@
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.selectThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
+			this.titleCharacterCountLabel = new System.Windows.Forms.Label();
+			this.descriptionCharacterCountLabel = new System.Windows.Forms.Label();
+			this.tagsCharacterCountLabel = new System.Windows.Forms.Label();
 			this.mainTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
@@ -108,30 +111,39 @@
 			this.mainSettingsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.mainSettingsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.Controls.Add(this.titleLabel, 1, 1);
-			this.mainSettingsTlp.Controls.Add(this.descriptionLabel, 1, 3);
-			this.mainSettingsTlp.Controls.Add(this.tagsLabel, 1, 6);
-			this.mainSettingsTlp.Controls.Add(this.thumbnailLabel, 1, 9);
-			this.mainSettingsTlp.Controls.Add(this.privacyLabel, 1, 11);
+			this.mainSettingsTlp.Controls.Add(this.descriptionLabel, 1, 5);
+			this.mainSettingsTlp.Controls.Add(this.tagsLabel, 1, 10);
+			this.mainSettingsTlp.Controls.Add(this.thumbnailLabel, 1, 15);
+			this.mainSettingsTlp.Controls.Add(this.privacyLabel, 1, 17);
 			this.mainSettingsTlp.Controls.Add(this.titleTextbox, 3, 1);
-			this.mainSettingsTlp.Controls.Add(this.descriptionTextbox, 1, 4);
-			this.mainSettingsTlp.Controls.Add(this.tagsTextbox, 1, 7);
-			this.mainSettingsTlp.Controls.Add(this.thumbnailTextbox, 3, 9);
-			this.mainSettingsTlp.Controls.Add(this.thumbnailButton, 5, 9);
-			this.mainSettingsTlp.Controls.Add(this.publishAtDatetimepicker, 3, 13);
-			this.mainSettingsTlp.Controls.Add(this.publishAtCheckbox, 1, 13);
-			this.mainSettingsTlp.Controls.Add(this.privacyCombobox, 3, 11);
+			this.mainSettingsTlp.Controls.Add(this.descriptionTextbox, 1, 6);
+			this.mainSettingsTlp.Controls.Add(this.tagsTextbox, 1, 11);
+			this.mainSettingsTlp.Controls.Add(this.thumbnailTextbox, 3, 15);
+			this.mainSettingsTlp.Controls.Add(this.thumbnailButton, 5, 15);
+			this.mainSettingsTlp.Controls.Add(this.publishAtDatetimepicker, 3, 19);
+			this.mainSettingsTlp.Controls.Add(this.publishAtCheckbox, 1, 19);
+			this.mainSettingsTlp.Controls.Add(this.privacyCombobox, 3, 17);
+			this.mainSettingsTlp.Controls.Add(this.titleCharacterCountLabel, 3, 3);
+			this.mainSettingsTlp.Controls.Add(this.descriptionCharacterCountLabel, 3, 8);
+			this.mainSettingsTlp.Controls.Add(this.tagsCharacterCountLabel, 3, 13);
 			this.mainSettingsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mainSettingsTlp.Location = new System.Drawing.Point(3, 16);
 			this.mainSettingsTlp.Name = "mainSettingsTlp";
-			this.mainSettingsTlp.RowCount = 15;
+			this.mainSettingsTlp.RowCount = 21;
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -158,7 +170,7 @@
 			this.descriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.descriptionLabel.AutoSize = true;
 			this.mainSettingsTlp.SetColumnSpan(this.descriptionLabel, 5);
-			this.descriptionLabel.Location = new System.Drawing.Point(10, 46);
+			this.descriptionLabel.Location = new System.Drawing.Point(10, 64);
 			this.descriptionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionLabel.Name = "descriptionLabel";
 			this.descriptionLabel.Size = new System.Drawing.Size(1104, 13);
@@ -170,7 +182,7 @@
 			this.tagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tagsLabel.AutoSize = true;
 			this.mainSettingsTlp.SetColumnSpan(this.tagsLabel, 5);
-			this.tagsLabel.Location = new System.Drawing.Point(10, 219);
+			this.tagsLabel.Location = new System.Drawing.Point(10, 228);
 			this.tagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsLabel.Name = "tagsLabel";
 			this.tagsLabel.Size = new System.Drawing.Size(1104, 13);
@@ -217,11 +229,11 @@
 			this.mainSettingsTlp.SetColumnSpan(this.descriptionTextbox, 5);
 			this.descriptionTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.descriptionTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.descriptionTextbox.Location = new System.Drawing.Point(10, 59);
+			this.descriptionTextbox.Location = new System.Drawing.Point(10, 77);
 			this.descriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionTextbox.Multiline = true;
 			this.descriptionTextbox.Name = "descriptionTextbox";
-			this.descriptionTextbox.Size = new System.Drawing.Size(1104, 150);
+			this.descriptionTextbox.Size = new System.Drawing.Size(1104, 123);
 			this.descriptionTextbox.TabIndex = 7;
 			this.descriptionTextbox.TextChanged += new System.EventHandler(this.descriptionTextbox_TextChanged);
 			// 
@@ -231,11 +243,11 @@
 			this.mainSettingsTlp.SetColumnSpan(this.tagsTextbox, 5);
 			this.tagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tagsTextbox.Location = new System.Drawing.Point(10, 232);
+			this.tagsTextbox.Location = new System.Drawing.Point(10, 241);
 			this.tagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsTextbox.Multiline = true;
 			this.tagsTextbox.Name = "tagsTextbox";
-			this.tagsTextbox.Size = new System.Drawing.Size(1104, 150);
+			this.tagsTextbox.Size = new System.Drawing.Size(1104, 123);
 			this.tagsTextbox.TabIndex = 8;
 			this.tagsTextbox.TextChanged += new System.EventHandler(this.tagsTextbox_TextChanged);
 			// 
@@ -523,6 +535,39 @@
 			this.selectThumbnailDialog.Filter = "Bild-Dateien|*.png;*.jpg;*.jpeg;*.webp;*.bmp|Alle Dateien|*.*";
 			this.selectThumbnailDialog.Title = "Bitte Thumbnail auswählen...";
 			// 
+			// titleCharacterCountLabel
+			// 
+			this.titleCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.titleCharacterCountLabel.AutoSize = true;
+			this.titleCharacterCountLabel.Location = new System.Drawing.Point(196, 41);
+			this.titleCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.titleCharacterCountLabel.Name = "titleCharacterCountLabel";
+			this.titleCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
+			this.titleCharacterCountLabel.TabIndex = 3;
+			this.titleCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			// 
+			// descriptionCharacterCountLabel
+			// 
+			this.descriptionCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.descriptionCharacterCountLabel.AutoSize = true;
+			this.descriptionCharacterCountLabel.Location = new System.Drawing.Point(196, 205);
+			this.descriptionCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.descriptionCharacterCountLabel.Name = "descriptionCharacterCountLabel";
+			this.descriptionCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
+			this.descriptionCharacterCountLabel.TabIndex = 3;
+			this.descriptionCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			// 
+			// tagsCharacterCountLabel
+			// 
+			this.tagsCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tagsCharacterCountLabel.AutoSize = true;
+			this.tagsCharacterCountLabel.Location = new System.Drawing.Point(196, 369);
+			this.tagsCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.tagsCharacterCountLabel.Name = "tagsCharacterCountLabel";
+			this.tagsCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
+			this.tagsCharacterCountLabel.TabIndex = 3;
+			this.tagsCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			// 
 			// EditVideoGrid
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,5 +620,8 @@
 		private System.Windows.Forms.CheckBox autoLevelsCheckbox;
 		private System.Windows.Forms.CheckBox stabilizeCheckbox;
 		private System.Windows.Forms.CheckBox notifySubscribersCheckbox;
+		private System.Windows.Forms.Label titleCharacterCountLabel;
+		private System.Windows.Forms.Label descriptionCharacterCountLabel;
+		private System.Windows.Forms.Label tagsCharacterCountLabel;
 	}
 }

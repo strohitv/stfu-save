@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.uploadGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.submitButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
-			this.uploadGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -59,6 +59,17 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(1265, 906);
 			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// uploadGrid
+			// 
+			this.tableLayoutPanel1.SetColumnSpan(this.uploadGrid, 4);
+			this.uploadGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.uploadGrid.IsNewUpload = false;
+			this.uploadGrid.Location = new System.Drawing.Point(10, 10);
+			this.uploadGrid.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadGrid.Name = "uploadGrid";
+			this.uploadGrid.Size = new System.Drawing.Size(1245, 847);
+			this.uploadGrid.TabIndex = 0;
 			// 
 			// submitButton
 			// 
@@ -91,16 +102,6 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
-			// uploadGrid
-			// 
-			this.tableLayoutPanel1.SetColumnSpan(this.uploadGrid, 4);
-			this.uploadGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.uploadGrid.Location = new System.Drawing.Point(10, 10);
-			this.uploadGrid.Margin = new System.Windows.Forms.Padding(0);
-			this.uploadGrid.Name = "uploadGrid";
-			this.uploadGrid.Size = new System.Drawing.Size(1245, 847);
-			this.uploadGrid.TabIndex = 0;
-			// 
 			// EditVideoForm
 			// 
 			this.AcceptButton = this.submitButton;
@@ -113,6 +114,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Hochzuladendes Video bearbeiten";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Model;
 
 namespace STFU.Lib.GUI.Controls
 {
@@ -127,15 +128,35 @@ namespace STFU.Lib.GUI.Controls
 			notifySubscribersCheckbox.Checked = video.NotifySubscribers;
 			autoLevelsCheckbox.Checked = video.AutoLevels;
 			stabilizeCheckbox.Checked = video.Stabilize;
+
+			var maxTitleLength = YoutubeVideo.MaxTitleLength;
+			titleCharacterCountLabel.Text = $"Zeichen vergeben: {titleTextbox.Text.Length} von {maxTitleLength}. Übrig: {maxTitleLength - titleTextbox.Text.Length} Zeichen";
+
+			var maxDescriptionLength = YoutubeVideo.MaxDescriptionLength;
+			descriptionCharacterCountLabel.Text = $"Zeichen vergeben: {descriptionTextbox.Text.Length} von {maxDescriptionLength}. Übrig: {maxDescriptionLength - descriptionTextbox.Text.Length} Zeichen";
+
+			var tags = tagsTextbox.Text
+				.Replace(Environment.NewLine, string.Empty)
+				.Split(',')
+				.Select(t => t.Trim())
+				.ToArray();
+
+			RefreshTagsCharacterCountLabel(tags);
 		}
 
 		private void titleTextbox_TextChanged(object sender, EventArgs e)
 		{
+			var maxLength = YoutubeVideo.MaxTitleLength;
+			titleCharacterCountLabel.Text = $"Zeichen vergeben: {titleTextbox.Text.Length} von {maxLength}. Übrig: {maxLength - titleTextbox.Text.Length} Zeichen";
+
 			Video.Title = titleTextbox.Text;
 		}
 
 		private void descriptionTextbox_TextChanged(object sender, EventArgs e)
 		{
+			var maxLength = YoutubeVideo.MaxDescriptionLength;
+			descriptionCharacterCountLabel.Text = $"Zeichen vergeben: {descriptionTextbox.Text.Length} von {maxLength}. Übrig: {maxLength - descriptionTextbox.Text.Length} Zeichen";
+
 			Video.Description = descriptionTextbox.Text;
 		}
 
@@ -144,12 +165,33 @@ namespace STFU.Lib.GUI.Controls
 			var tags = tagsTextbox.Text
 				.Replace(Environment.NewLine, string.Empty)
 				.Split(',')
-				.Select(t => t.Trim());
+				.Select(t => t.Trim())
+				.ToArray();
+
+			RefreshTagsCharacterCountLabel(tags);
 
 			Video.Tags.Clear();
 			foreach (var tag in tags)
 			{
 				Video.Tags.Add(tag);
+			}
+		}
+
+		private void RefreshTagsCharacterCountLabel(string[] tags)
+		{
+			var maxSingleTagLength = YoutubeVideo.MaxSingleTagLength;
+			var maxCompleteLength = YoutubeVideo.MaxTagsLength;
+
+			var allTags = tags.Where(t => t.Length <= maxSingleTagLength).Aggregate((a, b) => $"{a},{b}");
+			tagsCharacterCountLabel.Text = $"Zeichen vergeben: {allTags.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - allTags.Length} Zeichen";
+
+			if (tags.Any(t => t.Length > maxSingleTagLength))
+			{
+				var invalidTags = tags.Where(t => t.Length > maxSingleTagLength).Aggregate((a, b) => $"{a}, {b}");
+				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Folgende Tags überschreiten die Maximallänge von {maxSingleTagLength} Zeichen: {invalidTags}";
+
+				var onlyValidTags = tags.Where(t => t.Length <= maxSingleTagLength).Aggregate((a, b) => $"{a},{b}");
+				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Zeichen vergeben (nur gültige Tags): {onlyValidTags.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - onlyValidTags.Length} Zeichen";
 			}
 		}
 
