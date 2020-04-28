@@ -16,10 +16,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public new bool FinishedSuccessful => Step != null ? Step.FinishedSuccessful : false;
 
-		public RetryingUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status, int waitInterval = 90000)
-			: base(video, account, status)
+		public RetryingUploadStep(IYoutubeJob job, int waitInterval = 90000)
+			: base(job)
 		{
-			Step = (T)Activator.CreateInstance(typeof(T), video, account, status);
+			Step = (T)Activator.CreateInstance(typeof(T), job);
 			WaitInterval = waitInterval;
 		}
 

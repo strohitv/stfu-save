@@ -6,9 +6,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 	{
 		event UploadStepStateChangedEventHandler StepStateChanged;
 
+		IYoutubeJob Job { get; }
+
 		IYoutubeVideo Video { get; }
 
-		IYoutubeAccount Account { get; set; }
+		IYoutubeAccount Account { get; }
 
 		UploadStatus Status { get; }
 

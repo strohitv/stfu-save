@@ -14,16 +14,7 @@ namespace STFU.Lib.Youtube.Upload
 	{
 		public IYoutubeVideo Video { get; set; }
 
-		private IYoutubeAccount account = null;
-		public IYoutubeAccount Account
-		{
-			get { return account; }
-			set
-			{
-				account = value;
-				JobUploader?.RefreshAccount(account);
-			}
-		}
+		public IYoutubeAccount Account { get; set; }
 
 		private JobState state = JobState.NotStarted;
 		public JobState State

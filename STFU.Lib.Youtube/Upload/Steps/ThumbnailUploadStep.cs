@@ -26,8 +26,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			}
 		}
 
-		public ThumbnailUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
-			: base(video, account, status) { }
+		public ThumbnailUploadStep(IYoutubeJob job)
+			: base(job) { }
 
 		private FileStream stream = null;
 

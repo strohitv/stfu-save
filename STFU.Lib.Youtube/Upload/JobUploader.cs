@@ -24,9 +24,9 @@ namespace STFU.Lib.Youtube.Upload
 
 			Job.Video.PropertyChanged += VideoPropertyChanged;
 
-			Steps.Enqueue(new RetryingUploadStep<VideoUploadStep>(Job.Video, Job.Account, Job.UploadStatus));
-			Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job.Video, Job.Account, Job.UploadStatus));
-			Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job.Video, Job.Account, Job.UploadStatus));
+			Steps.Enqueue(new RetryingUploadStep<VideoUploadStep>(Job));
+			Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
+			Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 
 			videoPropertyNames = new[] {
 				// Todo: Wie mach ich das mit den Tags..?
@@ -48,21 +48,13 @@ namespace STFU.Lib.Youtube.Upload
 			Job.Video.PropertyChanged -= VideoPropertyChanged;
 		}
 
-		public void RefreshAccount(IYoutubeAccount account)
-		{
-			foreach (var step in Steps)
-			{
-				step.Account = account;
-			}
-		}
-
 		public void Run()
 		{
 			if (Steps.Count == 0)
 			{
-				Steps.Enqueue(new RetryingUploadStep<VideoUploadStep>(Job.Video, Job.Account, Job.UploadStatus));
-				Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job.Video, Job.Account, Job.UploadStatus));
-				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job.Video, Job.Account, Job.UploadStatus));
+				Steps.Enqueue(new RetryingUploadStep<VideoUploadStep>(Job));
+				Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
+				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 			}
 
 			if (Job.UploadStatus.CurrentStep == null || !Job.UploadStatus.CurrentStep.IsRunning)
@@ -85,13 +77,13 @@ namespace STFU.Lib.Youtube.Upload
 			if (e.PropertyName == nameof(Job.Video.ThumbnailPath)
 				&& !Steps.Any(step => step is RetryingUploadStep<ThumbnailUploadStep>))
 			{
-				Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job.Video, Job.Account, Job.UploadStatus));
+				Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
 				Run();
 			}
 			else if (videoPropertyNames.Contains(e.PropertyName)
 				&& !Steps.Any(step => step is RetryingUploadStep<ChangeVideoDetailsStep>))
 			{
-				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job.Video, Job.Account, Job.UploadStatus));
+				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 				Run();
 			}
 		}

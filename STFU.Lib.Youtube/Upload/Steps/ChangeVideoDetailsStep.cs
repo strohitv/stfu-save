@@ -13,8 +13,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public override double Progress => progress;
 
-		public ChangeVideoDetailsStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
-			: base(video, account, status) { }
+		public ChangeVideoDetailsStep(IYoutubeJob job)
+			: base(job) { }
 
 		internal override void Run()
 		{

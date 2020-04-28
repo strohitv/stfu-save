@@ -13,11 +13,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		protected CancellationTokenSource CancellationTokenSource { get; set; } = new CancellationTokenSource();
 
-		public IYoutubeVideo Video { get; }
+		public IYoutubeJob Job { get; }
 
-		public IYoutubeAccount Account { get; set; } = null;
+		public IYoutubeVideo Video => Job.Video;
 
-		public UploadStatus Status { get; }
+		public IYoutubeAccount Account => Job.Account;
+
+		public UploadStatus Status => Job.UploadStatus;
 
 		public abstract double Progress { get; }
 
@@ -25,11 +27,9 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public bool FinishedSuccessful { get; protected set; } = false;
 
-		public AbstractUploadStep(IYoutubeVideo video, IYoutubeAccount account, UploadStatus status)
+		public AbstractUploadStep(IYoutubeJob job)
 		{
-			Video = video;
-			Account = account;
-			Status = status;
+			Job = job;
 		}
 
 		public abstract void Cancel();
