@@ -6,18 +6,26 @@ using System.Threading.Tasks;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
-	public class ThrottledStream : Stream
+	public class ThrottledReadStream : Stream
 	{
+		static bool ShouldThrottle { get; set; }
+		static int throttleByteperSeconds = 0;
+		static int kByteModifier = 1000;
+
 		Stream baseStream = null;
-		int throttle = 0;
 		Stopwatch watch = Stopwatch.StartNew();
 		long totalBytesRead = 0;
 
-		int kbModifier = 1000;
-
-		public ThrottledStream(Stream incommingStream, int throttleKb)
+		public static void SetLimit(int kByteLimit)
 		{
-			throttle = (throttleKb / 8) * kbModifier;
+			if (kByteLimit > 0)
+			{
+				throttleByteperSeconds = kByteLimit * kByteModifier;
+			}
+		}
+
+		public ThrottledReadStream(Stream incommingStream)
+		{
 			baseStream = incommingStream;
 		}
 
@@ -59,10 +67,17 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			var newcount = GetBytesToReturn(count);
-			int read = baseStream.Read(buffer, offset, newcount);
-			Interlocked.Add(ref totalBytesRead, read);
-			return read;
+			if (ShouldThrottle)
+			{
+				var newcount = GetBytesToReturn(count);
+				int read = baseStream.Read(buffer, offset, newcount);
+				Interlocked.Add(ref totalBytesRead, read);
+				return read;
+			}
+			else
+			{
+				return baseStream.Read(buffer, offset, count);
+			}
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
@@ -85,18 +100,18 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		async Task<int> GetBytesToReturnAsync(int count)
 		{
-			if (throttle <= 0)
+			if (throttleByteperSeconds <= 0)
 			{
 				return count;
 			}
 
-			long canSend = (long)(watch.ElapsedMilliseconds * (throttle / 1000.0));
+			long canSend = (long)(watch.ElapsedMilliseconds * (throttleByteperSeconds / 1000.0));
 
 			int diff = (int)(canSend - totalBytesRead);
 
 			if (diff <= 0)
 			{
-				var waitInSec = ((diff * -1.0) / (throttle));
+				var waitInSec = ((diff * -1.0) / (throttleByteperSeconds));
 
 				await Task.Delay((int)(waitInSec * 1000)).ConfigureAwait(false);
 			}
@@ -106,7 +121,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				return count;
 			}
 
-			return diff > 0 ? diff : Math.Min(kbModifier * 8, count);
+			return diff > 0 ? diff : Math.Min(kByteModifier, count);
 		}
 	}
 }

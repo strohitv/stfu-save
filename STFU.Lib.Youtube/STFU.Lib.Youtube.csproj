@@ -47,7 +47,7 @@
     <Compile Include="Upload\Steps\UploaderStateChangedEventArgs.cs" />
     <Compile Include="Upload\Steps\UploaderStateChangedEventHandler.cs" />
     <Compile Include="Upload\Steps\VideoUploadStep.cs" />
-    <Compile Include="Upload\Steps\ThrottledStream.cs" />
+    <Compile Include="Upload\Steps\ThrottledReadStream.cs" />
     <Compile Include="Upload\YoutubeError.cs" />
     <Compile Include="Upload\YoutubeJob.cs" />
     <Compile Include="YoutubeJob.cs" />

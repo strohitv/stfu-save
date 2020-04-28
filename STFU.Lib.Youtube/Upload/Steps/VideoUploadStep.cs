@@ -58,7 +58,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					request.AllowWriteStreamBuffering = false;
 
 					using (fileStream = new FileStream(Video.Path, FileMode.Open))
-					using (throttledStream = new ThrottledStream(fileStream, 1024))
+					using (throttledStream = new ThrottledReadStream(fileStream))
 					using (requestStream = request.GetRequestStream())
 					{
 						CancellationTokenSource = new CancellationTokenSource();
