@@ -833,7 +833,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void limitUploadSpeedCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
-			limitUploadSpeedNud.Enabled = limitUploadSpeedCombobox.Enabled = limitUploadSpeedCheckbox.Checked;
+			autoUploader.Uploader.LimitUploadSpeed = limitUploadSpeedCheckbox.Checked;
 		}
 
 		private void limitUploadSpeedNud_ValueChanged(object sender, EventArgs e)
