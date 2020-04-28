@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Interfaces;
@@ -131,9 +132,11 @@ namespace STFU.Lib.GUI.Controls
 
 			var maxTitleLength = YoutubeVideo.MaxTitleLength;
 			titleCharacterCountLabel.Text = $"Zeichen vergeben: {titleTextbox.Text.Length} von {maxTitleLength}. Übrig: {maxTitleLength - titleTextbox.Text.Length} Zeichen";
+			titleCharacterCountLabel.ForeColor = titleTextbox.Text.Length > maxTitleLength ? Color.Red : Color.Black;
 
 			var maxDescriptionLength = YoutubeVideo.MaxDescriptionLength;
 			descriptionCharacterCountLabel.Text = $"Zeichen vergeben: {descriptionTextbox.Text.Length} von {maxDescriptionLength}. Übrig: {maxDescriptionLength - descriptionTextbox.Text.Length} Zeichen";
+			titleCharacterCountLabel.ForeColor = descriptionTextbox.Text.Length > maxDescriptionLength ? Color.Red : Color.Black;
 
 			var tags = tagsTextbox.Text
 				.Replace(Environment.NewLine, string.Empty)
@@ -148,6 +151,7 @@ namespace STFU.Lib.GUI.Controls
 		{
 			var maxLength = YoutubeVideo.MaxTitleLength;
 			titleCharacterCountLabel.Text = $"Zeichen vergeben: {titleTextbox.Text.Length} von {maxLength}. Übrig: {maxLength - titleTextbox.Text.Length} Zeichen";
+			titleCharacterCountLabel.ForeColor = titleTextbox.Text.Length > maxLength ? Color.Red : Color.Black;
 
 			Video.Title = titleTextbox.Text;
 		}
@@ -156,6 +160,7 @@ namespace STFU.Lib.GUI.Controls
 		{
 			var maxLength = YoutubeVideo.MaxDescriptionLength;
 			descriptionCharacterCountLabel.Text = $"Zeichen vergeben: {descriptionTextbox.Text.Length} von {maxLength}. Übrig: {maxLength - descriptionTextbox.Text.Length} Zeichen";
+			descriptionCharacterCountLabel.ForeColor = descriptionTextbox.Text.Length > maxLength ? Color.Red : Color.Black;
 
 			Video.Description = descriptionTextbox.Text;
 		}
@@ -182,17 +187,40 @@ namespace STFU.Lib.GUI.Controls
 			var maxSingleTagLength = YoutubeVideo.MaxSingleTagLength;
 			var maxCompleteLength = YoutubeVideo.MaxTagsLength;
 
-			var allTags = tags.Where(t => t.Length <= maxSingleTagLength).Aggregate((a, b) => $"{a},{b}");
-			tagsCharacterCountLabel.Text = $"Zeichen vergeben: {allTags.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - allTags.Length} Zeichen";
+			string allTagsString = Aggregate(tags.ToArray());
 
-			if (tags.Any(t => t.Length > maxSingleTagLength))
+			tagsCharacterCountLabel.Text = $"Zeichen vergeben: {allTagsString.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - allTagsString.Length} Zeichen";
+
+			bool hasIllegalTags = tags.Any(t => t.Length > maxSingleTagLength);
+			if (hasIllegalTags)
 			{
-				var invalidTags = tags.Where(t => t.Length > maxSingleTagLength).Aggregate((a, b) => $"{a}, {b}");
-				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Folgende Tags überschreiten die Maximallänge von {maxSingleTagLength} Zeichen: {invalidTags}";
+				var invalidTagsString = Aggregate(tags.Where(t => t.Length > maxSingleTagLength).ToArray());
+				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Folgende Tags überschreiten die Maximallänge von {maxSingleTagLength} Zeichen: {invalidTagsString}";
 
-				var onlyValidTags = tags.Where(t => t.Length <= maxSingleTagLength).Aggregate((a, b) => $"{a},{b}");
-				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Zeichen vergeben (nur gültige Tags): {onlyValidTags.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - onlyValidTags.Length} Zeichen";
+				var onlyValidTagsString = Aggregate(tags.Where(t => t.Length <= maxSingleTagLength).ToArray());
+				tagsCharacterCountLabel.Text += $"{Environment.NewLine}Zeichen vergeben (nur gültige Tags): {onlyValidTagsString.Length} von {maxCompleteLength}. Übrig: {maxCompleteLength - onlyValidTagsString.Length} Zeichen";
 			}
+
+			tagsCharacterCountLabel.ForeColor = allTagsString.Length > maxCompleteLength || hasIllegalTags ? Color.Red : Color.Black;
+		}
+
+		private string Aggregate(string[] list)
+		{
+			string aggregated = string.Empty;
+
+			if (list != null && list.Length >= 1)
+			{
+				if (list.Length > 1)
+				{
+					aggregated = list.Aggregate((a, b) => $"{a},{b}");
+				}
+				else
+				{
+					aggregated = list.First();
+				}
+			}
+
+			return aggregated;
 		}
 
 		private void thumbnailTextbox_TextChanged(object sender, EventArgs e)
