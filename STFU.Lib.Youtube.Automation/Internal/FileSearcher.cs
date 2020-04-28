@@ -81,16 +81,16 @@ namespace STFU.Lib.Youtube.Automation.Internal
 							files = files.OrderByDescending((file) => file.Name).ToArray();
 							break;
 						case FoundFilesOrderByFilter.CreationDateAsc:
-							files = files.OrderBy((file) => file.CreationTime).ToArray();
+							files = files.OrderBy((file) => file.CreationTimeUtc).ToArray();
 							break;
 						case FoundFilesOrderByFilter.CreationDateDsc:
-							files = files.OrderByDescending((file) => file.CreationTime).ToArray();
+							files = files.OrderByDescending((file) => file.CreationTimeUtc).ToArray();
 							break;
 						case FoundFilesOrderByFilter.ChangedDateAsc:
-							files = files.OrderBy((file) => file.LastWriteTime).ToArray();
+							files = files.OrderBy((file) => file.LastWriteTimeUtc).ToArray();
 							break;
 						case FoundFilesOrderByFilter.ChangedDateDsc:
-							files = files.OrderByDescending((file) => file.LastWriteTime).ToArray();
+							files = files.OrderByDescending((file) => file.LastWriteTimeUtc).ToArray();
 							break;
 						case FoundFilesOrderByFilter.SizeAsc:
 							files = files.OrderBy((file) => file.Length).ToArray();
@@ -99,6 +99,7 @@ namespace STFU.Lib.Youtube.Automation.Internal
 							files = files.OrderByDescending((file) => file.Length).ToArray();
 							break;
 						default:
+							files = files.OrderBy((file) => file.Name).ToArray();
 							break;
 					}
 
