@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -76,6 +77,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			moveAfterUploadCheckbox.Checked = selectedItem.MoveAfterUpload;
 			moveAfterUploadTextbox.Text = selectedItem.MoveDirectoryPath;
 
+			searchOrderCombobox.SelectedIndex = (int)selectedItem.SearchOrder;
+
 			if (templateContainer.RegisteredTemplates.Any(t => t.Id == selectedItem.SelectedTemplateId))
 			{
 				cobSelectedTemplate.SelectedIndex = templateContainer.RegisteredTemplates.ToList().IndexOf(templateContainer.RegisteredTemplates.First(t => t.Id == selectedItem.SelectedTemplateId));
@@ -97,6 +100,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			deactivateCheckbox.Checked = false;
 			moveAfterUploadCheckbox.Checked = false;
 			moveAfterUploadTextbox.Text = "";
+			searchOrderCombobox.SelectedIndex = 0;
 		}
 
 		private void PathFormLoad(object sender, EventArgs e)
@@ -169,6 +173,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			selectedItem.Inactive = deactivateCheckbox.Checked;
 			selectedItem.MoveAfterUpload = moveAfterUploadCheckbox.Checked;
 			selectedItem.MoveDirectoryPath = moveAfterUploadTextbox.Text;
+			selectedItem.SearchOrder = (FoundFilesOrderByFilter)searchOrderCombobox.SelectedIndex;
 
 			ClearEditBox();
 			RefillListView();

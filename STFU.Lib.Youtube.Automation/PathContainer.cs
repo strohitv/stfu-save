@@ -85,7 +85,7 @@ namespace STFU.Lib.Youtube.Automation
 			FileSearcher searcher = new FileSearcher();
 			searcher.FileFound += SearcherFileFound;
 
-			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden);
+			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden, path.SearchOrder);
 
 			while (searcher.State != RunningState.NotRunning)
 			{

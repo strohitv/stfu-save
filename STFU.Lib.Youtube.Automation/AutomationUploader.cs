@@ -209,7 +209,7 @@ namespace STFU.Lib.Youtube.Automation
 			foreach (var path in Configuration.Where(c => !c.IgnorePath && Directory.Exists(c.PathInfo.Fullname)))
 			{
 				var pi = path.PathInfo;
-				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
+				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden, pi.SearchOrder);
 				DirectoryWatcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
 			}
 

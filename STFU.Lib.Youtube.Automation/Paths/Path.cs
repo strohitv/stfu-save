@@ -55,6 +55,8 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 		public string MoveDirectoryPath { get; set; } = string.Empty;
 
+		public FoundFilesOrderByFilter SearchOrder { get; set; } = FoundFilesOrderByFilter.NameAsc;
+
 		public int? GetDifference(string pathToCheck)
 		{
 			int? result = null;
