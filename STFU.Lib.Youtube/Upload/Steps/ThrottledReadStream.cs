@@ -8,8 +8,30 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ThrottledReadStream : Stream
 	{
+		private delegate void ThrottleChangedEventHandler();
+
 		public static bool ShouldThrottle { get; set; } = false;
-		public static long ThrottleByteperSeconds { get; set; } = 1_000_000;
+
+		private static long globalLimit = 1_000_000;
+		public static long GlobalLimit
+		{
+			get
+			{
+				return globalLimit;
+			}
+			set
+			{
+				if (globalLimit != value)
+				{
+					globalLimit = value;
+					ThrottleChanged?.Invoke();
+				}
+			}
+		}
+
+		private long DefinedLimit { get; set; } = GlobalLimit;
+
+		private static ThrottleChangedEventHandler ThrottleChanged;
 
 		private static int KByteModifier { get; set; } = 1000;
 
@@ -20,6 +42,19 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public ThrottledReadStream(Stream incommingStream)
 		{
 			baseStream = incommingStream;
+			ThrottleChanged += ResetThrottle;
+		}
+
+		~ThrottledReadStream()
+		{
+			ThrottleChanged -= ResetThrottle;
+		}
+
+		private void ResetThrottle()
+		{
+			totalBytesRead = 0;
+			watch.Restart();
+			DefinedLimit = GlobalLimit;
 		}
 
 		public override bool CanRead
@@ -93,18 +128,18 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		async Task<int> GetBytesToReturnAsync(int count)
 		{
-			if (ThrottleByteperSeconds <= 0)
+			if (DefinedLimit <= 0)
 			{
 				return count;
 			}
 
-			long canSend = (long)(watch.ElapsedMilliseconds * (ThrottleByteperSeconds / 1000.0));
+			long canSend = (long)(watch.ElapsedMilliseconds * (DefinedLimit / 1000.0));
 
 			int diff = (int)(canSend - totalBytesRead);
 
 			if (diff <= 0)
 			{
-				var waitInSec = ((diff * -1.0) / (ThrottleByteperSeconds));
+				var waitInSec = ((diff * -1.0) / (DefinedLimit));
 
 				await Task.Delay((int)(waitInSec * 1000)).ConfigureAwait(false);
 			}

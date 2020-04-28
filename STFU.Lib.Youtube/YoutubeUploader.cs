@@ -105,7 +105,7 @@ namespace STFU.Lib.Youtube
 
 		public bool LimitUploadSpeed { get => ThrottledReadStream.ShouldThrottle; set => ThrottledReadStream.ShouldThrottle = value; }
 
-		public long UploadLimitKByte { get => ThrottledReadStream.ThrottleByteperSeconds; set => ThrottledReadStream.ThrottleByteperSeconds = value; }
+		public long UploadLimitKByte { get => ThrottledReadStream.GlobalLimit; set => ThrottledReadStream.GlobalLimit = value; }
 
 		public YoutubeUploader()
 		{
