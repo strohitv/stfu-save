@@ -72,9 +72,25 @@ namespace STFU.Lib.Youtube.Upload
 		[JsonConverter(typeof(ConcreteTypeConverter<NotificationSettings>))]
 		public INotificationSettings NotificationSettings { get; set; } = new NotificationSettings() { };
 
-		// TODO: Step-Gedöns muss vermutlich vom UploadStatus weg, da der JobUploader eig. die Stepverwaltung ist (?)
-		// Frage: Wie benachrichtige ich die GUI dann über den aktuellen Schritt? Enum?
-		public UploadStatus UploadStatus { get; set; } = new UploadStatus();
+		private UploadStatus uploadStatus = new UploadStatus();
+		public UploadStatus UploadStatus
+		{
+			get
+			{
+				if (uploadStatus == null)
+				{
+					uploadStatus = new UploadStatus();
+				}
+				return uploadStatus;
+			}
+			set
+			{
+				if (value != null && uploadStatus != value)
+				{
+					uploadStatus = value;
+				}
+			}
+		}
 
 		private JobUploader JobUploader { get; }
 
