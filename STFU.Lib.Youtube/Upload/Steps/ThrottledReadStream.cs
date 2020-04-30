@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,9 +10,25 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ThrottledReadStream : Stream
 	{
+		private delegate void ThrottleEnabledChangedEventHandler();
 		private delegate void ThrottleChangedEventHandler();
 
-		public static bool ShouldThrottle { get; set; } = false;
+		private static bool shouldThrottle = false;
+		public static bool ShouldThrottle
+		{
+			get
+			{
+				return shouldThrottle;
+			}
+			set
+			{
+				if (shouldThrottle != value)
+				{
+					shouldThrottle = value;
+					ShouldThrottleChanged?.Invoke();
+				}
+			}
+		}
 
 		private static long globalLimit = 1_000_000;
 		public static long GlobalLimit
@@ -31,6 +49,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		private long DefinedLimit { get; set; } = GlobalLimit;
 
+		private static ThrottleEnabledChangedEventHandler ShouldThrottleChanged;
 		private static ThrottleChangedEventHandler ThrottleChanged;
 
 		private static int KByteModifier { get; set; } = 1000;
@@ -42,12 +61,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public ThrottledReadStream(Stream incommingStream)
 		{
 			baseStream = incommingStream;
-			ThrottleChanged += ResetThrottle;
+			ShouldThrottleChanged += ResetThrottle;
+			ThrottleChanged += ResetThrottleIfActive;
 		}
 
 		~ThrottledReadStream()
 		{
-			ThrottleChanged -= ResetThrottle;
+			ShouldThrottleChanged -= ResetThrottle;
+			ThrottleChanged -= ResetThrottleIfActive;
 		}
 
 		private void ResetThrottle()
@@ -55,6 +76,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			totalBytesRead = 0;
 			watch.Restart();
 			DefinedLimit = GlobalLimit;
+		}
+
+		private void ResetThrottleIfActive()
+		{
+			if (ShouldThrottle)
+			{
+				ResetThrottle();
+			}
 		}
 
 		public override bool CanRead
