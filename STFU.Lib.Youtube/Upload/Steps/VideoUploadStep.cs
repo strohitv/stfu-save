@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -13,7 +11,7 @@ using STFU.Lib.Youtube.Services;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
-	public class VideoUploadStep : AbstractUploadStep
+	public class VideoUploadStep : ThrottledUploadStep
 	{
 		public override double Progress
 		{
@@ -30,10 +28,6 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		public VideoUploadStep(IYoutubeJob job)
 			: base(job) { }
-
-		private FileStream fileStream = null;
-		private ThrottledReadStream throttledStream = null;
-		private Stream requestStream = null;
 
 		internal override void Run()
 		{
@@ -52,43 +46,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			// Hochladen
 			if (request != null && File.Exists(Video.Path))
 			{
-				try
-				{
-					ServicePointManager.FindServicePoint(Status.UploadAddress).UseNagleAlgorithm = false;
-					request.Proxy = new WebProxy();
-					request.AllowWriteStreamBuffering = false;
-
-					using (fileStream = new FileStream(Video.Path, FileMode.Open))
-					using (throttledStream = new ThrottledReadStream(fileStream))
-					using (requestStream = request.GetRequestStream())
-					{
-						CancellationTokenSource = new CancellationTokenSource();
-						fileStream.Position = lastPosition = Status.LastByte + 1;
-
-						try
-						{
-							lastRead = DateTime.Now;
-							lastPosition = fileStream.Position;
-							throttledStream.CopyToAsync(requestStream, 81920, CancellationTokenSource.Token).Wait();
-							FinishedSuccessful = true;
-							Status.Progress = 100;
-						}
-						catch (AggregateException)
-						{
-							// Upload wurde abgebrochen
-						}
-						finally
-						{
-							fileStream = null;
-							requestStream = null;
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex);
-					// im Falle eines Abbruchs fliegt da noch ne Webexception, da der RequestStream abgebrochen wurde.
-				}
+				Upload(Video.Path, request);
 
 				if (FinishedSuccessful)
 				{
@@ -200,46 +158,6 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			}
 
 			return lastbyte;
-		}
-
-		private List<Tuple<TimeSpan, long>> speeds = new List<Tuple<TimeSpan, long>>();
-		private DateTime lastRead = default(DateTime);
-		private long lastPosition = 0;
-
-		public override void RefreshDurationAndSpeed()
-		{
-			if (fileStream != null && lastRead != default(DateTime))
-			{
-				while (speeds.Count >= 32)
-				{
-					speeds.RemoveAt(0);
-				}
-
-				var now = DateTime.Now;
-				var currentPosition = fileStream.Position;
-				var length = fileStream.Length;
-
-				TimeSpan span = now.Subtract(lastRead);
-				long difference = currentPosition - lastPosition;
-
-				lastRead = now;
-				lastPosition = currentPosition;
-
-				speeds.Add(new Tuple<TimeSpan, long>(span, difference));
-
-				var progress = Progress;
-
-				Status.UploadedDuration += span;
-
-				var uploadedTime = speeds.Select(s => s.Item1).Sum(s => s.TotalSeconds);
-				var uploadedBytes = speeds.Select(s => s.Item2).Sum();
-
-				var uploadSpeedPerSecond = (int)(uploadedBytes / uploadedTime);
-				var remainingTime = new TimeSpan(0, 0, (int)(length - currentPosition) / uploadSpeedPerSecond);
-
-				Status.RemainingDuration = remainingTime;
-				Status.CurrentSpeed = uploadSpeedPerSecond;
-			}
 		}
 
 		public override void Cancel()
