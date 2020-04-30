@@ -143,6 +143,17 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 			}
 		}
 
+		public void Reset()
+		{
+			Progress = 0;
+			CurrentSpeed = 0;
+			State = JobState.NotStarted;
+			LastByte = 0;
+			UploadedDuration = RemainingDuration = default(TimeSpan);
+			Started = Finished = default(DateTime);
+			UploadAddress = null;
+		}
+
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;

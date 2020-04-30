@@ -153,9 +153,14 @@ namespace STFU.Lib.Youtube.Upload
 			State = JobState.Canceled;
 		}
 
-		public void Reset()
+		public void Reset(bool resetStatus = false)
 		{
 			JobUploader.Reset();
+
+			if (resetStatus)
+			{
+				UploadStatus.Reset();
+			}
 		}
 
 		public void Delete()

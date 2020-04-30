@@ -823,7 +823,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			for (int i = 0; i < archiveListView.SelectedIndices.Count; i++)
 			{
 				var job = archiveContainer.RegisteredJobs.ElementAt(archiveListView.SelectedIndices[i]);
-				job.Reset();
+				job.Reset(true);
 				job.Account = accountContainer.RegisteredAccounts.First();
 				autoUploader.Uploader.QueueUpload(job);
 			}

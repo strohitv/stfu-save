@@ -30,7 +30,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 
 		void Delete();
 
-		void Reset();
+		void Reset(bool resetStatus = false);
 
 		void RefreshDurationAndSpeed();
 	}
