@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			: base(job) { }
 
 		private FileStream fileStream = null;
-		private Stream throttledStream = null;
+		private ThrottledReadStream throttledStream = null;
 		private Stream requestStream = null;
 
 		internal override void Run()
@@ -62,7 +63,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					using (requestStream = request.GetRequestStream())
 					{
 						CancellationTokenSource = new CancellationTokenSource();
-						fileStream.Position = Status.LastByte + 1;
+						fileStream.Position = lastPosition = Status.LastByte + 1;
 
 						try
 						{
@@ -214,35 +215,29 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				}
 
 				var now = DateTime.Now;
+				var currentPosition = fileStream.Position;
+				var length = fileStream.Length;
+
 				TimeSpan span = now.Subtract(lastRead);
-				long difference = fileStream.Position - lastPosition;
+				long difference = currentPosition - lastPosition;
 
 				lastRead = now;
-				lastPosition = fileStream.Position;
+				lastPosition = currentPosition;
 
 				speeds.Add(new Tuple<TimeSpan, long>(span, difference));
 
 				var progress = Progress;
 
 				Status.UploadedDuration += span;
-				Status.RemainingDuration = new TimeSpan(0, 0, 0, 0, (int)(Status.UploadedDuration.TotalSeconds * 1000 / progress * (100 - progress)));
 
-				long lastSecondSize = 0;
-				TimeSpan lastSecondSpan = new TimeSpan();
+				var uploadedTime = speeds.Select(s => s.Item1).Sum(s => s.TotalSeconds);
+				var uploadedBytes = speeds.Select(s => s.Item2).Sum();
 
-				for (int i = speeds.Count - 1; i >= 0; i--)
-				{
-					lastSecondSpan += speeds[i].Item1;
-					lastSecondSize += speeds[i].Item2;
+				var uploadSpeedPerSecond = (int)(uploadedBytes / uploadedTime);
+				var remainingTime = new TimeSpan(0, 0, (int)(length - currentPosition) / uploadSpeedPerSecond);
 
-					if (lastSecondSpan > new TimeSpan(0, 0, 1))
-					{
-						break;
-					}
-				}
-
-				var factor = 1000 / (double)(long)lastSecondSpan.TotalMilliseconds;
-				Status.CurrentSpeed = (long)(lastSecondSize * factor);
+				Status.RemainingDuration = remainingTime;
+				Status.CurrentSpeed = uploadSpeedPerSecond;
 			}
 		}
 
