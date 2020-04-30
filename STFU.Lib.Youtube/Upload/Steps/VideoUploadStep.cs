@@ -129,6 +129,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				"POST",
 				Account.GetActiveToken());
 
+			request.Headers.Add("Slug", Path.GetFileName(Video.File.Name));
 			request.Headers.Add($"x-upload-content-length: {Video.File.Length}");
 			request.Headers.Add($"x-upload-content-type: {MimeMapping.GetMimeMapping(Video.File.Name)}");
 
