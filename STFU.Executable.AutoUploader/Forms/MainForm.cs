@@ -139,6 +139,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillArchiveView()
 		{
+			archiveListView.Items.Clear();
+
 			foreach (var job in archiveContainer.RegisteredJobs)
 			{
 				ListViewItem item = new ListViewItem(job.Video.Title);
@@ -652,11 +654,14 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			PathForm pf = new PathForm(pathContainer, templateContainer);
+			PathForm pf = new PathForm(pathContainer, templateContainer, queueContainer, archiveContainer, accountContainer);
 			pf.ShowDialog(this);
+
 			pathPersistor.Save();
+			archivePersistor.Save();
 
 			RefillListView();
+			RefillArchiveView();
 		}
 
 		private void verbindenToolStripMenuItem1_Click(object sender, EventArgs e)

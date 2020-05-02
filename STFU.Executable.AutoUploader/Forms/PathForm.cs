@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -11,13 +12,20 @@ namespace STFU.Executable.AutoUploader.Forms
 	{
 		IPathContainer pathContainer = null;
 		ITemplateContainer templateContainer = null;
+		IYoutubeJobContainer queueContainer = null;
+		IYoutubeJobContainer archiveContainer = null;
+		IYoutubeAccountContainer accountContainer = null;
 
-		public PathForm(IPathContainer pathContainer, ITemplateContainer templateContainer)
+		public PathForm(IPathContainer pathContainer, ITemplateContainer templateContainer, IYoutubeJobContainer queueContainer, IYoutubeJobContainer archiveContainer, IYoutubeAccountContainer accountContainer)
 		{
 			InitializeComponent();
 
 			this.pathContainer = pathContainer;
 			this.templateContainer = templateContainer;
+
+			this.queueContainer = queueContainer;
+			this.archiveContainer = archiveContainer;
+			this.accountContainer = accountContainer;
 		}
 
 		private void lvSelectedPathsKeyDown(object sender, KeyEventArgs e)
@@ -275,8 +283,8 @@ video*.mp4 findet auch video.mp4, da der * auch für 'kein Zeichen' stehen kann.
 		private void btnMarkAsReadClick(object sender, EventArgs e)
 		{
 			chosePathTlp.Enabled = false;
-			pathContainer.MarkAllFilesAsRead(pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]));
-			MessageBox.Show(this, "Die Videos, die durch diesen Pfad gefunden werden können, wurden erfolgreich als bereits hochgeladen markiert. Der Uploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder umbenennen, sodass sie nicht mehr mit einem Unterstrich _ startet.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			pathContainer.MarkAllFilesAsRead(pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]), queueContainer, archiveContainer, accountContainer);
+			MessageBox.Show(this, "Die Videos, die durch diesen Pfad gefunden werden können und nicht schon in der Warteschlange sind, wurden erfolgreich als bereits hochgeladen markiert. Dazu wurden sie ins Archiv aufgenommen. Der Autouploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder aus dem Archiv löschen.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			chosePathTlp.Enabled = true;
 		}
 
