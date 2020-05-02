@@ -82,7 +82,7 @@ namespace STFU.Lib.MailSender
 		{
 			byte[] bytes = Encoding.UTF8.GetBytes(text);
 
-			return System.Convert.ToBase64String(bytes)
+			return Convert.ToBase64String(bytes)
 				.Replace('+', '-')
 				.Replace('/', '_')
 				.Replace("=", "");
