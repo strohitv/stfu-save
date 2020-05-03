@@ -65,10 +65,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.queueStatusLabel = new System.Windows.Forms.Label();
 			this.queueStatusButton = new System.Windows.Forms.Button();
 			this.lblFinishAction = new System.Windows.Forms.Label();
-			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
+			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
+			this.limitUploadSpeedNud = new System.Windows.Forms.NumericUpDown();
+			this.limitUploadSpeedCheckbox = new System.Windows.Forms.CheckBox();
+			this.limitUploadSpeedCombobox = new System.Windows.Forms.ComboBox();
+			this.addVideosToQueueButton = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
@@ -98,9 +102,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.limitUploadSpeedNud = new System.Windows.Forms.NumericUpDown();
-			this.limitUploadSpeedCheckbox = new System.Windows.Forms.CheckBox();
-			this.limitUploadSpeedCombobox = new System.Windows.Forms.ComboBox();
+			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -108,6 +110,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel3.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.limitUploadSpeedNud)).BeginInit();
 			this.groupBox2.SuspendLayout();
 			this.tableLayoutPanel4.SuspendLayout();
 			this.startExtendedOptionsContextMenu.SuspendLayout();
@@ -115,7 +118,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel1.SuspendLayout();
 			this.archiveTabPage.SuspendLayout();
 			this.tableLayoutPanel5.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.limitUploadSpeedNud)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tlpSettings
@@ -417,8 +419,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			// tableLayoutPanel2
 			// 
-			this.tableLayoutPanel2.ColumnCount = 19;
+			this.tableLayoutPanel2.ColumnCount = 21;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -437,21 +441,24 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 15, 5);
-			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 17, 5);
-			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 1, 5);
-			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 11, 5);
-			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 13, 5);
-			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 1, 1);
-			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 3, 5);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedNud, 5, 3);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCheckbox, 1, 3);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCombobox, 7, 3);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 17, 7);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 19, 7);
+			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 3, 7);
+			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 13, 7);
+			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 15, 7);
+			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 3, 1);
+			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 5, 7);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedNud, 7, 5);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCheckbox, 3, 5);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCombobox, 9, 5);
+			this.tableLayoutPanel2.Controls.Add(this.addVideosToQueueButton, 1, 1);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 7;
+			this.tableLayoutPanel2.RowCount = 9;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -491,29 +498,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.Location = new System.Drawing.Point(5, 426);
+			this.lblFinishAction.Location = new System.Drawing.Point(66, 426);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
 			this.lblFinishAction.TabIndex = 14;
 			this.lblFinishAction.Text = "Am Ende:";
-			// 
-			// cmbbxFinishAction
-			// 
-			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel2.SetColumnSpan(this.cmbbxFinishAction, 7);
-			this.cmbbxFinishAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbbxFinishAction.FormattingEnabled = true;
-			this.cmbbxFinishAction.Items.AddRange(new object[] {
-            "Nichts tun",
-            "Programm schließen",
-            "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(68, 422);
-			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
-			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(574, 21);
-			this.cmbbxFinishAction.TabIndex = 15;
-			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
 			// chbChoseProcesses
 			// 
@@ -547,13 +537,104 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
 			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(5, 7);
+			this.jobQueue.Location = new System.Drawing.Point(66, 7);
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
 			this.jobQueue.Name = "jobQueue";
+			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 3);
 			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1082, 371);
+			this.jobQueue.Size = new System.Drawing.Size(1021, 371);
 			this.jobQueue.TabIndex = 18;
 			this.jobQueue.Uploader = null;
+			// 
+			// cmbbxFinishAction
+			// 
+			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tableLayoutPanel2.SetColumnSpan(this.cmbbxFinishAction, 7);
+			this.cmbbxFinishAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbbxFinishAction.FormattingEnabled = true;
+			this.cmbbxFinishAction.Items.AddRange(new object[] {
+            "Nichts tun",
+            "Programm schließen",
+            "Herunterfahren"});
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(129, 422);
+			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
+			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(513, 21);
+			this.cmbbxFinishAction.TabIndex = 15;
+			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
+			// 
+			// limitUploadSpeedNud
+			// 
+			this.limitUploadSpeedNud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.limitUploadSpeedNud.Location = new System.Drawing.Point(314, 388);
+			this.limitUploadSpeedNud.Margin = new System.Windows.Forms.Padding(0);
+			this.limitUploadSpeedNud.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+			this.limitUploadSpeedNud.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.limitUploadSpeedNud.Name = "limitUploadSpeedNud";
+			this.limitUploadSpeedNud.Size = new System.Drawing.Size(58, 20);
+			this.limitUploadSpeedNud.TabIndex = 20;
+			this.limitUploadSpeedNud.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.limitUploadSpeedNud.ValueChanged += new System.EventHandler(this.limitUploadSpeedNud_ValueChanged);
+			// 
+			// limitUploadSpeedCheckbox
+			// 
+			this.limitUploadSpeedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.limitUploadSpeedCheckbox.AutoSize = true;
+			this.tableLayoutPanel2.SetColumnSpan(this.limitUploadSpeedCheckbox, 3);
+			this.limitUploadSpeedCheckbox.Location = new System.Drawing.Point(66, 390);
+			this.limitUploadSpeedCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.limitUploadSpeedCheckbox.Name = "limitUploadSpeedCheckbox";
+			this.limitUploadSpeedCheckbox.Size = new System.Drawing.Size(238, 17);
+			this.limitUploadSpeedCheckbox.TabIndex = 16;
+			this.limitUploadSpeedCheckbox.Text = "Uploadgeschwindigkeit pro Job limitieren auf:";
+			this.limitUploadSpeedCheckbox.UseVisualStyleBackColor = true;
+			this.limitUploadSpeedCheckbox.CheckedChanged += new System.EventHandler(this.limitUploadSpeedCheckbox_CheckedChanged);
+			// 
+			// limitUploadSpeedCombobox
+			// 
+			this.limitUploadSpeedCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.limitUploadSpeedCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.limitUploadSpeedCombobox.FormattingEnabled = true;
+			this.limitUploadSpeedCombobox.Items.AddRange(new object[] {
+            "kByte/s",
+            "MByte/s",
+            "GByte/s",
+            "TByte/s"});
+			this.limitUploadSpeedCombobox.Location = new System.Drawing.Point(377, 388);
+			this.limitUploadSpeedCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.limitUploadSpeedCombobox.Name = "limitUploadSpeedCombobox";
+			this.limitUploadSpeedCombobox.Size = new System.Drawing.Size(69, 21);
+			this.limitUploadSpeedCombobox.TabIndex = 21;
+			this.limitUploadSpeedCombobox.SelectedIndexChanged += new System.EventHandler(this.limitUploadSpeedCombobox_SelectedIndexChanged);
+			// 
+			// addVideosToQueueButton
+			// 
+			this.addVideosToQueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addVideosToQueueButton.AutoSize = true;
+			this.addVideosToQueueButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addVideosToQueueButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addVideosToQueueButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.addVideosToQueueButton.Location = new System.Drawing.Point(5, 7);
+			this.addVideosToQueueButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addVideosToQueueButton.Name = "addVideosToQueueButton";
+			this.addVideosToQueueButton.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			this.addVideosToQueueButton.Size = new System.Drawing.Size(51, 41);
+			this.addVideosToQueueButton.TabIndex = 22;
+			this.addVideosToQueueButton.Text = "+";
+			this.addVideosToQueueButton.UseVisualStyleBackColor = true;
+			this.addVideosToQueueButton.Click += new System.EventHandler(this.addVideosToQueueButton_Click);
 			// 
 			// groupBox2
 			// 
@@ -869,61 +950,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
-			// limitUploadSpeedNud
+			// addVideosDialog
 			// 
-			this.limitUploadSpeedNud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.limitUploadSpeedNud.Location = new System.Drawing.Point(253, 388);
-			this.limitUploadSpeedNud.Margin = new System.Windows.Forms.Padding(0);
-			this.limitUploadSpeedNud.Maximum = new decimal(new int[] {
-            99999,
-            0,
-            0,
-            0});
-			this.limitUploadSpeedNud.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.limitUploadSpeedNud.Name = "limitUploadSpeedNud";
-			this.limitUploadSpeedNud.Size = new System.Drawing.Size(58, 20);
-			this.limitUploadSpeedNud.TabIndex = 20;
-			this.limitUploadSpeedNud.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.limitUploadSpeedNud.ValueChanged += new System.EventHandler(this.limitUploadSpeedNud_ValueChanged);
-			// 
-			// limitUploadSpeedCheckbox
-			// 
-			this.limitUploadSpeedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.limitUploadSpeedCheckbox.AutoSize = true;
-			this.tableLayoutPanel2.SetColumnSpan(this.limitUploadSpeedCheckbox, 3);
-			this.limitUploadSpeedCheckbox.Location = new System.Drawing.Point(5, 390);
-			this.limitUploadSpeedCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.limitUploadSpeedCheckbox.Name = "limitUploadSpeedCheckbox";
-			this.limitUploadSpeedCheckbox.Size = new System.Drawing.Size(238, 17);
-			this.limitUploadSpeedCheckbox.TabIndex = 16;
-			this.limitUploadSpeedCheckbox.Text = "Uploadgeschwindigkeit pro Job limitieren auf:";
-			this.limitUploadSpeedCheckbox.UseVisualStyleBackColor = true;
-			this.limitUploadSpeedCheckbox.CheckedChanged += new System.EventHandler(this.limitUploadSpeedCheckbox_CheckedChanged);
-			// 
-			// limitUploadSpeedCombobox
-			// 
-			this.limitUploadSpeedCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.limitUploadSpeedCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.limitUploadSpeedCombobox.FormattingEnabled = true;
-			this.limitUploadSpeedCombobox.Items.AddRange(new object[] {
-            "kByte/s",
-            "MByte/s",
-            "GByte/s",
-            "TByte/s"});
-			this.limitUploadSpeedCombobox.Location = new System.Drawing.Point(316, 388);
-			this.limitUploadSpeedCombobox.Margin = new System.Windows.Forms.Padding(0);
-			this.limitUploadSpeedCombobox.Name = "limitUploadSpeedCombobox";
-			this.limitUploadSpeedCombobox.Size = new System.Drawing.Size(69, 21);
-			this.limitUploadSpeedCombobox.TabIndex = 21;
-			this.limitUploadSpeedCombobox.SelectedIndexChanged += new System.EventHandler(this.limitUploadSpeedCombobox_SelectedIndexChanged);
+			this.addVideosDialog.Filter = "Alle Dateien|*.*";
+			this.addVideosDialog.Multiselect = true;
+			this.addVideosDialog.Title = "Videos für die Warteschlange auswählen";
 			// 
 			// MainForm
 			// 
@@ -951,6 +982,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.groupBox1.ResumeLayout(false);
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.limitUploadSpeedNud)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.tableLayoutPanel4.ResumeLayout(false);
@@ -961,7 +993,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveTabPage.ResumeLayout(false);
 			this.tableLayoutPanel5.ResumeLayout(false);
 			this.tableLayoutPanel5.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.limitUploadSpeedNud)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1038,6 +1069,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.NumericUpDown limitUploadSpeedNud;
 		private System.Windows.Forms.CheckBox limitUploadSpeedCheckbox;
 		private System.Windows.Forms.ComboBox limitUploadSpeedCombobox;
+		private System.Windows.Forms.Button addVideosToQueueButton;
+		private System.Windows.Forms.OpenFileDialog addVideosDialog;
 	}
 }
 

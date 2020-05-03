@@ -858,5 +858,35 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			autoUploader.Uploader.UploadLimitKByte = value * factor;
 		}
+
+		private void addVideosToQueueButton_Click(object sender, EventArgs e)
+		{
+			if (addVideosDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, addVideosDialog.FileNames);
+
+				if (form.ShowDialog(this) == DialogResult.OK)
+				{
+					foreach (var videoAndEvaluator in form.Videos)
+					{
+						var video = videoAndEvaluator.Video;
+						var evaluator = videoAndEvaluator.Evaluator;
+						var notificationSettings = videoAndEvaluator.NotificationSettings;
+
+						var job = autoUploader.Uploader.QueueUpload(video, accountContainer.RegisteredAccounts.First(), notificationSettings);
+						var path = form.TemplateVideoCreator.FindNearestPath(video.File.FullName);
+
+						job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
+
+						if (path.MoveAfterUpload)
+						{
+							job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
+						}
+					}
+
+					autoUploader.Uploader.StartUploader();
+				}
+			}
+		}
 	}
 }

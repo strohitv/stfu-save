@@ -3,21 +3,21 @@ using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
-	internal class PublishTimeCalculator
+	public class PublishTimeCalculator
 	{
 		public IPath PathInfo { get; internal set; }
 		public ITemplate Template { get; internal set; }
-		internal bool UploadPrivate { get; set; }
+		public bool UploadPrivate { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }
 
 		bool first = true;
 
-		internal PublishTimeCalculator(IPath pathInfo, ITemplate template)
+		public PublishTimeCalculator(IPath pathInfo, ITemplate template)
 			: this(pathInfo, template.NextUploadSuggestion, template, null)
 		{ }
 
-		internal PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
+		public PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;
@@ -52,7 +52,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			PublishTimePosition = publishPosition.Value;
 		}
 
-		internal DateTime GetNextPublishTime(bool preview = false)
+		public DateTime GetNextPublishTime(bool preview = false)
 		{
 			var publishDate = new DateTime(2000, 1, 1);
 
@@ -110,7 +110,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			return daysUntilNextTimesWeekday == 0 && Template.PublishTimes[PublishTimePosition].Time <= LastVideoPublishTime.TimeOfDay;
 		}
 
-		internal int? GetDifference(string pathToCheck)
+		public int? GetDifference(string pathToCheck)
 		{
 			return PathInfo.GetDifference(pathToCheck);
 		}

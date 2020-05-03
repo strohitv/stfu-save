@@ -313,7 +313,6 @@ namespace STFU.Lib.Youtube.Automation
 
 				var job = Uploader.QueueUpload(video, Account, notificationSettings);
 				var path = VideoCreator.FindNearestPath(e.FullPath);
-				var moveDirectory = path.MoveDirectoryPath;
 
 				FileToUploadOccured?.Invoke(this, new JobEventArgs(job));
 
@@ -321,14 +320,14 @@ namespace STFU.Lib.Youtube.Automation
 
 				if (path.MoveAfterUpload)
 				{
-					job.UploadCompletedAction += (args) => MoveVideo(args.Job, moveDirectory);
+					job.UploadCompletedAction += (args) => MoveVideo(args.Job, path.MoveDirectoryPath);
 				}
 
 				Uploader.StartUploader();
 			}
 		}
 
-		private void MoveVideo(IYoutubeJob job, string moveDirectory)
+		public void MoveVideo(IYoutubeJob job, string moveDirectory)
 		{
 			if (File.Exists(job.Video.Path))
 			{

@@ -38,5 +38,7 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		void StartWithExtraConfigAsync();
 
 		void Cancel(bool cancelYoutubeUploader);
+
+		void MoveVideo(IYoutubeJob job, string moveDirectory);
 	}
 }

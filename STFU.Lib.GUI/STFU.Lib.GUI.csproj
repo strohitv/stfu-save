@@ -70,6 +70,12 @@
     <Compile Include="Forms\AddAccountForm.designer.cs">
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddVideosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddVideosForm.Designer.cs">
+      <DependentUpon>AddVideosForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EditVideoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     <EmbeddedResource Include="Forms\AddAccountForm.resx">
       <DependentUpon>AddAccountForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddVideosForm.resx">
+      <DependentUpon>AddVideosForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditVideoForm.resx">
       <DependentUpon>EditVideoForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,6 +108,14 @@
     <ProjectReference Include="..\STFU.Lib.Common\STFU.Lib.Common.csproj">
       <Project>{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}</Project>
       <Name>STFU.Lib.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
+      <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
+      <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Automation\STFU.Lib.Youtube.Automation.csproj">
+      <Project>{C97271B8-CD14-4130-BD88-E44DC82B8C2F}</Project>
+      <Name>STFU.Lib.Youtube.Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>

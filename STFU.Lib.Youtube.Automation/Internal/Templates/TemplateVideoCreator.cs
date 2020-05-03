@@ -8,16 +8,16 @@ using STFU.Lib.Youtube.Model;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
-	internal class TemplateVideoCreator
+	public class TemplateVideoCreator
 	{
-		internal IList<PublishTimeCalculator> PublishInfos { get; set; }
+		public IList<PublishTimeCalculator> PublishInfos { get; set; }
 
-		internal TemplateVideoCreator(IList<PublishTimeCalculator> publishInfo)
+		public TemplateVideoCreator(IList<PublishTimeCalculator> publishInfo)
 		{
 			PublishInfos = publishInfo;
 		}
 
-		internal VideoInformation CreateVideo(string path)
+		public VideoInformation CreateVideo(string path)
 		{
 			IYoutubeVideo video = new YoutubeVideo(path);
 
