@@ -11,10 +11,13 @@ namespace STFU.Lib.GUI.Forms
 {
 	public partial class AddVideosForm : Form
 	{
-		public TemplateVideoCreator TemplateVideoCreator { get; private set; }
 		private IYoutubeCategoryContainer CategoryContainer { get; set; }
 		private IYoutubeLanguageContainer LanguageContainer { get; set; }
 		private string[] Paths { get; set; }
+		private ITemplate[] Templates { get; set; }
+		private IPath[] PathInfos { get; set; }
+
+		public TemplateVideoCreator TemplateVideoCreator { get; private set; }
 		public List<VideoInformation> Videos { get; } = new List<VideoInformation>();
 
 		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, params string[] paths)
@@ -27,9 +30,70 @@ namespace STFU.Lib.GUI.Forms
 			Paths = paths;
 			CategoryContainer = categoryContainer;
 			LanguageContainer = languageContainer;
+			Templates = templates;
+			PathInfos = pathInfos;
+		}
 
-			var publishTimeCalculators = pathInfos
-				.Select(p => new ObservationConfiguration(p, FindTemplate(p, templates)))
+		private void AddVideosForm_Load(object sender, System.EventArgs e)
+		{
+			loadWorker.RunWorkerAsync();
+		}
+
+		private void RefillListView()
+		{
+			videosListView.Items.Clear();
+
+			foreach (var video in Videos)
+			{
+				videosListView.Items.Add(video.Video.File.Name);
+			}
+		}
+
+		private ITemplate FindTemplate(IPath path, ITemplate[] templates)
+		{
+			if (templates.Length == 0)
+			{
+				return null;
+			}
+
+			var template = templates.FirstOrDefault(t => t.Id == path.SelectedTemplateId);
+
+			if (template != null)
+			{
+				return template;
+			}
+
+			return templates.FirstOrDefault(t => t.Id == 0);
+		}
+
+		private void videosListView_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			if (videosListView.SelectedIndices.Count == 1)
+			{
+				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
+				editVideoInformationGrid.Enabled = true;
+			}
+			else
+			{
+				editVideoInformationGrid.Enabled = false;
+			}
+		}
+
+		private void cancelButton_Click(object sender, System.EventArgs e)
+		{
+			Close();
+		}
+
+		private void acceptButton_Click(object sender, System.EventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+			Close();
+		}
+
+		private void loadWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			var publishTimeCalculators = PathInfos
+				.Select(p => new ObservationConfiguration(p, FindTemplate(p, Templates)))
 				.Select(pto => new PublishTimeCalculator(
 					pto.PathInfo,
 					pto.StartDate,
@@ -38,13 +102,13 @@ namespace STFU.Lib.GUI.Forms
 				.ToList();
 
 			TemplateVideoCreator = new TemplateVideoCreator(publishTimeCalculators);
+
+			AddVideos(Paths);
 		}
 
-		private void AddVideosForm_Load(object sender, System.EventArgs e)
+		private void AddVideos(string[] paths)
 		{
-			// Files der Reihenfolge nach sortieren.
-			var videosWithPaths =
-				Paths.Select(p => new FileInfo(p))
+			var videosWithPaths = paths.Select(p => new FileInfo(p))
 				.Select(f => new KeyValuePair<FileInfo, IPath>(f, TemplateVideoCreator.FindNearestPath(f.FullName)))
 				.ToArray();
 
@@ -97,60 +161,17 @@ namespace STFU.Lib.GUI.Forms
 
 				Videos.AddRange(sorted.Select(fi => TemplateVideoCreator.CreateVideo(fi.FullName)));
 			}
+		}
 
+		private void Worker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		{
 			RefillListView();
 			mainTlp.Enabled = true;
 		}
 
-		private void RefillListView()
+		private void addVideosWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			videosListView.Items.Clear();
-
-			foreach (var video in Videos)
-			{
-				videosListView.Items.Add(video.Video.File.Name);
-			}
-		}
-
-		private ITemplate FindTemplate(IPath path, ITemplate[] templates)
-		{
-			if (templates.Length == 0)
-			{
-				return null;
-			}
-
-			var template = templates.FirstOrDefault(t => t.Id == path.SelectedTemplateId);
-
-			if (template != null)
-			{
-				return template;
-			}
-
-			return templates.FirstOrDefault(t => t.Id == 0);
-		}
-
-		private void videosListView_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if (videosListView.SelectedIndices.Count == 1)
-			{
-				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
-				editVideoInformationGrid.Enabled = true;
-			}
-			else
-			{
-				editVideoInformationGrid.Enabled = false;
-			}
-		}
-
-		private void cancelButton_Click(object sender, System.EventArgs e)
-		{
-			Close();
-		}
-
-		private void acceptButton_Click(object sender, System.EventArgs e)
-		{
-			DialogResult = DialogResult.OK;
-			Close();
+			AddVideos(Paths);
 		}
 	}
 }

@@ -36,6 +36,8 @@
 			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.acceptButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.loadWorker = new System.ComponentModel.BackgroundWorker();
+			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -168,6 +170,16 @@
 			this.cancelButton.UseVisualStyleBackColor = true;
 			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
 			// 
+			// loadWorker
+			// 
+			this.loadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.loadWorker_DoWork);
+			this.loadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
+			// 
+			// addVideosWorker
+			// 
+			this.addVideosWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.addVideosWorker_DoWork);
+			this.addVideosWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
+			// 
 			// AddVideosForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,5 +211,7 @@
 		private System.Windows.Forms.ColumnHeader dateiNameColumnHeader;
 		private System.Windows.Forms.Button acceptButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.ComponentModel.BackgroundWorker loadWorker;
+		private System.ComponentModel.BackgroundWorker addVideosWorker;
 	}
 }
