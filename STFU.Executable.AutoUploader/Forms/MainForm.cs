@@ -65,76 +65,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.showReleaseNotes = showReleaseNotes;
 
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
-
-			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
-				"cKUCRQz0sE4UUmvUHW6qckbP",
-				"Strohis Toolset Für Uploads", false);
-			clientContainer.RegisterClient(client);
-
-			if (!Directory.Exists("./settings"))
-			{
-				Directory.CreateDirectory("./settings");
-			}
-
-			pathPersistor = new PathPersistor(pathContainer, "./settings/paths.json");
-			pathPersistor.Load();
-
-			templatePersistor = new TemplatePersistor(templateContainer, "./settings/templates.json");
-			templatePersistor.Load();
-
-			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
-			accountPersistor.Load();
-
-			//foreach (var account in accountContainer.RegisteredAccounts)
-			//{
-			//	foreach (var access in account.Access)
-			//	{
-			//		access.Client = client;
-			//	}
-			//}
-
-			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
-			categoryPersistor.Load();
-
-			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
-			languagePersistor.Load();
-
-			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
-			settingsPersistor.Load();
-
-			queuePersistor = new JobPersistor(queueContainer, "./settings/queue.json");
-			queuePersistor.Load();
-
-			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
-			archivePersistor.Load();
-
-			foreach (var item in queueContainer.RegisteredJobs)
-			{
-				item.Account = accountContainer.RegisteredAccounts.FirstOrDefault(a => a.Id == item.Account.Id);
-
-				if (item.Account == null)
-				{
-					item.Account = accountContainer.RegisteredAccounts.FirstOrDefault();
-				}
-			}
-
-			var uploader = new YoutubeUploader(queueContainer);
-			uploader.StopAfterCompleting = false;
-			uploader.RemoveCompletedJobs = false;
-
-			autoUploader = new AutomationUploader(uploader, archiveContainer);
-			autoUploader.WatchedProcesses = processes;
-
-			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
-			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
-			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
-			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
-
-			limitUploadSpeedCombobox.SelectedIndex = 1;
-
-			RefillListView();
-			RefillArchiveView();
-			ActivateAccountLink();
 		}
 
 		private void RefillArchiveView()
@@ -465,10 +395,6 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
-			jobQueue.Fill(categoryContainer, languageContainer);
-			jobQueue.Uploader = autoUploader.Uploader;
-
-			cmbbxFinishAction.SelectedIndex = 0;
 			bgwCreateUploader.RunWorkerAsync();
 		}
 
@@ -494,11 +420,6 @@ namespace STFU.Executable.AutoUploader.Forms
 				{
 					job.Reset();
 				}
-				//else if (job.State == JobState.PausePending)
-				//{
-				//	//job.SetPaused(); - noch nicht möglich, weil ich noch nicht weiß, wie ich dann fortsetzen kann.
-				//	job.Reset();
-				//}
 			}
 
 			queuePersistor.Save();
@@ -529,11 +450,76 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			//uploader = new AutomationUploader();
+			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
+				"cKUCRQz0sE4UUmvUHW6qckbP",
+				"Strohis Toolset Für Uploads", false);
+			clientContainer.RegisterClient(client);
+
+			if (!Directory.Exists("./settings"))
+			{
+				Directory.CreateDirectory("./settings");
+			}
+
+			pathPersistor = new PathPersistor(pathContainer, "./settings/paths.json");
+			pathPersistor.Load();
+
+			templatePersistor = new TemplatePersistor(templateContainer, "./settings/templates.json");
+			templatePersistor.Load();
+
+			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
+			accountPersistor.Load();
+
+			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
+			categoryPersistor.Load();
+
+			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
+			languagePersistor.Load();
+
+			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
+			settingsPersistor.Load();
+
+			queuePersistor = new JobPersistor(queueContainer, "./settings/queue.json");
+			queuePersistor.Load();
+
+			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
+			archivePersistor.Load();
+
+			foreach (var item in queueContainer.RegisteredJobs)
+			{
+				item.Account = accountContainer.RegisteredAccounts.FirstOrDefault(a => a.Id == item.Account.Id);
+
+				if (item.Account == null)
+				{
+					item.Account = accountContainer.RegisteredAccounts.FirstOrDefault();
+				}
+			}
+
+			var uploader = new YoutubeUploader(queueContainer);
+			uploader.StopAfterCompleting = false;
+			uploader.RemoveCompletedJobs = false;
+
+			autoUploader = new AutomationUploader(uploader, archiveContainer);
+			autoUploader.WatchedProcesses = processes;
+
+			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
+			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
+
+			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
+			cmbbxFinishAction.SelectedIndex = 0;
+
+			limitUploadSpeedCombobox.SelectedIndex = 1;
+
+			RefillListView();
+			RefillArchiveView();
+			ActivateAccountLink();
+
 			if (File.Exists("stfu-updater.exe"))
 			{
 				try

@@ -167,7 +167,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void AddItem(JobControl control, bool refreshButtons = true)
 		{
-			AddItem(control, int.MaxValue, refreshButtons);
+			if (InvokeRequired)
+			{
+				Invoke((Action)delegate { AddItem(control, int.MaxValue, refreshButtons); });
+			}
 		}
 
 		private void AddItem(JobControl control, int position, bool refreshButtons = true)
