@@ -861,29 +861,26 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			if (addVideosDialog.ShowDialog(this) == DialogResult.OK)
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer);
+
+			if (form.ShowDialog(this) == DialogResult.OK)
 			{
-				AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, addVideosDialog.FileNames);
+				templatePersistor.Save();
 
-				if (form.ShowDialog(this) == DialogResult.OK)
+				foreach (var videoAndEvaluator in form.Videos)
 				{
-					templatePersistor.Save();
+					var video = videoAndEvaluator.Video;
+					var evaluator = videoAndEvaluator.Evaluator;
+					var notificationSettings = videoAndEvaluator.NotificationSettings;
 
-					foreach (var videoAndEvaluator in form.Videos)
+					var job = autoUploader.Uploader.QueueUpload(video, accountContainer.RegisteredAccounts.First(), notificationSettings);
+					var path = form.TemplateVideoCreator.FindNearestPath(video.File.FullName);
+
+					job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
+
+					if (path.MoveAfterUpload)
 					{
-						var video = videoAndEvaluator.Video;
-						var evaluator = videoAndEvaluator.Evaluator;
-						var notificationSettings = videoAndEvaluator.NotificationSettings;
-
-						var job = autoUploader.Uploader.QueueUpload(video, accountContainer.RegisteredAccounts.First(), notificationSettings);
-						var path = form.TemplateVideoCreator.FindNearestPath(video.File.FullName);
-
-						job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
-
-						if (path.MoveAfterUpload)
-						{
-							job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
-						}
+						job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
 					}
 				}
 			}

@@ -38,6 +38,7 @@
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.loadWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
+			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -180,6 +181,12 @@
 			this.addVideosWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.addVideosWorker_DoWork);
 			this.addVideosWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
 			// 
+			// addVideosDialog
+			// 
+			this.addVideosDialog.Filter = "Alle Dateien|*.*";
+			this.addVideosDialog.Multiselect = true;
+			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
+			// 
 			// AddVideosForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,5 +220,6 @@
 		private System.Windows.Forms.Button cancelButton;
 		private System.ComponentModel.BackgroundWorker loadWorker;
 		private System.ComponentModel.BackgroundWorker addVideosWorker;
+		private System.Windows.Forms.OpenFileDialog addVideosDialog;
 	}
 }

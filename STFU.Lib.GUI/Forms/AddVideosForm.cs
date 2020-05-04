@@ -20,14 +20,13 @@ namespace STFU.Lib.GUI.Forms
 		public TemplateVideoCreator TemplateVideoCreator { get; private set; }
 		public List<VideoInformation> Videos { get; } = new List<VideoInformation>();
 
-		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, params string[] paths)
+		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
 		{
 			InitializeComponent();
 			editVideoInformationGrid.IsNewUpload = true;
 
 			DialogResult = DialogResult.Cancel;
 
-			Paths = paths;
 			CategoryContainer = categoryContainer;
 			LanguageContainer = languageContainer;
 			Templates = templates;
@@ -36,7 +35,15 @@ namespace STFU.Lib.GUI.Forms
 
 		private void AddVideosForm_Load(object sender, System.EventArgs e)
 		{
-			loadWorker.RunWorkerAsync();
+			if (addVideosDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				Paths = addVideosDialog.FileNames;
+				loadWorker.RunWorkerAsync();
+			}
+			else
+			{
+				Close();
+			}
 		}
 
 		private void RefillListView()

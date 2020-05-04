@@ -102,7 +102,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -950,12 +949,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
-			// addVideosDialog
-			// 
-			this.addVideosDialog.Filter = "Alle Dateien|*.*";
-			this.addVideosDialog.Multiselect = true;
-			this.addVideosDialog.Title = "Videos für die Warteschlange auswählen";
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1070,7 +1063,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.CheckBox limitUploadSpeedCheckbox;
 		private System.Windows.Forms.ComboBox limitUploadSpeedCombobox;
 		private System.Windows.Forms.Button addVideosToQueueButton;
-		private System.Windows.Forms.OpenFileDialog addVideosDialog;
 	}
 }
 
