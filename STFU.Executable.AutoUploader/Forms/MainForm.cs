@@ -883,8 +883,6 @@ namespace STFU.Executable.AutoUploader.Forms
 							job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
 						}
 					}
-
-					autoUploader.Uploader.StartUploader();
 				}
 			}
 		}
