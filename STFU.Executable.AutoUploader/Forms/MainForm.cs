@@ -867,6 +867,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (form.ShowDialog(this) == DialogResult.OK)
 				{
+					templatePersistor.Save();
+
 					foreach (var videoAndEvaluator in form.Videos)
 					{
 						var video = videoAndEvaluator.Video;
