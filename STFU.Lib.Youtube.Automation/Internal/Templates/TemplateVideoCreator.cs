@@ -17,7 +17,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			PublishInfos = publishInfo;
 		}
 
-		public VideoInformation CreateVideo(string path)
+		public VideoInformation CreateVideo(string path, bool saveNextUploadSuggestion = true)
 		{
 			IYoutubeVideo video = new YoutubeVideo(path);
 
@@ -66,7 +66,11 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				&& template.PublishTimes.Count > 0)
 			{
 				video.PublishAt = publishCalculator.GetNextPublishTime();
-				template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
+
+				if (saveNextUploadSuggestion)
+				{
+					template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
+				}
 			}
 
 			foreach (var tag in CutOff(evaluator.Evaluate(template.Tags).Replace("<", string.Empty).Replace(">", string.Empty), YoutubeVideo.MaxTagsLength).Split(','))
@@ -81,6 +85,21 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 		{
 			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).First(x => x.GetDifference(path) != null);
 			return publishCalculator?.PathInfo;
+		}
+
+		public void SaveNextUploadSuggestions()
+		{
+			foreach (var publishCalculator in PublishInfos)
+			{
+				var template = publishCalculator.Template;
+				if (!publishCalculator.UploadPrivate
+					&& template.Privacy == PrivacyStatus.Private
+					&& template.ShouldPublishAt
+					&& template.PublishTimes.Count > 0)
+				{
+					template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
+				}
+			}
 		}
 
 		private string CutOff(string value, int maxlength)

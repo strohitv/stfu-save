@@ -87,6 +87,7 @@ namespace STFU.Lib.GUI.Forms
 		private void acceptButton_Click(object sender, System.EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
+			TemplateVideoCreator.SaveNextUploadSuggestions();
 			Close();
 		}
 
@@ -159,7 +160,7 @@ namespace STFU.Lib.GUI.Forms
 						break;
 				}
 
-				Videos.AddRange(sorted.Select(fi => TemplateVideoCreator.CreateVideo(fi.FullName)));
+				Videos.AddRange(sorted.Select(fi => TemplateVideoCreator.CreateVideo(fi.FullName, false)));
 			}
 		}
 
