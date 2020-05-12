@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -87,7 +88,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				"POST",
 				Account.GetActiveToken());
 
-			request.Headers.Add("Slug", Path.GetFileName(Video.File.Name));
+			request.Headers.Add("Slug", Path.GetFileName(new string(Video.File.Name.Where(c => Convert.ToInt32(c) < 128).ToArray())));
 			request.Headers.Add($"x-upload-content-length: {Video.File.Length}");
 			request.Headers.Add($"x-upload-content-type: {MimeMapping.GetMimeMapping(Video.File.Name)}");
 
