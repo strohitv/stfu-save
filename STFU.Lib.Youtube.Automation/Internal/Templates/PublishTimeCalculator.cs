@@ -56,7 +56,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 		{
 			var publishDate = new DateTime(2000, 1, 1);
 
-			while (publishDate < DateTime.Now)
+			while (publishDate < DateTime.Now && !preview)
 			{
 				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
 
