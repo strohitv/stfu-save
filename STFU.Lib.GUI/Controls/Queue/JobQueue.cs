@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,6 +15,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private IYoutubeLanguageContainer languageContainer;
 
 		private List<JobControl> jobControls = new List<JobControl>();
+
+		private BlockingCollection<JobChangedArgs> Actions { get; } = new BlockingCollection<JobChangedArgs>();
 
 		private IYoutubeUploader uploader = null;
 		public IYoutubeUploader Uploader
@@ -31,6 +34,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 						Uploader.JobQueued -= Uploader_JobQueued;
 						Uploader.JobDequeued -= Uploader_JobDequeued;
 						Uploader.JobPositionChanged -= Uploader_JobPositionChanged;
+						Uploader.NewUploadStarted -= Uploader_NewUploadStarted;
 					}
 
 					uploader = value;
@@ -45,24 +49,21 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 					foreach (var entry in uploader.Queue)
 					{
-						var control = new JobControl() { Job = entry, ActionsButtonsVisible = ShowActionsButtons };
-						control.Fill(categoryContainer, languageContainer);
-
-						AddItem(control, false);
+						Actions.Add(new JobChangedArgs(JobChangedType.Added, new JobQueuedEventArgs(entry, int.MaxValue)));
 					}
-					RefreshMoveButtonsEnabled();
-					ResumeLayout();
 				}
 			}
 		}
 
 		private void Uploader_NewUploadStarted(UploadStartedEventArgs args)
 		{
-			Invoke((Action)delegate
-			{
-				var control = jobControls.First(jc => jc.Job == args.Job);
-				mainTlp.ScrollControlIntoView(control);
-			});
+			Actions.Add(new JobChangedArgs(JobChangedType.Started, args));
+		}
+
+		private void OnNewUploadStarted(UploadStartedEventArgs args)
+		{
+			var control = jobControls.First(jc => jc.Job == args.Job);
+			mainTlp.ScrollControlIntoView(control);
 		}
 
 		private bool showActionButtons = true;
@@ -97,61 +98,62 @@ namespace STFU.Lib.GUI.Controls.Queue
 			languageContainer = langContainer;
 		}
 
-		private void JobQueue_Load(object sender, EventArgs e)
-		{
-
-		}
-
 		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
 		{
-			Invoke((Action)delegate
-			{
-				var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
-				control.Fill(categoryContainer, languageContainer);
+			Actions.Add(new JobChangedArgs(JobChangedType.Added, e));
+		}
 
-				AddItem(control, e.Position);
-			});
+		private void OnJobQueued(JobQueuedEventArgs e)
+		{
+			var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
+			control.Fill(categoryContainer, languageContainer);
+
+			AddItem(control, e.Position);
 		}
 
 		private void Uploader_JobPositionChanged(object sender, JobPositionChangedEventArgs e)
 		{
-			Invoke((Action)delegate
+			Actions.Add(new JobChangedArgs(JobChangedType.PositionChanged, e));
+		}
+
+		private void OnJobPositionChanged(JobPositionChangedEventArgs e)
+		{
+			var control = jobControls[e.OldPosition];
+			jobControls.RemoveAt(e.OldPosition);
+			jobControls.Insert(e.NewPosition, control);
+
+			mainTlp.SuspendLayout();
+
+			while (mainTlp.RowStyles.Count > 1)
 			{
-				var control = jobControls[e.OldPosition];
-				jobControls.RemoveAt(e.OldPosition);
-				jobControls.Insert(e.NewPosition, control);
+				RemoveItemFromMainTlp(mainTlp.Controls[0] as JobControl, 0);
+			}
 
-				mainTlp.SuspendLayout();
+			int position = 0;
+			foreach (var entry in uploader.Queue)
+			{
+				AddItemToMainTlp(position, jobControls.Single(jc => jc.Job == entry));
+				position++;
+			}
 
-				while (mainTlp.RowStyles.Count > 1)
-				{
-					RemoveItemFromMainTlp(mainTlp.Controls[0] as JobControl, 0);
-				}
-
-				int position = 0;
-				foreach (var entry in uploader.Queue)
-				{
-					AddItemToMainTlp(position, jobControls.Single(jc => jc.Job == entry));
-					position++;
-				}
-
-				mainTlp.ResumeLayout();
-			});
+			mainTlp.ResumeLayout();
 
 			RefreshMoveButtonsEnabled();
 		}
 
 		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
 		{
+			Actions.Add(new JobChangedArgs(JobChangedType.Removed, e));
+		}
+
+		private void OnJobDequeued(JobDequeuedEventArgs e)
+		{
 			try
 			{
-				Invoke((Action)delegate
-				{
-					var control = jobControls.First(jc => jc.Job == e.Job);
+				var control = jobControls.First(jc => jc.Job == e.Job);
 
-					jobControls.Remove(control);
-					RemoveItemFromMainTlp(control, e.Position);
-				});
+				jobControls.Remove(control);
+				RemoveItemFromMainTlp(control, e.Position);
 
 				RefreshMoveButtonsEnabled();
 			}
@@ -167,10 +169,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void AddItem(JobControl control, bool refreshButtons = true)
 		{
-			if (InvokeRequired)
-			{
-				Invoke((Action)delegate { AddItem(control, int.MaxValue, refreshButtons); });
-			}
+			AddItem(control, int.MaxValue, refreshButtons);
 		}
 
 		private void AddItem(JobControl control, int position, bool refreshButtons = true)
@@ -212,20 +211,24 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void RefreshMoveButtonsEnabled()
 		{
-			Invoke((Action)delegate
+			if (jobControls.Count > 0)
 			{
-				if (jobControls.Count > 0)
+				for (int i = 0; i < jobControls.Count; i++)
 				{
-					for (int i = 0; i < jobControls.Count; i++)
-					{
-						jobControls[i].CanBeMovedUp = true;
-						jobControls[i].CanBeMovedDown = true;
-					}
+					jobControls[i].CanBeMovedUp = true;
+					jobControls[i].CanBeMovedDown = true;
+				}
 
+				if (jobControls.Any(jc => jc.Job == uploader.Queue.First()))
+				{
 					jobControls.SingleOrDefault(jc => jc.Job == uploader.Queue.First()).CanBeMovedUp = false;
+				}
+
+				if (jobControls.Any(jc => jc.Job == uploader.Queue.Last()))
+				{
 					jobControls.SingleOrDefault(jc => jc.Job == uploader.Queue.Last()).CanBeMovedDown = false;
 				}
-			});
+			}
 		}
 
 		private void AddItemToMainTlp(int position, JobControl control)
@@ -248,13 +251,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 		{
 			if (mainTlp.RowStyles.Count > 1)
 			{
-				Invoke((Action)delegate
+				while (mainTlp.RowStyles.Count > 1)
 				{
-					while (mainTlp.RowStyles.Count > 1)
-					{
-						mainTlp.RowStyles.RemoveAt(0);
-					}
-				});
+					mainTlp.RowStyles.RemoveAt(0);
+				}
 			}
 		}
 
@@ -263,6 +263,29 @@ namespace STFU.Lib.GUI.Controls.Queue
 			foreach (var control in jobControls)
 			{
 				control.RefreshJobControl();
+			}
+		}
+
+		private void handleActionsTimer_Tick(object sender, EventArgs e)
+		{
+			while (Actions.Count > 0)
+			{
+				var action = Actions.Take();
+				switch (action.Type)
+				{
+					case JobChangedType.Added:
+						OnJobQueued((JobQueuedEventArgs)action.Args);
+						break;
+					case JobChangedType.Removed:
+						OnJobDequeued((JobDequeuedEventArgs)action.Args);
+						break;
+					case JobChangedType.PositionChanged:
+						OnJobPositionChanged((JobPositionChangedEventArgs)action.Args);
+						break;
+					case JobChangedType.Started:
+						OnNewUploadStarted((UploadStartedEventArgs)action.Args);
+						break;
+				}
 			}
 		}
 	}

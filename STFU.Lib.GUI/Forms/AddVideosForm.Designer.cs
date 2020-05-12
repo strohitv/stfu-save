@@ -33,12 +33,12 @@
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.videosListView = new System.Windows.Forms.ListView();
 			this.dateiNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.acceptButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.loadWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
+			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -132,15 +132,6 @@
 			this.dateiNameColumnHeader.Text = "Dateiname";
 			this.dateiNameColumnHeader.Width = 165;
 			// 
-			// editVideoInformationGrid
-			// 
-			this.editVideoInformationGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.editVideoInformationGrid.IsNewUpload = false;
-			this.editVideoInformationGrid.Location = new System.Drawing.Point(0, 0);
-			this.editVideoInformationGrid.Name = "editVideoInformationGrid";
-			this.editVideoInformationGrid.Size = new System.Drawing.Size(829, 727);
-			this.editVideoInformationGrid.TabIndex = 0;
-			// 
 			// acceptButton
 			// 
 			this.acceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -186,6 +177,16 @@
 			this.addVideosDialog.Filter = "Alle Dateien|*.*";
 			this.addVideosDialog.Multiselect = true;
 			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
+			// 
+			// editVideoInformationGrid
+			// 
+			this.editVideoInformationGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.editVideoInformationGrid.Enabled = false;
+			this.editVideoInformationGrid.IsNewUpload = false;
+			this.editVideoInformationGrid.Location = new System.Drawing.Point(0, 0);
+			this.editVideoInformationGrid.Name = "editVideoInformationGrid";
+			this.editVideoInformationGrid.Size = new System.Drawing.Size(829, 727);
+			this.editVideoInformationGrid.TabIndex = 0;
 			// 
 			// AddVideosForm
 			// 

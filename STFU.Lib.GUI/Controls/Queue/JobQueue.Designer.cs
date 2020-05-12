@@ -32,6 +32,7 @@
 			this.borderPanel = new System.Windows.Forms.Panel();
 			this.mainTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.refreshControlsTimer = new System.Windows.Forms.Timer(this.components);
+			this.handleActionsTimer = new System.Windows.Forms.Timer(this.components);
 			this.borderPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -69,6 +70,12 @@
 			this.refreshControlsTimer.Interval = 250;
 			this.refreshControlsTimer.Tick += new System.EventHandler(this.refreshControlsTimerTick);
 			// 
+			// handleActionsTimer
+			// 
+			this.handleActionsTimer.Enabled = true;
+			this.handleActionsTimer.Interval = 50;
+			this.handleActionsTimer.Tick += new System.EventHandler(this.handleActionsTimer_Tick);
+			// 
 			// JobQueue
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -76,7 +83,6 @@
 			this.Controls.Add(this.borderPanel);
 			this.Name = "JobQueue";
 			this.Size = new System.Drawing.Size(232, 118);
-			this.Load += new System.EventHandler(this.JobQueue_Load);
 			this.borderPanel.ResumeLayout(false);
 			this.borderPanel.PerformLayout();
 			this.ResumeLayout(false);
@@ -88,5 +94,6 @@
 		private System.Windows.Forms.Panel borderPanel;
 		private System.Windows.Forms.TableLayoutPanel mainTlp;
 		private System.Windows.Forms.Timer refreshControlsTimer;
+		private System.Windows.Forms.Timer handleActionsTimer;
 	}
 }
