@@ -55,6 +55,9 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					string result = WebService.Communicate(request);
 
 					Video.Id = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+
+					// Status entfernen, damit nicht erneut an die selbe Adresse hochgeladen wird.
+					Status.UploadAddress = null;
 				}
 			}
 
