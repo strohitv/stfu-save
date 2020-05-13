@@ -125,6 +125,16 @@ namespace STFU.Lib.GUI.Forms
 			foreach (var videoWithPath in videosWithPaths)
 			{
 				IPath path = videoWithPath.Value;
+
+				if (path == null)
+				{
+					path = new Youtube.Automation.Paths.Path()
+					{
+						Fullname = videoWithPath.Key.DirectoryName,
+						SelectedTemplateId = 0
+					};
+				}
+
 				if (sortedPaths.ContainsKey(path))
 				{
 					sortedPaths[path].Add(videoWithPath.Key);

@@ -864,7 +864,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 					job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
 
-					if (path.MoveAfterUpload)
+					if (path != null && path.MoveAfterUpload)
 					{
 						job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
 					}
