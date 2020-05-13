@@ -96,6 +96,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 				Status.RemainingDuration = remainingTime;
 				Status.CurrentSpeed = uploadSpeedPerSecond;
+				Status.Progress = Progress;
 			}
 		}
 	}
