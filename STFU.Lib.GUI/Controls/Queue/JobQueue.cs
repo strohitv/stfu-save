@@ -287,6 +287,11 @@ namespace STFU.Lib.GUI.Controls.Queue
 						break;
 				}
 			}
+
+			foreach (var control in jobControls)
+			{
+				control.HandleActions();
+			}
 		}
 	}
 }

@@ -6,6 +6,8 @@
 		Removed,
 		PositionChanged,
 		Started,
-		RefreshMenu
+		RefreshMenu,
+		PropertyChanged,
+		UploadStatusPropertyChanged
 	}
 }
