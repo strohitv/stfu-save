@@ -25,7 +25,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			try
 			{
-				ServicePointManager.FindServicePoint(Status.UploadAddress).UseNagleAlgorithm = false;
+				ServicePointManager.FindServicePoint(request.RequestUri).UseNagleAlgorithm = false;
 				request.Proxy = new WebProxy();
 				request.AllowWriteStreamBuffering = false;
 
