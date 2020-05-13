@@ -44,6 +44,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			else
 			{
 				// Keine Datei -> Upload war erfolgreich
+				FinishedSuccessful = true;
 			}
 
 			OnStepFinished();
