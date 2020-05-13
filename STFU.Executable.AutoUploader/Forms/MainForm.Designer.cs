@@ -421,7 +421,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel2.ColumnCount = 21;
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 0F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -497,7 +497,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// lblFinishAction
 			// 
 			this.lblFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblFinishAction.Location = new System.Drawing.Point(66, 426);
+			this.lblFinishAction.Location = new System.Drawing.Point(56, 426);
 			this.lblFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.lblFinishAction.Name = "lblFinishAction";
 			this.lblFinishAction.Size = new System.Drawing.Size(53, 13);
@@ -536,12 +536,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
 			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(66, 7);
+			this.jobQueue.Location = new System.Drawing.Point(56, 7);
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
 			this.jobQueue.Name = "jobQueue";
 			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 3);
 			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1021, 371);
+			this.jobQueue.Size = new System.Drawing.Size(1031, 371);
 			this.jobQueue.TabIndex = 18;
 			this.jobQueue.Uploader = null;
 			// 
@@ -555,17 +555,17 @@ namespace STFU.Executable.AutoUploader.Forms
             "Nichts tun",
             "Programm schließen",
             "Herunterfahren"});
-			this.cmbbxFinishAction.Location = new System.Drawing.Point(129, 422);
+			this.cmbbxFinishAction.Location = new System.Drawing.Point(119, 422);
 			this.cmbbxFinishAction.Margin = new System.Windows.Forms.Padding(0);
 			this.cmbbxFinishAction.Name = "cmbbxFinishAction";
-			this.cmbbxFinishAction.Size = new System.Drawing.Size(513, 21);
+			this.cmbbxFinishAction.Size = new System.Drawing.Size(523, 21);
 			this.cmbbxFinishAction.TabIndex = 15;
 			this.cmbbxFinishAction.SelectedIndexChanged += new System.EventHandler(this.cmbbxFinishActionSelectedIndexChanged);
 			// 
 			// limitUploadSpeedNud
 			// 
 			this.limitUploadSpeedNud.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.limitUploadSpeedNud.Location = new System.Drawing.Point(314, 388);
+			this.limitUploadSpeedNud.Location = new System.Drawing.Point(304, 388);
 			this.limitUploadSpeedNud.Margin = new System.Windows.Forms.Padding(0);
 			this.limitUploadSpeedNud.Maximum = new decimal(new int[] {
             99999,
@@ -592,7 +592,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.limitUploadSpeedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.limitUploadSpeedCheckbox.AutoSize = true;
 			this.tableLayoutPanel2.SetColumnSpan(this.limitUploadSpeedCheckbox, 3);
-			this.limitUploadSpeedCheckbox.Location = new System.Drawing.Point(66, 390);
+			this.limitUploadSpeedCheckbox.Location = new System.Drawing.Point(56, 390);
 			this.limitUploadSpeedCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.limitUploadSpeedCheckbox.Name = "limitUploadSpeedCheckbox";
 			this.limitUploadSpeedCheckbox.Size = new System.Drawing.Size(238, 17);
@@ -611,7 +611,7 @@ namespace STFU.Executable.AutoUploader.Forms
             "MByte/s",
             "GByte/s",
             "TByte/s"});
-			this.limitUploadSpeedCombobox.Location = new System.Drawing.Point(377, 388);
+			this.limitUploadSpeedCombobox.Location = new System.Drawing.Point(367, 388);
 			this.limitUploadSpeedCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.limitUploadSpeedCombobox.Name = "limitUploadSpeedCombobox";
 			this.limitUploadSpeedCombobox.Size = new System.Drawing.Size(69, 21);
@@ -633,6 +633,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addVideosToQueueButton.TabIndex = 22;
 			this.addVideosToQueueButton.Text = "+";
 			this.addVideosToQueueButton.UseVisualStyleBackColor = true;
+			this.addVideosToQueueButton.Visible = false;
 			this.addVideosToQueueButton.Click += new System.EventHandler(this.addVideosToQueueButton_Click);
 			// 
 			// groupBox2
