@@ -75,6 +75,8 @@ namespace STFU.Lib.GUI.Forms
 
 		private void videosListView_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
+			moveVideosUpButton.Enabled = moveVideosDownButton.Enabled = removeVideoButton.Enabled = videosListView.SelectedIndices.Count > 0;
+
 			if (videosListView.SelectedIndices.Count == 1)
 			{
 				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
@@ -190,6 +192,96 @@ namespace STFU.Lib.GUI.Forms
 		private void addVideosWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
 			AddVideos(Paths);
+		}
+
+		private void addVideosButton_Click(object sender, System.EventArgs e)
+		{
+			if (addVideosDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				Paths = addVideosDialog.FileNames;
+				loadWorker.RunWorkerAsync();
+			}
+		}
+
+		private void moveVideosUpButton_Click(object sender, System.EventArgs e)
+		{
+			videosListView.BeginUpdate();
+
+			for (int i = 0; i < videosListView.SelectedIndices.Count; i++)
+			{
+				int index = videosListView.SelectedIndices[i];
+
+				if (index == 0)
+				{
+					continue;
+				}
+
+				if (i > 0 && videosListView.SelectedIndices[i - 1] == index - 1)
+				{
+					continue;
+				}
+
+				var save = Videos[index];
+				Videos[index] = Videos[index - 1];
+				Videos[index - 1] = save;
+
+				var itemsSave = videosListView.Items[index];
+				videosListView.Items.RemoveAt(index);
+				videosListView.Items.Insert(index - 1, itemsSave);
+			}
+
+			videosListView.EndUpdate();
+		}
+
+		private void moveVideosDownButton_Click(object sender, System.EventArgs e)
+		{
+			videosListView.BeginUpdate();
+
+			for (int i = videosListView.SelectedIndices.Count - 1; i >= 0; i--)
+			{
+				int index = videosListView.SelectedIndices[i];
+
+				if (index == videosListView.Items.Count - 1)
+				{
+					continue;
+				}
+
+				if (i < videosListView.SelectedIndices.Count - 1 && videosListView.SelectedIndices[i + 1] == index + 1)
+				{
+					continue;
+				}
+
+				var save = Videos[index];
+				Videos[index] = Videos[index + 1];
+				Videos[index + 1] = save;
+
+				var itemsSave = videosListView.Items[index];
+				videosListView.Items.RemoveAt(index);
+				videosListView.Items.Insert(index + 1, itemsSave);
+			}
+
+			videosListView.EndUpdate();
+		}
+
+		private void removeVideoButton_Click(object sender, System.EventArgs e)
+		{
+			videosListView.BeginUpdate();
+
+			for (int i = videosListView.SelectedIndices.Count - 1; i >= 0; i--)
+			{
+				int index = videosListView.SelectedIndices[i];
+
+				Videos.RemoveAt(index);
+				videosListView.Items.RemoveAt(index);
+			}
+
+			videosListView.EndUpdate();
+		}
+
+		private void clearVideosButton_Click(object sender, System.EventArgs e)
+		{
+			Videos.Clear();
+			videosListView.Items.Clear();
 		}
 	}
 }
