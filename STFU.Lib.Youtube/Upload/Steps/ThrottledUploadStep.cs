@@ -92,6 +92,12 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				var uploadedBytes = speeds.Select(s => s.Item2).Sum();
 
 				var uploadSpeedPerSecond = (long)(uploadedBytes / uploadedTime);
+
+				if (uploadSpeedPerSecond == 0)
+				{
+					uploadSpeedPerSecond = 1;
+				}
+
 				var remainingTime = new TimeSpan((length - currentPosition) * 10_000_000 / uploadSpeedPerSecond);
 
 				Status.RemainingDuration = remainingTime;
