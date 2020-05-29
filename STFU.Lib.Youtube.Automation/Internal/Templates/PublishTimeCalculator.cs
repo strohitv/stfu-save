@@ -56,45 +56,51 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 		{
 			var publishDate = new DateTime(2000, 1, 1);
 
-			while (publishDate < DateTime.Now && !preview)
+			var lastVidPubTime = LastVideoPublishTime;
+			var pubTimePos = PublishTimePosition;
+
+			while (publishDate < DateTime.Now)
 			{
-				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
+				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[pubTimePos].DayOfWeek - (int)lastVidPubTime.DayOfWeek + 7) % 7;
 
 				if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
 				{
 					daysUntilNextTimesWeekday = 7;
 				}
 
-				publishDate = LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
+				publishDate = lastVidPubTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[pubTimePos].Time);
 
-				if (!preview)
+				first = false;
+
+				// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
+				lastVidPubTime = publishDate.AddDays(Template.PublishTimes[pubTimePos].SkipDays);
+
+				var position = pubTimePos;
+				var date = publishDate;
+				while (date <= lastVidPubTime)
 				{
-					first = false;
+					position = (position + 1) % Template.PublishTimes.Count;
 
-					// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
-					LastVideoPublishTime = publishDate.AddDays(Template.PublishTimes[PublishTimePosition].SkipDays);
-					var position = PublishTimePosition;
-					var date = publishDate;
-					while (true)
+					int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
+
+					if (days == 0 && Template.PublishTimes[position].Time <= date.TimeOfDay)
 					{
-						position = (position + 1) % Template.PublishTimes.Count;
+						days = 7;
+					}
 
-						int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
+					date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
 
-						if (days == 0 && Template.PublishTimes[position].Time <= date.TimeOfDay)
-						{
-							days = 7;
-						}
-
-						date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
-
-						if (date > LastVideoPublishTime)
-						{
-							PublishTimePosition = position;
-							break;
-						}
+					if (date > lastVidPubTime)
+					{
+						pubTimePos = position;
 					}
 				}
+			}
+
+			if (!preview)
+			{
+				LastVideoPublishTime = lastVidPubTime;
+				PublishTimePosition = pubTimePos;
 			}
 
 			return publishDate;
