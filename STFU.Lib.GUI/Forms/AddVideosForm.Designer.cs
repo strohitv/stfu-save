@@ -33,17 +33,17 @@
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.videosListView = new System.Windows.Forms.ListView();
 			this.dateiNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.acceptButton = new System.Windows.Forms.Button();
-			this.cancelButton = new System.Windows.Forms.Button();
-			this.loadWorker = new System.ComponentModel.BackgroundWorker();
-			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
-			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
 			this.addVideosButton = new System.Windows.Forms.Button();
 			this.moveVideosUpButton = new System.Windows.Forms.Button();
 			this.moveVideosDownButton = new System.Windows.Forms.Button();
 			this.removeVideoButton = new System.Windows.Forms.Button();
 			this.clearVideosButton = new System.Windows.Forms.Button();
 			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
+			this.acceptButton = new System.Windows.Forms.Button();
+			this.cancelButton = new System.Windows.Forms.Button();
+			this.loadWorker = new System.ComponentModel.BackgroundWorker();
+			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
+			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -145,57 +145,12 @@
 			this.videosListView.UseCompatibleStateImageBehavior = false;
 			this.videosListView.View = System.Windows.Forms.View.Details;
 			this.videosListView.SelectedIndexChanged += new System.EventHandler(this.videosListView_SelectedIndexChanged);
+			this.videosListView.Resize += new System.EventHandler(this.videosListView_Resize);
 			// 
 			// dateiNameColumnHeader
 			// 
 			this.dateiNameColumnHeader.Text = "Dateiname";
 			this.dateiNameColumnHeader.Width = 165;
-			// 
-			// acceptButton
-			// 
-			this.acceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.acceptButton.AutoSize = true;
-			this.acceptButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.acceptButton.Location = new System.Drawing.Point(853, 747);
-			this.acceptButton.Margin = new System.Windows.Forms.Padding(0);
-			this.acceptButton.Name = "acceptButton";
-			this.acceptButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.acceptButton.Size = new System.Drawing.Size(101, 29);
-			this.acceptButton.TabIndex = 1;
-			this.acceptButton.Text = "Hinzufügen";
-			this.acceptButton.UseVisualStyleBackColor = true;
-			this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
-			// 
-			// cancelButton
-			// 
-			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.cancelButton.AutoSize = true;
-			this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.cancelButton.Location = new System.Drawing.Point(964, 747);
-			this.cancelButton.Margin = new System.Windows.Forms.Padding(0);
-			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
-			this.cancelButton.Size = new System.Drawing.Size(99, 29);
-			this.cancelButton.TabIndex = 2;
-			this.cancelButton.Text = "Abbrechen";
-			this.cancelButton.UseVisualStyleBackColor = true;
-			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-			// 
-			// loadWorker
-			// 
-			this.loadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.loadWorker_DoWork);
-			this.loadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
-			// 
-			// addVideosWorker
-			// 
-			this.addVideosWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.addVideosWorker_DoWork);
-			this.addVideosWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
-			// 
-			// addVideosDialog
-			// 
-			this.addVideosDialog.Filter = "Alle Dateien|*.*";
-			this.addVideosDialog.Multiselect = true;
-			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
 			// 
 			// addVideosButton
 			// 
@@ -287,6 +242,52 @@
 			this.editVideoInformationGrid.Name = "editVideoInformationGrid";
 			this.editVideoInformationGrid.Size = new System.Drawing.Size(797, 727);
 			this.editVideoInformationGrid.TabIndex = 0;
+			// 
+			// acceptButton
+			// 
+			this.acceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.acceptButton.AutoSize = true;
+			this.acceptButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.acceptButton.Location = new System.Drawing.Point(853, 747);
+			this.acceptButton.Margin = new System.Windows.Forms.Padding(0);
+			this.acceptButton.Name = "acceptButton";
+			this.acceptButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.acceptButton.Size = new System.Drawing.Size(101, 29);
+			this.acceptButton.TabIndex = 1;
+			this.acceptButton.Text = "Hinzufügen";
+			this.acceptButton.UseVisualStyleBackColor = true;
+			this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
+			// 
+			// cancelButton
+			// 
+			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.cancelButton.AutoSize = true;
+			this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.cancelButton.Location = new System.Drawing.Point(964, 747);
+			this.cancelButton.Margin = new System.Windows.Forms.Padding(0);
+			this.cancelButton.Name = "cancelButton";
+			this.cancelButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
+			this.cancelButton.Size = new System.Drawing.Size(99, 29);
+			this.cancelButton.TabIndex = 2;
+			this.cancelButton.Text = "Abbrechen";
+			this.cancelButton.UseVisualStyleBackColor = true;
+			this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+			// 
+			// loadWorker
+			// 
+			this.loadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.loadWorker_DoWork);
+			this.loadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
+			// 
+			// addVideosWorker
+			// 
+			this.addVideosWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.addVideosWorker_DoWork);
+			this.addVideosWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Worker_RunWorkerCompleted);
+			// 
+			// addVideosDialog
+			// 
+			this.addVideosDialog.Filter = "Alle Dateien|*.*";
+			this.addVideosDialog.Multiselect = true;
+			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
 			// 
 			// AddVideosForm
 			// 

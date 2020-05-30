@@ -283,5 +283,10 @@ namespace STFU.Lib.GUI.Forms
 			Videos.Clear();
 			videosListView.Items.Clear();
 		}
+
+		private void videosListView_Resize(object sender, System.EventArgs e)
+		{
+			videosListView.Columns[0].Width = videosListView.Width - 15;
+		}
 	}
 }
