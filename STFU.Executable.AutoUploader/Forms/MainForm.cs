@@ -234,7 +234,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ActivateAccountLink()
 		{
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = addVideosToQueueButton.Enabled = clearVideosButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
 			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			btnStart.Enabled = true;

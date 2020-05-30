@@ -101,9 +101,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.clearVideosButton = new System.Windows.Forms.Button();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
-			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -617,6 +617,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addVideosToQueueButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addVideosToQueueButton.AutoSize = true;
 			this.addVideosToQueueButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addVideosToQueueButton.Enabled = false;
 			this.addVideosToQueueButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.addVideosToQueueButton.ForeColor = System.Drawing.Color.ForestGreen;
 			this.addVideosToQueueButton.Location = new System.Drawing.Point(5, 7);
@@ -932,6 +933,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.clearVideosButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.clearVideosButton.AutoSize = true;
 			this.clearVideosButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearVideosButton.Enabled = false;
 			this.clearVideosButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.clearVideosButton.ForeColor = System.Drawing.Color.Red;
 			this.clearVideosButton.Location = new System.Drawing.Point(5, 58);
