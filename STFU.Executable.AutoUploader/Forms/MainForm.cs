@@ -326,6 +326,12 @@ namespace STFU.Executable.AutoUploader.Forms
 					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 				}
 
+				if (autoUploader.State == RunningState.NotRunning && autoUploader.Uploader.State == UploaderState.Waiting 
+					&& autoUploader.Uploader.Queue.All(j => j.State == JobState.Canceled || j.State == JobState.Error || j.State == JobState.Successful))
+				{
+					ended = true;
+				}
+
 				if (autoUploader.Uploader.State == UploaderState.NotRunning)
 				{
 					ended = true;
