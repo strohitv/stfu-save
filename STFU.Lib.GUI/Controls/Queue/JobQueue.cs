@@ -63,7 +63,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private void OnNewUploadStarted(UploadStartedEventArgs args)
 		{
 			var control = jobControls.First(jc => jc.Job == args.Job);
-			mainTlp.ScrollControlIntoView(control);
 		}
 
 		private bool showActionButtons = true;
@@ -244,7 +243,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 			mainTlp.RowStyles.Insert(position, new RowStyle(SizeType.AutoSize));
 			mainTlp.Controls.Add(control, 0, position);
-			mainTlp.ScrollControlIntoView(control);
 		}
 
 		private void ClearItems()
