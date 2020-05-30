@@ -293,5 +293,11 @@ namespace STFU.Lib.GUI.Controls.Queue
 				control.HandleActions();
 			}
 		}
+
+		private void JobQueue_Resize(object sender, EventArgs e)
+		{
+			mainTlp.Width = borderPanel.Width = Width;
+			borderPanel.Height = Height;
+		}
 	}
 }

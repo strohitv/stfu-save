@@ -51,7 +51,6 @@
 			// mainTlp
 			// 
 			this.mainTlp.AutoSize = true;
-			this.mainTlp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.mainTlp.BackColor = System.Drawing.Color.White;
 			this.mainTlp.ColumnCount = 1;
 			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -83,6 +82,7 @@
 			this.Controls.Add(this.borderPanel);
 			this.Name = "JobQueue";
 			this.Size = new System.Drawing.Size(232, 118);
+			this.Resize += new System.EventHandler(this.JobQueue_Resize);
 			this.borderPanel.ResumeLayout(false);
 			this.borderPanel.PerformLayout();
 			this.ResumeLayout(false);
