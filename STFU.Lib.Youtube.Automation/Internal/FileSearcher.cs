@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using STFU.Lib.Common;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation.Internal
@@ -42,12 +44,12 @@ namespace STFU.Lib.Youtube.Automation.Internal
 			}
 		}
 
-		internal async void SearchFilesAsync(string path, string filters, bool searchRecursively, bool searchHidden)
+		internal async void SearchFilesAsync(string path, string filters, bool searchRecursively, bool searchHidden, FoundFilesOrderByFilter order)
 		{
-			await Task.Run(() => SearchFiles(path, filters, searchRecursively, searchHidden));
+			await Task.Run(() => SearchFiles(path, filters, searchRecursively, searchHidden, order));
 		}
 
-		private void SearchFiles(string path, string filters, bool searchRecursively, bool searchHidden)
+		private void SearchFiles(string path, string filters, bool searchRecursively, bool searchHidden, FoundFilesOrderByFilter order)
 		{
 			try
 			{
@@ -68,13 +70,43 @@ namespace STFU.Lib.Youtube.Automation.Internal
 
 				foreach (var filter in singleFilters)
 				{
-					var files = Directory.GetFiles(path, filter)
-						.ToArray();
+					var files = Directory.GetFiles(path, filter).Select(p => new FileInfo(p)).ToArray();
 
-					foreach (var file in files.Where(f => !Path.GetFileName(f).StartsWith("_")))
+					switch (order)
 					{
-						var fileInfo = new FileInfo(file);
-						FileFound?.Invoke(new FileSystemEventArgs(WatcherChangeTypes.All, fileInfo.DirectoryName, fileInfo.Name));
+						case FoundFilesOrderByFilter.NameAsc:
+							files = files.OrderBy((file) => file.Name).ToArray();
+							break;
+						case FoundFilesOrderByFilter.NameDsc:
+							files = files.OrderByDescending((file) => file.Name).ToArray();
+							break;
+						case FoundFilesOrderByFilter.CreationDateAsc:
+							files = files.OrderBy((file) => file.CreationTimeUtc).ToArray();
+							break;
+						case FoundFilesOrderByFilter.CreationDateDsc:
+							files = files.OrderByDescending((file) => file.CreationTimeUtc).ToArray();
+							break;
+						case FoundFilesOrderByFilter.ChangedDateAsc:
+							files = files.OrderBy((file) => file.LastWriteTimeUtc).ToArray();
+							break;
+						case FoundFilesOrderByFilter.ChangedDateDsc:
+							files = files.OrderByDescending((file) => file.LastWriteTimeUtc).ToArray();
+							break;
+						case FoundFilesOrderByFilter.SizeAsc:
+							files = files.OrderBy((file) => file.Length).ToArray();
+							break;
+						case FoundFilesOrderByFilter.SizeDsc:
+							files = files.OrderByDescending((file) => file.Length).ToArray();
+							break;
+						default:
+							files = files.OrderBy((file) => file.Name).ToArray();
+							break;
+					}
+
+
+					foreach (var file in files.Where(f => !f.Name.StartsWith("_") && IsVideoAnalyzer.IsVideo(f.Name)))
+					{
+						FileFound?.Invoke(new FileSystemEventArgs(WatcherChangeTypes.All, file.DirectoryName, file.Name));
 					}
 				}
 
@@ -82,7 +114,7 @@ namespace STFU.Lib.Youtube.Automation.Internal
 				{
 					Directory.GetDirectories(path)
 						.ToList()
-						.ForEach(s => SearchFiles(s, filters, true, searchHidden));
+						.ForEach(s => SearchFiles(s, filters, true, searchHidden, order));
 				}
 			}
 			catch (UnauthorizedAccessException) { }

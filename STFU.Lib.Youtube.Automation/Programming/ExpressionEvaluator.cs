@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using STFU.Lib.Common;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Programming
@@ -28,12 +30,14 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		private string TemplateName { get; set; }
 		private string CSharpPreparationScript { get; set; }
 		private string CSharpCleanupScript { get; set; }
+		private string ReferencedAssembliesText { get; set; }
 
 		private ScriptState<object> CsScript { get; set; }
+		private ScriptOptions Options { get; set; }
 
 		private IList<IPlannedVideo> PlannedVideos { get; set; } = new List<IPlannedVideo>();
 
-		public ExpressionEvaluator(string filepath, string templatename, IList<IPlannedVideo> plannedVideos, string csharpPreparationScript, string csharpCleanupScript)
+		public ExpressionEvaluator(string filepath, string templatename, IList<IPlannedVideo> plannedVideos, string csharpPreparationScript, string csharpCleanupScript, string referencedAssembliesText)
 		{
 			FilePath = filepath;
 			TemplateName = templatename;
@@ -41,16 +45,58 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 			CSharpPreparationScript = csharpPreparationScript;
 			CSharpCleanupScript = csharpCleanupScript;
+			ReferencedAssembliesText = referencedAssembliesText;
 
 			CreateExpressionEvaluator().Wait();
 		}
 
 		private async Task CreateExpressionEvaluator()
 		{
-			foreach (var var in GlobalVariables)
-			{
-				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+			Options = ScriptOptions.Default;
 
+			var assemblyLines = ReferencedAssembliesText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+			foreach (var line in assemblyLines)
+			{
+				if (!line.StartsWith("//") && !string.IsNullOrWhiteSpace(line))
+				{
+					var trimmed = line.Trim();
+
+					try
+					{
+						var assembly = Assembly.LoadFrom(trimmed);
+						Options = Options.AddReferences(assembly);
+					}
+					catch (Exception ex1)
+					{
+						try
+						{
+							var netAssembly = Assembly.Load(trimmed);
+							Options = Options.AddReferences(netAssembly);
+						}
+						catch (Exception ex2)
+						{
+							try
+							{
+								var gacAssemblyPath = AssemblyNameResolver.GetAssemblyPath(trimmed);
+								var gacAssembly = Assembly.LoadFrom(gacAssemblyPath);
+								Options = Options.AddReferences(gacAssembly);
+							}
+							catch (Exception ex3)
+							{
+								ErrorLogger.LogException(ex1, $"Die Referenz {trimmed} sollte geladen werden.");
+								ErrorLogger.LogException(ex2, $"Die Referenz {trimmed} sollte geladen werden.");
+								ErrorLogger.LogException(ex3, $"Die Referenz {trimmed} sollte geladen werden.");
+							}
+						}
+					}
+				}
+			}
+
+			CsScript = null;
+
+			foreach (var func in StandardFunctions.GlobalFunctions)
+			{
 				if (CsScript == null)
 				{
 					CsScript = await CSharpScript.RunAsync(func);
@@ -61,30 +107,20 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				}
 			}
 
+			foreach (var var in GlobalVariables)
+			{
+				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+				CsScript = await CsScript.ContinueWithAsync(func);
+			}
+
 			try
 			{
-				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript);
+				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript, Options);
 			}
 			catch (CompilationErrorException ex)
 			{
 				CsScript = await CSharpScript.RunAsync("using System;");
-
-				if (!Directory.Exists("errors"))
-				{
-					Directory.CreateDirectory("errors");
-				}
-
-				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-				{
-					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-					writer.WriteLine();
-					WriteException(ex, writer, CSharpPreparationScript);
-
-					writer.WriteLine();
-					writer.WriteLine("=======================");
-					writer.WriteLine();
-					writer.WriteLine();
-				}
+				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpPreparationScript}");
 			}
 		}
 
@@ -92,29 +128,56 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		{
 			try
 			{
-				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript);
+				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript, Options);
 			}
 			catch (CompilationErrorException ex)
 			{
-				if (!Directory.Exists("errors"))
-				{
-					Directory.CreateDirectory("errors");
-				}
+				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpCleanupScript}");
+			}
+		}
 
-				using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-				{
-					writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-					writer.WriteLine();
-					WriteException(ex, writer, CSharpPreparationScript);
+		public static bool IsValid(string expression)
+		{
+			var valid = true;
 
-					writer.WriteLine();
-					writer.WriteLine("=======================");
-					writer.WriteLine();
-					writer.WriteLine();
+			if (expression == null)
+			{
+				expression = string.Empty;
+			}
+
+			for (int currentPos = 0; currentPos < expression.Length; currentPos++)
+			{
+				if (expression[currentPos] == '<')
+				{
+					ScriptType scriptType = FindScriptType(expression, currentPos);
+
+					// Get if it is a simple script
+					if (scriptType == ScriptType.Simple)
+					{
+						int closingPos = FindClosingPosition(expression, currentPos);
+						if (closingPos < 0)
+						{
+							valid = false;
+							break;
+						}
+						else
+						{
+							currentPos = closingPos + 1;
+						}
+					}
+					else
+					{
+						currentPos = FindComplexClosingPosition(expression, currentPos);
+						if (currentPos < 0)
+						{
+							valid = false;
+							break;
+						}
+					}
 				}
 			}
 
-			CsScript = null;
+			return valid;
 		}
 
 		public static bool IsFieldOnlyInDescription(string fieldname, ITemplate template)
@@ -201,77 +264,40 @@ namespace STFU.Lib.Youtube.Automation.Programming
 					else
 					{
 						int closingPos = FindComplexClosingPosition(text, currentPos);
-
-						string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
-						string script = wholeText.Substring(3, closingPos - currentPos - 3);
-
-						string result = string.Empty;
-
-						try
+						if (closingPos > currentPos)
 						{
-							var state = CsScript.ContinueWithAsync(script);
+							string wholeText = text.Substring(currentPos, closingPos + 3 - currentPos);
+							string script = wholeText.Substring(3, closingPos - currentPos - 3);
 
-							if (state.Status != TaskStatus.Faulted)
+							string result = string.Empty;
+
+							try
 							{
-								state.Wait();
+								var state = CsScript.ContinueWithAsync(script);
 
-								result = state.Result.ReturnValue?.ToString() ?? string.Empty;
+								if (state.Status != TaskStatus.Faulted)
+								{
+									state.Wait();
+
+									result = state.Result.ReturnValue?.ToString() ?? string.Empty;
+								}
 							}
+							catch (CompilationErrorException ex)
+							{
+								ErrorLogger.LogException(ex, $"Auszuführendes Script: {script}");
+							}
+
+							string before = text.Substring(0, currentPos);
+							string after = text.Substring(closingPos + 3);
+
+							text = $"{before}{result}{after}";
 						}
-						catch (CompilationErrorException ex)
-						{
-							if (!Directory.Exists("errors"))
-							{
-								Directory.CreateDirectory("errors");
-							}
-
-							using (StreamWriter writer = new StreamWriter($"errors/{DateTime.Now.ToString("yyyy-MM-dd")}.txt", true))
-							{
-								writer.WriteLine($"Exception aufgetreten. Zeitpunkt: {DateTime.Now.ToString()}");
-								writer.WriteLine();
-								WriteException(ex, writer, script);
-
-								writer.WriteLine();
-								writer.WriteLine("=======================");
-								writer.WriteLine();
-								writer.WriteLine();
-							}
-						}
-
-						string before = text.Substring(0, currentPos);
-						string after = text.Substring(closingPos + 3);
-
-						text = $"{before}{result}{after}";
 					}
 
 				}
 			}
 
-			return text;
-		}
-
-		private void WriteException(Exception ex, StreamWriter writer, string script)
-		{
-			WriteException(ex, writer, script, "");
-		}
-
-		private void WriteException(Exception ex, StreamWriter writer, string script, string prefix)
-		{
-			writer.WriteLine($"{prefix}Fehlermeldung: {ex.Message}");
-			writer.WriteLine($"{prefix}Source: {ex.Source}");
-			writer.WriteLine($"{prefix}Stacktrace: {ex.StackTrace}");
-			writer.WriteLine($"{prefix}TargetSite: {ex.TargetSite}");
-			writer.WriteLine($"{prefix}Hilfelink: {ex.HelpLink}");
-
-			if (script != null)
-			{
-				writer.WriteLine($"{prefix}Auszuführendes Script: {script}");
-			}
-
-			if (ex.InnerException != null)
-			{
-				WriteException(ex.InnerException, writer, null, "        ");
-			}
+			return text.Replace("<", "").Replace(">", "");
 		}
 
 		private static ScriptType FindScriptType(string text, int currentPos)

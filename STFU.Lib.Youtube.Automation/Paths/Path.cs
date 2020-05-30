@@ -51,6 +51,12 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 		public int SelectedTemplateId { get; set; }
 
+		public bool MoveAfterUpload { get; set; } = false;
+
+		public string MoveDirectoryPath { get; set; } = string.Empty;
+
+		public FoundFilesOrderByFilter SearchOrder { get; set; } = FoundFilesOrderByFilter.NameAsc;
+
 		public int? GetDifference(string pathToCheck)
 		{
 			int? result = null;

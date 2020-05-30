@@ -43,16 +43,47 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		public TemplateForm(TemplatePersistor persistor, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
+		public TemplateForm(TemplatePersistor persistor,
+			IYoutubeCategoryContainer categoryContainer,
+			IYoutubeLanguageContainer languageContainer,
+			bool accountHasMailEnabled)
 		{
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
 
 			templatePersistor = persistor;
-			this.templateContainer = persistor.Container;
+			templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
+
+			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
+			if (accountHasMailEnabled)
+			{
+				connectMailNotificationLabel.Visible = false;
+
+				newVideoMNCheckbox.Enabled = true;
+				uploadStartedMNCheckbox.Enabled = true;
+				uploadFinishedMNCheckbox.Enabled = true;
+				uploadFailedMNCheckbox.Enabled = true;
+
+				mailRecipientTextbox.Enabled = true;
+			}
+			else
+			{
+				connectMailNotificationLabel.Visible = true;
+
+				newVideoMNCheckbox.Enabled = false;
+				uploadStartedMNCheckbox.Enabled = false;
+				uploadFinishedMNCheckbox.Enabled = false;
+				uploadFailedMNCheckbox.Enabled = false;
+
+				mailRecipientTextbox.Enabled = false;
+			}
 		}
 
 		private void addTemplateButtonClick(object sender, EventArgs e)
@@ -114,7 +145,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void TemplateFormLoad(object sender, EventArgs e)
 		{
 			RefillListView();
-			//privacyComboBox.SelectedIndex = 2;
+
+			cSharpSystemFunctionsFctb.Text = StandardFunctions.GlobalFunctions.Aggregate((a, b) => $"{a}{Environment.NewLine}{Environment.NewLine}{b}");
+			cSharpScriptingTabControl.SelectedIndex = 2;
 		}
 
 		private void deleteTemplateButtonClick(object sender, EventArgs e)
@@ -185,6 +218,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			templateValuesTabControl.SelectedIndex = 0;
 
+			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
 			RefillPlannedVideosListView();
 		}
 
@@ -219,8 +257,19 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			thumbnailTextbox.Text = template.ThumbnailPath;
 
+			useExpertmodeCheckbox.Checked = template.EnableExpertMode;
+			if (template.EnableExpertMode && !templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Add(cSharpTabPage);
+			}
+			else if (!template.EnableExpertMode && templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+			{
+				templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+			}
+
 			cSharpPrepareFctb.Text = template.CSharpPreparationScript;
 			cSharpCleanupFctb.Text = template.CSharpCleanUpScript;
+			assemblyReferencesFctb.Text = template.ReferencedAssembliesText;
 
 			RefillTimesListView();
 
@@ -230,6 +279,19 @@ namespace STFU.Executable.AutoUploader.Forms
 				timesListView.SelectedIndices.Clear();
 				timesListView.SelectedIndices.Add(0);
 			}
+
+			nextPublishTimeDtp.Value = template.NextUploadSuggestion;
+
+			mailRecipientTextbox.Text = template.MailTo;
+
+			newVideoDNCheckbox.Checked = template.NewVideoDesktopNotification;
+			newVideoMNCheckbox.Checked = template.NewVideoMailNotification;
+			uploadStartedDNCheckbox.Checked = template.UploadStartedDesktopNotification;
+			uploadStartedMNCheckbox.Checked = template.UploadStartedMailNotification;
+			uploadFinishedDNCheckbox.Checked = template.UploadFinishedDesktopNotification;
+			uploadFinishedMNCheckbox.Checked = template.UploadFinishedMailNotification;
+			uploadFailedDNCheckbox.Checked = template.UploadFailedDesktopNotification;
+			uploadFailedMNCheckbox.Checked = template.UploadFailedMailNotification;
 
 			skipDirtyManipulation = false;
 		}
@@ -400,18 +462,59 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (saveTemplateButton.Enabled && templateListView.SelectedIndices.Count == 1)
 			{
-				reordering = true;
-				templateContainer.UpdateTemplate(current);
-				templatePersistor.Save();
+				if (ScriptsAreValid())
+				{
+					reordering = true;
+					templateContainer.UpdateTemplate(current);
+					templatePersistor.Save();
 
-				IsDirty = false;
+					IsDirty = false;
 
-				templateListView.Items[templateListView.SelectedIndices[0]].Text
-					= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
-				reordering = false;
+					templateListView.Items[templateListView.SelectedIndices[0]].Text
+						= !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
+					reordering = false;
 
-				templateListViewSelectedIndexChanged(sender, e);
+					templateListViewSelectedIndexChanged(sender, e);
+				}
+				else
+				{
+					MessageBox.Show(this, $"Änderungen konnten nicht gespeichert werden.{Environment.NewLine}Bitte überprüfe folgende Felder: {invalidFields.Aggregate((a, b) => $"{a}, {b}")}.{Environment.NewLine}{Environment.NewLine}Darin ist ein Script nicht mit > oder >>> korrekt geschlossen, sodass ein Feld fehlerhaft ist.", "Scripts nicht korrekt abgeschlossen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
+		}
+
+		private IList<string> invalidFields = new List<string>();
+
+		private bool ScriptsAreValid()
+		{
+			var titleValid = ExpressionEvaluator.IsValid(current.Title);
+			var descriptionValid = ExpressionEvaluator.IsValid(current.Description);
+			var tagsValid = ExpressionEvaluator.IsValid(current.Tags);
+			var thumbnailPathValid = ExpressionEvaluator.IsValid(current.ThumbnailPath);
+
+			invalidFields.Clear();
+
+			if (!titleValid)
+			{
+				invalidFields.Add("Titel");
+			}
+
+			if (!descriptionValid)
+			{
+				invalidFields.Add("Beschreibung");
+			}
+
+			if (!tagsValid)
+			{
+				invalidFields.Add("Tags");
+			}
+
+			if (!thumbnailPathValid)
+			{
+				invalidFields.Add("Thumbnailpfad");
+			}
+
+			return titleValid && descriptionValid && tagsValid && thumbnailPathValid;
 		}
 
 		private void templateNameTextboxTextChanged(object sender, EventArgs e)
@@ -915,12 +1018,129 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearFilenamesButtonClick(object sender, EventArgs e)
 		{
-			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) )
+			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
 			{
 				current.PlannedVideos.Clear();
 				IsDirty = true;
 				RefillPlannedVideosListView();
 				RefillFillFieldsListView();
+			}
+		}
+
+		private void useExpertmodeCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null)
+			{
+				current.EnableExpertMode = useExpertmodeCheckbox.Checked;
+				if (current.EnableExpertMode && !templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+				{
+					templateValuesTabControl.TabPages.Add(cSharpTabPage);
+				}
+				else if (!current.EnableExpertMode && templateValuesTabControl.TabPages.Contains(cSharpTabPage))
+				{
+					templateValuesTabControl.TabPages.Remove(cSharpTabPage);
+				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void assemblyReferencesFctb_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+		{
+			if (current != null)
+			{
+				current.ReferencedAssembliesText = assemblyReferencesFctb.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void mailRecipientTextbox_TextChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.MailTo = mailRecipientTextbox.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void newVideoDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NewVideoDesktopNotification = newVideoDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void newVideoMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NewVideoMailNotification = newVideoMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadStartedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadStartedDesktopNotification = uploadStartedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadStartedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadStartedMailNotification = uploadStartedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFinishedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFinishedDesktopNotification = uploadFinishedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFinishedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFinishedMailNotification = uploadFinishedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFailedDNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFailedDesktopNotification = uploadFailedDNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void uploadFailedMNCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.UploadFailedMailNotification = uploadFailedMNCheckbox.Checked;
+				IsDirty = true;
+			}
+		}
+
+		private void nextPublishTimeDtp_ValueChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.NextUploadSuggestion = nextPublishTimeDtp.Value;
+				IsDirty = true;
 			}
 		}
 	}

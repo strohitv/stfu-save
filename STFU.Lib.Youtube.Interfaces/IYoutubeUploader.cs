@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Interfaces.Model.Handler;
 
 namespace STFU.Lib.Youtube.Interfaces
 {
@@ -23,6 +24,21 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// Gets or sets the maximum amount of videos that may be uploaded at a time
 		/// </summary>
 		int MaxSimultaneousUploads { get; set; }
+
+		/// <summary>
+		/// Gets the current average progress of all running jobs
+		/// </summary>
+		int Progress { get; }
+
+		/// <summary>
+		/// Gets or sets if the Uploader should limit its jobs upload speed
+		/// </summary>
+		bool LimitUploadSpeed { get; set; }
+
+		/// <summary>
+		/// Gets or sets the speed each job is allowed to upload
+		/// </summary>
+		long UploadLimitKByte { get; set; }
 
 		/// <summary>
 		/// Current State of the uploader
@@ -54,23 +70,42 @@ namespace STFU.Lib.Youtube.Interfaces
 		/// <summary>
 		/// Adds a job to queue.
 		/// </summary>
+		/// <param name="video"></param>
+		/// <param name="account"></param>
+		IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account, INotificationSettings notificationSettings);
+
+		/// <summary>
+		/// Adds a job to queue.
+		/// </summary>
 		/// <param name="job"></param>
-		/// <exception cref="ArgumentException">Thrown when Job is already contained in queue.</exception>
-		IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account);
+		IYoutubeJob QueueUpload(IYoutubeJob job);
 
 		/// <summary>
 		/// Removes a job from queue.
 		/// </summary>
 		/// <param name="job"></param>
-		/// <exception cref="ArgumentException">Thrown when Job is not contained in queue.</exception>
 		void RemoveFromQueue(IYoutubeJob job);
 
 		/// <summary>
-		/// switches two jobs in queue.
+		/// Switches a jobs Position in queue
 		/// </summary>
-		/// <param name="first"></param>
-		/// <param name="second"></param>
-		/// <exception cref="ArgumentException">Thrown when at least one Job is not contained in queue.</exception>
-		void ChangePositionInQueue(IYoutubeJob first, IYoutubeJob second);
+		/// <param name="job"></param>
+		/// <param name="newPosition"></param>
+		void ChangePosition(IYoutubeJob job, int newPosition);
+
+		/// <summary>
+		/// Fired when a new Upload is added to the queue
+		/// </summary>
+		event JobQueuedEventHandler JobQueued;
+
+		/// <summary>
+		/// Fired when a Upload is removed from the queue
+		/// </summary>
+		event JobDequeuedEventHandler JobDequeued;
+
+		/// <summary>
+		/// Fired when a Upload is removed from the queue
+		/// </summary>
+		event JobPositionChangedEventHandler JobPositionChanged;
 	}
 }

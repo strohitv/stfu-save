@@ -1,18 +1,26 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using STFU.Executable.StandardUploader.Forms;
+using Microsoft.WindowsAPICodePack.Taskbar;
+using STFU.Lib.GUI.Forms;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
+using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Enums;
 using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Youtube.Model;
 using STFU.Lib.Youtube.Persistor;
 using STFU.Lib.Youtube.Persistor.Model;
+using STFU.Lib.Youtube.Services;
+using STFU.Lib.Youtube.Upload;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
@@ -24,9 +32,14 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeAccountContainer accountContainer = new YoutubeAccountContainer();
 		IYoutubeCategoryContainer categoryContainer = new YoutubeCategoryContainer();
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
+		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
+		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
-		IAutomationUploader autoUploader = new AutomationUploader();
-		IProcessContainer processContainer = new ProcessContainer();
+
+		IAutomationUploader autoUploader;
+
+		ProcessList processes = new ProcessList();
 
 		AutoUploaderSettings autoUploaderSettings = new AutoUploaderSettings();
 
@@ -36,8 +49,14 @@ namespace STFU.Executable.AutoUploader.Forms
 		CategoryPersistor categoryPersistor = null;
 		LanguagePersistor languagePersistor = null;
 		AutoUploaderSettingsPersistor settingsPersistor = null;
+		JobPersistor queuePersistor = null;
+		JobPersistor archivePersistor = null;
 
 		private bool showReleaseNotes = false;
+		bool ended = false;
+		bool canceled = false;
+
+		int progress = 0;
 
 		public MainForm(bool showReleaseNotes)
 		{
@@ -46,37 +65,74 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.showReleaseNotes = showReleaseNotes;
 
 			Text = $"Strohis Toolset Für Uploads - AutoUploader v{ProductVersion} [BETA]";
+		}
 
-			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
-				"cKUCRQz0sE4UUmvUHW6qckbP",
-				"Strohis Toolset Für Uploads", false);
-			clientContainer.RegisterClient(client);
+		private void RefillArchiveView()
+		{
+			archiveListView.Items.Clear();
 
-			if (!Directory.Exists("./settings"))
+			foreach (var job in archiveContainer.RegisteredJobs)
 			{
-				Directory.CreateDirectory("./settings");
+				ListViewItem item = new ListViewItem(job.Video.Title);
+				item.SubItems.Add(job.Video.Path);
+				archiveListView.Items.Add(item);
 			}
+		}
 
-			pathPersistor = new PathPersistor(pathContainer, "./settings/paths.json");
-			pathPersistor.Load();
+		private void UploaderNewUploadStarted(UploadStartedEventArgs args)
+		{
+			args.Job.PropertyChanged += Job_PropertyChanged;
 
-			templatePersistor = new TemplatePersistor(templateContainer, "./settings/templates.json");
-			templatePersistor.Load();
+			if (args.Job.NotificationSettings.NotifyOnVideoUploadStartedDesktop)
+			{
+				notifyIcon.ShowBalloonTip(
+					10000,
+					"Upload wurde gestartet",
+					$"Das Video '{args.Job.Video.Title}' wird nun hochgeladen.",
+					ToolTipIcon.Info
+				);
+			}
+		}
 
-			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
-			accountPersistor.Load();
+		private void Job_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IYoutubeJob.State))
+			{
+				var job = (IYoutubeJob)sender;
 
-			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
-			categoryPersistor.Load();
+				if (job.State == JobState.Successful)
+				{
+					if (job.NotificationSettings.NotifyOnVideoUploadFinishedDesktop)
+					{
+						notifyIcon.ShowBalloonTip(
+							10000,
+							"Upload abgeschlossen!",
+							$"Das Video '{job.Video.Title}' wurde erfolgreich hochgeladen.",
+							ToolTipIcon.Info
+						);
+					}
+				}
+				else if (job.State == JobState.Error)
+				{
+					if (job.NotificationSettings.NotifyOnVideoUploadFailedDesktop)
+					{
+						notifyIcon.ShowBalloonTip(
+							10000,
+							"Upload fehlgeschlagen.",
+							$"Das Video '{job.Video.Title}' konnte aufgrund eines Fehlers nicht hochgeladen werden.",
+							ToolTipIcon.Info
+						);
+					}
+				}
 
-			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
-			languagePersistor.Load();
-
-			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
-			settingsPersistor.Load();
-
-			RefillListView();
-			ActivateAccountLink();
+				if (job.State == JobState.NotStarted
+					|| job.State == JobState.Canceled
+					|| job.State == JobState.Error
+					|| job.State == JobState.Successful)
+				{
+					job.PropertyChanged -= Job_PropertyChanged;
+				}
+			}
 		}
 
 		private void RefillListView()
@@ -98,7 +154,23 @@ namespace STFU.Executable.AutoUploader.Forms
 				newItem.SubItems.Add(entry.SearchRecursively ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
+				newItem.SubItems.Add(entry.MoveAfterUpload ? "Ja" : "Nein");
 			}
+		}
+		private void AutoUploader_FileToUploadOccured(object sender, JobEventArgs e)
+		{
+			if (e.Job.NotificationSettings.NotifyOnVideoFoundDesktop)
+			{
+				notifyIcon.ShowBalloonTip(
+					10000,
+					"Neues Video in der Warteschlange",
+					$"Das Video '{e.Job.Video.Title}' wurde in die Warteschlange aufgenommen.",
+					ToolTipIcon.Info
+				);
+			}
+
+			// Aktualisiertes Hochladedatum im Template speichern
+			templatePersistor.Save();
 		}
 
 		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
@@ -120,13 +192,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, YoutubeScope.Manage).AbsoluteUri;
-			addForm.LocalHostUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, YoutubeScope.Manage).AbsoluteUri;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
+			addForm.SendMailAuthUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage | GoogleScope.SendMail).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
 			if (result == DialogResult.OK
-				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, client, YoutubeRedirectUri.Code)) != null)
+				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Code)) != null)
 			{
 				accountContainer.RegisterAccount(account);
 
@@ -162,79 +234,213 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ActivateAccountLink()
 		{
-			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
+			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = addVideosToQueueButton.Enabled = clearVideosButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
 			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			btnStart.Enabled = true;
+			queueStatusButton.Enabled = true;
 		}
 
 		private void btnStartClick(object sender, EventArgs e)
 		{
+			if (autoUploader.State == RunningState.NotRunning && ConditionsForStartAreFullfilled())
+			{
+				var publishSettings = pathContainer.ActivePaths
+					.Select(path => new ObservationConfiguration(path, templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == path.SelectedTemplateId)))
+					.ToArray();
+
+				SetUpAutoUploaderAndQueue(publishSettings);
+
+				autoUploader.StartAsync();
+			}
+			else
+			{
+				canceled = true;
+				autoUploader.Cancel(true);
+				autoUploader.Uploader.CancelAll();
+			}
+		}
+
+		private void zeitenFestlegenUndAutouploaderStartenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (autoUploader.State == RunningState.NotRunning && ConditionsForStartAreFullfilled())
+			{
+				ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
+				var shouldStartUpload = cstForm.ShowDialog(this);
+
+				if (shouldStartUpload == DialogResult.OK)
+				{
+					SetUpAutoUploaderAndQueue(cstForm.GetPublishSettingsArray());
+					autoUploader.StartWithExtraConfigAsync();
+				}
+			}
+			else
+			{
+				canceled = true;
+				autoUploader.Cancel(true);
+				autoUploader.Uploader.CancelAll();
+			}
+		}
+
+		private void SetUpAutoUploaderAndQueue(IObservationConfiguration[] publishSettings)
+		{
+			autoUploader.Account = accountContainer.RegisteredAccounts.First();
+
+			autoUploader.Configuration.Clear();
+			foreach (var setting in publishSettings)
+			{
+				autoUploader.Configuration.Add(setting);
+			}
+
+			jobQueue.Fill(categoryContainer, languageContainer);
+
+			jobQueue.ShowActionsButtons = true;
+			jobQueue.Uploader = autoUploader.Uploader;
+		}
+
+		private bool ConditionsForStartAreFullfilled()
+		{
 			if (accountContainer.RegisteredAccounts.Count == 0)
 			{
 				MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
+				return false;
 			}
 
 			if (pathContainer.ActivePaths.Count == 0)
 			{
 				MessageBox.Show(this, "Es wurden keine Pfade hinzugefügt, die der Uploader überwachen soll und die auf aktiv gesetzt sind. Er würde deshalb nichts hochladen. Bitte zuerst Pfade hinzufügen.", "Keine Pfade vorhanden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
+				return false;
 			}
 
-			Visible = false;
-			ShowInTaskbar = false;
+			return true;
+		}
 
-			ChooseStartTimesForm cstForm = new ChooseStartTimesForm(pathContainer, templateContainer);
-
-			if (cstForm.ShowDialog(this) == DialogResult.OK)
+		delegate void action();
+		private void UploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IYoutubeUploader.State))
 			{
-				var publishSettings = cstForm.GetPublishSettingsArray();
-				var account = accountContainer.RegisteredAccounts.First();
-				var uploader = new YoutubeUploader();
-				uploader.StopAfterCompleting = false;
-				uploader.RemoveCompletedJobs = true;
-
-				autoUploader = new AutomationUploader(uploader, account, publishSettings);
-				autoUploader.ProcessContainer = processContainer;
-
-				UploadForm uploadForm = new UploadForm(autoUploader, cmbbxFinishAction.SelectedIndex);
-				if (uploadForm.ShowDialog(this) == DialogResult.OK)
+				if (autoUploader.Uploader.State == UploaderState.Waiting)
 				{
-					cmbbxFinishAction.SelectedIndex = uploadForm.UploadEndedActionIndex;
-
-					// Upload wurde regulär beendet.
-					switch (cmbbxFinishAction.SelectedIndex)
-					{
-						case 2:
-							Close();
-							return;
-						case 3:
-							Process.Start("shutdown.exe", "-s -t 60");
-							Close();
-							return;
-						default:
-							break;
-					}
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 				}
+
+				if (autoUploader.State == RunningState.NotRunning && autoUploader.Uploader.State == UploaderState.Waiting 
+					&& autoUploader.Uploader.Queue.All(j => j.State == JobState.Canceled || j.State == JobState.Error || j.State == JobState.Successful))
+				{
+					ended = true;
+				}
+
+				if (autoUploader.Uploader.State == UploaderState.NotRunning)
+				{
+					ended = true;
+					Invoke(new action(() => queueStatusLabel.Text = "Die Warteschlange ist gestoppt"));
+				}
+				else
+				{
+					Invoke(new action(() => queueStatusLabel.Text = "Die Warteschlange wird abgearbeitet"));
+				}
+
+				RenameStartButton();
+			}
+			else if (e.PropertyName == nameof(IYoutubeUploader.Progress))
+			{
+				progress = autoUploader.Uploader.Progress;
+
+				try
+				{
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Handle)));
+					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(progress, 10000, Handle)));
+				}
+				catch (InvalidOperationException)
+				{ }
+			}
+		}
+
+		private void RenameStartButton()
+		{
+			if (autoUploader.State == RunningState.NotRunning)
+			{
+				Invoke(new action(() => btnStart.Text = "Sofort starten!"));
+				Invoke(new action(() => zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Enabled = true));
+			}
+			else
+			{
+				Invoke(new action(() => btnStart.Text = "Abbrechen!"));
+				Invoke(new action(() => zeitenFestlegenUndAutouploaderStartenToolStripMenuItem.Enabled = false));
 			}
 
-			// Fenster wieder anzeigen.
-			ShowInTaskbar = true;
-			Visible = true;
+			if (autoUploader.Uploader.State == UploaderState.NotRunning)
+			{
+				Invoke(new action(() => queueStatusButton.Text = "Start!"));
+			}
+			else
+			{
+				Invoke(new action(() => queueStatusButton.Text = "Abbrechen!"));
+			}
+		}
+
+		private void AutoUploaderPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(autoUploader.State))
+			{
+				if (autoUploader.State == RunningState.NotRunning)
+				{
+					ended = true;
+					Invoke(new action(() => autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt"));
+				}
+				else
+				{
+					Invoke(new action(() => autoUploaderStateLabel.Text = "Der AutoUploader läuft und fügt gefundene Videos automatisch hinzu"));
+				}
+
+				RenameStartButton();
+			}
 		}
 
 		private void MainFormLoad(object sender, EventArgs e)
 		{
-			cmbbxFinishAction.SelectedIndex = 0;
 			bgwCreateUploader.RunWorkerAsync();
 		}
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-			autoUploader?.Cancel();
+			if (autoUploader.Uploader.State == UploaderState.Uploading)
+			{
+				var result = MessageBox.Show(this, $"Aktuell werden Videos hochgeladen! Das Hochladen wird abgebrochen und kann beim nächsten Start des Programms fortgesetzt werden.{Environment.NewLine}{Environment.NewLine}Möchtest du das Programm wirklich schließen?", "Schließen bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+				if (result == DialogResult.No)
+				{
+					e.Cancel = true;
+					return;
+				}
+			}
+
+			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
+
+			autoUploader?.Cancel(false);
 			pathPersistor.Save();
 			templatePersistor.Save();
+
+			for (int i = 0; i < queueContainer.RegisteredJobs.Count; i++)
+			{
+				var job = queueContainer.RegisteredJobs.ElementAt(i);
+				if (job.State == JobState.Successful)
+				{
+					queueContainer.UnregisterJobAt(i);
+					archiveContainer.RegisterJob(job);
+					i--;
+				}
+				else if (job.State == JobState.Running)
+				{
+					job.Reset();
+				}
+			}
+
+			queuePersistor.Save();
+			archivePersistor.Save();
 		}
 
 		private void RevokeAccess()
@@ -246,6 +452,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			MessageBox.Show(this, "Die Verbindung zum Youtube-Account wurde erfolgreich getrennt.", "Verbindung getrennt!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			btnStart.Enabled = false;
+			queueStatusButton.Enabled = false;
 
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
@@ -260,11 +467,76 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
-			//uploader = new AutomationUploader();
+			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
+				"cKUCRQz0sE4UUmvUHW6qckbP",
+				"Strohis Toolset Für Uploads", false);
+			clientContainer.RegisterClient(client);
+
+			if (!Directory.Exists("./settings"))
+			{
+				Directory.CreateDirectory("./settings");
+			}
+
+			pathPersistor = new PathPersistor(pathContainer, "./settings/paths.json");
+			pathPersistor.Load();
+
+			templatePersistor = new TemplatePersistor(templateContainer, "./settings/templates.json");
+			templatePersistor.Load();
+
+			accountPersistor = new AccountPersistor(accountContainer, "./settings/accounts.json", clientContainer);
+			accountPersistor.Load();
+
+			categoryPersistor = new CategoryPersistor(categoryContainer, "./settings/categories.json");
+			categoryPersistor.Load();
+
+			languagePersistor = new LanguagePersistor(languageContainer, "./settings/languages.json");
+			languagePersistor.Load();
+
+			settingsPersistor = new AutoUploaderSettingsPersistor(autoUploaderSettings, "./settings/autouploader.json");
+			settingsPersistor.Load();
+
+			queuePersistor = new JobPersistor(queueContainer, "./settings/queue.json");
+			queuePersistor.Load();
+
+			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
+			archivePersistor.Load();
+
+			foreach (var item in queueContainer.RegisteredJobs)
+			{
+				item.Account = accountContainer.RegisteredAccounts.FirstOrDefault(a => a.Id == item.Account.Id);
+
+				if (item.Account == null)
+				{
+					item.Account = accountContainer.RegisteredAccounts.FirstOrDefault();
+				}
+			}
+
+			var uploader = new YoutubeUploader(queueContainer);
+			uploader.StopAfterCompleting = false;
+			uploader.RemoveCompletedJobs = false;
+
+			autoUploader = new AutomationUploader(uploader, archiveContainer);
+			autoUploader.WatchedProcesses = processes;
+
+			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
+			autoUploader.Uploader.PropertyChanged += UploaderPropertyChanged;
+			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
+			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
+
+			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
+			cmbbxFinishAction.SelectedIndex = 0;
+
+			limitUploadSpeedCombobox.SelectedIndex = 1;
+
+			RefillListView();
+			RefillArchiveView();
+			ActivateAccountLink();
+
 			if (File.Exists("stfu-updater.exe"))
 			{
 				try
@@ -302,7 +574,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			tlpSettings.Enabled = true;
 
-			btnStart.Enabled = accountContainer.RegisteredAccounts.Count > 0;
+			btnStart.Enabled = queueStatusButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 
 			RefillListView();
 		}
@@ -334,20 +606,20 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
-				processContainer.RemoveAllProcesses();
+				processes.Clear();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
-			ProcessForm processChoser = new ProcessForm(processContainer.ProcessesToWatch);
+			ProcessForm processChoser = new ProcessForm(processes.Where(p => !p.HasExited).ToList());
 			processChoser.ShowDialog(this);
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
 				var procs = processChoser.Selected;
-				processContainer.RemoveAllProcesses();
-				processContainer.AddProcesses(procs);
+				processes.Clear();
+				processes.AddRange(procs);
 			}
 			else
 			{
@@ -357,11 +629,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void cmbbxFinishActionSelectedIndexChanged(object sender, EventArgs e)
 		{
-			chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex != 0;
+			autoUploader.EndAfterUpload = chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex > 0;
 
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
-				processContainer.RemoveAllProcesses();
+				processes.Clear();
 				chbChoseProcesses.Checked = false;
 			}
 		}
@@ -373,7 +645,10 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void templatesToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			TemplateForm tf = new TemplateForm(templatePersistor, categoryContainer, languageContainer);
+			TemplateForm tf = new TemplateForm(templatePersistor,
+				categoryContainer,
+				languageContainer,
+				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
 
@@ -382,11 +657,14 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			PathForm pf = new PathForm(pathContainer, templateContainer);
+			PathForm pf = new PathForm(pathContainer, templateContainer, queueContainer, archiveContainer, accountContainer);
 			pf.ShowDialog(this);
+
 			pathPersistor.Save();
+			archivePersistor.Save();
 
 			RefillListView();
+			RefillArchiveView();
 		}
 
 		private void verbindenToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -427,11 +705,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			Process.Start("https://drive.google.com/drive/folders/1kCRPLg-95PjbQKjEpj-HW7tjvzmZ87RI");
 		}
 
-		private void tutorialVideoToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Process.Start("https://www.youtube.com/watch?v=XjYvy36BrNo");
-		}
-
 		private void threadImYTFToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Process.Start("https://ytforum.de/index.php/Thread/19543-BETA-Strohis-Toolset-Für-Uploads-v0-1-1-Videos-automatisch-hochladen/");
@@ -443,6 +716,192 @@ namespace STFU.Executable.AutoUploader.Forms
 			releaseNotesForm.ShowDialog(this);
 
 			settingsPersistor.Save();
+		}
+
+		private void fehlerverzeichnisÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!Directory.Exists("errors"))
+			{
+				Directory.CreateDirectory("errors");
+			}
+
+			Process.Start("explorer.exe", "errors");
+		}
+
+		private void watchingTimer_Tick(object sender, EventArgs e)
+		{
+			if (ended)
+			{
+				if (!canceled)
+				{
+					// Upload wurde regulär beendet.
+					switch (cmbbxFinishAction.SelectedIndex)
+					{
+						case 1:
+							Close();
+							return;
+						case 2:
+							Process.Start("shutdown.exe", "-s -t 60");
+							Close();
+							return;
+						default:
+							break;
+					}
+				}
+
+				ended = false;
+				canceled = false;
+			}
+		}
+
+		private void queueStatusButton_Click(object sender, EventArgs e)
+		{
+			var uploader = autoUploader.Uploader;
+
+			if (uploader.State == UploaderState.NotRunning)
+			{
+				if (accountContainer.RegisteredAccounts.Count == 0)
+				{
+					MessageBox.Show(this, "Es wurde keine Verbindung zu einem Account hergestellt. Bitte zuerst bei einem Youtube-Konto anmelden!", "Kein Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				jobQueue.Fill(categoryContainer, languageContainer);
+
+				jobQueue.ShowActionsButtons = true;
+				jobQueue.Uploader = autoUploader.Uploader;
+
+				uploader.StartUploader();
+			}
+			else
+			{
+				canceled = true;
+				autoUploader.Uploader.CancelAll();
+			}
+		}
+
+		private void archiveRemoveJobButton_Click(object sender, EventArgs e)
+		{
+			RemoveSelectedArchiveJobs();
+		}
+
+		private void RemoveSelectedArchiveJobs()
+		{
+			for (int i = archiveListView.Items.Count - 1; i >= 0; i--)
+			{
+				bool isSelected = archiveListView.SelectedIndices.Contains(i);
+				if (isSelected)
+				{
+					archiveContainer.UnregisterJobAt(i);
+					archiveListView.Items.RemoveAt(i);
+				}
+			}
+
+			archivePersistor.Save();
+		}
+
+		private void videotutorialPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process.Start("https://www.youtube.com/playlist?list=PLm5B9FzOsaWfrn-MeuU_zf7pwooPdPCts");
+		}
+
+		private void archiveAddButton_Click(object sender, EventArgs e)
+		{
+			var result = openFileDialog.ShowDialog(this);
+			if (result == DialogResult.OK)
+			{
+				var files = openFileDialog.FileNames;
+				foreach (var file in files)
+				{
+					archiveContainer.RegisterJob(new YoutubeJob(new YoutubeVideo(file) { Title = file }, accountContainer.RegisteredAccounts.FirstOrDefault(), new UploadStatus()));
+					archiveListView.Items.Add(file);
+				}
+			}
+
+			archivePersistor.Save();
+		}
+
+		private void archiveListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			moveBackToQueueButton.Enabled = archiveRemoveJobButton.Enabled = archiveListView.SelectedIndices.Count > 0;
+		}
+
+		private void moveBackToQueueButton_Click(object sender, EventArgs e)
+		{
+			for (int i = 0; i < archiveListView.SelectedIndices.Count; i++)
+			{
+				var job = archiveContainer.RegisteredJobs.ElementAt(archiveListView.SelectedIndices[i]);
+				job.Reset(true);
+				job.Account = accountContainer.RegisteredAccounts.First();
+				autoUploader.Uploader.QueueUpload(job);
+			}
+
+			RemoveSelectedArchiveJobs();
+		}
+
+		private void limitUploadSpeedCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			autoUploader.Uploader.LimitUploadSpeed = limitUploadSpeedCheckbox.Checked;
+		}
+
+		private void limitUploadSpeedNud_ValueChanged(object sender, EventArgs e)
+		{
+			SetNewUploadSpeedLimit();
+		}
+
+		private void limitUploadSpeedCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SetNewUploadSpeedLimit();
+		}
+
+		private void SetNewUploadSpeedLimit()
+		{
+			long value = (long)limitUploadSpeedNud.Value;
+			long factor = (long)Math.Pow(1000, limitUploadSpeedCombobox.SelectedIndex + 1);
+
+			autoUploader.Uploader.UploadLimitKByte = value * factor;
+		}
+
+		private void addVideosToQueueButton_Click(object sender, EventArgs e)
+		{
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer);
+
+			if (form.ShowDialog(this) == DialogResult.OK)
+			{
+				templatePersistor.Save();
+
+				foreach (var videoAndEvaluator in form.Videos)
+				{
+					var video = videoAndEvaluator.Video;
+					var evaluator = videoAndEvaluator.Evaluator;
+					var notificationSettings = videoAndEvaluator.NotificationSettings;
+
+					var job = autoUploader.Uploader.QueueUpload(video, accountContainer.RegisteredAccounts.First(), notificationSettings);
+					var path = form.TemplateVideoCreator.FindNearestPath(video.File.FullName);
+
+					job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
+
+					if (path != null && path.MoveAfterUpload)
+					{
+						job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
+					}
+				}
+			}
+		}
+
+		private void clearVideosButton_Click(object sender, EventArgs e)
+		{
+			var result = MessageBox.Show(this, $"Hiermit wird die Warteschlange vollständig geleert, alle laufenden Uploads werden abgebrochen.{Environment.NewLine}{Environment.NewLine}Möchtest du das wirklich tun?", "Warteschlange wirklich leeren?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+			if (result == DialogResult.Yes)
+			{
+				autoUploader.Uploader.CancelAll();
+
+				while (autoUploader.Uploader.Queue.Count > 0)
+				{
+					autoUploader.Uploader.RemoveFromQueue(autoUploader.Uploader.Queue.ElementAt(0));
+				}
+			}
 		}
 	}
 }

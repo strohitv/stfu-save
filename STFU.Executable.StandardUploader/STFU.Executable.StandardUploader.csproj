@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,8 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.0.4.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationVersion>0.3.9.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,51 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Queue\JobControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Queue\JobControl.Designer.cs">
-      <DependentUpon>JobControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Queue\JobQueue.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Queue\JobQueue.Designer.cs">
-      <DependentUpon>JobQueue.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\UploadGrid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\UploadGrid.Designer.cs">
-      <DependentUpon>UploadGrid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\AddAccountForm.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddAccountForm.designer.cs">
-      <DependentUpon>AddAccountForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\Queue\JobControl.resx">
-      <DependentUpon>JobControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Queue\JobQueue.resx">
-      <DependentUpon>JobQueue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\UploadGrid.resx">
-      <DependentUpon>UploadGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddAccountForm.resx">
-      <DependentUpon>AddAccountForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -128,21 +92,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.GUI\STFU.Lib.GUI.csproj">
+      <Project>{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}</Project>
+      <Name>STFU.Lib.GUI</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42d1e275-4f3e-4adf-8c4f-c4b3f9a5e49d}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
       <Name>STFU.Lib.Youtube.Model</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Persistor\STFU.Lib.Youtube.Persistor.csproj">
       <Project>{2DF8CA4E-27AD-4C59-A1FD-0110DB602E3A}</Project>
       <Name>STFU.Lib.Youtube.Persistor</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube\STFU.Lib.Youtube.csproj">
       <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
       <Name>STFU.Lib.Youtube</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

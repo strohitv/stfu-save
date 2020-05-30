@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C7F4998-727C-4A7F-BFA8-B24CB9507B73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>STFU.Lib.GUI</RootNamespace>
+    <AssemblyName>STFU.Lib.GUI</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\lib\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\lib\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Queue\JobChangedArgs.cs" />
+    <Compile Include="Controls\Queue\JobChangedType.cs" />
+    <Compile Include="Controls\Queue\JobControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Queue\JobControl.Designer.cs">
+      <DependentUpon>JobControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Queue\JobQueue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Queue\JobQueue.Designer.cs">
+      <DependentUpon>JobQueue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditVideoGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditVideoGrid.Designer.cs">
+      <DependentUpon>EditVideoGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddAccountForm.designer.cs">
+      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddVideosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddVideosForm.Designer.cs">
+      <DependentUpon>AddVideosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditVideoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditVideoForm.Designer.cs">
+      <DependentUpon>EditVideoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Queue\JobControl.resx">
+      <DependentUpon>JobControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Queue\JobQueue.resx">
+      <DependentUpon>JobQueue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EditVideoGrid.resx">
+      <DependentUpon>EditVideoGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddAccountForm.resx">
+      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddVideosForm.resx">
+      <DependentUpon>AddVideosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditVideoForm.resx">
+      <DependentUpon>EditVideoForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Common\STFU.Lib.Common.csproj">
+      <Project>{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}</Project>
+      <Name>STFU.Lib.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
+      <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
+      <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Automation\STFU.Lib.Youtube.Automation.csproj">
+      <Project>{C97271B8-CD14-4130-BD88-E44DC82B8C2F}</Project>
+      <Name>STFU.Lib.Youtube.Automation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
+      <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
+      <Name>STFU.Lib.Youtube.Interfaces</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
+      <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
+      <Name>STFU.Lib.Youtube.Model</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube\STFU.Lib.Youtube.csproj">
+      <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
+      <Name>STFU.Lib.Youtube</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

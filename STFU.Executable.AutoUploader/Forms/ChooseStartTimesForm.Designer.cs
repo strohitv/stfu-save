@@ -61,7 +61,7 @@
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.Size = new System.Drawing.Size(958, 728);
+			this.mainTlp.Size = new System.Drawing.Size(1126, 846);
 			this.mainTlp.TabIndex = 0;
 			// 
 			// chooseCustomTimesControl
@@ -70,7 +70,7 @@
 			this.chooseCustomTimesControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.chooseCustomTimesControl.Location = new System.Drawing.Point(13, 269);
 			this.chooseCustomTimesControl.Name = "chooseCustomTimesControl";
-			this.chooseCustomTimesControl.Size = new System.Drawing.Size(932, 407);
+			this.chooseCustomTimesControl.Size = new System.Drawing.Size(1100, 525);
 			this.chooseCustomTimesControl.TabIndex = 0;
 			// 
 			// startButton
@@ -79,7 +79,7 @@
 			this.startButton.AutoSize = true;
 			this.startButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.startButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.startButton.Location = new System.Drawing.Point(740, 689);
+			this.startButton.Location = new System.Drawing.Point(908, 807);
 			this.startButton.Margin = new System.Windows.Forms.Padding(0);
 			this.startButton.Name = "startButton";
 			this.startButton.Padding = new System.Windows.Forms.Padding(30, 3, 30, 3);
@@ -94,7 +94,7 @@
 			this.cancelButton.AutoSize = true;
 			this.cancelButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Location = new System.Drawing.Point(849, 689);
+			this.cancelButton.Location = new System.Drawing.Point(1017, 807);
 			this.cancelButton.Margin = new System.Windows.Forms.Padding(0);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -113,7 +113,7 @@
 			this.globalSettingsControl.Margin = new System.Windows.Forms.Padding(0);
 			this.globalSettingsControl.Name = "globalSettingsControl";
 			this.globalSettingsControl.Padding = new System.Windows.Forms.Padding(5);
-			this.globalSettingsControl.Size = new System.Drawing.Size(938, 246);
+			this.globalSettingsControl.Size = new System.Drawing.Size(1106, 246);
 			this.globalSettingsControl.TabIndex = 3;
 			// 
 			// ChooseStartTimesForm
@@ -121,11 +121,13 @@
 			this.AcceptButton = this.startButton;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(958, 728);
+			this.ClientSize = new System.Drawing.Size(1126, 846);
 			this.Controls.Add(this.mainTlp);
 			this.Name = "ChooseStartTimesForm";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Veröffentlichungsstartzeiten wählen";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.mainTlp.ResumeLayout(false);
 			this.mainTlp.PerformLayout();
 			this.ResumeLayout(false);

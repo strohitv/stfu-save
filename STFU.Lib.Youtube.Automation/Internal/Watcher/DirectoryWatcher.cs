@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Common;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 {
@@ -41,7 +42,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				State = RunningState.Running;
 
-				if (!Watchers.Any(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
+				// Wenn alle Watcher einen anderen Pfad haben, dann passt es.
+				if (Watchers.All(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
 				{
 					var filters = filter.Split(';');
 					foreach (var f in filters)
@@ -86,7 +88,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 		private void ReactOnFileChanges(object sender, FileSystemEventArgs e)
 		{
-			FileAdded?.Invoke(e);
+			if (IsVideoAnalyzer.IsVideo(e.Name))
+			{
+				FileAdded?.Invoke(e);
+			}
 		}
 
 		#region PropertyChanged

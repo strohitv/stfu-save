@@ -1,0 +1,111 @@
+﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Reflection;
+using ImageProcessor;
+
+namespace STFU.Lib.Common
+{
+	public static class ThumbnailLoader
+	{
+		public static Image Load(string path)
+		{
+			Image result = new Bitmap(1, 1);
+			((Bitmap)result).SetPixel(0, 0, Color.Transparent);
+
+			if (File.Exists(path))
+			{
+				try
+				{
+					ImageFactory imageFactory = new ImageFactory().Load(path);
+					result = imageFactory.Image;
+				}
+				catch (Exception)
+				{
+				}
+			}
+			else
+			{
+				try
+				{
+					Assembly myAssembly = Assembly.GetExecutingAssembly();
+					Stream myStream = myAssembly.GetManifestResourceStream("STFU.Lib.Common.Kein-Thumbnail.png");
+					result = new Bitmap(myStream);
+				}
+				catch (Exception)
+				{
+				}
+			}
+
+			return result;
+		}
+
+		public static Image Load(string path, int width, int height)
+		{
+			return ResizeImage(Load(path), width, height);
+		}
+
+		public static string LoadAsBase64(string path, int width, int height)
+		{
+			return Convert.ToBase64String(ImageToByteArray(Load(path, width, height)));
+		}
+
+		private static Bitmap ResizeImage(Image image, int width, int height)
+		{
+			var destRect = new Rectangle(0, 0, width, height);
+			var destImage = new Bitmap(width, height);
+
+			destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+			using (var graphics = Graphics.FromImage(destImage))
+			{
+				graphics.CompositingMode = CompositingMode.SourceCopy;
+				graphics.CompositingQuality = CompositingQuality.HighQuality;
+				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				graphics.SmoothingMode = SmoothingMode.HighQuality;
+				graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+				using (var wrapMode = new ImageAttributes())
+				{
+					wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+					graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+				}
+			}
+
+			return destImage;
+		}
+
+		private static byte[] ImageToByteArray(Image image)
+		{
+			MemoryStream ms = new MemoryStream();
+			//image.Save(ms, GetEncoder(ImageFormat.Jpeg), GetJpegQualityEncoderParams(99L));
+			image.Save(ms, ImageFormat.Png);
+			return ms.ToArray();
+		}
+
+		private static EncoderParameters GetJpegQualityEncoderParams(long qualityLevel)
+		{
+			Encoder myEncoder = Encoder.Quality;
+
+			EncoderParameters myEncoderParameters = new EncoderParameters(1);
+			EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, qualityLevel);
+
+			return myEncoderParameters;
+		}
+
+		private static ImageCodecInfo GetEncoder(ImageFormat format)
+		{
+			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+			foreach (ImageCodecInfo codec in codecs)
+			{
+				if (codec.FormatID == format.Guid)
+				{
+					return codec;
+				}
+			}
+			return null;
+		}
+	}
+}

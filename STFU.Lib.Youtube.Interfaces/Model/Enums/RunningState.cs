@@ -3,7 +3,10 @@
 	public enum RunningState
 	{
 		NotRunning,
+		Running,
 		CancelPending,
-		Running
+		Canceled,
+		PausePending,
+		Paused
 	}
 }

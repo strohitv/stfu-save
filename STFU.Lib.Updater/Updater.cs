@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Threading;
 
 namespace STFU.Lib.Updater
 {
@@ -63,7 +64,23 @@ namespace STFU.Lib.Updater
 							// are case-insensitive.
 							if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
 							{
-								entry.ExtractToFile(destinationPath, true);
+								bool stop = false;
+								int tries = 0;
+
+								while (!stop)
+								{
+									try
+									{
+										tries++;
+										entry.ExtractToFile(destinationPath, true);
+										stop = true;
+									}
+									catch (Exception) when (tries <= 12)
+									{
+										Thread.Sleep(5000);
+									}
+								}
+
 								result = new FileInfo(destinationPath);
 								break;
 							}

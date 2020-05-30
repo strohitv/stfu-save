@@ -28,9 +28,21 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 
 		IList<IPlannedVideo> PlannedVideos { get; set; }
 
+		bool EnableExpertMode { get; set; }
 		string CSharpPreparationScript { get; set; }
 		string CSharpCleanUpScript { get; set; }
-		
+		string ReferencedAssembliesText { get; set; }
+
+		string MailTo { get; set; }
+		bool NewVideoDesktopNotification { get; set; }
+		bool NewVideoMailNotification { get; set; }
+		bool UploadStartedDesktopNotification { get; set; }
+		bool UploadStartedMailNotification { get; set; }
+		bool UploadFinishedDesktopNotification { get; set; }
+		bool UploadFinishedMailNotification { get; set; }
+		bool UploadFailedDesktopNotification { get; set; }
+		bool UploadFailedMailNotification { get; set; }
+
 		string ToString();
 	}
 }

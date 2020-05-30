@@ -3,17 +3,21 @@ using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
-	internal class PublishTimeCalculator
+	public class PublishTimeCalculator
 	{
 		public IPath PathInfo { get; internal set; }
 		public ITemplate Template { get; internal set; }
-		internal bool UploadPrivate { get; set; }
+		public bool UploadPrivate { get; set; }
 		private DateTime LastVideoPublishTime { get; set; }
 		private int PublishTimePosition { get; set; }
 
 		bool first = true;
 
-		internal PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
+		public PublishTimeCalculator(IPath pathInfo, ITemplate template)
+			: this(pathInfo, template.NextUploadSuggestion, template, null)
+		{ }
+
+		public PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;
@@ -48,26 +52,32 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			PublishTimePosition = publishPosition.Value;
 		}
 
-		internal DateTime GetNextPublishTime(bool preview = false)
+		public DateTime GetNextPublishTime(bool preview = false)
 		{
-			int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[PublishTimePosition].DayOfWeek - (int)LastVideoPublishTime.DayOfWeek + 7) % 7;
+			var publishDate = new DateTime(2000, 1, 1);
 
-			if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
+			var lastVidPubTime = LastVideoPublishTime;
+			var pubTimePos = PublishTimePosition;
+
+			while (publishDate < DateTime.Now)
 			{
-				daysUntilNextTimesWeekday = 7;
-			}
+				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[pubTimePos].DayOfWeek - (int)lastVidPubTime.DayOfWeek + 7) % 7;
 
-			var publishDate = LastVideoPublishTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[PublishTimePosition].Time);
+				if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
+				{
+					daysUntilNextTimesWeekday = 7;
+				}
 
-			if (!preview)
-			{
+				publishDate = lastVidPubTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[pubTimePos].Time);
+
 				first = false;
 
 				// Jetzt noch basierend der SkipDays die Daten berechnen, wenn das nicht nur eine Vorschau des nächsten Veröffentlichungsdatums sein sollte.
-				LastVideoPublishTime = publishDate.AddDays(Template.PublishTimes[PublishTimePosition].SkipDays);
-				var position = PublishTimePosition;
+				lastVidPubTime = publishDate.AddDays(Template.PublishTimes[pubTimePos].SkipDays);
+
+				var position = pubTimePos;
 				var date = publishDate;
-				while (true)
+				while (date <= lastVidPubTime)
 				{
 					position = (position + 1) % Template.PublishTimes.Count;
 
@@ -80,12 +90,17 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 					date = date.AddDays(days).Date.Add(Template.PublishTimes[position].Time);
 
-					if (date > LastVideoPublishTime)
+					if (date > lastVidPubTime)
 					{
-						PublishTimePosition = position;
-						break;
+						pubTimePos = position;
 					}
 				}
+			}
+
+			if (!preview)
+			{
+				LastVideoPublishTime = lastVidPubTime;
+				PublishTimePosition = pubTimePos;
 			}
 
 			return publishDate;
@@ -101,7 +116,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			return daysUntilNextTimesWeekday == 0 && Template.PublishTimes[PublishTimePosition].Time <= LastVideoPublishTime.TimeOfDay;
 		}
 
-		internal int? GetDifference(string pathToCheck)
+		public int? GetDifference(string pathToCheck)
 		{
 			return PathInfo.GetDifference(pathToCheck);
 		}

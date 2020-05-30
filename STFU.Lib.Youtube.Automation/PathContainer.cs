@@ -6,7 +6,11 @@ using System.Threading;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
+using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
+using STFU.Lib.Youtube.Model;
+using STFU.Lib.Youtube.Upload;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -80,12 +84,20 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public void MarkAllFilesAsRead(IPath path)
+		private IYoutubeJobContainer queueContainer = null;
+		private IYoutubeJobContainer archiveContainer = null;
+		private IYoutubeAccountContainer accountContainer = null;
+
+		public void MarkAllFilesAsRead(IPath path, IYoutubeJobContainer queueContainer, IYoutubeJobContainer archiveContainer, IYoutubeAccountContainer accountContainer)
 		{
+			this.archiveContainer = archiveContainer;
+			this.accountContainer = accountContainer;
+			this.queueContainer = queueContainer;
+
 			FileSearcher searcher = new FileSearcher();
 			searcher.FileFound += SearcherFileFound;
 
-			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden);
+			searcher.SearchFilesAsync(path.Fullname, path.Filter, path.SearchRecursively, path.SearchHidden, path.SearchOrder);
 
 			while (searcher.State != RunningState.NotRunning)
 			{
@@ -95,10 +107,12 @@ namespace STFU.Lib.Youtube.Automation
 
 		private void SearcherFileFound(FileSystemEventArgs e)
 		{
-			var movedPath = Path.GetDirectoryName(e.FullPath)
-				   + "\\_" + Path.GetFileNameWithoutExtension(e.FullPath).Remove(0, 1)
-				   + Path.GetExtension(e.FullPath);
-			File.Move(e.FullPath, movedPath);
+			if (queueContainer.RegisteredJobs.All(job => Path.GetFullPath(job.Video.Path).ToLower() != Path.GetFullPath(e.FullPath).ToLower()))
+			{
+				archiveContainer.RegisterJob(
+					new YoutubeJob(new YoutubeVideo(e.FullPath) { Title = e.Name }, accountContainer.RegisteredAccounts.FirstOrDefault(), new UploadStatus())
+				);
+			}
 		}
 	}
 }

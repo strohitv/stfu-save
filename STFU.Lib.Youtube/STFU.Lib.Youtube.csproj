@@ -33,39 +33,39 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\Services\YoutubeLanguageService.cs" />
-    <Compile Include="Internal\Services\YoutubeCategoryService.cs" />
-    <Compile Include="Internal\Upload\FailureReason.cs" />
-    <Compile Include="Internal\Upload\FailReasonConverter.cs" />
-    <Compile Include="Internal\Upload\FileUploader.cs" />
-    <Compile Include="Internal\Upload\HttpWebRequestCreator.cs" />
-    <Compile Include="Internal\Upload\Model\Uploadable.cs" />
-    <Compile Include="Internal\Upload\YoutubeThumbnailUploader.cs" />
-    <Compile Include="Internal\Upload\YoutubeVideoUploadInitializer.cs" />
-    <Compile Include="Internal\WebService.cs" />
-    <Compile Include="Internal\YoutubeError.cs" />
-    <Compile Include="Internal\YoutubeJob.cs" />
-    <Compile Include="Internal\Services\YoutubeAccountService.cs" />
-    <Compile Include="Internal\Services\YoutubeClientService.cs" />
+    <Compile Include="Upload\JobUploader.cs" />
+    <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
+    <Compile Include="Upload\Steps\RetryingUploadStep.cs" />
+    <Compile Include="Upload\Steps\ThrottledUploadStep.cs" />
+    <Compile Include="Upload\Steps\ThumbnailUploadStep.cs" />
+    <Compile Include="Upload\Steps\AbstractUploadStep.cs" />
+    <Compile Include="Upload\Steps\UploaderStateChangedEventArgs.cs" />
+    <Compile Include="Upload\Steps\UploaderStateChangedEventHandler.cs" />
+    <Compile Include="Upload\Steps\VideoUploadStep.cs" />
+    <Compile Include="Upload\Steps\ThrottledReadStream.cs" />
+    <Compile Include="Upload\YoutubeError.cs" />
+    <Compile Include="Upload\YoutubeJob.cs" />
+    <Compile Include="YoutubeJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\Upload\YoutubeJobUploader.cs" />
     <Compile Include="LanguageCategoryLoader.cs" />
-    <Compile Include="YoutubeAccountCommunicator.cs" />
     <Compile Include="YoutubeAccountContainer.cs" />
+    <Compile Include="YoutubeJobContainer.cs" />
     <Compile Include="YoutubeCategoryContainer.cs" />
     <Compile Include="YoutubeClientContainer.cs" />
     <Compile Include="YoutubeLanguageContainer.cs" />
     <Compile Include="YoutubeUploader.cs" />
-    <Compile Include="Internal\Upload\YoutubeVideoUploader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.MailSender\STFU.Lib.MailSender.csproj">
+      <Project>{BC19390A-F56E-4384-9BE8-193D0183444E}</Project>
+      <Name>STFU.Lib.MailSender</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
       <Name>STFU.Lib.Youtube.Model</Name>
@@ -73,6 +73,10 @@
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
       <Project>{42D1E275-4F3E-4ADF-8C4F-C4B3F9A5E49D}</Project>
       <Name>STFU.Lib.Youtube.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Services\STFU.Lib.Youtube.Services.csproj">
+      <Project>{28B6561B-2090-4D83-95BA-345BF70CA022}</Project>
+      <Name>STFU.Lib.Youtube.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

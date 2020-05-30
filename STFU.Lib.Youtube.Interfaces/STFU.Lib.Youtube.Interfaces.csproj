@@ -32,30 +32,48 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAccountAcces.cs" />
     <Compile Include="ILanguageCategoryLoader.cs" />
     <Compile Include="IYoutubeAccountCommunicator.cs" />
     <Compile Include="IYoutubeAccountContainer.cs" />
+    <Compile Include="IYoutubeJobContainer.cs" />
     <Compile Include="IYoutubeCategoryContainer.cs" />
     <Compile Include="IYoutubeClientContainer.cs" />
     <Compile Include="IYoutubeLanguageContainer.cs" />
     <Compile Include="IYoutubeUploader.cs" />
+    <Compile Include="Model\Args\JobFinishedEventArgs.cs" />
+    <Compile Include="Model\Args\JobPositionChangedEventArgs.cs" />
+    <Compile Include="Model\Args\JobDequeuedEventArgs.cs" />
+    <Compile Include="Model\Args\UploadStepStateChangedEventArgs.cs" />
     <Compile Include="Model\Enums\RunningState.cs" />
     <Compile Include="Model\Enums\License.cs" />
     <Compile Include="Model\Enums\PrivacyStatus.cs" />
-    <Compile Include="Model\Enums\UploadStateExtension.cs" />
+    <Compile Include="Model\Enums\UploadObject.cs" />
+    <Compile Include="Model\Enums\UploadProgress.cs" />
+    <Compile Include="Model\Enums\JobStateExtension.cs" />
+    <Compile Include="Model\Enums\UploadStepState.cs" />
     <Compile Include="Model\Enums\YoutubeRedirectUri.cs" />
-    <Compile Include="Model\Enums\YoutubeScope.cs" />
-    <Compile Include="Model\EventHandler\TriggerDeletionEventHandler.cs" />
+    <Compile Include="Model\Enums\GoogleScope.cs" />
+    <Compile Include="Model\Args\JobQueuedEventArgs.cs" />
+    <Compile Include="Model\Enums\FailureReason.cs" />
+    <Compile Include="Model\Handler\JobFinishedEventHandler.cs" />
+    <Compile Include="Model\Handler\JobPositionChangedEventHandler.cs" />
+    <Compile Include="Model\Handler\JobDequeuedEventHandler.cs" />
+    <Compile Include="Model\Handler\UploadStepStateChangedEventHandler.cs" />
+    <Compile Include="Model\Handler\TriggerDeletionEventHandler.cs" />
+    <Compile Include="Model\Handler\JobQueuedEventHandler.cs" />
     <Compile Include="Model\ICategory.cs" />
     <Compile Include="Model\ILanguage.cs" />
+    <Compile Include="Model\INotificationSettings.cs" />
     <Compile Include="Model\ITriggerDeletion.cs" />
+    <Compile Include="Model\IUploadCompleted.cs" />
+    <Compile Include="Model\IUploadStep.cs" />
     <Compile Include="Model\IYoutubeAccount.cs" />
     <Compile Include="Model\IYoutubeAccountAccess.cs" />
     <Compile Include="Model\IYoutubeClient.cs" />
@@ -64,8 +82,9 @@
     <Compile Include="Model\IYoutubeError.cs" />
     <Compile Include="Model\IYoutubeVideo.cs" />
     <Compile Include="Model\Enums\UploaderState.cs" />
-    <Compile Include="Model\Enums\UploadState.cs" />
+    <Compile Include="Model\JobState.cs" />
     <Compile Include="Model\UploadStartedEventArgs.cs" />
+    <Compile Include="Model\UploadStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

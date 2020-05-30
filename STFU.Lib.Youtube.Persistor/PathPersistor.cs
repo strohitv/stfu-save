@@ -101,7 +101,10 @@ namespace STFU.Lib.Youtube.Persistor
 					Inactive = path.Inactive,
 					SearchHidden = path.SearchHidden,
 					SearchRecursively = path.SearchRecursively,
-					SelectedTemplateId = path.SelectedTemplateId
+					SelectedTemplateId = path.SelectedTemplateId,
+					MoveAfterUpload = path.MoveAfterUpload,
+					MoveDirectoryPath = path.MoveDirectoryPath,
+					SearchOrder = path.SearchOrder
 				};
 
 				Saved.RegisterPath(newPath);

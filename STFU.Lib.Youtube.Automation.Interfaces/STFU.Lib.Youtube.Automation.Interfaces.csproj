@@ -33,8 +33,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Model\Args\JobEventArgs.cs" />
+    <Compile Include="Model\Events\FileToUploadPlannedEventHandler.cs" />
     <Compile Include="IAutomationUploader.cs" />
-    <Compile Include="IProcessContainer.cs" />
+    <Compile Include="IProcessList.cs" />
+    <Compile Include="Model\FoundFilesOrderByFilter.cs" />
     <Compile Include="Model\IObservationConfiguration.cs" />
     <Compile Include="Model\IPath.cs" />
     <Compile Include="IPathContainer.cs" />

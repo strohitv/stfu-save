@@ -32,7 +32,14 @@ namespace STFU.Executable.AutoUploader.Controls
 
 		private void ChooseSingleStartTimeControlLoad(object sender, EventArgs e)
 		{
-			overrideDateTimePicker.Value = publishSettings?.StartDate ?? DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
+			if (publishSettings != null && publishSettings.StartDate > DateTime.Now)
+			{
+				overrideDateTimePicker.Value = publishSettings.StartDate;
+			}
+			else
+			{
+				overrideDateTimePicker.Value = DateTime.Now.Date.AddHours(DateTime.Now.TimeOfDay.Hours + 1);
+			}
 
 			if (publishSettings != null)
 			{

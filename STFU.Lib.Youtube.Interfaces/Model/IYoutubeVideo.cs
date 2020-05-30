@@ -5,7 +5,7 @@ using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Interfaces.Model
 {
-	public interface IYoutubeVideo
+	public interface IYoutubeVideo : System.ComponentModel.INotifyPropertyChanged
 	{
 		/// <summary>
 		/// The file that is being uploaded
@@ -101,5 +101,37 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		/// Determines if the video media type will be accepted by youtube
 		/// </summary>
 		bool MediaTypeOk { get; }
+
+		/// <summary>
+		/// Can be used to determine if the video properties were changed
+		/// </summary>
+		bool IsDirty { get; set; }
+
+		/// <summary>
+		/// Can be used to determine if the videos thumbnail was changed
+		/// </summary>
+		bool IsThumbnailDirty { get; set; }
+
+		/// <summary>
+		/// Gets or sets the URL the video has to be uploaded to
+		/// </summary>
+		Uri UploadUri { get; set; }
+
+		/// <summary>
+		/// Gets or sets the video id
+		/// </summary>
+		string Id { get; set; }
+
+		/// <summary>
+		/// Creates a copy of itself
+		/// </summary>
+		/// <returns>a copy of itself</returns>
+		IYoutubeVideo CreateCopy();
+
+		/// <summary>
+		/// Fills its fields and properties with values from the given IYoutubeVideo
+		/// </summary>
+		/// <param name="video"></param>
+		void FillFields(IYoutubeVideo video);
 	}
 }

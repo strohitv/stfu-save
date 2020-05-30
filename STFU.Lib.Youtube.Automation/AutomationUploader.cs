@@ -1,17 +1,20 @@
-﻿using STFU.Lib.Youtube.Automation.Interfaces;
-using STFU.Lib.Youtube.Automation.Interfaces.Model;
-using STFU.Lib.Youtube.Automation.Internal;
-using STFU.Lib.Youtube.Automation.Internal.Templates;
-using STFU.Lib.Youtube.Automation.Internal.Watcher;
-using STFU.Lib.Youtube.Interfaces;
-using STFU.Lib.Youtube.Interfaces.Model;
-using STFU.Lib.Youtube.Interfaces.Model.Enums;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using STFU.Lib.Youtube.Automation.Interfaces;
+using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
+using STFU.Lib.Youtube.Automation.Interfaces.Model.Events;
+using STFU.Lib.Youtube.Automation.Internal;
+using STFU.Lib.Youtube.Automation.Internal.Templates;
+using STFU.Lib.Youtube.Automation.Internal.Watcher;
+using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces.Model.Enums;
 
 namespace STFU.Lib.Youtube.Automation
 {
@@ -69,18 +72,18 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private IProcessContainer processesToWatch = new ProcessContainer();
-		public IProcessContainer ProcessContainer
+		private IProcessList watchedProcesses = new ProcessList();
+		public IProcessList WatchedProcesses
 		{
 			get
 			{
-				return processesToWatch;
+				return watchedProcesses;
 			}
 			set
 			{
-				if (processesToWatch != value && value != null)
+				if (watchedProcesses != value && value != null)
 				{
-					processesToWatch = value;
+					watchedProcesses = value;
 					OnPropertyChaged();
 				}
 			}
@@ -92,12 +95,40 @@ namespace STFU.Lib.Youtube.Automation
 		private FileSearcher Searcher { get; set; } = new FileSearcher();
 
 		private TemplateVideoCreator VideoCreator { get; set; }
+		public ITemplateContainer Templates
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+		public IPathContainer Paths
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
-		public AutomationUploader() { }
+		private IYoutubeJobContainer archive;
 
-		public AutomationUploader(IYoutubeUploader uploader, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer)
 		{
 			Uploader = uploader;
+			archive = archiveContainer;
+		}
+
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
+			: this(uploader, archiveContainer)
+		{
 			Account = account;
 
 			foreach (var config in configurationsToAdd)
@@ -106,14 +137,21 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		public void Cancel()
+		public event FileToUploadPlannedEventHandler FileToUploadOccured;
+
+		public void Cancel(bool cancelYoutubeUploader)
 		{
 			if (State == RunningState.Running)
 			{
 				State = RunningState.CancelPending;
+				Uploader.StopAfterCompleting = true;
 				Searcher.Cancel();
 				DirectoryWatcher.Cancel();
-				Uploader.CancelAll();
+
+				if (cancelYoutubeUploader)
+				{
+					Uploader.CancelAll();
+				}
 
 				RefreshState();
 			}
@@ -123,24 +161,18 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (State == RunningState.NotRunning)
 			{
-				await Task.Run(() => Start());
+				await Task.Run(() => Start(Configuration
+				.Where(c => !c.IgnorePath)
+				.Select(pto => new PublishTimeCalculator(pto.PathInfo, pto.Template))
+				.ToList()));
 			}
 		}
 
-		private void Start()
+		public async void StartWithExtraConfigAsync()
 		{
-			if (Account == null || Uploader == null)
+			if (State == RunningState.NotRunning)
 			{
-				return;
-			}
-
-			State = RunningState.Running;
-
-			ProcessContainer.AllProcessesCompleted += ProcessContainerAllProcessesCompleted;
-
-			//ReloadProcesses();
-
-			var infos = Configuration
+				await Task.Run(() => Start(Configuration
 				.Where(c => !c.IgnorePath)
 				.Select(pto => new PublishTimeCalculator(
 					pto.PathInfo,
@@ -150,24 +182,41 @@ namespace STFU.Lib.Youtube.Automation
 				{
 					UploadPrivate = pto.UploadPrivate
 				})
-				.ToList();
+				.ToList()));
+			}
+		}
+
+		private void Start(IList<PublishTimeCalculator> infos)
+		{
+			if (Account == null || Uploader == null)
+			{
+				return;
+			}
+
+			State = RunningState.Running;
+
+			WatchedProcesses.ProcessesCompleted += OnProcessesCompleted;
+
 			VideoCreator = new TemplateVideoCreator(infos);
 
 			Uploader.PropertyChanged += UploaderPropertyChanged;
 			Searcher.PropertyChanged += SearcherPropertyChanged;
+			Uploader.StopAfterCompleting = false;
 
-			Searcher.FileFound += FileToUploadOccured;
-			DirectoryWatcher.FileAdded += FileToUploadOccured;
+			Searcher.FileFound += OnFileToUploadOccured;
+			DirectoryWatcher.FileAdded += OnFileToUploadOccured;
 
-			foreach (var path in Configuration.Where(c => !c.IgnorePath))
+			foreach (var path in Configuration.Where(c => !c.IgnorePath && Directory.Exists(c.PathInfo.Fullname)))
 			{
 				var pi = path.PathInfo;
-				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden);
+				Searcher.SearchFilesAsync(pi.Fullname, pi.Filter, pi.SearchRecursively, pi.SearchHidden, pi.SearchOrder);
 				DirectoryWatcher.AddWatcher(pi.Fullname, pi.Filter, pi.SearchRecursively);
 			}
+
+			Uploader.StartUploader();
 		}
 
-		private void ProcessContainerAllProcessesCompleted(object sender, System.EventArgs e)
+		private void OnProcessesCompleted(object sender, System.EventArgs e)
 		{
 			if (EndAfterUpload && uploader.State != UploaderState.Uploading && uploader.State != UploaderState.CancelPending && Searcher.State == RunningState.NotRunning)
 			{
@@ -205,18 +254,40 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (e.PropertyName == nameof(Uploader.State))
 			{
-				if (Uploader.State == UploaderState.Waiting && EndAfterUpload && ProcessContainer.ShouldEnd)
+				if (Uploader.State == UploaderState.Waiting)
 				{
-					Uploader.CancelAll();
+					WatchedProcesses.ProcessesCompleted += ProcessesCompleted;
+					EndIfShouldEnd();
 				}
-
-				if (DirectoryWatcher.State == RunningState.Running && Uploader.State == UploaderState.NotRunning && EndAfterUpload && ProcessContainer.ShouldEnd)
+				else if (Uploader.State == UploaderState.Uploading)
+				{
+					WatchedProcesses.ProcessesCompleted -= ProcessesCompleted;
+				}
+				else if (Uploader.State == UploaderState.NotRunning)
 				{
 					DirectoryWatcher.Cancel();
+					EndIfShouldEnd();
 				}
+			}
+		}
 
+		private void EndIfShouldEnd()
+		{
+			if (EndAfterUpload
+				&& WatchedProcesses.AllProcessesCompleted
+				&& Uploader.State != UploaderState.Uploading
+				&& (Uploader.State != UploaderState.Waiting || !Uploader.Queue.Any(u => u.State == JobState.NotStarted && !u.ShouldBeSkipped))
+				&& Searcher.State != RunningState.Running)
+			{
+				Uploader.CancelAll();
+				DirectoryWatcher.Cancel();
 				RefreshState();
 			}
+		}
+
+		private void ProcessesCompleted(object sender, System.EventArgs e)
+		{
+			EndIfShouldEnd();
 		}
 
 		private void RefreshState()
@@ -229,12 +300,73 @@ namespace STFU.Lib.Youtube.Automation
 			}
 		}
 
-		private void FileToUploadOccured(FileSystemEventArgs e)
+		private void OnFileToUploadOccured(FileSystemEventArgs e)
 		{
-			if (!e.Name.StartsWith("_") && !Uploader.Queue.Any(job => job.Video.File.FullName.ToLower() == e.FullPath.ToLower()))
+			if (!e.Name.StartsWith("_")
+				&& Uploader.Queue.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower())
+				&& archive.RegisteredJobs.All(job => job.Video.File.FullName.ToLower() != e.FullPath.ToLower()))
 			{
-				Uploader.QueueUpload(VideoCreator.CreateVideo(e.FullPath), Account);
+				var videoAndEvaluator = VideoCreator.CreateVideo(e.FullPath);
+				var video = videoAndEvaluator.Video;
+				var evaluator = videoAndEvaluator.Evaluator;
+				var notificationSettings = videoAndEvaluator.NotificationSettings;
+
+				var job = Uploader.QueueUpload(video, Account, notificationSettings);
+				var path = VideoCreator.FindNearestPath(e.FullPath);
+
+				FileToUploadOccured?.Invoke(this, new JobEventArgs(job));
+
+				job.UploadCompletedAction += (args) => evaluator.CleanUp().Wait();
+
+				if (path.MoveAfterUpload)
+				{
+					job.UploadCompletedAction += (args) => MoveVideo(args.Job, path.MoveDirectoryPath);
+				}
+
 				Uploader.StartUploader();
+			}
+		}
+
+		public void MoveVideo(IYoutubeJob job, string moveDirectory)
+		{
+			if (File.Exists(job.Video.Path))
+			{
+				var canMove = true;
+				if (!Directory.Exists(moveDirectory))
+				{
+					try
+					{
+						Directory.CreateDirectory(moveDirectory);
+					}
+					catch (Exception)
+					{
+						canMove = false;
+					}
+				}
+
+				if (canMove)
+				{
+					try
+					{
+						string filename = Path.GetFileNameWithoutExtension(job.Video.Path);
+						string extension = Path.GetExtension(job.Video.Path);
+
+						string fullFileName = filename + extension;
+						var movedFullName = Path.Combine(moveDirectory, fullFileName);
+
+						int i = 2;
+						while (File.Exists(movedFullName))
+						{
+							fullFileName = $"{filename} ({i}){extension}";
+							i++;
+							movedFullName = Path.Combine(moveDirectory, fullFileName);
+						}
+
+						File.Move(job.Video.Path, movedFullName);
+						job.Video.Path = movedFullName;
+					}
+					catch (Exception) { }
+				}
 			}
 		}
 

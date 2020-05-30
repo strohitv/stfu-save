@@ -33,6 +33,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ConcreteTypeConverter.cs" />
+    <Compile Include="NotificationSettings.cs" />
+    <Compile Include="Serializable\YoutubeErrorResponse.cs" />
     <Compile Include="YoutubeCategory.cs" />
     <Compile Include="Helpers\EnumConverter.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
@@ -55,8 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />

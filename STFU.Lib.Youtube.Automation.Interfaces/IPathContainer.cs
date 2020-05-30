@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
+using STFU.Lib.Youtube.Interfaces;
 
 namespace STFU.Lib.Youtube.Automation.Interfaces
 {
@@ -15,6 +16,6 @@ namespace STFU.Lib.Youtube.Automation.Interfaces
 		void UnregisterPath(IPath path);
 		void UnregisterPathAt(int index);
 
-		void MarkAllFilesAsRead(IPath path);
+		void MarkAllFilesAsRead(IPath path, IYoutubeJobContainer queueContainer, IYoutubeJobContainer archiveContainer, IYoutubeAccountContainer accountContainer);
 	}
 }
