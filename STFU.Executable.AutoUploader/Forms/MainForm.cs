@@ -400,6 +400,17 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (autoUploader.Uploader.State == UploaderState.Uploading)
+			{
+				var result = MessageBox.Show(this, $"Aktuell werden Videos hochgeladen! Das Hochladen wird abgebrochen und kann beim nächsten Start des Programms fortgesetzt werden.{Environment.NewLine}{Environment.NewLine}Möchtest du das Programm wirklich schließen?", "Schließen bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+				if (result == DialogResult.No)
+				{
+					e.Cancel = true;
+					return;
+				}
+			}
+
 			autoUploader.PropertyChanged -= AutoUploaderPropertyChanged;
 			autoUploader.Uploader.PropertyChanged -= UploaderPropertyChanged;
 
@@ -868,6 +879,21 @@ namespace STFU.Executable.AutoUploader.Forms
 					{
 						job.UploadCompletedAction += (args) => autoUploader.MoveVideo(args.Job, path.MoveDirectoryPath);
 					}
+				}
+			}
+		}
+
+		private void clearVideosButton_Click(object sender, EventArgs e)
+		{
+			var result = MessageBox.Show(this, $"Hiermit wird die Warteschlange vollständig geleert, alle laufenden Uploads werden abgebrochen.{Environment.NewLine}{Environment.NewLine}Möchtest du das wirklich tun?", "Warteschlange wirklich leeren?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+			if (result == DialogResult.Yes)
+			{
+				autoUploader.Uploader.CancelAll();
+
+				while (autoUploader.Uploader.Queue.Count > 0)
+				{
+					autoUploader.Uploader.RemoveFromQueue(autoUploader.Uploader.Queue.ElementAt(0));
 				}
 			}
 		}

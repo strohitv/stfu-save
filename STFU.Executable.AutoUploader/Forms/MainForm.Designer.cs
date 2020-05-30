@@ -100,8 +100,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.clearVideosButton = new System.Windows.Forms.Button();
 			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -440,30 +442,33 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
-			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 17, 7);
-			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 19, 7);
-			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 3, 7);
-			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 13, 7);
-			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 15, 7);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusLabel, 17, 8);
+			this.tableLayoutPanel2.Controls.Add(this.queueStatusButton, 19, 8);
+			this.tableLayoutPanel2.Controls.Add(this.lblFinishAction, 3, 8);
+			this.tableLayoutPanel2.Controls.Add(this.chbChoseProcesses, 13, 8);
+			this.tableLayoutPanel2.Controls.Add(this.btnChoseProcs, 15, 8);
 			this.tableLayoutPanel2.Controls.Add(this.jobQueue, 3, 1);
-			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 5, 7);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedNud, 7, 5);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCheckbox, 3, 5);
-			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCombobox, 9, 5);
+			this.tableLayoutPanel2.Controls.Add(this.cmbbxFinishAction, 5, 8);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedNud, 7, 6);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCheckbox, 3, 6);
+			this.tableLayoutPanel2.Controls.Add(this.limitUploadSpeedCombobox, 9, 6);
 			this.tableLayoutPanel2.Controls.Add(this.addVideosToQueueButton, 1, 1);
+			this.tableLayoutPanel2.Controls.Add(this.clearVideosButton, 1, 3);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 9;
+			this.tableLayoutPanel2.RowCount = 10;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel2.Size = new System.Drawing.Size(1220, 423);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
@@ -491,6 +496,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.queueStatusButton.Size = new System.Drawing.Size(64, 27);
 			this.queueStatusButton.TabIndex = 7;
 			this.queueStatusButton.Text = "Start!";
+			this.toolTip.SetToolTip(this.queueStatusButton, "Den Uploader starten oder stoppen - hiermit werden bereits in die Warteschlange h" +
+        "inzugefügte Videos hochgeladen.");
 			this.queueStatusButton.UseVisualStyleBackColor = true;
 			this.queueStatusButton.Click += new System.EventHandler(this.queueStatusButton_Click);
 			// 
@@ -619,6 +626,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addVideosToQueueButton.Size = new System.Drawing.Size(51, 41);
 			this.addVideosToQueueButton.TabIndex = 22;
 			this.addVideosToQueueButton.Text = "+";
+			this.toolTip.SetToolTip(this.addVideosToQueueButton, "Neue Videos manuell hinzufügen");
 			this.addVideosToQueueButton.UseVisualStyleBackColor = true;
 			this.addVideosToQueueButton.Click += new System.EventHandler(this.addVideosToQueueButton_Click);
 			// 
@@ -919,8 +927,26 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
+			// clearVideosButton
+			// 
+			this.clearVideosButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearVideosButton.AutoSize = true;
+			this.clearVideosButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearVideosButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearVideosButton.ForeColor = System.Drawing.Color.Red;
+			this.clearVideosButton.Location = new System.Drawing.Point(5, 58);
+			this.clearVideosButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearVideosButton.Name = "clearVideosButton";
+			this.clearVideosButton.Size = new System.Drawing.Size(51, 41);
+			this.clearVideosButton.TabIndex = 23;
+			this.clearVideosButton.Text = "x";
+			this.toolTip.SetToolTip(this.clearVideosButton, "Alle Videos aus der Warteschlange entfernen");
+			this.clearVideosButton.UseVisualStyleBackColor = true;
+			this.clearVideosButton.Click += new System.EventHandler(this.clearVideosButton_Click);
+			// 
 			// jobQueue
 			// 
+			this.jobQueue.AutoScroll = true;
 			this.jobQueue.AutoSize = true;
 			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
@@ -928,7 +954,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.jobQueue.Location = new System.Drawing.Point(66, 7);
 			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
 			this.jobQueue.Name = "jobQueue";
-			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 3);
+			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
 			this.jobQueue.ShowActionsButtons = true;
 			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
 			this.jobQueue.TabIndex = 18;
@@ -948,6 +974,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnStart.Size = new System.Drawing.Size(123, 29);
 			this.btnStart.TabIndex = 7;
 			this.btnStart.Text = "Sofort starten!";
+			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
+        "Warteschlange aufgenommen.");
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
@@ -1065,6 +1093,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.CheckBox limitUploadSpeedCheckbox;
 		private System.Windows.Forms.ComboBox limitUploadSpeedCombobox;
 		private System.Windows.Forms.Button addVideosToQueueButton;
+		private System.Windows.Forms.Button clearVideosButton;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }
 
