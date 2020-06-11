@@ -39,6 +39,7 @@
     <Compile Include="YoutubeCategory.cs" />
     <Compile Include="Helpers\EnumConverter.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="YoutubeClientData.cs" />
     <Compile Include="YoutubeLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializable\Response.cs" />

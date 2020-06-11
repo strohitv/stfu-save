@@ -465,12 +465,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
-		private void bgwCreateUploaderDoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void bgwCreateUploaderDoWork(object sender, DoWorkEventArgs e)
 		{
-			IYoutubeClient client = new YoutubeClient("812042275170-db6cf7ujravcq2l7vhu7gb7oodgii3e4.apps.googleusercontent.com",
-				"cKUCRQz0sE4UUmvUHW6qckbP",
-				"Strohis Toolset Für Uploads", false);
-			clientContainer.RegisterClient(client);
+			clientContainer.RegisterClient(YoutubeClientData.Client);
 
 			if (!Directory.Exists("./settings"))
 			{

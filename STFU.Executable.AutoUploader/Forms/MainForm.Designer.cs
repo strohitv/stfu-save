@@ -67,14 +67,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
+			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.limitUploadSpeedNud = new System.Windows.Forms.NumericUpDown();
 			this.limitUploadSpeedCheckbox = new System.Windows.Forms.CheckBox();
 			this.limitUploadSpeedCombobox = new System.Windows.Forms.ComboBox();
 			this.addVideosToQueueButton = new System.Windows.Forms.Button();
+			this.clearVideosButton = new System.Windows.Forms.Button();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
+			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.startExtendedOptionsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pathsTabPage = new System.Windows.Forms.TabPage();
@@ -100,10 +103,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.clearVideosButton = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
-			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -539,6 +539,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
 			// 
+			// jobQueue
+			// 
+			this.jobQueue.AutoScroll = true;
+			this.jobQueue.AutoSize = true;
+			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(66, 7);
+			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.jobQueue.Name = "jobQueue";
+			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
+			this.jobQueue.ShowActionsButtons = true;
+			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
+			this.jobQueue.TabIndex = 18;
+			this.jobQueue.Uploader = null;
+			// 
 			// cmbbxFinishAction
 			// 
 			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -631,6 +647,24 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.addVideosToQueueButton.UseVisualStyleBackColor = true;
 			this.addVideosToQueueButton.Click += new System.EventHandler(this.addVideosToQueueButton_Click);
 			// 
+			// clearVideosButton
+			// 
+			this.clearVideosButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearVideosButton.AutoSize = true;
+			this.clearVideosButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearVideosButton.Enabled = false;
+			this.clearVideosButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearVideosButton.ForeColor = System.Drawing.Color.Red;
+			this.clearVideosButton.Location = new System.Drawing.Point(5, 58);
+			this.clearVideosButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearVideosButton.Name = "clearVideosButton";
+			this.clearVideosButton.Size = new System.Drawing.Size(51, 41);
+			this.clearVideosButton.TabIndex = 23;
+			this.clearVideosButton.Text = "x";
+			this.toolTip.SetToolTip(this.clearVideosButton, "Alle Videos aus der Warteschlange entfernen");
+			this.clearVideosButton.UseVisualStyleBackColor = true;
+			this.clearVideosButton.Click += new System.EventHandler(this.clearVideosButton_Click);
+			// 
 			// groupBox2
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -674,6 +708,25 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.autoUploaderStateLabel.Size = new System.Drawing.Size(1077, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStart.AutoSize = true;
+			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnStart.Enabled = false;
+			this.btnStart.Location = new System.Drawing.Point(1092, 7);
+			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
+			this.btnStart.Size = new System.Drawing.Size(123, 29);
+			this.btnStart.TabIndex = 7;
+			this.btnStart.Text = "Sofort starten!";
+			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
+        "Warteschlange aufgenommen.");
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
 			// startExtendedOptionsContextMenu
 			// 
@@ -927,59 +980,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Filter = "Alle Dateien|*.*";
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
-			// 
-			// clearVideosButton
-			// 
-			this.clearVideosButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.clearVideosButton.AutoSize = true;
-			this.clearVideosButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.clearVideosButton.Enabled = false;
-			this.clearVideosButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.clearVideosButton.ForeColor = System.Drawing.Color.Red;
-			this.clearVideosButton.Location = new System.Drawing.Point(5, 58);
-			this.clearVideosButton.Margin = new System.Windows.Forms.Padding(0);
-			this.clearVideosButton.Name = "clearVideosButton";
-			this.clearVideosButton.Size = new System.Drawing.Size(51, 41);
-			this.clearVideosButton.TabIndex = 23;
-			this.clearVideosButton.Text = "x";
-			this.toolTip.SetToolTip(this.clearVideosButton, "Alle Videos aus der Warteschlange entfernen");
-			this.clearVideosButton.UseVisualStyleBackColor = true;
-			this.clearVideosButton.Click += new System.EventHandler(this.clearVideosButton_Click);
-			// 
-			// jobQueue
-			// 
-			this.jobQueue.AutoScroll = true;
-			this.jobQueue.AutoSize = true;
-			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
-			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(66, 7);
-			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
-			this.jobQueue.Name = "jobQueue";
-			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
-			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
-			this.jobQueue.TabIndex = 18;
-			this.jobQueue.Uploader = null;
-			// 
-			// btnStart
-			// 
-			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStart.AutoSize = true;
-			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(1092, 7);
-			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
-			this.btnStart.Size = new System.Drawing.Size(123, 29);
-			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Sofort starten!";
-			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
-        "Warteschlange aufgenommen.");
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
 			// MainForm
 			// 

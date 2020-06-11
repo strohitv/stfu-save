@@ -61,12 +61,12 @@
 			this.moveAfterUploadTextbox = new System.Windows.Forms.TextBox();
 			this.moveAfterUploadButton = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.label5 = new System.Windows.Forms.Label();
+			this.searchOrderCombobox = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.selectMovePathDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.label5 = new System.Windows.Forms.Label();
-			this.searchOrderCombobox = new System.Windows.Forms.ComboBox();
 			this.chosePathTlp.SuspendLayout();
 			this.editPathGroupbox.SuspendLayout();
 			this.tlpEditPaths.SuspendLayout();
@@ -136,13 +136,13 @@
 			this.lvPaths.GridLines = true;
 			this.lvPaths.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.lvPaths.HideSelection = false;
-			this.lvPaths.Location = new System.Drawing.Point(56, 28);
+			this.lvPaths.Location = new System.Drawing.Point(67, 28);
 			this.lvPaths.Margin = new System.Windows.Forms.Padding(0);
 			this.lvPaths.MultiSelect = false;
 			this.lvPaths.Name = "lvPaths";
 			this.chosePathTlp.SetRowSpan(this.lvPaths, 10);
 			this.lvPaths.ShowGroups = false;
-			this.lvPaths.Size = new System.Drawing.Size(1041, 373);
+			this.lvPaths.Size = new System.Drawing.Size(1030, 373);
 			this.lvPaths.TabIndex = 10;
 			this.lvPaths.UseCompatibleStateImageBehavior = false;
 			this.lvPaths.View = System.Windows.Forms.View.Details;
@@ -193,7 +193,7 @@
 			this.addPathButton.Location = new System.Drawing.Point(10, 28);
 			this.addPathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addPathButton.Name = "addPathButton";
-			this.addPathButton.Size = new System.Drawing.Size(41, 41);
+			this.addPathButton.Size = new System.Drawing.Size(52, 41);
 			this.addPathButton.TabIndex = 1;
 			this.addPathButton.Text = "+";
 			this.toolTip.SetToolTip(this.addPathButton, "Fügt einen neuen Pfad hinzu");
@@ -209,7 +209,7 @@
 			this.movePathUpButton.Location = new System.Drawing.Point(10, 74);
 			this.movePathUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathUpButton.Name = "movePathUpButton";
-			this.movePathUpButton.Size = new System.Drawing.Size(41, 41);
+			this.movePathUpButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathUpButton.TabIndex = 1;
 			this.movePathUpButton.Text = "↑";
 			this.toolTip.SetToolTip(this.movePathUpButton, "Schiebt den markierten Pfad um eine Stelle nach oben");
@@ -225,7 +225,7 @@
 			this.movePathDownButton.Location = new System.Drawing.Point(10, 120);
 			this.movePathDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.movePathDownButton.Name = "movePathDownButton";
-			this.movePathDownButton.Size = new System.Drawing.Size(41, 41);
+			this.movePathDownButton.Size = new System.Drawing.Size(52, 41);
 			this.movePathDownButton.TabIndex = 1;
 			this.movePathDownButton.Text = "↓";
 			this.toolTip.SetToolTip(this.movePathDownButton, "Schiebt den markierten Pfad um eine Stelle nach unten");
@@ -242,7 +242,7 @@
 			this.deletePathButton.Location = new System.Drawing.Point(10, 166);
 			this.deletePathButton.Margin = new System.Windows.Forms.Padding(0);
 			this.deletePathButton.Name = "deletePathButton";
-			this.deletePathButton.Size = new System.Drawing.Size(41, 41);
+			this.deletePathButton.Size = new System.Drawing.Size(52, 41);
 			this.deletePathButton.TabIndex = 1;
 			this.deletePathButton.Text = "-";
 			this.toolTip.SetToolTip(this.deletePathButton, "Löscht den markierten Pfad");
@@ -259,7 +259,7 @@
 			this.clearButton.Location = new System.Drawing.Point(10, 212);
 			this.clearButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(41, 41);
+			this.clearButton.Size = new System.Drawing.Size(52, 41);
 			this.clearButton.TabIndex = 1;
 			this.clearButton.Text = "x";
 			this.toolTip.SetToolTip(this.clearButton, "Löscht alle Pfade");
@@ -551,30 +551,6 @@
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancelClick);
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.chosePathTlp.SetColumnSpan(this.label1, 5);
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(12, 10);
-			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(114, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Eingestellte Pfade:";
-			// 
-			// folderBrowserDialog
-			// 
-			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
-    "htest.";
-			// 
-			// toolTip
-			// 
-			this.toolTip.AutoPopDelay = 5000;
-			this.toolTip.InitialDelay = 500;
-			this.toolTip.ReshowDelay = 100;
-			this.toolTip.ShowAlways = true;
-			// 
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -607,6 +583,30 @@
 			this.searchOrderCombobox.Name = "searchOrderCombobox";
 			this.searchOrderCombobox.Size = new System.Drawing.Size(887, 21);
 			this.searchOrderCombobox.TabIndex = 19;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.chosePathTlp.SetColumnSpan(this.label1, 5);
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Location = new System.Drawing.Point(12, 10);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(114, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Eingestellte Pfade:";
+			// 
+			// folderBrowserDialog
+			// 
+			this.folderBrowserDialog.Description = "Bitte wähle den Ordner aus, in dem sich die Videos befinden, die du hochladen möc" +
+    "htest.";
+			// 
+			// toolTip
+			// 
+			this.toolTip.AutoPopDelay = 5000;
+			this.toolTip.InitialDelay = 500;
+			this.toolTip.ReshowDelay = 100;
+			this.toolTip.ShowAlways = true;
 			// 
 			// PathForm
 			// 
