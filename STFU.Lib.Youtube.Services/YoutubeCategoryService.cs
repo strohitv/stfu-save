@@ -51,7 +51,7 @@ namespace STFU.Lib.Youtube.Services
 		{
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;
-			string url = string.Format("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&hl={2}&regionCode={1}&key={0}", "cKUCRQz0sE4UUmvUHW6qckbP", regionCode, ci.Name);
+			string url = string.Format("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&hl={2}&regionCode={1}&key={0}", YoutubeClientData.Client.Secret, regionCode, ci.Name);
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Proxy = null;
 			request.Method = "GET";
