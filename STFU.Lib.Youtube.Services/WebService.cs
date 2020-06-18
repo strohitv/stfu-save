@@ -49,24 +49,6 @@ namespace STFU.Lib.Youtube.Services
 					}
 				}
 
-//				string error = @"{
-//  "error": {
-
-//	"code": 403,
-//    "message": "The request cannot be completed because you have exceeded your \u003ca href=\"/youtube/v3/getting-started#quota\"\u003equota\u003c/a\u003e.",
-//    "errors": [
-//      {
-//        "message": "The request cannot be completed because you have exceeded your \u003ca href=\"/youtube/v3/getting-started#quota\"\u003equota\u003c/a\u003e.",
-//        "domain": "youtube.quota",
-//        "reason": "quotaExceeded",
-//        "debugInfo": "Code: 8; Description: ?metric=youtube.googleapis.com/default&limit=defaultPerDayPerProject&qs_error_code=INSUFFICIENT_TOKENS"
-
-//	  }
-//    ]
-//  }
-//}
-//"
-
 				return null;
 			}
 		}

@@ -23,6 +23,9 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 
 		private JobState state = JobState.NotStarted;
 
+		private bool quotaReached = false;
+		private TimeSpan waitTime = default(TimeSpan);
+
 		public double Progress
 		{
 			get
@@ -143,11 +146,35 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 			}
 		}
 
+		[JsonIgnore]
+		public bool QuotaReached
+		{
+			get { return quotaReached; }
+			set
+			{
+				quotaReached = value;
+				OnPropertyChanged();
+			}
+		}
+
+		[JsonIgnore]
+		public TimeSpan WaitTime
+		{
+			get { return waitTime; }
+			set
+			{
+				waitTime = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public void Reset()
 		{
 			Progress = 0;
 			CurrentSpeed = 0;
 			State = JobState.NotStarted;
+			QuotaReached = false;
+			WaitTime = default(TimeSpan);
 			LastByte = 0;
 			UploadedDuration = RemainingDuration = default(TimeSpan);
 			Started = Finished = default(DateTime);

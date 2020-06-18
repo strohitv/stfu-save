@@ -10,7 +10,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 	{
 		private T Step { get; set; }
 
-		private int WaitInterval { get; set; }
+		public int WaitInterval { get; private set; }
 
 		public override double Progress => Step != null ? Step.Progress : 0;
 
@@ -41,7 +41,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 					if (!Step.FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
 					{
-						WaitBeforeRetry();
+						if (Step.Status.QuotaReached)
+						{
+							WaitForQuotaBeforeRetry();
+						}
+						else
+						{
+							WaitBeforeRetry();
+						}
 					}
 				}
 				catch (Exception ex)
@@ -72,6 +79,29 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			OnStepStateChanged(UploadStepState.Running, UploadStepState.Broke);
 			Thread.Sleep(WaitInterval);
 			OnStepStateChanged(UploadStepState.Broke, UploadStepState.Running);
+		}
+
+		private void WaitForQuotaBeforeRetry()
+		{
+			OnStepStateChanged(UploadStepState.Running, UploadStepState.QuotaReached);
+			Random r = new Random();
+
+			DateTime retryTime;
+			if (DateTime.Now.Hour > 9)
+			{
+				retryTime = DateTime.Now.Date.AddDays(1).AddHours(9).AddMinutes(r.Next(1, 60));
+			}
+			else
+			{
+				retryTime = DateTime.Now.Date.AddHours(9).AddMinutes(r.Next(1, 60));
+			}
+
+			Status.WaitTime = retryTime.Subtract(DateTime.Now);
+
+			Thread.Sleep(retryTime.Subtract(DateTime.Now));
+			Status.QuotaReached = false;
+			Status.WaitTime = default(TimeSpan);
+			OnStepStateChanged(UploadStepState.QuotaReached, UploadStepState.Running);
 		}
 
 		public override void RefreshDurationAndSpeed()

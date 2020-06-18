@@ -214,6 +214,13 @@ namespace STFU.Lib.GUI.Controls.Queue
 						refreshUploadBrokenTimer.Enabled = true;
 
 						break;
+					case JobState.QuotaReached:
+						RefreshDetailLabel($"Der Uploader darf von Youtube aus heute nicht weiter Videos hochladen.", "Warte bis morgen (24:00:00 Stunden) und versuche es dann erneut...");
+						RefreshBackColor(Color.FromArgb(224, 224, 224));
+						nextUploadStart = DateTime.Now.Add(job.UploadStatus.WaitTime);
+						refreshUploadBrokenTimer.Enabled = true;
+
+						break;
 					default:
 						throw new ArgumentException("Dieser Status wird nicht unterstützt.");
 				}
@@ -375,7 +382,14 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void refreshUploadBrokenTimer_Tick(object sender, EventArgs e)
 		{
-			RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", $"Warte {(nextUploadStart - DateTime.Now).ToString("mm\\:ss")} Minuten und versuche es dann erneut...");
+			if (job.UploadStatus.QuotaReached)
+			{
+				RefreshDetailLabel($"Der Uploader darf von Youtube aus heute nicht weiter Videos hochladen.", $"Warte bis morgen ({(nextUploadStart - DateTime.Now).ToString("h\\:mm\\:ss")} Stunden) und versuche es dann erneut...");
+			}
+			else
+			{
+				RefreshDetailLabel($"Upload wurde unerwartet unterbrochen (z. B. fehlende Internetverbindung).", $"Warte {(nextUploadStart - DateTime.Now).ToString("mm\\:ss")} Minuten und versuche es dann erneut...");
+			}
 			RefreshBackColor(Color.FromArgb(224, 224, 224));
 		}
 

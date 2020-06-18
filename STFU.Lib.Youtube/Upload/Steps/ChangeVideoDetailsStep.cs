@@ -28,9 +28,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(resource));
 
 			var response = WebService.Communicate(request, bytes);
+			Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(response);
 
-			FinishedSuccessful = true;
-			progress = 100;
+			if (!Status.QuotaReached)
+			{
+				FinishedSuccessful = true;
+				progress = 100;
+			}
 
 			OnStepFinished();
 		}

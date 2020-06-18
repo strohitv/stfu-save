@@ -54,7 +54,10 @@ namespace STFU.Lib.Youtube.Services
 			// Header schreiben
 			request.Headers.Add(string.Format("Authorization: Bearer {0}", accessToken));
 
-			Response response = JsonConvert.DeserializeObject<Response>(WebService.Communicate(request));
+			var result = WebService.Communicate(request);
+			QuotaProblemHandler.ThrowOnQuotaLimitReached(result);
+
+			Response response = JsonConvert.DeserializeObject<Response>(result);
 
 			var languages = response.items.Select(i => new YoutubeLanguage() { Id = i.id, Hl = i.snippet.hl, Name = i.snippet.name }).OrderBy(lang => lang.Name).ToArray();
 
