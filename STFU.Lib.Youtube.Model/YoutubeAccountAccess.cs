@@ -23,6 +23,6 @@ namespace STFU.Lib.Youtube.Model
 
 		public string ClientId { get; set; }
 
-		public IYoutubeClient Client => YoutubeClientData.Client;
+		public IYoutubeClient Client { get; set; } = YoutubeClientData.Client;
 	}
 }
