@@ -233,7 +233,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			catch (QuotaErrorException)
 			{
-				MessageBox.Show(this, $"Der Uploader kann heute nicht mit dem Account verbunden wurde, weil Youtube für heute keine weiteren Verbindungen mit dem Account erlaubt.{Environment.NewLine}{Environment.NewLine}Bitte versuche es morgen wieder.", "Account kann heute nicht verbunden werden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(this, $"Die Verbindung mit dem Account konnte nicht hergestellt werden. Das liegt daran, dass Youtube die Anzahl der Aufrufe, die Programme machen dürfen, beschränkt. Für dieses Programm wurden heute alle Aufrufe ausgeschöpft, daher geht es heute nicht mehr.{Environment.NewLine}{Environment.NewLine}Bitte versuche es morgen wieder.", "Account kann heute nicht verbunden werden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			tlpSettings.Enabled = true;

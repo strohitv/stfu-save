@@ -185,7 +185,30 @@ namespace STFU.Lib.GUI.Forms
 
 		private void Worker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
+			var indices = new List<int>();
+			if (videosListView.SelectedIndices.Count > 0)
+			{
+				foreach (int index in videosListView.SelectedIndices)
+				{
+					indices.Add(index);
+				}
+			}
+			else
+			{
+				indices.Add(0);
+			}
+
 			RefillListView();
+
+			if (videosListView.Items.Count > 0)
+			{
+				videosListView.SelectedIndices.Clear();
+				foreach (var index in indices)
+				{
+					videosListView.SelectedIndices.Add(index);
+				}
+			}
+
 			mainTlp.Enabled = true;
 		}
 
