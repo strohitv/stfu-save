@@ -6,6 +6,7 @@
 		Running,
 		Successful,
 		Broke,
-		Error
+		Error,
+		QuotaReached
 	}
 }

@@ -44,7 +44,7 @@ namespace STFU.Lib.Youtube.Services
 		{
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;
-			string url = string.Format("https://www.googleapis.com/youtube/v3/i18nLanguages?part=snippet&hl={1}&key={0}", YoutubeClientData.Client.Secret, ci.Name);
+			string url = string.Format("https://www.googleapis.com/youtube/v3/i18nLanguages?part=snippet&hl={1}&key={0}", YoutubeClientData.YoutubeApiKey, ci.Name);
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Proxy = null;
 			request.Method = "GET";
@@ -54,7 +54,10 @@ namespace STFU.Lib.Youtube.Services
 			// Header schreiben
 			request.Headers.Add(string.Format("Authorization: Bearer {0}", accessToken));
 
-			Response response = JsonConvert.DeserializeObject<Response>(WebService.Communicate(request));
+			var result = WebService.Communicate(request);
+			QuotaProblemHandler.ThrowOnQuotaLimitReached(result);
+
+			Response response = JsonConvert.DeserializeObject<Response>(result);
 
 			var languages = response.items.Select(i => new YoutubeLanguage() { Id = i.id, Hl = i.snippet.hl, Name = i.snippet.name }).OrderBy(lang => lang.Name).ToArray();
 

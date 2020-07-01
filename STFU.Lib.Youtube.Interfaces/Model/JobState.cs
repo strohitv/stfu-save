@@ -9,6 +9,7 @@
 		Error,
 		Canceled,
 		Paused,
-		Broke
+		Broke,
+		QuotaReached
 	}
 }

@@ -39,6 +39,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				{
 					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					var thumbnailResource = WebService.Communicate(request);
+
+					Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(thumbnailResource);
 				}
 			}
 			else

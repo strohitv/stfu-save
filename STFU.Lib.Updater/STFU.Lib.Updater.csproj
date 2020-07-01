@@ -89,5 +89,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
+      <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>
+      <Name>STFU.Lib.Youtube.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

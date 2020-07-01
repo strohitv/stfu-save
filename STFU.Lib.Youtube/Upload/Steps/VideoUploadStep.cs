@@ -36,7 +36,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			GenerateInitUri();
 			var request = CreateRequest();
 
-			if (request == null)
+			if (request == null && !Status.QuotaReached)
 			{
 				// evtl. vorhandene UploadUri hat nicht geklappt => Versuch, den Upload von vorne zu beginnen.
 				Status.UploadAddress = null;
@@ -45,7 +45,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			}
 
 			// Hochladen
-			if (request != null && File.Exists(Video.Path))
+			if (!Status.QuotaReached && request != null && File.Exists(Video.Path))
 			{
 				Upload(Video.Path, request);
 
@@ -54,10 +54,15 @@ namespace STFU.Lib.Youtube.Upload.Steps
 					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					string result = WebService.Communicate(request);
 
-					Video.Id = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+					Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(result);
 
-					// Status entfernen, damit nicht erneut an die selbe Adresse hochgeladen wird.
-					Status.UploadAddress = null;
+					if (!Status.QuotaReached)
+					{
+						Video.Id = JsonConvert.DeserializeObject<SerializableYoutubeVideo>(result).id;
+
+						// Status entfernen, damit nicht erneut an die selbe Adresse hochgeladen wird.
+						Status.UploadAddress = null;
+					}
 				}
 			}
 
@@ -66,12 +71,14 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		private void GenerateInitUri()
 		{
-			if (Status.UploadAddress == null)
+			if (Status.UploadAddress == null && !Status.QuotaReached)
 			{
 				string result = InitializeUploadOnYoutube();
 
+				Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(result);
+
 				Uri uri = null;
-				if (Uri.TryCreate(result, UriKind.Absolute, out uri))
+				if (!Status.QuotaReached && Uri.TryCreate(result, UriKind.Absolute, out uri))
 				{
 					Status.UploadAddress = uri;
 				}
@@ -103,6 +110,11 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		private HttpWebRequest CreateRequest()
 		{
+			if (Status.QuotaReached)
+			{
+				return null;
+			}
+
 			// Default: Upload klappt nicht
 			HttpWebRequest request = null;
 
@@ -133,13 +145,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 			if (answer == null)
 			{
-				if (ex.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
+				if (ex?.Response != null && ((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
 				{
 					// Upload kann nicht fortgesetzt werden, da Verarbeitung mittlerweile abgebrochen wurde.
 					// Workaround: Upload neu starten
 					return -2;
 				}
-				else if (ex.Response != null && (int)((HttpWebResponse)ex.Response).StatusCode != 308)
+				else if (ex?.Response != null && (int)((HttpWebResponse)ex.Response).StatusCode != 308)
 				{
 					// Es gab einen anderen unerwarteten Fehler.
 					// Auch hier ist der Workaround ein Neustart.
@@ -147,6 +159,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				}
 
 				return -1;
+			}
+
+			Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(answer);
+
+			if (Status.QuotaReached)
+			{
+				return -4;
 			}
 
 			answer = answer.Substring("bytes=".Length);

@@ -121,6 +121,10 @@ namespace STFU.Lib.Youtube.Upload
 			{
 				StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.Running));
 			}
+			else if (e.NewState == UploadStepState.QuotaReached)
+			{
+				StateChanged?.Invoke(this, new UploaderStateChangedEventArgs(JobState.QuotaReached));
+			}
 		}
 
 		public void Reset()

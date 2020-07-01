@@ -44,6 +44,7 @@ namespace STFU.Lib.Youtube.Services
 			request.ContentType = "application/x-www-form-urlencoded";
 
 			string result = WebService.Communicate(request, bytes);
+			QuotaProblemHandler.ThrowOnQuotaLimitReached(result);
 
 			IYoutubeAccount account = null;
 			var authResponse = JsonConvert.DeserializeObject<YoutubeAuthResponse>(result);
@@ -72,7 +73,7 @@ namespace STFU.Lib.Youtube.Services
 
 		private static Response GetAccountDetails(IYoutubeAccountAccess access)
 		{
-			string url = $"https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&key={access.Client.Secret}";
+			string url = $"https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true&key={YoutubeClientData.YoutubeApiKey}";
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = "GET";
 			request.Credentials = CredentialCache.DefaultCredentials;
@@ -81,7 +82,10 @@ namespace STFU.Lib.Youtube.Services
 			// Header schreiben
 			request.Headers.Add($"Authorization: Bearer {access.AccessToken}");
 
-			Response response = JsonConvert.DeserializeObject<Response>(WebService.Communicate(request));
+			var result = WebService.Communicate(request);
+			QuotaProblemHandler.ThrowOnQuotaLimitReached(result);
+
+			Response response = JsonConvert.DeserializeObject<Response>(result);
 
 			return response;
 		}

@@ -6,7 +6,8 @@
 		{
 			return state == JobState.Running
 				 || state == JobState.Paused
-				 || state == JobState.Broke;
+				 || state == JobState.Broke
+				 || state == JobState.QuotaReached;
 		}
 
 		public static bool IsCanceled(this JobState state)

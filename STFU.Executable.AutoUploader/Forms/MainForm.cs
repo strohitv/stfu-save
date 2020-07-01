@@ -197,36 +197,43 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
-			if (result == DialogResult.OK
-				&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Code)) != null)
+			try
 			{
-				accountContainer.RegisterAccount(account);
-
-				var loader = new LanguageCategoryLoader(accountContainer);
-				var categories = loader.Categories;
-
-				categoryContainer.UnregisterAllCategories();
-				foreach (var category in categories)
+				if (result == DialogResult.OK
+					&& (account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Code)) != null)
 				{
-					categoryContainer.RegisterCategory(category);
+					accountContainer.RegisterAccount(account);
+
+					var loader = new LanguageCategoryLoader(accountContainer);
+					var categories = loader.Categories;
+
+					categoryContainer.UnregisterAllCategories();
+					foreach (var category in categories)
+					{
+						categoryContainer.RegisterCategory(category);
+					}
+
+					var languages = loader.Languages;
+
+					languageContainer.UnregisterAllLanguages();
+					foreach (var language in languages)
+					{
+						languageContainer.RegisterLanguage(language);
+					}
+
+					// Account speichern! Und so!
+					accountPersistor.Save();
+					categoryPersistor.Save();
+					languagePersistor.Save();
+
+					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					ActivateAccountLink();
 				}
-
-				var languages = loader.Languages;
-
-				languageContainer.UnregisterAllLanguages();
-				foreach (var language in languages)
-				{
-					languageContainer.RegisterLanguage(language);
-				}
-
-				// Account speichern! Und so!
-				accountPersistor.Save();
-				categoryPersistor.Save();
-				languagePersistor.Save();
-
-				MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-				ActivateAccountLink();
+			}
+			catch (QuotaErrorException)
+			{
+				MessageBox.Show(this, $"Die Verbindung mit dem Account konnte nicht hergestellt werden. Das liegt daran, dass Youtube die Anzahl der Aufrufe, die Programme machen dürfen, beschränkt. Für dieses Programm wurden heute alle Aufrufe ausgeschöpft, daher geht es heute nicht mehr.{Environment.NewLine}{Environment.NewLine}Bitte versuche es morgen wieder.", "Account kann heute nicht verbunden werden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			tlpSettings.Enabled = true;
