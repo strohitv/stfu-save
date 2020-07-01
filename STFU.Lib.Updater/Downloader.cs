@@ -3,6 +3,7 @@ using System.IO;
 using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using STFU.Lib.Youtube.Model;
 
 namespace STFU.Lib.Updater
 {
@@ -12,7 +13,7 @@ namespace STFU.Lib.Updater
 		{
 			var driveService = new DriveService(new BaseClientService.Initializer
 			{
-				ApiKey = "AIzaSyBPC7Fex7tSTu-maq85WXx5TkzTKA_tnD4"
+				ApiKey = YoutubeClientData.UpdaterApiKey
 			});
 
 			var request = driveService.Files.Get(fileId);

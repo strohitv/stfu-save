@@ -53,7 +53,7 @@ namespace STFU.Lib.Youtube.Services
 			if (firstOutdatedAccess != null)
 			{
 				// Content zusammenbauen
-				string content = $"client_id={firstOutdatedAccess.Client.Id}&client_secret={firstOutdatedAccess.Client.Secret}&refresh_token={firstOutdatedAccess.RefreshToken}&grant_type=refresh_token";
+				string content = $"client_id={YoutubeClientData.Client.Id}&client_secret={YoutubeClientData.Client.Secret}&refresh_token={firstOutdatedAccess.RefreshToken}&grant_type=refresh_token";
 				var bytes = Encoding.UTF8.GetBytes(content);
 
 				// Request erstellen

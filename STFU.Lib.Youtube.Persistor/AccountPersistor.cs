@@ -14,13 +14,13 @@ namespace STFU.Lib.Youtube.Persistor
 		public IYoutubeAccountContainer Container { get; private set; } = null;
 		public IYoutubeAccountContainer Saved { get; private set; } = null;
 
-		private IYoutubeClientContainer clients { get; set; }
+		private IYoutubeClientContainer Clients { get; set; }
 
 		public AccountPersistor(IYoutubeAccountContainer container, string path, IYoutubeClientContainer clients)
 		{
 			Path = path;
 			Container = container;
-			this.clients = clients;
+			Clients = clients;
 		}
 
 		public bool Load()
@@ -43,7 +43,7 @@ namespace STFU.Lib.Youtube.Persistor
 						{
 							foreach (var ac in loaded.Access)
 							{
-								ac.Client = clients.RegisteredClients.SingleOrDefault(rc => rc.Id == ac.ClientId);
+								ac.Client = Clients.RegisteredClients.SingleOrDefault(rc => rc.Id == ac.ClientId);
 							}
 
 							for (int i = 0; i < loaded.Access.Count; i++)

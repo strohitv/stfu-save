@@ -1,4 +1,5 @@
-﻿using STFU.Lib.Youtube.Interfaces.Model;
+﻿using Newtonsoft.Json;
+using STFU.Lib.Youtube.Interfaces.Model;
 using System;
 
 namespace STFU.Lib.Youtube.Model
@@ -23,6 +24,7 @@ namespace STFU.Lib.Youtube.Model
 
 		public string ClientId { get; set; }
 
+		[JsonIgnore]
 		public IYoutubeClient Client { get; set; } = YoutubeClientData.Client;
 	}
 }

@@ -19,7 +19,7 @@ namespace STFU.Lib.Youtube.Services
 			catch (Exception)
 			{
 				// Lies sich nicht in einen Quota-Fehler parsen => Ist keiner
-				return true;
+				return false;
 			}
 
 		}
