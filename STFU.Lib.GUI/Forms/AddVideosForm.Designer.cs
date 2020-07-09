@@ -44,6 +44,7 @@
 			this.loadWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
+			this.insertTemplatesButton = new System.Windows.Forms.Button();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -111,11 +112,14 @@
 			this.tableLayoutPanel2.Controls.Add(this.moveVideosDownButton, 0, 4);
 			this.tableLayoutPanel2.Controls.Add(this.removeVideoButton, 0, 6);
 			this.tableLayoutPanel2.Controls.Add(this.clearVideosButton, 0, 8);
+			this.tableLayoutPanel2.Controls.Add(this.insertTemplatesButton, 0, 10);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 10;
+			this.tableLayoutPanel2.RowCount = 12;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -139,7 +143,7 @@
 			this.videosListView.Location = new System.Drawing.Point(62, 0);
 			this.videosListView.Margin = new System.Windows.Forms.Padding(0);
 			this.videosListView.Name = "videosListView";
-			this.tableLayoutPanel2.SetRowSpan(this.videosListView, 10);
+			this.tableLayoutPanel2.SetRowSpan(this.videosListView, 12);
 			this.videosListView.Size = new System.Drawing.Size(184, 727);
 			this.videosListView.TabIndex = 0;
 			this.videosListView.UseCompatibleStateImageBehavior = false;
@@ -289,6 +293,22 @@
 			this.addVideosDialog.Multiselect = true;
 			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
 			// 
+			// insertTemplatesButton
+			// 
+			this.insertTemplatesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.insertTemplatesButton.AutoSize = true;
+			this.insertTemplatesButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.insertTemplatesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.insertTemplatesButton.ForeColor = System.Drawing.Color.Blue;
+			this.insertTemplatesButton.Location = new System.Drawing.Point(0, 255);
+			this.insertTemplatesButton.Margin = new System.Windows.Forms.Padding(0);
+			this.insertTemplatesButton.Name = "insertTemplatesButton";
+			this.insertTemplatesButton.Size = new System.Drawing.Size(52, 41);
+			this.insertTemplatesButton.TabIndex = 3;
+			this.insertTemplatesButton.Text = "T";
+			this.insertTemplatesButton.UseVisualStyleBackColor = true;
+			this.insertTemplatesButton.Click += new System.EventHandler(this.insertTemplatesButton_Click);
+			// 
 			// AddVideosForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -329,5 +349,6 @@
 		private System.Windows.Forms.Button moveVideosDownButton;
 		private System.Windows.Forms.Button removeVideoButton;
 		private System.Windows.Forms.Button clearVideosButton;
+		private System.Windows.Forms.Button insertTemplatesButton;
 	}
 }

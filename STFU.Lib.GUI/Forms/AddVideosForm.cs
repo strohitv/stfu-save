@@ -75,7 +75,7 @@ namespace STFU.Lib.GUI.Forms
 
 		private void videosListView_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			moveVideosUpButton.Enabled = moveVideosDownButton.Enabled = removeVideoButton.Enabled = videosListView.SelectedIndices.Count > 0;
+			moveVideosUpButton.Enabled = moveVideosDownButton.Enabled = removeVideoButton.Enabled = insertTemplatesButton.Enabled = videosListView.SelectedIndices.Count > 0;
 
 			if (videosListView.SelectedIndices.Count == 1)
 			{
@@ -310,6 +310,28 @@ namespace STFU.Lib.GUI.Forms
 		private void videosListView_Resize(object sender, System.EventArgs e)
 		{
 			videosListView.Columns[0].Width = videosListView.Width - 15;
+		}
+
+		private void insertTemplatesButton_Click(object sender, System.EventArgs e)
+		{
+			SelectTemplateDialog dialog = new SelectTemplateDialog();
+			dialog.Templates = Templates;
+
+			var result = dialog.ShowDialog(this);
+
+			if (result == DialogResult.OK)
+			{
+				var template = dialog.SelectedTemplate;
+				foreach (int index in videosListView.SelectedIndices)
+				{
+					Videos[index] = TemplateVideoCreator.CreateVideo(Videos[index].Video.Path, new PublishTimeCalculator(null, template));
+
+					if (videosListView.SelectedIndices.Count == 1)
+					{
+						editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
+					}
+				}
+			}
 		}
 	}
 }

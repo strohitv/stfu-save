@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
-using STFU.Lib.Youtube.Automation.Paths;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -22,7 +21,6 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public VideoInformation CreateVideo(string path, bool saveNextUploadSuggestion = true)
 		{
-			IYoutubeVideo video = new YoutubeVideo(path);
 
 			// Template suchen anhand des Pfades
 			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
@@ -32,6 +30,12 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				publishCalculator = new PublishTimeCalculator(new Paths.Path(), new Template());
 			}
 
+			return CreateVideo(path, publishCalculator, saveNextUploadSuggestion);
+		}
+
+		public VideoInformation CreateVideo(string path, PublishTimeCalculator publishCalculator, bool saveNextUploadSuggestion = true)
+		{
+			IYoutubeVideo video = new YoutubeVideo(path);
 			var template = publishCalculator.Template;
 
 			//TODO: Video muss die Mailversandsinformationen gespeicher bekommen, am besten via einer eigenen Klasse!

@@ -84,6 +84,12 @@
     <Compile Include="Forms\EditVideoForm.Designer.cs">
       <DependentUpon>EditVideoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SelectTemplateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectTemplateDialog.Designer.cs">
+      <DependentUpon>SelectTemplateDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditVideoForm.resx">
       <DependentUpon>EditVideoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectTemplateDialog.resx">
+      <DependentUpon>SelectTemplateDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
