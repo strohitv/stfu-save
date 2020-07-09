@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Paths;
@@ -24,11 +25,11 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 			IYoutubeVideo video = new YoutubeVideo(path);
 
 			// Template suchen anhand des Pfades
-			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
+			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
 
 			if (publishCalculator == null)
 			{
-				publishCalculator = new PublishTimeCalculator(new Path(), new Template());
+				publishCalculator = new PublishTimeCalculator(new Paths.Path(), new Template());
 			}
 
 			var template = publishCalculator.Template;
@@ -91,7 +92,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public IPath FindNearestPath(string path)
 		{
-			var publishCalculator = PublishInfos.OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
+			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
 			return publishCalculator?.PathInfo;
 		}
 
