@@ -29,6 +29,21 @@ namespace STFU.Lib.GUI.Controls
 			}
 		}
 
+		private INotificationSettings notificationSettings;
+		public INotificationSettings NotificationSettings
+		{
+			get
+			{
+				return notificationSettings;
+			}
+			private set
+			{
+				notificationSettings = value;
+				RefreshNotificationSettings();
+			}
+		}
+		public bool HasMailPrivilegue { get; private set; }
+
 		public bool IsNewUpload
 		{
 			get
@@ -52,7 +67,7 @@ namespace STFU.Lib.GUI.Controls
 			InitializeComponent();
 		}
 
-		public void Fill(IYoutubeVideo video, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
 		{
 			categoryContainer = catContainer;
 			RefreshCategories();
@@ -60,7 +75,9 @@ namespace STFU.Lib.GUI.Controls
 			languageContainer = langContainer;
 			RefreshLanguages();
 
+			HasMailPrivilegue = hasMailPrivilegue;
 			Video = video;
+			NotificationSettings = notificationSettings;
 		}
 
 		private void RefreshLanguages()
@@ -145,6 +162,23 @@ namespace STFU.Lib.GUI.Controls
 				.ToArray();
 
 			RefreshTagsCharacterCountLabel(tags);
+		}
+
+		private void RefreshNotificationSettings()
+		{
+			desktopNotificationVideoFoundCheckbox.Checked = NotificationSettings.NotifyOnVideoFoundDesktop;
+			desktopNotificationUploadStartedCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadStartedDesktop;
+			desktopNotificationUploadSuccesfulCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadFinishedDesktop;
+			desktopNotificationUploadFailedCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadFailedDesktop;
+
+			mailNotificationsGroupBox.Enabled = HasMailPrivilegue;
+			mailNofiticationWarningLabel.Visible = !HasMailPrivilegue;
+
+			mailReceiverTextbox.Text = NotificationSettings.MailReceiver;
+			mailNotificationVideoFoundCheckbox.Checked = NotificationSettings.NotifyOnVideoFoundMail;
+			mailNotificationUploadStartedCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadStartedMail;
+			mailNotificationUploadSuccesfulCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadFinishedMail;
+			mailNotificationUploadFailedCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadFailedMail;
 		}
 
 		private void titleTextbox_TextChanged(object sender, EventArgs e)

@@ -6,6 +6,7 @@ using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Templates;
 using STFU.Lib.Youtube.Interfaces;
+using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.GUI.Forms
 {
@@ -13,6 +14,7 @@ namespace STFU.Lib.GUI.Forms
 	{
 		private IYoutubeCategoryContainer CategoryContainer { get; set; }
 		private IYoutubeLanguageContainer LanguageContainer { get; set; }
+		private IYoutubeAccount Account { get; set; }
 		private string[] Paths { get; set; }
 		private ITemplate[] Templates { get; set; }
 		private IPath[] PathInfos { get; set; }
@@ -20,7 +22,7 @@ namespace STFU.Lib.GUI.Forms
 		public TemplateVideoCreator TemplateVideoCreator { get; private set; }
 		public List<VideoInformation> Videos { get; } = new List<VideoInformation>();
 
-		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer)
+		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, IYoutubeAccount account)
 		{
 			InitializeComponent();
 			editVideoInformationGrid.IsNewUpload = true;
@@ -29,6 +31,7 @@ namespace STFU.Lib.GUI.Forms
 
 			CategoryContainer = categoryContainer;
 			LanguageContainer = languageContainer;
+			Account = account;
 			Templates = templates;
 			PathInfos = pathInfos;
 		}
@@ -79,7 +82,7 @@ namespace STFU.Lib.GUI.Forms
 
 			if (videosListView.SelectedIndices.Count == 1)
 			{
-				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
+				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer);
 				editVideoInformationGrid.Enabled = true;
 			}
 			else
@@ -328,7 +331,7 @@ namespace STFU.Lib.GUI.Forms
 
 					if (videosListView.SelectedIndices.Count == 1)
 					{
-						editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, CategoryContainer, LanguageContainer);
+						editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer);
 					}
 				}
 			}

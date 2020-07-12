@@ -68,6 +68,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -95,6 +96,12 @@
     </Compile>
     <Compile Include="Forms\AddPlannedVideoForm.Designer.cs">
       <DependentUpon>AddPlannedVideoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BrowserForm.Designer.cs">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ChooseStartTimesForm.cs">
       <SubType>Form</SubType>
@@ -150,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPlannedVideoForm.resx">
       <DependentUpon>AddPlannedVideoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BrowserForm.resx">
+      <DependentUpon>BrowserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ChooseStartTimesForm.resx">
       <DependentUpon>ChooseStartTimesForm.cs</DependentUpon>
@@ -213,6 +223,10 @@
       <Project>{BC19390A-F56E-4384-9BE8-193D0183444E}</Project>
       <Name>STFU.Lib.MailSender</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">
+      <Project>{00A77E89-637A-442E-B9EA-B39971BF8C82}</Project>
+      <Name>STFU.Lib.Twitter</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Updater\STFU.Lib.Updater.csproj">
       <Project>{4FB3D7AE-980F-41A0-B97B-EA11EFFF3508}</Project>

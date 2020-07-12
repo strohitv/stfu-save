@@ -171,6 +171,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.lblCurrentLoggedIn.TabIndex = 10;
 			this.lblCurrentLoggedIn.Text = "Angemeldet:";
 			this.lblCurrentLoggedIn.Visible = false;
+			this.lblCurrentLoggedIn.Click += new System.EventHandler(this.lblCurrentLoggedIn_Click);
 			// 
 			// lnklblCurrentLoggedIn
 			// 

@@ -64,25 +64,25 @@
 			this.mainTabControl = new System.Windows.Forms.TabControl();
 			this.generalTabPage = new System.Windows.Forms.TabPage();
 			this.notificationsTabPage = new System.Windows.Forms.TabPage();
-			this.twitterTabPage = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.desktopNotificationsGroupBox = new System.Windows.Forms.GroupBox();
-			this.mailNotificationsGroupBox = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
 			this.desktopNotificationVideoFoundCheckbox = new System.Windows.Forms.CheckBox();
 			this.desktopNotificationUploadStartedCheckbox = new System.Windows.Forms.CheckBox();
 			this.desktopNotificationUploadSuccesfulCheckbox = new System.Windows.Forms.CheckBox();
 			this.desktopNotificationUploadFailedCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailNotificationsGroupBox = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
 			this.mailNotificationVideoFoundCheckbox = new System.Windows.Forms.CheckBox();
 			this.mailNotificationUploadStartedCheckbox = new System.Windows.Forms.CheckBox();
 			this.mailNotificationUploadSuccesfulCheckbox = new System.Windows.Forms.CheckBox();
 			this.mailNotificationUploadFailedCheckbox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.label3 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.mailReceiverTextbox = new System.Windows.Forms.TextBox();
+			this.mailNofiticationWarningLabel = new System.Windows.Forms.Label();
+			this.twitterTabPage = new System.Windows.Forms.TabPage();
 			this.generalSettingsTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
@@ -93,8 +93,8 @@
 			this.notificationsTabPage.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.desktopNotificationsGroupBox.SuspendLayout();
-			this.mailNotificationsGroupBox.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
+			this.mailNotificationsGroupBox.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
 			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
@@ -635,16 +635,6 @@
 			this.notificationsTabPage.Text = "Benachrichtigungen";
 			this.notificationsTabPage.UseVisualStyleBackColor = true;
 			// 
-			// twitterTabPage
-			// 
-			this.twitterTabPage.Location = new System.Drawing.Point(4, 22);
-			this.twitterTabPage.Name = "twitterTabPage";
-			this.twitterTabPage.Padding = new System.Windows.Forms.Padding(3);
-			this.twitterTabPage.Size = new System.Drawing.Size(1122, 778);
-			this.twitterTabPage.TabIndex = 2;
-			this.twitterTabPage.Text = "Twitter";
-			this.twitterTabPage.UseVisualStyleBackColor = true;
-			// 
 			// tableLayoutPanel1
 			// 
 			this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
@@ -654,7 +644,7 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.Controls.Add(this.desktopNotificationsGroupBox, 1, 1);
 			this.tableLayoutPanel1.Controls.Add(this.mailNotificationsGroupBox, 1, 4);
-			this.tableLayoutPanel1.Controls.Add(this.label2, 1, 3);
+			this.tableLayoutPanel1.Controls.Add(this.mailNofiticationWarningLabel, 1, 3);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -682,20 +672,6 @@
 			this.desktopNotificationsGroupBox.TabStop = false;
 			this.desktopNotificationsGroupBox.Text = "Desktop-Benachrichtigungen";
 			// 
-			// mailNotificationsGroupBox
-			// 
-			this.mailNotificationsGroupBox.AutoSize = true;
-			this.mailNotificationsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.mailNotificationsGroupBox.Controls.Add(this.tableLayoutPanel3);
-			this.mailNotificationsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mailNotificationsGroupBox.Enabled = false;
-			this.mailNotificationsGroupBox.Location = new System.Drawing.Point(13, 142);
-			this.mailNotificationsGroupBox.Name = "mailNotificationsGroupBox";
-			this.mailNotificationsGroupBox.Size = new System.Drawing.Size(1110, 132);
-			this.mailNotificationsGroupBox.TabIndex = 0;
-			this.mailNotificationsGroupBox.TabStop = false;
-			this.mailNotificationsGroupBox.Text = "E-Mail-Benachrichtigungen";
-			// 
 			// tableLayoutPanel2
 			// 
 			this.tableLayoutPanel2.AutoSize = true;
@@ -722,37 +698,6 @@
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel2.Size = new System.Drawing.Size(1104, 64);
 			this.tableLayoutPanel2.TabIndex = 0;
-			// 
-			// tableLayoutPanel3
-			// 
-			this.tableLayoutPanel3.AutoSize = true;
-			this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel3.ColumnCount = 5;
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.Controls.Add(this.mailNotificationVideoFoundCheckbox, 1, 3);
-			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadStartedCheckbox, 3, 3);
-			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadSuccesfulCheckbox, 1, 5);
-			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadFailedCheckbox, 3, 5);
-			this.tableLayoutPanel3.Controls.Add(this.label1);
-			this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel1, 1, 1);
-			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
-			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-			this.tableLayoutPanel3.RowCount = 7;
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(1104, 113);
-			this.tableLayoutPanel3.TabIndex = 0;
 			// 
 			// desktopNotificationVideoFoundCheckbox
 			// 
@@ -801,6 +746,51 @@
 			this.desktopNotificationUploadFailedCheckbox.TabIndex = 0;
 			this.desktopNotificationUploadFailedCheckbox.Text = "Fehler beim Upload";
 			this.desktopNotificationUploadFailedCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// mailNotificationsGroupBox
+			// 
+			this.mailNotificationsGroupBox.AutoSize = true;
+			this.mailNotificationsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.mailNotificationsGroupBox.Controls.Add(this.tableLayoutPanel3);
+			this.mailNotificationsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mailNotificationsGroupBox.Enabled = false;
+			this.mailNotificationsGroupBox.Location = new System.Drawing.Point(13, 142);
+			this.mailNotificationsGroupBox.Name = "mailNotificationsGroupBox";
+			this.mailNotificationsGroupBox.Size = new System.Drawing.Size(1110, 132);
+			this.mailNotificationsGroupBox.TabIndex = 0;
+			this.mailNotificationsGroupBox.TabStop = false;
+			this.mailNotificationsGroupBox.Text = "E-Mail-Benachrichtigungen";
+			// 
+			// tableLayoutPanel3
+			// 
+			this.tableLayoutPanel3.AutoSize = true;
+			this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel3.ColumnCount = 5;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationVideoFoundCheckbox, 1, 3);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadStartedCheckbox, 3, 3);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadSuccesfulCheckbox, 1, 5);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadFailedCheckbox, 3, 5);
+			this.tableLayoutPanel3.Controls.Add(this.label1);
+			this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel1, 1, 1);
+			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+			this.tableLayoutPanel3.RowCount = 7;
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(1104, 113);
+			this.tableLayoutPanel3.TabIndex = 0;
 			// 
 			// mailNotificationVideoFoundCheckbox
 			// 
@@ -859,26 +849,13 @@
 			this.label1.TabIndex = 1;
 			this.label1.Text = "label1";
 			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.ForeColor = System.Drawing.Color.Red;
-			this.label2.Location = new System.Drawing.Point(10, 109);
-			this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(1113, 20);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Wenn du mit dem Uploader Mails verschicken möchtest, musst du den Account mit akt" +
-    "iviertem Haken für den Mailversand neu verknüpfen!";
-			// 
 			// flowLayoutPanel1
 			// 
 			this.flowLayoutPanel1.AutoSize = true;
 			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tableLayoutPanel3.SetColumnSpan(this.flowLayoutPanel1, 3);
 			this.flowLayoutPanel1.Controls.Add(this.label3);
-			this.flowLayoutPanel1.Controls.Add(this.textBox1);
+			this.flowLayoutPanel1.Controls.Add(this.mailReceiverTextbox);
 			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 10);
 			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -897,12 +874,35 @@
 			this.label3.TabIndex = 0;
 			this.label3.Text = "E-Mail-Adresse: ";
 			// 
-			// textBox1
+			// mailReceiverTextbox
 			// 
-			this.textBox1.Location = new System.Drawing.Point(96, 3);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(637, 20);
-			this.textBox1.TabIndex = 1;
+			this.mailReceiverTextbox.Location = new System.Drawing.Point(96, 3);
+			this.mailReceiverTextbox.Name = "mailReceiverTextbox";
+			this.mailReceiverTextbox.Size = new System.Drawing.Size(637, 20);
+			this.mailReceiverTextbox.TabIndex = 1;
+			// 
+			// mailNofiticationWarningLabel
+			// 
+			this.mailNofiticationWarningLabel.AutoSize = true;
+			this.mailNofiticationWarningLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.mailNofiticationWarningLabel.ForeColor = System.Drawing.Color.Red;
+			this.mailNofiticationWarningLabel.Location = new System.Drawing.Point(10, 109);
+			this.mailNofiticationWarningLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+			this.mailNofiticationWarningLabel.Name = "mailNofiticationWarningLabel";
+			this.mailNofiticationWarningLabel.Size = new System.Drawing.Size(1113, 20);
+			this.mailNofiticationWarningLabel.TabIndex = 1;
+			this.mailNofiticationWarningLabel.Text = "Wenn du mit dem Uploader Mails verschicken möchtest, musst du den Account mit akt" +
+    "iviertem Haken für den Mailversand neu verknüpfen!";
+			// 
+			// twitterTabPage
+			// 
+			this.twitterTabPage.Location = new System.Drawing.Point(4, 22);
+			this.twitterTabPage.Name = "twitterTabPage";
+			this.twitterTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.twitterTabPage.Size = new System.Drawing.Size(1142, 798);
+			this.twitterTabPage.TabIndex = 2;
+			this.twitterTabPage.Text = "Twitter";
+			this.twitterTabPage.UseVisualStyleBackColor = true;
 			// 
 			// EditVideoGrid
 			// 
@@ -927,10 +927,10 @@
 			this.tableLayoutPanel1.PerformLayout();
 			this.desktopNotificationsGroupBox.ResumeLayout(false);
 			this.desktopNotificationsGroupBox.PerformLayout();
-			this.mailNotificationsGroupBox.ResumeLayout(false);
-			this.mailNotificationsGroupBox.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
+			this.mailNotificationsGroupBox.ResumeLayout(false);
+			this.mailNotificationsGroupBox.PerformLayout();
 			this.tableLayoutPanel3.ResumeLayout(false);
 			this.tableLayoutPanel3.PerformLayout();
 			this.flowLayoutPanel1.ResumeLayout(false);
@@ -992,9 +992,9 @@
 		private System.Windows.Forms.CheckBox mailNotificationUploadSuccesfulCheckbox;
 		private System.Windows.Forms.CheckBox mailNotificationUploadFailedCheckbox;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label mailNofiticationWarningLabel;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox mailReceiverTextbox;
 	}
 }

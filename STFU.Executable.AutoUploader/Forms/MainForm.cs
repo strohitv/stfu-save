@@ -868,7 +868,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer);
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, accountContainer.RegisteredAccounts.First());
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
@@ -906,6 +906,12 @@ namespace STFU.Executable.AutoUploader.Forms
 					autoUploader.Uploader.RemoveFromQueue(autoUploader.Uploader.Queue.ElementAt(0));
 				}
 			}
+		}
+
+		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		{
+			BrowserForm form = new BrowserForm();
+			form.ShowDialog(this);
 		}
 	}
 }
