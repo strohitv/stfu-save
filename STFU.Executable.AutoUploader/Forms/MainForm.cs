@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
+using STFU.Lib.Twitter;
+using STFU.Lib.Twitter.Model;
 using STFU.Lib.Youtube;
 using STFU.Lib.Youtube.Automation;
 using STFU.Lib.Youtube.Automation.Interfaces;
@@ -35,6 +37,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
 		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
 
+		ITwitterAccountContainer twitterAccountContainer = new TwitterAccountContainer();
+
 		IYoutubeAccountCommunicator accountCommunicator = new YoutubeAccountCommunicator();
 
 		IAutomationUploader autoUploader;
@@ -51,6 +55,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 		JobPersistor queuePersistor = null;
 		JobPersistor archivePersistor = null;
+
+		TwitterAccountPersistor twitterAccountPersistor = null;
 
 		private bool showReleaseNotes = false;
 		bool ended = false;
@@ -173,25 +179,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			templatePersistor.Save();
 		}
 
-		private void btnConnectYoutubeAccountClick(object sender, EventArgs e)
-		{
-			if (accountContainer.RegisteredAccounts.Count > 0)
-			{
-				RevokeAccess();
-			}
-			else
-			{
-				ConnectToYoutube();
-			}
-		}
-
 		private void ConnectToYoutube()
 		{
 			tlpSettings.Enabled = false;
 
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
-			var addForm = new AddAccountForm();
+			var addForm = new AddYoutubeAccountForm();
 			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
 			addForm.SendMailAuthUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage | GoogleScope.SendMail).AbsoluteUri;
 
@@ -243,7 +237,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = addVideosToQueueButton.Enabled = clearVideosButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
-			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
+			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title ?? "Kanaltitel unbekannt";
 			btnStart.Enabled = true;
 			queueStatusButton.Enabled = true;
 		}
@@ -333,7 +327,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					Invoke(new action(() => TaskbarManager.Instance.SetProgressValue(10000, 10000, Handle)));
 				}
 
-				if (autoUploader.State == RunningState.NotRunning && autoUploader.Uploader.State == UploaderState.Waiting 
+				if (autoUploader.State == RunningState.NotRunning && autoUploader.Uploader.State == UploaderState.Waiting
 					&& autoUploader.Uploader.Queue.All(j => j.State == JobState.Canceled || j.State == JobState.Error || j.State == JobState.Successful))
 				{
 					ended = true;
@@ -468,7 +462,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefreshToolstripButtonsEnabled()
 		{
-			verbindenToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count == 0;
+			verbindenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count == 0;
 			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
@@ -505,6 +499,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
 			archivePersistor.Load();
 
+			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
+			twitterAccountPersistor.Load();
+
 			foreach (var item in queueContainer.RegisteredJobs)
 			{
 				item.Account = accountContainer.RegisteredAccounts.FirstOrDefault(a => a.Id == item.Account.Id);
@@ -540,6 +537,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			RefillListView();
 			RefillArchiveView();
 			ActivateAccountLink();
+			ActivateAccountLinkTwitter();
 
 			if (File.Exists("stfu-updater.exe"))
 			{
@@ -908,10 +906,76 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		private void lblCurrentLoggedIn_Click(object sender, EventArgs e)
+		private void verbindenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			BrowserForm form = new BrowserForm();
-			form.ShowDialog(this);
+			ConnectToTwitter();
+		}
+
+		private void ConnectToTwitter()
+		{
+			tlpSettings.Enabled = false;
+
+			var oauthCommunicator = new TwitterAccountConnector();
+			var addForm = new AddTwitterAccountForm()
+			{
+				Communicator = oauthCommunicator
+			};
+
+			var result = addForm.ShowDialog(this);
+			ITwitterAccount account = null;
+			try
+			{
+				if (result == DialogResult.OK && (account = oauthCommunicator.ConnectAccount(addForm.AuthPIN)) != null)
+				{
+					twitterAccountContainer.Account = account;
+					twitterAccountPersistor.Save();
+
+					MessageBox.Show(this, "Der Uploader wurde erfolgreich mit dem Account verbunden!", "Account verbunden!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					ActivateAccountLinkTwitter();
+				}
+			}
+			catch (QuotaErrorException)
+			{
+				MessageBox.Show(this, $"Die Verbindung mit dem Account konnte nicht hergestellt werden. Das liegt daran, dass Youtube die Anzahl der Aufrufe, die Programme machen dürfen, beschränkt. Für dieses Programm wurden heute alle Aufrufe ausgeschöpft, daher geht es heute nicht mehr.{Environment.NewLine}{Environment.NewLine}Bitte versuche es morgen wieder.", "Account kann heute nicht verbunden werden!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			tlpSettings.Enabled = true;
+		}
+
+		private void ActivateAccountLinkTwitter()
+		{
+			twitterAccountLinkLabel.Visible = twitterAccountLabel.Visible = twitterAccountVerbindungLösenToolStripMenuItem.Enabled = twitterAccountContainer.Account != null;
+			twitterAccountVerbindenToolStripMenuItem.Enabled = twitterAccountContainer.Account == null;
+
+			if (twitterAccountContainer.Account != null)
+			{
+				twitterAccountLinkLabel.Text = twitterAccountContainer.Account.ScreenName;
+			}
+		}
+
+		private void twitterAccountLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			if (twitterAccountContainer.Account == null)
+			{
+				return;
+			}
+
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo($"https://twitter.com/i/user/{twitterAccountContainer.Account.UserId}");
+			p.Start();
+		}
+
+		private void twitterAccountVerbindungLösenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CoreTweetTest.Tweet(twitterAccountContainer.Account);
+			if (twitterAccountContainer.Account != null && TwitterAccountConnector.ScheduleTweet(twitterAccountContainer.Account))
+			{
+				twitterAccountContainer.Account = null;
+				twitterAccountPersistor.Save();
+
+				ActivateAccountLinkTwitter();
+			}
 		}
 	}
 }

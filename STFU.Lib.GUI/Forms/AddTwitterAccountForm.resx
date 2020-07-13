@@ -117,4 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="useExternalExplanationLabel.Text" xml:space="preserve">
+    <value>Bitte öffne den folgenden Link in einem externen Browser. Dort kannst du dich dann anmelden und dem Uploader die benötigten Rechte für das Posten auf Twitter einräumen. Am Ende des Verfahrens wird dir eine PIN genannt. Bitte füge diese dann unten ein.</value>
+  </data>
 </root>
