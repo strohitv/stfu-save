@@ -133,6 +133,7 @@
 			this.ClientSize = new System.Drawing.Size(457, 105);
 			this.Controls.Add(this.mainTlp);
 			this.Name = "SelectTemplateDialog";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Template zum Einspielen auswählen";
 			this.Load += new System.EventHandler(this.SelectTemplateDialog_Load);
 			this.mainTlp.ResumeLayout(false);

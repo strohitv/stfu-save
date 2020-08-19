@@ -89,7 +89,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				// let it go true only if the process is accessable
 				result = p.HasExited || true;
 			}
-			catch (Win32Exception)
+			catch (Exception)
 			{ }
 
 			return result;

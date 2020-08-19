@@ -42,6 +42,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.youtubeAccountToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.verbindenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.verbindungLösenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twitterAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twitterAccountVerbindenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twitterAccountVerbindungLösenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.templatesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +70,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
+			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.limitUploadSpeedNud = new System.Windows.Forms.NumericUpDown();
 			this.limitUploadSpeedCheckbox = new System.Windows.Forms.CheckBox();
@@ -76,6 +80,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
+			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.startExtendedOptionsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pathsTabPage = new System.Windows.Forms.TabPage();
@@ -97,18 +102,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.archiveRemoveJobButton = new System.Windows.Forms.Button();
 			this.archiveAddButton = new System.Windows.Forms.Button();
 			this.moveBackToQueueButton = new System.Windows.Forms.Button();
+			this.twitterAccountLabel = new System.Windows.Forms.Label();
+			this.twitterAccountLinkLabel = new System.Windows.Forms.LinkLabel();
 			this.bgwCreateUploader = new System.ComponentModel.BackgroundWorker();
 			this.watchingTimer = new System.Windows.Forms.Timer(this.components);
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.twitterAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.twitterAccountVerbindenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.twitterAccountVerbindungLösenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.twitterAccountLabel = new System.Windows.Forms.Label();
-			this.twitterAccountLinkLabel = new System.Windows.Forms.LinkLabel();
-			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
-			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.mainTabControl.SuspendLayout();
@@ -254,6 +254,30 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.verbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
 			this.verbindungLösenToolStripMenuItem.Text = "Verbindung lösen";
 			this.verbindungLösenToolStripMenuItem.Click += new System.EventHandler(this.verbindungLösenToolStripMenuItem_Click);
+			// 
+			// twitterAccountToolStripMenuItem
+			// 
+			this.twitterAccountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.twitterAccountVerbindenToolStripMenuItem,
+            this.twitterAccountVerbindungLösenToolStripMenuItem});
+			this.twitterAccountToolStripMenuItem.Name = "twitterAccountToolStripMenuItem";
+			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.twitterAccountToolStripMenuItem.Text = "Twitter-Account";
+			this.twitterAccountToolStripMenuItem.Visible = false;
+			// 
+			// twitterAccountVerbindenToolStripMenuItem
+			// 
+			this.twitterAccountVerbindenToolStripMenuItem.Name = "twitterAccountVerbindenToolStripMenuItem";
+			this.twitterAccountVerbindenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.twitterAccountVerbindenToolStripMenuItem.Text = "Verbinden";
+			this.twitterAccountVerbindenToolStripMenuItem.Click += new System.EventHandler(this.verbindenToolStripMenuItem_Click);
+			// 
+			// twitterAccountVerbindungLösenToolStripMenuItem
+			// 
+			this.twitterAccountVerbindungLösenToolStripMenuItem.Name = "twitterAccountVerbindungLösenToolStripMenuItem";
+			this.twitterAccountVerbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.twitterAccountVerbindungLösenToolStripMenuItem.Text = "Verbindung lösen";
+			this.twitterAccountVerbindungLösenToolStripMenuItem.Click += new System.EventHandler(this.twitterAccountVerbindungLösenToolStripMenuItem_Click);
 			// 
 			// templatesToolStripMenuItem1
 			// 
@@ -543,6 +567,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
 			// 
+			// jobQueue
+			// 
+			this.jobQueue.AutoScroll = true;
+			this.jobQueue.AutoSize = true;
+			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(66, 7);
+			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.jobQueue.Name = "jobQueue";
+			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
+			this.jobQueue.ShowActionsButtons = true;
+			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
+			this.jobQueue.TabIndex = 18;
+			this.jobQueue.Uploader = null;
+			// 
 			// cmbbxFinishAction
 			// 
 			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -696,6 +736,25 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.autoUploaderStateLabel.Size = new System.Drawing.Size(1077, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStart.AutoSize = true;
+			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnStart.Enabled = false;
+			this.btnStart.Location = new System.Drawing.Point(1092, 7);
+			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
+			this.btnStart.Size = new System.Drawing.Size(123, 29);
+			this.btnStart.TabIndex = 7;
+			this.btnStart.Text = "Sofort starten!";
+			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
+        "Warteschlange aufgenommen.");
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
 			// startExtendedOptionsContextMenu
 			// 
@@ -927,52 +986,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.moveBackToQueueButton.UseVisualStyleBackColor = true;
 			this.moveBackToQueueButton.Click += new System.EventHandler(this.moveBackToQueueButton_Click);
 			// 
-			// bgwCreateUploader
-			// 
-			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
-			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
-			// 
-			// watchingTimer
-			// 
-			this.watchingTimer.Enabled = true;
-			this.watchingTimer.Interval = 3000;
-			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
-			// 
-			// notifyIcon
-			// 
-			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
-			this.notifyIcon.Visible = true;
-			// 
-			// openFileDialog
-			// 
-			this.openFileDialog.Filter = "Alle Dateien|*.*";
-			this.openFileDialog.Multiselect = true;
-			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
-			// 
-			// twitterAccountToolStripMenuItem
-			// 
-			this.twitterAccountToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.twitterAccountVerbindenToolStripMenuItem,
-            this.twitterAccountVerbindungLösenToolStripMenuItem});
-			this.twitterAccountToolStripMenuItem.Name = "twitterAccountToolStripMenuItem";
-			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-			this.twitterAccountToolStripMenuItem.Text = "Twitter-Account";
-			// 
-			// twitterAccountVerbindenToolStripMenuItem
-			// 
-			this.twitterAccountVerbindenToolStripMenuItem.Name = "twitterAccountVerbindenToolStripMenuItem";
-			this.twitterAccountVerbindenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.twitterAccountVerbindenToolStripMenuItem.Text = "Verbinden";
-			this.twitterAccountVerbindenToolStripMenuItem.Click += new System.EventHandler(this.verbindenToolStripMenuItem_Click);
-			// 
-			// twitterAccountVerbindungLösenToolStripMenuItem
-			// 
-			this.twitterAccountVerbindungLösenToolStripMenuItem.Name = "twitterAccountVerbindungLösenToolStripMenuItem";
-			this.twitterAccountVerbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.twitterAccountVerbindungLösenToolStripMenuItem.Text = "Verbindung lösen";
-			this.twitterAccountVerbindungLösenToolStripMenuItem.Click += new System.EventHandler(this.twitterAccountVerbindungLösenToolStripMenuItem_Click);
-			// 
 			// twitterAccountLabel
 			// 
 			this.twitterAccountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -999,40 +1012,28 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.twitterAccountLinkLabel.Visible = false;
 			this.twitterAccountLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.twitterAccountLinkLabel_LinkClicked);
 			// 
-			// jobQueue
+			// bgwCreateUploader
 			// 
-			this.jobQueue.AutoScroll = true;
-			this.jobQueue.AutoSize = true;
-			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
-			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(66, 7);
-			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
-			this.jobQueue.Name = "jobQueue";
-			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
-			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
-			this.jobQueue.TabIndex = 18;
-			this.jobQueue.Uploader = null;
+			this.bgwCreateUploader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreateUploaderDoWork);
+			this.bgwCreateUploader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateUploaderRunWorkerCompleted);
 			// 
-			// btnStart
+			// watchingTimer
 			// 
-			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStart.AutoSize = true;
-			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(1092, 7);
-			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
-			this.btnStart.Size = new System.Drawing.Size(123, 29);
-			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Sofort starten!";
-			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
-        "Warteschlange aufgenommen.");
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
+			this.watchingTimer.Enabled = true;
+			this.watchingTimer.Interval = 3000;
+			this.watchingTimer.Tick += new System.EventHandler(this.watchingTimer_Tick);
+			// 
+			// notifyIcon
+			// 
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "Strohis Toolset Für Uploads";
+			this.notifyIcon.Visible = true;
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.Filter = "Alle Dateien|*.*";
+			this.openFileDialog.Multiselect = true;
+			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
 			// MainForm
 			// 
