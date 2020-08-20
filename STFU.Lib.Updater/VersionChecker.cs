@@ -30,24 +30,32 @@ namespace STFU.Lib.Updater
 			bool isAvailable = false;
 			for (int i = 0; i < newestVersionArray.Length; i++)
 			{
-				int oldV, newV;
-				if (newestVersionArray.Length > i && currentVersionArray.Length > i
-					&& int.TryParse(newestVersionArray[i], out newV) && int.TryParse(currentVersionArray[i], out oldV)
-					&& newV > oldV)
+				int newestVersionPart = GetVersionNumber(newestVersionArray, i);
+				int currentVersionPart = GetVersionNumber(currentVersionArray, i);
+
+				if (newestVersionPart > currentVersionPart)
 				{
+					// newer version available
 					isAvailable = true;
 					break;
 				}
-				else if (newestVersionArray.Length > i && currentVersionArray.Length > i
-					&& int.TryParse(newestVersionArray[i], out newV) && int.TryParse(currentVersionArray[i], out oldV)
-					&& newV < oldV)
+				else if (newestVersionPart < currentVersionPart)
 				{
-					isAvailable = false;
-					break;
+					// currentVersion is greater (???) than the newest version. Shouldn't happen but we still ne to stop immediately..
 				}
 			}
 
 			return isAvailable;
+		}
+
+		private int GetVersionNumber(string[] versionsArray, int position)
+		{
+			if (position >= versionsArray.Length)
+			{
+				return 0;
+			}
+
+			return int.Parse(versionsArray[position]);
 		}
 
 		private File GetLatestStfuZipInfo()
