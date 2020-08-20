@@ -7,6 +7,7 @@ namespace STFU.Lib.GUI.Forms
 	public partial class EditVideoForm : Form
 	{
 		public IYoutubeVideo Video { get; set; }
+		public INotificationSettings NotificationSettings { get; set; }
 
 		protected EditVideoForm()
 		{
@@ -14,12 +15,14 @@ namespace STFU.Lib.GUI.Forms
 			DialogResult = DialogResult.Cancel;
 		}
 
-		public EditVideoForm(IYoutubeVideo video, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public EditVideoForm(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
 			: this()
 		{
 			Video = video;
+			NotificationSettings = notificationSettings;
+
 			uploadGrid.IsNewUpload = false;
-			uploadGrid.Fill(video, catContainer, langContainer);
+			uploadGrid.Fill(video, notificationSettings, hasMailPrivilegue, catContainer, langContainer);
 		}
 
 		private void submitButton_Click(object sender, System.EventArgs e)

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace STFU.Lib.GUI.Forms
 {
-	public partial class AddAccountForm : Form
+	public partial class AddYoutubeAccountForm : Form
 	{
 		public string AuthToken { get; private set; }
 		public string ExternalCodeUrl { get; set; }
@@ -15,7 +15,7 @@ namespace STFU.Lib.GUI.Forms
 			? SendMailAuthUrl
 			: ExternalCodeUrl;
 
-		public AddAccountForm()
+		public AddYoutubeAccountForm()
 		{
 			InitializeComponent();
 		}

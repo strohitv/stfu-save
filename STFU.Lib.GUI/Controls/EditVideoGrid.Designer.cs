@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.mainTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.generalSettingsTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.mainSettingsGroupbox = new System.Windows.Forms.GroupBox();
 			this.mainSettingsTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.titleLabel = new System.Windows.Forms.Label();
@@ -44,6 +44,9 @@
 			this.publishAtDatetimepicker = new System.Windows.Forms.DateTimePicker();
 			this.publishAtCheckbox = new System.Windows.Forms.CheckBox();
 			this.privacyCombobox = new System.Windows.Forms.ComboBox();
+			this.titleCharacterCountLabel = new System.Windows.Forms.Label();
+			this.descriptionCharacterCountLabel = new System.Windows.Forms.Label();
+			this.tagsCharacterCountLabel = new System.Windows.Forms.Label();
 			this.otherSettingsGroupbox = new System.Windows.Forms.GroupBox();
 			this.otherSettingsTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.licenseCombobox = new System.Windows.Forms.ComboBox();
@@ -58,35 +61,64 @@
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.selectThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
-			this.titleCharacterCountLabel = new System.Windows.Forms.Label();
-			this.descriptionCharacterCountLabel = new System.Windows.Forms.Label();
-			this.tagsCharacterCountLabel = new System.Windows.Forms.Label();
-			this.mainTlp.SuspendLayout();
+			this.mainTabControl = new System.Windows.Forms.TabControl();
+			this.generalTabPage = new System.Windows.Forms.TabPage();
+			this.notificationsTabPage = new System.Windows.Forms.TabPage();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.desktopNotificationsGroupBox = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.desktopNotificationVideoFoundCheckbox = new System.Windows.Forms.CheckBox();
+			this.desktopNotificationUploadStartedCheckbox = new System.Windows.Forms.CheckBox();
+			this.desktopNotificationUploadSuccesfulCheckbox = new System.Windows.Forms.CheckBox();
+			this.desktopNotificationUploadFailedCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailNotificationsGroupBox = new System.Windows.Forms.GroupBox();
+			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+			this.mailNotificationVideoFoundCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailNotificationUploadStartedCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailNotificationUploadSuccesfulCheckbox = new System.Windows.Forms.CheckBox();
+			this.mailNotificationUploadFailedCheckbox = new System.Windows.Forms.CheckBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.mailReceiverTextbox = new System.Windows.Forms.TextBox();
+			this.mailNofiticationWarningLabel = new System.Windows.Forms.Label();
+			this.twitterTabPage = new System.Windows.Forms.TabPage();
+			this.generalSettingsTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
 			this.otherSettingsGroupbox.SuspendLayout();
 			this.otherSettingsTlp.SuspendLayout();
+			this.mainTabControl.SuspendLayout();
+			this.generalTabPage.SuspendLayout();
+			this.notificationsTabPage.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
+			this.desktopNotificationsGroupBox.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
+			this.mailNotificationsGroupBox.SuspendLayout();
+			this.tableLayoutPanel3.SuspendLayout();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// mainTlp
+			// generalSettingsTlp
 			// 
-			this.mainTlp.ColumnCount = 3;
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mainTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.Controls.Add(this.mainSettingsGroupbox, 1, 1);
-			this.mainTlp.Controls.Add(this.otherSettingsGroupbox, 1, 3);
-			this.mainTlp.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mainTlp.Location = new System.Drawing.Point(0, 0);
-			this.mainTlp.Name = "mainTlp";
-			this.mainTlp.RowCount = 5;
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.mainTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainTlp.Size = new System.Drawing.Size(1150, 824);
-			this.mainTlp.TabIndex = 1;
+			this.generalSettingsTlp.BackColor = System.Drawing.SystemColors.Control;
+			this.generalSettingsTlp.ColumnCount = 3;
+			this.generalSettingsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.generalSettingsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.generalSettingsTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.generalSettingsTlp.Controls.Add(this.mainSettingsGroupbox, 1, 1);
+			this.generalSettingsTlp.Controls.Add(this.otherSettingsGroupbox, 1, 3);
+			this.generalSettingsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.generalSettingsTlp.Location = new System.Drawing.Point(3, 3);
+			this.generalSettingsTlp.Name = "generalSettingsTlp";
+			this.generalSettingsTlp.RowCount = 5;
+			this.generalSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.generalSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.generalSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.generalSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.generalSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.generalSettingsTlp.Size = new System.Drawing.Size(1136, 792);
+			this.generalSettingsTlp.TabIndex = 1;
 			// 
 			// mainSettingsGroupbox
 			// 
@@ -95,7 +127,7 @@
 			this.mainSettingsGroupbox.Location = new System.Drawing.Point(10, 10);
 			this.mainSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.mainSettingsGroupbox.Name = "mainSettingsGroupbox";
-			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1130, 522);
+			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1116, 490);
 			this.mainSettingsGroupbox.TabIndex = 0;
 			this.mainSettingsGroupbox.TabStop = false;
 			this.mainSettingsGroupbox.Text = "Allgemeine Einstellungen";
@@ -151,7 +183,7 @@
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainSettingsTlp.Size = new System.Drawing.Size(1124, 503);
+			this.mainSettingsTlp.Size = new System.Drawing.Size(1110, 471);
 			this.mainSettingsTlp.TabIndex = 0;
 			// 
 			// titleLabel
@@ -173,7 +205,7 @@
 			this.descriptionLabel.Location = new System.Drawing.Point(10, 64);
 			this.descriptionLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionLabel.Name = "descriptionLabel";
-			this.descriptionLabel.Size = new System.Drawing.Size(1104, 13);
+			this.descriptionLabel.Size = new System.Drawing.Size(1090, 13);
 			this.descriptionLabel.TabIndex = 1;
 			this.descriptionLabel.Text = "Beschreibung:";
 			// 
@@ -182,10 +214,10 @@
 			this.tagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tagsLabel.AutoSize = true;
 			this.mainSettingsTlp.SetColumnSpan(this.tagsLabel, 5);
-			this.tagsLabel.Location = new System.Drawing.Point(10, 228);
+			this.tagsLabel.Location = new System.Drawing.Point(10, 212);
 			this.tagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsLabel.Name = "tagsLabel";
-			this.tagsLabel.Size = new System.Drawing.Size(1104, 13);
+			this.tagsLabel.Size = new System.Drawing.Size(1090, 13);
 			this.tagsLabel.TabIndex = 2;
 			this.tagsLabel.Text = "Tags:";
 			// 
@@ -193,7 +225,7 @@
 			// 
 			this.thumbnailLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailLabel.AutoSize = true;
-			this.thumbnailLabel.Location = new System.Drawing.Point(10, 400);
+			this.thumbnailLabel.Location = new System.Drawing.Point(10, 368);
 			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailLabel.Name = "thumbnailLabel";
 			this.thumbnailLabel.Size = new System.Drawing.Size(176, 13);
@@ -204,7 +236,7 @@
 			// 
 			this.privacyLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.privacyLabel.AutoSize = true;
-			this.privacyLabel.Location = new System.Drawing.Point(10, 437);
+			this.privacyLabel.Location = new System.Drawing.Point(10, 405);
 			this.privacyLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyLabel.Name = "privacyLabel";
 			this.privacyLabel.Size = new System.Drawing.Size(176, 13);
@@ -219,7 +251,7 @@
 			this.titleTextbox.Location = new System.Drawing.Point(196, 10);
 			this.titleTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.titleTextbox.Name = "titleTextbox";
-			this.titleTextbox.Size = new System.Drawing.Size(918, 26);
+			this.titleTextbox.Size = new System.Drawing.Size(904, 26);
 			this.titleTextbox.TabIndex = 6;
 			this.titleTextbox.TextChanged += new System.EventHandler(this.titleTextbox_TextChanged);
 			// 
@@ -233,7 +265,7 @@
 			this.descriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionTextbox.Multiline = true;
 			this.descriptionTextbox.Name = "descriptionTextbox";
-			this.descriptionTextbox.Size = new System.Drawing.Size(1104, 123);
+			this.descriptionTextbox.Size = new System.Drawing.Size(1090, 107);
 			this.descriptionTextbox.TabIndex = 7;
 			this.descriptionTextbox.TextChanged += new System.EventHandler(this.descriptionTextbox_TextChanged);
 			// 
@@ -243,11 +275,11 @@
 			this.mainSettingsTlp.SetColumnSpan(this.tagsTextbox, 5);
 			this.tagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tagsTextbox.Location = new System.Drawing.Point(10, 241);
+			this.tagsTextbox.Location = new System.Drawing.Point(10, 225);
 			this.tagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsTextbox.Multiline = true;
 			this.tagsTextbox.Name = "tagsTextbox";
-			this.tagsTextbox.Size = new System.Drawing.Size(1104, 123);
+			this.tagsTextbox.Size = new System.Drawing.Size(1090, 107);
 			this.tagsTextbox.TabIndex = 8;
 			this.tagsTextbox.TextChanged += new System.EventHandler(this.tagsTextbox_TextChanged);
 			// 
@@ -255,10 +287,10 @@
 			// 
 			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 393);
+			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 361);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
-			this.thumbnailTextbox.Size = new System.Drawing.Size(846, 26);
+			this.thumbnailTextbox.Size = new System.Drawing.Size(832, 26);
 			this.thumbnailTextbox.TabIndex = 9;
 			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextbox_TextChanged);
 			// 
@@ -267,7 +299,7 @@
 			this.thumbnailButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailButton.AutoSize = true;
 			this.thumbnailButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.thumbnailButton.Location = new System.Drawing.Point(1052, 392);
+			this.thumbnailButton.Location = new System.Drawing.Point(1038, 360);
 			this.thumbnailButton.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailButton.Name = "thumbnailButton";
 			this.thumbnailButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -285,10 +317,10 @@
 			this.publishAtDatetimepicker.Enabled = false;
 			this.publishAtDatetimepicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.publishAtDatetimepicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 467);
+			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 435);
 			this.publishAtDatetimepicker.Margin = new System.Windows.Forms.Padding(0);
 			this.publishAtDatetimepicker.Name = "publishAtDatetimepicker";
-			this.publishAtDatetimepicker.Size = new System.Drawing.Size(918, 26);
+			this.publishAtDatetimepicker.Size = new System.Drawing.Size(904, 26);
 			this.publishAtDatetimepicker.TabIndex = 12;
 			this.publishAtDatetimepicker.ValueChanged += new System.EventHandler(this.publishAtDatetimepicker_ValueChanged);
 			// 
@@ -297,7 +329,7 @@
 			this.publishAtCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.publishAtCheckbox.AutoSize = true;
 			this.publishAtCheckbox.Enabled = false;
-			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 471);
+			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 439);
 			this.publishAtCheckbox.Name = "publishAtCheckbox";
 			this.publishAtCheckbox.Size = new System.Drawing.Size(170, 17);
 			this.publishAtCheckbox.TabIndex = 13;
@@ -316,12 +348,45 @@
             "Öffentlich",
             "Nicht gelistet",
             "Privat"});
-			this.privacyCombobox.Location = new System.Drawing.Point(196, 431);
+			this.privacyCombobox.Location = new System.Drawing.Point(196, 399);
 			this.privacyCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyCombobox.Name = "privacyCombobox";
-			this.privacyCombobox.Size = new System.Drawing.Size(918, 26);
+			this.privacyCombobox.Size = new System.Drawing.Size(904, 26);
 			this.privacyCombobox.TabIndex = 11;
 			this.privacyCombobox.SelectedIndexChanged += new System.EventHandler(this.privacyCombobox_SelectedIndexChanged);
+			// 
+			// titleCharacterCountLabel
+			// 
+			this.titleCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.titleCharacterCountLabel.AutoSize = true;
+			this.titleCharacterCountLabel.Location = new System.Drawing.Point(196, 41);
+			this.titleCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.titleCharacterCountLabel.Name = "titleCharacterCountLabel";
+			this.titleCharacterCountLabel.Size = new System.Drawing.Size(832, 13);
+			this.titleCharacterCountLabel.TabIndex = 3;
+			this.titleCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			// 
+			// descriptionCharacterCountLabel
+			// 
+			this.descriptionCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.descriptionCharacterCountLabel.AutoSize = true;
+			this.descriptionCharacterCountLabel.Location = new System.Drawing.Point(196, 189);
+			this.descriptionCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.descriptionCharacterCountLabel.Name = "descriptionCharacterCountLabel";
+			this.descriptionCharacterCountLabel.Size = new System.Drawing.Size(832, 13);
+			this.descriptionCharacterCountLabel.TabIndex = 3;
+			this.descriptionCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			// 
+			// tagsCharacterCountLabel
+			// 
+			this.tagsCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.tagsCharacterCountLabel.AutoSize = true;
+			this.tagsCharacterCountLabel.Location = new System.Drawing.Point(196, 337);
+			this.tagsCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.tagsCharacterCountLabel.Name = "tagsCharacterCountLabel";
+			this.tagsCharacterCountLabel.Size = new System.Drawing.Size(832, 13);
+			this.tagsCharacterCountLabel.TabIndex = 3;
+			this.tagsCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
 			// 
 			// otherSettingsGroupbox
 			// 
@@ -329,10 +394,10 @@
 			this.otherSettingsGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.otherSettingsGroupbox.Controls.Add(this.otherSettingsTlp);
 			this.otherSettingsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 542);
+			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 510);
 			this.otherSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.otherSettingsGroupbox.Name = "otherSettingsGroupbox";
-			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1130, 272);
+			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1116, 272);
 			this.otherSettingsGroupbox.TabIndex = 1;
 			this.otherSettingsGroupbox.TabStop = false;
 			this.otherSettingsGroupbox.Text = "Weitere Einstellungen";
@@ -379,7 +444,7 @@
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.otherSettingsTlp.Size = new System.Drawing.Size(1124, 253);
+			this.otherSettingsTlp.Size = new System.Drawing.Size(1110, 253);
 			this.otherSettingsTlp.TabIndex = 0;
 			// 
 			// licenseCombobox
@@ -394,7 +459,7 @@
 			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(936, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(922, 26);
 			this.licenseCombobox.TabIndex = 18;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseCombobox_SelectedIndexChanged);
 			// 
@@ -417,7 +482,7 @@
 			this.isEmbeddableCheckbox.Location = new System.Drawing.Point(10, 118);
 			this.isEmbeddableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.isEmbeddableCheckbox.Name = "isEmbeddableCheckbox";
-			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.isEmbeddableCheckbox.Size = new System.Drawing.Size(1090, 17);
 			this.isEmbeddableCheckbox.TabIndex = 11;
 			this.isEmbeddableCheckbox.Text = "Einbetten zulassen";
 			this.isEmbeddableCheckbox.UseVisualStyleBackColor = true;
@@ -431,7 +496,7 @@
 			this.publicStatsViewableCheckbox.Location = new System.Drawing.Point(10, 145);
 			this.publicStatsViewableCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.publicStatsViewableCheckbox.Name = "publicStatsViewableCheckbox";
-			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.publicStatsViewableCheckbox.Size = new System.Drawing.Size(1090, 17);
 			this.publicStatsViewableCheckbox.TabIndex = 15;
 			this.publicStatsViewableCheckbox.Text = "Videostatistik auf der Wiedergabeseite öffentlich sichtbar machen";
 			this.publicStatsViewableCheckbox.UseVisualStyleBackColor = true;
@@ -468,7 +533,7 @@
 			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(936, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(922, 26);
 			this.categoryCombobox.TabIndex = 16;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryCombobox_SelectedIndexChanged);
 			// 
@@ -481,7 +546,7 @@
 			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(936, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(922, 26);
 			this.defaultLanguageCombobox.TabIndex = 17;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageCombobox_SelectedIndexChanged);
 			// 
@@ -493,7 +558,7 @@
 			this.autoLevelsCheckbox.Location = new System.Drawing.Point(10, 199);
 			this.autoLevelsCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.autoLevelsCheckbox.Name = "autoLevelsCheckbox";
-			this.autoLevelsCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.autoLevelsCheckbox.Size = new System.Drawing.Size(1090, 17);
 			this.autoLevelsCheckbox.TabIndex = 13;
 			this.autoLevelsCheckbox.Text = "Helligkeit und Farben automatisch von Youtube verbessern lassen";
 			this.autoLevelsCheckbox.UseVisualStyleBackColor = true;
@@ -508,7 +573,7 @@
 			this.stabilizeCheckbox.Location = new System.Drawing.Point(10, 226);
 			this.stabilizeCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.stabilizeCheckbox.Name = "stabilizeCheckbox";
-			this.stabilizeCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.stabilizeCheckbox.Size = new System.Drawing.Size(1090, 17);
 			this.stabilizeCheckbox.TabIndex = 14;
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
@@ -523,7 +588,7 @@
 			this.notifySubscribersCheckbox.Location = new System.Drawing.Point(10, 172);
 			this.notifySubscribersCheckbox.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.notifySubscribersCheckbox.Name = "notifySubscribersCheckbox";
-			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(1104, 17);
+			this.notifySubscribersCheckbox.Size = new System.Drawing.Size(1090, 17);
 			this.notifySubscribersCheckbox.TabIndex = 12;
 			this.notifySubscribersCheckbox.Text = "Im Abofeed veröffentlichen und Abonnenten benachrichtigen";
 			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
@@ -535,48 +600,319 @@
 			this.selectThumbnailDialog.Filter = "Bild-Dateien|*.png;*.jpg;*.jpeg;*.webp;*.bmp|Alle Dateien|*.*";
 			this.selectThumbnailDialog.Title = "Bitte Thumbnail auswählen...";
 			// 
-			// titleCharacterCountLabel
+			// mainTabControl
 			// 
-			this.titleCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.titleCharacterCountLabel.AutoSize = true;
-			this.titleCharacterCountLabel.Location = new System.Drawing.Point(196, 41);
-			this.titleCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.titleCharacterCountLabel.Name = "titleCharacterCountLabel";
-			this.titleCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
-			this.titleCharacterCountLabel.TabIndex = 3;
-			this.titleCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			this.mainTabControl.Controls.Add(this.generalTabPage);
+			this.mainTabControl.Controls.Add(this.notificationsTabPage);
+			this.mainTabControl.Controls.Add(this.twitterTabPage);
+			this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+			this.mainTabControl.Margin = new System.Windows.Forms.Padding(0);
+			this.mainTabControl.Name = "mainTabControl";
+			this.mainTabControl.SelectedIndex = 0;
+			this.mainTabControl.Size = new System.Drawing.Size(1150, 824);
+			this.mainTabControl.TabIndex = 0;
 			// 
-			// descriptionCharacterCountLabel
+			// generalTabPage
 			// 
-			this.descriptionCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.descriptionCharacterCountLabel.AutoSize = true;
-			this.descriptionCharacterCountLabel.Location = new System.Drawing.Point(196, 205);
-			this.descriptionCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.descriptionCharacterCountLabel.Name = "descriptionCharacterCountLabel";
-			this.descriptionCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
-			this.descriptionCharacterCountLabel.TabIndex = 3;
-			this.descriptionCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			this.generalTabPage.Controls.Add(this.generalSettingsTlp);
+			this.generalTabPage.Location = new System.Drawing.Point(4, 22);
+			this.generalTabPage.Name = "generalTabPage";
+			this.generalTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.generalTabPage.Size = new System.Drawing.Size(1142, 798);
+			this.generalTabPage.TabIndex = 0;
+			this.generalTabPage.Text = "Allgemeine Daten";
+			this.generalTabPage.UseVisualStyleBackColor = true;
 			// 
-			// tagsCharacterCountLabel
+			// notificationsTabPage
 			// 
-			this.tagsCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.tagsCharacterCountLabel.AutoSize = true;
-			this.tagsCharacterCountLabel.Location = new System.Drawing.Point(196, 369);
-			this.tagsCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.tagsCharacterCountLabel.Name = "tagsCharacterCountLabel";
-			this.tagsCharacterCountLabel.Size = new System.Drawing.Size(846, 13);
-			this.tagsCharacterCountLabel.TabIndex = 3;
-			this.tagsCharacterCountLabel.Text = "Zeichen vergeben: 0 von 100. Übrig: 100 Zeichen";
+			this.notificationsTabPage.Controls.Add(this.tableLayoutPanel1);
+			this.notificationsTabPage.Location = new System.Drawing.Point(4, 22);
+			this.notificationsTabPage.Name = "notificationsTabPage";
+			this.notificationsTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.notificationsTabPage.Size = new System.Drawing.Size(1142, 798);
+			this.notificationsTabPage.TabIndex = 1;
+			this.notificationsTabPage.Text = "Benachrichtigungen";
+			this.notificationsTabPage.UseVisualStyleBackColor = true;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
+			this.tableLayoutPanel1.ColumnCount = 3;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.Controls.Add(this.desktopNotificationsGroupBox, 1, 1);
+			this.tableLayoutPanel1.Controls.Add(this.mailNotificationsGroupBox, 1, 4);
+			this.tableLayoutPanel1.Controls.Add(this.mailNofiticationWarningLabel, 1, 3);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 7;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(1136, 792);
+			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// desktopNotificationsGroupBox
+			// 
+			this.desktopNotificationsGroupBox.AutoSize = true;
+			this.desktopNotificationsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.desktopNotificationsGroupBox.Controls.Add(this.tableLayoutPanel2);
+			this.desktopNotificationsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.desktopNotificationsGroupBox.Location = new System.Drawing.Point(13, 13);
+			this.desktopNotificationsGroupBox.Name = "desktopNotificationsGroupBox";
+			this.desktopNotificationsGroupBox.Size = new System.Drawing.Size(1110, 83);
+			this.desktopNotificationsGroupBox.TabIndex = 0;
+			this.desktopNotificationsGroupBox.TabStop = false;
+			this.desktopNotificationsGroupBox.Text = "Desktop-Benachrichtigungen";
+			// 
+			// tableLayoutPanel2
+			// 
+			this.tableLayoutPanel2.AutoSize = true;
+			this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel2.ColumnCount = 5;
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.Controls.Add(this.desktopNotificationVideoFoundCheckbox, 1, 1);
+			this.tableLayoutPanel2.Controls.Add(this.desktopNotificationUploadStartedCheckbox, 3, 1);
+			this.tableLayoutPanel2.Controls.Add(this.desktopNotificationUploadSuccesfulCheckbox, 1, 3);
+			this.tableLayoutPanel2.Controls.Add(this.desktopNotificationUploadFailedCheckbox, 3, 3);
+			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
+			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+			this.tableLayoutPanel2.RowCount = 5;
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(1104, 64);
+			this.tableLayoutPanel2.TabIndex = 0;
+			// 
+			// desktopNotificationVideoFoundCheckbox
+			// 
+			this.desktopNotificationVideoFoundCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.desktopNotificationVideoFoundCheckbox.AutoSize = true;
+			this.desktopNotificationVideoFoundCheckbox.Location = new System.Drawing.Point(10, 10);
+			this.desktopNotificationVideoFoundCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.desktopNotificationVideoFoundCheckbox.Name = "desktopNotificationVideoFoundCheckbox";
+			this.desktopNotificationVideoFoundCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.desktopNotificationVideoFoundCheckbox.TabIndex = 0;
+			this.desktopNotificationVideoFoundCheckbox.Text = "Video zur Warteschlange hinzugefügt";
+			this.desktopNotificationVideoFoundCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// desktopNotificationUploadStartedCheckbox
+			// 
+			this.desktopNotificationUploadStartedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.desktopNotificationUploadStartedCheckbox.AutoSize = true;
+			this.desktopNotificationUploadStartedCheckbox.Location = new System.Drawing.Point(557, 10);
+			this.desktopNotificationUploadStartedCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.desktopNotificationUploadStartedCheckbox.Name = "desktopNotificationUploadStartedCheckbox";
+			this.desktopNotificationUploadStartedCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.desktopNotificationUploadStartedCheckbox.TabIndex = 0;
+			this.desktopNotificationUploadStartedCheckbox.Text = "Upload gestartet";
+			this.desktopNotificationUploadStartedCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// desktopNotificationUploadSuccesfulCheckbox
+			// 
+			this.desktopNotificationUploadSuccesfulCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.desktopNotificationUploadSuccesfulCheckbox.AutoSize = true;
+			this.desktopNotificationUploadSuccesfulCheckbox.Location = new System.Drawing.Point(10, 37);
+			this.desktopNotificationUploadSuccesfulCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.desktopNotificationUploadSuccesfulCheckbox.Name = "desktopNotificationUploadSuccesfulCheckbox";
+			this.desktopNotificationUploadSuccesfulCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.desktopNotificationUploadSuccesfulCheckbox.TabIndex = 0;
+			this.desktopNotificationUploadSuccesfulCheckbox.Text = "Upload erfolgreich beendet";
+			this.desktopNotificationUploadSuccesfulCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// desktopNotificationUploadFailedCheckbox
+			// 
+			this.desktopNotificationUploadFailedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.desktopNotificationUploadFailedCheckbox.AutoSize = true;
+			this.desktopNotificationUploadFailedCheckbox.Location = new System.Drawing.Point(557, 37);
+			this.desktopNotificationUploadFailedCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.desktopNotificationUploadFailedCheckbox.Name = "desktopNotificationUploadFailedCheckbox";
+			this.desktopNotificationUploadFailedCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.desktopNotificationUploadFailedCheckbox.TabIndex = 0;
+			this.desktopNotificationUploadFailedCheckbox.Text = "Fehler beim Upload";
+			this.desktopNotificationUploadFailedCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// mailNotificationsGroupBox
+			// 
+			this.mailNotificationsGroupBox.AutoSize = true;
+			this.mailNotificationsGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.mailNotificationsGroupBox.Controls.Add(this.tableLayoutPanel3);
+			this.mailNotificationsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mailNotificationsGroupBox.Enabled = false;
+			this.mailNotificationsGroupBox.Location = new System.Drawing.Point(13, 142);
+			this.mailNotificationsGroupBox.Name = "mailNotificationsGroupBox";
+			this.mailNotificationsGroupBox.Size = new System.Drawing.Size(1110, 132);
+			this.mailNotificationsGroupBox.TabIndex = 0;
+			this.mailNotificationsGroupBox.TabStop = false;
+			this.mailNotificationsGroupBox.Text = "E-Mail-Benachrichtigungen";
+			// 
+			// tableLayoutPanel3
+			// 
+			this.tableLayoutPanel3.AutoSize = true;
+			this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel3.ColumnCount = 5;
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationVideoFoundCheckbox, 1, 3);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadStartedCheckbox, 3, 3);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadSuccesfulCheckbox, 1, 5);
+			this.tableLayoutPanel3.Controls.Add(this.mailNotificationUploadFailedCheckbox, 3, 5);
+			this.tableLayoutPanel3.Controls.Add(this.label1);
+			this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel1, 1, 1);
+			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+			this.tableLayoutPanel3.RowCount = 7;
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel3.Size = new System.Drawing.Size(1104, 113);
+			this.tableLayoutPanel3.TabIndex = 0;
+			// 
+			// mailNotificationVideoFoundCheckbox
+			// 
+			this.mailNotificationVideoFoundCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailNotificationVideoFoundCheckbox.AutoSize = true;
+			this.mailNotificationVideoFoundCheckbox.Location = new System.Drawing.Point(10, 49);
+			this.mailNotificationVideoFoundCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.mailNotificationVideoFoundCheckbox.Name = "mailNotificationVideoFoundCheckbox";
+			this.mailNotificationVideoFoundCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.mailNotificationVideoFoundCheckbox.TabIndex = 0;
+			this.mailNotificationVideoFoundCheckbox.Text = "Video zur Warteschlange hinzugefügt";
+			this.mailNotificationVideoFoundCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// mailNotificationUploadStartedCheckbox
+			// 
+			this.mailNotificationUploadStartedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailNotificationUploadStartedCheckbox.AutoSize = true;
+			this.mailNotificationUploadStartedCheckbox.Location = new System.Drawing.Point(557, 49);
+			this.mailNotificationUploadStartedCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.mailNotificationUploadStartedCheckbox.Name = "mailNotificationUploadStartedCheckbox";
+			this.mailNotificationUploadStartedCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.mailNotificationUploadStartedCheckbox.TabIndex = 0;
+			this.mailNotificationUploadStartedCheckbox.Text = "Upload gestartet";
+			this.mailNotificationUploadStartedCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// mailNotificationUploadSuccesfulCheckbox
+			// 
+			this.mailNotificationUploadSuccesfulCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailNotificationUploadSuccesfulCheckbox.AutoSize = true;
+			this.mailNotificationUploadSuccesfulCheckbox.Location = new System.Drawing.Point(10, 82);
+			this.mailNotificationUploadSuccesfulCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.mailNotificationUploadSuccesfulCheckbox.Name = "mailNotificationUploadSuccesfulCheckbox";
+			this.mailNotificationUploadSuccesfulCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.mailNotificationUploadSuccesfulCheckbox.TabIndex = 0;
+			this.mailNotificationUploadSuccesfulCheckbox.Text = "Upload erfolgreich beendet";
+			this.mailNotificationUploadSuccesfulCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// mailNotificationUploadFailedCheckbox
+			// 
+			this.mailNotificationUploadFailedCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.mailNotificationUploadFailedCheckbox.AutoSize = true;
+			this.mailNotificationUploadFailedCheckbox.Location = new System.Drawing.Point(557, 82);
+			this.mailNotificationUploadFailedCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.mailNotificationUploadFailedCheckbox.Name = "mailNotificationUploadFailedCheckbox";
+			this.mailNotificationUploadFailedCheckbox.Size = new System.Drawing.Size(537, 17);
+			this.mailNotificationUploadFailedCheckbox.TabIndex = 0;
+			this.mailNotificationUploadFailedCheckbox.Text = "Fehler beim Upload";
+			this.mailNotificationUploadFailedCheckbox.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(4, 10);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "label1";
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.AutoSize = true;
+			this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel3.SetColumnSpan(this.flowLayoutPanel1, 3);
+			this.flowLayoutPanel1.Controls.Add(this.label3);
+			this.flowLayoutPanel1.Controls.Add(this.mailReceiverTextbox);
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(10, 10);
+			this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(1084, 26);
+			this.flowLayoutPanel1.TabIndex = 2;
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(0, 6);
+			this.label3.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(83, 13);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "E-Mail-Adresse: ";
+			// 
+			// mailReceiverTextbox
+			// 
+			this.mailReceiverTextbox.Location = new System.Drawing.Point(96, 3);
+			this.mailReceiverTextbox.Name = "mailReceiverTextbox";
+			this.mailReceiverTextbox.Size = new System.Drawing.Size(637, 20);
+			this.mailReceiverTextbox.TabIndex = 1;
+			// 
+			// mailNofiticationWarningLabel
+			// 
+			this.mailNofiticationWarningLabel.AutoSize = true;
+			this.mailNofiticationWarningLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.mailNofiticationWarningLabel.ForeColor = System.Drawing.Color.Red;
+			this.mailNofiticationWarningLabel.Location = new System.Drawing.Point(10, 109);
+			this.mailNofiticationWarningLabel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
+			this.mailNofiticationWarningLabel.Name = "mailNofiticationWarningLabel";
+			this.mailNofiticationWarningLabel.Size = new System.Drawing.Size(1113, 20);
+			this.mailNofiticationWarningLabel.TabIndex = 1;
+			this.mailNofiticationWarningLabel.Text = "Wenn du mit dem Uploader Mails verschicken möchtest, musst du den Account mit akt" +
+    "iviertem Haken für den Mailversand neu verknüpfen!";
+			// 
+			// twitterTabPage
+			// 
+			this.twitterTabPage.Location = new System.Drawing.Point(4, 22);
+			this.twitterTabPage.Name = "twitterTabPage";
+			this.twitterTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.twitterTabPage.Size = new System.Drawing.Size(1142, 798);
+			this.twitterTabPage.TabIndex = 2;
+			this.twitterTabPage.Text = "Twitter";
+			this.twitterTabPage.UseVisualStyleBackColor = true;
 			// 
 			// EditVideoGrid
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.mainTlp);
+			this.Controls.Add(this.mainTabControl);
 			this.Name = "EditVideoGrid";
 			this.Size = new System.Drawing.Size(1150, 824);
-			this.mainTlp.ResumeLayout(false);
-			this.mainTlp.PerformLayout();
+			this.generalSettingsTlp.ResumeLayout(false);
+			this.generalSettingsTlp.PerformLayout();
 			this.mainSettingsGroupbox.ResumeLayout(false);
 			this.mainSettingsTlp.ResumeLayout(false);
 			this.mainSettingsTlp.PerformLayout();
@@ -584,13 +920,28 @@
 			this.otherSettingsGroupbox.PerformLayout();
 			this.otherSettingsTlp.ResumeLayout(false);
 			this.otherSettingsTlp.PerformLayout();
+			this.mainTabControl.ResumeLayout(false);
+			this.generalTabPage.ResumeLayout(false);
+			this.notificationsTabPage.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
+			this.tableLayoutPanel1.PerformLayout();
+			this.desktopNotificationsGroupBox.ResumeLayout(false);
+			this.desktopNotificationsGroupBox.PerformLayout();
+			this.tableLayoutPanel2.ResumeLayout(false);
+			this.tableLayoutPanel2.PerformLayout();
+			this.mailNotificationsGroupBox.ResumeLayout(false);
+			this.mailNotificationsGroupBox.PerformLayout();
+			this.tableLayoutPanel3.ResumeLayout(false);
+			this.tableLayoutPanel3.PerformLayout();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel mainTlp;
+		private System.Windows.Forms.TableLayoutPanel generalSettingsTlp;
 		private System.Windows.Forms.GroupBox mainSettingsGroupbox;
 		private System.Windows.Forms.GroupBox otherSettingsGroupbox;
 		private System.Windows.Forms.TableLayoutPanel mainSettingsTlp;
@@ -623,5 +974,27 @@
 		private System.Windows.Forms.Label titleCharacterCountLabel;
 		private System.Windows.Forms.Label descriptionCharacterCountLabel;
 		private System.Windows.Forms.Label tagsCharacterCountLabel;
+		private System.Windows.Forms.TabControl mainTabControl;
+		private System.Windows.Forms.TabPage generalTabPage;
+		private System.Windows.Forms.TabPage notificationsTabPage;
+		private System.Windows.Forms.TabPage twitterTabPage;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.GroupBox desktopNotificationsGroupBox;
+		private System.Windows.Forms.GroupBox mailNotificationsGroupBox;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.CheckBox desktopNotificationVideoFoundCheckbox;
+		private System.Windows.Forms.CheckBox desktopNotificationUploadStartedCheckbox;
+		private System.Windows.Forms.CheckBox desktopNotificationUploadSuccesfulCheckbox;
+		private System.Windows.Forms.CheckBox desktopNotificationUploadFailedCheckbox;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+		private System.Windows.Forms.CheckBox mailNotificationVideoFoundCheckbox;
+		private System.Windows.Forms.CheckBox mailNotificationUploadStartedCheckbox;
+		private System.Windows.Forms.CheckBox mailNotificationUploadSuccesfulCheckbox;
+		private System.Windows.Forms.CheckBox mailNotificationUploadFailedCheckbox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label mailNofiticationWarningLabel;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TextBox mailReceiverTextbox;
 	}
 }

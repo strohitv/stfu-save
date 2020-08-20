@@ -46,12 +46,17 @@
     <Compile Include="PathPersistor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplatePersistor.cs" />
+    <Compile Include="TwitterAccountPersistor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">
+      <Project>{00A77E89-637A-442E-B9EA-B39971BF8C82}</Project>
+      <Name>STFU.Lib.Twitter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
       <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
       <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>

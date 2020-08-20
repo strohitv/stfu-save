@@ -66,11 +66,17 @@
     <Compile Include="Controls\EditVideoGrid.Designer.cs">
       <DependentUpon>EditVideoGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AddAccountForm.cs">
+    <Compile Include="Forms\AddTwitterAccountForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AddAccountForm.designer.cs">
-      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    <Compile Include="Forms\AddTwitterAccountForm.designer.cs">
+      <DependentUpon>AddTwitterAccountForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddYoutubeAccountForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddYoutubeAccountForm.designer.cs">
+      <DependentUpon>AddYoutubeAccountForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddVideosForm.cs">
       <SubType>Form</SubType>
@@ -84,6 +90,12 @@
     <Compile Include="Forms\EditVideoForm.Designer.cs">
       <DependentUpon>EditVideoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SelectTemplateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectTemplateDialog.Designer.cs">
+      <DependentUpon>SelectTemplateDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,8 +108,12 @@
     <EmbeddedResource Include="Controls\EditVideoGrid.resx">
       <DependentUpon>EditVideoGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddAccountForm.resx">
-      <DependentUpon>AddAccountForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AddTwitterAccountForm.resx">
+      <DependentUpon>AddTwitterAccountForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddYoutubeAccountForm.resx">
+      <DependentUpon>AddYoutubeAccountForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddVideosForm.resx">
       <DependentUpon>AddVideosForm.cs</DependentUpon>
@@ -105,11 +121,18 @@
     <EmbeddedResource Include="Forms\EditVideoForm.resx">
       <DependentUpon>EditVideoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectTemplateDialog.resx">
+      <DependentUpon>SelectTemplateDialog.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Common\STFU.Lib.Common.csproj">
       <Project>{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}</Project>
       <Name>STFU.Lib.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">
+      <Project>{00A77E89-637A-442E-B9EA-B39971BF8C82}</Project>
+      <Name>STFU.Lib.Twitter</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
       <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
@@ -133,6 +156,9 @@
       <Project>{3689165C-622D-46CA-88C4-DC8FE938CC8C}</Project>
       <Name>STFU.Lib.Youtube</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

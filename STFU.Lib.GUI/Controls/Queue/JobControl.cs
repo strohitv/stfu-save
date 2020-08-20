@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using STFU.Lib.Common;
 using STFU.Lib.GUI.Forms;
@@ -369,11 +370,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void detailsBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), categoryContainer, languageContainer);
+			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), Job.NotificationSettings.CreateCopy(), Job.Account.Access.First().HasSendMailPrivilegue, categoryContainer, languageContainer);
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
 				Job.Video.FillFields(form.Video);
+				Job.NotificationSettings = form.NotificationSettings;
 
 				RefreshTitleLabel();
 				RefreshThumbnail();

@@ -12,5 +12,7 @@
 		bool NotifyOnVideoUploadFailedMail { get; set; }
 
 		string MailReceiver { get; set; }
+
+		INotificationSettings CreateCopy();
 	}
 }

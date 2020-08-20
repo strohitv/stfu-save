@@ -38,6 +38,11 @@ namespace STFU.Lib.Youtube.Persistor
 
 						foreach (var loaded in paths)
 						{
+							if (!Directory.Exists(loaded.Fullname))
+							{
+								loaded.Inactive = true;
+							}
+
 							Container.RegisterPath(loaded);
 						}
 					}

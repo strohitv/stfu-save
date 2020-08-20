@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.4.1.%2a</ApplicationVersion>
+    <ApplicationVersion>0.4.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -68,6 +68,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -213,6 +214,10 @@
       <Project>{BC19390A-F56E-4384-9BE8-193D0183444E}</Project>
       <Name>STFU.Lib.MailSender</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">
+      <Project>{00A77E89-637A-442E-B9EA-B39971BF8C82}</Project>
+      <Name>STFU.Lib.Twitter</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Updater\STFU.Lib.Updater.csproj">
       <Project>{4FB3D7AE-980F-41A0-B97B-EA11EFFF3508}</Project>

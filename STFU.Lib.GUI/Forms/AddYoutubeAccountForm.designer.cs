@@ -1,6 +1,6 @@
 ﻿namespace STFU.Lib.GUI.Forms
 {
-	partial class AddAccountForm
+	partial class AddYoutubeAccountForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddAccountForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddYoutubeAccountForm));
 			this.useExternalGroupBox = new System.Windows.Forms.GroupBox();
 			this.useExternalTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.useExternalDescLabel = new System.Windows.Forms.Label();
