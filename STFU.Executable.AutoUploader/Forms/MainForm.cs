@@ -36,6 +36,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
 		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+		IYoutubePlaylistContainer playlistContainer = new YoutubePlaylistContainer();
 
 		ITwitterAccountContainer twitterAccountContainer = new TwitterAccountContainer();
 
@@ -55,6 +56,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 		JobPersistor queuePersistor = null;
 		JobPersistor archivePersistor = null;
+		PlaylistPersistor playlistPersistor = null;
 
 		TwitterAccountPersistor twitterAccountPersistor = null;
 
@@ -463,7 +465,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void RefreshToolstripButtonsEnabled()
 		{
 			verbindenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count == 0;
-			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count > 0;
+			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = playlistsToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, DoWorkEventArgs e)
@@ -498,6 +500,9 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
 			archivePersistor.Load();
+
+			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
+			playlistPersistor.Load();
 
 			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
 			twitterAccountPersistor.Load();
@@ -976,6 +981,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				ActivateAccountLinkTwitter();
 			}
+		}
+
+		private void playlistsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new RefreshPlaylistsForm(playlistPersistor, accountContainer.RegisteredAccounts.First()).Show(this);
 		}
 	}
 }

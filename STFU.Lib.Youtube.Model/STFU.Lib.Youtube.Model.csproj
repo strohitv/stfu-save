@@ -49,6 +49,7 @@
     <Compile Include="YoutubeAccount.cs" />
     <Compile Include="YoutubeAccountAccess.cs" />
     <Compile Include="YoutubeClient.cs" />
+    <Compile Include="YoutubePlaylist.cs" />
     <Compile Include="YoutubeVideo.cs" />
   </ItemGroup>
   <ItemGroup>

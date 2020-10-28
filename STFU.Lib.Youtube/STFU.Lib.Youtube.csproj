@@ -59,6 +59,7 @@
     <Compile Include="YoutubeCategoryContainer.cs" />
     <Compile Include="YoutubeClientContainer.cs" />
     <Compile Include="YoutubeLanguageContainer.cs" />
+    <Compile Include="YoutubePlaylistContainer.cs" />
     <Compile Include="YoutubeUploader.cs" />
   </ItemGroup>
   <ItemGroup>

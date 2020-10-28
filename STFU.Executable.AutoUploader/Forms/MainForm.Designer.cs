@@ -70,7 +70,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.lblFinishAction = new System.Windows.Forms.Label();
 			this.chbChoseProcesses = new System.Windows.Forms.CheckBox();
 			this.btnChoseProcs = new System.Windows.Forms.Button();
-			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
 			this.cmbbxFinishAction = new System.Windows.Forms.ComboBox();
 			this.limitUploadSpeedNud = new System.Windows.Forms.NumericUpDown();
 			this.limitUploadSpeedCheckbox = new System.Windows.Forms.CheckBox();
@@ -80,7 +79,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.autoUploaderStateLabel = new System.Windows.Forms.Label();
-			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
 			this.startExtendedOptionsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.zeitenFestlegenUndAutouploaderStartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pathsTabPage = new System.Windows.Forms.TabPage();
@@ -109,6 +107,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.jobQueue = new STFU.Lib.GUI.Controls.Queue.JobQueue();
+			this.btnStart = new STFU.Lib.GUI.Controls.MenuButton();
+			this.playlistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tlpSettings.SuspendLayout();
 			this.mainMenu.SuspendLayout();
 			this.mainTabControl.SuspendLayout();
@@ -227,6 +228,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.twitterAccountToolStripMenuItem,
             this.templatesToolStripMenuItem1,
             this.pfadeToolStripMenuItem1,
+            this.playlistsToolStripMenuItem,
             this.unvollständigerUploadToolStripMenuItem});
 			this.verwaltenToolStripMenuItem.Name = "verwaltenToolStripMenuItem";
 			this.verwaltenToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
@@ -268,14 +270,14 @@ namespace STFU.Executable.AutoUploader.Forms
 			// twitterAccountVerbindenToolStripMenuItem
 			// 
 			this.twitterAccountVerbindenToolStripMenuItem.Name = "twitterAccountVerbindenToolStripMenuItem";
-			this.twitterAccountVerbindenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.twitterAccountVerbindenToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
 			this.twitterAccountVerbindenToolStripMenuItem.Text = "Verbinden";
 			this.twitterAccountVerbindenToolStripMenuItem.Click += new System.EventHandler(this.verbindenToolStripMenuItem_Click);
 			// 
 			// twitterAccountVerbindungLösenToolStripMenuItem
 			// 
 			this.twitterAccountVerbindungLösenToolStripMenuItem.Name = "twitterAccountVerbindungLösenToolStripMenuItem";
-			this.twitterAccountVerbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.twitterAccountVerbindungLösenToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
 			this.twitterAccountVerbindungLösenToolStripMenuItem.Text = "Verbindung lösen";
 			this.twitterAccountVerbindungLösenToolStripMenuItem.Click += new System.EventHandler(this.twitterAccountVerbindungLösenToolStripMenuItem_Click);
 			// 
@@ -567,22 +569,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.btnChoseProcs.UseVisualStyleBackColor = true;
 			this.btnChoseProcs.Click += new System.EventHandler(this.btnChoseProcsClick);
 			// 
-			// jobQueue
-			// 
-			this.jobQueue.AutoScroll = true;
-			this.jobQueue.AutoSize = true;
-			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
-			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.jobQueue.Location = new System.Drawing.Point(66, 7);
-			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
-			this.jobQueue.Name = "jobQueue";
-			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
-			this.jobQueue.ShowActionsButtons = true;
-			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
-			this.jobQueue.TabIndex = 18;
-			this.jobQueue.Uploader = null;
-			// 
 			// cmbbxFinishAction
 			// 
 			this.cmbbxFinishAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -736,25 +722,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.autoUploaderStateLabel.Size = new System.Drawing.Size(1077, 13);
 			this.autoUploaderStateLabel.TabIndex = 19;
 			this.autoUploaderStateLabel.Text = "Der AutoUploader ist gestoppt";
-			// 
-			// btnStart
-			// 
-			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStart.AutoSize = true;
-			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnStart.Enabled = false;
-			this.btnStart.Location = new System.Drawing.Point(1092, 7);
-			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
-			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
-			this.btnStart.Size = new System.Drawing.Size(123, 29);
-			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Sofort starten!";
-			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
-        "Warteschlange aufgenommen.");
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
 			// 
 			// startExtendedOptionsContextMenu
 			// 
@@ -1035,6 +1002,48 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.Title = "Videos zum ignorieren hinzufügen";
 			// 
+			// jobQueue
+			// 
+			this.jobQueue.AutoScroll = true;
+			this.jobQueue.AutoSize = true;
+			this.jobQueue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutPanel2.SetColumnSpan(this.jobQueue, 17);
+			this.jobQueue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.jobQueue.Location = new System.Drawing.Point(66, 7);
+			this.jobQueue.Margin = new System.Windows.Forms.Padding(0);
+			this.jobQueue.Name = "jobQueue";
+			this.tableLayoutPanel2.SetRowSpan(this.jobQueue, 4);
+			this.jobQueue.ShowActionsButtons = true;
+			this.jobQueue.Size = new System.Drawing.Size(1149, 341);
+			this.jobQueue.TabIndex = 18;
+			this.jobQueue.Uploader = null;
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStart.AutoSize = true;
+			this.btnStart.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnStart.Enabled = false;
+			this.btnStart.Location = new System.Drawing.Point(1092, 7);
+			this.btnStart.Margin = new System.Windows.Forms.Padding(0);
+			this.btnStart.Menu = this.startExtendedOptionsContextMenu;
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Padding = new System.Windows.Forms.Padding(15, 3, 25, 3);
+			this.btnStart.Size = new System.Drawing.Size(123, 29);
+			this.btnStart.TabIndex = 7;
+			this.btnStart.Text = "Sofort starten!";
+			this.toolTip.SetToolTip(this.btnStart, "Den Autouploader starten oder stoppen - hiermit werden Videos automatisch in die " +
+        "Warteschlange aufgenommen.");
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStartClick);
+			// 
+			// playlistsToolStripMenuItem
+			// 
+			this.playlistsToolStripMenuItem.Name = "playlistsToolStripMenuItem";
+			this.playlistsToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.playlistsToolStripMenuItem.Text = "Playlists";
+			this.playlistsToolStripMenuItem.Click += new System.EventHandler(this.playlistsToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1156,6 +1165,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem twitterAccountVerbindungLösenToolStripMenuItem;
 		private System.Windows.Forms.Label twitterAccountLabel;
 		private System.Windows.Forms.LinkLabel twitterAccountLinkLabel;
+		private System.Windows.Forms.ToolStripMenuItem playlistsToolStripMenuItem;
 	}
 }
 

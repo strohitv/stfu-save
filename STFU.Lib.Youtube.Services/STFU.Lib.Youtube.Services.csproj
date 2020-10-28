@@ -58,6 +58,7 @@
     <Compile Include="YoutubeCategoryService.cs" />
     <Compile Include="YoutubeClientService.cs" />
     <Compile Include="YoutubeLanguageService.cs" />
+    <Compile Include="YoutubePlaylistCommunicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\STFU.Lib.Youtube.Interfaces\STFU.Lib.Youtube.Interfaces.csproj">
