@@ -46,6 +46,7 @@
     <Compile Include="IYoutubeCategoryContainer.cs" />
     <Compile Include="IYoutubeClientContainer.cs" />
     <Compile Include="IYoutubeLanguageContainer.cs" />
+    <Compile Include="IYoutubePlaylistContainer.cs" />
     <Compile Include="IYoutubeUploader.cs" />
     <Compile Include="Model\Args\JobFinishedEventArgs.cs" />
     <Compile Include="Model\Args\JobPositionChangedEventArgs.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Model\IYoutubeAccountAccess.cs" />
     <Compile Include="Model\IYoutubeClient.cs" />
     <Compile Include="Model\IYoutubeJob.cs" />
+    <Compile Include="Model\IYoutubePlaylist.cs" />
     <Compile Include="Model\IYoutubeThumbnail.cs" />
     <Compile Include="Model\IYoutubeError.cs" />
     <Compile Include="Model\IYoutubeVideo.cs" />

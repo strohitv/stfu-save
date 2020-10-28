@@ -134,6 +134,10 @@ namespace STFU.Lib.Youtube.Automation.Templates
 			}
 		}
 
+		public bool AddToPlaylist { get; set; } = false;
+
+		public string PlaylistId { get; set; } = null;
+
 		public IList<IPlannedVideo> PlannedVideos { get; set; } = new List<IPlannedVideo>();
 
 		private DateTime? nextUploadSuggestion = null;
@@ -270,6 +274,9 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				UploadFinishedMailNotification = template.UploadFinishedMailNotification,
 				UploadFailedDesktopNotification = template.UploadFailedDesktopNotification,
 				UploadFailedMailNotification = template.UploadFailedMailNotification,
+
+				AddToPlaylist = template.AddToPlaylist,
+				PlaylistId = template.PlaylistId
 			};
 		}
 	}

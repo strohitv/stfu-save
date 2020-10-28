@@ -36,6 +36,7 @@
     <Compile Include="ConcreteTypeConverter.cs" />
     <Compile Include="NotificationSettings.cs" />
     <Compile Include="Serializable\YoutubeErrorResponse.cs" />
+    <Compile Include="Serializable\YoutubePlaylistItem.cs" />
     <Compile Include="YoutubeCategory.cs" />
     <Compile Include="Helpers\EnumConverter.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="YoutubeAccount.cs" />
     <Compile Include="YoutubeAccountAccess.cs" />
     <Compile Include="YoutubeClient.cs" />
+    <Compile Include="YoutubePlaylist.cs" />
     <Compile Include="YoutubeVideo.cs" />
   </ItemGroup>
   <ItemGroup>

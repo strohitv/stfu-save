@@ -19,6 +19,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private ITemplateContainer templateContainer;
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private IYoutubePlaylistContainer playlistContainer;
 		private TemplatePersistor templatePersistor;
 		private ITemplate current;
 
@@ -46,6 +47,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		public TemplateForm(TemplatePersistor persistor,
 			IYoutubeCategoryContainer categoryContainer,
 			IYoutubeLanguageContainer languageContainer,
+			IYoutubePlaylistContainer playlistContainer,
 			bool accountHasMailEnabled)
 		{
 			InitializeComponent();
@@ -56,6 +58,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			templateContainer = persistor.Container;
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
+			this.playlistContainer = playlistContainer;
 
 			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
 			{
@@ -83,6 +86,11 @@ namespace STFU.Executable.AutoUploader.Forms
 				uploadFailedMNCheckbox.Enabled = false;
 
 				mailRecipientTextbox.Enabled = false;
+			}
+
+			foreach (var playlist in playlistContainer.RegisteredPlaylists)
+			{
+				playlistCombobox.Items.Add(playlist.Title);
 			}
 		}
 
@@ -292,6 +300,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			uploadFinishedMNCheckbox.Checked = template.UploadFinishedMailNotification;
 			uploadFailedDNCheckbox.Checked = template.UploadFailedDesktopNotification;
 			uploadFailedMNCheckbox.Checked = template.UploadFailedMailNotification;
+
+			addToPlaylistCheckbox.Checked = playlistCombobox.Enabled = template.AddToPlaylist;
+			var pl = playlistContainer.RegisteredPlaylists.FirstOrDefault(p => p.Id == template.PlaylistId);
+			if (pl != null)
+			{
+				playlistCombobox.SelectedIndex = playlistContainer.RegisteredPlaylists.ToList().IndexOf(pl);
+			}
+			else if (playlistCombobox.Items.Count > 0)
+			{
+				playlistCombobox.SelectedIndex = 0;
+			}
 
 			skipDirtyManipulation = false;
 		}
@@ -1142,6 +1161,18 @@ namespace STFU.Executable.AutoUploader.Forms
 				current.NextUploadSuggestion = nextPublishTimeDtp.Value;
 				IsDirty = true;
 			}
+		}
+
+		private void addToPlaylistCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			current.AddToPlaylist = playlistCombobox.Enabled = addToPlaylistCheckbox.Checked;
+			IsDirty = true;
+		}
+
+		private void playlistCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			current.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistCombobox.SelectedIndex).Id;
+			IsDirty = true;
 		}
 	}
 }

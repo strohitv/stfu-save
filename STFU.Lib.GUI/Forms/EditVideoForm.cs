@@ -15,14 +15,14 @@ namespace STFU.Lib.GUI.Forms
 			DialogResult = DialogResult.Cancel;
 		}
 
-		public EditVideoForm(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public EditVideoForm(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
 			: this()
 		{
 			Video = video;
 			NotificationSettings = notificationSettings;
 
 			uploadGrid.IsNewUpload = false;
-			uploadGrid.Fill(video, notificationSettings, hasMailPrivilegue, catContainer, langContainer);
+			uploadGrid.Fill(video, notificationSettings, hasMailPrivilegue, catContainer, langContainer, plContainer);
 		}
 
 		private void submitButton_Click(object sender, System.EventArgs e)

@@ -101,6 +101,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
+			this.addToPlaylistCheckbox = new System.Windows.Forms.CheckBox();
+			this.playlistCombobox = new System.Windows.Forms.ComboBox();
 			this.planVideosTabpage = new System.Windows.Forms.TabPage();
 			this.planVideosTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.addFilenameButton = new System.Windows.Forms.Button();
@@ -130,13 +132,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.newVideoDNCheckbox = new System.Windows.Forms.CheckBox();
-			this.uploadStartedDNCheckbox = new System.Windows.Forms.CheckBox();
-			this.uploadFinishedDNCheckbox = new System.Windows.Forms.CheckBox();
 			this.uploadFailedDNCheckbox = new System.Windows.Forms.CheckBox();
 			this.newVideoMNCheckbox = new System.Windows.Forms.CheckBox();
 			this.uploadStartedMNCheckbox = new System.Windows.Forms.CheckBox();
 			this.uploadFinishedMNCheckbox = new System.Windows.Forms.CheckBox();
 			this.uploadFailedMNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadStartedDNCheckbox = new System.Windows.Forms.CheckBox();
+			this.uploadFinishedDNCheckbox = new System.Windows.Forms.CheckBox();
 			this.mailRecipientLabel = new System.Windows.Forms.Label();
 			this.connectMailNotificationLabel = new System.Windows.Forms.Label();
 			this.cSharpTabPage = new System.Windows.Forms.TabPage();
@@ -1134,11 +1136,15 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 13);
 			this.otherTlp.Controls.Add(this.autoLevelsCheckbox, 1, 15);
 			this.otherTlp.Controls.Add(this.stabilizeCheckbox, 1, 17);
+			this.otherTlp.Controls.Add(this.addToPlaylistCheckbox, 1, 19);
+			this.otherTlp.Controls.Add(this.playlistCombobox, 3, 19);
 			this.otherTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.otherTlp.Location = new System.Drawing.Point(0, 0);
 			this.otherTlp.Margin = new System.Windows.Forms.Padding(0);
 			this.otherTlp.Name = "otherTlp";
-			this.otherTlp.RowCount = 19;
+			this.otherTlp.RowCount = 21;
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -1168,7 +1174,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
 			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryLabel.Name = "categoryLabel";
-			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
+			this.categoryLabel.Size = new System.Drawing.Size(185, 13);
 			this.categoryLabel.TabIndex = 0;
 			this.categoryLabel.Text = "Kategorie: ";
 			// 
@@ -1179,7 +1185,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
 			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
-			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
+			this.defaultLanguageLabel.Size = new System.Drawing.Size(185, 13);
 			this.defaultLanguageLabel.TabIndex = 1;
 			this.defaultLanguageLabel.Text = "Videosprache: ";
 			// 
@@ -1190,7 +1196,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.licenseLabel.Location = new System.Drawing.Point(10, 88);
 			this.licenseLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseLabel.Name = "licenseLabel";
-			this.licenseLabel.Size = new System.Drawing.Size(158, 13);
+			this.licenseLabel.Size = new System.Drawing.Size(185, 13);
 			this.licenseLabel.TabIndex = 2;
 			this.licenseLabel.Text = "Lizenzen und Eigentumsrechte: ";
 			// 
@@ -1229,10 +1235,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.categoryCombobox.FormattingEnabled = true;
-			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
+			this.categoryCombobox.Location = new System.Drawing.Point(205, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(825, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(798, 26);
 			this.categoryCombobox.TabIndex = 5;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryComboboxSelectedIndexChanged);
 			// 
@@ -1243,10 +1249,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.defaultLanguageCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.defaultLanguageCombobox.FormattingEnabled = true;
-			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
+			this.defaultLanguageCombobox.Location = new System.Drawing.Point(205, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(825, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(798, 26);
 			this.defaultLanguageCombobox.TabIndex = 6;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageComboboxSelectedIndexChanged);
 			// 
@@ -1260,10 +1266,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.licenseCombobox.Items.AddRange(new object[] {
             "Standard-Youtube-Lizenz",
             "Creative-Commons - Namensnennung"});
-			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
+			this.licenseCombobox.Location = new System.Drawing.Point(205, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(825, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(798, 26);
 			this.licenseCombobox.TabIndex = 7;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseComboboxSelectedIndexChanged);
 			// 
@@ -1274,7 +1280,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.thumbnailLabel.Location = new System.Drawing.Point(10, 178);
 			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailLabel.Name = "thumbnailLabel";
-			this.thumbnailLabel.Size = new System.Drawing.Size(158, 13);
+			this.thumbnailLabel.Size = new System.Drawing.Size(185, 13);
 			this.thumbnailLabel.TabIndex = 8;
 			this.thumbnailLabel.Text = "Thumbnail: ";
 			// 
@@ -1284,10 +1290,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.thumbnailTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnailTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
+			this.thumbnailTextbox.Location = new System.Drawing.Point(205, 172);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
-			this.thumbnailTextbox.Size = new System.Drawing.Size(794, 26);
+			this.thumbnailTextbox.Size = new System.Drawing.Size(767, 26);
 			this.thumbnailTextbox.TabIndex = 9;
 			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextboxTextChanged);
 			// 
@@ -1348,6 +1354,34 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.stabilizeCheckbox.Text = "Bildstabilisierung automatisch von Youtube durchführen lassen";
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
 			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckboxCheckedChanged);
+			// 
+			// addToPlaylistCheckbox
+			// 
+			this.addToPlaylistCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addToPlaylistCheckbox.AutoSize = true;
+			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 293);
+			this.addToPlaylistCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.addToPlaylistCheckbox.Name = "addToPlaylistCheckbox";
+			this.addToPlaylistCheckbox.Size = new System.Drawing.Size(185, 17);
+			this.addToPlaylistCheckbox.TabIndex = 3;
+			this.addToPlaylistCheckbox.Text = "Nach Upload in Playlist einfügen: ";
+			this.addToPlaylistCheckbox.UseVisualStyleBackColor = true;
+			this.addToPlaylistCheckbox.CheckedChanged += new System.EventHandler(this.addToPlaylistCheckbox_CheckedChanged);
+			// 
+			// playlistCombobox
+			// 
+			this.playlistCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.otherTlp.SetColumnSpan(this.playlistCombobox, 3);
+			this.playlistCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.playlistCombobox.Enabled = false;
+			this.playlistCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.playlistCombobox.FormattingEnabled = true;
+			this.playlistCombobox.Location = new System.Drawing.Point(205, 289);
+			this.playlistCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.playlistCombobox.Name = "playlistCombobox";
+			this.playlistCombobox.Size = new System.Drawing.Size(798, 26);
+			this.playlistCombobox.TabIndex = 7;
+			this.playlistCombobox.SelectedIndexChanged += new System.EventHandler(this.playlistCombobox_SelectedIndexChanged);
 			// 
 			// planVideosTabpage
 			// 
@@ -1788,34 +1822,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.newVideoDNCheckbox.UseVisualStyleBackColor = true;
 			this.newVideoDNCheckbox.CheckedChanged += new System.EventHandler(this.newVideoDNCheckbox_CheckedChanged);
 			// 
-			// uploadStartedDNCheckbox
-			// 
-			this.uploadStartedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.uploadStartedDNCheckbox.AutoSize = true;
-			this.uploadStartedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadStartedDNCheckbox.Location = new System.Drawing.Point(403, 42);
-			this.uploadStartedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.uploadStartedDNCheckbox.Name = "uploadStartedDNCheckbox";
-			this.uploadStartedDNCheckbox.Size = new System.Drawing.Size(267, 22);
-			this.uploadStartedDNCheckbox.TabIndex = 1;
-			this.uploadStartedDNCheckbox.Text = "Desktop-Benachrichtigung";
-			this.uploadStartedDNCheckbox.UseVisualStyleBackColor = true;
-			this.uploadStartedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadStartedDNCheckbox_CheckedChanged);
-			// 
-			// uploadFinishedDNCheckbox
-			// 
-			this.uploadFinishedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.uploadFinishedDNCheckbox.AutoSize = true;
-			this.uploadFinishedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.uploadFinishedDNCheckbox.Location = new System.Drawing.Point(403, 74);
-			this.uploadFinishedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.uploadFinishedDNCheckbox.Name = "uploadFinishedDNCheckbox";
-			this.uploadFinishedDNCheckbox.Size = new System.Drawing.Size(267, 22);
-			this.uploadFinishedDNCheckbox.TabIndex = 1;
-			this.uploadFinishedDNCheckbox.Text = "Desktop-Benachrichtigung";
-			this.uploadFinishedDNCheckbox.UseVisualStyleBackColor = true;
-			this.uploadFinishedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFinishedDNCheckbox_CheckedChanged);
-			// 
 			// uploadFailedDNCheckbox
 			// 
 			this.uploadFailedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -1885,6 +1891,34 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.uploadFailedMNCheckbox.Text = "E-Mail-Benachrichtigung";
 			this.uploadFailedMNCheckbox.UseVisualStyleBackColor = true;
 			this.uploadFailedMNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFailedMNCheckbox_CheckedChanged);
+			// 
+			// uploadStartedDNCheckbox
+			// 
+			this.uploadStartedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadStartedDNCheckbox.AutoSize = true;
+			this.uploadStartedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadStartedDNCheckbox.Location = new System.Drawing.Point(403, 42);
+			this.uploadStartedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadStartedDNCheckbox.Name = "uploadStartedDNCheckbox";
+			this.uploadStartedDNCheckbox.Size = new System.Drawing.Size(267, 22);
+			this.uploadStartedDNCheckbox.TabIndex = 1;
+			this.uploadStartedDNCheckbox.Text = "Desktop-Benachrichtigung";
+			this.uploadStartedDNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadStartedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadStartedDNCheckbox_CheckedChanged);
+			// 
+			// uploadFinishedDNCheckbox
+			// 
+			this.uploadFinishedDNCheckbox.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.uploadFinishedDNCheckbox.AutoSize = true;
+			this.uploadFinishedDNCheckbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.uploadFinishedDNCheckbox.Location = new System.Drawing.Point(403, 74);
+			this.uploadFinishedDNCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.uploadFinishedDNCheckbox.Name = "uploadFinishedDNCheckbox";
+			this.uploadFinishedDNCheckbox.Size = new System.Drawing.Size(267, 22);
+			this.uploadFinishedDNCheckbox.TabIndex = 1;
+			this.uploadFinishedDNCheckbox.Text = "Desktop-Benachrichtigung";
+			this.uploadFinishedDNCheckbox.UseVisualStyleBackColor = true;
+			this.uploadFinishedDNCheckbox.CheckedChanged += new System.EventHandler(this.uploadFinishedDNCheckbox_CheckedChanged);
 			// 
 			// mailRecipientLabel
 			// 
@@ -2506,5 +2540,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private TableLayoutPanel tableLayoutPanel1;
 		private Label nextPublishTimeLabel;
 		private DateTimePicker nextPublishTimeDtp;
+		private CheckBox addToPlaylistCheckbox;
+		private ComboBox playlistCombobox;
 	}
 }

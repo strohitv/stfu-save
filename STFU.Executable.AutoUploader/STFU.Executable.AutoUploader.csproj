@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.4.2.%2a</ApplicationVersion>
+    <ApplicationVersion>0.4.3.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -121,6 +121,12 @@
     <Compile Include="Forms\ProcessForm.Designer.cs">
       <DependentUpon>ProcessForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\RefreshPlaylistsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RefreshPlaylistsForm.Designer.cs">
+      <DependentUpon>RefreshPlaylistsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Forms\TemplateForm.cs">
       <SubType>Form</SubType>
@@ -163,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProcessForm.resx">
       <DependentUpon>ProcessForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RefreshPlaylistsForm.resx">
+      <DependentUpon>RefreshPlaylistsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

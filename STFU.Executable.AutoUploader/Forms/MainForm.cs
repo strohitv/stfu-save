@@ -36,6 +36,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
 		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+		IYoutubePlaylistContainer playlistContainer = new YoutubePlaylistContainer();
 
 		ITwitterAccountContainer twitterAccountContainer = new TwitterAccountContainer();
 
@@ -55,6 +56,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 		JobPersistor queuePersistor = null;
 		JobPersistor archivePersistor = null;
+		PlaylistPersistor playlistPersistor = null;
 
 		TwitterAccountPersistor twitterAccountPersistor = null;
 
@@ -293,7 +295,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader.Configuration.Add(setting);
 			}
 
-			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 
 			jobQueue.ShowActionsButtons = true;
 			jobQueue.Uploader = autoUploader.Uploader;
@@ -463,7 +465,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void RefreshToolstripButtonsEnabled()
 		{
 			verbindenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count == 0;
-			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = accountContainer.RegisteredAccounts.Count > 0;
+			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = playlistsToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
 
 		private void bgwCreateUploaderDoWork(object sender, DoWorkEventArgs e)
@@ -499,6 +501,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
 			archivePersistor.Load();
 
+			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
+			playlistPersistor.Load();
+
 			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
 			twitterAccountPersistor.Load();
 
@@ -524,7 +529,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
-			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
@@ -650,6 +655,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			TemplateForm tf = new TemplateForm(templatePersistor,
 				categoryContainer,
 				languageContainer,
+				playlistContainer,
 				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
@@ -768,7 +774,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					return;
 				}
 
-				jobQueue.Fill(categoryContainer, languageContainer);
+				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 
 				jobQueue.ShowActionsButtons = true;
 				jobQueue.Uploader = autoUploader.Uploader;
@@ -866,7 +872,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, accountContainer.RegisteredAccounts.First());
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, accountContainer.RegisteredAccounts.First());
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
@@ -976,6 +982,11 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				ActivateAccountLinkTwitter();
 			}
+		}
+
+		private void playlistsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new RefreshPlaylistsForm(playlistPersistor, accountContainer.RegisteredAccounts.First()).Show(this);
 		}
 	}
 }

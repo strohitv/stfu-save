@@ -91,6 +91,9 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				video.Tags.Add(tag);
 			}
 
+			video.AddToPlaylist = template.AddToPlaylist;
+			video.PlaylistId = template.PlaylistId;
+
 			return new VideoInformation(video, evaluator, notificationSettings);
 		}
 

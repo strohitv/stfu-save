@@ -19,6 +19,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 	{
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private IYoutubePlaylistContainer playlistContainer;
 
 		public event MoveRequested MoveUpRequested;
 		public event MoveRequested MoveDownRequested;
@@ -84,6 +85,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 				{
 					currentUploadObject = "Details";
 				}
+				else if (Job.UploadStatus.CurrentStep is RetryingUploadStep<AddToPlaylistStep>)
+				{
+					currentUploadObject = "Playlist";
+				}
 				else
 				{
 					currentUploadObject = "nichts";
@@ -135,6 +140,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 				else if (Job.UploadStatus.CurrentStep is RetryingUploadStep<ChangeVideoDetailsStep>)
 				{
 					currentUploadObject = "Details";
+				}
+				else if (Job.UploadStatus.CurrentStep is RetryingUploadStep<AddToPlaylistStep>)
+				{
+					currentUploadObject = "Playlist";
 				}
 				else
 				{
@@ -238,10 +247,11 @@ namespace STFU.Lib.GUI.Controls.Queue
 			RefreshContextMenuEnabled();
 		}
 
-		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
 		{
 			categoryContainer = catContainer;
 			languageContainer = langContainer;
+			playlistContainer = plContainer;
 		}
 
 		private void RefreshActionsButtonVisibility(bool visible)
@@ -370,7 +380,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void detailsBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), Job.NotificationSettings.CreateCopy(), Job.Account.Access.First().HasSendMailPrivilegue, categoryContainer, languageContainer);
+			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), Job.NotificationSettings.CreateCopy(), Job.Account.Access.First().HasSendMailPrivilegue, categoryContainer, languageContainer, playlistContainer);
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
