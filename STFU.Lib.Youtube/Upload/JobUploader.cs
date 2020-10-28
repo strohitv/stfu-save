@@ -88,7 +88,7 @@ namespace STFU.Lib.Youtube.Upload
 				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 				Run();
 			}
-			else if (new string[] { "AddToPlaylist", "PlaylistId" }.Contains(e.PropertyName)
+			else if (new string[] { nameof(Job.Video.AddToPlaylist), nameof(Job.Video.PlaylistId) }.Contains(e.PropertyName)
 				&& !Steps.Any(step => step is RetryingUploadStep<AddToPlaylistStep>))
 			{
 				Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
