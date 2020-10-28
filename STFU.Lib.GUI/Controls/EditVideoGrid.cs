@@ -13,6 +13,7 @@ namespace STFU.Lib.GUI.Controls
 	{
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private IYoutubePlaylistContainer playlistContainer;
 		private bool isNewUpload = false;
 
 		private IYoutubeVideo video;
@@ -67,7 +68,7 @@ namespace STFU.Lib.GUI.Controls
 			InitializeComponent();
 		}
 
-		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
 		{
 			categoryContainer = catContainer;
 			RefreshCategories();
@@ -75,9 +76,22 @@ namespace STFU.Lib.GUI.Controls
 			languageContainer = langContainer;
 			RefreshLanguages();
 
+			playlistContainer = plContainer;
+			RefreshPlaylists();
+
 			HasMailPrivilegue = hasMailPrivilegue;
 			Video = video;
 			NotificationSettings = notificationSettings;
+		}
+
+		private void RefreshPlaylists()
+		{
+			playlistsCombobox.Items.Clear();
+
+			foreach (var playlist in playlistContainer.RegisteredPlaylists)
+			{
+				playlistsCombobox.Items.Add(playlist.Title);
+			}
 		}
 
 		private void RefreshLanguages()
@@ -146,6 +160,17 @@ namespace STFU.Lib.GUI.Controls
 			notifySubscribersCheckbox.Checked = video.NotifySubscribers;
 			autoLevelsCheckbox.Checked = video.AutoLevels;
 			stabilizeCheckbox.Checked = video.Stabilize;
+
+			addToPlaylistCheckbox.Checked = playlistsCombobox.Enabled = video.AddToPlaylist;
+			var pl = playlistContainer.RegisteredPlaylists.FirstOrDefault(p => p.Id == video.PlaylistId);
+			if (pl != null)
+			{
+				playlistsCombobox.SelectedIndex = playlistContainer.RegisteredPlaylists.ToList().IndexOf(pl);
+			}
+			else if (playlistsCombobox.Items.Count > 0)
+			{
+				playlistsCombobox.SelectedIndex = 0;
+			}
 
 			var maxTitleLength = YoutubeVideo.MaxTitleLength;
 			titleCharacterCountLabel.Text = $"Zeichen vergeben: {titleTextbox.Text.Length} von {maxTitleLength}. Übrig: {maxTitleLength - titleTextbox.Text.Length} Zeichen";
@@ -342,6 +367,16 @@ namespace STFU.Lib.GUI.Controls
 			{
 				thumbnailTextbox.Text = selectThumbnailDialog.FileName;
 			}
+		}
+
+		private void addToPlaylistCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			Video.AddToPlaylist = playlistsCombobox.Enabled = addToPlaylistCheckbox.Checked;
+		}
+
+		private void playlistsCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistsCombobox.SelectedIndex).Id;
 		}
 	}
 }

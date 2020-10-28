@@ -26,6 +26,9 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 		string Title { get; set; }
 		DateTime NextUploadSuggestion { get; set; }
 
+		bool AddToPlaylist { get; set; }
+		string PlaylistId { get; set; }
+
 		IList<IPlannedVideo> PlannedVideos { get; set; }
 
 		bool EnableExpertMode { get; set; }

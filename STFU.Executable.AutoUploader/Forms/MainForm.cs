@@ -295,7 +295,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader.Configuration.Add(setting);
 			}
 
-			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 
 			jobQueue.ShowActionsButtons = true;
 			jobQueue.Uploader = autoUploader.Uploader;
@@ -529,7 +529,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
-			jobQueue.Fill(categoryContainer, languageContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
@@ -655,6 +655,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			TemplateForm tf = new TemplateForm(templatePersistor,
 				categoryContainer,
 				languageContainer,
+				playlistContainer,
 				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
@@ -773,7 +774,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					return;
 				}
 
-				jobQueue.Fill(categoryContainer, languageContainer);
+				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
 
 				jobQueue.ShowActionsButtons = true;
 				jobQueue.Uploader = autoUploader.Uploader;
@@ -871,7 +872,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, accountContainer.RegisteredAccounts.First());
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, accountContainer.RegisteredAccounts.First());
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{

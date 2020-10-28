@@ -371,6 +371,40 @@ namespace STFU.Lib.Youtube.Model
 			}
 		}
 
+		private bool addToPlaylist;
+		public bool AddToPlaylist
+		{
+			get
+			{
+				return addToPlaylist;
+			}
+			set
+			{
+				if (addToPlaylist != value)
+				{
+					addToPlaylist = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string playlistId;
+		public string PlaylistId
+		{
+			get
+			{
+				return playlistId;
+			}
+			set
+			{
+				if (playlistId != value)
+				{
+					playlistId = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
 		protected void OnPropertyChanged([CallerMemberName] string caller = null)
@@ -401,7 +435,9 @@ namespace STFU.Lib.Youtube.Model
 				PublishAt = PublishAt,
 				Stabilize = Stabilize,
 				ThumbnailPath = ThumbnailPath,
-				Title = Title
+				Title = Title,
+				AddToPlaylist = AddToPlaylist,
+				PlaylistId = PlaylistId
 			};
 
 			foreach (var tag in Tags)
@@ -502,6 +538,18 @@ namespace STFU.Lib.Youtube.Model
 				IsDirty = true;
 				IsThumbnailDirty = true;
 				ThumbnailPath = video.ThumbnailPath;
+			}
+
+			if (AddToPlaylist != video.AddToPlaylist)
+			{
+				IsDirty = true;
+				AddToPlaylist = video.AddToPlaylist;
+			}
+
+			if (PlaylistId != video.PlaylistId)
+			{
+				IsDirty = true;
+				PlaylistId = video.PlaylistId;
 			}
 		}
 

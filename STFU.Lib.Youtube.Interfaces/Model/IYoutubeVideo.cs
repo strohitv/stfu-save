@@ -123,6 +123,16 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		string Id { get; set; }
 
 		/// <summary>
+		/// Gets or sets if the video should be added to a playlist after upload
+		/// </summary>
+		bool AddToPlaylist { get; set; }
+
+		/// <summary>
+		/// Gets or sets the playlist the video should be added to after upload
+		/// </summary>
+		string PlaylistId { get; set; }
+
+		/// <summary>
 		/// Creates a copy of itself
 		/// </summary>
 		/// <returns>a copy of itself</returns>

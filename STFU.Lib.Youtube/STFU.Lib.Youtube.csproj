@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Upload\JobUploader.cs" />
+    <Compile Include="Upload\Steps\AddToPlaylistStep.cs" />
     <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
     <Compile Include="Upload\Steps\RetryingUploadStep.cs" />
     <Compile Include="Upload\Steps\ThrottledUploadStep.cs" />

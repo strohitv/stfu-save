@@ -13,6 +13,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 	{
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
+		private IYoutubePlaylistContainer playlistContainer;
 
 		private List<JobControl> jobControls = new List<JobControl>();
 
@@ -91,10 +92,11 @@ namespace STFU.Lib.GUI.Controls.Queue
 			InitializeComponent();
 		}
 
-		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer)
+		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
 		{
 			categoryContainer = catContainer;
 			languageContainer = langContainer;
+			playlistContainer = plContainer;
 		}
 
 		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
@@ -105,7 +107,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private void OnJobQueued(JobQueuedEventArgs e)
 		{
 			var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
-			control.Fill(categoryContainer, languageContainer);
+			control.Fill(categoryContainer, languageContainer, playlistContainer);
 
 			AddItem(control, e.Position);
 		}

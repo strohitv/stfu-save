@@ -60,6 +60,8 @@
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
+			this.addToPlaylistCheckbox = new System.Windows.Forms.CheckBox();
+			this.playlistsCombobox = new System.Windows.Forms.ComboBox();
 			this.selectThumbnailDialog = new System.Windows.Forms.OpenFileDialog();
 			this.mainTabControl = new System.Windows.Forms.TabControl();
 			this.generalTabPage = new System.Windows.Forms.TabPage();
@@ -127,7 +129,7 @@
 			this.mainSettingsGroupbox.Location = new System.Drawing.Point(10, 10);
 			this.mainSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.mainSettingsGroupbox.Name = "mainSettingsGroupbox";
-			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1116, 490);
+			this.mainSettingsGroupbox.Size = new System.Drawing.Size(1116, 454);
 			this.mainSettingsGroupbox.TabIndex = 0;
 			this.mainSettingsGroupbox.TabStop = false;
 			this.mainSettingsGroupbox.Text = "Allgemeine Einstellungen";
@@ -183,7 +185,7 @@
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.mainSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.mainSettingsTlp.Size = new System.Drawing.Size(1110, 471);
+			this.mainSettingsTlp.Size = new System.Drawing.Size(1110, 435);
 			this.mainSettingsTlp.TabIndex = 0;
 			// 
 			// titleLabel
@@ -214,7 +216,7 @@
 			this.tagsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tagsLabel.AutoSize = true;
 			this.mainSettingsTlp.SetColumnSpan(this.tagsLabel, 5);
-			this.tagsLabel.Location = new System.Drawing.Point(10, 212);
+			this.tagsLabel.Location = new System.Drawing.Point(10, 194);
 			this.tagsLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsLabel.Name = "tagsLabel";
 			this.tagsLabel.Size = new System.Drawing.Size(1090, 13);
@@ -225,7 +227,7 @@
 			// 
 			this.thumbnailLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailLabel.AutoSize = true;
-			this.thumbnailLabel.Location = new System.Drawing.Point(10, 368);
+			this.thumbnailLabel.Location = new System.Drawing.Point(10, 332);
 			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailLabel.Name = "thumbnailLabel";
 			this.thumbnailLabel.Size = new System.Drawing.Size(176, 13);
@@ -236,7 +238,7 @@
 			// 
 			this.privacyLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.privacyLabel.AutoSize = true;
-			this.privacyLabel.Location = new System.Drawing.Point(10, 405);
+			this.privacyLabel.Location = new System.Drawing.Point(10, 369);
 			this.privacyLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyLabel.Name = "privacyLabel";
 			this.privacyLabel.Size = new System.Drawing.Size(176, 13);
@@ -265,7 +267,7 @@
 			this.descriptionTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionTextbox.Multiline = true;
 			this.descriptionTextbox.Name = "descriptionTextbox";
-			this.descriptionTextbox.Size = new System.Drawing.Size(1090, 107);
+			this.descriptionTextbox.Size = new System.Drawing.Size(1090, 89);
 			this.descriptionTextbox.TabIndex = 7;
 			this.descriptionTextbox.TextChanged += new System.EventHandler(this.descriptionTextbox_TextChanged);
 			// 
@@ -275,11 +277,11 @@
 			this.mainSettingsTlp.SetColumnSpan(this.tagsTextbox, 5);
 			this.tagsTextbox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tagsTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tagsTextbox.Location = new System.Drawing.Point(10, 225);
+			this.tagsTextbox.Location = new System.Drawing.Point(10, 207);
 			this.tagsTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsTextbox.Multiline = true;
 			this.tagsTextbox.Name = "tagsTextbox";
-			this.tagsTextbox.Size = new System.Drawing.Size(1090, 107);
+			this.tagsTextbox.Size = new System.Drawing.Size(1090, 89);
 			this.tagsTextbox.TabIndex = 8;
 			this.tagsTextbox.TextChanged += new System.EventHandler(this.tagsTextbox_TextChanged);
 			// 
@@ -287,7 +289,7 @@
 			// 
 			this.thumbnailTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 361);
+			this.thumbnailTextbox.Location = new System.Drawing.Point(196, 325);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
 			this.thumbnailTextbox.Size = new System.Drawing.Size(832, 26);
@@ -299,7 +301,7 @@
 			this.thumbnailButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.thumbnailButton.AutoSize = true;
 			this.thumbnailButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.thumbnailButton.Location = new System.Drawing.Point(1038, 360);
+			this.thumbnailButton.Location = new System.Drawing.Point(1038, 324);
 			this.thumbnailButton.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailButton.Name = "thumbnailButton";
 			this.thumbnailButton.Padding = new System.Windows.Forms.Padding(15, 3, 15, 3);
@@ -317,7 +319,7 @@
 			this.publishAtDatetimepicker.Enabled = false;
 			this.publishAtDatetimepicker.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.publishAtDatetimepicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 435);
+			this.publishAtDatetimepicker.Location = new System.Drawing.Point(196, 399);
 			this.publishAtDatetimepicker.Margin = new System.Windows.Forms.Padding(0);
 			this.publishAtDatetimepicker.Name = "publishAtDatetimepicker";
 			this.publishAtDatetimepicker.Size = new System.Drawing.Size(904, 26);
@@ -329,7 +331,7 @@
 			this.publishAtCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.publishAtCheckbox.AutoSize = true;
 			this.publishAtCheckbox.Enabled = false;
-			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 439);
+			this.publishAtCheckbox.Location = new System.Drawing.Point(13, 403);
 			this.publishAtCheckbox.Name = "publishAtCheckbox";
 			this.publishAtCheckbox.Size = new System.Drawing.Size(170, 17);
 			this.publishAtCheckbox.TabIndex = 13;
@@ -348,7 +350,7 @@
             "Öffentlich",
             "Nicht gelistet",
             "Privat"});
-			this.privacyCombobox.Location = new System.Drawing.Point(196, 399);
+			this.privacyCombobox.Location = new System.Drawing.Point(196, 363);
 			this.privacyCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.privacyCombobox.Name = "privacyCombobox";
 			this.privacyCombobox.Size = new System.Drawing.Size(904, 26);
@@ -370,7 +372,7 @@
 			// 
 			this.descriptionCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.descriptionCharacterCountLabel.AutoSize = true;
-			this.descriptionCharacterCountLabel.Location = new System.Drawing.Point(196, 189);
+			this.descriptionCharacterCountLabel.Location = new System.Drawing.Point(196, 171);
 			this.descriptionCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.descriptionCharacterCountLabel.Name = "descriptionCharacterCountLabel";
 			this.descriptionCharacterCountLabel.Size = new System.Drawing.Size(832, 13);
@@ -381,7 +383,7 @@
 			// 
 			this.tagsCharacterCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.tagsCharacterCountLabel.AutoSize = true;
-			this.tagsCharacterCountLabel.Location = new System.Drawing.Point(196, 337);
+			this.tagsCharacterCountLabel.Location = new System.Drawing.Point(196, 301);
 			this.tagsCharacterCountLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.tagsCharacterCountLabel.Name = "tagsCharacterCountLabel";
 			this.tagsCharacterCountLabel.Size = new System.Drawing.Size(832, 13);
@@ -394,10 +396,10 @@
 			this.otherSettingsGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.otherSettingsGroupbox.Controls.Add(this.otherSettingsTlp);
 			this.otherSettingsGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 510);
+			this.otherSettingsGroupbox.Location = new System.Drawing.Point(10, 474);
 			this.otherSettingsGroupbox.Margin = new System.Windows.Forms.Padding(0);
 			this.otherSettingsGroupbox.Name = "otherSettingsGroupbox";
-			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1116, 272);
+			this.otherSettingsGroupbox.Size = new System.Drawing.Size(1116, 308);
 			this.otherSettingsGroupbox.TabIndex = 1;
 			this.otherSettingsGroupbox.TabStop = false;
 			this.otherSettingsGroupbox.Text = "Weitere Einstellungen";
@@ -423,10 +425,12 @@
 			this.otherSettingsTlp.Controls.Add(this.autoLevelsCheckbox, 1, 11);
 			this.otherSettingsTlp.Controls.Add(this.stabilizeCheckbox, 1, 12);
 			this.otherSettingsTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 10);
+			this.otherSettingsTlp.Controls.Add(this.addToPlaylistCheckbox, 1, 14);
+			this.otherSettingsTlp.Controls.Add(this.playlistsCombobox, 3, 14);
 			this.otherSettingsTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.otherSettingsTlp.Location = new System.Drawing.Point(3, 16);
 			this.otherSettingsTlp.Name = "otherSettingsTlp";
-			this.otherSettingsTlp.RowCount = 14;
+			this.otherSettingsTlp.RowCount = 16;
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -441,10 +445,9 @@
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.otherSettingsTlp.Size = new System.Drawing.Size(1110, 253);
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.otherSettingsTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.otherSettingsTlp.Size = new System.Drawing.Size(1110, 289);
 			this.otherSettingsTlp.TabIndex = 0;
 			// 
 			// licenseCombobox
@@ -456,10 +459,10 @@
 			this.licenseCombobox.Items.AddRange(new object[] {
             "Standard-Youtube-Lizenz",
             "Creative-Commons - Namensnennung"});
-			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
+			this.licenseCombobox.Location = new System.Drawing.Point(219, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(922, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(881, 26);
 			this.licenseCombobox.TabIndex = 18;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseCombobox_SelectedIndexChanged);
 			// 
@@ -470,7 +473,7 @@
 			this.licenseLabel.Location = new System.Drawing.Point(10, 88);
 			this.licenseLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseLabel.Name = "licenseLabel";
-			this.licenseLabel.Size = new System.Drawing.Size(158, 13);
+			this.licenseLabel.Size = new System.Drawing.Size(199, 13);
 			this.licenseLabel.TabIndex = 10;
 			this.licenseLabel.Text = "Lizenzen und Eigentumsrechte: ";
 			// 
@@ -509,7 +512,7 @@
 			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
 			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
-			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
+			this.defaultLanguageLabel.Size = new System.Drawing.Size(199, 13);
 			this.defaultLanguageLabel.TabIndex = 9;
 			this.defaultLanguageLabel.Text = "Videosprache: ";
 			// 
@@ -520,7 +523,7 @@
 			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
 			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryLabel.Name = "categoryLabel";
-			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
+			this.categoryLabel.Size = new System.Drawing.Size(199, 13);
 			this.categoryLabel.TabIndex = 8;
 			this.categoryLabel.Text = "Kategorie: ";
 			// 
@@ -530,10 +533,10 @@
 			this.categoryCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.categoryCombobox.FormattingEnabled = true;
-			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
+			this.categoryCombobox.Location = new System.Drawing.Point(219, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(922, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(881, 26);
 			this.categoryCombobox.TabIndex = 16;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryCombobox_SelectedIndexChanged);
 			// 
@@ -543,10 +546,10 @@
 			this.defaultLanguageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.defaultLanguageCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.defaultLanguageCombobox.FormattingEnabled = true;
-			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
+			this.defaultLanguageCombobox.Location = new System.Drawing.Point(219, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(922, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(881, 26);
 			this.defaultLanguageCombobox.TabIndex = 17;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageCombobox_SelectedIndexChanged);
 			// 
@@ -594,6 +597,32 @@
 			this.notifySubscribersCheckbox.UseVisualStyleBackColor = true;
 			this.notifySubscribersCheckbox.Visible = false;
 			this.notifySubscribersCheckbox.CheckedChanged += new System.EventHandler(this.notifySubscribersCheckbox_CheckedChanged);
+			// 
+			// addToPlaylistCheckbox
+			// 
+			this.addToPlaylistCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addToPlaylistCheckbox.AutoSize = true;
+			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 257);
+			this.addToPlaylistCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.addToPlaylistCheckbox.Name = "addToPlaylistCheckbox";
+			this.addToPlaylistCheckbox.Size = new System.Drawing.Size(199, 17);
+			this.addToPlaylistCheckbox.TabIndex = 19;
+			this.addToPlaylistCheckbox.Text = "Nach Upload zur Playlist hinzufügen:";
+			this.addToPlaylistCheckbox.UseVisualStyleBackColor = true;
+			this.addToPlaylistCheckbox.CheckedChanged += new System.EventHandler(this.addToPlaylistCheckbox_CheckedChanged);
+			// 
+			// playlistsCombobox
+			// 
+			this.playlistsCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.playlistsCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.playlistsCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.playlistsCombobox.FormattingEnabled = true;
+			this.playlistsCombobox.Location = new System.Drawing.Point(219, 253);
+			this.playlistsCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.playlistsCombobox.Name = "playlistsCombobox";
+			this.playlistsCombobox.Size = new System.Drawing.Size(881, 26);
+			this.playlistsCombobox.TabIndex = 16;
+			this.playlistsCombobox.SelectedIndexChanged += new System.EventHandler(this.playlistsCombobox_SelectedIndexChanged);
 			// 
 			// selectThumbnailDialog
 			// 
@@ -996,5 +1025,7 @@
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox mailReceiverTextbox;
+		private System.Windows.Forms.CheckBox addToPlaylistCheckbox;
+		private System.Windows.Forms.ComboBox playlistsCombobox;
 	}
 }
