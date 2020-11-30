@@ -184,7 +184,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void ConnectToYoutube()
 		{
 			tlpSettings.Enabled = false;
-
+			  
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddYoutubeAccountForm();
@@ -987,6 +987,12 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void playlistsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			new RefreshPlaylistsForm(playlistPersistor, accountContainer.RegisteredAccounts.First()).Show(this);
+		}
+
+		private void playlistserviceToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			PlaylistServiceForm form = new PlaylistServiceForm(clientContainer.RegisteredClients.FirstOrDefault());
+			form.ShowDialog(this);
 		}
 	}
 }

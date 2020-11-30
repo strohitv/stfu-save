@@ -15,9 +15,12 @@ namespace STFU.Lib.GUI.Forms
 			? SendMailAuthUrl
 			: ExternalCodeUrl;
 
-		public AddYoutubeAccountForm()
+		public AddYoutubeAccountForm() : this(true) { }
+
+		public AddYoutubeAccountForm(bool showMailCheckbox)
 		{
 			InitializeComponent();
+			allowMailingCheckbox.Visible = showMailCheckbox;
 		}
 
 		private void AddAccountFormLoad(object sender, EventArgs e)
