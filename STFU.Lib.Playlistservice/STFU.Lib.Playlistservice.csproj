@@ -48,8 +48,11 @@
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AuthCode.cs" />
     <Compile Include="Model\Task.cs" />
+    <Compile Include="Model\TaskOrder.cs" />
+    <Compile Include="Model\TaskOrderDirection.cs" />
     <Compile Include="Model\TaskState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskClient.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="VersionClient.cs" />
   </ItemGroup>

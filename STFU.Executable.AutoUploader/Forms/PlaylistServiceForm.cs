@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -23,10 +24,12 @@ namespace STFU.Executable.AutoUploader.Forms
 		private string Username { get; set; }
 		private string Password { get; set; }
 		private bool IsConnected { get; set; }
-		
+
 		private AccountClient AccountClient { get; set; }
+		private TaskClient TaskClient { get; set; }
 
 		private List<Account> Accounts { get; } = new List<Account>();
+		private List<Task> Tasks { get; } = new List<Task>();
 
 		public PlaylistServiceForm(IYoutubeClient client)
 		{
@@ -63,6 +66,12 @@ namespace STFU.Executable.AutoUploader.Forms
 						AccountClient = new AccountClient(new Uri($"http://{Host}:{Port}"), Username, Password);
 					}
 
+					TaskClient = new TaskClient(new Uri($"http://{Host}:{Port}"));
+					if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
+					{
+						TaskClient = new TaskClient(new Uri($"http://{Host}:{Port}"), Username, Password);
+					}
+
 					ReloadAccounts();
 				}
 				else
@@ -90,6 +99,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			clearAccountsButton.Enabled = Accounts.Count > 0;
 
 			RefillAccountsListView();
+
+			accountsListView.SelectedIndices.Clear();
+			if (accountsListView.Items.Count > 0)
+			{
+				accountsListView.SelectedIndices.Add(0);
+			}
+
 			removeAccountButton.Enabled = accountsListView.SelectedIndices.Count > 0;
 		}
 
@@ -129,7 +145,94 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void accountsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			removeAccountButton.Enabled = accountsListView.SelectedIndices.Count > 0;
+			bool selected = accountsListView.SelectedIndices.Count == 1;
+
+			removeAccountButton.Enabled = accountDetailsTlp.Enabled = selected;
+
+			if (selected)
+			{
+				Account account = Accounts[accountsListView.SelectedIndices[0]];
+				accountIdLabel.Text = account.id.ToString();
+				channelTitleLabel.Text = account.title;
+				channelUrlLinkLabel.Text = $"https://youtube.com/channel/{account.channelId}";
+
+				ResetTaskFilters();
+			}
+		}
+
+		private void ResetTaskFilters()
+		{
+			filterIdTextbox.Text = "";
+
+			filterTaskdateAfterDtp.Value = DateTime.Now.Date;
+			filterTaskdateBeforeDtp.Value = DateTime.Now.AddMonths(1).Date;
+
+			filterAttemptCountTextbox.Text = "";
+			filterMinAttemptCountTextbox.Text = "";
+			filterMaxAttemptCountTextbox.Text = "";
+
+			filterPlaylistIdTextbox.Text = "";
+			filterPlaylistTitleTextbox.Text = "";
+
+			filterVideoIdTextbox.Text = "";
+			filterVideoTitleTextbox.Text = "";
+
+			sortByCombobox.SelectedIndex = 0;
+			sortOrderCombobox.SelectedIndex = 0;
+
+			showOpenTasksCheckbox.Checked = true;
+			showDoneTasksCheckbox.Checked = false;
+			showFailedTasksCheckbox.Checked = false;
+
+			RefreshTasks();
+		}
+
+		private void RefreshTasks()
+		{
+			Tasks.Clear();
+
+			long[] ids = new string(filterIdTextbox.Text.Replace(',', ';').Where(c => ";0123456789".Contains(c)).ToArray())
+				.Split(';')
+				.Where(c => !string.IsNullOrEmpty(c))
+				.Select(c => Convert.ToInt64(c))
+				.ToArray();
+
+			int? attemptCount = null;
+			int? minAttemptCount = null;
+			int? maxAttemptCount = null;
+
+			List<TaskState> states = new List<TaskState>();
+			if (showOpenTasksCheckbox.Checked) states.Add(TaskState.Open);
+			if (showDoneTasksCheckbox.Checked) states.Add(TaskState.Done);
+			if (showFailedTasksCheckbox.Checked) states.Add(TaskState.Failed);
+
+			Tasks.AddRange(TaskClient.GetTasks(Accounts[accountsListView.SelectedIndices[0]].id, ids, filterTaskdateAfterDtp.Value.ToUniversalTime(),
+				filterTaskdateBeforeDtp.Value.ToUniversalTime(), attemptCount, minAttemptCount, maxAttemptCount, filterPlaylistIdTextbox.Text,
+				filterPlaylistTitleTextbox.Text, filterVideoIdTextbox.Text, filterVideoTitleTextbox.Text, states.ToArray(), (TaskOrder)sortByCombobox.SelectedIndex,
+				(TaskOrderDirection)sortOrderCombobox.SelectedIndex));
+
+			RefillTasksListView();
+		}
+
+		private void RefillTasksListView()
+		{
+			tasksListView.Items.Clear();
+
+			foreach (var task in Tasks)
+			{
+				string state = "Offen";
+				if (task.state == TaskState.Done) state = "Erledigt";
+				if (task.state == TaskState.Failed) state = "Gescheitert";
+
+				ListViewItem item = new ListViewItem(task.id.ToString());
+				item.SubItems.Add(task.playlistTitle);
+				item.SubItems.Add(task.videoTitle);
+				item.SubItems.Add(task.addAt.ToString("yyyy-MM-dd HH\\:mm"));
+				item.SubItems.Add(state);
+				item.SubItems.Add(task.attemptCount.ToString());
+
+				tasksListView.Items.Add(item);
+			}
 		}
 
 		private void removeAccountButton_Click(object sender, EventArgs e)
@@ -145,6 +248,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			AccountClient.DeleteAllAccounts();
 
 			ReloadAccounts();
+		}
+
+		private void searchButton_Click(object sender, EventArgs e)
+		{
+			RefreshTasks();
+		}
+
+		private void channelUrlLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(channelUrlLinkLabel.Text);
 		}
 	}
 }
