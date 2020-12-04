@@ -19,6 +19,8 @@ namespace STFU.Executable.AutoUploader.Forms
 	{
 		private IYoutubeClient Client { get; set; }
 
+		private IPlaylistServiceConnectionContainer Container { get; set; }
+
 		private string Host { get; set; }
 		private string Port { get; set; }
 		private string Username { get; set; }
@@ -31,14 +33,20 @@ namespace STFU.Executable.AutoUploader.Forms
 		private List<Account> Accounts { get; } = new List<Account>();
 		private List<Task> FoundTasks { get; } = new List<Task>();
 
-		public PlaylistServiceForm(IYoutubeClient client)
+		public PlaylistServiceForm(IPlaylistServiceConnectionContainer container, IYoutubeClient client)
 		{
 			Client = client;
+			Container = container;
 
 			InitializeComponent();
 		}
 
 		private void connectServiceButton_Click(object sender, EventArgs e)
+		{
+			ConnectToService();
+		}
+
+		private void ConnectToService()
 		{
 			if (!string.IsNullOrWhiteSpace(hostTextbox.Text) && !string.IsNullOrWhiteSpace(portTextbox.Text) && portTextbox.Text.All(c => "0123456789".Contains(c)))
 			{
@@ -332,6 +340,38 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void tasksListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			removeTaskButton.Enabled = tasksListView.SelectedIndices.Count == 1;
+		}
+
+		private void PlaylistServiceForm_Load(object sender, EventArgs e)
+		{
+			if (Container.Connection != null)
+			{
+				hostTextbox.Text = Container.Connection.Host;
+				portTextbox.Text = Container.Connection.Port;
+				usernameTextbox.Text = Container.Connection.Username;
+				passwordTextbox.Text = Container.Connection.Password;
+
+				ConnectToService();
+			}
+		}
+
+		private void PlaylistServiceForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (IsConnected)
+			{
+				Container.Connection = new ServiceConnection()
+				{
+					Host = Host,
+					Port = Port,
+					Username = Username,
+					Password = Password,
+					Accounts = Accounts.ToArray()
+				};
+			}
+			else
+			{
+				Container.Connection = null;
+			}
 		}
 	}
 }

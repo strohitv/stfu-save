@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Twitter;
 using STFU.Lib.Twitter.Model;
 using STFU.Lib.Youtube;
@@ -36,7 +37,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
 		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+
 		IYoutubePlaylistContainer playlistContainer = new YoutubePlaylistContainer();
+		IPlaylistServiceConnectionContainer playlistServiceConnectionContainer = new PlaylistServiceConnectionContainer();
 
 		ITwitterAccountContainer twitterAccountContainer = new TwitterAccountContainer();
 
@@ -56,7 +59,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 		JobPersistor queuePersistor = null;
 		JobPersistor archivePersistor = null;
+
 		PlaylistPersistor playlistPersistor = null;
+		PlaylistServiceConnectionPersistor playlistServiceConnectionPersistor = null;
 
 		TwitterAccountPersistor twitterAccountPersistor = null;
 
@@ -503,6 +508,9 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
 			playlistPersistor.Load();
+
+			playlistServiceConnectionPersistor = new PlaylistServiceConnectionPersistor(playlistServiceConnectionContainer, "./settings/playlistservice.json");
+			playlistServiceConnectionPersistor.Load();
 
 			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
 			twitterAccountPersistor.Load();
@@ -991,8 +999,10 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void playlistserviceToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			PlaylistServiceForm form = new PlaylistServiceForm(clientContainer.RegisteredClients.FirstOrDefault());
+			PlaylistServiceForm form = new PlaylistServiceForm(playlistServiceConnectionContainer, clientContainer.RegisteredClients.FirstOrDefault());
 			form.ShowDialog(this);
+
+			playlistServiceConnectionPersistor.Save();
 		}
 	}
 }

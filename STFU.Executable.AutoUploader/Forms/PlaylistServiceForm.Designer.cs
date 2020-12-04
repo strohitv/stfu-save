@@ -416,10 +416,10 @@
 			this.channelUrlLinkLabel.Location = new System.Drawing.Point(267, 10);
 			this.channelUrlLinkLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.channelUrlLinkLabel.Name = "channelUrlLinkLabel";
-			this.channelUrlLinkLabel.Size = new System.Drawing.Size(108, 18);
+			this.channelUrlLinkLabel.Size = new System.Drawing.Size(38, 18);
 			this.channelUrlLinkLabel.TabIndex = 4;
 			this.channelUrlLinkLabel.TabStop = true;
-			this.channelUrlLinkLabel.Text = "linkLabel1";
+			this.channelUrlLinkLabel.Text = "url";
 			this.channelUrlLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.channelUrlLinkLabel_LinkClicked);
 			// 
 			// tasksGroupbox
@@ -1133,6 +1133,8 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Strohis Playlistservice verbinden und verwalten";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PlaylistServiceForm_FormClosing);
+			this.Load += new System.EventHandler(this.PlaylistServiceForm_Load);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.mainSplitContainer.Panel1.ResumeLayout(false);
