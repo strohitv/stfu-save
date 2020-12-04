@@ -36,19 +36,8 @@
 			this.connectAccountButton = new System.Windows.Forms.Button();
 			this.removeAccountButton = new System.Windows.Forms.Button();
 			this.clearAccountsButton = new System.Windows.Forms.Button();
-			this.hostTextbox = new System.Windows.Forms.TextBox();
-			this.hostLabel = new System.Windows.Forms.Label();
-			this.portLabel = new System.Windows.Forms.Label();
-			this.portTextbox = new System.Windows.Forms.TextBox();
-			this.connectServiceButton = new System.Windows.Forms.Button();
-			this.connectionStatusLabel = new System.Windows.Forms.Label();
-			this.usernameLabel = new System.Windows.Forms.Label();
-			this.usernameTextbox = new System.Windows.Forms.TextBox();
-			this.passwordTextbox = new System.Windows.Forms.TextBox();
-			this.passwordLabel = new System.Windows.Forms.Label();
 			this.accountDetailsTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.accountDetailsGroupbox = new System.Windows.Forms.GroupBox();
-			this.tasksGroupbox = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.accountIdLabel = new System.Windows.Forms.Label();
@@ -56,6 +45,7 @@
 			this.channelTitleLabel = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.channelUrlLinkLabel = new System.Windows.Forms.LinkLabel();
+			this.tasksGroupbox = new System.Windows.Forms.GroupBox();
 			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
 			this.filterIdLabel = new System.Windows.Forms.Label();
 			this.filterAttemptCountLabel = new System.Windows.Forms.Label();
@@ -75,6 +65,7 @@
 			this.showOpenTasksCheckbox = new System.Windows.Forms.CheckBox();
 			this.showDoneTasksCheckbox = new System.Windows.Forms.CheckBox();
 			this.showFailedTasksCheckbox = new System.Windows.Forms.CheckBox();
+			this.filterIdTextbox = new System.Windows.Forms.TextBox();
 			this.filterPlaylistIdTextbox = new System.Windows.Forms.TextBox();
 			this.filterPlaylistTitleTextbox = new System.Windows.Forms.TextBox();
 			this.filterVideoIdTextbox = new System.Windows.Forms.TextBox();
@@ -84,20 +75,29 @@
 			this.sortByCombobox = new System.Windows.Forms.ComboBox();
 			this.sortOrderCombobox = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.addTaskButton = new System.Windows.Forms.Button();
-			this.removeTaskButton = new System.Windows.Forms.Button();
-			this.clearTasksButton = new System.Windows.Forms.Button();
 			this.tasksListView = new System.Windows.Forms.ListView();
-			this.filterIdTextbox = new System.Windows.Forms.TextBox();
-			this.filterMinAttemptCountTextbox = new System.Windows.Forms.TextBox();
-			this.filterMaxAttemptCountTextbox = new System.Windows.Forms.TextBox();
-			this.filterAttemptCountTextbox = new System.Windows.Forms.TextBox();
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.addTaskButton = new System.Windows.Forms.Button();
+			this.removeTaskButton = new System.Windows.Forms.Button();
+			this.clearTasksButton = new System.Windows.Forms.Button();
+			this.filterMinAttemptCountTextbox = new System.Windows.Forms.TextBox();
+			this.filterMaxAttemptCountTextbox = new System.Windows.Forms.TextBox();
+			this.filterAttemptCountTextbox = new System.Windows.Forms.TextBox();
+			this.hostTextbox = new System.Windows.Forms.TextBox();
+			this.hostLabel = new System.Windows.Forms.Label();
+			this.portLabel = new System.Windows.Forms.Label();
+			this.portTextbox = new System.Windows.Forms.TextBox();
+			this.connectServiceButton = new System.Windows.Forms.Button();
+			this.connectionStatusLabel = new System.Windows.Forms.Label();
+			this.usernameLabel = new System.Windows.Forms.Label();
+			this.usernameTextbox = new System.Windows.Forms.TextBox();
+			this.passwordTextbox = new System.Windows.Forms.TextBox();
+			this.passwordLabel = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -106,8 +106,8 @@
 			this.tableLayoutPanel2.SuspendLayout();
 			this.accountDetailsTlp.SuspendLayout();
 			this.accountDetailsGroupbox.SuspendLayout();
-			this.tasksGroupbox.SuspendLayout();
 			this.tableLayoutPanel4.SuspendLayout();
+			this.tasksGroupbox.SuspendLayout();
 			this.tableLayoutPanel5.SuspendLayout();
 			this.tableLayoutPanel6.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
@@ -136,7 +136,7 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
 			this.tableLayoutPanel1.Controls.Add(this.mainSplitContainer, 1, 3);
 			this.tableLayoutPanel1.Controls.Add(this.hostTextbox, 3, 1);
 			this.tableLayoutPanel1.Controls.Add(this.hostLabel, 1, 1);
@@ -274,6 +274,7 @@
 			this.clearAccountsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.clearAccountsButton.AutoSize = true;
 			this.clearAccountsButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearAccountsButton.Enabled = false;
 			this.clearAccountsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.clearAccountsButton.ForeColor = System.Drawing.Color.Red;
 			this.clearAccountsButton.Location = new System.Drawing.Point(0, 102);
@@ -284,126 +285,6 @@
 			this.clearAccountsButton.Text = "x";
 			this.clearAccountsButton.UseVisualStyleBackColor = true;
 			this.clearAccountsButton.Click += new System.EventHandler(this.clearAccountsButton_Click);
-			// 
-			// hostTextbox
-			// 
-			this.hostTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.hostTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.hostTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.hostTextbox.Location = new System.Drawing.Point(52, 10);
-			this.hostTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.hostTextbox.Name = "hostTextbox";
-			this.hostTextbox.Size = new System.Drawing.Size(251, 26);
-			this.hostTextbox.TabIndex = 2;
-			// 
-			// hostLabel
-			// 
-			this.hostLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.hostLabel.AutoSize = true;
-			this.hostLabel.Location = new System.Drawing.Point(10, 17);
-			this.hostLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.hostLabel.Name = "hostLabel";
-			this.hostLabel.Size = new System.Drawing.Size(32, 13);
-			this.hostLabel.TabIndex = 3;
-			this.hostLabel.Text = "Host:";
-			// 
-			// portLabel
-			// 
-			this.portLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.portLabel.AutoSize = true;
-			this.portLabel.Location = new System.Drawing.Point(313, 17);
-			this.portLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.portLabel.Name = "portLabel";
-			this.portLabel.Size = new System.Drawing.Size(29, 13);
-			this.portLabel.TabIndex = 3;
-			this.portLabel.Text = "Port:";
-			// 
-			// portTextbox
-			// 
-			this.portTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.portTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.portTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.portTextbox.Location = new System.Drawing.Point(352, 10);
-			this.portTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.portTextbox.Name = "portTextbox";
-			this.portTextbox.Size = new System.Drawing.Size(251, 26);
-			this.portTextbox.TabIndex = 2;
-			// 
-			// connectServiceButton
-			// 
-			this.connectServiceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.connectServiceButton.AutoSize = true;
-			this.connectServiceButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.connectServiceButton.Location = new System.Drawing.Point(1352, 10);
-			this.connectServiceButton.Margin = new System.Windows.Forms.Padding(0);
-			this.connectServiceButton.Name = "connectServiceButton";
-			this.connectServiceButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
-			this.connectServiceButton.Size = new System.Drawing.Size(87, 27);
-			this.connectServiceButton.TabIndex = 4;
-			this.connectServiceButton.Text = "Verbinden";
-			this.connectServiceButton.UseVisualStyleBackColor = true;
-			this.connectServiceButton.Click += new System.EventHandler(this.connectServiceButton_Click);
-			// 
-			// connectionStatusLabel
-			// 
-			this.connectionStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.connectionStatusLabel.AutoSize = true;
-			this.connectionStatusLabel.BackColor = System.Drawing.Color.Gray;
-			this.connectionStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.connectionStatusLabel.ForeColor = System.Drawing.Color.White;
-			this.connectionStatusLabel.Location = new System.Drawing.Point(1449, 10);
-			this.connectionStatusLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.connectionStatusLabel.Name = "connectionStatusLabel";
-			this.connectionStatusLabel.Size = new System.Drawing.Size(251, 27);
-			this.connectionStatusLabel.TabIndex = 3;
-			this.connectionStatusLabel.Text = "Bitte verbinden!";
-			this.connectionStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// usernameLabel
-			// 
-			this.usernameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.usernameLabel.AutoSize = true;
-			this.usernameLabel.Location = new System.Drawing.Point(613, 17);
-			this.usernameLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.usernameLabel.Name = "usernameLabel";
-			this.usernameLabel.Size = new System.Drawing.Size(98, 13);
-			this.usernameLabel.TabIndex = 3;
-			this.usernameLabel.Text = "Benutzer (optional):";
-			// 
-			// usernameTextbox
-			// 
-			this.usernameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.usernameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.usernameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.usernameTextbox.Location = new System.Drawing.Point(721, 10);
-			this.usernameTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.usernameTextbox.Name = "usernameTextbox";
-			this.usernameTextbox.Size = new System.Drawing.Size(251, 26);
-			this.usernameTextbox.TabIndex = 2;
-			// 
-			// passwordTextbox
-			// 
-			this.passwordTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.passwordTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.passwordTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.passwordTextbox.Location = new System.Drawing.Point(1091, 10);
-			this.passwordTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.passwordTextbox.Name = "passwordTextbox";
-			this.passwordTextbox.Size = new System.Drawing.Size(251, 26);
-			this.passwordTextbox.TabIndex = 2;
-			// 
-			// passwordLabel
-			// 
-			this.passwordLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.passwordLabel.AutoSize = true;
-			this.passwordLabel.Location = new System.Drawing.Point(982, 17);
-			this.passwordLabel.Margin = new System.Windows.Forms.Padding(0);
-			this.passwordLabel.Name = "passwordLabel";
-			this.passwordLabel.Size = new System.Drawing.Size(99, 13);
-			this.passwordLabel.TabIndex = 3;
-			this.passwordLabel.Text = "Passwort (optional):";
 			// 
 			// accountDetailsTlp
 			// 
@@ -435,17 +316,6 @@
 			this.accountDetailsGroupbox.TabIndex = 0;
 			this.accountDetailsGroupbox.TabStop = false;
 			this.accountDetailsGroupbox.Text = "Details zum Account";
-			// 
-			// tasksGroupbox
-			// 
-			this.tasksGroupbox.Controls.Add(this.tableLayoutPanel5);
-			this.tasksGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tasksGroupbox.Location = new System.Drawing.Point(3, 76);
-			this.tasksGroupbox.Name = "tasksGroupbox";
-			this.tasksGroupbox.Size = new System.Drawing.Size(1363, 767);
-			this.tasksGroupbox.TabIndex = 1;
-			this.tasksGroupbox.TabStop = false;
-			this.tasksGroupbox.Text = "Tasks";
 			// 
 			// tableLayoutPanel4
 			// 
@@ -552,6 +422,17 @@
 			this.channelUrlLinkLabel.Text = "linkLabel1";
 			this.channelUrlLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.channelUrlLinkLabel_LinkClicked);
 			// 
+			// tasksGroupbox
+			// 
+			this.tasksGroupbox.Controls.Add(this.tableLayoutPanel5);
+			this.tasksGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tasksGroupbox.Location = new System.Drawing.Point(3, 76);
+			this.tasksGroupbox.Name = "tasksGroupbox";
+			this.tasksGroupbox.Size = new System.Drawing.Size(1363, 767);
+			this.tasksGroupbox.TabIndex = 1;
+			this.tasksGroupbox.TabStop = false;
+			this.tasksGroupbox.Text = "Tasks";
+			// 
 			// tableLayoutPanel5
 			// 
 			this.tableLayoutPanel5.ColumnCount = 9;
@@ -563,7 +444,7 @@
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
 			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 11F));
 			this.tableLayoutPanel5.Controls.Add(this.filterIdLabel, 1, 1);
 			this.tableLayoutPanel5.Controls.Add(this.filterAttemptCountLabel, 5, 1);
 			this.tableLayoutPanel5.Controls.Add(this.filterTaskdateAfterLabel, 1, 3);
@@ -840,6 +721,17 @@
 			this.showFailedTasksCheckbox.Text = "Gescheitert";
 			this.showFailedTasksCheckbox.UseVisualStyleBackColor = true;
 			// 
+			// filterIdTextbox
+			// 
+			this.filterIdTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.filterIdTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.filterIdTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.filterIdTextbox.Location = new System.Drawing.Point(169, 10);
+			this.filterIdTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.filterIdTextbox.Name = "filterIdTextbox";
+			this.filterIdTextbox.Size = new System.Drawing.Size(512, 26);
+			this.filterIdTextbox.TabIndex = 2;
+			// 
 			// filterPlaylistIdTextbox
 			// 
 			this.filterPlaylistIdTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -923,7 +815,7 @@
             "Video-Id",
             "Videotitel",
             "Taskstatus"});
-			this.sortByCombobox.Location = new System.Drawing.Point(169, 192);
+			this.sortByCombobox.Location = new System.Drawing.Point(169, 190);
 			this.sortByCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.sortByCombobox.Name = "sortByCombobox";
 			this.sortByCombobox.Size = new System.Drawing.Size(512, 26);
@@ -969,51 +861,6 @@
 			this.tableLayoutPanel3.Size = new System.Drawing.Size(1336, 441);
 			this.tableLayoutPanel3.TabIndex = 9;
 			// 
-			// addTaskButton
-			// 
-			this.addTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.addTaskButton.AutoSize = true;
-			this.addTaskButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.addTaskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.addTaskButton.ForeColor = System.Drawing.Color.ForestGreen;
-			this.addTaskButton.Location = new System.Drawing.Point(0, 0);
-			this.addTaskButton.Margin = new System.Windows.Forms.Padding(0);
-			this.addTaskButton.Name = "addTaskButton";
-			this.addTaskButton.Size = new System.Drawing.Size(41, 41);
-			this.addTaskButton.TabIndex = 3;
-			this.addTaskButton.Text = "+";
-			this.addTaskButton.UseVisualStyleBackColor = true;
-			// 
-			// removeTaskButton
-			// 
-			this.removeTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.removeTaskButton.AutoSize = true;
-			this.removeTaskButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.removeTaskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.removeTaskButton.ForeColor = System.Drawing.Color.Red;
-			this.removeTaskButton.Location = new System.Drawing.Point(0, 51);
-			this.removeTaskButton.Margin = new System.Windows.Forms.Padding(0);
-			this.removeTaskButton.Name = "removeTaskButton";
-			this.removeTaskButton.Size = new System.Drawing.Size(41, 41);
-			this.removeTaskButton.TabIndex = 6;
-			this.removeTaskButton.Text = "-";
-			this.removeTaskButton.UseVisualStyleBackColor = true;
-			// 
-			// clearTasksButton
-			// 
-			this.clearTasksButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.clearTasksButton.AutoSize = true;
-			this.clearTasksButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.clearTasksButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.clearTasksButton.ForeColor = System.Drawing.Color.Red;
-			this.clearTasksButton.Location = new System.Drawing.Point(0, 102);
-			this.clearTasksButton.Margin = new System.Windows.Forms.Padding(0);
-			this.clearTasksButton.Name = "clearTasksButton";
-			this.clearTasksButton.Size = new System.Drawing.Size(41, 41);
-			this.clearTasksButton.TabIndex = 7;
-			this.clearTasksButton.Text = "x";
-			this.clearTasksButton.UseVisualStyleBackColor = true;
-			// 
 			// tasksListView
 			// 
 			this.tasksListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1039,17 +886,88 @@
 			this.tasksListView.TabIndex = 9;
 			this.tasksListView.UseCompatibleStateImageBehavior = false;
 			this.tasksListView.View = System.Windows.Forms.View.Details;
+			this.tasksListView.SelectedIndexChanged += new System.EventHandler(this.tasksListView_SelectedIndexChanged);
+			this.tasksListView.DoubleClick += new System.EventHandler(this.tasksListView_DoubleClick);
 			// 
-			// filterIdTextbox
+			// columnHeader2
 			// 
-			this.filterIdTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.filterIdTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.filterIdTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.filterIdTextbox.Location = new System.Drawing.Point(169, 10);
-			this.filterIdTextbox.Margin = new System.Windows.Forms.Padding(0);
-			this.filterIdTextbox.Name = "filterIdTextbox";
-			this.filterIdTextbox.Size = new System.Drawing.Size(512, 26);
-			this.filterIdTextbox.TabIndex = 2;
+			this.columnHeader2.Text = "Id";
+			this.columnHeader2.Width = 40;
+			// 
+			// columnHeader3
+			// 
+			this.columnHeader3.Text = "Playlisttitel";
+			this.columnHeader3.Width = 300;
+			// 
+			// columnHeader4
+			// 
+			this.columnHeader4.Text = "Videotitel";
+			this.columnHeader4.Width = 300;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Text = "Taskdatum";
+			this.columnHeader5.Width = 180;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "Taskstatus";
+			this.columnHeader6.Width = 180;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Anzahl Versuche";
+			this.columnHeader7.Width = 150;
+			// 
+			// addTaskButton
+			// 
+			this.addTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addTaskButton.AutoSize = true;
+			this.addTaskButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addTaskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addTaskButton.ForeColor = System.Drawing.Color.ForestGreen;
+			this.addTaskButton.Location = new System.Drawing.Point(0, 0);
+			this.addTaskButton.Margin = new System.Windows.Forms.Padding(0);
+			this.addTaskButton.Name = "addTaskButton";
+			this.addTaskButton.Size = new System.Drawing.Size(41, 41);
+			this.addTaskButton.TabIndex = 3;
+			this.addTaskButton.Text = "+";
+			this.addTaskButton.UseVisualStyleBackColor = true;
+			this.addTaskButton.Click += new System.EventHandler(this.addTaskButton_Click);
+			// 
+			// removeTaskButton
+			// 
+			this.removeTaskButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.removeTaskButton.AutoSize = true;
+			this.removeTaskButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.removeTaskButton.Enabled = false;
+			this.removeTaskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.removeTaskButton.ForeColor = System.Drawing.Color.Red;
+			this.removeTaskButton.Location = new System.Drawing.Point(0, 51);
+			this.removeTaskButton.Margin = new System.Windows.Forms.Padding(0);
+			this.removeTaskButton.Name = "removeTaskButton";
+			this.removeTaskButton.Size = new System.Drawing.Size(41, 41);
+			this.removeTaskButton.TabIndex = 6;
+			this.removeTaskButton.Text = "-";
+			this.removeTaskButton.UseVisualStyleBackColor = true;
+			this.removeTaskButton.Click += new System.EventHandler(this.removeTaskButton_Click);
+			// 
+			// clearTasksButton
+			// 
+			this.clearTasksButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.clearTasksButton.AutoSize = true;
+			this.clearTasksButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.clearTasksButton.Enabled = false;
+			this.clearTasksButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.clearTasksButton.ForeColor = System.Drawing.Color.Red;
+			this.clearTasksButton.Location = new System.Drawing.Point(0, 102);
+			this.clearTasksButton.Margin = new System.Windows.Forms.Padding(0);
+			this.clearTasksButton.Name = "clearTasksButton";
+			this.clearTasksButton.Size = new System.Drawing.Size(41, 41);
+			this.clearTasksButton.TabIndex = 7;
+			this.clearTasksButton.Text = "x";
+			this.clearTasksButton.UseVisualStyleBackColor = true;
+			this.clearTasksButton.Click += new System.EventHandler(this.clearTasksButton_Click);
 			// 
 			// filterMinAttemptCountTextbox
 			// 
@@ -1084,35 +1002,125 @@
 			this.filterAttemptCountTextbox.Size = new System.Drawing.Size(512, 26);
 			this.filterAttemptCountTextbox.TabIndex = 2;
 			// 
-			// columnHeader2
+			// hostTextbox
 			// 
-			this.columnHeader2.Text = "Id";
-			this.columnHeader2.Width = 40;
+			this.hostTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.hostTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.hostTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.hostTextbox.Location = new System.Drawing.Point(52, 10);
+			this.hostTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.hostTextbox.Name = "hostTextbox";
+			this.hostTextbox.Size = new System.Drawing.Size(251, 26);
+			this.hostTextbox.TabIndex = 2;
 			// 
-			// columnHeader3
+			// hostLabel
 			// 
-			this.columnHeader3.Text = "Playlisttitel";
-			this.columnHeader3.Width = 300;
+			this.hostLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.hostLabel.AutoSize = true;
+			this.hostLabel.Location = new System.Drawing.Point(10, 17);
+			this.hostLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.hostLabel.Name = "hostLabel";
+			this.hostLabel.Size = new System.Drawing.Size(32, 13);
+			this.hostLabel.TabIndex = 3;
+			this.hostLabel.Text = "Host:";
 			// 
-			// columnHeader4
+			// portLabel
 			// 
-			this.columnHeader4.Text = "Videotitel";
-			this.columnHeader4.Width = 300;
+			this.portLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.portLabel.AutoSize = true;
+			this.portLabel.Location = new System.Drawing.Point(313, 17);
+			this.portLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.portLabel.Name = "portLabel";
+			this.portLabel.Size = new System.Drawing.Size(29, 13);
+			this.portLabel.TabIndex = 3;
+			this.portLabel.Text = "Port:";
 			// 
-			// columnHeader5
+			// portTextbox
 			// 
-			this.columnHeader5.Text = "Taskdatum";
-			this.columnHeader5.Width = 180;
+			this.portTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.portTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.portTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.portTextbox.Location = new System.Drawing.Point(352, 10);
+			this.portTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.portTextbox.Name = "portTextbox";
+			this.portTextbox.Size = new System.Drawing.Size(251, 26);
+			this.portTextbox.TabIndex = 2;
 			// 
-			// columnHeader6
+			// connectServiceButton
 			// 
-			this.columnHeader6.Text = "Taskstatus";
-			this.columnHeader6.Width = 180;
+			this.connectServiceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.connectServiceButton.AutoSize = true;
+			this.connectServiceButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.connectServiceButton.Location = new System.Drawing.Point(1352, 10);
+			this.connectServiceButton.Margin = new System.Windows.Forms.Padding(0);
+			this.connectServiceButton.Name = "connectServiceButton";
+			this.connectServiceButton.Padding = new System.Windows.Forms.Padding(11, 2, 11, 2);
+			this.connectServiceButton.Size = new System.Drawing.Size(87, 27);
+			this.connectServiceButton.TabIndex = 4;
+			this.connectServiceButton.Text = "Verbinden";
+			this.connectServiceButton.UseVisualStyleBackColor = true;
+			this.connectServiceButton.Click += new System.EventHandler(this.connectServiceButton_Click);
 			// 
-			// columnHeader7
+			// connectionStatusLabel
 			// 
-			this.columnHeader7.Text = "Anzahl Versuche";
-			this.columnHeader7.Width = 150;
+			this.connectionStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.connectionStatusLabel.AutoSize = true;
+			this.connectionStatusLabel.BackColor = System.Drawing.Color.Gray;
+			this.connectionStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.connectionStatusLabel.ForeColor = System.Drawing.Color.White;
+			this.connectionStatusLabel.Location = new System.Drawing.Point(1449, 10);
+			this.connectionStatusLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.connectionStatusLabel.Name = "connectionStatusLabel";
+			this.connectionStatusLabel.Size = new System.Drawing.Size(251, 27);
+			this.connectionStatusLabel.TabIndex = 3;
+			this.connectionStatusLabel.Text = "Bitte verbinden!";
+			this.connectionStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// usernameLabel
+			// 
+			this.usernameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.usernameLabel.AutoSize = true;
+			this.usernameLabel.Location = new System.Drawing.Point(613, 17);
+			this.usernameLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.usernameLabel.Name = "usernameLabel";
+			this.usernameLabel.Size = new System.Drawing.Size(98, 13);
+			this.usernameLabel.TabIndex = 3;
+			this.usernameLabel.Text = "Benutzer (optional):";
+			// 
+			// usernameTextbox
+			// 
+			this.usernameTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.usernameTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.usernameTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.usernameTextbox.Location = new System.Drawing.Point(721, 10);
+			this.usernameTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.usernameTextbox.Name = "usernameTextbox";
+			this.usernameTextbox.Size = new System.Drawing.Size(251, 26);
+			this.usernameTextbox.TabIndex = 2;
+			// 
+			// passwordTextbox
+			// 
+			this.passwordTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.passwordTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.passwordTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.passwordTextbox.Location = new System.Drawing.Point(1091, 10);
+			this.passwordTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.passwordTextbox.Name = "passwordTextbox";
+			this.passwordTextbox.Size = new System.Drawing.Size(251, 26);
+			this.passwordTextbox.TabIndex = 2;
+			// 
+			// passwordLabel
+			// 
+			this.passwordLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.passwordLabel.AutoSize = true;
+			this.passwordLabel.Location = new System.Drawing.Point(982, 17);
+			this.passwordLabel.Margin = new System.Windows.Forms.Padding(0);
+			this.passwordLabel.Name = "passwordLabel";
+			this.passwordLabel.Size = new System.Drawing.Size(99, 13);
+			this.passwordLabel.TabIndex = 3;
+			this.passwordLabel.Text = "Passwort (optional):";
 			// 
 			// PlaylistServiceForm
 			// 
@@ -1137,9 +1145,9 @@
 			this.accountDetailsTlp.PerformLayout();
 			this.accountDetailsGroupbox.ResumeLayout(false);
 			this.accountDetailsGroupbox.PerformLayout();
-			this.tasksGroupbox.ResumeLayout(false);
 			this.tableLayoutPanel4.ResumeLayout(false);
 			this.tableLayoutPanel4.PerformLayout();
+			this.tasksGroupbox.ResumeLayout(false);
 			this.tableLayoutPanel5.ResumeLayout(false);
 			this.tableLayoutPanel5.PerformLayout();
 			this.tableLayoutPanel6.ResumeLayout(false);

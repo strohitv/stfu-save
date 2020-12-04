@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using Newtonsoft.Json;
 using STFU.Lib.Playlistservice.Model;
 using STFU.Lib.Youtube.Services;
@@ -14,7 +15,7 @@ namespace STFU.Lib.Playlistservice
 		public Task[] GetTasks(long accountId, long[] ids, DateTime? after, DateTime? before, int? attemptCount, int? minAttemptCount, int? maxAttemptCount,
 			string playlistId, string playlistTitle, string videoId, string videoTitle, TaskState[] states, TaskOrder? order, TaskOrderDirection? direction)
 		{
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(Host, CreateUriPath($"/accounts/{accountId}/tasks", ids, after, before, attemptCount, 
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(Host, CreateUriPath($"/accounts/{accountId}/tasks", ids, after, before, attemptCount,
 				minAttemptCount, maxAttemptCount, playlistId, playlistTitle, videoId, videoTitle, states, order, direction)));
 			request.Method = "GET";
 			request.Accept = "application/json";
@@ -27,6 +28,58 @@ namespace STFU.Lib.Playlistservice
 			string json = WebService.Communicate(request);
 
 			return JsonConvert.DeserializeObject<Task[]>(json);
+		}
+
+		public Task CreateTask(long accountId, Task task)
+		{
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(Host, $"/accounts/{accountId}/tasks"));
+			request.Method = "POST";
+			request.Accept = "application/json";
+			request.ContentType = "application/json";
+
+			if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+			{
+				Utils.AddBasicAuth(request, Username, Password);
+			}
+
+			var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(task));
+			string json = WebService.Communicate(request, bytes);
+
+			return JsonConvert.DeserializeObject<Task>(json);
+		}
+
+		public Task UpdateTask(long accountId, Task task)
+		{
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(Host, $"/accounts/{accountId}/tasks/{task.id}"));
+			request.Method = "PUT";
+			request.Accept = "application/json";
+			request.ContentType = "application/json";
+
+			if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+			{
+				Utils.AddBasicAuth(request, Username, Password);
+			}
+
+			var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(task));
+			string json = WebService.Communicate(request, bytes);
+
+			return JsonConvert.DeserializeObject<Task>(json);
+		}
+
+		public bool DeleteTask(long accountId, long taskId)
+		{
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(Host, $"/accounts/{accountId}/tasks/{taskId}"));
+			request.Method = "DELETE";
+			request.Accept = "application/json";
+
+			if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
+			{
+				Utils.AddBasicAuth(request, Username, Password);
+			}
+
+			string json = WebService.Communicate(request);
+
+			return !json.ToLower().Contains("error");
 		}
 
 		private string CreateUriPath(string basePath, long[] ids, DateTime? after, DateTime? before, int? attemptCount, int? minAttemptCount, int? maxAttemptCount,

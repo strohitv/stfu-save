@@ -29,7 +29,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private TaskClient TaskClient { get; set; }
 
 		private List<Account> Accounts { get; } = new List<Account>();
-		private List<Task> Tasks { get; } = new List<Task>();
+		private List<Task> FoundTasks { get; } = new List<Task>();
 
 		public PlaylistServiceForm(IYoutubeClient client)
 		{
@@ -117,6 +117,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				accountsListView.Items.Add(new ListViewItem(account.title));
 			}
+
+			clearAccountsButton.Enabled = Accounts.Count > 0;
 		}
 
 		private void connectAccountButton_Click(object sender, EventArgs e)
@@ -189,7 +191,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefreshTasks()
 		{
-			Tasks.Clear();
+			FoundTasks.Clear();
 
 			long[] ids = new string(filterIdTextbox.Text.Replace(',', ';').Where(c => ";0123456789".Contains(c)).ToArray())
 				.Split(';')
@@ -206,8 +208,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (showDoneTasksCheckbox.Checked) states.Add(TaskState.Done);
 			if (showFailedTasksCheckbox.Checked) states.Add(TaskState.Failed);
 
-			Tasks.AddRange(TaskClient.GetTasks(Accounts[accountsListView.SelectedIndices[0]].id, ids, filterTaskdateAfterDtp.Value.ToUniversalTime(),
-				filterTaskdateBeforeDtp.Value.ToUniversalTime(), attemptCount, minAttemptCount, maxAttemptCount, filterPlaylistIdTextbox.Text,
+			FoundTasks.AddRange(TaskClient.GetTasks(Accounts[accountsListView.SelectedIndices[0]].id, ids, filterTaskdateAfterDtp.Value,
+				filterTaskdateBeforeDtp.Value, attemptCount, minAttemptCount, maxAttemptCount, filterPlaylistIdTextbox.Text,
 				filterPlaylistTitleTextbox.Text, filterVideoIdTextbox.Text, filterVideoTitleTextbox.Text, states.ToArray(), (TaskOrder)sortByCombobox.SelectedIndex,
 				(TaskOrderDirection)sortOrderCombobox.SelectedIndex));
 
@@ -218,7 +220,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			tasksListView.Items.Clear();
 
-			foreach (var task in Tasks)
+			foreach (var task in FoundTasks)
 			{
 				string state = "Offen";
 				if (task.state == TaskState.Done) state = "Erledigt";
@@ -233,6 +235,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				tasksListView.Items.Add(item);
 			}
+
+			clearTasksButton.Enabled = FoundTasks.Count > 0;
 		}
 
 		private void removeAccountButton_Click(object sender, EventArgs e)
@@ -258,6 +262,76 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void channelUrlLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Process.Start(channelUrlLinkLabel.Text);
+		}
+
+		private void addTaskButton_Click(object sender, EventArgs e)
+		{
+			AddOrUpdateTaskForm form = new AddOrUpdateTaskForm(null);
+			if (form.ShowDialog(this) == DialogResult.OK)
+			{
+				Task created = TaskClient.CreateTask(Accounts[accountsListView.SelectedIndices[0]].id, form.Task);
+				
+				RefreshTasks();
+
+				if (FoundTasks.Any(t => t.id == created.id))
+				{
+					tasksListView.SelectedIndices.Clear();
+					tasksListView.SelectedIndices.Add(FoundTasks.IndexOf(FoundTasks.First(t => t.id == created.id)));
+				}
+			}
+		}
+
+		private void tasksListView_DoubleClick(object sender, EventArgs e)
+		{
+			if (tasksListView.SelectedIndices.Count == 1)
+			{
+				AddOrUpdateTaskForm form = new AddOrUpdateTaskForm(FoundTasks[tasksListView.SelectedIndices[0]]);
+				if (form.ShowDialog(this) == DialogResult.OK)
+				{
+					Task updated = TaskClient.UpdateTask(Accounts[accountsListView.SelectedIndices[0]].id, form.Task);
+					
+					RefreshTasks();
+
+					if (FoundTasks.Any(t => t.id == updated.id))
+					{
+						tasksListView.SelectedIndices.Clear();
+						tasksListView.SelectedIndices.Add(FoundTasks.IndexOf(FoundTasks.First(t => t.id == updated.id)));
+					}
+				}
+			}
+		}
+
+		private void removeTaskButton_Click(object sender, EventArgs e)
+		{
+			if (tasksListView.SelectedIndices.Count == 1)
+			{
+				var index = tasksListView.SelectedIndices[0];
+				var selectedTask = FoundTasks[index];
+				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
+				{
+					FoundTasks.RemoveAt(index);
+					tasksListView.Items.RemoveAt(index);
+				}
+			}
+		}
+
+		private void clearTasksButton_Click(object sender, EventArgs e)
+		{
+			for (int index = 0; index < FoundTasks.Count; index++)
+			{
+				var selectedTask = FoundTasks[index];
+				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
+				{
+					FoundTasks.RemoveAt(index);
+					tasksListView.Items.RemoveAt(index);
+					index--;
+				}
+			}
+		}
+
+		private void tasksListView_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			removeTaskButton.Enabled = tasksListView.SelectedIndices.Count == 1;
 		}
 	}
 }
