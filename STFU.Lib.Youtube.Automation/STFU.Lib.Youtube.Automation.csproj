@@ -148,6 +148,10 @@
       <Project>{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}</Project>
       <Name>STFU.Lib.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Playlistservice\STFU.Lib.Playlistservice.csproj">
+      <Project>{9232266D-65A1-4345-83EC-05344E5D2B27}</Project>
+      <Name>STFU.Lib.Playlistservice</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Automation.Interfaces\STFU.Lib.Youtube.Automation.Interfaces.csproj">
       <Project>{EF26337E-0D0C-4FC6-BE71-5FF729D3F0E7}</Project>
       <Name>STFU.Lib.Youtube.Automation.Interfaces</Name>

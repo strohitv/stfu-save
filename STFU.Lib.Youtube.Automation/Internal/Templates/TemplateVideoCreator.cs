@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
 using STFU.Lib.Youtube.Automation.Templates;
@@ -14,14 +15,16 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 	{
 		public IList<PublishTimeCalculator> PublishInfos { get; set; }
 
-		public TemplateVideoCreator(IList<PublishTimeCalculator> publishInfo)
+		public IPlaylistServiceConnectionContainer PlaylistServiceConnectionContainer { get; set; }
+
+		public TemplateVideoCreator(IList<PublishTimeCalculator> publishInfo, IPlaylistServiceConnectionContainer container)
 		{
 			PublishInfos = publishInfo;
+			PlaylistServiceConnectionContainer = container;
 		}
 
 		public VideoInformation CreateVideo(string path, bool saveNextUploadSuggestion = true)
 		{
-
 			// Template suchen anhand des Pfades
 			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
 
@@ -93,6 +96,21 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 			video.AddToPlaylist = template.AddToPlaylist;
 			video.PlaylistId = template.PlaylistId;
+
+			if (template.SendToPlaylistService)
+			{
+				video.PlaylistServiceSettings = new PlaylistServiceSettings()
+				{
+					ShouldSend = true,
+					AccountId = template.AccountId,
+					Host = PlaylistServiceConnectionContainer?.Connection?.Host ?? null,
+					Port = PlaylistServiceConnectionContainer?.Connection?.Port ?? null,
+					Username = PlaylistServiceConnectionContainer?.Connection?.Username ?? null,
+					Password = PlaylistServiceConnectionContainer?.Connection?.Password ?? null,
+					PlaylistId = template.PlaylistIdForService,
+					PlaylistTitle = template.PlaylistTitleForService
+				};
+			}
 
 			return new VideoInformation(video, evaluator, notificationSettings);
 		}

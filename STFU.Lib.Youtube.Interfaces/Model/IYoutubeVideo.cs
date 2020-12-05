@@ -133,6 +133,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		string PlaylistId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the settings for sending the video to Strohis Playlistservice
+		/// </summary>
+		PlaylistServiceSettings PlaylistServiceSettings { get; set; }
+
+		/// <summary>
 		/// Creates a copy of itself
 		/// </summary>
 		/// <returns>a copy of itself</returns>

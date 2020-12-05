@@ -529,7 +529,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			uploader.StopAfterCompleting = false;
 			uploader.RemoveCompletedJobs = false;
 
-			autoUploader = new AutomationUploader(uploader, archiveContainer);
+			autoUploader = new AutomationUploader(uploader, archiveContainer, playlistServiceConnectionContainer);
 			autoUploader.WatchedProcesses = processes;
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
@@ -881,7 +881,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, accountContainer.RegisteredAccounts.First());
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer, accountContainer.RegisteredAccounts.First());
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{

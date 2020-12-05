@@ -34,7 +34,7 @@ namespace STFU.Lib.Youtube.Persistor
 				{
 					using (StreamReader reader = new StreamReader(Path))
 					{
-						Container.Connection = JsonConvert.DeserializeObject<ServiceConnection>(reader.ReadToEnd());
+						Container.Connection = JsonConvert.DeserializeObject<PlaylistServiceConnection>(reader.ReadToEnd());
 					}
 				}
 
@@ -86,7 +86,7 @@ namespace STFU.Lib.Youtube.Persistor
 		{
 			Saved = new PlaylistServiceConnectionContainer()
 			{
-				Connection = Container.Connection != null ? new ServiceConnection()
+				Connection = Container.Connection != null ? new PlaylistServiceConnection()
 				{
 					Host = Container.Connection.Host,
 					Port = Container.Connection.Port,

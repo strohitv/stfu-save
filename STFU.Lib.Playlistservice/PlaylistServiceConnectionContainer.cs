@@ -9,6 +9,6 @@ namespace STFU.Lib.Playlistservice
 {
 	public class PlaylistServiceConnectionContainer : IPlaylistServiceConnectionContainer
 	{
-		public ServiceConnection Connection { get; set; }
+		public PlaylistServiceConnection Connection { get; set; }
 	}
 }

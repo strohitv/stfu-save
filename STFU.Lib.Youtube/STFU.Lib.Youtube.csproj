@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Upload\JobUploader.cs" />
+    <Compile Include="Upload\Steps\SendToPlaylistServiceStep.cs" />
     <Compile Include="Upload\Steps\AddToPlaylistStep.cs" />
     <Compile Include="Upload\Steps\ChangeVideoDetailsStep.cs" />
     <Compile Include="Upload\Steps\RetryingUploadStep.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="Upload\Steps\ThrottledReadStream.cs" />
     <Compile Include="Upload\YoutubeError.cs" />
     <Compile Include="Upload\YoutubeJob.cs" />
-    <Compile Include="YoutubeJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LanguageCategoryLoader.cs" />
     <Compile Include="YoutubeAccountContainer.cs" />
@@ -67,6 +67,10 @@
     <ProjectReference Include="..\STFU.Lib.MailSender\STFU.Lib.MailSender.csproj">
       <Project>{BC19390A-F56E-4384-9BE8-193D0183444E}</Project>
       <Name>STFU.Lib.MailSender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Playlistservice\STFU.Lib.Playlistservice.csproj">
+      <Project>{9232266D-65A1-4345-83EC-05344E5D2B27}</Project>
+      <Name>STFU.Lib.Playlistservice</Name>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Youtube.Model\STFU.Lib.Youtube.Model.csproj">
       <Project>{69F7D3D1-0F1E-410C-82D5-F1400A291821}</Project>

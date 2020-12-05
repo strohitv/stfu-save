@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
 using STFU.Lib.Youtube.Automation.Templates;
@@ -15,6 +16,7 @@ namespace STFU.Lib.GUI.Forms
 		private IYoutubeCategoryContainer CategoryContainer { get; set; }
 		private IYoutubeLanguageContainer LanguageContainer { get; set; }
 		private IYoutubePlaylistContainer PlaylistContainer { get; set; }
+		private IPlaylistServiceConnectionContainer PscContainer { get; set; }
 		private IYoutubeAccount Account { get; set; }
 		private string[] Paths { get; set; }
 		private ITemplate[] Templates { get; set; }
@@ -23,7 +25,7 @@ namespace STFU.Lib.GUI.Forms
 		public TemplateVideoCreator TemplateVideoCreator { get; private set; }
 		public List<VideoInformation> Videos { get; } = new List<VideoInformation>();
 
-		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, IYoutubePlaylistContainer playlistContainer, IYoutubeAccount account)
+		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, IYoutubePlaylistContainer playlistContainer, IPlaylistServiceConnectionContainer pscContainer, IYoutubeAccount account)
 		{
 			InitializeComponent();
 			editVideoInformationGrid.IsNewUpload = true;
@@ -33,6 +35,7 @@ namespace STFU.Lib.GUI.Forms
 			CategoryContainer = categoryContainer;
 			LanguageContainer = languageContainer;
 			PlaylistContainer = playlistContainer;
+			PscContainer = pscContainer;
 			Account = account;
 			Templates = templates;
 			PathInfos = pathInfos;
@@ -116,7 +119,7 @@ namespace STFU.Lib.GUI.Forms
 					pto.HasCustomStartDayIndex ? pto.CustomStartDayIndex : null))
 				.ToList();
 
-			TemplateVideoCreator = new TemplateVideoCreator(publishTimeCalculators);
+			TemplateVideoCreator = new TemplateVideoCreator(publishTimeCalculators, PscContainer);
 
 			AddVideos(Paths);
 		}

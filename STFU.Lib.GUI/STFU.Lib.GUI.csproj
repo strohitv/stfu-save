@@ -130,6 +130,10 @@
       <Project>{76BA1289-9C9E-40DD-B2DE-FD906BA5E500}</Project>
       <Name>STFU.Lib.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Playlistservice\STFU.Lib.Playlistservice.csproj">
+      <Project>{9232266D-65A1-4345-83EC-05344E5D2B27}</Project>
+      <Name>STFU.Lib.Playlistservice</Name>
+    </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">
       <Project>{00A77E89-637A-442E-B9EA-B39971BF8C82}</Project>
       <Name>STFU.Lib.Twitter</Name>

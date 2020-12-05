@@ -359,7 +359,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (IsConnected)
 			{
-				Container.Connection = new ServiceConnection()
+				Container.Connection = new PlaylistServiceConnection()
 				{
 					Host = Host,
 					Port = Port,
