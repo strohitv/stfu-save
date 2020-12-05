@@ -101,8 +101,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.notifySubscribersCheckbox = new System.Windows.Forms.CheckBox();
 			this.autoLevelsCheckbox = new System.Windows.Forms.CheckBox();
 			this.stabilizeCheckbox = new System.Windows.Forms.CheckBox();
+			this.playlistsTabPage = new System.Windows.Forms.TabPage();
+			this.addPlaylistTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.addPlaylistDirectlyGroupbox = new System.Windows.Forms.GroupBox();
+			this.addPlaylistDirectlyTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.addToPlaylistCheckbox = new System.Windows.Forms.CheckBox();
 			this.playlistCombobox = new System.Windows.Forms.ComboBox();
+			this.addPlaylistViaServiceGroupbox = new System.Windows.Forms.GroupBox();
+			this.addPlaylistViaServiceTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.sendToPlaylistserviceCheckbox = new System.Windows.Forms.CheckBox();
+			this.chooseAccountCombobox = new System.Windows.Forms.ComboBox();
+			this.useCustomPlaylistIdTextbox = new System.Windows.Forms.TextBox();
+			this.enterPlaylistIdManuallyRadiobutton = new System.Windows.Forms.RadioButton();
+			this.usePlaylistFromAccountRadiobutton = new System.Windows.Forms.RadioButton();
+			this.label5 = new System.Windows.Forms.Label();
+			this.useCustomPlaylistTitleTextbox = new System.Windows.Forms.TextBox();
+			this.choosePlaylistCombobox = new System.Windows.Forms.ComboBox();
 			this.planVideosTabpage = new System.Windows.Forms.TabPage();
 			this.planVideosTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.addFilenameButton = new System.Windows.Forms.Button();
@@ -171,6 +185,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.publishPanel.SuspendLayout();
 			this.otherTabPage.SuspendLayout();
 			this.otherTlp.SuspendLayout();
+			this.playlistsTabPage.SuspendLayout();
+			this.addPlaylistTlp.SuspendLayout();
+			this.addPlaylistDirectlyGroupbox.SuspendLayout();
+			this.addPlaylistDirectlyTlp.SuspendLayout();
+			this.addPlaylistViaServiceGroupbox.SuspendLayout();
+			this.addPlaylistViaServiceTlp.SuspendLayout();
 			this.planVideosTabpage.SuspendLayout();
 			this.planVideosTlp.SuspendLayout();
 			this.fillFieldsGroupbox.SuspendLayout();
@@ -461,6 +481,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templateValuesTabControl.Controls.Add(this.commonTabPage);
 			this.templateValuesTabControl.Controls.Add(this.publishTabPage);
 			this.templateValuesTabControl.Controls.Add(this.otherTabPage);
+			this.templateValuesTabControl.Controls.Add(this.playlistsTabPage);
 			this.templateValuesTabControl.Controls.Add(this.planVideosTabpage);
 			this.templateValuesTabControl.Controls.Add(this.sendMailTabPage);
 			this.templateValuesTabControl.Controls.Add(this.cSharpTabPage);
@@ -1136,8 +1157,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTlp.Controls.Add(this.notifySubscribersCheckbox, 1, 13);
 			this.otherTlp.Controls.Add(this.autoLevelsCheckbox, 1, 15);
 			this.otherTlp.Controls.Add(this.stabilizeCheckbox, 1, 17);
-			this.otherTlp.Controls.Add(this.addToPlaylistCheckbox, 1, 19);
-			this.otherTlp.Controls.Add(this.playlistCombobox, 3, 19);
 			this.otherTlp.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.otherTlp.Location = new System.Drawing.Point(0, 0);
 			this.otherTlp.Margin = new System.Windows.Forms.Padding(0);
@@ -1174,7 +1193,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryLabel.Location = new System.Drawing.Point(10, 16);
 			this.categoryLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryLabel.Name = "categoryLabel";
-			this.categoryLabel.Size = new System.Drawing.Size(185, 13);
+			this.categoryLabel.Size = new System.Drawing.Size(158, 13);
 			this.categoryLabel.TabIndex = 0;
 			this.categoryLabel.Text = "Kategorie: ";
 			// 
@@ -1185,7 +1204,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageLabel.Location = new System.Drawing.Point(10, 52);
 			this.defaultLanguageLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageLabel.Name = "defaultLanguageLabel";
-			this.defaultLanguageLabel.Size = new System.Drawing.Size(185, 13);
+			this.defaultLanguageLabel.Size = new System.Drawing.Size(158, 13);
 			this.defaultLanguageLabel.TabIndex = 1;
 			this.defaultLanguageLabel.Text = "Videosprache: ";
 			// 
@@ -1196,7 +1215,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.licenseLabel.Location = new System.Drawing.Point(10, 88);
 			this.licenseLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseLabel.Name = "licenseLabel";
-			this.licenseLabel.Size = new System.Drawing.Size(185, 13);
+			this.licenseLabel.Size = new System.Drawing.Size(158, 13);
 			this.licenseLabel.TabIndex = 2;
 			this.licenseLabel.Text = "Lizenzen und Eigentumsrechte: ";
 			// 
@@ -1235,10 +1254,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.categoryCombobox.FormattingEnabled = true;
-			this.categoryCombobox.Location = new System.Drawing.Point(205, 10);
+			this.categoryCombobox.Location = new System.Drawing.Point(178, 10);
 			this.categoryCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.categoryCombobox.Name = "categoryCombobox";
-			this.categoryCombobox.Size = new System.Drawing.Size(798, 26);
+			this.categoryCombobox.Size = new System.Drawing.Size(825, 26);
 			this.categoryCombobox.TabIndex = 5;
 			this.categoryCombobox.SelectedIndexChanged += new System.EventHandler(this.categoryComboboxSelectedIndexChanged);
 			// 
@@ -1249,10 +1268,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.defaultLanguageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.defaultLanguageCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.defaultLanguageCombobox.FormattingEnabled = true;
-			this.defaultLanguageCombobox.Location = new System.Drawing.Point(205, 46);
+			this.defaultLanguageCombobox.Location = new System.Drawing.Point(178, 46);
 			this.defaultLanguageCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.defaultLanguageCombobox.Name = "defaultLanguageCombobox";
-			this.defaultLanguageCombobox.Size = new System.Drawing.Size(798, 26);
+			this.defaultLanguageCombobox.Size = new System.Drawing.Size(825, 26);
 			this.defaultLanguageCombobox.TabIndex = 6;
 			this.defaultLanguageCombobox.SelectedIndexChanged += new System.EventHandler(this.defaultLanguageComboboxSelectedIndexChanged);
 			// 
@@ -1266,10 +1285,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.licenseCombobox.Items.AddRange(new object[] {
             "Standard-Youtube-Lizenz",
             "Creative-Commons - Namensnennung"});
-			this.licenseCombobox.Location = new System.Drawing.Point(205, 82);
+			this.licenseCombobox.Location = new System.Drawing.Point(178, 82);
 			this.licenseCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.licenseCombobox.Name = "licenseCombobox";
-			this.licenseCombobox.Size = new System.Drawing.Size(798, 26);
+			this.licenseCombobox.Size = new System.Drawing.Size(825, 26);
 			this.licenseCombobox.TabIndex = 7;
 			this.licenseCombobox.SelectedIndexChanged += new System.EventHandler(this.licenseComboboxSelectedIndexChanged);
 			// 
@@ -1280,7 +1299,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.thumbnailLabel.Location = new System.Drawing.Point(10, 178);
 			this.thumbnailLabel.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailLabel.Name = "thumbnailLabel";
-			this.thumbnailLabel.Size = new System.Drawing.Size(185, 13);
+			this.thumbnailLabel.Size = new System.Drawing.Size(158, 13);
 			this.thumbnailLabel.TabIndex = 8;
 			this.thumbnailLabel.Text = "Thumbnail: ";
 			// 
@@ -1290,10 +1309,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.thumbnailTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnailTextbox.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.thumbnailTextbox.Font = new System.Drawing.Font("Courier New", 12F);
-			this.thumbnailTextbox.Location = new System.Drawing.Point(205, 172);
+			this.thumbnailTextbox.Location = new System.Drawing.Point(178, 172);
 			this.thumbnailTextbox.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnailTextbox.Name = "thumbnailTextbox";
-			this.thumbnailTextbox.Size = new System.Drawing.Size(767, 26);
+			this.thumbnailTextbox.Size = new System.Drawing.Size(794, 26);
 			this.thumbnailTextbox.TabIndex = 9;
 			this.thumbnailTextbox.TextChanged += new System.EventHandler(this.thumbnailTextboxTextChanged);
 			// 
@@ -1355,15 +1374,85 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.stabilizeCheckbox.UseVisualStyleBackColor = true;
 			this.stabilizeCheckbox.CheckedChanged += new System.EventHandler(this.stabilizeCheckboxCheckedChanged);
 			// 
+			// playlistsTabPage
+			// 
+			this.playlistsTabPage.BackColor = System.Drawing.SystemColors.Control;
+			this.playlistsTabPage.Controls.Add(this.addPlaylistTlp);
+			this.playlistsTabPage.Location = new System.Drawing.Point(4, 22);
+			this.playlistsTabPage.Name = "playlistsTabPage";
+			this.playlistsTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.playlistsTabPage.Size = new System.Drawing.Size(1013, 620);
+			this.playlistsTabPage.TabIndex = 6;
+			this.playlistsTabPage.Text = "Playlist";
+			// 
+			// addPlaylistTlp
+			// 
+			this.addPlaylistTlp.ColumnCount = 3;
+			this.addPlaylistTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.addPlaylistTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistTlp.Controls.Add(this.addPlaylistDirectlyGroupbox, 1, 1);
+			this.addPlaylistTlp.Controls.Add(this.addPlaylistViaServiceGroupbox, 1, 3);
+			this.addPlaylistTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.addPlaylistTlp.Location = new System.Drawing.Point(3, 3);
+			this.addPlaylistTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.addPlaylistTlp.Name = "addPlaylistTlp";
+			this.addPlaylistTlp.RowCount = 6;
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.addPlaylistTlp.Size = new System.Drawing.Size(1007, 614);
+			this.addPlaylistTlp.TabIndex = 0;
+			// 
+			// addPlaylistDirectlyGroupbox
+			// 
+			this.addPlaylistDirectlyGroupbox.AutoSize = true;
+			this.addPlaylistDirectlyGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addPlaylistDirectlyGroupbox.Controls.Add(this.addPlaylistDirectlyTlp);
+			this.addPlaylistDirectlyGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.addPlaylistDirectlyGroupbox.Location = new System.Drawing.Point(10, 10);
+			this.addPlaylistDirectlyGroupbox.Margin = new System.Windows.Forms.Padding(0);
+			this.addPlaylistDirectlyGroupbox.Name = "addPlaylistDirectlyGroupbox";
+			this.addPlaylistDirectlyGroupbox.Size = new System.Drawing.Size(987, 65);
+			this.addPlaylistDirectlyGroupbox.TabIndex = 0;
+			this.addPlaylistDirectlyGroupbox.TabStop = false;
+			this.addPlaylistDirectlyGroupbox.Text = "Vom Uploader hinzufügen lassen";
+			// 
+			// addPlaylistDirectlyTlp
+			// 
+			this.addPlaylistDirectlyTlp.AutoSize = true;
+			this.addPlaylistDirectlyTlp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addPlaylistDirectlyTlp.ColumnCount = 5;
+			this.addPlaylistDirectlyTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistDirectlyTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.addPlaylistDirectlyTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistDirectlyTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.addPlaylistDirectlyTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistDirectlyTlp.Controls.Add(this.addToPlaylistCheckbox, 1, 1);
+			this.addPlaylistDirectlyTlp.Controls.Add(this.playlistCombobox, 3, 1);
+			this.addPlaylistDirectlyTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.addPlaylistDirectlyTlp.Location = new System.Drawing.Point(3, 16);
+			this.addPlaylistDirectlyTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.addPlaylistDirectlyTlp.Name = "addPlaylistDirectlyTlp";
+			this.addPlaylistDirectlyTlp.RowCount = 3;
+			this.addPlaylistDirectlyTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistDirectlyTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.addPlaylistDirectlyTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistDirectlyTlp.Size = new System.Drawing.Size(981, 46);
+			this.addPlaylistDirectlyTlp.TabIndex = 0;
+			// 
 			// addToPlaylistCheckbox
 			// 
 			this.addToPlaylistCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.addToPlaylistCheckbox.AutoSize = true;
-			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 293);
+			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 14);
 			this.addToPlaylistCheckbox.Margin = new System.Windows.Forms.Padding(0);
 			this.addToPlaylistCheckbox.Name = "addToPlaylistCheckbox";
 			this.addToPlaylistCheckbox.Size = new System.Drawing.Size(185, 17);
-			this.addToPlaylistCheckbox.TabIndex = 3;
+			this.addToPlaylistCheckbox.TabIndex = 4;
 			this.addToPlaylistCheckbox.Text = "Nach Upload in Playlist einfügen: ";
 			this.addToPlaylistCheckbox.UseVisualStyleBackColor = true;
 			this.addToPlaylistCheckbox.CheckedChanged += new System.EventHandler(this.addToPlaylistCheckbox_CheckedChanged);
@@ -1371,17 +1460,171 @@ namespace STFU.Executable.AutoUploader.Forms
 			// playlistCombobox
 			// 
 			this.playlistCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.otherTlp.SetColumnSpan(this.playlistCombobox, 3);
 			this.playlistCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.playlistCombobox.Enabled = false;
 			this.playlistCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.playlistCombobox.FormattingEnabled = true;
-			this.playlistCombobox.Location = new System.Drawing.Point(205, 289);
+			this.playlistCombobox.Location = new System.Drawing.Point(205, 10);
 			this.playlistCombobox.Margin = new System.Windows.Forms.Padding(0);
 			this.playlistCombobox.Name = "playlistCombobox";
-			this.playlistCombobox.Size = new System.Drawing.Size(798, 26);
-			this.playlistCombobox.TabIndex = 7;
+			this.playlistCombobox.Size = new System.Drawing.Size(766, 26);
+			this.playlistCombobox.TabIndex = 8;
 			this.playlistCombobox.SelectedIndexChanged += new System.EventHandler(this.playlistCombobox_SelectedIndexChanged);
+			// 
+			// addPlaylistViaServiceGroupbox
+			// 
+			this.addPlaylistViaServiceGroupbox.AutoSize = true;
+			this.addPlaylistViaServiceGroupbox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addPlaylistViaServiceGroupbox.Controls.Add(this.addPlaylistViaServiceTlp);
+			this.addPlaylistViaServiceGroupbox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.addPlaylistViaServiceGroupbox.Enabled = false;
+			this.addPlaylistViaServiceGroupbox.Location = new System.Drawing.Point(10, 85);
+			this.addPlaylistViaServiceGroupbox.Margin = new System.Windows.Forms.Padding(0);
+			this.addPlaylistViaServiceGroupbox.Name = "addPlaylistViaServiceGroupbox";
+			this.addPlaylistViaServiceGroupbox.Size = new System.Drawing.Size(987, 173);
+			this.addPlaylistViaServiceGroupbox.TabIndex = 1;
+			this.addPlaylistViaServiceGroupbox.TabStop = false;
+			this.addPlaylistViaServiceGroupbox.Text = "Über Playlistservice hinzufügen lassen";
+			// 
+			// addPlaylistViaServiceTlp
+			// 
+			this.addPlaylistViaServiceTlp.AutoSize = true;
+			this.addPlaylistViaServiceTlp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.addPlaylistViaServiceTlp.ColumnCount = 5;
+			this.addPlaylistViaServiceTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.addPlaylistViaServiceTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.addPlaylistViaServiceTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.Controls.Add(this.sendToPlaylistserviceCheckbox, 1, 1);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.chooseAccountCombobox, 3, 1);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.useCustomPlaylistIdTextbox, 3, 3);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.enterPlaylistIdManuallyRadiobutton, 1, 3);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.usePlaylistFromAccountRadiobutton, 1, 7);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.label5, 1, 5);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.useCustomPlaylistTitleTextbox, 3, 5);
+			this.addPlaylistViaServiceTlp.Controls.Add(this.choosePlaylistCombobox, 3, 7);
+			this.addPlaylistViaServiceTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.addPlaylistViaServiceTlp.Location = new System.Drawing.Point(3, 16);
+			this.addPlaylistViaServiceTlp.Margin = new System.Windows.Forms.Padding(0);
+			this.addPlaylistViaServiceTlp.Name = "addPlaylistViaServiceTlp";
+			this.addPlaylistViaServiceTlp.RowCount = 9;
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.addPlaylistViaServiceTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.addPlaylistViaServiceTlp.Size = new System.Drawing.Size(981, 154);
+			this.addPlaylistViaServiceTlp.TabIndex = 0;
+			// 
+			// sendToPlaylistserviceCheckbox
+			// 
+			this.sendToPlaylistserviceCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.sendToPlaylistserviceCheckbox.AutoSize = true;
+			this.sendToPlaylistserviceCheckbox.Location = new System.Drawing.Point(10, 14);
+			this.sendToPlaylistserviceCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.sendToPlaylistserviceCheckbox.Name = "sendToPlaylistserviceCheckbox";
+			this.sendToPlaylistserviceCheckbox.Size = new System.Drawing.Size(307, 17);
+			this.sendToPlaylistserviceCheckbox.TabIndex = 0;
+			this.sendToPlaylistserviceCheckbox.Text = "Nach Upload an Playlistservice zu diesem Account senden:";
+			this.sendToPlaylistserviceCheckbox.UseVisualStyleBackColor = true;
+			this.sendToPlaylistserviceCheckbox.CheckedChanged += new System.EventHandler(this.sendToPlaylistserviceCheckbox_CheckedChanged);
+			// 
+			// chooseAccountCombobox
+			// 
+			this.chooseAccountCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.chooseAccountCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.chooseAccountCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.chooseAccountCombobox.FormattingEnabled = true;
+			this.chooseAccountCombobox.Location = new System.Drawing.Point(327, 10);
+			this.chooseAccountCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.chooseAccountCombobox.Name = "chooseAccountCombobox";
+			this.chooseAccountCombobox.Size = new System.Drawing.Size(644, 26);
+			this.chooseAccountCombobox.TabIndex = 8;
+			this.chooseAccountCombobox.SelectedIndexChanged += new System.EventHandler(this.chooseAccountCombobox_SelectedIndexChanged);
+			// 
+			// useCustomPlaylistIdTextbox
+			// 
+			this.useCustomPlaylistIdTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.useCustomPlaylistIdTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.useCustomPlaylistIdTextbox.Enabled = false;
+			this.useCustomPlaylistIdTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.useCustomPlaylistIdTextbox.Location = new System.Drawing.Point(327, 46);
+			this.useCustomPlaylistIdTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.useCustomPlaylistIdTextbox.Name = "useCustomPlaylistIdTextbox";
+			this.useCustomPlaylistIdTextbox.Size = new System.Drawing.Size(644, 26);
+			this.useCustomPlaylistIdTextbox.TabIndex = 1;
+			this.useCustomPlaylistIdTextbox.TextChanged += new System.EventHandler(this.useCustomPlaylistIdTextbox_TextChanged);
+			// 
+			// enterPlaylistIdManuallyRadiobutton
+			// 
+			this.enterPlaylistIdManuallyRadiobutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.enterPlaylistIdManuallyRadiobutton.AutoSize = true;
+			this.enterPlaylistIdManuallyRadiobutton.Location = new System.Drawing.Point(10, 50);
+			this.enterPlaylistIdManuallyRadiobutton.Margin = new System.Windows.Forms.Padding(0);
+			this.enterPlaylistIdManuallyRadiobutton.Name = "enterPlaylistIdManuallyRadiobutton";
+			this.enterPlaylistIdManuallyRadiobutton.Size = new System.Drawing.Size(307, 17);
+			this.enterPlaylistIdManuallyRadiobutton.TabIndex = 1;
+			this.enterPlaylistIdManuallyRadiobutton.TabStop = true;
+			this.enterPlaylistIdManuallyRadiobutton.Text = "Playlist-Id oder -Link selbst eingeben:";
+			this.enterPlaylistIdManuallyRadiobutton.UseVisualStyleBackColor = true;
+			this.enterPlaylistIdManuallyRadiobutton.CheckedChanged += new System.EventHandler(this.enterPlaylistIdManuallyRadiobutton_CheckedChanged);
+			// 
+			// usePlaylistFromAccountRadiobutton
+			// 
+			this.usePlaylistFromAccountRadiobutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.usePlaylistFromAccountRadiobutton.AutoSize = true;
+			this.usePlaylistFromAccountRadiobutton.Location = new System.Drawing.Point(10, 122);
+			this.usePlaylistFromAccountRadiobutton.Margin = new System.Windows.Forms.Padding(0);
+			this.usePlaylistFromAccountRadiobutton.Name = "usePlaylistFromAccountRadiobutton";
+			this.usePlaylistFromAccountRadiobutton.Size = new System.Drawing.Size(307, 17);
+			this.usePlaylistFromAccountRadiobutton.TabIndex = 1;
+			this.usePlaylistFromAccountRadiobutton.TabStop = true;
+			this.usePlaylistFromAccountRadiobutton.Text = "Playlist von Account verwenden:";
+			this.usePlaylistFromAccountRadiobutton.UseVisualStyleBackColor = true;
+			this.usePlaylistFromAccountRadiobutton.CheckedChanged += new System.EventHandler(this.usePlaylistFromAccountRadiobutton_CheckedChanged);
+			// 
+			// label5
+			// 
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(10, 88);
+			this.label5.Margin = new System.Windows.Forms.Padding(0);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(307, 13);
+			this.label5.TabIndex = 2;
+			this.label5.Text = "     Titel der Playlist (optional):";
+			// 
+			// useCustomPlaylistTitleTextbox
+			// 
+			this.useCustomPlaylistTitleTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.useCustomPlaylistTitleTextbox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.useCustomPlaylistTitleTextbox.Enabled = false;
+			this.useCustomPlaylistTitleTextbox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.useCustomPlaylistTitleTextbox.Location = new System.Drawing.Point(327, 82);
+			this.useCustomPlaylistTitleTextbox.Margin = new System.Windows.Forms.Padding(0);
+			this.useCustomPlaylistTitleTextbox.Name = "useCustomPlaylistTitleTextbox";
+			this.useCustomPlaylistTitleTextbox.Size = new System.Drawing.Size(644, 26);
+			this.useCustomPlaylistTitleTextbox.TabIndex = 1;
+			this.useCustomPlaylistTitleTextbox.TextChanged += new System.EventHandler(this.useCustomPlaylistTitleTextbox_TextChanged);
+			// 
+			// choosePlaylistCombobox
+			// 
+			this.choosePlaylistCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.choosePlaylistCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.choosePlaylistCombobox.Enabled = false;
+			this.choosePlaylistCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.choosePlaylistCombobox.FormattingEnabled = true;
+			this.choosePlaylistCombobox.Location = new System.Drawing.Point(327, 118);
+			this.choosePlaylistCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.choosePlaylistCombobox.Name = "choosePlaylistCombobox";
+			this.choosePlaylistCombobox.Size = new System.Drawing.Size(644, 26);
+			this.choosePlaylistCombobox.TabIndex = 8;
+			this.choosePlaylistCombobox.SelectedIndexChanged += new System.EventHandler(this.choosePlaylistCombobox_SelectedIndexChanged);
 			// 
 			// planVideosTabpage
 			// 
@@ -2377,6 +2620,17 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.otherTabPage.ResumeLayout(false);
 			this.otherTlp.ResumeLayout(false);
 			this.otherTlp.PerformLayout();
+			this.playlistsTabPage.ResumeLayout(false);
+			this.addPlaylistTlp.ResumeLayout(false);
+			this.addPlaylistTlp.PerformLayout();
+			this.addPlaylistDirectlyGroupbox.ResumeLayout(false);
+			this.addPlaylistDirectlyGroupbox.PerformLayout();
+			this.addPlaylistDirectlyTlp.ResumeLayout(false);
+			this.addPlaylistDirectlyTlp.PerformLayout();
+			this.addPlaylistViaServiceGroupbox.ResumeLayout(false);
+			this.addPlaylistViaServiceGroupbox.PerformLayout();
+			this.addPlaylistViaServiceTlp.ResumeLayout(false);
+			this.addPlaylistViaServiceTlp.PerformLayout();
 			this.planVideosTabpage.ResumeLayout(false);
 			this.planVideosTlp.ResumeLayout(false);
 			this.planVideosTlp.PerformLayout();
@@ -2540,7 +2794,21 @@ namespace STFU.Executable.AutoUploader.Forms
 		private TableLayoutPanel tableLayoutPanel1;
 		private Label nextPublishTimeLabel;
 		private DateTimePicker nextPublishTimeDtp;
+		private TabPage playlistsTabPage;
+		private TableLayoutPanel addPlaylistTlp;
+		private GroupBox addPlaylistDirectlyGroupbox;
+		private TableLayoutPanel addPlaylistDirectlyTlp;
+		private GroupBox addPlaylistViaServiceGroupbox;
+		private TableLayoutPanel addPlaylistViaServiceTlp;
 		private CheckBox addToPlaylistCheckbox;
 		private ComboBox playlistCombobox;
+		private CheckBox sendToPlaylistserviceCheckbox;
+		private ComboBox chooseAccountCombobox;
+		private TextBox useCustomPlaylistIdTextbox;
+		private RadioButton enterPlaylistIdManuallyRadiobutton;
+		private RadioButton usePlaylistFromAccountRadiobutton;
+		private Label label5;
+		private TextBox useCustomPlaylistTitleTextbox;
+		private ComboBox choosePlaylistCombobox;
 	}
 }

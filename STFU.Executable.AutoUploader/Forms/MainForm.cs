@@ -664,6 +664,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				categoryContainer,
 				languageContainer,
 				playlistContainer,
+				playlistServiceConnectionContainer,
 				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();

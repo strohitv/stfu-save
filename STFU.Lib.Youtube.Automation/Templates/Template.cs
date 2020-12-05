@@ -180,6 +180,14 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public bool UploadFailedMailNotification { get; set; } = false;
 
+		public bool SendToPlaylistService { get; set; } = false;
+
+		public long AccountId { get; set; } = -1;
+
+		public string PlaylistIdForService { get; set; } = string.Empty;
+
+		public string PlaylistTitleForService { get; set; } = string.Empty;
+
 		public Template(int id, string name, ILanguage defaultlanguage, ICategory category, IList<IPublishTime> publishTimes, IList<IPlannedVideo> plannedVideos)
 			: this(id, name, (YoutubeLanguage)defaultlanguage, (YoutubeCategory)category, publishTimes.Select(pt => (PublishTime)pt).ToList(), plannedVideos.Select(pv => (PlannedVideo)pv).ToList())
 		{ }
@@ -276,7 +284,12 @@ namespace STFU.Lib.Youtube.Automation.Templates
 				UploadFailedMailNotification = template.UploadFailedMailNotification,
 
 				AddToPlaylist = template.AddToPlaylist,
-				PlaylistId = template.PlaylistId
+				PlaylistId = template.PlaylistId,
+
+				SendToPlaylistService = template.SendToPlaylistService,
+				AccountId = template.AccountId,
+				PlaylistIdForService = template.PlaylistIdForService,
+				PlaylistTitleForService = template.PlaylistTitleForService
 			};
 		}
 	}

@@ -31,6 +31,11 @@ namespace STFU.Lib.Youtube.Automation.Interfaces.Model
 
 		IList<IPlannedVideo> PlannedVideos { get; set; }
 
+		bool SendToPlaylistService { get; set; }
+		long AccountId { get; set; }
+		string PlaylistIdForService { get; set; }
+		string PlaylistTitleForService { get; set; }
+
 		bool EnableExpertMode { get; set; }
 		string CSharpPreparationScript { get; set; }
 		string CSharpCleanUpScript { get; set; }
