@@ -353,6 +353,22 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 			}
 
+			chooseAccountCombobox.Enabled
+				= enterPlaylistIdManuallyRadiobutton.Enabled
+				= useCustomPlaylistIdTextbox.Enabled
+				= useCustomPlaylistTitleTextbox.Enabled
+				= usePlaylistFromAccountRadiobutton.Enabled
+				= choosePlaylistCombobox.Enabled
+				= sendToPlaylistserviceCheckbox.Checked;
+
+			useCustomPlaylistIdTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			useCustomPlaylistTitleTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			choosePlaylistCombobox.Enabled &= usePlaylistFromAccountRadiobutton.Checked;
+
 			useCustomPlaylistIdTextbox.Text = template.PlaylistIdForService;
 			useCustomPlaylistTitleTextbox.Text = template.PlaylistTitleForService;
 

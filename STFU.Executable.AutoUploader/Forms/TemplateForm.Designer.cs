@@ -1383,7 +1383,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.playlistsTabPage.Padding = new System.Windows.Forms.Padding(3);
 			this.playlistsTabPage.Size = new System.Drawing.Size(1013, 620);
 			this.playlistsTabPage.TabIndex = 6;
-			this.playlistsTabPage.Text = "Playlist";
+			this.playlistsTabPage.Text = "Playlists";
 			// 
 			// addPlaylistTlp
 			// 
@@ -1538,6 +1538,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.chooseAccountCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.chooseAccountCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.chooseAccountCombobox.Enabled = false;
 			this.chooseAccountCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.chooseAccountCombobox.FormattingEnabled = true;
 			this.chooseAccountCombobox.Location = new System.Drawing.Point(327, 10);
@@ -1584,7 +1585,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.usePlaylistFromAccountRadiobutton.Size = new System.Drawing.Size(307, 17);
 			this.usePlaylistFromAccountRadiobutton.TabIndex = 1;
 			this.usePlaylistFromAccountRadiobutton.TabStop = true;
-			this.usePlaylistFromAccountRadiobutton.Text = "Playlist von Account verwenden:";
+			this.usePlaylistFromAccountRadiobutton.Text = "Geladene Playlist verwenden:";
 			this.usePlaylistFromAccountRadiobutton.UseVisualStyleBackColor = true;
 			this.usePlaylistFromAccountRadiobutton.CheckedChanged += new System.EventHandler(this.usePlaylistFromAccountRadiobutton_CheckedChanged);
 			// 
