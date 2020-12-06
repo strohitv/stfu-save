@@ -87,7 +87,7 @@ namespace STFU.Lib.GUI.Forms
 
 			if (videosListView.SelectedIndices.Count == 1)
 			{
-				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer, PlaylistContainer);
+				editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer, PlaylistContainer, PscContainer);
 				editVideoInformationGrid.Enabled = true;
 			}
 			else
@@ -336,7 +336,7 @@ namespace STFU.Lib.GUI.Forms
 
 					if (videosListView.SelectedIndices.Count == 1)
 					{
-						editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer, PlaylistContainer);
+						editVideoInformationGrid.Fill(Videos[videosListView.SelectedIndices[0]].Video, Videos[videosListView.SelectedIndices[0]].NotificationSettings, Account.Access.First().HasSendMailPrivilegue, CategoryContainer, LanguageContainer, PlaylistContainer, PscContainer);
 					}
 				}
 			}

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 
@@ -15,14 +16,14 @@ namespace STFU.Lib.GUI.Forms
 			DialogResult = DialogResult.Cancel;
 		}
 
-		public EditVideoForm(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
+		public EditVideoForm(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 			: this()
 		{
 			Video = video;
 			NotificationSettings = notificationSettings;
 
 			uploadGrid.IsNewUpload = false;
-			uploadGrid.Fill(video, notificationSettings, hasMailPrivilegue, catContainer, langContainer, plContainer);
+			uploadGrid.Fill(video, notificationSettings, hasMailPrivilegue, catContainer, langContainer, plContainer, pscContainer);
 		}
 
 		private void submitButton_Click(object sender, System.EventArgs e)

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
@@ -14,6 +15,7 @@ namespace STFU.Lib.GUI.Controls
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
+		private IPlaylistServiceConnectionContainer pscContainer;
 		private bool isNewUpload = false;
 
 		private IYoutubeVideo video;
@@ -58,6 +60,19 @@ namespace STFU.Lib.GUI.Controls
 			}
 		}
 
+		public IPlaylistServiceConnectionContainer PscContainer
+		{
+			get
+			{
+				return pscContainer;
+			}
+			set
+			{
+				pscContainer = value;
+				RefreshPlaylistServiceControls();
+			}
+		}
+
 		private void RefreshCheckboxesVisibility()
 		{
 			notifySubscribersCheckbox.Visible = autoLevelsCheckbox.Visible = stabilizeCheckbox.Visible = IsNewUpload;
@@ -68,7 +83,8 @@ namespace STFU.Lib.GUI.Controls
 			InitializeComponent();
 		}
 
-		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
+		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer,
+			IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
 			categoryContainer = catContainer;
 			RefreshCategories();
@@ -91,6 +107,7 @@ namespace STFU.Lib.GUI.Controls
 			foreach (var playlist in playlistContainer.RegisteredPlaylists)
 			{
 				playlistsCombobox.Items.Add(playlist.Title);
+				choosePlaylistCombobox.Items.Add(playlist.Title);
 			}
 		}
 
@@ -377,6 +394,88 @@ namespace STFU.Lib.GUI.Controls
 		private void playlistsCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Video.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistsCombobox.SelectedIndex).Id;
+		}
+
+		private void RefreshPlaylistServiceControls()
+		{
+			chooseAccountCombobox.Items.Clear();
+
+			if (pscContainer.Connection?.Accounts != null)
+			{
+				foreach (var account in pscContainer.Connection.Accounts)
+				{
+					chooseAccountCombobox.Items.Add($"{account.id}: {account.title}, {account.channelId}");
+				}
+
+				if (pscContainer.Connection.Accounts.Any(a => a.id == Video.PlaylistServiceSettings.AccountId))
+				{
+					chooseAccountCombobox.SelectedIndex = pscContainer.Connection.Accounts.ToList()
+						.IndexOf(pscContainer.Connection.Accounts.First(a => a.id == Video.PlaylistServiceSettings.AccountId));
+				}
+			}
+		}
+
+		private void sendToPlaylistserviceCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistServiceSettings.ShouldSend
+				= chooseAccountCombobox.Enabled
+				= enterPlaylistIdManuallyRadiobutton.Enabled
+				= useCustomPlaylistIdTextbox.Enabled
+				= useCustomPlaylistTitleTextbox.Enabled
+				= usePlaylistFromAccountRadiobutton.Enabled
+				= choosePlaylistCombobox.Enabled
+				= sendToPlaylistserviceCheckbox.Checked;
+
+			useCustomPlaylistIdTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			useCustomPlaylistTitleTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			choosePlaylistCombobox.Enabled &= usePlaylistFromAccountRadiobutton.Checked;
+		}
+
+		private void chooseAccountCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistServiceSettings.AccountId = pscContainer.Connection.Accounts[chooseAccountCombobox.SelectedIndex].id;
+		}
+
+		private void enterPlaylistIdManuallyRadiobutton_CheckedChanged(object sender, EventArgs e)
+		{
+			useCustomPlaylistIdTextbox.Enabled = useCustomPlaylistTitleTextbox.Enabled = enterPlaylistIdManuallyRadiobutton.Checked;
+
+			if (enterPlaylistIdManuallyRadiobutton.Checked)
+			{
+				Video.PlaylistServiceSettings.PlaylistId = useCustomPlaylistIdTextbox.Text;
+				Video.PlaylistServiceSettings.PlaylistTitle = useCustomPlaylistTitleTextbox.Text;
+			}
+		}
+
+		private void useCustomPlaylistIdTextbox_TextChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistServiceSettings.PlaylistId = useCustomPlaylistIdTextbox.Text;
+		}
+
+		private void useCustomPlaylistTitleTextbox_TextChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistServiceSettings.PlaylistTitle = useCustomPlaylistTitleTextbox.Text;
+		}
+
+		private void usePlaylistFromAccountRadiobutton_CheckedChanged(object sender, EventArgs e)
+		{
+			choosePlaylistCombobox.Enabled = usePlaylistFromAccountRadiobutton.Checked;
+
+			if (usePlaylistFromAccountRadiobutton.Checked)
+			{
+				Video.PlaylistServiceSettings.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Id;
+				Video.PlaylistServiceSettings.PlaylistTitle = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Title;
+			}
+		}
+
+		private void choosePlaylistCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Video.PlaylistServiceSettings.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Id;
+			Video.PlaylistServiceSettings.PlaylistTitle = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Title;
 		}
 	}
 }

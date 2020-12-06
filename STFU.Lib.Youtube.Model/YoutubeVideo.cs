@@ -416,10 +416,26 @@ namespace STFU.Lib.Youtube.Model
 			{
 				if (playlistServiceSettings != value)
 				{
+					if (playlistServiceSettings != null)
+					{
+						playlistServiceSettings.PropertyChanged -= PlaylistServiceSettings_PropertyChanged;
+					}
+
 					playlistServiceSettings = value;
+
+					if (playlistServiceSettings != null)
+					{
+						playlistServiceSettings.PropertyChanged += PlaylistServiceSettings_PropertyChanged;
+					}
+
 					OnPropertyChanged();
 				}
 			}
+		}
+
+		private void PlaylistServiceSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(nameof(PlaylistServiceSettings));
 		}
 
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

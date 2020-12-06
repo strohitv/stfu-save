@@ -27,17 +27,36 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				&& !string.IsNullOrWhiteSpace(Video.PlaylistServiceSettings.Host)
 				 && !string.IsNullOrWhiteSpace(Video.PlaylistServiceSettings.Port))
 			{
-				var taskClient = new TaskClient(new Uri($"http://{Video.PlaylistServiceSettings.Host}:{Video.PlaylistServiceSettings.Port}"), 
+				var taskClient = new TaskClient(new Uri($"http://{Video.PlaylistServiceSettings.Host}:{Video.PlaylistServiceSettings.Port}"),
 					Video.PlaylistServiceSettings.Username, Video.PlaylistServiceSettings.Password);
 
-				taskClient.CreateTask(Video.PlaylistServiceSettings.AccountId, new Task()
+				if (Video.PlaylistServiceSettings.TaskId == null || !Video.PlaylistServiceSettings.TaskId.HasValue)
 				{
-					addAt = (Video.Privacy == PrivacyStatus.Private && Video.PublishAt.HasValue) ? Video.PublishAt.Value : DateTime.Now.AddMinutes(5),
-					playlistId = Video.PlaylistServiceSettings.PlaylistId,
-					playlistTitle = Video.PlaylistServiceSettings.PlaylistTitle,
-					videoId = Video.Id,
-					videoTitle = Video.Title
-				});
+					Task task = taskClient.CreateTask(Video.PlaylistServiceSettings.AccountId, new Task()
+					{
+						addAt = (Video.Privacy == PrivacyStatus.Private && Video.PublishAt.HasValue) ? Video.PublishAt.Value : DateTime.Now.AddMinutes(5),
+						playlistId = Video.PlaylistServiceSettings.PlaylistId,
+						playlistTitle = Video.PlaylistServiceSettings.PlaylistTitle,
+						videoId = Video.Id,
+						videoTitle = Video.Title
+					});
+
+					Video.PlaylistServiceSettings.TaskId = task.id;
+				}
+				else
+				{
+					Task task = taskClient.UpdateTask(Video.PlaylistServiceSettings.AccountId, new Task()
+					{
+						id = Video.PlaylistServiceSettings.TaskId.Value,
+						addAt = (Video.Privacy == PrivacyStatus.Private && Video.PublishAt.HasValue) ? Video.PublishAt.Value : DateTime.Now.AddMinutes(5),
+						playlistId = Video.PlaylistServiceSettings.PlaylistId,
+						playlistTitle = Video.PlaylistServiceSettings.PlaylistTitle,
+						videoId = Video.Id,
+						videoTitle = Video.Title
+					});
+
+					Video.PlaylistServiceSettings.TaskId = task.id;
+				}
 			}
 
 			FinishedSuccessful = true;

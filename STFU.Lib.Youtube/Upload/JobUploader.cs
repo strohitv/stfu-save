@@ -96,8 +96,12 @@ namespace STFU.Lib.Youtube.Upload
 				Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
 				Run();
 			}
-
-			TODO hier muss das Update gefahren werden, und zwar als richtiges Update!!!
+			else if (e.PropertyName == nameof(Job.Video.PlaylistServiceSettings)
+				&& !Steps.Any(step => step is RetryingUploadStep<SendToPlaylistServiceStep>))
+			{
+				Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));
+				Run();
+			}
 		}
 
 		private void RunningStepStateChanged(object sender, UploadStepStateChangedEventArgs e)

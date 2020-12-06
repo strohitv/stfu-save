@@ -300,7 +300,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader.Configuration.Add(setting);
 			}
 
-			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 
 			jobQueue.ShowActionsButtons = true;
 			jobQueue.Uploader = autoUploader.Uploader;
@@ -537,7 +537,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
-			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
@@ -783,7 +783,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					return;
 				}
 
-				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 
 				jobQueue.ShowActionsButtons = true;
 				jobQueue.Uploader = autoUploader.Uploader;
