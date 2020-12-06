@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Text;
-using Newtonsoft.Json;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Playlistservice.Model;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
-using STFU.Lib.Youtube.Model.Serializable;
-using STFU.Lib.Youtube.Services;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
