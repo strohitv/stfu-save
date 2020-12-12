@@ -86,6 +86,8 @@
 			this.addPlaylistTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.addPlaylistDirectlyGroupbox = new System.Windows.Forms.GroupBox();
 			this.addPlaylistDirectlyTlp = new System.Windows.Forms.TableLayoutPanel();
+			this.addToPlaylistCheckbox = new System.Windows.Forms.CheckBox();
+			this.playlistsCombobox = new System.Windows.Forms.ComboBox();
 			this.addPlaylistViaServiceGroupbox = new System.Windows.Forms.GroupBox();
 			this.addPlaylistViaServiceTlp = new System.Windows.Forms.TableLayoutPanel();
 			this.sendToPlaylistserviceCheckbox = new System.Windows.Forms.CheckBox();
@@ -96,8 +98,6 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.useCustomPlaylistTitleTextbox = new System.Windows.Forms.TextBox();
 			this.choosePlaylistCombobox = new System.Windows.Forms.ComboBox();
-			this.addToPlaylistCheckbox = new System.Windows.Forms.CheckBox();
-			this.playlistsCombobox = new System.Windows.Forms.ComboBox();
 			this.generalSettingsTlp.SuspendLayout();
 			this.mainSettingsGroupbox.SuspendLayout();
 			this.mainSettingsTlp.SuspendLayout();
@@ -982,6 +982,32 @@
 			this.addPlaylistDirectlyTlp.Size = new System.Drawing.Size(1116, 46);
 			this.addPlaylistDirectlyTlp.TabIndex = 0;
 			// 
+			// addToPlaylistCheckbox
+			// 
+			this.addToPlaylistCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.addToPlaylistCheckbox.AutoSize = true;
+			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 14);
+			this.addToPlaylistCheckbox.Margin = new System.Windows.Forms.Padding(0);
+			this.addToPlaylistCheckbox.Name = "addToPlaylistCheckbox";
+			this.addToPlaylistCheckbox.Size = new System.Drawing.Size(199, 17);
+			this.addToPlaylistCheckbox.TabIndex = 20;
+			this.addToPlaylistCheckbox.Text = "Nach Upload zur Playlist hinzufügen:";
+			this.addToPlaylistCheckbox.UseVisualStyleBackColor = true;
+			this.addToPlaylistCheckbox.CheckedChanged += new System.EventHandler(this.addToPlaylistCheckbox_CheckedChanged);
+			// 
+			// playlistsCombobox
+			// 
+			this.playlistsCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.playlistsCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.playlistsCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.playlistsCombobox.FormattingEnabled = true;
+			this.playlistsCombobox.Location = new System.Drawing.Point(219, 10);
+			this.playlistsCombobox.Margin = new System.Windows.Forms.Padding(0);
+			this.playlistsCombobox.Name = "playlistsCombobox";
+			this.playlistsCombobox.Size = new System.Drawing.Size(887, 26);
+			this.playlistsCombobox.TabIndex = 21;
+			this.playlistsCombobox.SelectedIndexChanged += new System.EventHandler(this.playlistsCombobox_SelectedIndexChanged);
+			// 
 			// addPlaylistViaServiceGroupbox
 			// 
 			this.addPlaylistViaServiceGroupbox.AutoSize = true;
@@ -1076,6 +1102,7 @@
 			// 
 			this.enterPlaylistIdManuallyRadiobutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.enterPlaylistIdManuallyRadiobutton.AutoSize = true;
+			this.enterPlaylistIdManuallyRadiobutton.Enabled = false;
 			this.enterPlaylistIdManuallyRadiobutton.Location = new System.Drawing.Point(10, 50);
 			this.enterPlaylistIdManuallyRadiobutton.Margin = new System.Windows.Forms.Padding(0);
 			this.enterPlaylistIdManuallyRadiobutton.Name = "enterPlaylistIdManuallyRadiobutton";
@@ -1090,6 +1117,7 @@
 			// 
 			this.usePlaylistFromAccountRadiobutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.usePlaylistFromAccountRadiobutton.AutoSize = true;
+			this.usePlaylistFromAccountRadiobutton.Enabled = false;
 			this.usePlaylistFromAccountRadiobutton.Location = new System.Drawing.Point(10, 122);
 			this.usePlaylistFromAccountRadiobutton.Margin = new System.Windows.Forms.Padding(0);
 			this.usePlaylistFromAccountRadiobutton.Name = "usePlaylistFromAccountRadiobutton";
@@ -1137,32 +1165,6 @@
 			this.choosePlaylistCombobox.Size = new System.Drawing.Size(779, 26);
 			this.choosePlaylistCombobox.TabIndex = 8;
 			this.choosePlaylistCombobox.SelectedIndexChanged += new System.EventHandler(this.choosePlaylistCombobox_SelectedIndexChanged);
-			// 
-			// addToPlaylistCheckbox
-			// 
-			this.addToPlaylistCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.addToPlaylistCheckbox.AutoSize = true;
-			this.addToPlaylistCheckbox.Location = new System.Drawing.Point(10, 14);
-			this.addToPlaylistCheckbox.Margin = new System.Windows.Forms.Padding(0);
-			this.addToPlaylistCheckbox.Name = "addToPlaylistCheckbox";
-			this.addToPlaylistCheckbox.Size = new System.Drawing.Size(199, 17);
-			this.addToPlaylistCheckbox.TabIndex = 20;
-			this.addToPlaylistCheckbox.Text = "Nach Upload zur Playlist hinzufügen:";
-			this.addToPlaylistCheckbox.UseVisualStyleBackColor = true;
-			this.addToPlaylistCheckbox.CheckedChanged += new System.EventHandler(this.addToPlaylistCheckbox_CheckedChanged);
-			// 
-			// playlistsCombobox
-			// 
-			this.playlistsCombobox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.playlistsCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.playlistsCombobox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.playlistsCombobox.FormattingEnabled = true;
-			this.playlistsCombobox.Location = new System.Drawing.Point(219, 10);
-			this.playlistsCombobox.Margin = new System.Windows.Forms.Padding(0);
-			this.playlistsCombobox.Name = "playlistsCombobox";
-			this.playlistsCombobox.Size = new System.Drawing.Size(887, 26);
-			this.playlistsCombobox.TabIndex = 21;
-			this.playlistsCombobox.SelectedIndexChanged += new System.EventHandler(this.playlistsCombobox_SelectedIndexChanged);
 			// 
 			// EditVideoGrid
 			// 

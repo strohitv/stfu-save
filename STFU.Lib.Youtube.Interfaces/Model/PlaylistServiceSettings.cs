@@ -12,7 +12,7 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 		private string username;
 		private string password;
 
-		private long accountId;
+		private long accountId = -1;
 
 		private string playlistId;
 		private string playlistTitle;

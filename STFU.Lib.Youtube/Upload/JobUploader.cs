@@ -96,7 +96,10 @@ namespace STFU.Lib.Youtube.Upload
 				Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
 				Run();
 			}
-			else if (e.PropertyName == nameof(Job.Video.PlaylistServiceSettings)
+
+			if ((e.PropertyName == nameof(Job.Video.PlaylistServiceSettings)
+				|| e.PropertyName == nameof(Job.Video.PublishAt)
+				|| e.PropertyName == nameof(Job.Video.Privacy))
 				&& !Steps.Any(step => step is RetryingUploadStep<SendToPlaylistServiceStep>))
 			{
 				Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));

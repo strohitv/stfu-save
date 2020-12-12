@@ -21,7 +21,7 @@ namespace STFU.Lib.Youtube.Model.Serializable
 			{
 				categoryId = video.Category?.Id ?? 20,
 				title = video.Title,
-				defaultLanguage = video.DefaultLanguage?.Hl ?? "de",
+				defaultLanguage = video.DefaultLanguage?.Hl ?? "de-de",
 				description = video.Description,
 				tags = video.Tags.ToArray()
 			};

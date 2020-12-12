@@ -111,6 +111,10 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 					PlaylistTitle = template.PlaylistTitleForService
 				};
 			}
+			else
+			{
+				video.PlaylistServiceSettings = new PlaylistServiceSettings();
+			}
 
 			return new VideoInformation(video, evaluator, notificationSettings);
 		}

@@ -98,6 +98,8 @@ namespace STFU.Lib.GUI.Controls
 			HasMailPrivilegue = hasMailPrivilegue;
 			Video = video;
 			NotificationSettings = notificationSettings;
+
+			PscContainer = pscContainer;
 		}
 
 		private void RefreshPlaylists()
@@ -400,17 +402,58 @@ namespace STFU.Lib.GUI.Controls
 		{
 			chooseAccountCombobox.Items.Clear();
 
-			if (pscContainer.Connection?.Accounts != null)
+			if (pscContainer.Connection != null)
 			{
-				foreach (var account in pscContainer.Connection.Accounts)
-				{
-					chooseAccountCombobox.Items.Add($"{account.id}: {account.title}, {account.channelId}");
-				}
+				Video.PlaylistServiceSettings.Host = pscContainer.Connection.Host;
+				Video.PlaylistServiceSettings.Port = pscContainer.Connection.Port;
+				Video.PlaylistServiceSettings.Username = pscContainer.Connection.Username;
+				Video.PlaylistServiceSettings.Password = pscContainer.Connection.Password;
 
-				if (pscContainer.Connection.Accounts.Any(a => a.id == Video.PlaylistServiceSettings.AccountId))
+				sendToPlaylistserviceCheckbox.Checked = Video.PlaylistServiceSettings.ShouldSend;
+
+				if (pscContainer.Connection.Accounts != null)
 				{
-					chooseAccountCombobox.SelectedIndex = pscContainer.Connection.Accounts.ToList()
-						.IndexOf(pscContainer.Connection.Accounts.First(a => a.id == Video.PlaylistServiceSettings.AccountId));
+					addPlaylistViaServiceGroupbox.Enabled = true;
+					foreach (var account in pscContainer.Connection.Accounts)
+					{
+						chooseAccountCombobox.Items.Add($"{account.id}: {account.title}, {account.channelId}");
+					}
+
+					if (pscContainer.Connection.Accounts.Any(a => a.id == Video.PlaylistServiceSettings.AccountId))
+					{
+						chooseAccountCombobox.SelectedIndex = pscContainer.Connection.Accounts.ToList()
+							.IndexOf(pscContainer.Connection.Accounts.First(a => a.id == Video.PlaylistServiceSettings.AccountId));
+					}
+					else if (pscContainer.Connection.Accounts.Length > 0)
+					{
+						chooseAccountCombobox.SelectedIndex = 0;
+					}
+
+					if (playlistContainer.RegisteredPlaylists.Count > 0)
+					{
+						if (Video.PlaylistServiceSettings != null
+							&& playlistContainer.RegisteredPlaylists.Any(
+								pl => pl.Id == Video.PlaylistServiceSettings.PlaylistId && pl.Title == Video.PlaylistServiceSettings.PlaylistTitle
+							))
+						{
+							var playlist = playlistContainer.RegisteredPlaylists.First(
+								pl => pl.Id == Video.PlaylistServiceSettings.PlaylistId && pl.Title == Video.PlaylistServiceSettings.PlaylistTitle);
+
+							choosePlaylistCombobox.SelectedIndex = playlistContainer.RegisteredPlaylists.ToList().IndexOf(playlist);
+							usePlaylistFromAccountRadiobutton.Checked = true;
+						}
+						else
+						{
+							if (playlistContainer.RegisteredPlaylists.Count > 0)
+							{
+								choosePlaylistCombobox.SelectedIndex = 0;
+							}
+
+							enterPlaylistIdManuallyRadiobutton.Checked = true;
+							useCustomPlaylistIdTextbox.Text = Video.PlaylistServiceSettings.PlaylistId;
+							useCustomPlaylistTitleTextbox.Text = Video.PlaylistServiceSettings.PlaylistTitle;
+						}
+					}
 				}
 			}
 		}
@@ -442,7 +485,7 @@ namespace STFU.Lib.GUI.Controls
 
 		private void enterPlaylistIdManuallyRadiobutton_CheckedChanged(object sender, EventArgs e)
 		{
-			useCustomPlaylistIdTextbox.Enabled = useCustomPlaylistTitleTextbox.Enabled = enterPlaylistIdManuallyRadiobutton.Checked;
+			useCustomPlaylistIdTextbox.Enabled = useCustomPlaylistTitleTextbox.Enabled = enterPlaylistIdManuallyRadiobutton.Checked && sendToPlaylistserviceCheckbox.Checked;
 
 			if (enterPlaylistIdManuallyRadiobutton.Checked)
 			{
@@ -463,7 +506,7 @@ namespace STFU.Lib.GUI.Controls
 
 		private void usePlaylistFromAccountRadiobutton_CheckedChanged(object sender, EventArgs e)
 		{
-			choosePlaylistCombobox.Enabled = usePlaylistFromAccountRadiobutton.Checked;
+			choosePlaylistCombobox.Enabled = usePlaylistFromAccountRadiobutton.Checked && sendToPlaylistserviceCheckbox.Checked;
 
 			if (usePlaylistFromAccountRadiobutton.Checked)
 			{

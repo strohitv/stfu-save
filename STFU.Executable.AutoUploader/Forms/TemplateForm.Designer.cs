@@ -1565,6 +1565,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			// 
 			this.enterPlaylistIdManuallyRadiobutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.enterPlaylistIdManuallyRadiobutton.AutoSize = true;
+			this.enterPlaylistIdManuallyRadiobutton.Checked = true;
+			this.enterPlaylistIdManuallyRadiobutton.Enabled = false;
 			this.enterPlaylistIdManuallyRadiobutton.Location = new System.Drawing.Point(10, 50);
 			this.enterPlaylistIdManuallyRadiobutton.Margin = new System.Windows.Forms.Padding(0);
 			this.enterPlaylistIdManuallyRadiobutton.Name = "enterPlaylistIdManuallyRadiobutton";
@@ -1584,7 +1586,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.usePlaylistFromAccountRadiobutton.Name = "usePlaylistFromAccountRadiobutton";
 			this.usePlaylistFromAccountRadiobutton.Size = new System.Drawing.Size(307, 17);
 			this.usePlaylistFromAccountRadiobutton.TabIndex = 1;
-			this.usePlaylistFromAccountRadiobutton.TabStop = true;
 			this.usePlaylistFromAccountRadiobutton.Text = "Geladene Playlist verwenden:";
 			this.usePlaylistFromAccountRadiobutton.UseVisualStyleBackColor = true;
 			this.usePlaylistFromAccountRadiobutton.CheckedChanged += new System.EventHandler(this.usePlaylistFromAccountRadiobutton_CheckedChanged);

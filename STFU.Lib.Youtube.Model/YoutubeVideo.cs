@@ -473,6 +473,9 @@ namespace STFU.Lib.Youtube.Model
 				PlaylistId = PlaylistId,
 				PlaylistServiceSettings = new PlaylistServiceSettings()
 				{
+					AccountId = PlaylistServiceSettings?.AccountId ?? -1,
+					ShouldSend = PlaylistServiceSettings?.ShouldSend ?? false,
+					TaskId = PlaylistServiceSettings?.TaskId,
 					Host = PlaylistServiceSettings?.Host,
 					Port = PlaylistServiceSettings?.Port,
 					Username = PlaylistServiceSettings?.Username,
