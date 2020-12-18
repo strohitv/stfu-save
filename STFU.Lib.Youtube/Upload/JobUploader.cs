@@ -28,6 +28,7 @@ namespace STFU.Lib.Youtube.Upload
 			Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
 			Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 			Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
+			Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));
 
 			videoPropertyNames = new[] {
 				// Todo: Wie mach ich das mit den Tags..?
@@ -57,6 +58,7 @@ namespace STFU.Lib.Youtube.Upload
 				Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
 				Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
 				Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
+				Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));
 			}
 
 			if (Job.UploadStatus.CurrentStep == null || !Job.UploadStatus.CurrentStep.IsRunning)
@@ -92,6 +94,15 @@ namespace STFU.Lib.Youtube.Upload
 				&& !Steps.Any(step => step is RetryingUploadStep<AddToPlaylistStep>))
 			{
 				Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
+				Run();
+			}
+
+			if ((e.PropertyName == nameof(Job.Video.PlaylistServiceSettings)
+				|| e.PropertyName == nameof(Job.Video.PublishAt)
+				|| e.PropertyName == nameof(Job.Video.Privacy))
+				&& !Steps.Any(step => step is RetryingUploadStep<SendToPlaylistServiceStep>))
+			{
+				Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));
 				Run();
 			}
 		}

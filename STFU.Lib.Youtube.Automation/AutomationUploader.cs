@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Interfaces.Model.Args;
@@ -120,14 +121,31 @@ namespace STFU.Lib.Youtube.Automation
 
 		private IYoutubeJobContainer archive;
 
-		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer)
+		private IPlaylistServiceConnectionContainer pscContainer = null;
+		public IPlaylistServiceConnectionContainer PscContainer
+		{
+			get
+			{
+				return pscContainer;
+			}
+			set
+			{
+				if (pscContainer != value)
+				{
+					pscContainer = value;
+					OnPropertyChaged();
+				}
+			}
+		}
+
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
 			Uploader = uploader;
 			archive = archiveContainer;
 		}
 
-		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
-			: this(uploader, archiveContainer)
+		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IPlaylistServiceConnectionContainer pscContainer, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
+			: this(uploader, archiveContainer, pscContainer)
 		{
 			Account = account;
 
@@ -197,7 +215,7 @@ namespace STFU.Lib.Youtube.Automation
 
 			WatchedProcesses.ProcessesCompleted += OnProcessesCompleted;
 
-			VideoCreator = new TemplateVideoCreator(infos);
+			VideoCreator = new TemplateVideoCreator(infos, PscContainer);
 
 			Uploader.PropertyChanged += UploaderPropertyChanged;
 			Searcher.PropertyChanged += SearcherPropertyChanged;

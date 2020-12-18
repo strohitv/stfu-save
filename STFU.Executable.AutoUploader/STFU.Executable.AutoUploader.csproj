@@ -25,7 +25,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.4.3.%2a</ApplicationVersion>
+    <ApplicationVersion>0.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -68,6 +68,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -90,6 +91,12 @@
     </Compile>
     <Compile Include="Controls\UploaderControl.Designer.cs">
       <DependentUpon>UploaderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddOrUpdateTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddOrUpdateTaskForm.Designer.cs">
+      <DependentUpon>AddOrUpdateTaskForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddPlannedVideoForm.cs">
       <SubType>Form</SubType>
@@ -114,6 +121,12 @@
     </Compile>
     <Compile Include="Forms\PathForm.Designer.cs">
       <DependentUpon>PathForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PlaylistServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PlaylistServiceForm.Designer.cs">
+      <DependentUpon>PlaylistServiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ProcessForm.cs">
       <SubType>Form</SubType>
@@ -155,6 +168,9 @@
     <EmbeddedResource Include="Controls\UploaderControl.resx">
       <DependentUpon>UploaderControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddOrUpdateTaskForm.resx">
+      <DependentUpon>AddOrUpdateTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPlannedVideoForm.resx">
       <DependentUpon>AddPlannedVideoForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PathForm.resx">
       <DependentUpon>PathForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PlaylistServiceForm.resx">
+      <DependentUpon>PlaylistServiceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProcessForm.resx">
       <DependentUpon>ProcessForm.cs</DependentUpon>
@@ -222,6 +241,11 @@
     <ProjectReference Include="..\STFU.Lib.MailSender\STFU.Lib.MailSender.csproj">
       <Project>{BC19390A-F56E-4384-9BE8-193D0183444E}</Project>
       <Name>STFU.Lib.MailSender</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\STFU.Lib.Playlistservice\STFU.Lib.Playlistservice.csproj">
+      <Project>{9232266D-65A1-4345-83EC-05344E5D2B27}</Project>
+      <Name>STFU.Lib.Playlistservice</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\STFU.Lib.Twitter\STFU.Lib.Twitter.csproj">

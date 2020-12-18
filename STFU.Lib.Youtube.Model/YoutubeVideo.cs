@@ -405,6 +405,39 @@ namespace STFU.Lib.Youtube.Model
 			}
 		}
 
+		private PlaylistServiceSettings playlistServiceSettings;
+		public PlaylistServiceSettings PlaylistServiceSettings
+		{
+			get
+			{
+				return playlistServiceSettings;
+			}
+			set
+			{
+				if (playlistServiceSettings != value)
+				{
+					if (playlistServiceSettings != null)
+					{
+						playlistServiceSettings.PropertyChanged -= PlaylistServiceSettings_PropertyChanged;
+					}
+
+					playlistServiceSettings = value;
+
+					if (playlistServiceSettings != null)
+					{
+						playlistServiceSettings.PropertyChanged += PlaylistServiceSettings_PropertyChanged;
+					}
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private void PlaylistServiceSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(nameof(PlaylistServiceSettings));
+		}
+
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
 		protected void OnPropertyChanged([CallerMemberName] string caller = null)
@@ -437,7 +470,19 @@ namespace STFU.Lib.Youtube.Model
 				ThumbnailPath = ThumbnailPath,
 				Title = Title,
 				AddToPlaylist = AddToPlaylist,
-				PlaylistId = PlaylistId
+				PlaylistId = PlaylistId,
+				PlaylistServiceSettings = new PlaylistServiceSettings()
+				{
+					AccountId = PlaylistServiceSettings?.AccountId ?? -1,
+					ShouldSend = PlaylistServiceSettings?.ShouldSend ?? false,
+					TaskId = PlaylistServiceSettings?.TaskId,
+					Host = PlaylistServiceSettings?.Host,
+					Port = PlaylistServiceSettings?.Port,
+					Username = PlaylistServiceSettings?.Username,
+					Password = PlaylistServiceSettings?.Password,
+					PlaylistId = PlaylistServiceSettings?.PlaylistId,
+					PlaylistTitle = PlaylistServiceSettings?.PlaylistTitle,
+				}
 			};
 
 			foreach (var tag in Tags)
@@ -550,6 +595,22 @@ namespace STFU.Lib.Youtube.Model
 			{
 				IsDirty = true;
 				PlaylistId = video.PlaylistId;
+			}
+
+			if (PlaylistServiceSettings.Host != video.PlaylistServiceSettings.Host
+				|| PlaylistServiceSettings.Port != video.PlaylistServiceSettings.Port
+				|| PlaylistServiceSettings.Username != video.PlaylistServiceSettings.Username
+				|| PlaylistServiceSettings.Password != video.PlaylistServiceSettings.Password
+				|| PlaylistServiceSettings.PlaylistId != video.PlaylistServiceSettings.PlaylistId
+				|| PlaylistServiceSettings.PlaylistTitle != video.PlaylistServiceSettings.PlaylistTitle)
+			{
+				IsDirty = true;
+				PlaylistServiceSettings.Host = video.PlaylistServiceSettings.Host;
+				PlaylistServiceSettings.Port = video.PlaylistServiceSettings.Port;
+				PlaylistServiceSettings.Username = video.PlaylistServiceSettings.Username;
+				PlaylistServiceSettings.Password = video.PlaylistServiceSettings.Password;
+				PlaylistServiceSettings.PlaylistId = video.PlaylistServiceSettings.PlaylistId;
+				PlaylistServiceSettings.PlaylistTitle = video.PlaylistServiceSettings.PlaylistTitle;
 			}
 		}
 

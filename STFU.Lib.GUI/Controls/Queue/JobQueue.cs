@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
@@ -14,6 +15,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
+		private IPlaylistServiceConnectionContainer pscContainer;
 
 		private List<JobControl> jobControls = new List<JobControl>();
 
@@ -92,11 +94,12 @@ namespace STFU.Lib.GUI.Controls.Queue
 			InitializeComponent();
 		}
 
-		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer)
+		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
 			categoryContainer = catContainer;
 			languageContainer = langContainer;
 			playlistContainer = plContainer;
+			this.pscContainer = pscContainer;
 		}
 
 		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
@@ -107,7 +110,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 		private void OnJobQueued(JobQueuedEventArgs e)
 		{
 			var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
-			control.Fill(categoryContainer, languageContainer, playlistContainer);
+			control.Fill(categoryContainer, languageContainer, playlistContainer, pscContainer);
 
 			AddItem(control, e.Position);
 		}

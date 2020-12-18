@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
@@ -20,6 +21,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
+		private IPlaylistServiceConnectionContainer playlistServiceConnectionContainer;
 		private TemplatePersistor templatePersistor;
 		private ITemplate current;
 
@@ -48,6 +50,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			IYoutubeCategoryContainer categoryContainer,
 			IYoutubeLanguageContainer languageContainer,
 			IYoutubePlaylistContainer playlistContainer,
+			IPlaylistServiceConnectionContainer playlistServiceConnectionContainer,
 			bool accountHasMailEnabled)
 		{
 			InitializeComponent();
@@ -59,6 +62,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.categoryContainer = categoryContainer;
 			this.languageContainer = languageContainer;
 			this.playlistContainer = playlistContainer;
+			this.playlistServiceConnectionContainer = playlistServiceConnectionContainer;
 
 			if (templateValuesTabControl.TabPages.Contains(cSharpTabPage))
 			{
@@ -88,9 +92,19 @@ namespace STFU.Executable.AutoUploader.Forms
 				mailRecipientTextbox.Enabled = false;
 			}
 
+			if (playlistServiceConnectionContainer.Connection != null)
+			{
+				addPlaylistViaServiceGroupbox.Enabled = true;
+				foreach (var account in playlistServiceConnectionContainer.Connection.Accounts)
+				{
+					chooseAccountCombobox.Items.Add($"{account.id}: {account.title}, {account.channelId}");
+				}
+			}
+
 			foreach (var playlist in playlistContainer.RegisteredPlaylists)
 			{
 				playlistCombobox.Items.Add(playlist.Title);
+				choosePlaylistCombobox.Items.Add(playlist.Title);
 			}
 		}
 
@@ -311,6 +325,52 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				playlistCombobox.SelectedIndex = 0;
 			}
+
+			sendToPlaylistserviceCheckbox.Checked = template.SendToPlaylistService;
+
+			if (playlistServiceConnectionContainer.Connection != null && (playlistServiceConnectionContainer.Connection.Accounts?.Any(a => a.id == template.AccountId) ?? false))
+			{
+				chooseAccountCombobox.SelectedIndex = playlistServiceConnectionContainer.Connection.Accounts.ToList()
+					.IndexOf(playlistServiceConnectionContainer.Connection.Accounts.First(a => a.id == template.AccountId));
+			}
+			else if (chooseAccountCombobox.Items.Count > 0)
+			{
+				chooseAccountCombobox.SelectedIndex = 0;
+			}
+
+			var playlist = playlistContainer.RegisteredPlaylists.FirstOrDefault(p => p.Id == template.PlaylistIdForService && p.Title == template.PlaylistTitleForService);
+			if (playlist != null)
+			{
+				usePlaylistFromAccountRadiobutton.Checked = true;
+				choosePlaylistCombobox.SelectedIndex = playlistContainer.RegisteredPlaylists.ToList().IndexOf(playlist);
+			}
+			else
+			{
+				enterPlaylistIdManuallyRadiobutton.Checked = true;
+				if (choosePlaylistCombobox.Items.Count > 0)
+				{
+					choosePlaylistCombobox.SelectedIndex = 0;
+				}
+			}
+
+			chooseAccountCombobox.Enabled
+				= enterPlaylistIdManuallyRadiobutton.Enabled
+				= useCustomPlaylistIdTextbox.Enabled
+				= useCustomPlaylistTitleTextbox.Enabled
+				= usePlaylistFromAccountRadiobutton.Enabled
+				= choosePlaylistCombobox.Enabled
+				= sendToPlaylistserviceCheckbox.Checked;
+
+			useCustomPlaylistIdTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			useCustomPlaylistTitleTextbox.Enabled
+				&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+			choosePlaylistCombobox.Enabled &= usePlaylistFromAccountRadiobutton.Checked;
+
+			useCustomPlaylistIdTextbox.Text = template.PlaylistIdForService;
+			useCustomPlaylistTitleTextbox.Text = template.PlaylistTitleForService;
 
 			skipDirtyManipulation = false;
 		}
@@ -1165,14 +1225,115 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addToPlaylistCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
-			current.AddToPlaylist = playlistCombobox.Enabled = addToPlaylistCheckbox.Checked;
-			IsDirty = true;
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.AddToPlaylist = playlistCombobox.Enabled = addToPlaylistCheckbox.Checked;
+				IsDirty = true;
+			}
 		}
 
 		private void playlistCombobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			current.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistCombobox.SelectedIndex).Id;
-			IsDirty = true;
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistCombobox.SelectedIndex).Id;
+				IsDirty = true;
+			}
+		}
+
+		private void sendToPlaylistserviceCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.SendToPlaylistService
+					= chooseAccountCombobox.Enabled
+					= enterPlaylistIdManuallyRadiobutton.Enabled
+					= useCustomPlaylistIdTextbox.Enabled
+					= useCustomPlaylistTitleTextbox.Enabled
+					= usePlaylistFromAccountRadiobutton.Enabled
+					= choosePlaylistCombobox.Enabled
+					= sendToPlaylistserviceCheckbox.Checked;
+
+				useCustomPlaylistIdTextbox.Enabled
+					&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+				useCustomPlaylistTitleTextbox.Enabled
+					&= enterPlaylistIdManuallyRadiobutton.Checked;
+
+				choosePlaylistCombobox.Enabled &= usePlaylistFromAccountRadiobutton.Checked;
+
+				IsDirty = true;
+			}
+		}
+
+		private void chooseAccountCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.AccountId = playlistServiceConnectionContainer.Connection.Accounts[chooseAccountCombobox.SelectedIndex].id;
+				IsDirty = true;
+			}
+		}
+
+		private void enterPlaylistIdManuallyRadiobutton_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				useCustomPlaylistIdTextbox.Enabled = useCustomPlaylistTitleTextbox.Enabled = enterPlaylistIdManuallyRadiobutton.Checked;
+
+				if (enterPlaylistIdManuallyRadiobutton.Checked)
+				{
+					current.PlaylistIdForService = useCustomPlaylistIdTextbox.Text;
+					current.PlaylistTitleForService = useCustomPlaylistTitleTextbox.Text;
+				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void useCustomPlaylistIdTextbox_TextChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.PlaylistIdForService = useCustomPlaylistIdTextbox.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void useCustomPlaylistTitleTextbox_TextChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.PlaylistTitleForService = useCustomPlaylistTitleTextbox.Text;
+				IsDirty = true;
+			}
+		}
+
+		private void usePlaylistFromAccountRadiobutton_CheckedChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				choosePlaylistCombobox.Enabled = usePlaylistFromAccountRadiobutton.Checked;
+
+				if (usePlaylistFromAccountRadiobutton.Checked)
+				{
+					current.PlaylistIdForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Id;
+					current.PlaylistTitleForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Title;
+				}
+
+				IsDirty = true;
+			}
+		}
+
+		private void choosePlaylistCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (current != null && !skipDirtyManipulation)
+			{
+				current.PlaylistIdForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Id;
+				current.PlaylistTitleForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Title;
+
+				IsDirty = true;
+			}
 		}
 	}
 }

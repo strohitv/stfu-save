@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
+using STFU.Lib.Playlistservice;
 using STFU.Lib.Twitter;
 using STFU.Lib.Twitter.Model;
 using STFU.Lib.Youtube;
@@ -36,7 +37,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		IYoutubeLanguageContainer languageContainer = new YoutubeLanguageContainer();
 		IYoutubeJobContainer queueContainer = new YoutubeJobContainer();
 		IYoutubeJobContainer archiveContainer = new YoutubeJobContainer();
+
 		IYoutubePlaylistContainer playlistContainer = new YoutubePlaylistContainer();
+		IPlaylistServiceConnectionContainer playlistServiceConnectionContainer = new PlaylistServiceConnectionContainer();
 
 		ITwitterAccountContainer twitterAccountContainer = new TwitterAccountContainer();
 
@@ -56,7 +59,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		AutoUploaderSettingsPersistor settingsPersistor = null;
 		JobPersistor queuePersistor = null;
 		JobPersistor archivePersistor = null;
+
 		PlaylistPersistor playlistPersistor = null;
+		PlaylistServiceConnectionPersistor playlistServiceConnectionPersistor = null;
 
 		TwitterAccountPersistor twitterAccountPersistor = null;
 
@@ -184,7 +189,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void ConnectToYoutube()
 		{
 			tlpSettings.Enabled = false;
-
+			  
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddYoutubeAccountForm();
@@ -295,7 +300,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				autoUploader.Configuration.Add(setting);
 			}
 
-			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 
 			jobQueue.ShowActionsButtons = true;
 			jobQueue.Uploader = autoUploader.Uploader;
@@ -504,6 +509,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
 			playlistPersistor.Load();
 
+			playlistServiceConnectionPersistor = new PlaylistServiceConnectionPersistor(playlistServiceConnectionContainer, "./settings/playlistservice.json");
+			playlistServiceConnectionPersistor.Load();
+
 			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
 			twitterAccountPersistor.Load();
 
@@ -521,7 +529,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			uploader.StopAfterCompleting = false;
 			uploader.RemoveCompletedJobs = false;
 
-			autoUploader = new AutomationUploader(uploader, archiveContainer);
+			autoUploader = new AutomationUploader(uploader, archiveContainer, playlistServiceConnectionContainer);
 			autoUploader.WatchedProcesses = processes;
 
 			autoUploader.PropertyChanged += AutoUploaderPropertyChanged;
@@ -529,7 +537,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
-			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 			jobQueue.Uploader = autoUploader.Uploader;
 		}
 
@@ -656,6 +664,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				categoryContainer,
 				languageContainer,
 				playlistContainer,
+				playlistServiceConnectionContainer,
 				accountContainer.RegisteredAccounts.FirstOrDefault()?.Access.FirstOrDefault()?.HasSendMailPrivilegue ?? false);
 			tf.ShowDialog(this);
 			templatePersistor.Save();
@@ -774,7 +783,7 @@ namespace STFU.Executable.AutoUploader.Forms
 					return;
 				}
 
-				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer);
+				jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 
 				jobQueue.ShowActionsButtons = true;
 				jobQueue.Uploader = autoUploader.Uploader;
@@ -872,7 +881,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addVideosToQueueButton_Click(object sender, EventArgs e)
 		{
-			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, accountContainer.RegisteredAccounts.First());
+			AddVideosForm form = new AddVideosForm(templateContainer.RegisteredTemplates.ToArray(), pathContainer.RegisteredPaths.ToArray(), categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer, accountContainer.RegisteredAccounts.First());
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
@@ -987,6 +996,14 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void playlistsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			new RefreshPlaylistsForm(playlistPersistor, accountContainer.RegisteredAccounts.First()).Show(this);
+		}
+
+		private void playlistserviceToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			PlaylistServiceForm form = new PlaylistServiceForm(playlistServiceConnectionContainer, clientContainer.RegisteredClients.FirstOrDefault());
+			form.ShowDialog(this);
+
+			playlistServiceConnectionPersistor.Save();
 		}
 	}
 }

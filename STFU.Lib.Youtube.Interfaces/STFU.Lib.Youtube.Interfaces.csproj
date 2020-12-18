@@ -85,6 +85,7 @@
     <Compile Include="Model\IYoutubeVideo.cs" />
     <Compile Include="Model\Enums\UploaderState.cs" />
     <Compile Include="Model\JobState.cs" />
+    <Compile Include="Model\PlaylistServiceSettings.cs" />
     <Compile Include="Model\UploadStartedEventArgs.cs" />
     <Compile Include="Model\UploadStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
