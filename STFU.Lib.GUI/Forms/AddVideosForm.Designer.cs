@@ -39,12 +39,12 @@
 			this.removeVideoButton = new System.Windows.Forms.Button();
 			this.clearVideosButton = new System.Windows.Forms.Button();
 			this.insertTemplatesButton = new System.Windows.Forms.Button();
+			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.acceptButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.loadWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosWorker = new System.ComponentModel.BackgroundWorker();
 			this.addVideosDialog = new System.Windows.Forms.OpenFileDialog();
-			this.editVideoInformationGrid = new STFU.Lib.GUI.Controls.EditVideoGrid();
 			this.mainTlp.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
 			this.mainSplitContainer.Panel1.SuspendLayout();
@@ -140,11 +140,11 @@
 			this.videosListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.videosListView.FullRowSelect = true;
 			this.videosListView.HideSelection = false;
-			this.videosListView.Location = new System.Drawing.Point(52, 0);
+			this.videosListView.Location = new System.Drawing.Point(62, 0);
 			this.videosListView.Margin = new System.Windows.Forms.Padding(0);
 			this.videosListView.Name = "videosListView";
 			this.tableLayoutPanel2.SetRowSpan(this.videosListView, 12);
-			this.videosListView.Size = new System.Drawing.Size(194, 727);
+			this.videosListView.Size = new System.Drawing.Size(184, 727);
 			this.videosListView.TabIndex = 0;
 			this.videosListView.UseCompatibleStateImageBehavior = false;
 			this.videosListView.View = System.Windows.Forms.View.Details;
@@ -166,7 +166,7 @@
 			this.addVideosButton.Location = new System.Drawing.Point(0, 0);
 			this.addVideosButton.Margin = new System.Windows.Forms.Padding(0);
 			this.addVideosButton.Name = "addVideosButton";
-			this.addVideosButton.Size = new System.Drawing.Size(42, 41);
+			this.addVideosButton.Size = new System.Drawing.Size(52, 41);
 			this.addVideosButton.TabIndex = 3;
 			this.addVideosButton.Text = "+";
 			this.addVideosButton.UseVisualStyleBackColor = true;
@@ -182,7 +182,7 @@
 			this.moveVideosUpButton.Location = new System.Drawing.Point(0, 51);
 			this.moveVideosUpButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveVideosUpButton.Name = "moveVideosUpButton";
-			this.moveVideosUpButton.Size = new System.Drawing.Size(42, 41);
+			this.moveVideosUpButton.Size = new System.Drawing.Size(52, 41);
 			this.moveVideosUpButton.TabIndex = 4;
 			this.moveVideosUpButton.Text = "↑";
 			this.moveVideosUpButton.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@
 			this.moveVideosDownButton.Location = new System.Drawing.Point(0, 102);
 			this.moveVideosDownButton.Margin = new System.Windows.Forms.Padding(0);
 			this.moveVideosDownButton.Name = "moveVideosDownButton";
-			this.moveVideosDownButton.Size = new System.Drawing.Size(42, 41);
+			this.moveVideosDownButton.Size = new System.Drawing.Size(52, 41);
 			this.moveVideosDownButton.TabIndex = 5;
 			this.moveVideosDownButton.Text = "↓";
 			this.moveVideosDownButton.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@
 			this.removeVideoButton.Location = new System.Drawing.Point(0, 153);
 			this.removeVideoButton.Margin = new System.Windows.Forms.Padding(0);
 			this.removeVideoButton.Name = "removeVideoButton";
-			this.removeVideoButton.Size = new System.Drawing.Size(42, 41);
+			this.removeVideoButton.Size = new System.Drawing.Size(52, 41);
 			this.removeVideoButton.TabIndex = 6;
 			this.removeVideoButton.Text = "-";
 			this.removeVideoButton.UseVisualStyleBackColor = true;
@@ -231,7 +231,7 @@
 			this.clearVideosButton.Location = new System.Drawing.Point(0, 204);
 			this.clearVideosButton.Margin = new System.Windows.Forms.Padding(0);
 			this.clearVideosButton.Name = "clearVideosButton";
-			this.clearVideosButton.Size = new System.Drawing.Size(42, 41);
+			this.clearVideosButton.Size = new System.Drawing.Size(52, 41);
 			this.clearVideosButton.TabIndex = 7;
 			this.clearVideosButton.Text = "x";
 			this.clearVideosButton.UseVisualStyleBackColor = true;
@@ -247,11 +247,22 @@
 			this.insertTemplatesButton.Location = new System.Drawing.Point(0, 255);
 			this.insertTemplatesButton.Margin = new System.Windows.Forms.Padding(0);
 			this.insertTemplatesButton.Name = "insertTemplatesButton";
-			this.insertTemplatesButton.Size = new System.Drawing.Size(42, 41);
+			this.insertTemplatesButton.Size = new System.Drawing.Size(52, 41);
 			this.insertTemplatesButton.TabIndex = 3;
 			this.insertTemplatesButton.Text = "T";
 			this.insertTemplatesButton.UseVisualStyleBackColor = true;
 			this.insertTemplatesButton.Click += new System.EventHandler(this.insertTemplatesButton_Click);
+			// 
+			// editVideoInformationGrid
+			// 
+			this.editVideoInformationGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.editVideoInformationGrid.Enabled = false;
+			this.editVideoInformationGrid.IsNewUpload = false;
+			this.editVideoInformationGrid.Location = new System.Drawing.Point(0, 0);
+			this.editVideoInformationGrid.Name = "editVideoInformationGrid";
+			this.editVideoInformationGrid.PscContainer = null;
+			this.editVideoInformationGrid.Size = new System.Drawing.Size(797, 727);
+			this.editVideoInformationGrid.TabIndex = 0;
 			// 
 			// acceptButton
 			// 
@@ -299,16 +310,6 @@
 			this.addVideosDialog.Multiselect = true;
 			this.addVideosDialog.Title = "Bitte die Videos zum Hinzufügen auswählen.";
 			// 
-			// editVideoInformationGrid
-			// 
-			this.editVideoInformationGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.editVideoInformationGrid.Enabled = false;
-			this.editVideoInformationGrid.IsNewUpload = false;
-			this.editVideoInformationGrid.Location = new System.Drawing.Point(0, 0);
-			this.editVideoInformationGrid.Name = "editVideoInformationGrid";
-			this.editVideoInformationGrid.Size = new System.Drawing.Size(797, 727);
-			this.editVideoInformationGrid.TabIndex = 0;
-			// 
 			// AddVideosForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -316,6 +317,7 @@
 			this.ClientSize = new System.Drawing.Size(1073, 786);
 			this.Controls.Add(this.mainTlp);
 			this.Name = "AddVideosForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Videos in die Warteschlange einreihen";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.AddVideosForm_Load);
