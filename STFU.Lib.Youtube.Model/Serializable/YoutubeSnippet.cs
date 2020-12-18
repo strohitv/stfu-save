@@ -19,6 +19,11 @@ namespace STFU.Lib.Youtube.Model.Serializable
 		[JsonProperty(PropertyName = "defaultLanguage")]
 		public string defaultLanguage { get; set; }
 
+		[JsonProperty(PropertyName = "defaultAudioLanguage")]
+		public string defaultAudioLanguage => defaultLanguage;
+
 		public bool shouldSerializedefaultLanguage { get { return defaultLanguage != null; } }
+
+		public bool shouldSerializedefaultAudioLanguage { get { return defaultLanguage != null; } }
 	}
 }
