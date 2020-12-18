@@ -42,6 +42,7 @@ namespace STFU.Lib.Updater
 				else if (newestVersionPart < currentVersionPart)
 				{
 					// currentVersion is greater (???) than the newest version. Shouldn't happen but we still ne to stop immediately..
+					break;
 				}
 			}
 
