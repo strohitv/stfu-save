@@ -344,7 +344,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void PlaylistServiceForm_Load(object sender, EventArgs e)
 		{
-			if (Container.Connection != null)
+			if (Container != null && Container.Connection != null)
 			{
 				hostTextbox.Text = Container.Connection.Host;
 				portTextbox.Text = Container.Connection.Port;

@@ -402,7 +402,7 @@ namespace STFU.Lib.GUI.Controls
 		{
 			chooseAccountCombobox.Items.Clear();
 
-			if (pscContainer.Connection != null)
+			if (pscContainer != null && pscContainer.Connection != null)
 			{
 				Video.PlaylistServiceSettings.Host = pscContainer.Connection.Host;
 				Video.PlaylistServiceSettings.Port = pscContainer.Connection.Port;

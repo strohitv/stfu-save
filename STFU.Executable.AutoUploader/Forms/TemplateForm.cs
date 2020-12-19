@@ -92,7 +92,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				mailRecipientTextbox.Enabled = false;
 			}
 
-			if (playlistServiceConnectionContainer.Connection != null)
+			if (playlistServiceConnectionContainer != null && playlistServiceConnectionContainer.Connection != null)
 			{
 				addPlaylistViaServiceGroupbox.Enabled = true;
 				foreach (var account in playlistServiceConnectionContainer.Connection.Accounts)
@@ -328,7 +328,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			sendToPlaylistserviceCheckbox.Checked = template.SendToPlaylistService;
 
-			if (playlistServiceConnectionContainer.Connection != null && (playlistServiceConnectionContainer.Connection.Accounts?.Any(a => a.id == template.AccountId) ?? false))
+			if (playlistServiceConnectionContainer != null && playlistServiceConnectionContainer.Connection != null && (playlistServiceConnectionContainer.Connection.Accounts?.Any(a => a.id == template.AccountId) ?? false))
 			{
 				chooseAccountCombobox.SelectedIndex = playlistServiceConnectionContainer.Connection.Accounts.ToList()
 					.IndexOf(playlistServiceConnectionContainer.Connection.Accounts.First(a => a.id == template.AccountId));
