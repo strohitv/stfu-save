@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
@@ -27,7 +28,13 @@ namespace STFU.Lib.Playlistservice
 
 			string json = WebService.Communicate(request);
 
-			return JsonConvert.DeserializeObject<Task[]>(json);
+			return JsonConvert.DeserializeObject<Task[]>(json)?.Select(t => GetTaskWithLocalTime(t)).ToArray();
+		}
+
+		private Task GetTaskWithLocalTime(Task task)
+		{
+			task.addAt = task.addAt.ToLocalTime();
+			return task;
 		}
 
 		public Task CreateTask(long accountId, Task task)
@@ -36,6 +43,8 @@ namespace STFU.Lib.Playlistservice
 			request.Method = "POST";
 			request.Accept = "application/json";
 			request.ContentType = "application/json";
+
+			task.addAt = task.addAt.ToUniversalTime();
 
 			if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
 			{
@@ -54,6 +63,8 @@ namespace STFU.Lib.Playlistservice
 			request.Method = "PUT";
 			request.Accept = "application/json";
 			request.ContentType = "application/json";
+
+			task.addAt = task.addAt.ToUniversalTime();
 
 			if (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password))
 			{
