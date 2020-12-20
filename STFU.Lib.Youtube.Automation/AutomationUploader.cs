@@ -142,6 +142,7 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			Uploader = uploader;
 			archive = archiveContainer;
+			PscContainer = pscContainer;
 		}
 
 		public AutomationUploader(IYoutubeUploader uploader, IYoutubeJobContainer archiveContainer, IPlaylistServiceConnectionContainer pscContainer, IYoutubeAccount account, IEnumerable<IObservationConfiguration> configurationsToAdd)
