@@ -597,7 +597,8 @@ namespace STFU.Lib.Youtube.Model
 				PlaylistId = video.PlaylistId;
 			}
 
-			if (PlaylistServiceSettings.Host != video.PlaylistServiceSettings.Host
+			if (PlaylistServiceSettings.ShouldSend != video.PlaylistServiceSettings.ShouldSend
+				|| PlaylistServiceSettings.Host != video.PlaylistServiceSettings.Host
 				|| PlaylistServiceSettings.Port != video.PlaylistServiceSettings.Port
 				|| PlaylistServiceSettings.Username != video.PlaylistServiceSettings.Username
 				|| PlaylistServiceSettings.Password != video.PlaylistServiceSettings.Password
@@ -605,6 +606,7 @@ namespace STFU.Lib.Youtube.Model
 				|| PlaylistServiceSettings.PlaylistTitle != video.PlaylistServiceSettings.PlaylistTitle)
 			{
 				IsDirty = true;
+				PlaylistServiceSettings.ShouldSend = video.PlaylistServiceSettings.ShouldSend;
 				PlaylistServiceSettings.Host = video.PlaylistServiceSettings.Host;
 				PlaylistServiceSettings.Port = video.PlaylistServiceSettings.Port;
 				PlaylistServiceSettings.Username = video.PlaylistServiceSettings.Username;
