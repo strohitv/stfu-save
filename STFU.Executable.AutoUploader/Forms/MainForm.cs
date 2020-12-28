@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Playlistservice;
@@ -29,6 +30,8 @@ namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class MainForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(MainForm));
+
 		IPathContainer pathContainer = new PathContainer();
 		ITemplateContainer templateContainer = new TemplateContainer();
 		IYoutubeClientContainer clientContainer = new YoutubeClientContainer();
@@ -73,6 +76,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public MainForm(bool showReleaseNotes)
 		{
+			LOGGER.Info("Showing main form");
+
 			InitializeComponent();
 
 			this.showReleaseNotes = showReleaseNotes;
@@ -475,10 +480,13 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void bgwCreateUploaderDoWork(object sender, DoWorkEventArgs e)
 		{
+			LOGGER.Info("Loading application settings...");
+
 			clientContainer.RegisterClient(YoutubeClientData.Client);
 
 			if (!Directory.Exists("./settings"))
 			{
+				LOGGER.Info("Creating settings directory");
 				Directory.CreateDirectory("./settings");
 			}
 
@@ -512,6 +520,28 @@ namespace STFU.Executable.AutoUploader.Forms
 			playlistServiceConnectionPersistor = new PlaylistServiceConnectionPersistor(playlistServiceConnectionContainer, "./settings/playlistservice.json");
 			playlistServiceConnectionPersistor.Load();
 
+			if (playlistServiceConnectionContainer.Connection.Accounts.Length > 0)
+			{
+				bool somethingChanged = false;
+
+				foreach (var template in templateContainer.RegisteredTemplates)
+				{
+					var firstId = playlistServiceConnectionContainer.Connection.Accounts.FirstOrDefault(a => a.id >= 0)?.id ?? -1;
+
+					if (template.AccountId == -1 && firstId > -1)
+					{
+						LOGGER.Info($"Fix: setting account id for playlist service connection of template '{template.Title}' from -1 to {firstId}");
+						template.AccountId = firstId;
+						somethingChanged = true;
+					}
+				}
+
+				if (somethingChanged)
+				{
+					templatePersistor.Save();
+				}
+			}
+
 			twitterAccountPersistor = new TwitterAccountPersistor(twitterAccountContainer, "./settings/twitter-account.json");
 			twitterAccountPersistor.Load();
 
@@ -521,14 +551,18 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (item.Account == null)
 				{
-					item.Account = accountContainer.RegisteredAccounts.FirstOrDefault();
+					var account = accountContainer.RegisteredAccounts.FirstOrDefault();
+					LOGGER.Info($"Fix: saved account for job with video '{item.Video.Title}' could not be found. Using account '{account.Title}' instead.");
+					item.Account = account;
 				}
 			}
 
+			LOGGER.Info("Creating youtube uploader...");
 			var uploader = new YoutubeUploader(queueContainer);
 			uploader.StopAfterCompleting = false;
 			uploader.RemoveCompletedJobs = false;
 
+			LOGGER.Info("Creating automation uploader...");
 			autoUploader = new AutomationUploader(uploader, archiveContainer, playlistServiceConnectionContainer);
 			autoUploader.WatchedProcesses = processes;
 
@@ -537,8 +571,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			autoUploader.Uploader.NewUploadStarted += UploaderNewUploadStarted;
 			autoUploader.FileToUploadOccured += AutoUploader_FileToUploadOccured;
 
+			LOGGER.Info("Filling job queue...");
 			jobQueue.Fill(categoryContainer, languageContainer, playlistContainer, playlistServiceConnectionContainer);
 			jobQueue.Uploader = autoUploader.Uploader;
+
+			LOGGER.Info("Finished loading application settings...");
 		}
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)

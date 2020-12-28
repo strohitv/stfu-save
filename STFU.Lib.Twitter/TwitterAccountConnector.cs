@@ -38,6 +38,7 @@ namespace STFU.Lib.Twitter
 			var queryParams = HttpUtility.ParseQueryString(strResponse);
 			RequestToken = queryParams["oauth_token"];
 
+			// answer: oauth_token=6E9q-gAAAAABFGpUAAABc0TQsN4&oauth_token_secret=FwJdADlFg2H4niPoE0M3WOUROmElhcal&oauth_callback_confirmed=true
 			return $"https://api.twitter.com/oauth/authorize?oauth_token={RequestToken}";
 		}
 

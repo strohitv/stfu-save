@@ -4,18 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
+using log4net;
 using STFU.Executable.AutoUploader.Forms;
 
 namespace STFU.Executable.AutoUploader
 {
 	public static class Program
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(Program));
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			LOGGER.Info("Application was started");
 			AppDomain.CurrentDomain.FirstChanceException += LogException;
 
 			ClearOldExceptionFiles();
@@ -28,26 +32,21 @@ namespace STFU.Executable.AutoUploader
 
 		private static void ClearOldExceptionFiles()
 		{
-			if (Directory.Exists(@"errors\autouploader"))
+			if (Directory.Exists("errors"))
 			{
-				var maxTime = new TimeSpan(14, 0, 0, 0);
-				foreach (var file in Directory.EnumerateFiles(@"errors\autouploader"))
+				LOGGER.Info($"Clearing old exception logs");
+				var subdirectories = Directory.EnumerateDirectories("errors");
+				foreach (var subdir in subdirectories)
 				{
-					if (DateTime.Now - new FileInfo(file).CreationTime > maxTime)
+					LOGGER.Debug($"Clearing old exception logs in folder '{subdir}'");
+					var maxTime = new TimeSpan(14, 0, 0, 0);
+					foreach (var file in Directory.EnumerateFiles(subdir))
 					{
-						File.Delete(file);
-					}
-				}
-			}
-
-			if (Directory.Exists(@"errors\csharp"))
-			{
-				var maxTime = new TimeSpan(14, 0, 0, 0);
-				foreach (var file in Directory.EnumerateFiles(@"errors\csharp"))
-				{
-					if (DateTime.Now - new FileInfo(file).CreationTime > maxTime)
-					{
-						File.Delete(file);
+						if (DateTime.Now - new FileInfo(file).CreationTime > maxTime)
+						{
+							LOGGER.Debug($"Deleting file '{file}'");
+							File.Delete(file);
+						}
 					}
 				}
 			}
@@ -59,31 +58,7 @@ namespace STFU.Executable.AutoUploader
 				&& !IsCoreLibException(e)
 				&& !IsCancelException(e))
 			{
-				if (!Directory.Exists("errors"))
-				{
-					Directory.CreateDirectory("errors");
-				}
-
-				if (!Directory.Exists(@"errors\autouploader"))
-				{
-					Directory.CreateDirectory(@"errors\autouploader");
-				}
-
-				var filename = @"errors\autouploader\" + Application.ProductVersion + " - " + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
-
-				using (StreamWriter writer = new StreamWriter(filename, true))
-				{
-					writer.WriteLine($"============================================");
-					writer.WriteLine($"Begin Log - Exception Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm")}");
-					writer.WriteLine($"============================================");
-					writer.WriteLine();
-
-					WriteException(writer, e.Exception, string.Empty);
-
-					writer.WriteLine();
-					writer.WriteLine();
-					writer.WriteLine();
-				}
+				LOGGER.Error("An unexpected Exception occured.", e.Exception);
 			}
 		}
 
@@ -103,51 +78,6 @@ namespace STFU.Executable.AutoUploader
 			return e.Exception is WebException
 					&& ((WebException)e.Exception).Status == WebExceptionStatus.ProtocolError
 					&& (int)(((WebException)e.Exception).Response as HttpWebResponse).StatusCode == 308;
-		}
-
-		private static void WriteException(StreamWriter writer, Exception ex, string prefix)
-		{
-			writer.WriteLine(prefix + "Typ der Exception: " + ex.GetType().Name);
-			writer.WriteLine(prefix + "Message: " + ex.Message);
-
-			if (ex.Data != null)
-			{
-				writer.WriteLine(prefix + "Data: " + ex.Data);
-			}
-
-			if (ex.Source != null)
-			{
-				writer.WriteLine(prefix + "Source: " + ex.Source);
-			}
-
-			if (ex.TargetSite != null)
-			{
-				writer.WriteLine(prefix + "TargetSite: " + ex.TargetSite);
-			}
-
-			if (ex.StackTrace != null)
-			{
-				writer.WriteLine(
-					prefix + "Stacktrace: " + Environment.NewLine +
-					ex.StackTrace
-						.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-						.Aggregate((a, b) => $"\t{prefix}{a}{Environment.NewLine}\t{prefix}{b}")
-				);
-			}
-
-			writer.WriteLine(
-				prefix + "Exception als ToString(): " + Environment.NewLine +
-				ex.ToString()
-					.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
-					.Aggregate((a, b) => $"\t{prefix}{a}{Environment.NewLine}\t{prefix}{b}")
-			);
-
-			writer.WriteLine();
-
-			if (ex.InnerException != null)
-			{
-				WriteException(writer, ex.InnerException, "\t" + prefix);
-			}
 		}
 	}
 }
