@@ -76,7 +76,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public MainForm(bool showReleaseNotes)
 		{
-			LOGGER.Info("Showing main form");
+			LOGGER.Info("Initializing main form");
 
 			InitializeComponent();
 
@@ -87,6 +87,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillArchiveView()
 		{
+			LOGGER.Info("Refilling archive listview");
+
 			archiveListView.Items.Clear();
 
 			foreach (var job in archiveContainer.RegisteredJobs)
@@ -94,6 +96,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				ListViewItem item = new ListViewItem(job.Video.Title);
 				item.SubItems.Add(job.Video.Path);
 				archiveListView.Items.Add(item);
+
+				LOGGER.Debug($"Added entry for job for video '{job.Video.Title}'");
 			}
 		}
 
@@ -153,8 +157,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		private void RefillListView()
+		private void RefillSelectedPathsListView()
 		{
+			LOGGER.Info("Refilling selected paths listview");
+
 			lvSelectedPaths.Items.Clear();
 
 			foreach (var entry in pathContainer.RegisteredPaths)
@@ -173,8 +179,11 @@ namespace STFU.Executable.AutoUploader.Forms
 				newItem.SubItems.Add(entry.SearchHidden ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.Inactive ? "Ja" : "Nein");
 				newItem.SubItems.Add(entry.MoveAfterUpload ? "Ja" : "Nein");
+
+				LOGGER.Debug($"Added entry for path '{entry.Fullname}'");
 			}
 		}
+
 		private void AutoUploader_FileToUploadOccured(object sender, JobEventArgs e)
 		{
 			if (e.Job.NotificationSettings.NotifyOnVideoFoundDesktop)
@@ -247,6 +256,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ActivateAccountLink()
 		{
+			LOGGER.Info("Activating account link and start buttons");
+
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = addVideosToQueueButton.Enabled = clearVideosButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
 			lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title ?? "Kanaltitel unbekannt";
@@ -474,6 +485,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefreshToolstripButtonsEnabled()
 		{
+			LOGGER.Info("Refreshing tool strip buttons enabled state");
+
 			verbindenToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count == 0;
 			verbindungLösenToolStripMenuItem.Enabled = templatesToolStripMenuItem1.Enabled = pfadeToolStripMenuItem1.Enabled = playlistsToolStripMenuItem.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 		}
@@ -584,7 +597,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			limitUploadSpeedCombobox.SelectedIndex = 1;
 
-			RefillListView();
+			RefillSelectedPathsListView();
 			RefillArchiveView();
 			ActivateAccountLink();
 			ActivateAccountLinkTwitter();
@@ -593,15 +606,20 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				try
 				{
+					LOGGER.Info("Found updater executable from last update, will attempt to remove it");
+
 					File.Delete("stfu-updater.exe");
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
+					LOGGER.Info("Updater executable could not be deleted", ex);
 				}
 			}
 
 			if (showReleaseNotes || autoUploaderSettings.ShowReleaseNotes)
 			{
+				LOGGER.Info("Showing release notes");
+
 				var releaseNotesForm = new ReleaseNotesForm(autoUploaderSettings);
 				releaseNotesForm.ShowDialog(this);
 
@@ -611,14 +629,18 @@ namespace STFU.Executable.AutoUploader.Forms
 			var updateForm = new UpdateForm();
 			if (updateForm.ShowDialog(this) == DialogResult.Yes)
 			{
+				LOGGER.Info("Update triggered, closing application so that it can be updated");
+
 				Close();
 				return;
 			}
 
 			lnklblCurrentLoggedIn.Visible = lblCurrentLoggedIn.Visible = accountContainer.RegisteredAccounts.Count > 0;
 			RefreshToolstripButtonsEnabled();
+
 			if (accountContainer.RegisteredAccounts.Count > 0)
 			{
+				LOGGER.Info($"Currently logged in: {accountContainer.RegisteredAccounts.SingleOrDefault()?.Title}");
 				lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			}
 
@@ -628,7 +650,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			btnStart.Enabled = queueStatusButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
 
-			RefillListView();
+			LOGGER.Info("Application started successfully");
 		}
 
 		private void lnklblCurrentLoggedInLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -706,7 +728,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			tf.ShowDialog(this);
 			templatePersistor.Save();
 
-			RefillListView();
+			RefillSelectedPathsListView();
 		}
 
 		private void pfadeToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -717,7 +739,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			pathPersistor.Save();
 			archivePersistor.Save();
 
-			RefillListView();
+			RefillSelectedPathsListView();
 			RefillArchiveView();
 		}
 
@@ -997,6 +1019,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ActivateAccountLinkTwitter()
 		{
+			LOGGER.Info("This shit won't get logged");
+
 			twitterAccountLinkLabel.Visible = twitterAccountLabel.Visible = twitterAccountVerbindungLösenToolStripMenuItem.Enabled = twitterAccountContainer.Account != null;
 			twitterAccountVerbindenToolStripMenuItem.Enabled = twitterAccountContainer.Account == null;
 

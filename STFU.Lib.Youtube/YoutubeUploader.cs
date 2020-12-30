@@ -504,7 +504,7 @@ namespace STFU.Lib.Youtube
 		public event JobPositionChangedEventHandler JobPositionChanged;
 		private void OnJobPositionChanged(IYoutubeJob job, int oldPosition, int newPosition)
 		{
-			LOGGER.Debug($"Position of job for video '{job.Video.Title}' changed to {position}, invoking handler");
+			LOGGER.Debug($"Position of job for video '{job.Video.Title}' changed to {newPosition}, invoking handler");
 			JobPositionChanged?.Invoke(this, new JobPositionChangedEventArgs(job, oldPosition, newPosition));
 		}
 
