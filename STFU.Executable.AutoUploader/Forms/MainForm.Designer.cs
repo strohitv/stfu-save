@@ -48,7 +48,6 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.templatesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.pfadeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.playlistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.unvollständigerUploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.playlistserviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.neueFunktionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -230,7 +229,6 @@ namespace STFU.Executable.AutoUploader.Forms
             this.templatesToolStripMenuItem1,
             this.pfadeToolStripMenuItem1,
             this.playlistsToolStripMenuItem,
-            this.unvollständigerUploadToolStripMenuItem,
             this.playlistserviceToolStripMenuItem});
 			this.verwaltenToolStripMenuItem.Name = "verwaltenToolStripMenuItem";
 			this.verwaltenToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
@@ -242,7 +240,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.verbindenToolStripMenuItem,
             this.verbindungLösenToolStripMenuItem});
 			this.youtubeAccountToolStripMenuItem1.Name = "youtubeAccountToolStripMenuItem1";
-			this.youtubeAccountToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+			this.youtubeAccountToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.youtubeAccountToolStripMenuItem1.Text = "Youtube-Account";
 			// 
 			// verbindenToolStripMenuItem
@@ -265,7 +263,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.twitterAccountVerbindenToolStripMenuItem,
             this.twitterAccountVerbindungLösenToolStripMenuItem});
 			this.twitterAccountToolStripMenuItem.Name = "twitterAccountToolStripMenuItem";
-			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.twitterAccountToolStripMenuItem.Text = "Twitter-Account";
 			this.twitterAccountToolStripMenuItem.Visible = false;
 			// 
@@ -286,36 +284,28 @@ namespace STFU.Executable.AutoUploader.Forms
 			// templatesToolStripMenuItem1
 			// 
 			this.templatesToolStripMenuItem1.Name = "templatesToolStripMenuItem1";
-			this.templatesToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+			this.templatesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.templatesToolStripMenuItem1.Text = "Templates";
 			this.templatesToolStripMenuItem1.Click += new System.EventHandler(this.templatesToolStripMenuItem1Click);
 			// 
 			// pfadeToolStripMenuItem1
 			// 
 			this.pfadeToolStripMenuItem1.Name = "pfadeToolStripMenuItem1";
-			this.pfadeToolStripMenuItem1.Size = new System.Drawing.Size(198, 22);
+			this.pfadeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.pfadeToolStripMenuItem1.Text = "Pfade";
 			this.pfadeToolStripMenuItem1.Click += new System.EventHandler(this.pfadeToolStripMenuItem1_Click);
 			// 
 			// playlistsToolStripMenuItem
 			// 
 			this.playlistsToolStripMenuItem.Name = "playlistsToolStripMenuItem";
-			this.playlistsToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.playlistsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.playlistsToolStripMenuItem.Text = "Playlists";
 			this.playlistsToolStripMenuItem.Click += new System.EventHandler(this.playlistsToolStripMenuItem_Click);
-			// 
-			// unvollständigerUploadToolStripMenuItem
-			// 
-			this.unvollständigerUploadToolStripMenuItem.Name = "unvollständigerUploadToolStripMenuItem";
-			this.unvollständigerUploadToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-			this.unvollständigerUploadToolStripMenuItem.Text = "Unvollständiger Upload";
-			this.unvollständigerUploadToolStripMenuItem.Visible = false;
-			this.unvollständigerUploadToolStripMenuItem.Click += new System.EventHandler(this.unvollständigerUploadToolStripMenuItem_Click);
 			// 
 			// playlistserviceToolStripMenuItem
 			// 
 			this.playlistserviceToolStripMenuItem.Name = "playlistserviceToolStripMenuItem";
-			this.playlistserviceToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+			this.playlistserviceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.playlistserviceToolStripMenuItem.Text = "Playlistservice";
 			this.playlistserviceToolStripMenuItem.Click += new System.EventHandler(this.playlistserviceToolStripMenuItem_Click);
 			// 
@@ -1120,7 +1110,6 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem youtubeAccountToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem verbindenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem verbindungLösenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem unvollständigerUploadToolStripMenuItem;
 		private System.Windows.Forms.ColumnHeader chHidden;
 		private System.Windows.Forms.ColumnHeader cbInactive;
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;

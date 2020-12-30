@@ -644,8 +644,6 @@ namespace STFU.Executable.AutoUploader.Forms
 				lnklblCurrentLoggedIn.Text = accountContainer.RegisteredAccounts.SingleOrDefault()?.Title;
 			}
 
-			unvollständigerUploadToolStripMenuItem.Enabled = false; // uploader.HasUnfinishedJob;
-
 			tlpSettings.Enabled = true;
 
 			btnStart.Enabled = queueStatusButton.Enabled = accountContainer.RegisteredAccounts.Count > 0;
