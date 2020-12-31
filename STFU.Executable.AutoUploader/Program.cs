@@ -49,6 +49,20 @@ namespace STFU.Executable.AutoUploader
 						}
 					}
 				}
+
+				if (new DirectoryInfo("errors").EnumerateFiles("*", SearchOption.AllDirectories).ToArray().Length == 0)
+				{
+					LOGGER.Info($"Deleting old errors folder once and for all");
+
+					try
+					{
+						Directory.Delete("errors", true);
+					}
+					catch (Exception ex)
+					{
+						LOGGER.Error($"Errors folder could not be deleted because of an exception occured", ex);
+					}
+				}
 			}
 		}
 
