@@ -655,16 +655,20 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (accountContainer.RegisteredAccounts.Count == 0)
 			{
+				LOGGER.Error("Link to currently logged in account was clicked but there is NONE");
 				return;
 			}
 
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo(accountContainer.RegisteredAccounts.Single().Uri.AbsoluteUri);
 			p.Start();
+
+			LOGGER.Info($"Link to currently logged in account was clicked. Opening URL: '{accountContainer.RegisteredAccounts.Single().Uri.AbsoluteUri}'");
 		}
 
 		private void beendenToolStripMenuItemClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Closing application via main menu strip");
 			Close();
 		}
 
@@ -674,27 +678,48 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (chbChoseProcesses.Checked)
 			{
+				LOGGER.Info($"Selected the option to wait for processes to finish");
 				ChoseProcesses();
 			}
 			else
 			{
+				LOGGER.Info($"Unselected the option to wait for processes to finish");
 				processes.Clear();
 			}
 		}
 
 		private void ChoseProcesses()
 		{
+			LOGGER.Debug($"Choosing processes to wait for before finishing");
+
 			ProcessForm processChoser = new ProcessForm(processes.Where(p => !p.HasExited).ToList());
 			processChoser.ShowDialog(this);
+
 			if (processChoser.DialogResult == DialogResult.OK
 				&& processChoser.Selected.Count > 0)
 			{
 				var procs = processChoser.Selected;
 				processes.Clear();
 				processes.AddRange(procs);
+
+				LOGGER.Info($"Chose {procs.Count} processes to wait for before finishing");
+
+				foreach (var proc in procs)
+				{
+					try
+					{
+						LOGGER.Debug($"Added process: '{proc.ProcessName}'");
+					}
+					catch (Exception)
+					{
+						// I do not care
+					}
+				}
 			}
 			else
 			{
+				LOGGER.Info($"No processes to watch were chosen -> unselecting watch for processes checkbox");
+
 				chbChoseProcesses.Checked = false;
 			}
 		}
@@ -703,8 +728,11 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			autoUploader.EndAfterUpload = chbChoseProcesses.Enabled = cmbbxFinishAction.SelectedIndex > 0;
 
+			LOGGER.Info($"Action after uploading combobox index was set to: {cmbbxFinishAction.SelectedIndex}");
+
 			if (cmbbxFinishAction.SelectedIndex == 0)
 			{
+				LOGGER.Info($"Action was set to nothing -> clearing processes if available");
 				processes.Clear();
 				chbChoseProcesses.Checked = false;
 			}
@@ -712,6 +740,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void btnChoseProcsClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Button to choose processes was clicked");
 			ChoseProcesses();
 		}
 
