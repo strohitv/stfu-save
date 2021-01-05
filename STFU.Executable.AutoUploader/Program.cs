@@ -28,6 +28,8 @@ namespace STFU.Executable.AutoUploader
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainForm(args.Any(arg => arg.ToLower() == "showreleasenotes")));
+
+			LOGGER.Info("Application stopped");
 		}
 
 		private static void ClearOldExceptionFiles()

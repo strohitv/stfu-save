@@ -4,11 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using log4net;
 
 namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class ProcessForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(ProcessForm));
+
 		public IReadOnlyCollection<Process> Selected { get { return selectedProcesses; } }
 
 		private List<Process> selectedProcesses = new List<Process>();
@@ -18,13 +21,17 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public ProcessForm(IReadOnlyCollection<Process> selected)
 		{
+			LOGGER.Info($"Initializing new instance of ProcessForm with {selected.Count} already selected procs");
+
 			InitializeComponent();
 
 			selectedProcesses = selected.ToList();
 		}
 
-		private void ProcessWindowLoad(object sender, EventArgs e)
+		private void ProcessFormLoad(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Loading process form");
+
 			RefreshAllProcsAsync();
 		}
 
@@ -42,19 +49,26 @@ namespace STFU.Executable.AutoUploader.Forms
 			await Task.Run(() =>
 			{
 				var currentSessionID = Process.GetCurrentProcess().SessionId;
-				
+
+				LOGGER.Debug($"Current session id: {currentSessionID}");
+
 				AllProcesses = Process.GetProcesses()
 					.OrderBy(item => item.ProcessName)
 					.Where(p => HasAccess(p) && p.SessionId == currentSessionID && p.Id != Process.GetCurrentProcess().Id)
 					.ToArray();
 
+				LOGGER.Info($"Found {AllProcesses.Length} processes");
+
 				foreach (var item in AllProcesses)
 				{
+					LOGGER.Info($"Adding process '{item.ProcessName}' to the list");
+
 					ListViewItem newItem = new ListViewItem(string.Empty);
 					newItem.SubItems.Add(item.ProcessName);
 
 					if (selectedProcesses.Any(proc => item.Id == proc.Id))
 					{
+						LOGGER.Info($"Process was already selected => marking checkbox");
 						newItem.Checked = true;
 					}
 
@@ -62,8 +76,10 @@ namespace STFU.Executable.AutoUploader.Forms
 					{
 						newItem.SubItems.Add(item.MainModule.FileVersionInfo.FileDescription);
 					}
-					catch (Exception)
-					{ }
+					catch (Exception ex)
+					{
+						LOGGER.Debug($"Couldn't add process file description to list view item", ex);
+					}
 
 					items.Add(newItem);
 				}
@@ -85,17 +101,24 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			try
 			{
+				LOGGER.Debug($"Checking access status for process '{p.ProcessName}'");
+
 				// let it go true only if the process is accessable
 				result = p.HasExited || true;
+
+				LOGGER.Debug($"Does the uploader has access to the status: {result}");
 			}
-			catch (Exception)
-			{ }
+			catch (Exception ex)
+			{
+				LOGGER.Debug($"Couldn't access the processes has exitec status", ex);
+			}
 
 			return result;
 		}
 
 		private void btnRefreshClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants to refresh the process list");
 			RefreshAllProcsAsync();
 		}
 
@@ -110,70 +133,21 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (selectedProcesses.Any(proc => proc.Id == item.Id))
 			{
+				LOGGER.Info($"User removed process '{item.ProcessName}' from the process list");
 				selectedProcesses.RemoveAll(proc => proc.Id == item.Id);
-				//selectedProcesses.Remove(item);
 			}
 			else
 			{
+				LOGGER.Info($"User added process '{item.ProcessName}' to the process list");
 				selectedProcesses.Add(item);
 			}
 		}
 
 		private void btnSubmitClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User accepted the dialog, {Selected.Count} processes should be watched");
 			DialogResult = DialogResult.OK;
 			Close();
 		}
-
-		//protected void FindWindowTitles(Process p)
-		//{
-		//	// traverse all threads and enum all windows attached to the thread
-		//	foreach (ProcessThread t in p.Threads)
-		//	{
-		//		int threadId = t.Id;
-
-		//		NativeWIN32.EnumThreadProc callbackProc = new NativeWIN32.EnumThreadProc(LoadWindowTitle);
-		//		NativeWIN32.EnumThreadWindows(threadId, callbackProc, IntPtr.Zero);
-		//	}
-		//}
-
-		//// callback used to enumerate Windows attached to one of the threads
-		//bool LoadWindowTitle(IntPtr hwnd, IntPtr lParam)
-		//{
-		//	// get window caption
-		//	NativeWIN32.STRINGBUFFER sLimitedLengthWindowTitle;
-		//	NativeWIN32.GetWindowText(hwnd, out sLimitedLengthWindowTitle, 256);
-
-		//	string sWindowTitle = sLimitedLengthWindowTitle.szText;
-		//	if (sWindowTitle.Length == 0) return true;
-
-		//	titles.Add(sWindowTitle);
-		//	lvWindowTitles.Items.Add(sWindowTitle);
-
-		//	return true;
-		//}
 	}
-
-	//public class NativeWIN32
-	//{
-	//	public delegate bool EnumThreadProc(IntPtr hwnd, IntPtr lParam);
-
-	//	[DllImport("user32.dll", CharSet = CharSet.Auto)]
-	//	public static extern bool EnumThreadWindows(int threadId, EnumThreadProc pfnEnum, IntPtr lParam);
-
-	//	// used for an output LPCTSTR parameter on a method call
-	//	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-	//	public struct STRINGBUFFER
-	//	{
-	//		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-	//		public string szText;
-	//	}
-
-	//	[DllImport("user32.dll", CharSet = CharSet.Auto)]
-	//	public static extern int GetWindowText(IntPtr hWnd, out STRINGBUFFER ClassName, int nMaxCount);
-	//}
 }
-
-
-
-

@@ -16,7 +16,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public ReleaseNotesForm(AutoUploaderSettings settings)
 		{
-			LOGGER.Debug("Initializing release notes form");
+			LOGGER.Info("Initializing release notes form");
 
 			InitializeComponent();
 			this.settings = settings;

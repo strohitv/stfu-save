@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace STFU.Lib.Playlistservice.Model
 {
@@ -12,5 +13,10 @@ namespace STFU.Lib.Playlistservice.Model
 		public DateTime addAt { get; set; }
 		public TaskState state { get; set; }
 		public int attemptCount { get; set; }
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
 	}
 }

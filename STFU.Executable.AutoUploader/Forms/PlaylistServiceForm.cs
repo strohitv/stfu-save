@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Playlistservice.Model;
@@ -17,6 +18,8 @@ namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class PlaylistServiceForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(PlaylistServiceForm));
+
 		private IYoutubeClient Client { get; set; }
 
 		private IPlaylistServiceConnectionContainer Container { get; set; }
@@ -35,6 +38,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public PlaylistServiceForm(IPlaylistServiceConnectionContainer container, IYoutubeClient client)
 		{
+			LOGGER.Info($"Initializing new instance of PlaylistServiceForm");
+
 			Client = client;
 			Container = container;
 
@@ -43,6 +48,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void connectServiceButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User clicked the button to connect to the playlist service");
+
 			ConnectToService();
 		}
 
@@ -50,15 +57,21 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (!string.IsNullOrWhiteSpace(hostTextbox.Text) && !string.IsNullOrWhiteSpace(portTextbox.Text) && portTextbox.Text.All(c => "0123456789".Contains(c)))
 			{
-				VersionClient client = new VersionClient(new Uri($"http://{hostTextbox.Text}:{portTextbox.Text}"));
+				var uri = new Uri($"http://{hostTextbox.Text}:{portTextbox.Text}");
+				LOGGER.Info($"Trying to connect to '{uri}'");
+
+				VersionClient client = new VersionClient(uri);
 				if (!string.IsNullOrWhiteSpace(usernameTextbox.Text) && !string.IsNullOrWhiteSpace(passwordTextbox.Text))
 				{
+					LOGGER.Info($"Using username and password authentification");
+					LOGGER.Debug($"username: '{usernameTextbox.Text}', password: '{passwordTextbox.Text}'");
 					client = new VersionClient(new Uri($"http://{hostTextbox.Text}:{portTextbox.Text}"), usernameTextbox.Text, passwordTextbox.Text);
 				}
 
 				IsConnected = client.IsAvailable();
 				if (IsConnected)
 				{
+					LOGGER.Info($"Connection could be established!");
 					connectionStatusLabel.BackColor = Color.LightGreen;
 					connectionStatusLabel.ForeColor = Color.DarkGreen;
 					connectionStatusLabel.Text = "Erfolgreich verbunden";
@@ -68,11 +81,15 @@ namespace STFU.Executable.AutoUploader.Forms
 					Username = usernameTextbox.Text;
 					Password = passwordTextbox.Text;
 
+					LOGGER.Info($"Creating account client");
+
 					AccountClient = new AccountClient(new Uri($"http://{Host}:{Port}"));
 					if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
 					{
 						AccountClient = new AccountClient(new Uri($"http://{Host}:{Port}"), Username, Password);
 					}
+
+					LOGGER.Info($"Creating task client");
 
 					TaskClient = new TaskClient(new Uri($"http://{Host}:{Port}"));
 					if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
@@ -84,6 +101,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 				else
 				{
+					LOGGER.Error($"Connection could not be established!");
+
 					connectionStatusLabel.BackColor = Color.FromArgb(255, 192, 192);
 					connectionStatusLabel.ForeColor = Color.DarkRed;
 					connectionStatusLabel.Text = "Verbindung fehlgeschlagen";
@@ -93,16 +112,22 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
+				LOGGER.Warn($"User did not provide valid host and port => connection can't be established!");
+
 				MessageBox.Show(this, "Bitte einen gültigen Host und Port angeben!");
 			}
 		}
 
 		private void ReloadAccounts()
 		{
+			LOGGER.Info($"Reloading accounts");
+
 			Account[] accounts = AccountClient.GetAllAccounts();
 
 			Accounts.Clear();
 			Accounts.AddRange(accounts);
+
+			LOGGER.Info($"Added {Accounts.Count} accounts");
 
 			clearAccountsButton.Enabled = Accounts.Count > 0;
 
@@ -119,10 +144,14 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillAccountsListView()
 		{
+			LOGGER.Info($"Refilling accounts list view");
+
 			accountsListView.Items.Clear();
 
 			foreach (var account in Accounts)
 			{
+				LOGGER.Info($"Adding account '{account.title}'");
+
 				accountsListView.Items.Add(new ListViewItem(account.title));
 			}
 
@@ -131,11 +160,15 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void connectAccountButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User attempts to connect a new account to the service");
+
 			AddYoutubeAccountForm form = new AddYoutubeAccountForm(false);
 			form.ExternalCodeUrl = new YoutubeAccountCommunicator().CreateAuthUri(Client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
+				LOGGER.Info($"Adding new account");
+
 				Account account = AccountClient.AddAccount(new AuthCode()
 				{
 					clientId = Client.Id,
@@ -149,12 +182,20 @@ namespace STFU.Executable.AutoUploader.Forms
 				accountsListView.SelectedIndices.Clear();
 				accountsListView.SelectedIndices.Add(Accounts.Count - 1);
 
+				LOGGER.Info($"Added account '{account.title}'");
+
 				clearAccountsButton.Enabled = true;
+			}
+			else
+			{
+				LOGGER.Info($"User did not finish add youtube account form");
 			}
 		}
 
 		private void accountsListView_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User selected a new entry");
+
 			bool selected = accountsListView.SelectedIndices.Count == 1;
 
 			removeAccountButton.Enabled = accountDetailsTlp.Enabled = selected;
@@ -162,16 +203,25 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (selected)
 			{
 				Account account = Accounts[accountsListView.SelectedIndices[0]];
+
+				LOGGER.Debug($"User selected account '{account.title}'");
+
 				accountIdLabel.Text = account.id.ToString();
 				channelTitleLabel.Text = account.title;
 				channelUrlLinkLabel.Text = $"https://youtube.com/channel/{account.channelId}";
 
 				ResetTaskFilters();
 			}
+			else
+			{
+				LOGGER.Debug($"User did not select any account");
+			}
 		}
 
 		private void ResetTaskFilters()
 		{
+			LOGGER.Debug($"Resetting task filters");
+
 			filterIdTextbox.Text = "";
 
 			filterTaskdateAfterDtp.Value = DateTime.Now.Date;
@@ -199,6 +249,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefreshTasks()
 		{
+			LOGGER.Info($"User attempts to load tasks from the service");
+
 			FoundTasks.Clear();
 
 			long[] ids = new string(filterIdTextbox.Text.Replace(',', ';').Where(c => ";0123456789".Contains(c)).ToArray())
@@ -221,11 +273,15 @@ namespace STFU.Executable.AutoUploader.Forms
 				filterPlaylistTitleTextbox.Text, filterVideoIdTextbox.Text, filterVideoTitleTextbox.Text, states.ToArray(), (TaskOrder)sortByCombobox.SelectedIndex,
 				(TaskOrderDirection)sortOrderCombobox.SelectedIndex));
 
+			LOGGER.Info($"Playlistservice returned {FoundTasks.Count} tasks");
+
 			RefillTasksListView();
 		}
 
 		private void RefillTasksListView()
 		{
+			LOGGER.Debug($"Refilling task list view");
+
 			tasksListView.Items.Clear();
 
 			foreach (var task in FoundTasks)
@@ -242,6 +298,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				item.SubItems.Add(task.attemptCount.ToString());
 
 				tasksListView.Items.Add(item);
+
+				LOGGER.Debug($"Added task with values: {task.ToString()}");
 			}
 
 			clearTasksButton.Enabled = FoundTasks.Count > 0;
@@ -250,6 +308,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void removeAccountButton_Click(object sender, EventArgs e)
 		{
 			Account account = Accounts[accountsListView.SelectedIndices[0]];
+			LOGGER.Info($"Removing account: '{account.ToString()}'");
+
 			AccountClient.DeleteAccount(account);
 
 			ReloadAccounts();
@@ -257,6 +317,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearAccountsButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Deleting all registered accounts");
+
 			AccountClient.DeleteAllAccounts();
 
 			ReloadAccounts();
@@ -264,72 +326,118 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void searchButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants to refresh search");
+
 			RefreshTasks();
 		}
 
 		private void channelUrlLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+			LOGGER.Info($"Opening link '{channelUrlLinkLabel.Text}'");
+
 			Process.Start(channelUrlLinkLabel.Text);
 		}
 
 		private void addTaskButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User wants to add a new task");
+
 			AddOrUpdateTaskForm form = new AddOrUpdateTaskForm(null);
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
 				Task created = TaskClient.CreateTask(Accounts[accountsListView.SelectedIndices[0]].id, form.Task);
-				
+
 				RefreshTasks();
 
 				if (FoundTasks.Any(t => t.id == created.id))
 				{
+					LOGGER.Info($"Selecting the newly created task");
+
 					tasksListView.SelectedIndices.Clear();
 					tasksListView.SelectedIndices.Add(FoundTasks.IndexOf(FoundTasks.First(t => t.id == created.id)));
+				}
+				else
+				{
+					MessageBox.Show(this, "Task angelegt", "Der Task wurde erfolgreich angelegt.");
 				}
 			}
 		}
 
 		private void tasksListView_DoubleClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants to edit a task");
+
 			if (tasksListView.SelectedIndices.Count == 1)
 			{
+				LOGGER.Info($"Editing task '{FoundTasks[tasksListView.SelectedIndices[0]].ToString()}'");
+
 				AddOrUpdateTaskForm form = new AddOrUpdateTaskForm(FoundTasks[tasksListView.SelectedIndices[0]]);
 				if (form.ShowDialog(this) == DialogResult.OK)
 				{
+					LOGGER.Info($"Updating task");
+
 					Task updated = TaskClient.UpdateTask(Accounts[accountsListView.SelectedIndices[0]].id, form.Task);
-					
+
+					LOGGER.Info($"Updated task, new value '{updated.ToString()}'");
+
 					RefreshTasks();
 
 					if (FoundTasks.Any(t => t.id == updated.id))
 					{
+						LOGGER.Info($"Selecting the updated task");
+
 						tasksListView.SelectedIndices.Clear();
 						tasksListView.SelectedIndices.Add(FoundTasks.IndexOf(FoundTasks.First(t => t.id == updated.id)));
 					}
+					else
+					{
+						MessageBox.Show(this, "Task aktualisiert", "Der Task wurde erfolgreich aktualisiert.");
+					}
+				}
+				else
+				{
+					LOGGER.Info($"Edit dialog was canceled by the user");
 				}
 			}
 		}
 
 		private void removeTaskButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User attempts to remove a task");
+
 			if (tasksListView.SelectedIndices.Count == 1)
 			{
 				var index = tasksListView.SelectedIndices[0];
 				var selectedTask = FoundTasks[index];
+
+				LOGGER.Info($"Removing task '{selectedTask.ToString()}'");
+
 				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
 				{
+					LOGGER.Info($"Task was successfully removed");
+
 					FoundTasks.RemoveAt(index);
 					tasksListView.Items.RemoveAt(index);
+				}
+				else
+				{
+					LOGGER.Error($"Task could not be removed");
 				}
 			}
 		}
 
 		private void clearTasksButton_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clears all tasks");
+
 			for (int index = 0; index < FoundTasks.Count; index++)
 			{
 				var selectedTask = FoundTasks[index];
+
 				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
 				{
+					LOGGER.Info($"Removed task '{selectedTask.ToString()}'");
+
 					FoundTasks.RemoveAt(index);
 					tasksListView.Items.RemoveAt(index);
 					index--;
@@ -344,6 +452,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void PlaylistServiceForm_Load(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Loading playlist service form");
+
 			if (Container != null && Container.Connection != null)
 			{
 				hostTextbox.Text = Container.Connection.Host;
@@ -351,14 +461,20 @@ namespace STFU.Executable.AutoUploader.Forms
 				usernameTextbox.Text = Container.Connection.Username;
 				passwordTextbox.Text = Container.Connection.Password;
 
+				LOGGER.Info($"Found stored connection, attempting to connect to service directly");
+
 				ConnectToService();
 			}
 		}
 
 		private void PlaylistServiceForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			LOGGER.Info($"Closing the form");
+
 			if (IsConnected)
 			{
+				LOGGER.Info($"Saving connection");
+
 				Container.Connection = new PlaylistServiceConnection()
 				{
 					Host = Host,
@@ -370,6 +486,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
+				LOGGER.Info($"Removing connection");
+
 				Container.Connection = null;
 			}
 		}

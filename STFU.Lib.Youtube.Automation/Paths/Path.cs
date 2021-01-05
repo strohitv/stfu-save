@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Paths
@@ -106,6 +107,11 @@ namespace STFU.Lib.Youtube.Automation.Paths
 			}
 
 			return results.ToArray();
+		}
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this);
 		}
 	}
 }
