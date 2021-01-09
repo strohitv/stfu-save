@@ -646,7 +646,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			playlistServiceConnectionPersistor = new PlaylistServiceConnectionPersistor(playlistServiceConnectionContainer, "./settings/playlistservice.json");
 			playlistServiceConnectionPersistor.Load();
 
-			if (playlistServiceConnectionContainer.Connection.Accounts.Length > 0)
+			if (playlistServiceConnectionContainer.Connection != null && playlistServiceConnectionContainer.Connection.Accounts.Length > 0)
 			{
 				bool somethingChanged = false;
 
