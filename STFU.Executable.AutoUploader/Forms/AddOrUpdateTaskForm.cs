@@ -19,7 +19,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			InitializeComponent();
 
 			Task = task;
-			LOGGER.Debug($"Task to handle: {Task.ToString()}");
+			LOGGER.Debug($"Task to handle: {Task}");
 		}
 
 		private void AddOrUpdateTaskForm_Load(object sender, EventArgs e)
