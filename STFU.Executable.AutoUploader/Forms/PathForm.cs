@@ -57,7 +57,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				var newItem = lvPaths.Items.Add(entry.Fullname);
 				newItem.SubItems.Add(entry.Filter);
 
-				LOGGER.Debug($"Adding entry for path: '{entry.ToString()}'");
+				LOGGER.Debug($"Adding entry for path: '{entry}'");
 
 				string templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
 				if (string.IsNullOrWhiteSpace(templateName))
@@ -92,7 +92,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			var selectedItem = pathContainer.RegisteredPaths.ElementAt(index);
 
-			LOGGER.Debug($"Path to fill into edit box: {selectedItem.ToString()}");
+			LOGGER.Debug($"Path to fill into edit box: {selectedItem}");
 
 			txtbxAddPath.Text = selectedItem.Fullname;
 			txtbxAddFilter.Text = selectedItem.Filter;
@@ -166,7 +166,7 @@ namespace STFU.Executable.AutoUploader.Forms
 						SearchHidden = false
 					};
 
-					LOGGER.Info($"Adding newly created path: '{newPath.ToString()}'");
+					LOGGER.Info($"Adding newly created path: '{newPath}'");
 
 					pathContainer.RegisterPath(newPath);
 					RefillListView();
@@ -224,7 +224,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			selectedItem.MoveDirectoryPath = moveAfterUploadTextbox.Text;
 			selectedItem.SearchOrder = (FoundFilesOrderByFilter)searchOrderCombobox.SelectedIndex;
 
-			LOGGER.Info($"Saving edited path: {selectedItem.ToString()}");
+			LOGGER.Info($"Saving edited path: {selectedItem}");
 
 			ClearEditBox();
 			RefillListView();

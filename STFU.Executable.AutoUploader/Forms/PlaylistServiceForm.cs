@@ -299,7 +299,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				tasksListView.Items.Add(item);
 
-				LOGGER.Debug($"Added task with values: {task.ToString()}");
+				LOGGER.Debug($"Added task with values: {task}");
 			}
 
 			clearTasksButton.Enabled = FoundTasks.Count > 0;
@@ -308,7 +308,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private void removeAccountButton_Click(object sender, EventArgs e)
 		{
 			Account account = Accounts[accountsListView.SelectedIndices[0]];
-			LOGGER.Info($"Removing account: '{account.ToString()}'");
+			LOGGER.Info($"Removing account: '{account}'");
 
 			AccountClient.DeleteAccount(account);
 
@@ -369,7 +369,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (tasksListView.SelectedIndices.Count == 1)
 			{
-				LOGGER.Info($"Editing task '{FoundTasks[tasksListView.SelectedIndices[0]].ToString()}'");
+				LOGGER.Info($"Editing task '{FoundTasks[tasksListView.SelectedIndices[0]]}'");
 
 				AddOrUpdateTaskForm form = new AddOrUpdateTaskForm(FoundTasks[tasksListView.SelectedIndices[0]]);
 				if (form.ShowDialog(this) == DialogResult.OK)
@@ -378,7 +378,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 					Task updated = TaskClient.UpdateTask(Accounts[accountsListView.SelectedIndices[0]].id, form.Task);
 
-					LOGGER.Info($"Updated task, new value '{updated.ToString()}'");
+					LOGGER.Info($"Updated task, new value '{updated}'");
 
 					RefreshTasks();
 
@@ -410,7 +410,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				var index = tasksListView.SelectedIndices[0];
 				var selectedTask = FoundTasks[index];
 
-				LOGGER.Info($"Removing task '{selectedTask.ToString()}'");
+				LOGGER.Info($"Removing task '{selectedTask}'");
 
 				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
 				{
@@ -436,7 +436,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (TaskClient.DeleteTask(Accounts[accountsListView.SelectedIndices[0]].id, selectedTask.id))
 				{
-					LOGGER.Info($"Removed task '{selectedTask.ToString()}'");
+					LOGGER.Info($"Removed task '{selectedTask}'");
 
 					FoundTasks.RemoveAt(index);
 					tasksListView.Items.RemoveAt(index);

@@ -28,7 +28,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			foreach (var path in pathContainer.ActivePaths)
 			{
-				LOGGER.Info($"Adding active path '{path.ToString()}'");
+				LOGGER.Info($"Adding active path '{path}'");
 
 				publishSettings.Add(new ObservationConfiguration(path, templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == path.SelectedTemplateId)));
 			}

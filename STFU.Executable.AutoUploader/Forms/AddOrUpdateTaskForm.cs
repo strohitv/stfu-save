@@ -28,7 +28,7 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (Task != null)
 			{
-				LOGGER.Info($"Form was created to edit a task. Task to edit: '{Task.ToString()}'");
+				LOGGER.Info($"Form was created to edit a task. Task to edit: '{Task}'");
 
 				idLabel.Text = Task.id.ToString();
 
@@ -70,7 +70,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			Task.playlistTitle = playlistTitleTextbox.Text;
 			Task.videoTitle = videoTitleTextbox.Text;
 
-			LOGGER.Info($"Resulting task: '{Task.ToString()}'");
+			LOGGER.Info($"Resulting task: '{Task}'");
 
 			Close();
 		}
