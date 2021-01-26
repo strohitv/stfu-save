@@ -39,7 +39,7 @@ namespace STFU.Lib.MailSender.Generator
 				template,
 				HttpUtility.HtmlEncode(job.Video.Title),
 				HttpUtility.HtmlEncode(job.Account.Title),
-				ThumbnailLoader.LoadAsBase64(job.Video.ThumbnailPath, 192, 108)
+				ThumbnailLoader.LoadAsBase64(job.Video.ThumbnailPath, 96, 54)
 			);
 		}
 
@@ -53,7 +53,7 @@ namespace STFU.Lib.MailSender.Generator
 			<tr>
 				<td>
 					<img src=""data:image/png;base64,{2}"" alt=""Thumbnail (falls vorhanden)""
-						style=""width: 192px; height: 108px; margin: 0; margin-right: 2rem; padding: 0; align-self: center;"" />
+						style=""width: 96px; height: 54px; margin: 0; margin-right: 2rem; padding: 0; align-self: center;"" />
 				</td>
 				<td>
 					<h4>

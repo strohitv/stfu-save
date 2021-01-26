@@ -43,7 +43,7 @@ namespace STFU.Lib.MailSender.Generator
 				job.Video.PublishAt != null ? job.Video.PublishAt.Value.ToString("dd.MM.yyyy HH:mm") : "keine Ver&ouml;ffentlichung geplant",
 				job.Video.Description.Length <= 500 ? job.Video.Description : $"{job.Video.Description.Substring(0, 497)}...",
 				tags,
-				ThumbnailLoader.LoadAsBase64(job.Video.ThumbnailPath, 192, 108)
+				ThumbnailLoader.LoadAsBase64(job.Video.ThumbnailPath, 96, 54)
 			);
 		}
 
@@ -57,7 +57,7 @@ namespace STFU.Lib.MailSender.Generator
 			<tr>
 				<td>
 					<img src=""data:image/png;base64,{6}"" alt=""Thumbnail (falls vorhanden)""
-						style=""width: 192px; height: 108px; margin: 0; margin-right: 2rem; padding: 0; align-self: center;"" />
+						style=""width: 96px; height: 54px; margin: 0; margin-right: 2rem; padding: 0; align-self: center;"" />
 				</td>
 				<td>
 					<h4>
