@@ -5,37 +5,50 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using ImageProcessor;
+using log4net;
 
 namespace STFU.Lib.Common
 {
 	public static class ThumbnailLoader
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(ThumbnailLoader));
+
 		public static Image Load(string path)
 		{
 			Image result = new Bitmap(1, 1);
 			((Bitmap)result).SetPixel(0, 0, Color.Transparent);
 
+			Exception loadException = null;
+
 			if (File.Exists(path))
 			{
+				LOGGER.Debug($"Trying to load thumbnail from path '{path}'");
+
 				try
 				{
 					ImageFactory imageFactory = new ImageFactory().Load(path);
 					result = imageFactory.Image;
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
+					LOGGER.Error("Could not load thumbnail", ex);
+					loadException = ex;
 				}
 			}
-			else
+
+			if (!File.Exists(path) || loadException != null)
 			{
+				LOGGER.Debug("Trying to load thumbnail replacement image");
+
 				try
 				{
 					Assembly myAssembly = Assembly.GetExecutingAssembly();
 					Stream myStream = myAssembly.GetManifestResourceStream("STFU.Lib.Common.Kein-Thumbnail.png");
 					result = new Bitmap(myStream);
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
+					LOGGER.Error("Could not load thumbnail replacement image", ex);
 				}
 			}
 
@@ -49,7 +62,10 @@ namespace STFU.Lib.Common
 
 		public static string LoadAsBase64(string path, int width, int height)
 		{
-			return Convert.ToBase64String(ImageToByteArray(Load(path, width, height)));
+			LOGGER.Debug($"Trying to load thumbnail as base 64 from path '{path}'");
+			string base64 = Convert.ToBase64String(ImageToByteArray(Load(path, width, height)));
+			LOGGER.Debug($"Loaded base64 image string: '{base64}'");
+			return base64;
 		}
 
 		private static Bitmap ResizeImage(Image image, int width, int height)

@@ -1,9 +1,12 @@
 ﻿using System.Linq;
+using log4net;
 
 namespace STFU.Lib.Common
 {
 	public static class IsVideoAnalyzer
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(IsVideoAnalyzer));
+
 		static string[] allowedVideoTypes = new[]
 		{
 			".mkv",
@@ -26,7 +29,9 @@ namespace STFU.Lib.Common
 
 		public static bool IsVideo(string filename)
 		{
-			return allowedVideoTypes.Any(extension => filename.ToLower().EndsWith(extension));
+			bool isVideo = allowedVideoTypes.Any(extension => filename.ToLower().EndsWith(extension));
+			LOGGER.Debug($"Filename '{filename}' is a video? Answer: {isVideo}");
+			return isVideo;
 		}
 	}
 }
