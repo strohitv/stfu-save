@@ -3,19 +3,25 @@ using System.Linq;
 using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
+using log4net;
 using STFU.Lib.Youtube.Model;
 
 namespace STFU.Lib.Updater
 {
 	public class VersionChecker
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(VersionChecker));
+
 		public UpdateInformation CheckStfuVersion(string currentVersion)
 		{
+			LOGGER.Info($"Checking if there is a newer version available than '{currentVersion}'");
+
 			UpdateInformation infos = new UpdateInformation(false, null, null);
 
 			var file = GetLatestStfuZipInfo();
 			if (file != null && NewVersionAvailable(file, currentVersion))
 			{
+				LOGGER.Info($"Newer version available, creating new update information");
 				infos = new UpdateInformation(true, file.Name.Split('-')[1], file.Id);
 			}
 
@@ -61,6 +67,8 @@ namespace STFU.Lib.Updater
 
 		private File GetLatestStfuZipInfo()
 		{
+			LOGGER.Info($"Loading latest stfu version from google drive");
+
 			var service = new DriveService(new BaseClientService.Initializer
 			{
 				ApiKey = YoutubeClientData.UpdaterApiKey
@@ -78,6 +86,8 @@ namespace STFU.Lib.Updater
 			{ }
 
 			var file = result?.Files?.FirstOrDefault(f => f.MimeType == "application/x-zip-compressed");
+
+			LOGGER.Info($"Found newest version file '{file.Name}'");
 
 			return file;
 		}
