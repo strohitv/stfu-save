@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using log4net;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using STFU.Lib.Common;
@@ -14,6 +15,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 {
 	public class ExpressionEvaluator
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(ExpressionEvaluator));
+
 		private IReadOnlyDictionary<string, Func<string, string, string>> GlobalVariables =>
 			new ReadOnlyDictionary<string, Func<string, string, string>>(new Dictionary<string, Func<string, string, string>>
 		{
@@ -84,9 +87,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 							}
 							catch (Exception ex3)
 							{
-								ErrorLogger.LogException(ex1, $"Die Referenz {trimmed} sollte geladen werden.");
-								ErrorLogger.LogException(ex2, $"Die Referenz {trimmed} sollte geladen werden.");
-								ErrorLogger.LogException(ex3, $"Die Referenz {trimmed} sollte geladen werden.");
+								LOGGER.Error($"Die Referenz {trimmed} konnte nicht via 'Assembly.LoadFrom' geladen werden.", ex1);
+								LOGGER.Error($"Die Referenz {trimmed} konnte nicht via 'Assembly.Load' geladen werden.", ex2);
+								LOGGER.Error($"Die Referenz {trimmed} konnte nicht via 'AssemblyNameResolver.GetAssemblyPath' geladen werden.", ex3);
 							}
 						}
 					}
@@ -120,7 +123,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			catch (CompilationErrorException ex)
 			{
 				CsScript = await CSharpScript.RunAsync("using System;");
-				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpPreparationScript}");
+				LOGGER.Error($"Auszuführendes Script: {CSharpPreparationScript}", ex);
 			}
 		}
 
@@ -132,7 +135,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			}
 			catch (CompilationErrorException ex)
 			{
-				ErrorLogger.LogException(ex, $"Auszuführendes Script: {CSharpCleanupScript}");
+				LOGGER.Error($"Auszuführendes Script: {CSharpCleanupScript}", ex);
 			}
 		}
 
@@ -284,7 +287,7 @@ namespace STFU.Lib.Youtube.Automation.Programming
 							}
 							catch (CompilationErrorException ex)
 							{
-								ErrorLogger.LogException(ex, $"Auszuführendes Script: {script}");
+								LOGGER.Error($"Auszuführendes Script: {script}", ex);
 							}
 
 							string before = text.Substring(0, currentPos);
