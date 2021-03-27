@@ -25,7 +25,7 @@ namespace STFU.Lib.Common
 				{
 					ImageFactory imageFactory = new ImageFactory().Load(path);
 					result = imageFactory.Image;
-					LOGGER.Info($"Loaded images successfully");
+					LOGGER.Info($"Loaded image successfully");
 				}
 				catch (Exception ex)
 				{
