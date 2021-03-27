@@ -410,6 +410,11 @@ namespace STFU.Lib.Youtube.Model
 		{
 			get
 			{
+				if (playlistServiceSettings == null)
+				{
+					PlaylistServiceSettings = new PlaylistServiceSettings();
+				}
+
 				return playlistServiceSettings;
 			}
 			set
