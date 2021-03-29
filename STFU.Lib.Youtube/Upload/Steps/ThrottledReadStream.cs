@@ -9,7 +9,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ThrottledReadStream : Stream
 	{
-		protected static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(ThrottledReadStream));
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(ThrottledReadStream));
 
 		private delegate void ThrottleEnabledChangedEventHandler();
 		private delegate void ThrottleChangedEventHandler();
