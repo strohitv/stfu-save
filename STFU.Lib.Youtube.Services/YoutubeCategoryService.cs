@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -12,6 +13,8 @@ namespace STFU.Lib.Youtube.Services
 {
 	public static class YoutubeCategoryService
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeCategoryService));
+
 		private static bool loaded = false;
 		private static List<ICategory> categories = new List<ICategory>();
 
@@ -30,18 +33,28 @@ namespace STFU.Lib.Youtube.Services
 						region = "de";
 					}
 
+					LOGGER.Info($"Loading categores for account with id: '{account.Id}', title: '{account.Title}' and region: {region}");
+
 					categories = GetVideoCategories(region, account.GetActiveToken()).ToList();
 				}
 				else
 				{
+					LOGGER.Info($"No accounts registered => using fallback categories");
+
 					// Fallback
 					foreach (var cat in StandardCategories.Categories)
 					{
+						LOGGER.Info($"Adding category with id: {cat.Id} and title: '{cat.Title}'");
+
 						categories.Add(cat);
 					}
 				}
 
 				loaded = true;
+			}
+			else
+			{
+				LOGGER.Info($"Categories were already loaded");
 			}
 
 			return categories.AsReadOnly();
@@ -49,6 +62,8 @@ namespace STFU.Lib.Youtube.Services
 
 		public static ICategory[] GetVideoCategories(string regionCode, string accessToken)
 		{
+			LOGGER.Info($"Loading video categories from youtube");
+
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;
 			string url = string.Format("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&hl={2}&regionCode={1}&key={0}", YoutubeClientData.YoutubeApiKey, regionCode, ci.Name);
@@ -67,6 +82,11 @@ namespace STFU.Lib.Youtube.Services
 			Response response = JsonConvert.DeserializeObject<Response>(result);
 
 			var categories = response.items.Where(i => i.snippet.assignable).Select(i => new YoutubeCategory(int.Parse(i.id), i.snippet.title)).ToArray();
+
+			foreach (var cat in categories)
+			{
+				LOGGER.Info($"Adding category with id: {cat.Id} and title: {cat.Title}");
+			}
 
 			return categories;
 		}

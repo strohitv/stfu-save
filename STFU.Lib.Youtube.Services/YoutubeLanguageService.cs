@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -12,6 +13,8 @@ namespace STFU.Lib.Youtube.Services
 {
 	public static class YoutubeLanguageService
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeLanguageService));
+
 		private static bool loaded = false;
 		private static List<ILanguage> languages = new List<ILanguage>();
 
@@ -23,18 +26,29 @@ namespace STFU.Lib.Youtube.Services
 				if (container.RegisteredAccounts.Count > 0)
 				{
 					var account = container.RegisteredAccounts.First();
+
+					LOGGER.Info($"Loading languages for account with id: '{account.Id}', title: '{account.Title}'");
+
 					languages = GetLanguages(account.GetActiveToken()).ToList();
 				}
 				else
 				{
+					LOGGER.Info($"No accounts registered => using fallback languages");
+
 					// Fallback
 					foreach (var lang in StandardLanguages.Languages)
 					{
+						LOGGER.Info($"Adding language with id: {lang.Id}, hl: {lang.Hl} and title: '{lang.Name}'");
+
 						languages.Add(lang);
 					}
 				}
 
 				loaded = true;
+			}
+			else
+			{
+				LOGGER.Info($"Languages were already loaded");
 			}
 
 			return languages.AsReadOnly();
@@ -42,6 +56,8 @@ namespace STFU.Lib.Youtube.Services
 
 		public static ILanguage[] GetLanguages(string accessToken)
 		{
+			LOGGER.Info($"Loading languages from youtube");
+
 			var pageToken = string.Empty;
 			CultureInfo ci = CultureInfo.CurrentUICulture;
 			string url = string.Format("https://www.googleapis.com/youtube/v3/i18nLanguages?part=snippet&hl={1}&key={0}", YoutubeClientData.YoutubeApiKey, ci.Name);
@@ -60,6 +76,11 @@ namespace STFU.Lib.Youtube.Services
 			Response response = JsonConvert.DeserializeObject<Response>(result);
 
 			var languages = response.items.Select(i => new YoutubeLanguage() { Id = i.id, Hl = i.snippet.hl, Name = i.snippet.name }).OrderBy(lang => lang.Name).ToArray();
+
+			foreach (var lang in languages)
+			{
+				LOGGER.Info($"Adding language with id: {lang.Id}, hl: {lang.Hl} and title: '{lang.Name}'");
+			}
 
 			return languages;
 		}
