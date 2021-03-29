@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using STFU.Lib.Youtube.Interfaces.Model.Enums;
 using STFU.Lib.Common;
+using log4net;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 {
@@ -13,6 +14,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 
 	internal class DirectoryWatcher : INotifyPropertyChanged
 	{
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(DirectoryWatcher));
+
 		internal event FileAdded FileAdded;
 
 		private IList<FileSystemWatcher> Watchers { get; } = new List<FileSystemWatcher>();
@@ -28,6 +31,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 			{
 				if (value != state)
 				{
+					LOGGER.Info($"Directory watcher state updated to {value}");
+
 					state = value;
 					OnPropertyChaged();
 				}
@@ -40,11 +45,15 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 		{
 			if (State != RunningState.CancelPending)
 			{
+				LOGGER.Info($"Adding directory watcher for settings path: '{path}', filter: '{filter}', recursive: {searchRecursively}");
+
 				State = RunningState.Running;
 
 				// Wenn alle Watcher einen anderen Pfad haben, dann passt es.
 				if (Watchers.All(w => SPath.GetFullPath(w.Path).ToLower() != SPath.GetFullPath(path).ToLower()))
 				{
+					LOGGER.Info($"There is no watcher for path '{path}' => adding new one");
+
 					var filters = filter.Split(';');
 					foreach (var f in filters)
 					{
@@ -63,8 +72,14 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 						watcher.Renamed += ReactOnFileChanges;
 						watcher.EnableRaisingEvents = true;
 
+						LOGGER.Info($"Adding watcher for path '{path}' and filter '{f}'");
+
 						Watchers.Add(watcher);
 					}
+				}
+				else
+				{
+					LOGGER.Warn($"Watcher for path '{path}' already exists, skipping add");
 				}
 			}
 		}
@@ -73,8 +88,12 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 		{
 			State = RunningState.CancelPending;
 
+			LOGGER.Info($"Canceling watchers");
+
 			while (Watchers.Count > 0)
 			{
+				LOGGER.Info($"Removing watcher for path '{Watchers.First().Path}'");
+
 				Watchers.First().Created -= ReactOnFileChanges;
 				Watchers.First().Changed -= ReactOnFileChanges;
 				Watchers.First().Renamed -= ReactOnFileChanges;
@@ -83,6 +102,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 				Watchers.RemoveAt(0);
 			}
 
+			LOGGER.Info($"Watchers canceled");
+
 			State = RunningState.NotRunning;
 		}
 
@@ -90,6 +111,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Watcher
 		{
 			if (IsVideoAnalyzer.IsVideo(e.Name))
 			{
+				LOGGER.Info($"Watcher found file '{e.FullPath}'");
+
 				FileAdded?.Invoke(e);
 			}
 		}

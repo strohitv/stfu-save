@@ -1,10 +1,13 @@
 ﻿using System;
+using log4net;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
 	public class PublishTimeCalculator
 	{
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(PublishTimeCalculator));
+
 		public IPath PathInfo { get; internal set; }
 		public ITemplate Template { get; internal set; }
 		public bool UploadPrivate { get; set; }
@@ -19,12 +22,16 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
+			LOGGER.Info($"Creating new publish time calculator for path: '{PathInfo.Fullname}' with start time: '{startTime}', template with id: {template.Id} and name: '{template.Name}', and publish position: {publishPosition}");
+
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;
 			Template = template;
 
 			if (publishPosition == null || publishPosition < 0)
 			{
+				LOGGER.Info($"publish position is either not set or greater than zero => calculating next upload time from given values");
+
 				publishPosition = -1;
 
 				DateTime saveTime = startTime;
@@ -45,15 +52,21 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 						// Zeit liegt näher
 						saveTime = nextSaveTime;
 						publishPosition = i;
+
+						LOGGER.Info($"next upload time '{nextSaveTime}' for publish position {publishPosition} fits better => taking this one");
 					}
 				}
 			}
+
+			LOGGER.Info($"Using publish time position {publishPosition.Value}");
 
 			PublishTimePosition = publishPosition.Value;
 		}
 
 		public DateTime GetNextPublishTime(bool preview = false)
 		{
+			LOGGER.Info($"Calculating next publish time for template with id: {Template.Id} and name: '{Template.Name}', preview mode: {preview}");
+
 			var publishDate = new DateTime(2000, 1, 1);
 
 			var lastVidPubTime = LastVideoPublishTime;
@@ -61,6 +74,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 			while (publishDate < DateTime.Now)
 			{
+				LOGGER.Info($"Publish date '{publishDate}' is smaller than current date: '{DateTime.Now}', finding next upload possibility");
+
 				int daysUntilNextTimesWeekday = ((int)Template.PublishTimes[pubTimePos].DayOfWeek - (int)lastVidPubTime.DayOfWeek + 7) % 7;
 
 				if (CheckSameDayPublishing(daysUntilNextTimesWeekday))
@@ -69,6 +84,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				}
 
 				publishDate = lastVidPubTime.AddDays(daysUntilNextTimesWeekday).Date.Add(Template.PublishTimes[pubTimePos].Time);
+
+				LOGGER.Info($"Days to add until next times weekday: {daysUntilNextTimesWeekday}, next possible publish time: '{publishDate}'");
 
 				first = false;
 
@@ -79,6 +96,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				var date = publishDate;
 				while (date <= lastVidPubTime)
 				{
+					LOGGER.Info($"Publish date: '{date}' is older than last video publish time: '{lastVidPubTime}', calculating new publish time position");
+
 					position = (position + 1) % Template.PublishTimes.Count;
 
 					int days = ((int)Template.PublishTimes[position].DayOfWeek - (int)date.DayOfWeek + 7) % 7;
@@ -92,6 +111,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 					if (date > lastVidPubTime)
 					{
+						LOGGER.Info($"Publish time position was found to be: {position}");
+
 						pubTimePos = position;
 					}
 				}
@@ -99,6 +120,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 			if (!preview)
 			{
+				LOGGER.Info($"No preview mode => saving last video publish time to '{lastVidPubTime}' and publish time position to {pubTimePos}");
+
 				LastVideoPublishTime = lastVidPubTime;
 				PublishTimePosition = pubTimePos;
 			}
