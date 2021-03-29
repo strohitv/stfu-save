@@ -3,11 +3,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 
 namespace STFU.Lib.Youtube.Upload.Steps
 {
 	public class ThrottledReadStream : Stream
 	{
+		protected static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(ThrottledReadStream));
+
 		private delegate void ThrottleEnabledChangedEventHandler();
 		private delegate void ThrottleChangedEventHandler();
 
@@ -22,6 +25,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			{
 				if (shouldThrottle != value)
 				{
+					LOGGER.Info($"Throttling is now {(value ? "enabled" : "disabled")}");
+
 					shouldThrottle = value;
 					ShouldThrottleChanged?.Invoke();
 				}
@@ -39,6 +44,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			{
 				if (globalLimit != value)
 				{
+					LOGGER.Info($"Global upload throttle was set to {value}");
+
 					globalLimit = value;
 					ThrottleChanged?.Invoke();
 				}
@@ -65,6 +72,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		~ThrottledReadStream()
 		{
+			LOGGER.Info($"Throttled read stream gets destructed");
+
 			ShouldThrottleChanged -= ResetThrottle;
 			ThrottleChanged -= ResetThrottleIfActive;
 		}

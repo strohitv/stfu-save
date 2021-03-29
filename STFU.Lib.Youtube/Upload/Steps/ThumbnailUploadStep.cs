@@ -31,20 +31,30 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			if (File.Exists(Video.ThumbnailPath))
 			{
+				LOGGER.Info($"Uploading thumbnail of path '{Video.ThumbnailPath}'");
+
 				HttpWebRequest request = CreateThumbnailUploadRequest();
+
+				LOGGER.Info($"Uploading thumbnail to '{request.Method} {request.RequestUri}'");
 
 				Upload(Video.ThumbnailPath, request);
 
 				if (FinishedSuccessful)
 				{
+					LOGGER.Info($"Finishing thumbnail upload request");
+
 					request.Headers.Set("Authorization", $"Bearer {Account.GetActiveToken()}");
 					var thumbnailResource = WebService.Communicate(request);
+
+					LOGGER.Info($"Thumbnail upload of file '{Video.ThumbnailPath}' finished successfully");
 
 					Status.QuotaReached = QuotaProblemHandler.IsQuotaLimitReached(thumbnailResource);
 				}
 			}
 			else
 			{
+				LOGGER.Warn($"Skipping thumbnail upload since a thumbnail did not exist or maybe should not be uploaded. Thumbnail path: '{Video.ThumbnailPath}'");
+
 				// Keine Datei -> Upload war erfolgreich
 				FinishedSuccessful = true;
 			}
@@ -71,6 +81,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			if (RunningTask != null && RunningTask.Status == TaskStatus.Running)
 			{
+				LOGGER.Info($"Cancelling thumbnail upload");
 				CancellationTokenSource.Cancel();
 			}
 		}

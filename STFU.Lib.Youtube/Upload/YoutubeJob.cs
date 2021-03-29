@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces.Model.Args;
@@ -12,6 +13,8 @@ namespace STFU.Lib.Youtube.Upload
 {
 	public class YoutubeJob : IYoutubeJob
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeJob));
+
 		public IYoutubeVideo Video { get; set; }
 
 		public IYoutubeAccount Account { get; set; }
@@ -28,6 +31,7 @@ namespace STFU.Lib.Youtube.Upload
 				if (state != value)
 				{
 					state = value;
+					LOGGER.Info($"State of Job '{Video.Title}' changed to '{state}'");
 					OnPropertyChanged();
 				}
 			}
@@ -45,6 +49,7 @@ namespace STFU.Lib.Youtube.Upload
 				if (shouldBeSkipped != value)
 				{
 					shouldBeSkipped = value;
+					LOGGER.Info($"Should be skipped value of Job '{Video.Title}' changed to '{shouldBeSkipped}'");
 					OnPropertyChanged();
 				}
 			}
@@ -63,6 +68,7 @@ namespace STFU.Lib.Youtube.Upload
 				if (error != value)
 				{
 					error = value;
+					LOGGER.Info($"Error of Job '{Video.Title}' changed to '{error}'");
 					OnPropertyChanged();
 				}
 			}
@@ -88,6 +94,7 @@ namespace STFU.Lib.Youtube.Upload
 				if (value != null && uploadStatus != value)
 				{
 					uploadStatus = value;
+					LOGGER.Info($"Uploadstatus of Job '{Video.Title}' changed to '{uploadStatus}'");
 				}
 			}
 		}
@@ -96,6 +103,8 @@ namespace STFU.Lib.Youtube.Upload
 
 		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account, UploadStatus uploadStatus)
 		{
+			LOGGER.Info($"Creating new job for video '{video.Title}' and account '{account.Title}' with '{uploadStatus}'");
+
 			Video = video;
 			Account = account;
 			UploadStatus = uploadStatus;
@@ -108,6 +117,8 @@ namespace STFU.Lib.Youtube.Upload
 		public YoutubeJob(YoutubeVideo video, YoutubeAccount account, YoutubeError error, UploadStatus uploadStatus)
 			: this(video, account, uploadStatus)
 		{
+			LOGGER.Info($"Creating new job with error '{error}'");
+
 			Error = error;
 		}
 
@@ -123,17 +134,23 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Run()
 		{
+			LOGGER.Info($"Starting upload, video: '{Video.Title}'");
+
 			JobUploader.Run();
 		}
 
 		public void Pause()
 		{
+			LOGGER.Info($"Pausing upload, video: '{Video.Title}'");
+
 			UploadStatus.CurrentStep.Cancel();
 			State = JobState.Paused;
 		}
 
 		public void Resume()
 		{
+			LOGGER.Info($"Resuming upload, video: '{Video.Title}'");
+
 			if (UploadStatus.CurrentStep != null)
 			{
 				UploadStatus.CurrentStep.RunAsync();
@@ -148,6 +165,8 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Cancel()
 		{
+			LOGGER.Info($"Canceling upload, video: '{Video.Title}'");
+
 			JobUploader.Reset();
 			UploadStatus = new UploadStatus();
 			State = JobState.Canceled;
@@ -155,6 +174,8 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Reset(bool resetStatus = false)
 		{
+			LOGGER.Info($"Reseting upload, video: '{Video.Title}'");
+
 			JobUploader.Reset();
 
 			if (resetStatus)
@@ -165,6 +186,8 @@ namespace STFU.Lib.Youtube.Upload
 
 		public void Delete()
 		{
+			LOGGER.Info($"Deleting upload, video: '{Video.Title}'");
+
 			JobUploader.Reset();
 
 			TriggerDeletion?.Invoke(this, new EventArgs());
