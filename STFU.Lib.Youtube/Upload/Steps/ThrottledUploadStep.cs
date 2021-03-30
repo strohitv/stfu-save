@@ -25,6 +25,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			try
 			{
+				LOGGER.Info($"Uploading video '{path}' to '{request.Method} {request.RequestUri}'");
+
 				ServicePointManager.FindServicePoint(request.RequestUri).UseNagleAlgorithm = false;
 				request.Proxy = new WebProxy();
 				request.AllowWriteStreamBuffering = false;
@@ -44,9 +46,10 @@ namespace STFU.Lib.Youtube.Upload.Steps
 						FinishedSuccessful = true;
 						Status.Progress = 100;
 					}
-					catch (AggregateException)
+					catch (AggregateException ex)
 					{
 						// Upload wurde abgebrochen
+						LOGGER.Debug("Upload has been canceled", ex);
 					}
 					finally
 					{
@@ -58,10 +61,13 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				LOGGER.Error("An exception occured. This was expected in case of the user canceling the request.", ex);
 				// im Falle eines Abbruchs fliegt da noch ne Webexception, da der RequestStream abgebrochen wurde.
 			}
 		}
+
+		private DateTime lastSpeedLog = DateTime.Now;
+		private int nextProgressLog = 10;
 
 		public override void RefreshDurationAndSpeed()
 		{
@@ -83,9 +89,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				lastPosition = currentPosition;
 
 				speeds.Add(new Tuple<TimeSpan, long>(span, difference));
-
-				var progress = Progress;
-
+				
 				Status.UploadedDuration += span;
 
 				var uploadedTime = speeds.Select(s => s.Item1).Sum(s => s.TotalSeconds);
@@ -103,6 +107,21 @@ namespace STFU.Lib.Youtube.Upload.Steps
 				Status.RemainingDuration = remainingTime;
 				Status.CurrentSpeed = uploadSpeedPerSecond;
 				Status.Progress = Progress;
+
+				if (lastSpeedLog < DateTime.Now - new TimeSpan(0,0,15))
+				{
+					LOGGER.Info($"Status of upload '{fileStream.Name}': progress = {Status.Progress}, speed = {Status.CurrentSpeed}, filestream position: {fileStream.Position} / total: {fileStream.Length}");
+					lastSpeedLog = DateTime.Now;
+				}
+				else if (nextProgressLog < Status.Progress)
+				{
+					LOGGER.Info($"Status of upload '{fileStream.Name}' reached {nextProgressLog}%: progress = {Status.Progress}, speed = {Status.CurrentSpeed}, filestream position: {fileStream.Position} / total: {fileStream.Length}");
+					nextProgressLog += 10;
+				}
+				else
+				{
+					LOGGER.Debug($"Status of upload '{fileStream.Name}': progress = {Status.Progress}, speed = {Status.CurrentSpeed}, filestream position: {fileStream.Position} / total: {fileStream.Length}");
+				}
 			}
 		}
 	}

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using log4net;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using STFU.Lib.Common;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Programming
@@ -42,6 +41,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 		public ExpressionEvaluator(string filepath, string templatename, IList<IPlannedVideo> plannedVideos, string csharpPreparationScript, string csharpCleanupScript, string referencedAssembliesText)
 		{
+			LOGGER.Info($"Creating expression evaluator for path: '{filepath}' and template: '{templatename}'");
+
 			FilePath = filepath;
 			TemplateName = templatename;
 			PlannedVideos = plannedVideos;
@@ -65,10 +66,14 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				{
 					var trimmed = line.Trim();
 
+					LOGGER.Info($"Attempting to load assembly: '{trimmed}'");
+
 					try
 					{
 						var assembly = Assembly.LoadFrom(trimmed);
 						Options = Options.AddReferences(assembly);
+
+						LOGGER.Info($"Loaded assembly: '{trimmed}' via 'Assembly.LoadFrom'");
 					}
 					catch (Exception ex1)
 					{
@@ -76,6 +81,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						{
 							var netAssembly = Assembly.Load(trimmed);
 							Options = Options.AddReferences(netAssembly);
+
+							LOGGER.Info($"Loaded assembly: '{trimmed}' via 'Assembly.Load'");
 						}
 						catch (Exception ex2)
 						{
@@ -84,12 +91,14 @@ namespace STFU.Lib.Youtube.Automation.Programming
 								var gacAssemblyPath = AssemblyNameResolver.GetAssemblyPath(trimmed);
 								var gacAssembly = Assembly.LoadFrom(gacAssemblyPath);
 								Options = Options.AddReferences(gacAssembly);
+
+								LOGGER.Info($"Loaded assembly: '{trimmed}' via 'AssemblyNameResolver.GetAssemblyPath'");
 							}
 							catch (Exception ex3)
 							{
-								LOGGER.Error($"Reference {trimmed} could not be loaded via file name or path", ex1);
-								LOGGER.Error($"Reference {trimmed} could not be loaded via long name", ex2);
-								LOGGER.Error($"Reference {trimmed} could not be loaded via GAC", ex3);
+								LOGGER.Error($"Couldn't load assembly {trimmed} via 'Assembly.LoadFrom'", ex1);
+								LOGGER.Error($"Couldn't load assembly {trimmed} via 'Assembly.Load'", ex2);
+								LOGGER.Error($"Couldn't load assembly {trimmed} via 'AssemblyNameResolver.GetAssemblyPath'", ex3);
 							}
 						}
 					}
@@ -100,6 +109,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 			foreach (var func in StandardFunctions.GlobalFunctions)
 			{
+				LOGGER.Debug($"Loading standard function: '{func}'");
+
 				if (CsScript == null)
 				{
 					CsScript = await CSharpScript.RunAsync(func);
@@ -113,29 +124,44 @@ namespace STFU.Lib.Youtube.Automation.Programming
 			foreach (var var in GlobalVariables)
 			{
 				string func = $"const string {var.Key} = @\"{var.Value(FilePath, TemplateName)}\";";
+
+				LOGGER.Info($"Loading global variable: '{func}'");
+
 				CsScript = await CsScript.ContinueWithAsync(func);
 			}
 
 			try
 			{
+				LOGGER.Info($"Executing preparation script");
+				LOGGER.Debug($"Preparation script: {CSharpPreparationScript}");
+
 				CsScript = await CsScript.ContinueWithAsync(CSharpPreparationScript, Options);
+
+				LOGGER.Info($"Executed preparation script");
 			}
 			catch (CompilationErrorException ex)
 			{
 				CsScript = await CSharpScript.RunAsync("using System;");
-				LOGGER.Error($"Preparation script could not be ran. Script: '{CSharpPreparationScript}'", ex);
+				LOGGER.Error($"Couldn't execute preparation script: {CSharpPreparationScript}", ex);
 			}
+
+			LOGGER.Info($"Expression evaluator creation finished");
 		}
 
 		public async Task CleanUp()
 		{
 			try
 			{
+				LOGGER.Info($"Executing cleanup script");
+				LOGGER.Debug($"Cleanup script: {CSharpCleanupScript}");
+
 				CsScript = await CsScript.ContinueWithAsync(CSharpCleanupScript, Options);
+
+				LOGGER.Info($"Executed cleanup script");
 			}
 			catch (CompilationErrorException ex)
 			{
-				LOGGER.Error($"Cleanup script could not be ran. Script: '{CSharpCleanupScript}'", ex);
+				LOGGER.Error($"Couldn't execute cleanup script: {CSharpCleanupScript}", ex);
 			}
 		}
 
@@ -160,6 +186,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						int closingPos = FindClosingPosition(expression, currentPos);
 						if (closingPos < 0)
 						{
+							LOGGER.Error($"Field: '{expression}' is not valid because there is a simple script that hasn't been closed");
+
 							valid = false;
 							break;
 						}
@@ -173,6 +201,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						currentPos = FindComplexClosingPosition(expression, currentPos);
 						if (currentPos < 0)
 						{
+							LOGGER.Error($"Field: '{expression}' is not valid because there is a c# script that hasn't been closed");
+
 							valid = false;
 							break;
 						}
@@ -197,12 +227,18 @@ namespace STFU.Lib.Youtube.Automation.Programming
 		{
 			List<string> result = new List<string>();
 
+			LOGGER.Info($"Searching for all field names");
+
 			result.AddRange(FindFieldNames(template.Title));
 			result.AddRange(FindFieldNames(template.Description));
 			result.AddRange(FindFieldNames(template.Tags));
 			result.AddRange(FindFieldNames(template.ThumbnailPath));
 
-			return result.Distinct().ToList();
+			var resultList = result.Distinct().ToList();
+
+			LOGGER.Info($"Finished search, found {resultList.Count} field names");
+
+			return resultList;
 		}
 
 		private static IList<string> FindFieldNames(string text)
@@ -227,6 +263,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 						if (closingPos > currentPos)
 						{
 							var fieldName = text.Substring(currentPos + 1, closingPos - currentPos - 1).ToLower().Trim();
+
+							LOGGER.Info($"Found field name: '{fieldName}'");
+
 							result.Add(fieldName);
 						}
 					}
@@ -242,6 +281,9 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 		public string Evaluate(string text)
 		{
+			LOGGER.Info($"Starting text evaluation");
+			LOGGER.Info($"Text: '{text}'");
+
 			if (text == null)
 			{
 				text = string.Empty;
@@ -253,15 +295,21 @@ namespace STFU.Lib.Youtube.Automation.Programming
 				{
 					ScriptType scriptType = FindScriptType(text, currentPos);
 
-					// Get if it is a simple script, a C# one or a LUA one
+					LOGGER.Info($"Found a script of type: {scriptType}");
+
+					// Get if it is a simple script or a C# one
 					if (scriptType == ScriptType.Simple)
 					{
 						// Old simple script interpreter
 						int closingPos = FindClosingPosition(text, currentPos);
 						if (closingPos > currentPos)
 						{
-							var replacement = EvaluateField(text.Substring(currentPos + 1, closingPos - currentPos - 1));
+							var field = text.Substring(currentPos + 1, closingPos - currentPos - 1);
+
+							var replacement = EvaluateField(field);
 							text = $"{text.Substring(0, currentPos)}{replacement}{text.Substring(closingPos + 1)}";
+
+							LOGGER.Info($"Replaced placeholder field: '{field}' with value: '{replacement}'");
 						}
 					}
 					else
@@ -276,6 +324,8 @@ namespace STFU.Lib.Youtube.Automation.Programming
 
 							try
 							{
+								LOGGER.Info($"Running found script: '{script}'");
+
 								var state = CsScript.ContinueWithAsync(script);
 
 								if (state.Status != TaskStatus.Faulted)
@@ -283,11 +333,13 @@ namespace STFU.Lib.Youtube.Automation.Programming
 									state.Wait();
 
 									result = state.Result.ReturnValue?.ToString() ?? string.Empty;
+
+									LOGGER.Info($"Script returned result: '{result}'");
 								}
 							}
 							catch (CompilationErrorException ex)
 							{
-								LOGGER.Error($"Found script could not be ran. Script: '{script}'", ex);
+								LOGGER.Error($"Couldn't execute script: {script}", ex);
 							}
 
 							string before = text.Substring(0, currentPos);
@@ -296,9 +348,10 @@ namespace STFU.Lib.Youtube.Automation.Programming
 							text = $"{before}{result}{after}";
 						}
 					}
-
 				}
 			}
+
+			LOGGER.Info($"Final evaluated text: '{text.Replace("<", "").Replace(">", "")}'");
 
 			return text.Replace("<", "").Replace(">", "");
 		}

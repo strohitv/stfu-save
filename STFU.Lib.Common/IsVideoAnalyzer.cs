@@ -30,7 +30,7 @@ namespace STFU.Lib.Common
 		public static bool IsVideo(string filename)
 		{
 			bool isVideo = allowedVideoTypes.Any(extension => filename.ToLower().EndsWith(extension));
-			LOGGER.Debug($"Filename '{filename}' is a video? Answer: {isVideo}");
+			LOGGER.Info($"Is '{filename}' a video: {isVideo}");
 			return isVideo;
 		}
 	}

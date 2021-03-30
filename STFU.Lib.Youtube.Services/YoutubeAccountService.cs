@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
@@ -11,14 +12,12 @@ namespace STFU.Lib.Youtube.Services
 {
 	public static class YoutubeAccountService
 	{
-		static YoutubeAccountService()
-		{ }
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeAccountService));
 
 		public static string GetAccessToken(IYoutubeAccount account)
 		{
 			return GetAccessToken(account.Access);
 		}
-
 
 		public static string GetAccessToken(IList<IYoutubeAccountAccess> access, Func<IYoutubeAccountAccess, bool> condition)
 		{
@@ -26,12 +25,18 @@ namespace STFU.Lib.Youtube.Services
 
 			if (access.Any(ac => !ac.Client?.LimitReached ?? false))
 			{
+				LOGGER.Info($"Searching for a valid access");
+
 				var firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired && condition(ac));
 
 				while (firstUsefullAccess == null && RefreshAccess(access))
 				{
+					LOGGER.Info($"Did not find a valid access on the first time, trying to find it after refreshing access");
+
 					firstUsefullAccess = access.FirstOrDefault(ac => !ac.Client.LimitReached && !ac.IsExpired && condition(ac));
 				}
+
+				LOGGER.Info($"Did we find a token? {firstUsefullAccess != null}");
 
 				token = firstUsefullAccess?.AccessToken;
 			}
@@ -52,6 +57,8 @@ namespace STFU.Lib.Youtube.Services
 			bool result = false;
 			if (firstOutdatedAccess != null)
 			{
+				LOGGER.Info($"Found an outdated access, refreshing it");
+
 				// Content zusammenbauen
 				string content = $"client_id={YoutubeClientData.Client.Id}&client_secret={YoutubeClientData.Client.Secret}&refresh_token={firstOutdatedAccess.RefreshToken}&grant_type=refresh_token";
 				var bytes = Encoding.UTF8.GetBytes(content);
@@ -65,6 +72,8 @@ namespace STFU.Lib.Youtube.Services
 
 				if (response != null && !response.Contains("revoked"))
 				{
+					LOGGER.Info($"Refresh was successful");
+
 					result = true;
 
 					// Account 
@@ -89,6 +98,10 @@ namespace STFU.Lib.Youtube.Services
 						firstOutdatedAccess.NextRefreshAllowed = DateTime.Now.Add(new TimeSpan(1, 0, 0));
 					}
 				}
+				else
+				{
+					LOGGER.Info($"Access has been revoked and cannot be refreshed anymore");
+				}
 			}
 
 			return result;
@@ -96,14 +109,20 @@ namespace STFU.Lib.Youtube.Services
 
 		internal static void RevokeAccessOfAccount(IYoutubeAccount account)
 		{
+			LOGGER.Info($"Revoking all {account.Access.Count} accesses of account with id: {account.Id} and title: '{account.Title}'");
+
 			while (account.Access.Count > 0)
 			{
 				RevokeSingleAccess(account, account.Access[0]);
 			}
+
+			LOGGER.Info($"All accesses revoked");
 		}
 
 		internal static void RevokeSingleAccess(IYoutubeAccount account, IYoutubeAccountAccess access)
 		{
+			LOGGER.Info($"Revoking single access of account with id: {account.Id} and title: '{account.Title}'");
+
 			string address = $"https://accounts.google.com/o/oauth2/revoke?token={access.RefreshToken}";
 
 			WebRequest request = WebRequest.Create(address);

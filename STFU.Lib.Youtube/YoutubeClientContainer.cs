@@ -43,7 +43,7 @@ namespace STFU.Lib.Youtube
 		{
 			if (Clients.Count > index)
 			{
-				LOGGER.Info($"Removing youtube client credential with name '{Clients[index].Name}'");
+				LOGGER.Info($"Removing youtube client credential with name '{Clients[index].Name}' at index {index}");
 				Clients.RemoveAt(index);
 			}
 		}

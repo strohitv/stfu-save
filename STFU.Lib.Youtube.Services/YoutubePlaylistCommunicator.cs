@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces.Model;
 using STFU.Lib.Youtube.Model;
@@ -9,10 +10,14 @@ namespace STFU.Lib.Youtube.Services
 {
 	public class YoutubePlaylistCommunicator
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubePlaylistCommunicator));
+
 		public YoutubePlaylistCommunicator() { }
 
 		public IList<IYoutubePlaylist> LoadPlaylists(IYoutubeAccount account)
 		{
+			LOGGER.Info($"Loading playlists of account with id: '{account.Id}' and title: '{account.Title}' from youtube");
+
 			var list = new List<IYoutubePlaylist>();
 
 			string nextPageToken = null;
@@ -46,6 +51,11 @@ namespace STFU.Lib.Youtube.Services
 					});
 				}
 			} while (!string.IsNullOrWhiteSpace(nextPageToken));
+
+			foreach (var playlist in list)
+			{
+				LOGGER.Info($"Loaded playlist with id: {playlist.Id} and title: '{playlist.Title}'. Playlist has been published at: '{playlist.PublishedAt}'");
+			}
 
 			return list;
 		}

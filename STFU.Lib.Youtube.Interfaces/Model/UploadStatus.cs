@@ -181,6 +181,11 @@ namespace STFU.Lib.Youtube.Interfaces.Model
 			UploadAddress = null;
 		}
 
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
+
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;

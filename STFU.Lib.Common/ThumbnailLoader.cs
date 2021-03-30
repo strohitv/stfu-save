@@ -15,6 +15,7 @@ namespace STFU.Lib.Common
 
 		public static Image Load(string path)
 		{
+			LOGGER.Info($"Loading Image from path '{path}'");
 			Image result = new Bitmap(1, 1);
 			((Bitmap)result).SetPixel(0, 0, Color.Transparent);
 
@@ -28,6 +29,7 @@ namespace STFU.Lib.Common
 				{
 					ImageFactory imageFactory = new ImageFactory().Load(path);
 					result = imageFactory.Image;
+					LOGGER.Info($"Loaded image successfully");
 				}
 				catch (Exception ex)
 				{
@@ -42,6 +44,7 @@ namespace STFU.Lib.Common
 
 				try
 				{
+					LOGGER.Warn($"Image '{path}' does not exist, using fallback image instead");
 					Assembly myAssembly = Assembly.GetExecutingAssembly();
 					Stream myStream = myAssembly.GetManifestResourceStream("STFU.Lib.Common.Kein-Thumbnail.png");
 					result = new Bitmap(myStream);
@@ -57,15 +60,14 @@ namespace STFU.Lib.Common
 
 		public static Image Load(string path, int width, int height)
 		{
+			LOGGER.Info($"Loading Image from path '{path}' with resolution {width}x{height}");
 			return ResizeImage(Load(path), width, height);
 		}
 
 		public static string LoadAsBase64(string path, int width, int height)
 		{
-			LOGGER.Debug($"Trying to load thumbnail as base 64 from path '{path}'");
-			string base64 = Convert.ToBase64String(ImageToByteArray(Load(path, width, height)));
-			LOGGER.Debug($"Loaded base64 image string: '{base64}'");
-			return base64;
+			LOGGER.Info($"Loading Image from path '{path}' with resolution {width}x{height} as base64");
+			return Convert.ToBase64String(ImageToByteArray(Load(path, width, height)));
 		}
 
 		private static Bitmap ResizeImage(Image image, int width, int height)

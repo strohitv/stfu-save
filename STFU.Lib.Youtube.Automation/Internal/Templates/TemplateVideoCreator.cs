@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using log4net;
+using Newtonsoft.Json;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Programming;
@@ -13,6 +15,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 {
 	public class TemplateVideoCreator
 	{
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(TemplateVideoCreator));
+
 		public IList<PublishTimeCalculator> PublishInfos { get; set; }
 
 		public IPlaylistServiceConnectionContainer PlaylistServiceConnectionContainer { get; set; }
@@ -25,11 +29,15 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public VideoInformation CreateVideo(string path, bool saveNextUploadSuggestion = true)
 		{
+			LOGGER.Info($"Creating video for path: '{path}' and save next upload suggestion: {saveNextUploadSuggestion}");
+
 			// Template suchen anhand des Pfades
 			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
 
 			if (publishCalculator == null)
 			{
+				LOGGER.Warn($"Could not find fitting publish calculator - using a new one with empty fields");
+
 				publishCalculator = new PublishTimeCalculator(new Paths.Path(), new Template());
 			}
 
@@ -40,6 +48,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 		{
 			IYoutubeVideo video = new YoutubeVideo(path);
 			var template = publishCalculator.Template;
+
+			LOGGER.Info($"Creating video for path: '{path}' and template with id: {template.Id} and name: '{template.Name}'");
 
 			//TODO: Video muss die Mailversandsinformationen gespeicher bekommen, am besten via einer eigenen Klasse!
 			var notificationSettings = new NotificationSettings()
@@ -86,6 +96,8 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				if (saveNextUploadSuggestion)
 				{
 					template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
+
+					LOGGER.Info($"Changed next upload suggestion for template with id: {template.Id} and name: '{template.Name}' to: {template.NextUploadSuggestion}");
 				}
 			}
 
@@ -116,17 +128,24 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 				video.PlaylistServiceSettings = new PlaylistServiceSettings();
 			}
 
+			LOGGER.Info($"Created video with settings: '{JsonConvert.SerializeObject(video)}'");
+
 			return new VideoInformation(video, evaluator, notificationSettings);
 		}
 
 		public IPath FindNearestPath(string path)
 		{
 			var publishCalculator = PublishInfos.Where(pi => Directory.Exists(pi.PathInfo.Fullname)).OrderBy(x => x.GetDifference(path)).FirstOrDefault(x => x.GetDifference(path) != null);
+
+			LOGGER.Info($"Found nearest directory for path: '{path}': '{publishCalculator?.PathInfo.Fullname}'");
+
 			return publishCalculator?.PathInfo;
 		}
 
 		public void SaveNextUploadSuggestions()
 		{
+			LOGGER.Info($"Saving all next upload suggestions");
+
 			foreach (var publishCalculator in PublishInfos)
 			{
 				var template = publishCalculator.Template;
@@ -136,8 +155,12 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 					&& template.PublishTimes.Count > 0)
 				{
 					template.NextUploadSuggestion = publishCalculator.GetNextPublishTime(true);
+
+					LOGGER.Info($"Changed next upload suggestion for template with id: {template.Id} and name: '{template.Name}' to: {template.NextUploadSuggestion}");
 				}
 			}
+
+			LOGGER.Info($"Saved all next upload suggestions");
 		}
 
 		private string CutOff(string value, int maxlength)

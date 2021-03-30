@@ -71,6 +71,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public override void Cancel()
 		{
 			// Höhö, das kann man nicht abbrechen lol
+			LOGGER.Warn($"Called cancel but it is not possible on this type of step");
 		}
 	}
 }

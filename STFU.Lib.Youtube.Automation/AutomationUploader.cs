@@ -22,7 +22,7 @@ namespace STFU.Lib.Youtube.Automation
 {
 	public class AutomationUploader : IAutomationUploader
 	{
-		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeUploader));
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(AutomationUploader));
 
 		private IYoutubeUploader uploader = null;
 		public IYoutubeUploader Uploader
