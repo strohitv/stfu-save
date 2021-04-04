@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -10,18 +11,23 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class CategoryPersistor
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(CategoryPersistor));
+
 		public string Path { get; private set; } = null;
 		public IYoutubeCategoryContainer Container { get; private set; } = null;
 		public IYoutubeCategoryContainer Saved { get; private set; } = null;
 
 		public CategoryPersistor(IYoutubeCategoryContainer container, string path)
 		{
+			LOGGER.Debug($"Creating category persistor for path '{path}'");
+
 			Path = path;
 			Container = container;
 		}
 
 		public bool Load()
 		{
+			LOGGER.Info($"Loading categories from path '{Path}'");
 			Container.UnregisterAllCategories();
 
 			bool worked = true;
@@ -33,11 +39,14 @@ namespace STFU.Lib.Youtube.Persistor
 					using (StreamReader reader = new StreamReader(Path))
 					{
 						var json = reader.ReadToEnd();
+						LOGGER.Debug($"Json from loaded path: '{json}'");
 
 						var categories = JsonConvert.DeserializeObject<YoutubeCategory[]>(json);
+						LOGGER.Info($"Loaded {categories.Length} categories");
 
 						foreach (var loaded in categories)
 						{
+							LOGGER.Info($"Adding category '{loaded.Title}'");
 							Container.RegisterCategory(loaded);
 						}
 					}
@@ -53,6 +62,7 @@ namespace STFU.Lib.Youtube.Persistor
 			|| e is PathTooLongException
 			|| e is IOException)
 			{
+				LOGGER.Error($"Could not load categories, exception occured!", e);
 				worked = false;
 			}
 
@@ -62,6 +72,7 @@ namespace STFU.Lib.Youtube.Persistor
 		public bool Save()
 		{
 			ICategory[] categories = Container.RegisteredCategories.ToArray();
+			LOGGER.Info($"Saving {categories.Length} categories to file '{Path}'");
 
 			var json = JsonConvert.SerializeObject(categories);
 
@@ -72,6 +83,7 @@ namespace STFU.Lib.Youtube.Persistor
 				{
 					writer.Write(json);
 				}
+				LOGGER.Info($"Categories saved");
 
 				RecreateSaved();
 			}
@@ -83,6 +95,7 @@ namespace STFU.Lib.Youtube.Persistor
 			|| e is PathTooLongException
 			|| e is IOException)
 			{
+				LOGGER.Error($"Could not save categories, exception occured!", e);
 				worked = false;
 			}
 
@@ -91,9 +104,11 @@ namespace STFU.Lib.Youtube.Persistor
 
 		private void RecreateSaved()
 		{
+			LOGGER.Debug($"Recreating cache of saved categories");
 			Saved = new YoutubeCategoryContainer();
 			foreach (var category in Container.RegisteredCategories)
 			{
+				LOGGER.Debug($"Recreating cache for path '{category.Title}'");
 				var newCategory = new YoutubeCategory(category.Id, category.Title);
 
 				Saved.RegisterCategory(newCategory);

@@ -243,7 +243,7 @@ namespace STFU.Lib.Youtube.Automation.Templates
 
 		public override string ToString()
 		{
-			return $"Id: {Id}, Name: {Name}";
+			return JsonConvert.SerializeObject(this);
 		}
 
 		public static ITemplate Duplicate(ITemplate template)

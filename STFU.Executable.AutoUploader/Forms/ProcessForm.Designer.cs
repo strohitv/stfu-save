@@ -173,7 +173,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Prozesse wählen";
-			this.Load += new System.EventHandler(this.ProcessWindowLoad);
+			this.Load += new System.EventHandler(this.ProcessFormLoad);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);

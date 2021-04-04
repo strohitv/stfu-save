@@ -20,6 +20,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			: base(job)
 		{
 			Step = (T)Activator.CreateInstance(typeof(T), job);
+			LOGGER.Info($"Creating retrying upload step for step '{Step.GetType().Name}'");
 			WaitInterval = waitInterval;
 		}
 
@@ -34,31 +35,36 @@ namespace STFU.Lib.Youtube.Upload.Steps
 			while (tries < 10 && !Step.FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
 			{
 				tries++;
+				LOGGER.Info($"Running step '{Step.GetType().Name}' - attempt number: {tries}");
 
 				try
 				{
 					Step.Run();
 
-					if (!Step.FinishedSuccessful && !CancellationTokenSource.IsCancellationRequested)
+					if (Step.FinishedSuccessful || CancellationTokenSource.IsCancellationRequested)
 					{
-						if (Step.Status.QuotaReached)
-						{
-							WaitForQuotaBeforeRetry();
-						}
-						else
-						{
-							WaitBeforeRetry();
-						}
+						LOGGER.Info($"Step '{Step.GetType().Name}' finished successfully");
+					}
+					else if (Step.Status.QuotaReached)
+					{
+						LOGGER.Warn($"Step '{Step.GetType().Name}' couldn't finish because the Youtube Quota was reached - waiting until retry");
+						WaitForQuotaBeforeRetry();
+					}
+					else
+					{
+						LOGGER.Warn($"Step '{Step.GetType().Name}' did not finish successfully - waiting before retrying");
+						WaitBeforeRetry();
 					}
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine(ex);
+					LOGGER.Error($"Step '{Step.GetType().Name}' failed because of an exception", ex);
 					WaitBeforeRetry();
 				}
 
 				if (lastProgress < Status.Progress)
 				{
+					LOGGER.Info($"Step '{Step.GetType().Name}' increased progress since last attempt - resetting attempt count");
 					lastProgress = Status.Progress;
 					tries = 0;
 				}
@@ -113,6 +119,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		{
 			if (RunningTask != null && RunningTask.Status == TaskStatus.Running)
 			{
+				LOGGER.Info($"Canceling step '{Step.GetType().Name}'");
 				CancellationTokenSource.Cancel();
 				Step?.Cancel();
 			}

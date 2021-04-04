@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
@@ -17,6 +18,8 @@ namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class TemplateForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(TemplateForm));
+
 		private ITemplateContainer templateContainer;
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
@@ -53,6 +56,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			IPlaylistServiceConnectionContainer playlistServiceConnectionContainer,
 			bool accountHasMailEnabled)
 		{
+			LOGGER.Info("Initializing templtes form");
+
 			InitializeComponent();
 
 			addWeekdayCombobox.SelectedIndex = 0;
@@ -71,6 +76,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (accountHasMailEnabled)
 			{
+				LOGGER.Info("Account has mail functionality enabled");
+
 				connectMailNotificationLabel.Visible = false;
 
 				newVideoMNCheckbox.Enabled = true;
@@ -82,6 +89,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
+				LOGGER.Info("Account doesn't have mail functionality enabled");
+
 				connectMailNotificationLabel.Visible = true;
 
 				newVideoMNCheckbox.Enabled = false;
@@ -94,12 +103,16 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (playlistServiceConnectionContainer != null && playlistServiceConnectionContainer.Connection != null)
 			{
+				LOGGER.Info("Found an active playlist service connection");
+
 				addPlaylistViaServiceGroupbox.Enabled = true;
 				foreach (var account in playlistServiceConnectionContainer.Connection.Accounts)
 				{
 					chooseAccountCombobox.Items.Add($"{account.id}: {account.title}, {account.channelId}");
 				}
 			}
+
+			LOGGER.Info($"Adding {playlistContainer.RegisteredPlaylists.Count} playlists to playlist combobox");
 
 			foreach (var playlist in playlistContainer.RegisteredPlaylists)
 			{
@@ -110,6 +123,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addTemplateButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User added a new template");
+
 			ITemplate templ = new Template();
 			templateContainer.RegisterTemplate(templ);
 
@@ -118,6 +133,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillListView()
 		{
+			LOGGER.Info($"Refilling template list view");
+
 			templateListView.Items.Clear();
 
 			foreach (var template in templateContainer.RegisteredTemplates)
@@ -127,6 +144,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				{
 					name = "<Template ohne Namen>";
 				}
+
+				LOGGER.Debug($"Adding template '{name}'");
 
 				templateListView.Items.Add(name);
 			}
@@ -166,6 +185,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void TemplateFormLoad(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Loading template form");
+
 			RefillListView();
 
 			cSharpSystemFunctionsFctb.Text = StandardFunctions.GlobalFunctions.Aggregate((a, b) => $"{a}{Environment.NewLine}{Environment.NewLine}{b}");
@@ -182,6 +203,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			var confirmation = MessageBox.Show(this, "Möchtest du das ausgewählte Template wirklich löschen? Alle Pfade, die es verwenden, werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
+				LOGGER.Info($"User asks to delete template '{templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0])}'");
+
 				templateContainer.UnregisterTemplateAt(templateListView.SelectedIndices[0]);
 
 				templateListView.SelectedIndices.Clear();
@@ -195,6 +218,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			var confirmation = MessageBox.Show(this, "Möchtest du wirklich alle Templates löschen? Das Standard-Template kann nicht entfernt werden. Alle Pfade werden auf das Standard-Template umgestellt.", "Wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (confirmation == DialogResult.Yes)
 			{
+				LOGGER.Info($"User asks to delete all templates");
+
 				templateContainer.UnregisterAllTemplates();
 
 				templateListView.SelectedIndices.Clear();
@@ -216,11 +241,15 @@ namespace STFU.Executable.AutoUploader.Forms
 
 				if (templateListView.SelectedIndices.Count == 0)
 				{
+					LOGGER.Info($"User unselected templates");
+
 					current = new Template();
 					ClearEditView();
 				}
 				else
 				{
+					LOGGER.Info($"User selected template at index {templateListView.SelectedIndices[0]}");
+
 					var save = templateContainer.RegisteredTemplates.ElementAt(templateListView.SelectedIndices[0]);
 					current = Template.Duplicate(save);
 
@@ -233,6 +262,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ClearEditView()
 		{
+			LOGGER.Debug($"Clearing edit view");
+
 			templateNameTextbox.Text = string.Empty;
 			templateTitleTextbox.Text = string.Empty;
 			templateDescriptionTextbox.Text = string.Empty;
@@ -250,6 +281,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void FillTemplateIntoEditView(ITemplate template)
 		{
+			LOGGER.Info($"Filling template '{template.Name}' into edit views");
+
 			skipDirtyManipulation = true;
 
 			templateNameTextbox.Text = template.Name;
@@ -379,27 +412,25 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (!reordering)
 			{
+				LOGGER.Debug($"User clicked publish at checkbox. New value: {publishAtCheckbox.Checked}");
+
 				current.ShouldPublishAt = publishAtCheckbox.Checked;
-				enablePublishAtControls();
+				publishGroupbox.Enabled = publishAtCheckbox.Checked;
 				IsDirty = true;
 			}
-		}
-
-		private void enablePublishAtControls()
-		{
-			publishGroupbox.Enabled = publishAtCheckbox.Checked;
 		}
 
 		private void privacyComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (!reordering)
 			{
+				LOGGER.Debug($"User changed privacy combobox selected index. New value: {privacyComboBox.SelectedIndex}");
+
 				publishAtCheckbox.Enabled = privacyComboBox.SelectedIndex == 2;
 
 				if (privacyComboBox.SelectedIndex != 2)
 				{
 					publishAtCheckbox.Checked = false;
-					//enablePublishAtControls();
 				}
 
 				switch (privacyComboBox.SelectedIndex)
@@ -423,9 +454,13 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (IsDirty)
 			{
+				LOGGER.Info($"Current template was edited. Asking user if they want to save it.");
+
 				var result = MessageBox.Show(this, "Das Template wurde bearbeitet. Speichern?", "Das Template wurde bearbeitet, aber nicht abgespeichert. Soll es jetzt gespeichert werden?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 				if (result == DialogResult.Yes)
 				{
+					LOGGER.Info($"User wants to save. Saving template...");
+
 					templateContainer.UpdateTemplate(current);
 					templatePersistor.Save();
 
@@ -444,6 +479,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (resetTemplateButton.Enabled)
 			{
+				LOGGER.Info($"User clicked reset template button - discarding the changes they made to the template");
+
 				IsDirty = false;
 				templateListViewSelectedIndexChanged(sender, e);
 				RefillPlannedVideosListView();
@@ -456,6 +493,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (addWeekdayCombobox.SelectedIndex == 0)
 			{
 				var time = addTimeTimePicker.Value.TimeOfDay;
+
+				LOGGER.Debug($"User clicked add time button - adding a daily time for {time}");
 
 				// täglich
 				for (int i = 0; i < 7; i++)
@@ -471,6 +510,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				var weekDay = (DayOfWeek)(addWeekdayCombobox.SelectedIndex % 7);
 				var time = addTimeTimePicker.Value.TimeOfDay;
 
+				LOGGER.Debug($"User clicked add time button - adding a time for {weekDay} at time {time}");
+
 				PublishTime publishTime = new PublishTime() { DayOfWeek = weekDay, Time = time };
 				current.PublishTimes.Add(publishTime);
 			}
@@ -481,6 +522,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillTimesListView()
 		{
+			LOGGER.Debug($"Refilling times list view");
+
 			// Selektion merken
 			int[] selectedIndices = new int[timesListView.SelectedIndices.Count];
 			timesListView.SelectedIndices.CopyTo(selectedIndices, 0);
@@ -543,6 +586,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				if (ScriptsAreValid())
 				{
+					var name = !string.IsNullOrWhiteSpace(current.Name) ? current.Name : "<Template ohne Namen>";
+					LOGGER.Info($"Saving template '{name}'");
+
 					reordering = true;
 					templateContainer.UpdateTemplate(current);
 					templatePersistor.Save();
@@ -557,6 +603,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 				else
 				{
+					LOGGER.Info($"Saving template is not possible since there are script errors");
 					MessageBox.Show(this, $"Änderungen konnten nicht gespeichert werden.{Environment.NewLine}Bitte überprüfe folgende Felder: {invalidFields.Aggregate((a, b) => $"{a}, {b}")}.{Environment.NewLine}{Environment.NewLine}Darin ist ein Script nicht mit > oder >>> korrekt geschlossen, sodass ein Feld fehlerhaft ist.", "Scripts nicht korrekt abgeschlossen", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
@@ -575,21 +622,25 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			if (!titleValid)
 			{
+				LOGGER.Warn($"Found script error in title field");
 				invalidFields.Add("Titel");
 			}
 
 			if (!descriptionValid)
 			{
+				LOGGER.Warn($"Found script error in description field");
 				invalidFields.Add("Beschreibung");
 			}
 
 			if (!tagsValid)
 			{
+				LOGGER.Warn($"Found script error in tags field");
 				invalidFields.Add("Tags");
 			}
 
 			if (!thumbnailPathValid)
 			{
+				LOGGER.Warn($"Found script error in thumbnail field");
 				invalidFields.Add("Thumbnailpfad");
 			}
 
@@ -600,6 +651,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (!reordering)
 			{
+				LOGGER.Debug($"User decided to change template name - new name: {templateNameTextbox.Text}");
+
 				current.Name = templateNameTextbox.Text;
 				IsDirty = true;
 			}
@@ -610,6 +663,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			maxTitleLengthLabel.Text = $"Länge Titel: {templateTitleTextbox.Text.Length} / {YoutubeVideo.MaxTitleLength} Zeichen";
 			if (!reordering && current != null)
 			{
+				LOGGER.Debug($"User decided to change template title");
+
 				current.Title = templateTitleTextbox.Text;
 				IsDirty = true;
 			}
@@ -620,6 +675,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			maxDescriptionLengthLabel.Text = $"Länge Beschreibung: {templateDescriptionTextbox.Text.Length} / {YoutubeVideo.MaxDescriptionLength} Zeichen";
 			if (!reordering && current != null)
 			{
+				LOGGER.Debug($"User decided to change template description");
+
 				current.Description = templateDescriptionTextbox.Text;
 				IsDirty = true;
 			}
@@ -630,6 +687,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			maxTagsLengthLabel.Text = $"Länge Tags: {templateTagsTextbox.Text.Length} / {YoutubeVideo.MaxTagsLength} Zeichen";
 			if (!reordering && current != null)
 			{
+				LOGGER.Debug($"User decided to change template tags");
+
 				current.Tags = templateTagsTextbox.Text;
 				IsDirty = true;
 			}
@@ -640,6 +699,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			if (templateListView.SelectedIndices.Count == 1)
 			{
 				var index = templateListView.SelectedIndices[0];
+
+				LOGGER.Debug($"User decided to move template at index {index} up");
 
 				reordering = true;
 				templateContainer.ShiftTemplatePositionsAt(index, index - 1);
@@ -658,6 +719,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				var index = templateListView.SelectedIndices[0];
 
+				LOGGER.Debug($"User decided to move template at index {index} down");
+
 				reordering = true;
 				templateContainer.ShiftTemplatePositionsAt(index, index + 1);
 
@@ -671,6 +734,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void deleteTimeButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to delete selected publish times");
+
 			if (timesListView.SelectedIndices.Count == 0)
 			{
 				return;
@@ -693,6 +758,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearTimesButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to clear all publish times");
+
 			current.PublishTimes.Clear();
 			RefillTimesListView();
 			IsDirty = true;
@@ -700,6 +767,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addOneDayButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided add a day to selected publish times");
+
 			foreach (int index in timesListView.SelectedIndices)
 			{
 				current.PublishTimes[index].SkipDays++;
@@ -712,6 +781,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void substractOneDayButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to substract a day from selected publish times");
+
 			foreach (int index in timesListView.SelectedIndices)
 			{
 				if (current.PublishTimes[index].SkipDays > 0)
@@ -727,6 +798,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addOneWeekButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to add a week to selected publish times");
+
 			foreach (int index in timesListView.SelectedIndices)
 			{
 				current.PublishTimes[index].SkipDays += 7;
@@ -739,6 +812,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void substractOneWeekButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to substract a week from selected publish times");
+
 			foreach (int index in timesListView.SelectedIndices)
 			{
 				current.PublishTimes[index].SkipDays -= 7;
@@ -755,6 +830,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void moveTimeUpButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to move selected publish times up");
+
 			timesListView.BeginUpdate();
 
 			bool atLeastOneUpdate = false;
@@ -785,6 +862,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void moveTimeDownButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User decided to move selected publish times down");
+
 			timesListView.BeginUpdate();
 
 			bool atLeastOneUpdate = false;
@@ -815,48 +894,64 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void categoryComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Category was changed to {categoryCombobox.Text}");
+
 			current.Category = categoryContainer.RegisteredCategories.FirstOrDefault(c => c.Title == categoryCombobox.Text);
 			IsDirty = true;
 		}
 
 		private void defaultLanguageComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Default language was changed to {defaultLanguageCombobox.Text}");
+
 			current.DefaultLanguage = languageContainer.RegisteredLanguages.FirstOrDefault(lang => lang.Name == defaultLanguageCombobox.Text);
 			IsDirty = true;
 		}
 
 		private void licenseComboboxSelectedIndexChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"License was changed to {licenseCombobox.Text}");
+
 			current.License = (License)licenseCombobox.SelectedIndex;
 			IsDirty = true;
 		}
 
 		private void isEmbeddableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Is embeddable was changed to {isEmbeddableCheckbox.Checked}");
+
 			current.IsEmbeddable = isEmbeddableCheckbox.Checked;
 			IsDirty = true;
 		}
 
 		private void publicStatsViewableCheckboxCheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Public stats viewable was changed to {publicStatsViewableCheckbox.Checked}");
+
 			current.PublicStatsViewable = publicStatsViewableCheckbox.Checked;
 			IsDirty = true;
 		}
 
 		private void notifySubscribersCheckboxCheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Notify subscribers was changed to {notifySubscribersCheckbox.Checked}");
+
 			current.NotifySubscribers = notifySubscribersCheckbox.Checked;
 			IsDirty = true;
 		}
 
 		private void autoLevelsCheckboxCheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Auto levels was changed to {autoLevelsCheckbox.Checked}");
+
 			current.AutoLevels = autoLevelsCheckbox.Checked;
 			IsDirty = true;
 		}
 
 		private void stabilizeCheckboxCheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Sabilize was changed to {stabilizeCheckbox.Checked}");
+
 			current.Stabilize = stabilizeCheckbox.Checked;
 			IsDirty = true;
 		}
@@ -873,6 +968,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 			template.Name += " (Kopie)";
 
+			LOGGER.Info($"Duplicated template - name of the new one: '{template.Name}'");
+
 			templateContainer.RegisterTemplate(template);
 			RefillListView();
 
@@ -884,6 +981,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null)
 			{
+				LOGGER.Debug($"Thumbnail path was changed to '{thumbnailTextbox.Text}'");
+
 				current.ThumbnailPath = thumbnailTextbox.Text;
 				IsDirty = true;
 			}
@@ -891,6 +990,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void chooseThumbnailPathButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User opened dialog to chose a thumbnail location");
+
 			var result = openThumbnailDialog.ShowDialog(this);
 			if (result == DialogResult.OK)
 			{
@@ -898,19 +999,12 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 		}
 
-		private void templateDescriptionTextboxTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-		{
-			if (current != null)
-			{
-				current.Description = templateDescriptionTextbox.Text;
-				IsDirty = true;
-			}
-		}
-
 		private void cSharpPrepareFctbTextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
 		{
 			if (current != null)
 			{
+				LOGGER.Debug($"csharp preparation script was updated");
+
 				current.CSharpPreparationScript = cSharpPrepareFctb.Text;
 				IsDirty = true;
 			}
@@ -920,6 +1014,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null)
 			{
+				LOGGER.Debug($"csharp cleanup script was updated");
+
 				current.CSharpCleanUpScript = cSharpCleanupFctb.Text;
 				IsDirty = true;
 			}
@@ -927,6 +1023,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void planVideosTabpageEntered(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Entering planned videos tab page -> refreshing which fields should be available");
+
 			RefreshFieldNames();
 			RefillPlannedVideosListView();
 		}
@@ -935,6 +1033,11 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			// Refresh der Feldnamen
 			var fieldNames = ExpressionEvaluator.GetFieldNames(current);
+
+			foreach (var name in fieldNames)
+			{
+				LOGGER.Debug($"Found field name '{name}'");
+			}
 
 			foreach (var plannedVid in current.PlannedVideos)
 			{
@@ -954,11 +1057,15 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillPlannedVideosListView()
 		{
+			LOGGER.Debug($"Refilling planned videos list view");
+
 			filenamesListView.SelectedIndices.Clear();
 			filenamesListView.Items.Clear();
 
 			foreach (var plannedVid in current.PlannedVideos)
 			{
+				LOGGER.Debug($"Adding planned video '{plannedVid.Name}'");
+
 				ListViewItem item = new ListViewItem(plannedVid.Name);
 				item.SubItems.Add(plannedVid.Fields.All(field => !string.IsNullOrEmpty(field.Value)) ? "Ja" : "Nein");
 
@@ -968,6 +1075,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillFillFieldsListView()
 		{
+			LOGGER.Debug($"Refilling fields list view");
+
 			fillFieldsListView.Items.Clear();
 			fieldNameTxbx.Text = string.Empty;
 			fieldValueTxbx.Text = string.Empty;
@@ -987,6 +1096,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void filenamesListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User made a new selection in filenames list view");
+
 			fillFieldsGroupbox.Enabled = removeFilenameButton.Enabled = filenamesListView.SelectedIndices.Count == 1;
 
 			RefillFillFieldsListView();
@@ -994,6 +1105,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void addFilenameButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants to add a new file name");
+
 			AddPlannedVideoForm addForm = new AddPlannedVideoForm();
 			var result = addForm.ShowDialog();
 
@@ -1001,6 +1114,8 @@ namespace STFU.Executable.AutoUploader.Forms
 				&& current.PlannedVideos.All(v => v.Name.ToLower() != addForm.Filename.ToLower())
 				&& !string.IsNullOrWhiteSpace(addForm.Filename))
 			{
+				LOGGER.Info($"Adding file name '{addForm.Filename.ToLower()}'");
+
 				IPlannedVideo video = new PlannedVideo();
 				video.Name = addForm.Filename.ToLower();
 				current.PlannedVideos.Add(video);
@@ -1023,15 +1138,21 @@ namespace STFU.Executable.AutoUploader.Forms
 			{
 				fieldNameTxbx.Text = fillFieldsListView.SelectedItems[0].Text;
 
+				LOGGER.Debug($"Editing field '{fieldNameTxbx.Text}'");
+
 				var multiline = ExpressionEvaluator.IsFieldOnlyInDescription(fieldNameTxbx.Text, current);
 				fieldValueTxbx.Multiline = multiline;
 
 				if (multiline)
 				{
+					LOGGER.Debug($"Field '{fieldNameTxbx.Text}' is multiline");
+
 					fieldValueTxbx.Dock = DockStyle.Fill;
 				}
 				else
 				{
+					LOGGER.Debug($"Field '{fieldNameTxbx.Text}' is single line");
+
 					fieldValueTxbx.Dock = DockStyle.None;
 					fieldValueTxbx.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 				}
@@ -1046,14 +1167,11 @@ namespace STFU.Executable.AutoUploader.Forms
 			}
 			else
 			{
+				LOGGER.Debug($"No field was selected");
+
 				fieldNameTxbx.Text = string.Empty;
 				fieldValueTxbx.Text = string.Empty;
 			}
-		}
-
-		private void RefreshFieldValue()
-		{
-			fillFieldsListView.SelectedItems[0].SubItems[1].Text = fieldValueTxbx.Text;
 		}
 
 		private void RefreshFilenamesAllFilled()
@@ -1066,6 +1184,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void TemplateFormFormClosing(object sender, FormClosingEventArgs e)
 		{
+			LOGGER.Debug($"Attempting to close template form");
+
 			AskForSaveIfIsDirty();
 		}
 
@@ -1073,12 +1193,15 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (fillFieldsListView.SelectedIndices.Count == 1)
 			{
+				LOGGER.Debug($"Value of Field '{fillFieldsListView.SelectedItems[0].Text}' is updated to '{fieldValueTxbx.Text}'");
+
 				current
 					.PlannedVideos[filenamesListView.SelectedIndices[0]]
 					.Fields[fillFieldsListView.SelectedItems[0].Text]
 					= fieldValueTxbx.Text;
+				
+				fillFieldsListView.SelectedItems[0].SubItems[1].Text = fieldValueTxbx.Text;
 
-				RefreshFieldValue();
 				RefreshFilenamesAllFilled();
 				IsDirty = true;
 			}
@@ -1088,6 +1211,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (filenamesListView.SelectedIndices.Count == 1)
 			{
+				LOGGER.Debug($"Removing planned video '{current.PlannedVideos.ElementAt(filenamesListView.SelectedIndices[0])}'");
+
 				current.PlannedVideos.RemoveAt(filenamesListView.SelectedIndices[0]);
 				IsDirty = true;
 				RefillPlannedVideosListView();
@@ -1097,8 +1222,12 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearFilenamesButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"Attempting to clear all planned videos");
+
 			if (DialogResult.Yes == MessageBox.Show(this, "Willst du wirklich alle geplanten Videos löschen? Dieser Schritt kann nach dem Speichern nicht mehr rückgängig gemacht werden!", "Bitte bestätigen", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
 			{
+				LOGGER.Debug($"Clearing all planned videos");
+
 				current.PlannedVideos.Clear();
 				IsDirty = true;
 				RefillPlannedVideosListView();
@@ -1110,6 +1239,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null)
 			{
+				LOGGER.Debug($"Setting enable expert mode to {useExpertmodeCheckbox.Checked}");
+
 				current.EnableExpertMode = useExpertmodeCheckbox.Checked;
 				if (current.EnableExpertMode && !templateValuesTabControl.TabPages.Contains(cSharpTabPage))
 				{
@@ -1128,6 +1259,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null)
 			{
+				LOGGER.Debug($"Assembly references textbox text changed");
+
 				current.ReferencedAssembliesText = assemblyReferencesFctb.Text;
 				IsDirty = true;
 			}
@@ -1137,6 +1270,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting mail recipient: '{mailRecipientTextbox.Text}'");
+
 				current.MailTo = mailRecipientTextbox.Text;
 				IsDirty = true;
 			}
@@ -1146,6 +1281,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting new video desktop notification to: {newVideoDNCheckbox.Checked}");
+
 				current.NewVideoDesktopNotification = newVideoDNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1155,6 +1292,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting new video mail notification to: {newVideoMNCheckbox.Checked}");
+
 				current.NewVideoMailNotification = newVideoMNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1164,6 +1303,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload started desktop notification to: {uploadStartedDNCheckbox.Checked}");
+
 				current.UploadStartedDesktopNotification = uploadStartedDNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1173,6 +1314,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload started mail notification to: {uploadStartedMNCheckbox.Checked}");
+
 				current.UploadStartedMailNotification = uploadStartedMNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1182,6 +1325,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload finished desktop notification to: {uploadFinishedDNCheckbox.Checked}");
+
 				current.UploadFinishedDesktopNotification = uploadFinishedDNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1191,6 +1336,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload finished mail notification to: {uploadFinishedMNCheckbox.Checked}");
+
 				current.UploadFinishedMailNotification = uploadFinishedMNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1200,6 +1347,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload failed desktop notification to: {uploadFailedDNCheckbox.Checked}");
+
 				current.UploadFailedDesktopNotification = uploadFailedDNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1209,6 +1358,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Setting upload failed mail notification to: {uploadFailedMNCheckbox.Checked}");
+
 				current.UploadFailedMailNotification = uploadFailedMNCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1218,6 +1369,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Next published time dtp value changed to: {nextPublishTimeDtp.Value}");
+
 				current.NextUploadSuggestion = nextPublishTimeDtp.Value;
 				IsDirty = true;
 			}
@@ -1227,6 +1380,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Add to playlist checkbox checked changed to {addToPlaylistCheckbox.Checked}");
+
 				current.AddToPlaylist = playlistCombobox.Enabled = addToPlaylistCheckbox.Checked;
 				IsDirty = true;
 			}
@@ -1236,6 +1391,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Playlist combobox selected index changed to {playlistCombobox.SelectedIndex}");
+
 				current.PlaylistId = playlistContainer.RegisteredPlaylists.ElementAt(playlistCombobox.SelectedIndex).Id;
 				IsDirty = true;
 			}
@@ -1245,6 +1402,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Send to playlist service checked changed to {sendToPlaylistserviceCheckbox.Checked}");
+
 				current.SendToPlaylistService
 					= chooseAccountCombobox.Enabled
 					= enterPlaylistIdManuallyRadiobutton.Enabled
@@ -1270,6 +1429,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Choose account combobox index changed to {chooseAccountCombobox.SelectedIndex}");
+
 				current.AccountId = playlistServiceConnectionContainer.Connection.Accounts[chooseAccountCombobox.SelectedIndex].id;
 				IsDirty = true;
 			}
@@ -1279,6 +1440,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Enter playlist id manually radio button checked changed to: {enterPlaylistIdManuallyRadiobutton.Checked}");
+
 				useCustomPlaylistIdTextbox.Enabled = useCustomPlaylistTitleTextbox.Enabled = enterPlaylistIdManuallyRadiobutton.Checked;
 
 				if (enterPlaylistIdManuallyRadiobutton.Checked)
@@ -1295,6 +1458,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Use custom playlist id textbox text changed to '{useCustomPlaylistIdTextbox.Text}'");
+
 				current.PlaylistIdForService = useCustomPlaylistIdTextbox.Text;
 				IsDirty = true;
 			}
@@ -1304,6 +1469,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Use custom playlist title textbox text changed to '{useCustomPlaylistTitleTextbox.Text}'");
+
 				current.PlaylistTitleForService = useCustomPlaylistTitleTextbox.Text;
 				IsDirty = true;
 			}
@@ -1313,6 +1480,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Use playlist from account radio button checked changed to '{usePlaylistFromAccountRadiobutton.Checked}'");
+
 				choosePlaylistCombobox.Enabled = usePlaylistFromAccountRadiobutton.Checked;
 
 				if (usePlaylistFromAccountRadiobutton.Checked)
@@ -1329,6 +1498,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (current != null && !skipDirtyManipulation)
 			{
+				LOGGER.Debug($"Choose playlist combobox selected index changed to {choosePlaylistCombobox.SelectedIndex}");
+
 				current.PlaylistIdForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Id;
 				current.PlaylistTitleForService = playlistContainer.RegisteredPlaylists.ElementAt(choosePlaylistCombobox.SelectedIndex).Title;
 

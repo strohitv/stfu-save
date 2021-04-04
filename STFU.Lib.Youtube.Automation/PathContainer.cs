@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using log4net;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal;
@@ -16,6 +17,8 @@ namespace STFU.Lib.Youtube.Automation
 {
 	public class PathContainer : IPathContainer
 	{
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(PathContainer));
+
 		public PathContainer() { }
 
 		private IList<IPath> Paths { get; } = new List<IPath>();
@@ -25,18 +28,28 @@ namespace STFU.Lib.Youtube.Automation
 
 		private bool PathIsAlreadyRegistered(IPath path)
 		{
-			return RegisteredPaths.Any(p => SamePathUsed(path, p));
+			var alreadyRegistered = RegisteredPaths.Any(p => SamePathUsed(path, p));
+
+			LOGGER.Info($"Is path '{path.Fullname}' already registrered => {alreadyRegistered}");
+
+			return alreadyRegistered;
 		}
 
 		private static bool SamePathUsed(IPath path, IPath p)
 		{
-			return Path.GetFullPath(path.Fullname).ToLower() == Path.GetFullPath(p.Fullname).ToLower();
+			var samePathUsed = Path.GetFullPath(path.Fullname).ToLower() == Path.GetFullPath(p.Fullname).ToLower();
+
+			LOGGER.Info($"Are paths '{path.Fullname}' and '{p.Fullname}' the same => {samePathUsed}");
+
+			return samePathUsed;
 		}
 
 		public void RegisterPath(IPath path)
 		{
 			if (!PathIsAlreadyRegistered(path))
 			{
+				LOGGER.Info($"Adding path '{path.Fullname}'");
+
 				Paths.Add(path);
 			}
 		}
@@ -45,6 +58,8 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (RegisteredPaths.Contains(path))
 			{
+				LOGGER.Info($"Removing path '{path.Fullname}'");
+
 				Paths.Remove(path);
 			}
 		}
@@ -52,12 +67,16 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (RegisteredPaths.Count > index)
 			{
+				LOGGER.Info($"Removing path '{RegisteredPaths.ElementAt(index).Fullname}' at index {index}");
+
 				Paths.RemoveAt(index);
 			}
 		}
 
 		public void UnregisterAllPaths()
 		{
+			LOGGER.Info($"Removing all paths");
+
 			Paths.Clear();
 		}
 
@@ -70,6 +89,8 @@ namespace STFU.Lib.Youtube.Automation
 				&& (firstToChange = Paths.FirstOrDefault(p => p == first)) != null
 				&& (secondToChange = Paths.FirstOrDefault(p => p == second)) != null)
 			{
+				LOGGER.Info($"Switching positions of paths '{first.Fullname}' and '{second.Fullname}'");
+
 				ShiftPathPositionsAt(Paths.IndexOf(firstToChange), Paths.IndexOf(secondToChange));
 			}
 		}
@@ -78,6 +99,8 @@ namespace STFU.Lib.Youtube.Automation
 		{
 			if (firstIndex >= 0 && secondIndex >= 0 && firstIndex < Paths.Count && secondIndex < Paths.Count)
 			{
+				LOGGER.Info($"Switching positions of paths at position '{firstIndex}' and '{secondIndex}'");
+
 				var save = Paths[firstIndex];
 				Paths[firstIndex] = Paths[secondIndex];
 				Paths[secondIndex] = save;
@@ -90,6 +113,8 @@ namespace STFU.Lib.Youtube.Automation
 
 		public void MarkAllFilesAsRead(IPath path, IYoutubeJobContainer queueContainer, IYoutubeJobContainer archiveContainer, IYoutubeAccountContainer accountContainer)
 		{
+			LOGGER.Info($"Marking all files from path '{path.Fullname}' as read");
+
 			this.archiveContainer = archiveContainer;
 			this.accountContainer = accountContainer;
 			this.queueContainer = queueContainer;
@@ -103,12 +128,16 @@ namespace STFU.Lib.Youtube.Automation
 			{
 				Thread.Sleep(5);
 			}
+
+			LOGGER.Info($"Finished marking all files from path '{path.Fullname}' as read");
 		}
 
 		private void SearcherFileFound(FileSystemEventArgs e)
 		{
 			if (queueContainer.RegisteredJobs.All(job => Path.GetFullPath(job.Video.Path).ToLower() != Path.GetFullPath(e.FullPath).ToLower()))
 			{
+				LOGGER.Info($"Adding file '{e.FullPath}' to archive container");
+
 				archiveContainer.RegisterJob(
 					new YoutubeJob(new YoutubeVideo(e.FullPath) { Title = e.Name }, accountContainer.RegisteredAccounts.FirstOrDefault(), new UploadStatus())
 				);

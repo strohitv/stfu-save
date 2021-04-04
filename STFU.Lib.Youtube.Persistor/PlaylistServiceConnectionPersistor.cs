@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using log4net;
 using Newtonsoft.Json;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Playlistservice.Model;
@@ -9,18 +10,23 @@ namespace STFU.Lib.Youtube.Persistor
 {
 	public class PlaylistServiceConnectionPersistor
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(PlaylistServiceConnectionPersistor));
+
 		public string Path { get; private set; } = null;
 		public IPlaylistServiceConnectionContainer Container { get; private set; } = null;
 		public IPlaylistServiceConnectionContainer Saved { get; private set; } = null;
 
 		public PlaylistServiceConnectionPersistor(IPlaylistServiceConnectionContainer container, string path)
 		{
+			LOGGER.Debug($"Creating playlist service connection persistor for path '{path}'");
+
 			Path = path;
 			Container = container;
 		}
 
 		public bool Load()
 		{
+			LOGGER.Info($"Loading playlist service connection from path '{Path}'");
 			Container.Connection = null;
 
 			bool worked = true;
@@ -31,7 +37,11 @@ namespace STFU.Lib.Youtube.Persistor
 				{
 					using (StreamReader reader = new StreamReader(Path))
 					{
-						Container.Connection = JsonConvert.DeserializeObject<PlaylistServiceConnection>(reader.ReadToEnd());
+						var json = reader.ReadToEnd();
+						LOGGER.Debug($"Json from loaded path: '{json}'");
+
+						Container.Connection = JsonConvert.DeserializeObject<PlaylistServiceConnection>(json);
+						LOGGER.Info($"Loaded playlist service connection");
 					}
 				}
 
@@ -45,6 +55,7 @@ namespace STFU.Lib.Youtube.Persistor
 			|| e is PathTooLongException
 			|| e is IOException)
 			{
+				LOGGER.Error($"Could not load playlist service connection, exception occured!", e);
 				worked = false;
 			}
 
@@ -53,6 +64,8 @@ namespace STFU.Lib.Youtube.Persistor
 
 		public bool Save()
 		{
+			LOGGER.Info($"Saving playlist service connection to file '{Path}'");
+
 			var json = JsonConvert.SerializeObject(Container.Connection);
 
 			var worked = true;
@@ -62,6 +75,7 @@ namespace STFU.Lib.Youtube.Persistor
 				{
 					writer.Write(json);
 				}
+				LOGGER.Info($"Playlist service connection saved");
 
 				RecreateSaved();
 			}
@@ -73,6 +87,7 @@ namespace STFU.Lib.Youtube.Persistor
 			|| e is PathTooLongException
 			|| e is IOException)
 			{
+				LOGGER.Error($"Could not save playlist service connection, exception occured!", e);
 				worked = false;
 			}
 
@@ -81,6 +96,7 @@ namespace STFU.Lib.Youtube.Persistor
 
 		private void RecreateSaved()
 		{
+			LOGGER.Debug($"Recreating cache of saved playlist service connection");
 			Saved = new PlaylistServiceConnectionContainer()
 			{
 				Connection = Container.Connection != null ? new PlaylistServiceConnection()

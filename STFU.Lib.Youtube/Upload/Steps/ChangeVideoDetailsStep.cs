@@ -18,7 +18,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 		internal override void Run()
 		{
-			// TODO: try-catch außenrum bauen für den Fall, dass da was schiefgeht..
+			LOGGER.Info($"Changing video details for video '{Video.Title}'");
+
 			progress = 0;
 
 			var request = HttpWebRequestCreator.CreateWithAuthHeader("https://www.googleapis.com/youtube/v3/videos?part=snippet,status", "PUT", Account.GetActiveToken());
@@ -32,6 +33,8 @@ namespace STFU.Lib.Youtube.Upload.Steps
 
 			if (!Status.QuotaReached)
 			{
+				LOGGER.Info($"Video details for video '{Video.Title}' were successfully changed");
+
 				FinishedSuccessful = true;
 				progress = 100;
 			}
@@ -49,6 +52,7 @@ namespace STFU.Lib.Youtube.Upload.Steps
 		public override void Cancel()
 		{
 			// Höhö, das kann man nicht abbrechen lol
+			LOGGER.Warn($"Called cancel but it is not possible on this type of step");
 		}
 	}
 }

@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using log4net;
+using Newtonsoft.Json;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Automation.Paths
 {
 	public class Path : IPath
 	{
+		private static ILog LOGGER { get; set; } = LogManager.GetLogger(nameof(Path));
+
 		private bool searchRecursively;
 
 		private bool searchHidden;
@@ -59,6 +63,8 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 		public int? GetDifference(string pathToCheck)
 		{
+			LOGGER.Info($"Getting difference between '{Fullname}' and '{pathToCheck}'");
+
 			int? result = null;
 
 			DirectoryInfo directory = new DirectoryInfo(Fullname);
@@ -66,6 +72,8 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 			if (Matches(file, directory))
 			{
+				LOGGER.Info($"'{pathToCheck}' lies directly inside '{Fullname}' => distance is 0");
+
 				result = 0;
 			}
 			else if (SearchRecursively)
@@ -74,6 +82,8 @@ namespace STFU.Lib.Youtube.Automation.Paths
 
 				if (Matches(file, current))
 				{
+					LOGGER.Info($"File lies in some subdirectory and resursive search is enabled => searching distance recursively");
+
 					// Datei wird durch den Filter rekursiv gefunden.
 					result = 0;
 
@@ -83,7 +93,13 @@ namespace STFU.Lib.Youtube.Automation.Paths
 						result++;
 						current = current.Parent;
 					}
+
+					LOGGER.Info($"Final distance between '{Fullname}' and '{pathToCheck}': {result}");
 				}
+			}
+			else
+			{
+				LOGGER.Info($"Path '{Fullname}' does not contain the file '{pathToCheck}'");
 			}
 
 			return result;
@@ -106,6 +122,11 @@ namespace STFU.Lib.Youtube.Automation.Paths
 			}
 
 			return results.ToArray();
+		}
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this);
 		}
 	}
 }

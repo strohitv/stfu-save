@@ -11,11 +11,14 @@ using System.Net;
 using Newtonsoft.Json;
 using STFU.Lib.Youtube.Model.Serializable;
 using STFU.Lib.Youtube.Model;
+using log4net;
 
 namespace STFU.Lib.Youtube.Services
 {
 	public class YoutubeAccountCommunicator : IYoutubeAccountCommunicator
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeAccountCommunicator));
+
 		public YoutubeAccountCommunicator() { }
 
 		public Uri CreateAuthUri(IYoutubeClient client, YoutubeRedirectUri redirectUri, GoogleScope scope)
@@ -34,6 +37,8 @@ namespace STFU.Lib.Youtube.Services
 
 		public IYoutubeAccount ConnectToAccount(string code, bool mailsAllowed, IYoutubeClient client, YoutubeRedirectUri redirectUri)
 		{
+			LOGGER.Info($"Connecting to account, mails allowed: {mailsAllowed}, redirect uri: {redirectUri}");
+
 			var uri = redirectUri.GetAttribute<EnumMemberAttribute>().Value;
 			string content = $"code={code}&client_id={client.Id}&client_secret={client.Secret}&redirect_uri={uri}&grant_type=authorization_code";
 			var bytes = Encoding.UTF8.GetBytes(content);
@@ -61,12 +66,16 @@ namespace STFU.Lib.Youtube.Services
 				access.ExpirationDate = DateTime.Now.AddSeconds(authResponse.expires_in);
 				access.ClientId = client.Id;
 
+				LOGGER.Info($"Connection successful, loading account details");
+
 				var accountDetails = GetAccountDetails(access);
 				var acc = accountDetails.items.First();
 				account = YoutubeAccount.Create(acc.id, acc.snippet.country, acc.snippet.title);
 
 				account.Access.Add(access);
 			}
+
+			LOGGER.Info($"Connected to account with id: {account.Id} and title: '{account.Title}'");
 
 			return account;
 		}
@@ -92,6 +101,8 @@ namespace STFU.Lib.Youtube.Services
 
 		public void RevokeAccount(IYoutubeAccountContainer container, IYoutubeAccount account)
 		{
+			LOGGER.Info($"Revoking connecgtion to account with id: {account.Id} and title: '{account.Title}'");
+
 			YoutubeAccountService.RevokeAccessOfAccount(account);
 			container.UnregisterAccount(account);
 		}

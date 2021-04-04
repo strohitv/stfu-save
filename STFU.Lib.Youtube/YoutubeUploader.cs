@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using log4net;
 using STFU.Lib.MailSender.Generator;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -18,6 +19,8 @@ namespace STFU.Lib.Youtube
 {
 	public class YoutubeUploader : IYoutubeUploader
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeUploader));
+
 		private int maxSimultaneousUploads = 1;
 		private IList<IYoutubeJob> jobQueue = new List<IYoutubeJob>();
 		private UploaderState state = UploaderState.NotRunning;
@@ -30,6 +33,7 @@ namespace STFU.Lib.Youtube
 		{
 			get
 			{
+				LOGGER.Debug($"Returning maxSimultaneousUploads with value {maxSimultaneousUploads}");
 				return maxSimultaneousUploads;
 			}
 
@@ -37,6 +41,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (maxSimultaneousUploads != value && value > 0)
 				{
+					LOGGER.Debug($"Setting maxSimultaneousUploads to new value {value}");
 					maxSimultaneousUploads = value;
 					OnPropertyChanged();
 				}
@@ -53,6 +58,7 @@ namespace STFU.Lib.Youtube
 		{
 			get
 			{
+				LOGGER.Debug($"Returning state with value {state}");
 				return state;
 			}
 
@@ -60,6 +66,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (state != value)
 				{
+					LOGGER.Debug($"Setting state to new value {value}");
 					state = value;
 					OnPropertyChanged();
 				}
@@ -71,6 +78,7 @@ namespace STFU.Lib.Youtube
 		{
 			get
 			{
+				LOGGER.Debug($"Returning stopAfterCompleting with value {stopAfterCompleting}");
 				return stopAfterCompleting;
 			}
 
@@ -78,6 +86,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (stopAfterCompleting != value)
 				{
+					LOGGER.Debug($"Setting stopAfterCompleting to new value {value}");
 					stopAfterCompleting = value;
 					OnPropertyChanged();
 				}
@@ -85,11 +94,12 @@ namespace STFU.Lib.Youtube
 		}
 
 		private int progress = 0;
-		/// <see cref="IYoutubeUploader.MaxSimultaneousUploads"/>
+		/// <see cref="IYoutubeUploader.Progress"/>
 		public int Progress
 		{
 			get
 			{
+				LOGGER.Debug($"Returning progress with value {progress}");
 				return progress;
 			}
 
@@ -97,6 +107,7 @@ namespace STFU.Lib.Youtube
 			{
 				if (progress != value && value > 0)
 				{
+					LOGGER.Debug($"Setting progress to new value {value}");
 					progress = value;
 					OnPropertyChanged();
 				}
@@ -109,20 +120,27 @@ namespace STFU.Lib.Youtube
 
 		public YoutubeUploader()
 		{
+			LOGGER.Debug($"Creating a new instance of youtube uploader");
 			ServicePointManager.DefaultConnectionLimit = 100;
 		}
 
 		public YoutubeUploader(IYoutubeJobContainer queue)
 			: this()
 		{
+			LOGGER.Debug($"Creating a new instance of youtube uploader with {queue.RegisteredJobs.Count} jobs");
+
 			JobQueue = queue;
 
 			for (int i = 0; i < JobQueue.RegisteredJobs.Count; i++)
 			{
 				YoutubeJob job = JobQueue.RegisteredJobs.ElementAt(i) as YoutubeJob;
+
+				LOGGER.Info($"Registering job for video {job.Video.Title}");
+
 				job.TriggerDeletion += Job_TriggerDeletion;
 				job.PropertyChanged += RunningJobPropertyChanged;
 				job.UploadStatus.PropertyChanged += UploadStatusPropertyChanged;
+
 				OnJobQueued(job, i);
 			}
 		}
@@ -132,15 +150,20 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeVideo, IYoutubeAccount)"/>
 		public IYoutubeJob QueueUpload(IYoutubeVideo video, IYoutubeAccount account, INotificationSettings notificationSettings)
 		{
+			LOGGER.Info($"Queueing Video '{video.Title}' for account '{account.Title}' was called");
+
 			if (Queue.Any(existing => existing.Video == video && existing.Account == account))
 			{
-				return Queue.Single(existing => existing.Video == video && existing.Account == account);
+				var foundJob = Queue.Single(existing => existing.Video == video && existing.Account == account);
+				LOGGER.Info($"Requested video was already in queue at position {Queue.ToList().IndexOf(foundJob)}, it won't be added again.");
+				return foundJob;
 			}
 
 			var job = new YoutubeJob(video, account, new UploadStatus())
 			{
 				NotificationSettings = notificationSettings
 			};
+
 			RegisterJob(job);
 
 			return job;
@@ -149,8 +172,11 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.QueueUpload(IYoutubeJob)"/>
 		public IYoutubeJob QueueUpload(IYoutubeJob job)
 		{
+			LOGGER.Info($"Queueing job with video '{job.Video.Title}' for account '{job.Account.Title}' was called");
+
 			if (Queue.Any(existing => existing == job))
 			{
+				LOGGER.Info($"Requested job was already in queue at position {Queue.ToList().IndexOf(job)}, it won't be added again.");
 				return Queue.Single(existing => existing == job);
 			}
 
@@ -161,6 +187,8 @@ namespace STFU.Lib.Youtube
 
 		private void RegisterJob(IYoutubeJob job)
 		{
+			LOGGER.Debug("Registering job");
+
 			job.TriggerDeletion += Job_TriggerDeletion;
 			job.PropertyChanged += RunningJobPropertyChanged;
 			job.UploadStatus.PropertyChanged += UploadStatusPropertyChanged;
@@ -180,26 +208,32 @@ namespace STFU.Lib.Youtube
 
 			if (State == UploaderState.Waiting || State == UploaderState.Uploading)
 			{
+				LOGGER.Info("Starting uploader now");
 				StartJobs();
 			}
 		}
 
 		private void Job_TriggerDeletion(object sender, System.EventArgs args)
 		{
+			LOGGER.Info($"Removing job for video '{((YoutubeJob)sender).Video.Title}' from queue");
 			RemoveFromQueue((YoutubeJob)sender);
 		}
 
 		/// <see cref="IYoutubeUploader.CancelAll"/>
 		public void CancelAll()
 		{
+			LOGGER.Info("Cancelling all jobs");
+
 			var runningJobs = JobQueue.RegisteredJobs.Where(j => j.State.IsStarted()).ToArray();
 			if (runningJobs.Length > 0
 				&& (State == UploaderState.Uploading || State == UploaderState.Waiting))
 			{
+				LOGGER.Info($"Found {runningJobs.Length} running jobs to cancel");
 				State = UploaderState.CancelPending;
 
 				foreach (var runningJob in runningJobs)
 				{
+					LOGGER.Info($"Cancelling job for video {runningJob.Video.Title}");
 					runningJob.Cancel();
 				}
 			}
@@ -207,23 +241,30 @@ namespace STFU.Lib.Youtube
 			{
 				State = UploaderState.NotRunning;
 			}
+
+			LOGGER.Info("Cancelling completed");
 		}
 
 		/// <see cref="IYoutubeUploader.ChangePosition(IYoutubeJob job, int newPosition)"/>
 		public void ChangePosition(IYoutubeJob job, int newPosition)
 		{
+			LOGGER.Debug($"Switching position of job with video {job.Video.Title} to new positon {newPosition}");
+
 			if (Queue.Contains(job))
 			{
 				int oldPosition = JobQueue.RegisteredJobs.ToList().IndexOf(job);
+				LOGGER.Info($"Switching position of job with video {job.Video.Title} from old position {oldPosition} to new positon {newPosition}");
 
 				JobQueue.UnregisterJobAt(oldPosition);
 
 				if (JobQueue.RegisteredJobs.Count < newPosition)
 				{
+					LOGGER.Debug($"Setting newPosition to {JobQueue.RegisteredJobs.Count} since there are not enough videos in queue");
 					newPosition = JobQueue.RegisteredJobs.Count;
 				}
 				else if (newPosition < 0)
 				{
+					LOGGER.Debug($"Setting newPosition to 0 since it was < 0");
 					newPosition = 0;
 				}
 
@@ -235,19 +276,28 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.RemoveFromQueue(IYoutubeJob)"/>
 		public void RemoveFromQueue(IYoutubeJob job)
 		{
+			LOGGER.Debug($"Removing job with video {job.Video.Title} from queue");
+
 			if (Queue.Contains(job))
 			{
 				int position = JobQueue.RegisteredJobs.ToList().IndexOf(job);
+
+				LOGGER.Info($"Removing job with video {job.Video.Title} from position {position} in queue");
+
 				job.TriggerDeletion -= Job_TriggerDeletion;
 				job.PropertyChanged -= RunningJobPropertyChanged;
 				job.UploadStatus.PropertyChanged -= UploadStatusPropertyChanged;
+
 				JobQueue.UnregisterJob(job);
+
 				OnJobDequeued(job, position);
 			}
 		}
 
 		private void UploadStatusPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			LOGGER.Info($"Handling upload status property changed event for property {e.PropertyName}");
+
 			if (e.PropertyName == nameof(UploadStatus.Progress))
 			{
 				RecalculateProgress();
@@ -257,8 +307,11 @@ namespace STFU.Lib.Youtube
 		/// <see cref="IYoutubeUploader.StartUploader"/>
 		public void StartUploader()
 		{
+			LOGGER.Debug($"Starting uploader");
+
 			if (State == UploaderState.NotRunning)
 			{
+				LOGGER.Info($"Uploader was not running. Starting it now.");
 				State = UploaderState.Waiting;
 				StartJobs();
 			}
@@ -266,6 +319,7 @@ namespace STFU.Lib.Youtube
 
 		private void StartJobs()
 		{
+			LOGGER.Info($"Starting jobs");
 			HashSet<IYoutubeJob> startedJobs = new HashSet<IYoutubeJob>();
 
 			while (State != UploaderState.CancelPending
@@ -276,23 +330,31 @@ namespace STFU.Lib.Youtube
 
 				if (nextJob != null)
 				{
+					LOGGER.Info($"Preparing waiting job for video '{nextJob.Video.Title}'");
+
 					bool start = false;
 					State = UploaderState.Uploading;
 					while (!start && nextJob.Video.File.Exists)
 					{
 						try
 						{
+							LOGGER.Debug($"Trying to open the video for write access to see if it's ready");
 							using (StreamWriter writer = new StreamWriter(nextJob.Video.File.FullName, true))
 							{
+								LOGGER.Debug($"Video can be accessed");
 								start = true;
 							}
 						}
 						catch (System.Exception)
-						{ }
+						{
+							LOGGER.Debug($"Video file was in write access by another program. Waiting until it's being released");
+						}
 					}
 
 					if (!startedJobs.Contains(nextJob) && nextJob.Video.File.Exists)
 					{
+						LOGGER.Info($"Starting waiting job for video '{nextJob.Video.Title}'");
+
 						NewUploadStarted?.Invoke(new UploadStartedEventArgs(nextJob));
 
 						nextJob.Run();
@@ -314,26 +376,32 @@ namespace STFU.Lib.Youtube
 
 		private void RefreshUploaderState()
 		{
+			LOGGER.Debug($"Refreshing uploader state");
+
 			if (State != UploaderState.CancelPending)
 			{
 				if (JobQueue.RegisteredJobs.ToList().Where(j => j.State.IsStarted()).Count() == 0)
 				{
 					if (StopAfterCompleting || State == UploaderState.NotRunning)
 					{
+						LOGGER.Info($"Setting uploader state to not running");
 						State = UploaderState.NotRunning;
 					}
 					else
 					{
+						LOGGER.Info($"Setting uploader state to waiting");
 						State = UploaderState.Waiting;
 					}
 				}
 				else
 				{
+					LOGGER.Info($"Setting uploader state to uploading");
 					State = UploaderState.Uploading;
 				}
 			}
 			else
 			{
+				LOGGER.Info($"Setting uploader state to not running");
 				State = UploaderState.NotRunning;
 			}
 		}
@@ -341,10 +409,16 @@ namespace STFU.Lib.Youtube
 		private void RunningJobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			var job = sender as IYoutubeJob;
+
+			LOGGER.Debug($"Received property change of property '{e.PropertyName}' from job for video '{job.Video.Title}'");
+
 			if (e.PropertyName == nameof(IYoutubeJob.State))
 			{
+				LOGGER.Info($"Reachting to property change of property '{e.PropertyName}' from job for video '{job.Video.Title}'");
+
 				if (job.State.IsFailed() && job.Error?.FailReason == FailureReason.UserUploadLimitExceeded)
 				{
+					LOGGER.Info($"Setting uploader state to cancel pending");
 					State = UploaderState.CancelPending;
 				}
 
@@ -374,12 +448,14 @@ namespace STFU.Lib.Youtube
 				{
 					if (!job.State.IsCanceled() && !job.State.IsFailed() && RemoveCompletedJobs)
 					{
+						LOGGER.Info($"Job didn't fail - removing it from queue");
 						RemoveFromQueue(job);
 					}
 
 					if (State == UploaderState.Uploading
 						|| State == UploaderState.Waiting)
 					{
+						LOGGER.Debug($"Calling start method to maybe start next job");
 						StartJobs();
 					}
 				}
@@ -398,31 +474,37 @@ namespace STFU.Lib.Youtube
 			{
 				Progress = 0;
 			}
+
+			LOGGER.Info($"Recalculated progress to: {Progress / 100.0} %");
 		}
 
 		#region Events
 
 		public event PropertyChangedEventHandler PropertyChanged;
-		private void OnPropertyChanged([CallerMemberName]string name = "")
+		private void OnPropertyChanged([CallerMemberName]string caller = "")
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+			LOGGER.Debug($"Property {caller} changed, invoking handler");
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
 		}
 
 		public event JobQueuedEventHandler JobQueued;
 		private void OnJobQueued(IYoutubeJob job, int position)
 		{
+			LOGGER.Debug($"Job for video '{job.Video.Title}' was added on position {position}, invoking handler");
 			JobQueued?.Invoke(this, new JobQueuedEventArgs(job, position));
 		}
 
 		public event JobDequeuedEventHandler JobDequeued;
 		private void OnJobDequeued(IYoutubeJob job, int position)
 		{
+			LOGGER.Debug($"Job for video '{job.Video.Title}' on position {position} was dequeued, invoking handler");
 			JobDequeued?.Invoke(this, new JobDequeuedEventArgs(job, position));
 		}
 
 		public event JobPositionChangedEventHandler JobPositionChanged;
 		private void OnJobPositionChanged(IYoutubeJob job, int oldPosition, int newPosition)
 		{
+			LOGGER.Debug($"Position of job for video '{job.Video.Title}' changed to {newPosition}, invoking handler");
 			JobPositionChanged?.Invoke(this, new JobPositionChangedEventArgs(job, oldPosition, newPosition));
 		}
 

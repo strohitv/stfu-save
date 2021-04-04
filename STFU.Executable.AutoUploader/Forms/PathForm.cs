@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Youtube.Automation.Interfaces;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Interfaces;
@@ -10,6 +11,8 @@ namespace STFU.Executable.AutoUploader.Forms
 {
 	public partial class PathForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(PathForm));
+
 		IPathContainer pathContainer = null;
 		ITemplateContainer templateContainer = null;
 		IYoutubeJobContainer queueContainer = null;
@@ -18,6 +21,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		public PathForm(IPathContainer pathContainer, ITemplateContainer templateContainer, IYoutubeJobContainer queueContainer, IYoutubeJobContainer archiveContainer, IYoutubeAccountContainer accountContainer)
 		{
+			LOGGER.Info($"Initializing new instance of PathForm");
+
 			InitializeComponent();
 
 			this.pathContainer = pathContainer;
@@ -32,6 +37,9 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (e.KeyData == Keys.Delete && ItemSelected())
 			{
+				LOGGER.Info($"Deleting path on position {lvPaths.SelectedIndices[0]} via delete key");
+				LOGGER.Info($"Path to delete: '{pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0])}'");
+
 				pathContainer.UnregisterPathAt(lvPaths.SelectedIndices[0]);
 				RefillListView();
 				ClearEditBox();
@@ -40,12 +48,16 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillListView()
 		{
+			LOGGER.Info($"Refilling list view");
+
 			lvPaths.Items.Clear();
 
 			foreach (var entry in pathContainer.RegisteredPaths)
 			{
 				var newItem = lvPaths.Items.Add(entry.Fullname);
 				newItem.SubItems.Add(entry.Filter);
+
+				LOGGER.Debug($"Adding entry for path: '{entry}'");
 
 				string templateName = templateContainer.RegisteredTemplates.FirstOrDefault(t => t.Id == entry.SelectedTemplateId)?.Name;
 				if (string.IsNullOrWhiteSpace(templateName))
@@ -65,8 +77,12 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void RefillEditBox()
 		{
+			LOGGER.Debug($"Refilling edit box");
+
 			if (NoItemSelected())
 			{
+				LOGGER.Debug($"No item selected => will only clear the edit box");
+
 				ClearEditBox();
 				return;
 			}
@@ -75,6 +91,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			int index = lvPaths.SelectedIndices[0];
 
 			var selectedItem = pathContainer.RegisteredPaths.ElementAt(index);
+
+			LOGGER.Debug($"Path to fill into edit box: {selectedItem}");
 
 			txtbxAddPath.Text = selectedItem.Fullname;
 			txtbxAddFilter.Text = selectedItem.Filter;
@@ -99,6 +117,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void ClearEditBox()
 		{
+			LOGGER.Debug($"Clearing edit box");
+
 			tlpEditPaths.Enabled = false;
 			txtbxAddPath.Text = string.Empty;
 			txtbxAddFilter.Text = string.Empty;
@@ -113,9 +133,13 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void PathFormLoad(object sender, EventArgs e)
 		{
+			LOGGER.Info($"Loading path form");
+
 			foreach (var template in templateContainer.RegisteredTemplates)
 			{
-				cobSelectedTemplate.Items.Add(string.IsNullOrWhiteSpace(template.Name) ? "<namenloses Template>" : template.Name);
+				string templateName = string.IsNullOrWhiteSpace(template.Name) ? "<namenloses Template>" : template.Name;
+				LOGGER.Info($"Adding template into template combobox: '{templateName}'");
+				cobSelectedTemplate.Items.Add(templateName);
 			}
 
 			RefillListView();
@@ -123,9 +147,13 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void AddPathButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User pressed button to add a new path");
+
 			var result = folderBrowserDialog.ShowDialog(this);
 			if (result == DialogResult.OK)
 			{
+				LOGGER.Info($"Trying to add a new path");
+
 				if (Directory.Exists(folderBrowserDialog.SelectedPath) && !pathContainer.RegisteredPaths.Any(path => path.Fullname == folderBrowserDialog.SelectedPath))
 				{
 					var newPath = new Lib.Youtube.Automation.Paths.Path()
@@ -138,9 +166,15 @@ namespace STFU.Executable.AutoUploader.Forms
 						SearchHidden = false
 					};
 
+					LOGGER.Info($"Adding newly created path: '{newPath}'");
+
 					pathContainer.RegisterPath(newPath);
 					RefillListView();
 					lvPaths.SelectedIndices.Add(lvPaths.Items.Count - 1);
+				}
+				else
+				{
+					LOGGER.Error($"Could not add path '{folderBrowserDialog.SelectedPath}': either it doesn't exist or it's already part of the path array.");
 				}
 			}
 		}
@@ -149,8 +183,13 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (NoItemSelected())
 			{
+				LOGGER.Error($"No path was selected => can't delete any path");
+
 				return;
 			}
+
+			LOGGER.Info($"Deleting path on position {lvPaths.SelectedIndices[0]} via delete button");
+			LOGGER.Info($"Path to delete: '{pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0])}'");
 
 			pathContainer.UnregisterPathAt(lvPaths.SelectedIndices[0]);
 			RefillListView();
@@ -166,6 +205,8 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			if (NoItemSelected())
 			{
+				LOGGER.Error($"No path was selected => can't save any path");
+
 				return;
 			}
 
@@ -183,6 +224,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			selectedItem.MoveDirectoryPath = moveAfterUploadTextbox.Text;
 			selectedItem.SearchOrder = (FoundFilesOrderByFilter)searchOrderCombobox.SelectedIndex;
 
+			LOGGER.Info($"Saving edited path: {selectedItem}");
+
 			ClearEditBox();
 			RefillListView();
 		}
@@ -199,6 +242,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void btnSelectPathClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants to change directory, which is currently: '{txtbxAddPath.Text}'");
+
 			var result = folderBrowserDialog.ShowDialog(this);
 			if (result == DialogResult.OK)
 			{
@@ -206,6 +251,8 @@ namespace STFU.Executable.AutoUploader.Forms
 					&& (!pathContainer.RegisteredPaths.Any(path => path.Fullname == folderBrowserDialog.SelectedPath)
 					|| folderBrowserDialog.SelectedPath == pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]).Fullname))
 				{
+					LOGGER.Info($"Changing directory of the path from: '{txtbxAddPath.Text}' to: '{folderBrowserDialog.SelectedPath}'");
+
 					txtbxAddPath.Text = folderBrowserDialog.SelectedPath;
 				}
 			}
@@ -213,8 +260,12 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void movePathUpButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants move a path upwards");
+
 			if (NoItemSelected())
 			{
+				LOGGER.Error($"There was no path selected. Can't move one upwards!");
+
 				return;
 			}
 
@@ -229,8 +280,12 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void movePathDownButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Debug($"User wants move a path downwards");
+
 			if (NoItemSelected())
 			{
+				LOGGER.Error($"There was no path selected. Can't move one downwards!");
+
 				return;
 			}
 
@@ -245,6 +300,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void clearButtonClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User wants to clear all paths");
+
 			pathContainer.UnregisterAllPaths();
 			RefillListView();
 			ClearEditBox();
@@ -252,6 +309,8 @@ namespace STFU.Executable.AutoUploader.Forms
 
 		private void btnCancelClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User wants to discard his changes of the current path");
+
 			ClearEditBox();
 			lvPaths.SelectedIndices.Clear();
 		}
@@ -260,28 +319,18 @@ namespace STFU.Executable.AutoUploader.Forms
 		{
 			chbHidden.Enabled = chbRecursive.Checked;
 
+			LOGGER.Info($"User wants to mark all videos in path '{pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]).Fullname}' as read.");
+
 			if (!chbRecursive.Checked)
 			{
 				chbHidden.Checked = false;
 			}
 		}
 
-		private void txtbxAddFilter_MouseEnter(object sender, EventArgs e)
-		{
-			var tooltipText = @"Hiermit kannst du die Dateien, die du finden möchtest, durch Strichpunkt getrennt filltern.
-Platzhalter: ? für ein beliebiges Zeichen, * für beliebig viele beliebige Zeichen
-
-Beispielhafte Filter: 
-*.mp4  findet alle mp4-Dateien. 
-video*.mp4 findet alle mp4-Dateien, die mit 'video' beginnen. 
-video?.mp4 findet video1.mp4, aber nicht video1a.mp4, da das Fragezeichen nur ein Zeichen ersetzen kann.
-video*.mp4 findet auch video.mp4, da der * auch für 'kein Zeichen' stehen kann.
-* mp4; *mkv findet alle mp4 - und alle mkv-Dateien.";
-			toolTip.Show(tooltipText, txtbxAddFilter, 60000);
-		}
-
 		private void btnMarkAsReadClick(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User wants to mark all videos in path '{pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]).Fullname}' as read.");
+
 			chosePathTlp.Enabled = false;
 			pathContainer.MarkAllFilesAsRead(pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]), queueContainer, archiveContainer, accountContainer);
 			MessageBox.Show(this, "Die Videos, die durch diesen Pfad gefunden werden können und nicht schon in der Warteschlange sind, wurden erfolgreich als bereits hochgeladen markiert. Dazu wurden sie ins Archiv aufgenommen. Der Autouploader wird sie nun nicht mehr finden. Um das zu ändern, einfach die Videodatei wieder aus dem Archiv löschen.", "Videos erfolgreich als hochgeladen markiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -290,6 +339,8 @@ video*.mp4 findet auch video.mp4, da der * auch für 'kein Zeichen' stehen kann.
 
 		private void moveAfterUploadCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User wants to change move videos after upload value in path: '{pathContainer.RegisteredPaths.ElementAt(lvPaths.SelectedIndices[0]).Fullname}'. New value: {moveAfterUploadCheckbox.Checked}");
+
 			moveAfterUploadTextbox.Enabled = moveAfterUploadButton.Enabled = moveAfterUploadCheckbox.Checked;
 		}
 

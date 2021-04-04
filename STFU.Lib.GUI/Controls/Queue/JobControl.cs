@@ -460,5 +460,10 @@ namespace STFU.Lib.GUI.Controls.Queue
 				}
 			}
 		}
+
+		private void zurücksetzenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Job.Reset(true);
+		}
 	}
 }

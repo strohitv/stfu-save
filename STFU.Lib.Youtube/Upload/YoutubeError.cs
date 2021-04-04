@@ -1,4 +1,5 @@
-﻿using STFU.Lib.Youtube.Interfaces.Model;
+﻿using Newtonsoft.Json;
+using STFU.Lib.Youtube.Interfaces.Model;
 
 namespace STFU.Lib.Youtube.Upload
 {
@@ -22,6 +23,11 @@ namespace STFU.Lib.Youtube.Upload
 			ErrorCode = code;
 			Message = message;
 			Json = json;
+		}
+
+		public override string ToString()
+		{
+			return JsonConvert.SerializeObject(this);
 		}
 	}
 }
