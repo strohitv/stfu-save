@@ -28,12 +28,6 @@ namespace STFU.Lib.Youtube.Upload
 
 			Job.Video.PropertyChanged += VideoPropertyChanged;
 
-			Steps.Enqueue(new RetryingUploadStep<VideoUploadStep>(Job));
-			Steps.Enqueue(new RetryingUploadStep<ThumbnailUploadStep>(Job));
-			Steps.Enqueue(new RetryingUploadStep<ChangeVideoDetailsStep>(Job));
-			Steps.Enqueue(new RetryingUploadStep<AddToPlaylistStep>(Job));
-			Steps.Enqueue(new RetryingUploadStep<SendToPlaylistServiceStep>(Job));
-
 			videoPropertyNames = new[] {
 				// Todo: Wie mach ich das mit den Tags..?
 				nameof(Job.Video.Title),
