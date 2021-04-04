@@ -60,7 +60,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.downloadSeiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.fehlerverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.logverzeichnisÖffnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainTabControl = new System.Windows.Forms.TabControl();
 			this.uploaderTabPage = new System.Windows.Forms.TabPage();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -240,7 +240,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.verbindenToolStripMenuItem,
             this.verbindungLösenToolStripMenuItem});
 			this.youtubeAccountToolStripMenuItem1.Name = "youtubeAccountToolStripMenuItem1";
-			this.youtubeAccountToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+			this.youtubeAccountToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
 			this.youtubeAccountToolStripMenuItem1.Text = "Youtube-Account";
 			// 
 			// verbindenToolStripMenuItem
@@ -263,7 +263,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.twitterAccountVerbindenToolStripMenuItem,
             this.twitterAccountVerbindungLösenToolStripMenuItem});
 			this.twitterAccountToolStripMenuItem.Name = "twitterAccountToolStripMenuItem";
-			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.twitterAccountToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.twitterAccountToolStripMenuItem.Text = "Twitter-Account";
 			this.twitterAccountToolStripMenuItem.Visible = false;
 			// 
@@ -284,28 +284,28 @@ namespace STFU.Executable.AutoUploader.Forms
 			// templatesToolStripMenuItem1
 			// 
 			this.templatesToolStripMenuItem1.Name = "templatesToolStripMenuItem1";
-			this.templatesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+			this.templatesToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
 			this.templatesToolStripMenuItem1.Text = "Templates";
 			this.templatesToolStripMenuItem1.Click += new System.EventHandler(this.templatesToolStripMenuItem1Click);
 			// 
 			// pfadeToolStripMenuItem1
 			// 
 			this.pfadeToolStripMenuItem1.Name = "pfadeToolStripMenuItem1";
-			this.pfadeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+			this.pfadeToolStripMenuItem1.Size = new System.Drawing.Size(169, 22);
 			this.pfadeToolStripMenuItem1.Text = "Pfade";
 			this.pfadeToolStripMenuItem1.Click += new System.EventHandler(this.pfadeToolStripMenuItem1_Click);
 			// 
 			// playlistsToolStripMenuItem
 			// 
 			this.playlistsToolStripMenuItem.Name = "playlistsToolStripMenuItem";
-			this.playlistsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.playlistsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.playlistsToolStripMenuItem.Text = "Playlists";
 			this.playlistsToolStripMenuItem.Click += new System.EventHandler(this.playlistsToolStripMenuItem_Click);
 			// 
 			// playlistserviceToolStripMenuItem
 			// 
 			this.playlistserviceToolStripMenuItem.Name = "playlistserviceToolStripMenuItem";
-			this.playlistserviceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.playlistserviceToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.playlistserviceToolStripMenuItem.Text = "Playlistservice";
 			this.playlistserviceToolStripMenuItem.Click += new System.EventHandler(this.playlistserviceToolStripMenuItem_Click);
 			// 
@@ -322,7 +322,7 @@ namespace STFU.Executable.AutoUploader.Forms
             this.toolStripSeparator1,
             this.downloadSeiteToolStripMenuItem,
             this.toolStripSeparator3,
-            this.fehlerverzeichnisÖffnenToolStripMenuItem});
+            this.logverzeichnisÖffnenToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
 			this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
 			this.hilfeToolStripMenuItem.Text = "Hilfe / Support";
@@ -330,73 +330,73 @@ namespace STFU.Executable.AutoUploader.Forms
 			// neueFunktionenToolStripMenuItem
 			// 
 			this.neueFunktionenToolStripMenuItem.Name = "neueFunktionenToolStripMenuItem";
-			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.neueFunktionenToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.neueFunktionenToolStripMenuItem.Text = "Neue Funktionen";
 			this.neueFunktionenToolStripMenuItem.Click += new System.EventHandler(this.neueFunktionenToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(187, 6);
 			// 
 			// videotutorialPlaylistToolStripMenuItem
 			// 
 			this.videotutorialPlaylistToolStripMenuItem.Name = "videotutorialPlaylistToolStripMenuItem";
-			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.videotutorialPlaylistToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.videotutorialPlaylistToolStripMenuItem.Text = "Videotutorial-Playlist";
 			this.videotutorialPlaylistToolStripMenuItem.Click += new System.EventHandler(this.videotutorialPlaylistToolStripMenuItem_Click);
 			// 
 			// threadImLPFToolStripMenuItem
 			// 
 			this.threadImLPFToolStripMenuItem.Name = "threadImLPFToolStripMenuItem";
-			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.threadImLPFToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.threadImLPFToolStripMenuItem.Text = "Thread im LPF";
 			this.threadImLPFToolStripMenuItem.Click += new System.EventHandler(this.threadImLPFToolStripMenuItem_Click);
 			// 
 			// threadImYTFToolStripMenuItem
 			// 
 			this.threadImYTFToolStripMenuItem.Name = "threadImYTFToolStripMenuItem";
-			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.threadImYTFToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.threadImYTFToolStripMenuItem.Text = "Thread im YTF";
 			this.threadImYTFToolStripMenuItem.Click += new System.EventHandler(this.threadImYTFToolStripMenuItem_Click);
 			// 
 			// discordServerToolStripMenuItem
 			// 
 			this.discordServerToolStripMenuItem.Name = "discordServerToolStripMenuItem";
-			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.discordServerToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.discordServerToolStripMenuItem.Text = "Discord-Server";
 			this.discordServerToolStripMenuItem.Click += new System.EventHandler(this.discordServerToolStripMenuItem_Click);
 			// 
 			// strohiAufTwitterToolStripMenuItem
 			// 
 			this.strohiAufTwitterToolStripMenuItem.Name = "strohiAufTwitterToolStripMenuItem";
-			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.strohiAufTwitterToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.strohiAufTwitterToolStripMenuItem.Text = "strohi auf Twitter";
 			this.strohiAufTwitterToolStripMenuItem.Click += new System.EventHandler(this.strohiAufTwitterToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(187, 6);
 			// 
 			// downloadSeiteToolStripMenuItem
 			// 
 			this.downloadSeiteToolStripMenuItem.Name = "downloadSeiteToolStripMenuItem";
-			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.downloadSeiteToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.downloadSeiteToolStripMenuItem.Text = "Download-Seite";
 			this.downloadSeiteToolStripMenuItem.Click += new System.EventHandler(this.downloadSeiteToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(199, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(187, 6);
 			// 
-			// fehlerverzeichnisÖffnenToolStripMenuItem
+			// logverzeichnisÖffnenToolStripMenuItem
 			// 
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Name = "fehlerverzeichnisÖffnenToolStripMenuItem";
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Text = "Fehlerverzeichnis öffnen";
-			this.fehlerverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.fehlerverzeichnisÖffnenToolStripMenuItem_Click);
+			this.logverzeichnisÖffnenToolStripMenuItem.Name = "logverzeichnisÖffnenToolStripMenuItem";
+			this.logverzeichnisÖffnenToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.logverzeichnisÖffnenToolStripMenuItem.Text = "Logverzeichnis öffnen";
+			this.logverzeichnisÖffnenToolStripMenuItem.Click += new System.EventHandler(this.logverzeichnisÖffnenToolStripMenuItem_Click);
 			// 
 			// mainTabControl
 			// 
@@ -1122,7 +1122,7 @@ namespace STFU.Executable.AutoUploader.Forms
 		private System.Windows.Forms.ToolStripMenuItem neueFunktionenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem fehlerverzeichnisÖffnenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem logverzeichnisÖffnenToolStripMenuItem;
 		private System.Windows.Forms.TabControl mainTabControl;
 		private System.Windows.Forms.TabPage pathsTabPage;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

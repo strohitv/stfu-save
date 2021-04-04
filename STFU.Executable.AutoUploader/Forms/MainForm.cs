@@ -949,18 +949,16 @@ namespace STFU.Executable.AutoUploader.Forms
 			settingsPersistor.Save();
 		}
 
-		private void fehlerverzeichnisÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+		private void logverzeichnisÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			LOGGER.Debug($"Button to show errors directory was clicked [will be deprecated soon]");
-
-			if (!Directory.Exists("errors"))
+			if (!Directory.Exists("logs"))
 			{
-				LOGGER.Info($"Creating errors directory before showing it");
+				LOGGER.Info($"Creating logs directory before showing it");
 
-				Directory.CreateDirectory("errors");
+				Directory.CreateDirectory("logs");
 			}
 
-			Process.Start("explorer.exe", "errors");
+			Process.Start("explorer.exe", "logs");
 		}
 
 		private void watchingTimer_Tick(object sender, EventArgs e)
