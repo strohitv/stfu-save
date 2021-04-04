@@ -81,6 +81,12 @@ namespace STFU.Lib.Youtube.Services
 
 			Response response = JsonConvert.DeserializeObject<Response>(result);
 
+			if (response.items == null)
+			{
+				response.items = new Item[0];
+				LOGGER.Error($"Could not load video categories from youtube!");
+			}
+
 			var categories = response.items.Where(i => i.snippet.assignable).Select(i => new YoutubeCategory(int.Parse(i.id), i.snippet.title)).ToArray();
 
 			foreach (var cat in categories)

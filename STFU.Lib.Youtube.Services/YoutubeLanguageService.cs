@@ -67,13 +67,16 @@ namespace STFU.Lib.Youtube.Services
 			request.Credentials = CredentialCache.DefaultCredentials;
 			request.ProtocolVersion = HttpVersion.Version11;
 
-			// Header schreiben
-			request.Headers.Add(string.Format("Authorization: Bearer {0}", accessToken));
-
 			var result = WebService.Communicate(request);
 			QuotaProblemHandler.ThrowOnQuotaLimitReached(result);
 
 			Response response = JsonConvert.DeserializeObject<Response>(result);
+
+			if (response.items == null)
+			{
+				response.items = new Item[0];
+				LOGGER.Error($"Could not load languages from youtube!");
+			}
 
 			var languages = response.items.Select(i => new YoutubeLanguage() { Id = i.id, Hl = i.snippet.hl, Name = i.snippet.name }).OrderBy(lang => lang.Name).ToArray();
 
