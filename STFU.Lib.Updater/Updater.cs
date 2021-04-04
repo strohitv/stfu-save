@@ -62,34 +62,12 @@ namespace STFU.Lib.Updater
 						if (entry.Name.StartsWith("stfu-updater", StringComparison.OrdinalIgnoreCase)
 							&& entry.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
 						{
-							// Gets the full path to ensure that relative segments are removed.
-							string destinationPath = Path.GetFullPath(Path.Combine(extractPath, entry.FullName));
-
-							// Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
-							// are case-insensitive.
-							if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
-							{
-								bool stop = false;
-								int tries = 0;
-
-								while (!stop)
-								{
-									try
-									{
-										tries++;
-										entry.ExtractToFile(destinationPath, true);
-										LOGGER.Info($"File was successfully extracted");
-										stop = true;
-									}
-									catch (Exception) when (tries <= 12)
-									{
-										Thread.Sleep(5000);
-									}
-								}
-
-								result = new FileInfo(destinationPath);
-								break;
-							}
+							result = new FileInfo(ExtractEntry(extractPath, entry));
+						}
+						else if (entry.Name.StartsWith("log4net-updater", StringComparison.OrdinalIgnoreCase)
+							&& entry.Name.EndsWith(".config", StringComparison.OrdinalIgnoreCase))
+						{
+							ExtractEntry(extractPath, entry);
 						}
 					}
 				}
@@ -100,6 +78,37 @@ namespace STFU.Lib.Updater
 			}
 
 			return result;
+		}
+
+		private static string ExtractEntry(string extractPath, ZipArchiveEntry entry)
+		{
+			// Gets the full path to ensure that relative segments are removed.
+			string destinationPath = Path.GetFullPath(Path.Combine(extractPath, entry.FullName));
+
+			// Ordinal match is safest, case-sensitive volumes can be mounted within volumes that
+			// are case-insensitive.
+			if (destinationPath.StartsWith(extractPath, StringComparison.Ordinal))
+			{
+				bool stop = false;
+				int tries = 0;
+
+				while (!stop)
+				{
+					try
+					{
+						tries++;
+						entry.ExtractToFile(destinationPath, true);
+						LOGGER.Info($"File '{entry.Name}' was successfully extracted");
+						stop = true;
+					}
+					catch (Exception) when (tries <= 12)
+					{
+						Thread.Sleep(5000);
+					}
+				}
+			}
+
+			return destinationPath;
 		}
 	}
 }
