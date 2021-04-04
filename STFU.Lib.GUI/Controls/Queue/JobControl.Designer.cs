@@ -48,6 +48,7 @@
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.löschenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.refreshUploadBrokenTimer = new System.Windows.Forms.Timer(this.components);
+			this.zurücksetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainTableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnailBox)).BeginInit();
 			this.actionsContextMenuStrip.SuspendLayout();
@@ -156,6 +157,7 @@
             this.pausierenToolStripMenuItem,
             this.fortsetzenToolStripMenuItem,
             this.überspringenToolStripMenuItem,
+            this.zurücksetzenToolStripMenuItem,
             this.abbrechenToolStripMenuItem,
             this.toolStripSeparator1,
             this.detailsBearbeitenToolStripMenuItem,
@@ -164,7 +166,7 @@
             this.toolStripSeparator2,
             this.löschenToolStripMenuItem});
 			this.actionsContextMenuStrip.Name = "actionsContextMenuStrip";
-			this.actionsContextMenuStrip.Size = new System.Drawing.Size(196, 214);
+			this.actionsContextMenuStrip.Size = new System.Drawing.Size(196, 258);
 			// 
 			// startenToolStripMenuItem
 			// 
@@ -248,6 +250,13 @@
 			this.refreshUploadBrokenTimer.Interval = 500;
 			this.refreshUploadBrokenTimer.Tick += new System.EventHandler(this.refreshUploadBrokenTimer_Tick);
 			// 
+			// zurücksetzenToolStripMenuItem
+			// 
+			this.zurücksetzenToolStripMenuItem.Name = "zurücksetzenToolStripMenuItem";
+			this.zurücksetzenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.zurücksetzenToolStripMenuItem.Text = "Zurücksetzen";
+			this.zurücksetzenToolStripMenuItem.Click += new System.EventHandler(this.zurücksetzenToolStripMenuItem_Click);
+			// 
 			// JobControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -288,5 +297,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.PictureBox thumbnailBox;
 		private System.Windows.Forms.Timer refreshUploadBrokenTimer;
+		private System.Windows.Forms.ToolStripMenuItem zurücksetzenToolStripMenuItem;
 	}
 }
