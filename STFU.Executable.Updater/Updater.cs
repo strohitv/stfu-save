@@ -39,7 +39,7 @@ namespace STFU.Executable.Updater
 				DirectoryInfo directory = new DirectoryInfo(currentDir);
 
 				LOGGER.Info($"Moving old directories recursively into recovery directory '{oldDir}'");
-				foreach (var folder in directory.EnumerateDirectories().Where(d => d.Name != oldDir))
+				foreach (var folder in directory.EnumerateDirectories().Where(d => d.Name != oldDir && d.Name != "updaterlogs"))
 				{
 					LOGGER.Info($"Moving directory '{folder.Name}'");
 					Message = $"Sichere Ordner {folder.Name}.{Environment.NewLine}Bitte Warten...";
