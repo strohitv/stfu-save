@@ -475,7 +475,7 @@ namespace STFU.Lib.Youtube
 				Progress = 0;
 			}
 
-			LOGGER.Info($"Recalculated progress to: {Progress} %");
+			LOGGER.Info($"Recalculated progress to: {Progress / 100.0} %");
 		}
 
 		#region Events
