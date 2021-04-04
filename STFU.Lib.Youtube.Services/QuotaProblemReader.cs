@@ -10,6 +10,15 @@ namespace STFU.Lib.Youtube.Services
 
 		public static bool IsQuotaLimitReached(string response)
 		{
+			if (string.IsNullOrWhiteSpace(response))
+			{
+				return false;
+			}
+			if (!response.Trim().StartsWith("{"))
+			{
+				return false;
+			}
+
 			try
 			{
 				var castedError = JsonConvert.DeserializeObject<QuotaErrorResponse>(response);
@@ -31,7 +40,6 @@ namespace STFU.Lib.Youtube.Services
 				// Lies sich nicht in einen Quota-Fehler parsen => Ist keiner
 				return false;
 			}
-
 		}
 
 		public static void ThrowOnQuotaLimitReached(string response)
