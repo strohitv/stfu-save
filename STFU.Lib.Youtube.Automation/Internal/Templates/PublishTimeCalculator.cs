@@ -22,7 +22,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public PublishTimeCalculator(IPath pathInfo, DateTime startTime, ITemplate template, int? publishPosition = null)
 		{
-			LOGGER.Info($"Creating new publish time calculator for path: '{pathInfo.Fullname}' with start time: '{startTime}', template with id: {template.Id} and name: '{template.Name}', and publish position: {publishPosition}");
+			LOGGER.Info($"Creating new publish time calculator for path: '{pathInfo?.Fullname}' with start time: '{startTime}', template with id: {template?.Id} and name: '{template?.Name}', and publish position: {publishPosition}");
 
 			PathInfo = pathInfo;
 			LastVideoPublishTime = startTime;
@@ -65,7 +65,7 @@ namespace STFU.Lib.Youtube.Automation.Internal.Templates
 
 		public DateTime GetNextPublishTime(bool preview = false)
 		{
-			LOGGER.Info($"Calculating next publish time for template with id: {Template.Id} and name: '{Template.Name}', preview mode: {preview}");
+			LOGGER.Info($"Calculating next publish time for template with id: {Template?.Id} and name: '{Template?.Name}', preview mode: {preview}");
 
 			var publishDate = new DateTime(2000, 1, 1);
 
