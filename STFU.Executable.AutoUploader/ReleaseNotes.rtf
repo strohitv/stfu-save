@@ -1,7 +1,14 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1031{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset0 Courier New;}{\f2\fnil\fcharset2 Symbol;}}
-{\colortbl ;\red255\green0\blue0;\red102\green102\blue102;\red0\green0\blue255;}
+{\colortbl ;\red102\green102\blue102;\red255\green0\blue0;\red0\green0\blue255;}
 {\*\generator Riched20 6.3.9600}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\b\f0\fs32\lang7 Version 0.6.0 BETA (04.04.2021)\fs22\par
+\pard\sa200\sl276\slmult1\b\f0\fs32\lang7 Version 0.6.1 BETA (09.04.2021)\fs22\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Bugfix beim Logging\b\par
+{\pntext\f2\'B7\tab}Bugfix\b0 : Ein Fehler beim Loggen hat zum Programmabsturz gef\'fchrt, wenn man im Dialog zum manuellen Hinzuf\'fcgen von Videos via blauem T-Button ein Template eingespielt hat. Dieser Fehler ist jetzt behoben.\par
+{\pntext\f2\'B7\tab}\cf1 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\b\fs32 Version 0.6.0 BETA (04.04.2021)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Deutliche Verbesserung des Loggings\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Das Logging wurde komplett auf log4net umgestellt. Dadurch ist es m\'f6glich, den Ablauf an sich zu loggen und nicht wie fr\'fcher nur bei Fehlern. Durch die zus\'e4tzlichen Details hoffe ich, Fehler beheben zu k\'f6nnen, die bisher nicht nachvollziehbar waren und "einfach so passiert sind".\par
@@ -10,38 +17,38 @@
 {\pntext\f2\'B7\tab}\b0 Es wird f\'fcr jeden Tag und f\'fcr jeden Programmstart automatisch eine neue Logdatei angelegt. Wenn ihr also das Programm am ersten Tag zweimal und am Tag danach noch drei mal startet, habt ihr insgesamt 5 Logdateien.\b\par
 {\pntext\f2\'B7\tab}\b0 Da deutlich mehr Details geloggt werden, ist es durchaus normal, dass einzelne Logdateien nun deutlich gr\'f6\'dfer werden. \b Bitte reserviert euch f\'fcr die Logdateien je nach Verwendung des STFU mehrere Megabyte Platz\b0 .\b\par
 {\pntext\f2\'B7\tab}\b0 Die Logdateien sind - ebenso wie die alten Fehlerdateien - nicht unbedingt selbsterkl\'e4rend und f\'fcr euch als Anwender vermutlich an einigen Stellen nicht verst\'e4ndlich. Das mag auf den ersten Blick verwirrend sein, aber wichtig ist, dass ich als Entwickler diese nachvollziehen kann, sodass ich Fehler verstehen und beheben kann.\b\par
-{\pntext\f2\'B7\tab}\cf1 Wenn ihr mir die Logdateien zuschicken m\'f6chtet\cf0\b0 , dann k\'f6nnt ihr die Datei z. b. entweder per E-Mail an \ul the.real.strohi@gmail.com\ulnone  schicken, oder aber zum Beispiel auf Google Drive, Dropbox o. \'e4. hochladen und mir einen Freigabelink zusenden.\b\par
+{\pntext\f2\'B7\tab}\cf2 Wenn ihr mir die Logdateien zuschicken m\'f6chtet\cf0\b0 , dann k\'f6nnt ihr die Datei z. b. entweder per E-Mail an \ul the.real.strohi@gmail.com\ulnone  schicken, oder aber zum Beispiel auf Google Drive, Dropbox o. \'e4. hochladen und mir einen Freigabelink zusenden.\b\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Abk\'fcndigung\b0 : Das alte Logging von Fehlern wird nun nicht mehr nicht mehr verwendet. Auch der alte Ordner, "errors", wird nicht mehr genutzt. Alte Fehlerlogs werden f\'fcr 2 Wochen behalten, f\'fcr den Fall, dass bei jemanden kurz vor dem Update etwas auftritt. Nach 2 Wochen werden sie vom Programm gel\'f6scht. Sobald es keine Fehlerlogs mehr gibt, wird der Ordner "errors" gel\'f6scht.\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Der Punkt "Fehlerverzeichnis \'f6ffnen" im Men\'fc "Hilfe / Support" wurde durch den Punkt "Logverzeichnis \'f6ffnen" ersetzt. Dieser \'f6ffnet nun den Ordner "logs", in dem die Logdateien ab sofort zu finden sein werden.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Der "-1 Fehler" wurde behoben: Wenn man ein Template bearbeitet hat und danach den Playlistservice verbunden hat, konnte der Uploader in gewissen Konstellationen das Video nicht korrekt an den Playlistservice senden. Im Log des Services stand dann etwas davon, dass ein Account mit der ID -1 nicht gefunden werden konnte. Dieser Fehler sollte nun behoben sein, indem der Uploader automatisch falsch gespeicherte Daten bereinigt.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Der Fehler "Unexpected character encountered while parsing value: h. Path '', line 0, position 0." wurde dank der neuen Logs behoben. Dieser Fehler trat regelm\'e4\'dfig auf, obwohl im Programm gar nichts schief lief. Nun wird er nicht mehr geloggt.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.5.3 BETA (20.12.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Ein weiterer Bugfix\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Bei Uploads, die automatisch \'fcber ein Template hinzugef\'fcgt wurden, wurde das Video nach Upload unter Umst\'e4nden nicht an den Playlistservice gesendet. Dieser Fehler wurde behoben.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.5.2 BETA (20.12.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Zwei weitere Bugfixes\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Es wurde beim Anlegen der Tasks eine falsche Zeit eingetragen. Bei Computer mit deutscher Zeiteinstellung eine Stunde zu sp\'e4t. Das ist jetzt behoben und es wird die korrekte Zeit verwendet.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Unter bestimmten Voraussetzungen war das nachtr\'e4gliche Editieren eines Task f\'fcr ein Video in der Warteschlangen nicht m\'f6glich. Auch das ist jetzt behoben.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.5.1 BETA (19.12.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Ziemlich peinlicher Bugfix.. Reden wir nicht weiter dr\'fcber. *hustet*\b\par
 {\pntext\f2\'B7\tab}Download\b0  des Playlistservices (dieser Link funktioniert jetzt auch): {{\field{\*\fldinst{HYPERLINK https://drive.google.com/drive/folders/1BXym0jke5IAbjfYdzO5GGeaeUnrwYg2-?usp=sharing }}{\fldrslt{https://drive.google.com/drive/folders/1BXym0jke5IAbjfYdzO5GGeaeUnrwYg2-?usp=sharing\ul0\cf0}}}}\b\f0\fs22\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Ohne hinzugef\'fcgten Playlistservice war eine Benutzung des Programmes nicht mehr m\'f6glich. Jetzt geht es wieder..\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.5.0 BETA (19.12.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Strohis Playlistservice kann genutzt werden, um vollautomatisch Videos zu einem festgelegten Zeitpunkt in eine Playlist hinzuf\'fcgen zu k\'f6nnen.\b\par
@@ -53,43 +60,43 @@
 {\pntext\f2\'B7\tab}\b0 Ob das Video nach Upload zum Hinzuf\'fcgen zu einer Playlist an den Playlistservice gesendet werden soll und zu welcher Playlist genau.\b\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Feature\b0 : Beim manuellen Hinzuf\'fcgen eines Videos und Bearbeiten eines Videos in der Warteschlange gibt es nun ebenfalls einen Tab "Playlists", in dem man die selben beiden Punkte einstellen kann.\b\par
-{\pntext\f2\'B7\tab}\cf1 Anleitungen zum Playlistservice\cf0\b0  werden von mir im Laufe dieses Tages auf Youtube hochgeladen und zur Tutorial-Playlist hinzugef\'fcgt.\b\par
+{\pntext\f2\'B7\tab}\cf2 Anleitungen zum Playlistservice\cf0\b0  werden von mir im Laufe dieses Tages auf Youtube hochgeladen und zur Tutorial-Playlist hinzugef\'fcgt.\b\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1\b0 Link zur Playlist: {{\field{\*\fldinst{HYPERLINK https://www.youtube.com/playlist?list=PLm5B9FzOsaWfrn-MeuU_zf7pwooPdPCts }}{\fldrslt{https://www.youtube.com/playlist?list=PLm5B9FzOsaWfrn-MeuU_zf7pwooPdPCts\ul0\cf0}}}}\b\f0\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Bugfix\b0 : Die Videosprache wird nun korrekt gesetzt.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste geplante Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.4.3 BETA (29.10.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Minimaler Playlist-Support wurde eingef\'fchrt\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Ab sofort ist es m\'f6glich, im Men\'fc "Verwalten" -> "Playlists" die zum Account geh\'f6renden Playlists zu laden.\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Die geladenen Playlists k\'f6nnen anschlie\'dfend beim Bearbeiten von Templates, manuellem Hinzuf\'fcgen und Bearbeiten eines Videos in der Warteschlagen ausgew\'e4hlt werden, damit das Video im Anschluss an den Upload in die Playlist eingef\'fcgt wird.\b\par
 {\pntext\f2\'B7\tab}Dieses Feature ist nur ein "Notnagel", etwas besseres ist in Planung!\b0\line Eigentlich will ich das mit den Playlists anders gestalten, allerdings hat mir bisher die Zeit f\'fcr mehr gefehlt (genau deshalb kann man die Playlists auch nur abrufen, aber nicht hinzuf\'fcgen, bearbeiten oder l\'f6schen).\line Wie das eigentliche Feature mal aussehen soll, beschreibe ich in diesem Post im Letsplayforum: {{\field{\*\fldinst{HYPERLINK https://letsplayforum.de/thread/175111-automatisch-videos-hochladen-mit-strohis-toolset-f%C3%BCr-uploads-v0-4-1-beta/?postID=2598355#post2598355 }}{\fldrslt{https://letsplayforum.de/thread/175111-automatisch-videos-hochladen-mit-strohis-toolset-f%C3%BCr-uploads-v0-4-1-beta/?postID=2598355#post2598355\ul0\cf0}}}}\b\f0\fs22\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.4.2 BETA (20.08.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Bugfixes\b\par
-{\pntext\f2\'B7\tab}Feature\b0 : Ab dem n\'e4chsten Update kann f\'fcr kleinere Releases die Versionsnummer nun auf mehr Zahlen erweitert werden (z. B. 0.4.2.\cf1\b 1\cf0\b0 ). Bisher waren nur drei Zahlen m\'f6glich. Mal schauen, ob es funktioniert. :D\b\par
+{\pntext\f2\'B7\tab}Feature\b0 : Ab dem n\'e4chsten Update kann f\'fcr kleinere Releases die Versionsnummer nun auf mehr Zahlen erweitert werden (z. B. 0.4.2.\cf2\b 1\cf0\b0 ). Bisher waren nur drei Zahlen m\'f6glich. Mal schauen, ob es funktioniert. :D\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Ab sofort ist die Auswahl eines Templates beim manuellen Hinzuf\'fcgen von Videos m\'f6glich. Man kann dazu den Button mit dem blauen T benutzen.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Wenn ein Pfad nicht mehr existiert, st\'fcrzt der Uploader nicht mehr ab, wenn er ihn \'fcberwachen soll.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Ein seltener Bug, durch den der Uploader beim \'dcberwachen von Prozessen abgest\'fcrzt ist, wurde behoben.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.4.1 BETA (30.06.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Nacharbeiten zu Youtubes Aktionen, durch die das Programm knapp einen Monat lang nicht verwendet werden konnte.\b\par
-{\pntext\f2\'B7\tab}\cf1 Der Uploader war nicht verf\'fcgbar!\cf0\b0  :(\b\line\b0 Bedingt durch ein paar sehr ung\'fcnstige Zuf\'e4lle hat Youtube das Programm von Anfang Juni bis zum 29.06. ausgeschlossen, sodass Uploads nicht m\'f6glich waren. Das Problem wurde behoben und nun kann wieder hochgeladen werden. Falls ihr Fehler findet, meldet euch bitte bei mir. Vielen Dank und bitte entschuldigt die Unannehmlichkeiten!\b\par
+{\pntext\f2\'B7\tab}\cf2 Der Uploader war nicht verf\'fcgbar!\cf0\b0  :(\b\line\b0 Bedingt durch ein paar sehr ung\'fcnstige Zuf\'e4lle hat Youtube das Programm von Anfang Juni bis zum 29.06. ausgeschlossen, sodass Uploads nicht m\'f6glich waren. Das Problem wurde behoben und nun kann wieder hochgeladen werden. Falls ihr Fehler findet, meldet euch bitte bei mir. Vielen Dank und bitte entschuldigt die Unannehmlichkeiten!\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Wenn man manuell Videos hinzuf\'fcgt, dann wird das erste Video direkt ausgew\'e4hlt, damit man wei\'df, dass das Laden der Dateien abgeschlossen wurde.\b\par
 {\pntext\f2\'B7\tab}Feature\b0 : Wenn das Limit f\'fcr die Nutzung von Youtube durch das Programm erreicht wird, werden Uploads bis zum Reset am n\'e4chsten Tag 9 Uhr pausiert und beim Versuch, einen Account zu verbinden, erh\'e4lt man eine entsprechende Fehlermeldung.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Alle Schl\'fcssel wurden aktualisiert. Dadurch sind sie nun nicht mehr im Quellcode gespeichert.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt.\par
 \b\fs32 Version 0.4.0 BETA (30.05.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Es ist nun m\'f6glich, manuell Videos in die Warteschlange aufzunehmen. Dazu wurde ein Plus-Button neben der Warteschlange hinzugef\'fcgt, \'fcber den das geht.\b\line\line\b0 Wenn das Video in einem Pfad liegt, der f\'fcr den Autouploader eingestellt ist, dann wird das Template automatisch vorgeschlagen. Wenn nicht, werden die Felder mit Standardwerten vorausgef\'fcllt.\b\par
@@ -100,9 +107,9 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : Ein Programmabsturz, der beim \'c4ndern der Maximalgeschwindigkeit manchmal auftrat, wurde behoben.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Das Datum f\'fcr die n\'e4chste Ver\'f6ffentlichung wurde bei manchen Templates manchmal grundlos auf den 01.01.2000 gesetzt. Das passiert nun nicht mehr.\b\par
 {\pntext\f2\'B7\tab}weitere kleine Bugfixes\par
-{\pntext\f2\'B7\tab}\cf2\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Die n\'e4chste Version wird noch etwas auf sich warten lassen. Ich plane eine Neuprogrammierung des kompletten Tools in Java, um das Programm plattformunabh\'e4ngig zu machen. Bugfixes und gew\'fcnschte Features baue ich auf Anfrage gerne weiterhin in diese Version des Programmes ein.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
 \b\fs32 Version 0.3.14 BETA (13.05.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Hauptfeature dieser Version\b0 : Bugfixes\b\par
@@ -110,12 +117,12 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : die verbleibende Zeit wird nun auch bei gro\'dfen Dateien (> 2 GB) korrekt gesch\'e4tzt.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : der Fortschritt wird nun beim Icon in der Taskleiste wieder korrekt angezeigt.\b\par
 {\pntext\f2\'B7\tab}weitere kleine Bugfixes\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos manuell hinzuf\'fcgen! Die Planungen daf\'fcr laufen bereits. F\'fcr diese Version werden auch die Tutorial-Videos erneut angepasst werden.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos manuell hinzuf\'fcgen! Die Planungen daf\'fcr laufen bereits. F\'fcr diese Version werden auch die Tutorial-Videos erneut angepasst werden.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
 \b\fs32 Version 0.3.13 BETA (02.05.2020)\fs22\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf1 Ein besonderes Dankesch\'f6n an DarkHunterRPGx, Peacemaker Zockt, Rondral und Drexel f\'fcr die Mithilfe bei der Entwicklung dieser Version!\cf0\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf2 Ein besonderes Dankesch\'f6n an DarkHunterRPGx, Peacemaker Zockt, Rondral und Drexel f\'fcr die Mithilfe bei der Entwicklung dieser Version!\cf0\par
 {\pntext\f2\'B7\tab}Hauptfeature dieser Version\b0 : Nicht abgeschlossene Uploads werden ab sofort \'fcber das Programmende hinaus gespeichert und k\'f6nnen beim erneuten Programmstart fortgesetzt werden.\b\par
 {\pntext\f2\'B7\tab}\'c4nderung\b0 : Es gibt nun einen Archiv-Tab im Hauptfenster. In diesem finden sich die Uploads, die in vorigen Sitzungen hochgeladen wurden. Videos in dieser Liste k\'f6nnen manuell verwaltet werden und werden nicht erneut hochgeladen, auch wenn der Dateiname nicht mit einem Unterstrich beginnt.\par
 {\pntext\f2\'B7\tab}\b\'c4nderung\b0 : Der Uploader benennt nun keine Dateien mehr nach dem Upload um, damit sie mit einem Unterstrich starten. Stattdessen verschieb er sie ins Archiv. Aktuell werden Dateien mit Unterstrich weiterhin nicht hochgeladen, um zu den alten Versionen kompatibel zu bleiben.\b\par
@@ -129,9 +136,9 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : Bei nicht geschlossenen Scripten st\'fcrzt der Uploader nun nicht mehr ab.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Ein Fehler, durch den Videos, die bereits in der Warteschlange sind, erneut hinzugef\'fcgt wurden, wurde behoben.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Der Dateiname der Videodatei wird nun an Youtube \'fcbertragen. Bisher listet das Youtube Studio den Dateinamen als "unknown". Diesen Fix habe ich aus dem Quellcode von Drexels VidUp kopiert. Vielen Dank daf\'fcr!\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos manuell hinzuf\'fcgen! Die Planungen daf\'fcr laufen bereits. F\'fcr diese Version werden auch die Tutorial-Videos erneut angepasst werden.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos manuell hinzuf\'fcgen! Die Planungen daf\'fcr laufen bereits. F\'fcr diese Version werden auch die Tutorial-Videos erneut angepasst werden.\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
 \b\fs32 Version 0.3.12 BETA (04.03.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Bugfix\b0 : Bisher war es nicht m\'f6glich, bei den Templates in den Beschreibungen eine neue Zeile einzuf\'fcgen, weil stattdessen die \'c4nderungen gespeichert wurden. Das wurde nun behoben.\b\par
@@ -139,9 +146,9 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : Verschiedene Probleme, die durch das gleichzeitige Durchsuchen mehrerer Pfade auftraten und zum Programmabsturz f\'fchrten, wurden behoben.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Der Mailversand f\'fchrt nun nicht mehr zu einem Programmabsturz, wenn man keine Tags f\'fcr das Video angegeben hat.\b\par
 {\pntext\f2\'B7\tab}\'c4nderung\b0 : Anstatt des hoffnungslos veralteten Youtube-Tutorials wurde nun eine Tutorial-Playlist im Men\'fc "Hilfe/Support" verlinkt. Dieses wird von mir mit Videos zur aktuellen Version gepflegt und jeweils an die neuste Version angepasst.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.3.13 an. In dieser soll der Uploader die Warteschlange beim Programmende nicht mehr vergessen und f\'fcr hochgeladene Videos ein Archiv f\'fchren, sodass hochgeladene Videos nicht mehr mit einem Unterstrich markiert werden m\'fcssen.\line Danach kommt (geplant) Version 0.4.0. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.3.13 an. In dieser soll der Uploader die Warteschlange beim Programmende nicht mehr vergessen und f\'fcr hochgeladene Videos ein Archiv f\'fchren, sodass hochgeladene Videos nicht mehr mit einem Unterstrich markiert werden m\'fcssen.\line Danach kommt (geplant) Version 0.4.0. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
 
-\pard\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
+\pard\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \par
 \b\fs32 Version 0.3.11 BETA (01.02.2020)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Neu:\b0  Man kann das Hochladen der Warteschlange und das Hinzuf\'fcgen der Videos in die Warteschlange getrennt starten und beenden. Daf\'fcr wurde \'fcber der Warteschlange ein kleiner Abschnitt hinzugef\'fcgt.\b\par
@@ -151,8 +158,8 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : Wenn man die Funktion findNumber zum automatisierten Finden von Zahlen genutzt hat, wurden Zahlen am Ende des Dateinamens nicht gefunden. Das ist jetzt behoben.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Wenn ein Pfad beim Start der \'dcberwachung nicht mehr existiert (z. B. umbenannt oder gel\'f6scht wurde), dann st\'fcrzt das Programm nicht mehr ab, benachrichtigt aber auch nicht \'fcber dieses Problem.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Wenn man eine Mail f\'fcr erfolgreiche oder fehlerhafte erhalten wollte und der Uploader sich am Ende geschlossen hat oder Windows heruntergefahren hat, wurde f\'fcr das letzte hochgeladene Video keine Mail mehr versendet. Das wurde korrigiert.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.3.12 an. In dieser soll der Uploader die Warteschlange beim Programmende nicht mehr vergessen und f\'fcr hochgeladene Videos ein Archiv f\'fchren, sodass hochgeladene Videos nicht mehr mit einem Unterstrich markiert werden m\'fcssen.\line Danach kommt (geplant) Version 0.4.0. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.3.12 an. In dieser soll der Uploader die Warteschlange beim Programmende nicht mehr vergessen und f\'fcr hochgeladene Videos ein Archiv f\'fchren, sodass hochgeladene Videos nicht mehr mit einem Unterstrich markiert werden m\'fcssen.\line Danach kommt (geplant) Version 0.4.0. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.10 BETA (16.12.2019)\fs22\par
 
@@ -160,8 +167,8 @@
 {\pntext\f2\'B7\tab}Bugfix\b0 : Desktop-Benachrichtigungen wurden nicht richtig angezeigt. Das wurde behoben.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Emojis sollten nun im Template-Fenster angezeigt werden.\b\par
 {\pntext\f2\'B7\tab}\b0 Ab sofort zeigt der Uploader auch den Datendurchsatz beim Upload an.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.9 BETA (04.10.2019)\fs22\par
 
@@ -173,16 +180,16 @@
 {\pntext\f2\'B7\tab}\b0 Ebenfalls lassen sich Desktop-Benachrichtigungen einstellen. F\'fcr diese wird nat\'fcrlich nichts weiter ben\'f6tigt. ;)\b\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Der Uploader wird als \b unverifizierte App \b0 angezeigt... :( \b\line\b0 Alle Apps, die auf Google-Dienste zugreifen, m\'fcssen \'fcberpr\'fcft werden. Dadurch, dass der Uploader nach wie vor nur eine Beta ist, habe ich ihn noch nicht zur \'dcberpr\'fcfung an Google gesendet und Google zeigt beim Verkn\'fcpfen daf\'fcr einen Warnhinweis an. Die \'dcberpr\'fcfung werde ich durchf\'fchren, sobald ich mir sicher bin, dass ich den Uploader wirklich bis zur Vollversion entwickeln werde.\line Bei der Meldung von Google handelt sich um eine Warnung, keinen Fehler.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.8 BETA (26.05.2019)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Im Falle eines unerwarteten Problems (z. B. Computer hat die Internetverbindung verloren) wartet der Uploader nun 1:30 Minuten und versucht dann, den Upload fortzusetzen. Das macht er insgesamt 10 mal, bevor er den Upload dann endg\'fcltig abbricht. Vorher wurde der Upload sofort abgebrochen.\b\par
 {\pntext\f2\'B7\tab}\b0 Der Upload wird nun nicht mehr in einem eigenen Fenster ausgef\'fchrt, sondern im Hauptfenster. Dies ist eine Vorbereitung auf die Version 0.4.0, in der Videos manuell hochgeladen werden k\'f6nnen.\b\par
 {\pntext\f2\'B7\tab}Bugfix\b0 : Die Aktion nach dem Beenden aller Uploads hat in Version 0.3.7 nicht wie erwartet funktioniert. Der Fehler ist nun behoben.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht (geplant) Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.7 BETA (04.05.2019)\fs22\par
 
@@ -191,20 +198,20 @@
 {\pntext\f2\'B7\tab}\b0 Die urspr\'fcnglichen Funktionen, mit denen der Uploader in 0.1.0 BETA ausgeliefert wurde, kamen zur\'fcck, m\'fcssen aber mit C#-Syntax benutzt werden (das ist ein kleines bisschen anders).\b\par
 {\pntext\f2\'B7\tab}\b0 Es ist nun m\'f6glich, weitere Assemblies zu referenzieren, um diese benutzen zu k\'f6nnen. Beispielsweise k\'f6nnte man System.Windows.Forms referenzieren, um nach dem erfolgten Upload eine Messagebox anzuzeigen.\b\par
 {\pntext\f2\'B7\tab}\b0 Das Upload-Nachbereitungsskript wird nun nach Abschluss des Uploads ausgef\'fchrt, nicht mehr, nachdem das Video erfolgreich in die Warteschlange aufgenommen wurde.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Als n\'e4chstes steht Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Als n\'e4chstes steht Version 0.4.0 an. In dieser Version wird es endlich m\'f6glich sein, den Uploader als ganz normalen Uploader zu verwenden. Man kann dann Videos endlich manuell hinzuf\'fcgen!\cf0\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.6 BETA (31.03.2019)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Die Aktion nach dem Upload (Zum Hauptmen\'fc, Programm schlie\'dfen, Herunterfahren) wurde \'fcberarbeitet und sollte nun deutlich stabiler sein. Sollten noch Fehler aufkommen, w\'fcrde ich mich \'fcber Infos dar\'fcber sehr freuen.\b\par
 {\pntext\f2\'B7\tab}\b0 Der Updater hat eine kleine Aktualisierung erhalten und sollte nun auch etwas stabiler sein.\b\par
 {\pntext\f2\'B7\tab}\b0 Bugfix: Der Button zum \'d6ffnen des Dialogs zum W\'e4hlen eines Thumbnails beim Editieren eines Videos funktioniert jetzt. Den hab ich wohl bisher \'fcbersehen. :D \b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Folgendes habe ich bis zur Version 0.4.0 geplant:\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Folgendes habe ich bis zur Version 0.4.0 geplant:\cf0\b\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1\cf2\b0 In Version 0.3.7 wird die C#-Schnittstelle komplett \'fcberarbeitet werden.\cf0\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Version 0.4.0 wird dann eine \'dcberraschung enthalten.\cf0\b\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1\cf1\b0 In Version 0.3.7 wird die C#-Schnittstelle komplett \'fcberarbeitet werden.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Version 0.4.0 wird dann eine \'dcberraschung enthalten.\cf0\b\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Programm im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.5 BETA (24.03.2019)\fs22\par
 
@@ -214,13 +221,13 @@
 {\pntext\f2\'B7\tab}\b0 Die Reihenfolge der hochzuladenen Videos kann ge\'e4ndert werden - \'fcber den Aktionsbutton kann man einen Eintrag nach oben und nach unten verschieben.\b\par
 {\pntext\f2\'B7\tab}\b0 Das Thumbnail wird nun, sofern gefunden, in der Liste angzeigt.\b\par
 {\pntext\f2\'B7\tab}\b0 Fehler werden vom Programm zentral in das Verzeichnis "errors" geloggt. Sollte ein Fehler auftreten, k\'f6nnte das beim Beheben hilfreich sein.\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Folgendes habe ich bis zur Version 0.4.0 geplant:\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Folgendes habe ich bis zur Version 0.4.0 geplant:\cf0\b\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1\cf2\b0 Version 0.3.6 kommt als n\'e4chstes. Mit ihr wird die Aktion nach dem Upload des Videos stabilisiert, was aktuell mehr oder weniger gut funktioniert.\cf0\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 In Version 0.3.7 wird die C#-Schnittstelle komplett \'fcberarbeitet werden.\cf0\b\par
-{\pntext\f2\'B7\tab}\cf2\b0 Version 0.4.0 wird dann eine \'dcberraschung enthalten.\cf0\b\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1\cf1\b0 Version 0.3.6 kommt als n\'e4chstes. Mit ihr wird die Aktion nach dem Upload des Videos stabilisiert, was aktuell mehr oder weniger gut funktioniert.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 In Version 0.3.7 wird die C#-Schnittstelle komplett \'fcberarbeitet werden.\cf0\b\par
+{\pntext\f2\'B7\tab}\cf1\b0 Version 0.4.0 wird dann eine \'dcberraschung enthalten.\cf0\b\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \b\par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.4 BETA (23.02.2019)\fs22\par
 
@@ -235,7 +242,7 @@
 {\pntext\f2\'B7\tab}Der Upload von Videos kann abgebrochen werden\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Fehler beim Hochladen werden nun deutlich besser dargestellt\par
-{\pntext\f2\'B7\tab}\cf2 In Zukunft werden die Ver\'f6ffentlichungshinweise auch Informationen zu den zuk\'fcnftigen Versionen enthalten, allerdings in grauer Schrift, damit man wei\'df was noch in Planung ist.\line Folgendes habe ich bis zur Version 0.4.0 geplant:\par
+{\pntext\f2\'B7\tab}\cf1 In Zukunft werden die Ver\'f6ffentlichungshinweise auch Informationen zu den zuk\'fcnftigen Versionen enthalten, allerdings in grauer Schrift, damit man wei\'df was noch in Planung ist.\line Folgendes habe ich bis zur Version 0.4.0 geplant:\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li1080\sa200\sl276\slmult1 Es soll m\'f6glich sein, Videos noch w\'e4hrend des Uploads zu bearbeiten, sodass \'c4nderungen an Beschreibung, usw. w\'e4hrend des Uplodas m\'f6glich sind. Vielleicht sogar noch, wenn das Video schon fertig hochgeladen ist. Das wird wahrscheinlich Version 0.3.5.\par
 {\pntext\f2\'B7\tab}Es wird eine \'dcberarbeitung der Aktion nach dem Upload aller Videos geben. Hier gab es immer wieder noch kleinere Bugs und die Struktur gef\'e4llt mir auch nicht mehr so ganz. Je nach Umfang der \'dcberarbeitung werden die \'c4nderungen teil der Version 0.3.5 oder aber die Version 0.3.6.\par
@@ -243,25 +250,25 @@
 {\pntext\f2\'B7\tab}Nebenbei plane ich f\'fcr die Zeit nach dem vorigen Punkt eine Video-Tutorial-Reihe, die Erkl\'e4rungen und Tipps zur Benutzung des Programmes enth\'e4lt. Diese wird dann in einer der neuen Versionen in den Ver\'f6ffentlichungshinweisen verlinkt und au\'dferdem auch als eigener Punkt im Hauptfenster im Men\'fc "Support" angegeben werden.\par
 {\pntext\f2\'B7\tab}Version 0.4.0 erh\'e4lt dann eine \'dcberraschung. Was es ist, wird noch nicht verraten. ;)\par
 
-\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf1 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Hauptfenster im Men\'fc "Hilfe / Support" verlinkt. \par
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\cf2 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Hauptfenster im Men\'fc "Hilfe / Support" verlinkt. \par
 
 \pard\sa200\sl276\slmult1\b\fs32 Version 0.3.3 BETA (23.01.2019)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Der Uploader zeigt nun den Fortschritt des aktuellen Uploads auch beim Symbol in der Taskleiste an. Auf diese Art und Weise ist es m\'f6glich, ihn zu sehen, ohne das Fenster aktivieren zu m\'fcssen.\par
-{\pntext\f2\'B7\tab}\cf1 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \par
+{\pntext\f2\'B7\tab}\cf2 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \par
 
 \pard\sa200\sl276\slmult1\b\fs32 Version 0.3.2 BETA (20.01.2019)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Frohes neues Jahr (wenn auch schon ganz sch\'f6n sp\'e4t. ;)\b\par
 {\pntext\f2\'B7\tab}\b0 W\'e4hrend eines Uploads wird nun angezeigt, wie lange der Upload bereits lief und wie lange er gesch\'e4tzt noch laufen wird.\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. \b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.1 BETA (09.12.2018)\fs22\par
 
 \pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b0 Bugfix: Ca. 2 Stunden nach Start der Ordner\'fcberwachung scheiterten alle weiteren Uploads bis zum Neustart des Programms. Das ist nun behoben.\par
 {\pntext\f2\'B7\tab}Feature: Wenn man die Ver\'f6ffentlichungszeiten durch den Uploader planen l\'e4sst, merkt dieser sich nun pro Pfad das geplante Datum des letzten hochgeladenen Videos und schl\'e4gt das darauffolgende Datum beim n\'e4chsten Start vor.\b\par
 {\pntext\f2\'B7\tab}\b0 Fehler in Texten wurden behoben.\b\par
-{\pntext\f2\'B7\tab}\cf1\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. In Zukunft wird es wieder h\'e4ufiger eine neue Version geben. Ich habe vor kurzem mein Studium beendet und musste mich erst daran gew\'f6hnen, Vollzeit zu arbeiten. Das sollte nun gepackt sein, also kann ich wieder mehr am Uploader arbeiten.\line Liebe Gr\'fc\'dfe!\b\par
+{\pntext\f2\'B7\tab}\cf2\b0 Bei Fehlern\cf0  k\'f6nnt ihr euch gerne melden, Kontaktm\'f6glichkeiten sind im Men\'fc "Hilfe / Support" verlinkt. In Zukunft wird es wieder h\'e4ufiger eine neue Version geben. Ich habe vor kurzem mein Studium beendet und musste mich erst daran gew\'f6hnen, Vollzeit zu arbeiten. Das sollte nun gepackt sein, also kann ich wieder mehr am Uploader arbeiten.\line Liebe Gr\'fc\'dfe!\b\par
 
 \pard\sa200\sl276\slmult1\fs32 Version 0.3.0 BETA\fs22\par
 
