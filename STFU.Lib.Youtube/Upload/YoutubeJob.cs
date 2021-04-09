@@ -14,6 +14,7 @@ namespace STFU.Lib.Youtube.Upload
 	public class YoutubeJob : IYoutubeJob
 	{
 		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(YoutubeJob));
+		public static bool SimplifyLogging { get; set; } = false;
 
 		public IYoutubeVideo Video { get; set; }
 
@@ -31,7 +32,12 @@ namespace STFU.Lib.Youtube.Upload
 				if (state != value)
 				{
 					state = value;
-					LOGGER.Info($"State of Job '{Video.Title}' changed to '{state}'");
+
+					if (!SimplifyLogging)
+					{
+						LOGGER.Info($"State of Job '{Video.Title}' changed to '{state}'");
+					}
+
 					OnPropertyChanged();
 				}
 			}
@@ -94,7 +100,11 @@ namespace STFU.Lib.Youtube.Upload
 				if (value != null && uploadStatus != value)
 				{
 					uploadStatus = value;
-					LOGGER.Info($"Uploadstatus of Job '{Video.Title}' changed to '{uploadStatus}'");
+
+					if (!SimplifyLogging)
+					{
+						LOGGER.Info($"Uploadstatus of Job '{Video.Title}' changed to '{uploadStatus}'");
+					}
 				}
 			}
 		}
@@ -103,7 +113,7 @@ namespace STFU.Lib.Youtube.Upload
 
 		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account, UploadStatus uploadStatus)
 		{
-			LOGGER.Info($"Creating new job for video '{video.Title}' and account '{account.Title}' with '{uploadStatus}'");
+			LOGGER.Info($"Creating new job for video '{video?.Title ?? "null"}' and account '{account?.Title ?? "null"}'");
 
 			Video = video;
 			Account = account;
@@ -117,7 +127,10 @@ namespace STFU.Lib.Youtube.Upload
 		public YoutubeJob(YoutubeVideo video, YoutubeAccount account, YoutubeError error, UploadStatus uploadStatus)
 			: this(video, account, uploadStatus)
 		{
-			LOGGER.Info($"Creating new job with error '{error}'");
+			if (!SimplifyLogging)
+			{
+				LOGGER.Info($"Creating new job with error '{error}'");
+			}
 
 			Error = error;
 		}

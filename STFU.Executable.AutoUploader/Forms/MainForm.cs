@@ -571,7 +571,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			LOGGER.Info($"Saving queue and archive");
 
 			queuePersistor.Save();
+
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 
 			LOGGER.Info($"Stopping program");
 		}
@@ -637,8 +640,10 @@ namespace STFU.Executable.AutoUploader.Forms
 			queuePersistor = new JobPersistor(queueContainer, "./settings/queue.json");
 			queuePersistor.Load();
 
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor = new JobPersistor(archiveContainer, "./settings/archive.json");
 			archivePersistor.Load();
+			YoutubeJob.SimplifyLogging = false;
 
 			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
 			playlistPersistor.Load();
@@ -882,7 +887,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			pf.ShowDialog(this);
 
 			pathPersistor.Save();
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 
 			RefillSelectedPathsListView();
 			RefillArchiveView();
@@ -1052,7 +1059,9 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 			}
 
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 		}
 
 		private void videotutorialPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1080,7 +1089,9 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 			}
 
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 		}
 
 		private void archiveListView_SelectedIndexChanged(object sender, EventArgs e)
