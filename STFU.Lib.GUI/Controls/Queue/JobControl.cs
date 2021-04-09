@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Common;
 using STFU.Lib.GUI.Forms;
 using STFU.Lib.Playlistservice;
@@ -18,6 +19,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 	public partial class JobControl : UserControl
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(JobControl));
+
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
@@ -46,6 +49,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 			{
 				if (job != value)
 				{
+					LOGGER.Info($"Changing job from '{job}' to new job '{value}'");
+
 					if (job != null)
 					{
 						job.PropertyChanged -= JobPropertyChanged;
@@ -68,6 +73,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void UploadStatusPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			LOGGER.Debug($"Job upload status property changed: '{e.PropertyName}'");
 			Actions.Add(new JobChangedArgs(JobChangedType.UploadStatusPropertyChanged, e));
 		}
 
@@ -95,11 +101,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 				{
 					currentUploadObject = "nichts";
 				}
+
+				LOGGER.Info($"Current upload object was set to '{currentUploadObject}' from OnUploadStatusPropertyChanged");
 			}
 		}
 
 		private void RefreshThumbnail()
 		{
+			LOGGER.Debug($"Refreshing thumbnail to path '{Job.Video.ThumbnailPath}'");
+
 			thumbnailBox.BackgroundImage = ThumbnailLoader.Load(Job.Video.ThumbnailPath);
 			thumbnailBox.BackgroundImageLayout = ImageLayout.Zoom;
 			thumbnailBox.Visible = true;
@@ -124,6 +134,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void JobPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
+			LOGGER.Info($"Job property changed: '{e.PropertyName}'");
+
 			Actions.Add(new JobChangedArgs(JobChangedType.PropertyChanged, e));
 		}
 
@@ -151,6 +163,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 				{
 					currentUploadObject = "nichts";
 				}
+
+				LOGGER.Info($"Current upload object was set to '{currentUploadObject}' from OnJobPropertyChanged");
 			}
 
 			if (e.PropertyName == nameof(Job.State))
@@ -160,6 +174,9 @@ namespace STFU.Lib.GUI.Controls.Queue
 			else if (e.PropertyName == nameof(Job.Error))
 			{
 				RefreshDetailSecondLineLabel(Job.Error.Message);
+
+				LOGGER.Error($"Upload Failed because of reason '{Job.Error.FailReason}' with message: '{Job.Error.Message}'");
+
 				if (Job.Error.FailReason == FailureReason.UserUploadLimitExceeded)
 				{
 					MessageBox.Show(this, $"Youtube hat den Upload weiterer Videos vorerst abgelehnt, da für diesen Account in den letzten Stunden zu viele Videos hochgeladen wurden.{Environment.NewLine}{Environment.NewLine}In der Regel sollte der Upload bald wieder klappen.{Environment.NewLine}Versuche es am besten in ungefähr einer bis ein paar Stunden noch mal.{Environment.NewLine}Solltest du nicht so lange warten wollen, wirst du auf die von Youtube angebotene Upload-Seite im Internet oder auf ein anderes Upload-Programm ausweichen müssen.{Environment.NewLine}{Environment.NewLine}Es handelt sich hierbei nicht um einen Fehler des Programms. Der Upload wird von Youtube direkt abgelehnt.", "Weitere Videos abgelehnt", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -167,6 +184,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 			else if (e.PropertyName == nameof(Job.ShouldBeSkipped))
 			{
+				LOGGER.Debug($"Refreshing skipped state. New value: {Job.ShouldBeSkipped}");
+
 				if (Job.ShouldBeSkipped)
 				{
 					RefreshDetailLabel($"Upload wird übersprungen...", string.Empty);
@@ -187,6 +206,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 			if (!job.ShouldBeSkipped)
 			{
+				LOGGER.Info($"Refreshing job control for state {Job.ShouldBeSkipped}");
+
 				switch (job.State)
 				{
 					case JobState.NotStarted:
@@ -239,6 +260,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 			else
 			{
+				LOGGER.Info($"Setting control to should be skipped state");
+
 				RefreshDetailLabel($"Upload wird übersprungen...", string.Empty);
 				uploadTitle.Text = $"{Job.Video.Title} (wird übersprungen)";
 				überspringenToolStripMenuItem.Checked = true;
@@ -251,6 +274,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
+			LOGGER.Info($"Filling container into this control");
+
 			categoryContainer = catContainer;
 			languageContainer = langContainer;
 			playlistContainer = plContainer;
@@ -321,6 +346,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		public JobControl()
 		{
+			LOGGER.Info($"Creating new JobControl");
+
 			InitializeComponent();
 		}
 
@@ -331,12 +358,16 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void startenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked start job tool strip menu entry");
+
 			Job.Reset();
 			Job.Run();
 		}
 
 		private void pausierenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked pause job tool strip menu entry");
+
 			RefreshDetailLabel($"Upload wird pausiert...", string.Empty);
 			RefreshBackColor(Color.FromArgb(224, 224, 224));
 
@@ -345,11 +376,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void fortsetzenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked resume job tool strip menu entry");
+
 			Job.Resume();
 		}
 
 		private void abbrechenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked cancel job tool strip menu entry");
+
 			RefreshDetailLabel($"Upload wird abgebrochen...", string.Empty);
 			RefreshBackColor(Color.FromArgb(255, 255, 192));
 
@@ -358,21 +393,29 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void überspringenToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked skip job tool strip menu entry");
+
 			Job.ShouldBeSkipped = überspringenToolStripMenuItem.Checked;
 		}
 
 		private void löschenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked delete job tool strip menu entry");
+
 			Job.Delete();
 		}
 
 		private void nachObenSchiebenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked move job up tool strip menu entry");
+
 			MoveUpRequested?.Invoke(this);
 		}
 
 		private void nachUntenSchiebenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked move job down tool strip menu entry");
+
 			MoveDownRequested?.Invoke(this);
 		}
 
@@ -383,6 +426,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void detailsBearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			LOGGER.Info($"User clicked edit job details tool strip menu entry");
+
 			EditVideoForm form = new EditVideoForm(Job.Video.CreateCopy(), Job.NotificationSettings.CreateCopy(), Job.Account.Access.First().HasSendMailPrivilegue, categoryContainer, languageContainer, playlistContainer, pscContainer);
 
 			if (form.ShowDialog(this) == DialogResult.OK)
@@ -427,6 +472,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 		}
 
+		private int logOffset = 0;
 		string[] dataUnits = new[] { "B/s", "kB/s", "MB/s", "GB/s", "TB/s" };
 		private string CalculateAverageSpeed(double size)
 		{
@@ -438,6 +484,16 @@ namespace STFU.Lib.GUI.Controls.Queue
 			}
 
 			string result = $"{size:0.00} {dataUnits[unitIndex]}";
+
+			if (logOffset == 0)
+			{
+				LOGGER.Info($"Current average speed: '{result}'");
+			}
+			else
+			{
+				LOGGER.Debug($"Current average speed: '{result}'");
+			}
+			logOffset = (logOffset + 1) % 20;
 
 			return result;
 		}

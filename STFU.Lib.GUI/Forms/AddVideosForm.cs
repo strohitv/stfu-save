@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Automation.Interfaces.Model;
 using STFU.Lib.Youtube.Automation.Internal.Templates;
@@ -13,6 +14,8 @@ namespace STFU.Lib.GUI.Forms
 {
 	public partial class AddVideosForm : Form
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(AddVideosForm));
+
 		private IYoutubeCategoryContainer CategoryContainer { get; set; }
 		private IYoutubeLanguageContainer LanguageContainer { get; set; }
 		private IYoutubePlaylistContainer PlaylistContainer { get; set; }
@@ -27,6 +30,8 @@ namespace STFU.Lib.GUI.Forms
 
 		public AddVideosForm(ITemplate[] templates, IPath[] pathInfos, IYoutubeCategoryContainer categoryContainer, IYoutubeLanguageContainer languageContainer, IYoutubePlaylistContainer playlistContainer, IPlaylistServiceConnectionContainer pscContainer, IYoutubeAccount account)
 		{
+			LOGGER.Info("Initialize new AddVideosForm");
+
 			InitializeComponent();
 			editVideoInformationGrid.IsNewUpload = true;
 

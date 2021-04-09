@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -12,6 +13,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 {
 	public partial class JobQueue : UserControl
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(JobQueue));
+
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
@@ -32,12 +35,13 @@ namespace STFU.Lib.GUI.Controls.Queue
 			{
 				if (uploader != value)
 				{
+					LOGGER.Info($"Changing the uploader!");
+
 					if (uploader != null)
 					{
 						Uploader.JobQueued -= Uploader_JobQueued;
 						Uploader.JobDequeued -= Uploader_JobDequeued;
 						Uploader.JobPositionChanged -= Uploader_JobPositionChanged;
-						Uploader.NewUploadStarted -= Uploader_NewUploadStarted;
 					}
 
 					uploader = value;
@@ -45,7 +49,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 					Uploader.JobQueued += Uploader_JobQueued;
 					Uploader.JobDequeued += Uploader_JobDequeued;
 					Uploader.JobPositionChanged += Uploader_JobPositionChanged;
-					Uploader.NewUploadStarted += Uploader_NewUploadStarted;
 
 					SuspendLayout();
 					ClearItems();
@@ -56,16 +59,6 @@ namespace STFU.Lib.GUI.Controls.Queue
 					}
 				}
 			}
-		}
-
-		private void Uploader_NewUploadStarted(UploadStartedEventArgs args)
-		{
-			Actions.Add(new JobChangedArgs(JobChangedType.Started, args));
-		}
-
-		private void OnNewUploadStarted(UploadStartedEventArgs args)
-		{
-			var control = jobControls.First(jc => jc.Job == args.Job);
 		}
 
 		private bool showActionButtons = true;
@@ -91,11 +84,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		public JobQueue()
 		{
+			LOGGER.Info($"Initializing new JobQueue");
+
 			InitializeComponent();
 		}
 
 		public void Fill(IYoutubeCategoryContainer catContainer, IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
+			LOGGER.Info($"Filling the JobQueue with containers");
+
 			categoryContainer = catContainer;
 			languageContainer = langContainer;
 			playlistContainer = plContainer;
@@ -104,11 +101,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Uploader_JobQueued(object sender, JobQueuedEventArgs e)
 		{
+			LOGGER.Debug($"Received a Uploader job queued event");
+
 			Actions.Add(new JobChangedArgs(JobChangedType.Added, e));
 		}
 
 		private void OnJobQueued(JobQueuedEventArgs e)
 		{
+			LOGGER.Info($"Constructing a new job control");
+
 			var control = new JobControl() { Job = e.Job, ActionsButtonsVisible = ShowActionsButtons };
 			control.Fill(categoryContainer, languageContainer, playlistContainer, pscContainer);
 
@@ -117,12 +118,17 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Uploader_JobPositionChanged(object sender, JobPositionChangedEventArgs e)
 		{
+			LOGGER.Debug($"Received a Uploader job position changed event");
+
 			Actions.Add(new JobChangedArgs(JobChangedType.PositionChanged, e));
 		}
 
 		private void OnJobPositionChanged(JobPositionChangedEventArgs e)
 		{
 			var control = jobControls[e.OldPosition];
+
+			LOGGER.Info($"Moving JobControl for job '{control.Job.Video.Title}' from position {e.OldPosition} to position {e.NewPosition}");
+
 			jobControls.RemoveAt(e.OldPosition);
 			jobControls.Insert(e.NewPosition, control);
 
@@ -147,6 +153,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Uploader_JobDequeued(object sender, JobDequeuedEventArgs e)
 		{
+			LOGGER.Debug($"Received a Uploader job dequeued event");
+
 			Actions.Add(new JobChangedArgs(JobChangedType.Removed, e));
 		}
 
@@ -155,6 +163,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 			try
 			{
 				var control = jobControls.First(jc => jc.Job == e.Job);
+
+				LOGGER.Info($"Removing JobControl of job '{control.Job.Video.Title}' from position {e.Position}");
 
 				jobControls.Remove(control);
 				RemoveItemFromMainTlp(control, e.Position);
@@ -187,6 +197,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 				position = jobControls.Count;
 			}
 
+			LOGGER.Info($"Adding JobControl for job '{control.Job.Video.Title}' to position {position}");
+
 			jobControls.Insert(position, control);
 
 			if (refreshButtons)
@@ -205,11 +217,15 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void Control_MoveUpRequested(JobControl sender)
 		{
+			LOGGER.Debug($"Received a JobControl move up event");
+
 			uploader.ChangePosition(sender.Job, jobControls.IndexOf(sender) - 1);
 		}
 
 		private void Control_MoveDownRequested(JobControl sender)
 		{
+			LOGGER.Debug($"Received a JobControl move down event");
+
 			uploader.ChangePosition(sender.Job, jobControls.IndexOf(sender) + 1);
 		}
 
@@ -252,6 +268,8 @@ namespace STFU.Lib.GUI.Controls.Queue
 
 		private void ClearItems()
 		{
+			LOGGER.Debug($"Clearing all Items");
+
 			if (mainTlp.RowStyles.Count > 1)
 			{
 				while (mainTlp.RowStyles.Count > 1)
@@ -285,8 +303,7 @@ namespace STFU.Lib.GUI.Controls.Queue
 					case JobChangedType.PositionChanged:
 						OnJobPositionChanged((JobPositionChangedEventArgs)action.Args);
 						break;
-					case JobChangedType.Started:
-						OnNewUploadStarted((UploadStartedEventArgs)action.Args);
+					default:
 						break;
 				}
 			}

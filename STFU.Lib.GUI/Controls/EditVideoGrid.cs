@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using STFU.Lib.Playlistservice;
 using STFU.Lib.Youtube.Interfaces;
 using STFU.Lib.Youtube.Interfaces.Model;
@@ -12,6 +13,8 @@ namespace STFU.Lib.GUI.Controls
 {
 	public partial class EditVideoGrid : UserControl
 	{
+		private static readonly ILog LOGGER = LogManager.GetLogger(nameof(EditVideoGrid));
+
 		private IYoutubeCategoryContainer categoryContainer;
 		private IYoutubeLanguageContainer languageContainer;
 		private IYoutubePlaylistContainer playlistContainer;
@@ -23,10 +26,15 @@ namespace STFU.Lib.GUI.Controls
 		{
 			get
 			{
+				LOGGER.Info($"Returning Video");
+				LOGGER.Info(video);
+
 				return video;
 			}
 			private set
 			{
+				LOGGER.Info($"Receiving video to edit");
+
 				video = value;
 				RefreshView();
 			}
@@ -80,12 +88,16 @@ namespace STFU.Lib.GUI.Controls
 
 		public EditVideoGrid()
 		{
+			LOGGER.Info($"Initializing new EditVideoGrid");
+
 			InitializeComponent();
 		}
 
 		public void Fill(IYoutubeVideo video, INotificationSettings notificationSettings, bool hasMailPrivilegue, IYoutubeCategoryContainer catContainer,
 			IYoutubeLanguageContainer langContainer, IYoutubePlaylistContainer plContainer, IPlaylistServiceConnectionContainer pscContainer)
 		{
+			LOGGER.Info($"Filling video '{video.Title}' and containers into this control");
+
 			categoryContainer = catContainer;
 			RefreshCategories();
 
@@ -104,6 +116,8 @@ namespace STFU.Lib.GUI.Controls
 
 		private void RefreshPlaylists()
 		{
+			LOGGER.Debug($"Refreshing playlists");
+
 			playlistsCombobox.Items.Clear();
 
 			foreach (var playlist in playlistContainer.RegisteredPlaylists)
@@ -115,6 +129,8 @@ namespace STFU.Lib.GUI.Controls
 
 		private void RefreshLanguages()
 		{
+			LOGGER.Debug($"Refreshing languages");
+
 			defaultLanguageCombobox.Items.Clear();
 
 			foreach (var lang in languageContainer.RegisteredLanguages)
@@ -125,6 +141,8 @@ namespace STFU.Lib.GUI.Controls
 
 		private void RefreshCategories()
 		{
+			LOGGER.Debug($"Refreshing categories");
+
 			categoryCombobox.Items.Clear();
 
 			foreach (var cat in categoryContainer.RegisteredCategories)
@@ -135,6 +153,8 @@ namespace STFU.Lib.GUI.Controls
 
 		private void RefreshView()
 		{
+			LOGGER.Debug($"Refreshing view");
+
 			titleTextbox.Text = video.Title;
 			descriptionTextbox.Text = video.Description;
 			tagsTextbox.Text = string.Join(", ", video.Tags);
@@ -210,6 +230,8 @@ namespace STFU.Lib.GUI.Controls
 
 		private void RefreshNotificationSettings()
 		{
+			LOGGER.Debug($"Refreshing notification settings");
+
 			desktopNotificationVideoFoundCheckbox.Checked = NotificationSettings.NotifyOnVideoFoundDesktop;
 			desktopNotificationUploadStartedCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadStartedDesktop;
 			desktopNotificationUploadSuccesfulCheckbox.Checked = NotificationSettings.NotifyOnVideoUploadFinishedDesktop;

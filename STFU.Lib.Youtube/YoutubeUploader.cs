@@ -296,7 +296,7 @@ namespace STFU.Lib.Youtube
 
 		private void UploadStatusPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			LOGGER.Info($"Handling upload status property changed event for property {e.PropertyName}");
+			LOGGER.Debug($"Handling upload status property changed event for property {e.PropertyName}");
 
 			if (e.PropertyName == nameof(UploadStatus.Progress))
 			{
@@ -462,6 +462,7 @@ namespace STFU.Lib.Youtube
 			}
 		}
 
+		private int oldProgress = -1;
 		private void RecalculateProgress()
 		{
 			var runningJobs = JobQueue.RegisteredJobs.ToList().Where(j => j.State.IsStarted()).ToArray();
@@ -475,7 +476,11 @@ namespace STFU.Lib.Youtube
 				Progress = 0;
 			}
 
-			LOGGER.Info($"Recalculated progress to: {Progress} %");
+			if (Progress != oldProgress)
+			{
+				LOGGER.Info($"Recalculated uploader overall progress to: {Progress / 100} %");
+				oldProgress = progress;
+			}
 		}
 
 		#region Events

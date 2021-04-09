@@ -20,7 +20,7 @@ namespace STFU.Executable.AutoUploader
 		public static void Main(string[] args)
 		{
 			LOGGER.Info("Application was started");
-			AppDomain.CurrentDomain.FirstChanceException += LogException;
+			AppDomain.CurrentDomain.UnhandledException += LogException;
 
 			ClearOldExceptionFiles();
 
@@ -68,32 +68,22 @@ namespace STFU.Executable.AutoUploader
 			}
 		}
 
-		private static void LogException(object sender, FirstChanceExceptionEventArgs e)
+		private static void LogException(object sender, UnhandledExceptionEventArgs e)
 		{
-			if (!IsIncompleteResume(e)
-				&& !IsCoreLibException(e)
-				&& !IsCancelException(e))
+			LOGGER.Error($"An unexpected Exception occured. Does this Exception cause the application to terminate: {e.IsTerminating}");
+			if (e.ExceptionObject is Exception)
 			{
-				LOGGER.Error("An unexpected Exception occured.", e.Exception);
+				LOGGER.Error((Exception)e.ExceptionObject);
 			}
-		}
-
-		private static bool IsCancelException(FirstChanceExceptionEventArgs e)
-		{
-			return (e.Exception is IOException && ((IOException)e.Exception).HResult == -2146232800)
-				|| (e.Exception is WebException && ((WebException)e.Exception).Status == WebExceptionStatus.RequestCanceled);
-		}
-
-		private static bool IsCoreLibException(FirstChanceExceptionEventArgs e)
-		{
-			return e.Exception.Source == "mscorlib";
-		}
-
-		private static bool IsIncompleteResume(FirstChanceExceptionEventArgs e)
-		{
-			return e.Exception is WebException
-					&& ((WebException)e.Exception).Status == WebExceptionStatus.ProtocolError
-					&& (int)(((WebException)e.Exception).Response as HttpWebResponse).StatusCode == 308;
+			else if (e.ExceptionObject != null)
+			{
+				LOGGER.Warn($"Exception Object was not an exception, instead it was of type '{e.ExceptionObject.GetType()}'");
+				LOGGER.Error($"Exception Object: '{e.ExceptionObject}'");
+			}
+			else
+			{
+				LOGGER.Error("Exception Object was null");
+			}
 		}
 	}
 }
