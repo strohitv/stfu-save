@@ -887,7 +887,9 @@ namespace STFU.Executable.AutoUploader.Forms
 			pf.ShowDialog(this);
 
 			pathPersistor.Save();
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 
 			RefillSelectedPathsListView();
 			RefillArchiveView();
@@ -1057,7 +1059,9 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 			}
 
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 		}
 
 		private void videotutorialPlaylistToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1085,7 +1089,9 @@ namespace STFU.Executable.AutoUploader.Forms
 				}
 			}
 
+			YoutubeJob.SimplifyLogging = true;
 			archivePersistor.Save();
+			YoutubeJob.SimplifyLogging = false;
 		}
 
 		private void archiveListView_SelectedIndexChanged(object sender, EventArgs e)
