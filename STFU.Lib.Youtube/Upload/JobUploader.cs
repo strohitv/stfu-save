@@ -24,7 +24,11 @@ namespace STFU.Lib.Youtube.Upload
 		public JobUploader(YoutubeJob job)
 		{
 			Job = job;
-			LOGGER.Info($"Creating JobUploader for Job '{Job.Video.Title}'");
+
+			if (!YoutubeJob.SimplifyLogging)
+			{
+				LOGGER.Info($"Creating JobUploader for Job '{Job.Video.Title}'");
+			}
 
 			Job.Video.PropertyChanged += VideoPropertyChanged;
 
