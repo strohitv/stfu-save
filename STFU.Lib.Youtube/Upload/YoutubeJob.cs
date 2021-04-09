@@ -103,7 +103,7 @@ namespace STFU.Lib.Youtube.Upload
 
 		public YoutubeJob(IYoutubeVideo video, IYoutubeAccount account, UploadStatus uploadStatus)
 		{
-			LOGGER.Info($"Creating new job for video '{video.Title}' and account '{account.Title}' with '{uploadStatus}'");
+			LOGGER.Info($"Creating new job for video '{video?.Title ?? "null"}' and account '{account?.Title ?? "null"}' with '{uploadStatus}'");
 
 			Video = video;
 			Account = account;
