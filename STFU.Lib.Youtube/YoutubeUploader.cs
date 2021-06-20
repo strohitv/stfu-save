@@ -131,6 +131,12 @@ namespace STFU.Lib.Youtube
 
 			JobQueue = queue;
 
+			if (JobQueue == null)
+			{
+				LOGGER.Warn("Given queue was NULL!!!");
+				JobQueue = new YoutubeJobContainer();
+			}
+
 			for (int i = 0; i < JobQueue.RegisteredJobs.Count; i++)
 			{
 				YoutubeJob job = JobQueue.RegisteredJobs.ElementAt(i) as YoutubeJob;
@@ -322,11 +328,16 @@ namespace STFU.Lib.Youtube
 			LOGGER.Info($"Starting jobs");
 			HashSet<IYoutubeJob> startedJobs = new HashSet<IYoutubeJob>();
 
+			if (JobQueue.RegisteredJobs == null)
+			{
+				LOGGER.Error("JobQueue.RegisteredJobs was NULL!!");
+			}
+
 			while (State != UploaderState.CancelPending
-				&& JobQueue.RegisteredJobs.Where(j => j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
+				&& JobQueue.RegisteredJobs.Where(j => j != null && j.State.IsStarted() && !startedJobs.Contains(j)).Count() + startedJobs.Count < MaxSimultaneousUploads
 				&& Queue.Any(job => job.State == JobState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped))
 			{
-				var nextJob = Queue.FirstOrDefault(job => job.State == JobState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
+				var nextJob = Queue.FirstOrDefault(job => job != null && job.State == JobState.NotStarted && job.Video.File.Exists && !job.ShouldBeSkipped);
 
 				if (nextJob != null)
 				{
