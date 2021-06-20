@@ -645,8 +645,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			archivePersistor.Load();
 			YoutubeJob.SimplifyLogging = false;
 
-			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
-			playlistPersistor.Load();
+			RefreshPlaylists();
 
 			playlistServiceConnectionPersistor = new PlaylistServiceConnectionPersistor(playlistServiceConnectionContainer, "./settings/playlistservice.json");
 			playlistServiceConnectionPersistor.Load();
@@ -707,6 +706,30 @@ namespace STFU.Executable.AutoUploader.Forms
 			jobQueue.Uploader = autoUploader.Uploader;
 
 			LOGGER.Info("Finished loading application settings...");
+		}
+
+		private void RefreshPlaylists()
+		{
+			playlistPersistor = new PlaylistPersistor(playlistContainer, "./settings/playlists.json");
+			playlistPersistor.Load();
+
+			if (accountContainer.RegisteredAccounts.Count > 0)
+			{
+				LOGGER.Info($"Refreshing playlists of the youtube account");
+
+				playlistContainer.UnregisterAllPlaylists();
+
+				var playlists = new YoutubePlaylistCommunicator().LoadPlaylists(accountContainer.RegisteredAccounts.First());
+				foreach (var playlist in playlists)
+				{
+					LOGGER.Info($"Found playlist '{playlist.Title}'");
+					playlistContainer.RegisterPlaylist(playlist);
+				}
+
+				playlistPersistor.Save();
+
+				LOGGER.Info($"Playlists refreshed");
+			}
 		}
 
 		private void bgwCreateUploaderRunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
