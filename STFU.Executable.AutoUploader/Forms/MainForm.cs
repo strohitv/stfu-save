@@ -227,8 +227,8 @@ namespace STFU.Executable.AutoUploader.Forms
 			var client = clientContainer.RegisteredClients.FirstOrDefault();
 
 			var addForm = new AddYoutubeAccountForm();
-			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
-			addForm.SendMailAuthUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Code, GoogleScope.Manage | GoogleScope.SendMail).AbsoluteUri;
+			addForm.ExternalCodeUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, GoogleScope.Manage).AbsoluteUri;
+			addForm.SendMailAuthUrl = accountCommunicator.CreateAuthUri(client, YoutubeRedirectUri.Localhost, GoogleScope.Manage | GoogleScope.SendMail).AbsoluteUri;
 
 			var result = addForm.ShowDialog(this);
 			IYoutubeAccount account = null;
@@ -238,7 +238,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				{
 					LOGGER.Info($"Trying to connect a new youtube account");
 
-					if ((account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Code)) != null)
+					if ((account = accountCommunicator.ConnectToAccount(addForm.AuthToken, addForm.MailsRequested, client, YoutubeRedirectUri.Localhost)) != null)
 					{
 						LOGGER.Info($"Could connect to account");
 
@@ -1314,6 +1314,13 @@ namespace STFU.Executable.AutoUploader.Forms
 			form.ShowDialog(this);
 
 			playlistServiceConnectionPersistor.Save();
+		}
+
+		private void datenschutzerklärungToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo($"https://strohi.tv/stfu/datenschutz.html");
+			p.Start();
 		}
 	}
 }

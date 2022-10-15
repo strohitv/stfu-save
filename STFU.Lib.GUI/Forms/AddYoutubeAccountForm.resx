@@ -118,6 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="useExternalExplanationLabel.Text" xml:space="preserve">
-    <value>Bitte öffne den folgenden Link in einem externen Browser. Dort kannst du dich dann anmelden und dem Uploader die benötigten Rechte einräumen. Am Ende des Verfahrens wird dir ein Code genannt. Bitte füge diesen dann unten ein.</value>
+    <value>Bitte öffne den folgenden Link in einem externen Browser. Dort kannst du dich dann anmelden und dem Uploader die benötigten Rechte einräumen.
+
+Am Ende des Verfahrens wirst du auf eine Seite weitergeleitet, die dir sagt, dass du den Tab schließen kannst.
+Sobald das geschehen ist, wird der Uploader die Anmeldung durchführen.</value>
   </data>
+  <metadata name="checkLoginTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

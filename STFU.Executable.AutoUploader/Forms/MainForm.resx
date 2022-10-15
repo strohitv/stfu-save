@@ -126,9 +126,6 @@
   <metadata name="startExtendedOptionsContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>873, 17</value>
   </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1249, 17</value>
-  </metadata>
   <data name="archiveLabel.Text" xml:space="preserve">
     <value>In dieser Liste findest du alle Videos, die vom Uploader nicht hochgeladen werden sollen.
 Videos, die erfolgreich hochgeladen wurden, werden automatisch in diese Liste aufgenommen.

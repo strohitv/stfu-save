@@ -156,7 +156,7 @@ namespace STFU.Lib.Youtube.Upload
 		{
 			LOGGER.Info($"Pausing upload, video: '{Video.Title}'");
 
-			if (UploadStatus.CurrentStep != null)
+			if (UploadStatus?.CurrentStep != null)
 			{
 				UploadStatus.CurrentStep.Cancel();
 			}

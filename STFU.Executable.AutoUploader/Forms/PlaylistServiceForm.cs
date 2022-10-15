@@ -163,7 +163,7 @@ namespace STFU.Executable.AutoUploader.Forms
 			LOGGER.Info($"User attempts to connect a new account to the service");
 
 			AddYoutubeAccountForm form = new AddYoutubeAccountForm(false);
-			form.ExternalCodeUrl = new YoutubeAccountCommunicator().CreateAuthUri(Client, YoutubeRedirectUri.Code, GoogleScope.Manage).AbsoluteUri;
+			form.ExternalCodeUrl = new YoutubeAccountCommunicator().CreateAuthUri(Client, YoutubeRedirectUri.Localhost, GoogleScope.Manage).AbsoluteUri;
 
 			if (form.ShowDialog(this) == DialogResult.OK)
 			{
@@ -173,7 +173,7 @@ namespace STFU.Executable.AutoUploader.Forms
 				{
 					clientId = Client.Id,
 					clientSecret = Client.Secret,
-					redirectUri = YoutubeRedirectUri.Code.GetAttribute<EnumMemberAttribute>().Value,
+					redirectUri = YoutubeRedirectUri.Localhost.GetAttribute<EnumMemberAttribute>().Value,
 					code = form.AuthToken
 				});
 
